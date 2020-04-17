@@ -11,6 +11,99 @@ if Meteor.isClient
         @layout 'user_layout'
         @render 'user_residency'
         ), name:'user_residency'
+    Router.route '/user/:username/info', (->
+        @layout 'user_layout'
+        @render 'user_info'
+        ), name:'user_info'
+    Router.route '/user/:username/services', (->
+        @layout 'user_layout'
+        @render 'user_services'
+        ), name:'user_services'
+    Router.route '/user/:username/bids', (->
+        @layout 'user_layout'
+        @render 'user_bids'
+        ), name:'user_bids'
+    Router.route '/user/:username/products', (->
+        @layout 'user_layout'
+        @render 'user_products'
+        ), name:'user_products'
+    Router.route '/user/:username/reservations', (->
+        @layout 'user_layout'
+        @render 'user_reservations'
+        ), name:'user_reservations'
+    Router.route '/user/:username/handling', (->
+        @layout 'user_layout'
+        @render 'user_handling'
+        ), name:'user_handling'
+    Router.route '/user/:username/rentals', (->
+        @layout 'user_layout'
+        @render 'user_rentals'
+        ), name:'user_rentals'
+    Router.route '/user/:username/workhistory', (->
+        @layout 'user_layout'
+        @render 'user_workhistory'
+        ), name:'user_workhistory'
+    Router.route '/user/:username/offers', (->
+        @layout 'user_layout'
+        @render 'user_offers'
+        ), name:'user_offers'
+    Router.route '/user/:username/contact', (->
+        @layout 'user_layout'
+        @render 'user_contact'
+        ), name:'user_contact'
+    Router.route '/user/:username/stats', (->
+        @layout 'user_layout'
+        @render 'user_stats'
+        ), name:'user_stats'
+    Router.route '/user/:username/votes', (->
+        @layout 'user_layout'
+        @render 'user_votes'
+        ), name:'user_votes'
+    Router.route '/user/:username/dashboard', (->
+        @layout 'user_layout'
+        @render 'user_dashboard'
+        ), name:'user_dashboard'
+    Router.route '/user/:username/requests', (->
+        @layout 'user_layout'
+        @render 'user_requests'
+        ), name:'user_requests'
+    Router.route '/user/:username/tags', (->
+        @layout 'user_layout'
+        @render 'user_tags'
+        ), name:'user_tags'
+    Router.route '/user/:username/tasks', (->
+        @layout 'user_layout'
+        @render 'user_tasks'
+        ), name:'user_tasks'
+    Router.route '/user/:username/transactions', (->
+        @layout 'user_layout'
+        @render 'user_transactions'
+        ), name:'user_transactions'
+    Router.route '/user/:username/messages', (->
+        @layout 'user_layout'
+        @render 'user_messages'
+        ), name:'user_messages'
+    Router.route '/user/:username/bookmarks', (->
+        @layout 'user_layout'
+        @render 'user_bookmarks'
+        ), name:'user_bookmarks'
+    Router.route '/user/:username/social', (->
+        @layout 'user_layout'
+        @render 'user_social'
+        ), name:'user_social'
+    Router.route '/user/:username/comparison', (->
+        @layout 'user_layout'
+        @render 'user_comparison'
+        ), name:'user_comparison'
+    Router.route '/user/:username/notifications', (->
+        @layout 'user_layout'
+        @render 'user_notifications'
+        ), name:'user_notifications'
+
+
+
+
+
 
 
     Template.user_layout.onCreated ->
@@ -25,9 +118,9 @@ if Meteor.isClient
         , 2000
 
 
-    Template.user_section.helpers
-        user_section_template: ->
-            "user_#{Router.current().params.group}"
+    # Template.user_section.helpers
+    #     user_section_template: ->
+    #         "user_#{Router.current().params.group}"
 
     Template.user_layout.helpers
         user_from_username_param: ->
@@ -53,143 +146,77 @@ if Meteor.isClient
 
 
 
-    Template.user_healthclub.events
-        'click .generate_barcode': ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
-            if current_user.healthclub_code
-                JsBarcode("#barcode", current_user.healthclub_code);
-            else
-                alert 'no healthclub code'
+    # Template.user_array_element_toggle.helpers
+    #     user_array_element_toggle_class: ->
+    #         # user = Meteor.users.findOne Router.current().params.username
+    #         if @user["#{@key}"] and @value in @user["#{@key}"] then 'active' else ''
+    # Template.user_array_element_toggle.events
+    #     'click .toggle_element': (e,t)->
+    #         # user = Meteor.users.findOne Router.current().params.username
+    #         if @user["#{@key}"]
+    #             if @value in @user["#{@key}"]
+    #                 Meteor.users.update @user._id,
+    #                     $pull: "#{@key}":@value
+    #             else
+    #                 Meteor.users.update @user._id,
+    #                     $addToSet: "#{@key}":@value
+    #         else
+    #             Meteor.users.update @user._id,
+    #                 $addToSet: "#{@key}":@value
 
 
-
-    Template.user_array_element_toggle.helpers
-        user_array_element_toggle_class: ->
-            # user = Meteor.users.findOne Router.current().params.username
-            if @user["#{@key}"] and @value in @user["#{@key}"] then 'active' else ''
-    Template.user_array_element_toggle.events
-        'click .toggle_element': (e,t)->
-            # user = Meteor.users.findOne Router.current().params.username
-            if @user["#{@key}"]
-                if @value in @user["#{@key}"]
-                    Meteor.users.update @user._id,
-                        $pull: "#{@key}":@value
-                else
-                    Meteor.users.update @user._id,
-                        $addToSet: "#{@key}":@value
-            else
-                Meteor.users.update @user._id,
-                    $addToSet: "#{@key}":@value
-
-
-    Template.user_array_list.helpers
-        users: ->
-            users = []
-            if @user["#{@array}"]
-                for user_id in @user["#{@array}"]
-                    user = Meteor.users.findOne user_id
-                    users.push user
-                users
-
-
-
-    Template.user_array_list.onCreated ->
-        @autorun => Meteor.subscribe 'user_array_list', @data.user, @data.array
-    Template.user_array_list.helpers
-        users: ->
-            users = []
-            if @user["#{@array}"]
-                for user_id in @user["#{@array}"]
-                    user = Meteor.users.findOne user_id
-                    users.push user
-                users
-
-
-
-
-    Template.user_unit.onCreated ->
-        @autorun => Meteor.subscribe 'user_unit', Router.current().params.username
-    Template.user_unit.helpers
-        unit: ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
-            console.log
-            Docs.findOne
-                model:'unit'
-                building_number:current_user.building_number
-                unit_number:current_user.unit_number
+    # Template.user_array_list.helpers
+    #     users: ->
+    #         users = []
+    #         if @user["#{@array}"]
+    #             for user_id in @user["#{@array}"]
+    #                 user = Meteor.users.findOne user_id
+    #                 users.push user
+    #             users
+    #
+    #
+    #
+    # Template.user_array_list.onCreated ->
+    #     @autorun => Meteor.subscribe 'user_array_list', @data.user, @data.array
+    # Template.user_array_list.helpers
+    #     users: ->
+    #         users = []
+    #         if @user["#{@array}"]
+    #             for user_id in @user["#{@array}"]
+    #                 user = Meteor.users.findOne user_id
+    #                 users.push user
+    #             users
+    #
+    #
 
 
     # Template.user_unit.onCreated ->
     #     @autorun => Meteor.subscribe 'user_unit', Router.current().params.username
-    Template.user_permit.helpers
-        permit_doc: ->
-            Docs.findOne
-                model:'parking_permit'
+    # Template.user_unit.helpers
+    #     unit: ->
+    #         current_user = Meteor.users.findOne username:Router.current().params.username
+    #         console.log
+    #         Docs.findOne
+    #             model:'unit'
+    #             building_number:current_user.building_number
+    #             unit_number:current_user.unit_number
 
 
-    Template.user_guests.onCreated ->
-        @autorun => Meteor.subscribe 'user_guests', Router.current().params.username
-    Template.user_guests.helpers
-        guests: ->
-            user = Meteor.users.findOne username:Router.current().params.username
-            Docs.find
-                model:'guest'
-                _id:$in:user.guest_ids
+    # Template.user_unit.onCreated ->
+    #     @autorun => Meteor.subscribe 'user_unit', Router.current().params.username
 
-
-
-
-
-
-    Template.user_checkins.onCreated ->
-        @autorun => Meteor.subscribe 'healthclub_checkins', Router.current().params.username
-    Template.user_checkins.helpers
-        healthclub_checkins: ->
-            Docs.find {
-                model:'healthclub_session'
-                resident_username:Router.current().params.username
-            }, sort: _timestamp:-1
-
-
-
-
-    Template.user_log.onCreated ->
-        @autorun => Meteor.subscribe 'user_log', Router.current().params.username
-    Template.user_log.helpers
-        user_log_events: ->
-            Docs.find {
-                model:'log_event'
-            }, sort:_timestamp:-1
-
-
-    Template.membership_status.events
-        'click .email_rules_receipt': ->
-            Meteor.call 'send_rules_regs_receipt_email', @_id
-
-
-    Template.staff_verification.events
-        'click .verify': ->
-            if confirm 'verify user government id?'
-                current_user = Meteor.users.findOne username:Router.current().params.username
-                Meteor.users.update current_user._id,
-                    $set:
-                        staff_verifier:Meteor.user().username
-                        verification_timestamp:Date.now()
-
-        'click .rerun_check': ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
-            Meteor.call 'staff_government_id_check', current_user
-
+    # Template.user_log.onCreated ->
+    #     @autorun => Meteor.subscribe 'user_log', Router.current().params.username
+    # Template.user_log.helpers
+    #     user_log_events: ->
+    #         Docs.find {
+    #             model:'log_event'
+    #         }, sort:_timestamp:-1
+    #
 
 
 
 if Meteor.isServer
-    Meteor.publish 'healthclub_checkins', (username)->
-        Docs.find
-            model:'healthclub_session'
-            resident_username:username
-
-
     Meteor.publish 'user_unit', (username)->
         user = Meteor.users.findOne username:username
         if user.unit_number
@@ -212,13 +239,6 @@ if Meteor.isServer
             username:username
 
 
-    Meteor.publish 'user_guests', (username)->
-        user = Meteor.users.findOne username:username
-        Docs.find
-            model:'guest'
-            _id:$in:user.guest_ids
-
-
     Meteor.publish 'user_log', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
@@ -229,3 +249,89 @@ if Meteor.isServer
     Meteor.publish 'user_referenced_docs', (username)->
         Docs.find
             resident:username
+
+
+if Meteor.isClient
+    Template.user_layout.onCreated ->
+        @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'member_referenced_docs', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'member_models', Router.current().params.username
+
+    Template.user_layout.onRendered ->
+        Meteor.setTimeout ->
+            $('.button').popup()
+        , 2000
+
+
+    # Template.member_about.helpers
+    #     staff_resident_widgets: ->
+    #         Docs.find
+    #             model:'staff_resident_widget'
+
+    # Template.member_section.helpers
+    #     member_section_template: ->
+    #         "member_#{Router.current().params.group}"
+
+    Template.user_layout.helpers
+        user: ->
+            Meteor.users.findOne username:Router.current().params.username
+
+        member_models: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find
+                model:'model'
+                _id:$in:user.model_ids
+
+        viewing_more: -> Session.get 'viewing_more'
+
+    Template.user_layout.events
+        'click .clock_in': ->
+            if confirm 'clock in?'
+                new_session_id = Docs.insert
+                    model:'handling_session'
+                    clock_in_timestamp: Date.now()
+                    clock_in_date_ob: new Date()
+                Meteor.users.update Meteor.userId(),
+                    $set:
+                        current_handling_session_id: new_session_id
+                        handling_active:true
+
+        'click .clock_out': ->
+            Docs.update Meteor.user().current_handling_session_id,
+                $set:
+                    clock_out_timestamp: Date.now()
+                    clock_out_date_ob: new Date()
+            Meteor.users.update Meteor.userId(),
+                $set:
+                    current_handling_session_id: null
+                    handling_active:false
+
+
+        'click .toggle_view_more': ->
+            Session.set('viewing_more', !Session.get('viewing_more'))
+
+
+        'click .set_delta_model': ->
+            Meteor.call 'set_delta_facets', @slug, null, true
+
+        'click .logout_other_clients': ->
+            Meteor.logoutOtherClients()
+
+        'click .logout': ->
+            Router.go '/login'
+            Meteor.logout()
+
+
+
+
+
+if Meteor.isServer
+    Meteor.publish 'user_connected_to', (username)->
+        user = Meteor.users.findOne username:username
+        if user.connected_ids
+            Meteor.users.find
+                _id:$in:user.connected_ids
+    Meteor.publish 'user_connected_by', (username)->
+        user = Meteor.users.findOne username:username
+        Meteor.users.find
+            connected_ids:$in:[user._id]

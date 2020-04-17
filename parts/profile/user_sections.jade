@@ -1,4 +1,4 @@
-template(name='member_info')
+template(name='user_info')
     //- +text_view key='address' label='address' icon='marker' direct=true
     //- +phone_view key='phone' label='phone' icon='phone' direct=true
     //- +text_view key='tagline' label='tag line' icon='signature' direct=true
@@ -6,9 +6,9 @@ template(name='member_info')
     +array_view key='location_tags' label='location tags' icon='location' direct=true
     +link_view key='link' label='link' icon='link' direct=true
     //- .ui.header member activity
-    .ui.icon.button.refresh_member_stats(title='refresh stats')
+    .ui.icon.button.refresh_user_stats(title='refresh stats')
         i.refresh.icon
-    with member_stats
+    with user_stats
         .ui.stackable.grid
             .three.column.row
                 .column
@@ -63,7 +63,7 @@ template(name='member_info')
 
 
 
-template(name='member_dashboard')
+template(name='user_dashboard')
     .ui.stackable.grid
         .two.column.row
             .column
@@ -139,7 +139,7 @@ template(name='rental_small_interest')
 
 
 
-template(name='member_finance')
+template(name='user_finance')
     //- .ui.header 
     //-     +i name='money'
     //-     |finance
@@ -282,7 +282,7 @@ template(name='member_finance')
                     |+ offer
         
 
-template(name='member_reservations')
+template(name='user_reservations')
     .scrolling
         .ui.segments
             each reservations 
@@ -319,21 +319,21 @@ template(name='profile_reservation_item')
 
 
 
-template(name='member_rentals')
+template(name='user_rentals')
     .ui.three.cards
         each rentals 
             +rental_card
         
         
-template(name='member_handling')
+template(name='user_handling')
     .ui.small.header rentals that member is facilitating
     .ui.three.cards
         each handling_rentals 
-            +member_rental_card
+            +user_rental_card
         
         
         
-template(name='member_rental_card')
+template(name='user_rental_card')
     .ui.small.card
         a.zoom(href="/rental/#{_id}/view")
             img.ui.centered.image(src="{{c.url image height=200 width=200 background='white' crop='pad'}}")

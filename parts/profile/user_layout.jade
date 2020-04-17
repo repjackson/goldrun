@@ -1,25 +1,25 @@
-template(name='member_profile_layout')
-    //- img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+template(name='user_layout')
+    img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     +nav
     with user_from_username_param
         .ui.stackable.grid
             .row
-                //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
+                img.ui.fluid.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .four.wide.column
                     if kiosk_photo
-                        a.item.mobile.hidden(href="/member/#{user_from_username_param.username}/")
+                        a.item.mobile.hidden(href="/user/#{user_from_username_param.username}/")
                             img.ui.centered.image(src="{{c.url kiosk_photo height=300 width=300 gravity='face' crop='fill'}}")
                     else
-                        a.item.mobile.hidden(href="/member/#{user_from_username_param.username}/")
+                        a.item.mobile.hidden(href="/user/#{user_from_username_param.username}/")
                             img.ui.centered.image(src="{{c.url profile_image_id height=300 width=300 gravity='face' crop='fill'}}")
                     .spacer
-                    a(href="/member/#{user.username}")
+                    a(href="/user/#{user.username}")
                         .ui.large.center.aligned.header
                             strong #{user.name}
                             //- 
                             //- strong #{user.first_name} #{user.last_name}
                             //- small @#{user.username}        
-                    a.ui.header(href="/member/#{user_from_username_param.username}/finance" title='credit')
+                    a.ui.header(href="/user/#{user_from_username_param.username}/finance" title='credit')
                         i.coins.icon
                         |{{fixed user.credit}}
                     .ui.two.column.middle.aligned.grid.mobile.only
@@ -29,7 +29,7 @@ template(name='member_profile_layout')
                             .ui.inline.header
                                 strong #{user.name}
                                 //- small @#{user.username}        
-                            a.ui.inline.header(href="/member/#{user_from_username_param.username}/finance" title='credit')
+                            a.ui.inline.header(href="/user/#{user_from_username_param.username}/finance" title='credit')
                                 //- +i name='coins'
                                 i.coins.icon
                                 |{{fixed user.credit}}
@@ -50,11 +50,11 @@ template(name='member_profile_layout')
                                 i.sign.in.icon 
                                 //- +i name='remove-clock' 
                                 |clock out
-                        a.ui.fluid.button(href="/member/#{user_from_username_param.username}/edit" title='profile settings')
+                        a.ui.fluid.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             +i name='settings' 
                             |edit
                     else if is_admin
-                        a.ui.fluid.button(href="/member/#{user_from_username_param.username}/edit" title='profile settings')
+                        a.ui.fluid.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             +i name='settings' 
                             |edit
                     if is_dev
@@ -76,94 +76,94 @@ template(name='member_profile_layout')
                         each roles
                             .ui.label #{this}
                 .twelve.wide.column
-                    a.ui.large.compact.big.button(href="/member/#{username}/dashboard" class="{{isActiveRoute 'member_dashboard'}}")
+                    a.ui.large.compact.big.button(href="/user/#{username}/dashboard" class="{{isActiveRoute 'user_dashboard'}}")
                         i.dashboard.icon
                         |dashboard
-                    a.ui.large.compact.big.button(href="/member/#{username}/info" class="{{isActiveRoute 'member_info'}}")
+                    a.ui.large.compact.big.button(href="/user/#{username}/info" class="{{isActiveRoute 'user_info'}}")
                         i.info.icon
                         |info
-                    a.ui.large.compact.big.button(href="/member/#{username}/rentals" class="{{isActiveRoute 'member_rentals'}}")
+                    a.ui.large.compact.big.button(href="/user/#{username}/rentals" class="{{isActiveRoute 'user_rentals'}}")
                         i.clock.icon
                         |rentals
-                    a.ui.large.compact.big.button(href="/member/#{username}/handling" class="{{isActiveRoute 'member_handling'}}")
+                    a.ui.large.compact.big.button(href="/user/#{username}/handling" class="{{isActiveRoute 'user_handling'}}")
                         i.hand.holding.icon
                         |handling
-                    a.ui.large.compact.big.button(href="/member/#{username}/reservations" class="{{isActiveRoute 'member_reservations'}}")
+                    a.ui.large.compact.big.button(href="/user/#{username}/reservations" class="{{isActiveRoute 'user_reservations'}}")
                         i.clock.icon
                         |reservations
-                    a.ui.compact.big.button(href="/member/#{username}/bookmarks" class="{{isActiveRoute 'member_bookmarks'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/bookmarks" class="{{isActiveRoute 'user_bookmarks'}}")
                         i.bookmark.icon
                         |bookmarks
-                    a.ui.compact.big.button(href="/member/#{username}/contact" class="{{isActiveRoute 'member_contact'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/contact" class="{{isActiveRoute 'user_contact'}}")
                         i.phone.icon
                         |contact
-                    //- a.ui.compact.big.button(href="/member/#{username}/comparison" class="{{isActiveRoute 'member_comparison'}}")
+                    //- a.ui.compact.big.button(href="/user/#{username}/comparison" class="{{isActiveRoute 'user_comparison'}}")
                     //-     i.transaction.icon
                     //-     |comparison
-                    a.ui.compact.big.button(href="/member/#{username}/offers" class="{{isActiveRoute 'member_offers'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/offers" class="{{isActiveRoute 'user_offers'}}")
                         i.hand.holding.usd.icon
                         |offers
-                    //- a.ui.compact.big.button(href="/member/#{username}/tags" class="{{isActiveRoute 'member_tags'}}")
+                    //- a.ui.compact.big.button(href="/user/#{username}/tags" class="{{isActiveRoute 'user_tags'}}")
                     //-     i.tags.icon
                     //-     |tags
-                    a.ui.compact.big.button(href="/member/#{username}/messages" class="{{isActiveRoute 'member_messages'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}")
                         i.envelope.icon
                         |mail
-                    a.ui.compact.big.button(href="/member/#{username}/stats" class="{{isActiveRoute 'member_stats'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/stats" class="{{isActiveRoute 'user_stats'}}")
                         i.line.chart.icon
                         |stats
-                    //- a.ui.compact.big.button(href="/member/#{username}/notifications" class="{{isActiveRoute 'member_notifications'}}")
+                    //- a.ui.compact.big.button(href="/user/#{username}/notifications" class="{{isActiveRoute 'user_notifications'}}")
                     //-     i.bell.icon
                     //-     |alerts
-                    a.ui.compact.big.button(href="/member/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
                         i.coins.grey.icon
                         |credit
-                    //- a.ui.compact.big.button(href="/member/#{username}/questions" class="{{isActiveRoute regex=user_offers}}")
+                    //- a.ui.compact.big.button(href="/user/#{username}/questions" class="{{isActiveRoute regex=user_offers}}")
                     //-     i.question.mark.icon
                     //-     |questions
-                    //- a.ui.compact.big.button(href="/member/#{username}/passages" class="{{isActiveRoute regex=user_passages}}")
+                    //- a.ui.compact.big.button(href="/user/#{username}/passages" class="{{isActiveRoute regex=user_passages}}")
                     //-     i.list.icon
                     //-     |passages
-                    a.ui.compact.big.button(href="/member/#{username}/shop" class="{{isActiveRoute regex='user_shop'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/shop" class="{{isActiveRoute regex='user_shop'}}")
                         i.shopping.cart.grey.icon
                         |shop
-                    a.ui.compact.big.button(href="/member/#{username}/requests" class="{{isActiveRoute regex='user_requests'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/requests" class="{{isActiveRoute regex='user_requests'}}")
                         i.hand.holding.usd.grey.icon
                         | requests
-                    a.ui.compact.big.button(href="/member/#{username}/social" class="{{isActiveRoute regex='user_social'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/social" class="{{isActiveRoute regex='user_social'}}")
                         i.comments.grey.icon
                         |social
-                    a.ui.compact.big.button(href="/member/#{username}/finance" class="{{isActiveRoute regex='user_finance'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/finance" class="{{isActiveRoute regex='user_finance'}}")
                         i.grey.finance.icon
                         |finance
-                    //- a.ui.compact.big.button(href="/member/#{username}/brain" class="{{isActiveRoute regex='user_brain'}}")
+                    //- a.ui.compact.big.button(href="/user/#{username}/brain" class="{{isActiveRoute regex='user_brain'}}")
                     //-     i.grey.brain.icon
                     //-     |brain
-                    //- a.ui.compact.big.button(href="/member/#{username}/karma" class="{{isActiveRoute regex='user_karma'}}")
+                    //- a.ui.compact.big.button(href="/user/#{username}/karma" class="{{isActiveRoute regex='user_karma'}}")
                     //-     i.grey.yin.yang.icon
                     //-     |karma
-                    //- a.ui.compact.big.button(href="/member/#{username}/right" class="{{isActiveRoute regex='user_right'}}")
+                    //- a.ui.compact.big.button(href="/user/#{username}/right" class="{{isActiveRoute regex='user_right'}}")
                     //-     i.grey.checkmark.icon
                     //-     |right
-                    //- a.ui.compact.big.button(href="/member/#{username}/wrong" class="{{isActiveRoute regex='user_wrong'}}")
+                    //- a.ui.compact.big.button(href="/user/#{username}/wrong" class="{{isActiveRoute regex='user_wrong'}}")
                     //-     i.grey.remove.icon
                     //-     |wrong
-                    a.ui.compact.big.button(href="/member/#{username}/cart" class="{{isActiveRoute regex='user_cart'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/cart" class="{{isActiveRoute regex='user_cart'}}")
                         i.grey.shopping.cart.icon
                         |cart
-                    a.ui.compact.big.button(href="/member/#{username}/groups" class="{{isActiveRoute regex='user_groups'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/groups" class="{{isActiveRoute regex='user_groups'}}")
                         i.grey.users.icon
                         |groups
-                    //- a.ui.compact.big.button(href="/member/#{username}/tutoring" class="{{isActiveRoute regex='user_tutoring'}}")
+                    //- a.ui.compact.big.button(href="/user/#{username}/tutoring" class="{{isActiveRoute regex='user_tutoring'}}")
                     //-     i.grey.chalkboard.icon
                     //-     |tutoring
-                    a.ui.compact.big.button(href="/member/#{username}/events" class="{{isActiveRoute regex='user_events'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/events" class="{{isActiveRoute regex='user_events'}}")
                         i.grey.calendar.icon
                         |events
-                    //- a.ui.compact.big.button(href="/member/#{username}/awards" class="{{isActiveRoute regex=user_awards}}")
+                    //- a.ui.compact.big.button(href="/user/#{username}/awards" class="{{isActiveRoute regex=user_awards}}")
                     //-     i.grey.award.icon
                     //-     |awards
-                    a.ui.compact.big.button(href="/member/#{username}/friends" class="{{isActiveRoute regex='user_friends'}}")
+                    a.ui.compact.big.button(href="/user/#{username}/friends" class="{{isActiveRoute regex='user_friends'}}")
                         i.grey.users.icon
                         |friends
         

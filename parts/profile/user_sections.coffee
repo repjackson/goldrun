@@ -1,8 +1,8 @@
 if Meteor.isClient
-    Template.member_reservations.onCreated ->
-        @autorun => Meteor.subscribe 'member_reservations', Router.current().params.username
+    Template.user_reservations.onCreated ->
+        @autorun => Meteor.subscribe 'user_reservations', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'rental'
-    Template.member_reservations.helpers
+    Template.user_reservations.helpers
         reservations: ->
             current_user = Meteor.users.findOne username:Router.current().params.username
             Docs.find {
@@ -10,7 +10,7 @@ if Meteor.isClient
             }, sort:_timestamp:-1
 
 
-    Template.member_finance.onCreated ->
+    Template.user_finance.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'deposit'
         # @autorun => Meteor.subscribe 'model_docs', 'reservation'
@@ -52,7 +52,7 @@ if Meteor.isClient
     	)
 
 
-    Template.member_finance.events
+    Template.user_finance.events
         'click .add_credits': ->
             deposit_amount = parseInt $('.deposit_amount').val()*100
             calculated_amount = deposit_amount*1.02+20
@@ -81,7 +81,7 @@ if Meteor.isClient
 
 
 
-    Template.member_finance.helpers
+    Template.user_finance.helpers
         owner_earnings: ->
             Docs.find
                 model:'reservation'
@@ -111,9 +111,9 @@ if Meteor.isClient
 
 
 
-    Template.member_rentals.onCreated ->
-        @autorun => Meteor.subscribe 'member_rentals', Router.current().params.username
-    Template.member_rentals.helpers
+    Template.user_rentals.onCreated ->
+        @autorun => Meteor.subscribe 'user_rentals', Router.current().params.username
+    Template.user_rentals.helpers
         rentals: ->
             current_user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
@@ -125,9 +125,9 @@ if Meteor.isClient
 
 
 
-    Template.member_handling.onCreated ->
-        @autorun => Meteor.subscribe 'member_handling', Router.current().params.username
-    Template.member_handling.helpers
+    Template.user_handling.onCreated ->
+        @autorun => Meteor.subscribe 'user_handling', Router.current().params.username
+    Template.user_handling.helpers
         handling_rentals: ->
             current_user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
@@ -138,33 +138,33 @@ if Meteor.isClient
 
 
 
-    Template.member_info.onCreated ->
-        @autorun => Meteor.subscribe 'member_stats', Router.current().params.username
-    Template.member_info.helpers
-        member_stats: ->
+    Template.user_info.onCreated ->
+        @autorun => Meteor.subscribe 'user_stats', Router.current().params.username
+    Template.user_info.helpers
+        user_stats: ->
             Docs.findOne
-                model:'member_stats'
-                member_username:Router.current().params.username
-    Template.member_info.events
-        'click .refresh_member_stats': (e,t)->
-            Meteor.call 'refresh_member_stats', Router.current().params.username
+                model:'user_stats'
+                user_username:Router.current().params.username
+    Template.user_info.events
+        'click .refresh_user_stats': (e,t)->
+            Meteor.call 'refresh_user_stats', Router.current().params.username
 
 
 
 
-    Template.member_dashboard.onCreated ->
-        @autorun => Meteor.subscribe 'member_upcoming_reservations', Router.current().params.username
-        @autorun => Meteor.subscribe 'member_handling', Router.current().params.username
-        @autorun => Meteor.subscribe 'member_current_reservations', Router.current().params.username
-    Template.member_dashboard.helpers
+    Template.user_dashboard.onCreated ->
+        @autorun => Meteor.subscribe 'user_upcoming_reservations', Router.current().params.username
+        @autorun => Meteor.subscribe 'user_handling', Router.current().params.username
+        @autorun => Meteor.subscribe 'user_current_reservations', Router.current().params.username
+    Template.user_dashboard.helpers
         current_reservations: ->
             Docs.find
                 model:'reservation'
-                member_username:Router.current().params.username
+                user_username:Router.current().params.username
         upcoming_reservations: ->
             Docs.find
                 model:'reservation'
-                member_username:Router.current().params.username
+                user_username:Router.current().params.username
         current_handling_rentals: ->
             current_user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
@@ -205,7 +205,7 @@ if Meteor.isClient
                 model:'handling_session'
 
 
-    Template.member_dashboard.events
+    Template.user_dashboard.events
         'click .recalc_wage_stats': (e,t)->
             Meteor.call 'recalc_wage_stats', Router.current().params.username
 
@@ -218,43 +218,43 @@ if Meteor.isServer
             _author_username:username
             # _author_id: current_user._id
 
-    Meteor.publish 'member_rentals', (username)->
+    Meteor.publish 'user_rentals', (username)->
         current_user = Meteor.users.findOne username:username
         Docs.find
             model:'rental'
             _author_username:username
             # _author_id: current_user._id
 
-    Meteor.publish 'member_reservations', (username)->
+    Meteor.publish 'user_reservations', (username)->
         current_user = Meteor.users.findOne username:username
         Docs.find
             model:'reservation'
             _author_username:username
             # _author_id: current_user._id
 
-    Meteor.publish 'member_handling', (username)->
+    Meteor.publish 'user_handling', (username)->
         Docs.find
             model:'rental'
             handler_username:username
 
-    Meteor.publish 'member_stats', (username)->
+    Meteor.publish 'user_stats', (username)->
         Docs.find
-            model:'member_stats'
-            member_username: username
+            model:'user_stats'
+            user_username: username
 
 
 
     Meteor.methods
-        refresh_member_stats: (username)->
-            member = Meteor.users.findOne username:username
+        refresh_user_stats: (username)->
+            user = Meteor.users.findOne username:username
             stats_doc =
                 Docs.findOne
-                    model:'member_stats'
-                    member_username: username
+                    model:'user_stats'
+                    user_username: username
             unless stats_doc
                 new_stats_doc_id = Docs.insert
-                    model:'member_stats'
-                    member_username: username
+                    model:'user_stats'
+                    user_username: username
                 stats_doc = Docs.findOne new_stats_doc_id
             service_count = Docs.find(model:'service', _author_username:username).count()
             rental_count = Docs.find(model:'rental', _author_username:username).count()

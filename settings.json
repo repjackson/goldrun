@@ -1,5 +1,4 @@
 {
-    "TZ": "America/Denver",
     "public": {
       "stripe_test_publishable": "pk_test_ZJyBJvHd4C6os9DdnqgaC9S000GQxfpBcw",
       "stripe_live_publishable": "pk_live_yPnsXEcJ246YCDfassTI4N6i008IZxXplm",
@@ -42,10 +41,9 @@
 	},
 	"galaxy.meteor.com": {
 		"env": {
-            "TZ": "America/Denver",
 			"MONGO_URL": "mongodb+srv://daoadmin:daoadminpassword@cluster1-etul3.mongodb.net/daodb",
             "MAIL_URL": "smtp://postmaster%40mg.goldrun.online:6f213f0ad9eae2a2f91f5f29a8e665bd-fd0269a6-78c00f51@smtp.mailgun.org:587",
-			"ROOT_URL": "https://www.dao.af"
+			"ROOT_URL": "https://www.goldrun.online"
 		}
 	}
 }

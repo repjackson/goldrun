@@ -245,7 +245,7 @@ template(name='unit_key_checkout')
         strong Checkout Unit Key
 
 
-template(name='user_info')
+template(name='user_button')
     a.ui.compact.button(href="/user/#{user.username}/")
         if user.kiosk_photo
             img.ui.avatar.inline.image(src="{{c.url user.kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")

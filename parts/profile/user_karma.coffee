@@ -15,15 +15,6 @@ if Meteor.isClient
             Docs.insert
                 model:'offer'
 
-    Template.request_row.events
-        'click .declare_unavailable': (e,t)->
-            Docs.update @_id,
-                $addToSet:unavailable:Meteor.user().username
-
-        'click .take_shift': (e,t)->
-            Docs.update @_id,
-                $set:assigned_staff:Meteor.user().username
-
 
     Template.user_karma.onCreated ->
         @autorun => Meteor.subscribe 'doc', Session.get('sending_karma')

@@ -11,19 +11,24 @@ template(name='nav')
             //-     i.hand.holding.usd.icon
             a.item(href='/rentals' class="{{isActivePath '/rentals'}}" title='rentals')
                 +i name='clock'
-            if is_dev
-                a.item(href='/members' class="{{isActivePath '/members'}}")
-                    +i name='groups' classes='ui mini inline image'
-            if is_staff
-                a.item(href='/staff' class="{{isActivePath '/staff'}}")
-                    +i name='user shield' classes='ui mini inline image'
-                    | staff
+                |rentals
+            a.item(href='/users' class="{{isActivePath '/users'}}")
+                +i name='groups' classes='ui mini inline image'
+                |users
             if is_dev
                 a.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='model delta view')
                     +i name='database'
+                    |models
             if is_admin
                 a.item(href='/admin' class="{{isActivePath '/admin'}}" title='model delta view')
                     +i name='shield'
+                    |admin
+            a.item(href='/buildings' class="{{isActivePath '/buildings'}}" title='model delta view')
+                +i name='building'
+                |buildings
+            a.item(href='/food' class="{{isActivePath '/food'}}" title='food')
+                +i name='food'
+                |food
             .right.menu
                 if currentUser
                     unless logging_out
@@ -60,9 +65,9 @@ template(name='nav')
                     if logging_out
                         .item
                             i.loading.circle.notch.icon
-                    else
-                        a#logout.ui.mobile.hidden.icon.item(href='#' title='log out')
-                            i.sign.out.icon
+                    //- else
+                    //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='log out')
+                    //-         i.sign.out.icon
                 else
                     unless currentUser
                         a.item(href='/login' title='enter') 
@@ -82,7 +87,7 @@ template(name='footer')
                 a.ui.big.button(href='/login')
                     i.sign.in.icon
                     |login
-            +footer_chat
+            //- +footer_chat
             if is_eric
                 with currentUser
                     +role_switcher

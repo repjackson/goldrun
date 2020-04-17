@@ -1,0 +1,93 @@
+template(name='buildings')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.center.aligned.column
+                .ui.header 
+                    +i name='building'
+                    |buildings
+        each buildings
+            .four.wide.column
+                a(href="/building/#{_id}/view")
+                    .ui.card.building_card
+                        img.ui.fluid.image(src="{{c.url image_id width=400 height=200 crop='fill'}}")
+                        .content
+                            .ui.large.header #{building_code} #{title}
+                                each building_numbers
+                                    .ui.label #{this}
+                            .ui.grey.small.header #{building_street}
+                
+                
+template(name='building_view')
+    with current_doc
+        .ui.padded.stackable.grid
+            .row
+                .four.wide.center.aligned.column
+                    a.ui.basic.button(href="/buildings")
+                        i.chevron.left.icon
+                        +i name='building' classes='ui inline mini image'
+                        |buildings
+                .eight.wide.center.aligned.column
+                    .ui.large.inline.header 
+                        small building
+                        strong #{title}
+                    each building.building_numbers
+                        .ui.large.label #{this}
+                .four.wide.center.aligned.column
+                    if can_edit 
+                        a.ui.basic.icon.button(href="/building/#{_id}/edit")
+                            i.pencil.icon
+            .row
+                .ui.four.wide.column
+                    +image_view key='image_id' direct=true
+                .ui.four.wide.column
+                    .ui.segment
+                        .ui.header 
+                            +i name='meal'
+                            |meals
+                .ui.four.wide.column
+                    .ui.segment
+                        .ui.header 
+                            +i name='product'
+                            |products
+                .ui.four.wide.column
+                    .ui.segment
+                        .ui.header 
+                            +i name='wrench'
+                            |services
+                .ui.four.wide.column
+                    .ui.segment
+                        .ui.header 
+                            +i name='groups'
+                            |users
+                        +multi_user_view key='building_user_ids' direct=true
+
+
+    
+
+template(name='building_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.center.aligned.column
+                    a.ui.big.fluid.button(href="/building/#{_id}/view")
+                        i.green.checkmark.icon
+                        |save
+                .eight.wide.center.aligned.column
+                    .ui.header #{title}
+                .four.wide.center.aligned.column
+                    .ui.icon.button.delete_product_item 
+                        i.trash.icon
+            .row
+                .four.wide.column
+                    +text_edit key='title' icon='header' direct=true
+                    +image_edit key='image_id' direct=true
+        
+                    +array_edit key='tags' icon='tags' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                .eight.wide.column
+                    +textarea_edit key='description' direct=true
+                .four.wide.column
+                    .ui.header
+                        +i name='groups'
+                        |users
+                    +multi_user_edit key='building_user_ids' label='lookup users' direct=true

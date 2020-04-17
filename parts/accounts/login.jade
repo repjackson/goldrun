@@ -25,21 +25,21 @@ template(name='login')
                         |login
                         strong #{username}
                         //- i.right.chevron.icon
-                else
-                    if username
-                        .ui.center.aligned.basic.segment
-                            .ui.header no '#{username}' user
-                            a.ui.button(href='/register')
-                                i.user.plus.icon
-                                //- +i name='enter-2' classes='ui mini inline image'                    
-                                | register
+                //- else
+                //-     if username
+                //-         .ui.center.aligned.basic.segment
+                //-             .ui.header no '#{username}' user
+                //-             a.ui.button(href='/register')
+                //-                 i.user.plus.icon
+                //-                 //- +i name='enter-2' classes='ui mini inline image'                    
+                //-                 | register
                 .ui.center.aligned.basic.segment    
                     a.ui.button(href='/forgot_password')
                         //- +i name='forgot-password' classes='ui mini inline image'                    
                         i.refresh.icon
                         |forgot password
-                    a.ui.large.button(href='/register') 
-                        //- +i name='add-user-male' classes='ui mini inline image'                    
-                        i.user.plus.icon
-                        |register
+                    //- a.ui.large.button(href='/register') 
+                    //-     //- +i name='add-user-male' classes='ui mini inline image'                    
+                    //-     i.user.plus.icon
+                    //-     |register
                     //- .ui.center.aligned.inline.header see the front desk to register an account

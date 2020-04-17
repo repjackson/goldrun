@@ -1,4 +1,7 @@
 if Meteor.isClient
+    Router.route '/food/', (->
+        @render 'food'
+        ), name:'food'
     Router.route '/meal/:doc_id/view', (->
         @render 'meal_view'
         ), name:'meal_view'

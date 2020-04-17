@@ -17,16 +17,12 @@ template(name='grid')
             each role_models
                 .column
                     +grid_role_model
-                
+            
 template(name='grid_role_model')
-    .ui.segment
-        a.ui.inline.capitalize.header(href="/m/#{slug}" tabindex="0" title=description)
+    .ui.circular.segment
+        a.ui.inline.header(href="/m/#{slug}" tabindex="0" title=description)
             +i name=icon
-            //- i.icon(class=icon)
             |#{title}
-        //- i.grey.eye.icon
-        //- i.grey.thumbs.up.icon
-        //- i.grey.clock.icon
         div
         .ui.list
             each model_docs

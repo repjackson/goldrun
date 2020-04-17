@@ -1,142 +1,142 @@
 if Meteor.isClient
-    # Template.member_profile_layout.onCreated ->
-    #     @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'thought'
-    # Router.route '/member/:username', (->
-    #     @layout 'member_profile_layout'
-    #     @render 'user_dashboard'
-    #     ), name:'member_profile_layout'
-    Router.route '/member/:username/about', (->
-        @layout 'member_profile_layout'
-        @render 'user_about'
-        ), name:'user_about'
-    # Router.route '/member/:username/finance', (->
-    #     @layout 'member_profile_layout'
-    #     @render 'user_finance'
-    #     ), name:'user_finance'
-    Router.route '/member/:username/tutoring', (->
-        @layout 'member_profile_layout'
-        @render 'user_tutoring'
-        ), name:'user_tutoring'
-    Router.route '/member/:username/groups', (->
-        @layout 'member_profile_layout'
-        @render 'user_groups'
-        ), name:'user_groups'
-    Router.route '/member/:username/shop', (->
-        @layout 'member_profile_layout'
-        @render 'user_shop'
-        ), name:'user_shop'
-    Router.route '/member/:username/right', (->
-        @layout 'member_profile_layout'
-        @render 'user_right'
-        ), name:'user_right'
-    Router.route '/member/:username/credit', (->
-        @layout 'member_profile_layout'
-        @render 'user_credit'
-        ), name:'user_credit'
-    Router.route '/member/:username/wrong', (->
-        @layout 'member_profile_layout'
-        @render 'user_wrong'
-        ), name:'user_wrong'
-    Router.route '/member/:username/karma', (->
-        @layout 'member_profile_layout'
-        @render 'user_karma'
-        ), name:'user_karma'
-    Router.route '/member/:username/cart', (->
-        @layout 'member_profile_layout'
-        @render 'user_cart'
-        ), name:'user_cart'
-    Router.route '/member/:username/payment', (->
-        @layout 'member_profile_layout'
-        @render 'user_payment'
-        ), name:'user_payment'
-    Router.route '/member/:username/fiq', (->
-        @layout 'member_profile_layout'
-        @render 'user_fiq'
-        ), name:'user_fiq'
-    # Router.route '/member/:username/contact', (->
-    #     @layout 'member_profile_layout'
-    #     @render 'user_contact'
-    #     ), name:'user_contact'
-    Router.route '/member/:username/brain', (->
-        @layout 'member_profile_layout'
-        @render 'user_brain'
-        ), name:'user_brain'
-    Router.route '/member/:username/stats', (->
-        @layout 'member_profile_layout'
-        @render 'user_stats'
-        ), name:'user_stats'
-    Router.route '/member/:username/votes', (->
-        @layout 'member_profile_layout'
-        @render 'user_votes'
-        ), name:'user_votes'
-    # Router.route '/member/:username/dashboard', (->
-    #     @layout 'member_profile_layout'
-    #     @render 'user_dashboard'
-    #     ), name:'user_dashboard'
-    Router.route '/member/:username/jobs', (->
-        @layout 'member_profile_layout'
-        @render 'user_jobs'
-        ), name:'user_jobs'
-    Router.route '/member/:username/requests', (->
-        @layout 'member_profile_layout'
-        @render 'user_requests'
-        ), name:'user_requests'
-    Router.route '/member/:username/feed', (->
-        @layout 'member_profile_layout'
-        @render 'user_feed'
-        ), name:'user_feed'
-    Router.route '/member/:username/tags', (->
-        @layout 'member_profile_layout'
-        @render 'user_tags'
-        ), name:'user_tags'
-    Router.route '/member/:username/tasks', (->
-        @layout 'member_profile_layout'
-        @render 'user_tasks'
-        ), name:'user_tasks'
-    Router.route '/member/:username/transactions', (->
-        @layout 'member_profile_layout'
-        @render 'user_transactions'
-        ), name:'user_transactions'
-    Router.route '/member/:username/messages', (->
-        @layout 'member_profile_layout'
-        @render 'user_messages'
-        ), name:'user_messages'
-    Router.route '/member/:username/bookmarks', (->
-        @layout 'member_profile_layout'
-        @render 'user_bookmarks'
-        ), name:'user_bookmarks'
-    Router.route '/member/:username/documents', (->
-        @layout 'member_profile_layout'
-        @render 'user_documents'
-        ), name:'user_documents'
-    Router.route '/member/:username/social', (->
-        @layout 'member_profile_layout'
-        @render 'user_social'
-        ), name:'user_social'
-    Router.route '/member/:username/friends', (->
-        @layout 'member_profile_layout'
-        @render 'user_friends'
-        ), name:'user_friends'
-    Router.route '/member/:username/tests', (->
-        @layout 'member_profile_layout'
-        @render 'user_tests'
-        ), name:'user_tests'
-    Router.route '/member/:username/passages', (->
-        @layout 'member_profile_layout'
-        @render 'user_passages'
-        ), name:'user_passages'
-    Router.route '/member/:username/questions', (->
-        @layout 'member_profile_layout'
-        @render 'user_questions'
-        ), name:'user_questions'
-    Router.route '/member/:username/awards', (->
-        @layout 'member_profile_layout'
-        @render 'user_awards'
-        ), name:'user_awards'
-    Router.route '/member/:username/events', (->
-        @layout 'member_profile_layout'
-        @render 'user_events'
-        ), name:'user_events'
+    # # Template.member_user_layout.onCreated ->
+    # #     @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'thought'
+    # # Router.route '/member/:username', (->
+    # #     @layout 'member_user_layout'
+    # #     @render 'user_dashboard'
+    # #     ), name:'member_user_layout'
+    # Router.route '/member/:username/about', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_about'
+    #     ), name:'user_about'
+    Router.route '/member/:username/finance', (->
+        @layout 'member_user_layout'
+        @render 'user_finance'
+        ), name:'user_finance'
+    # Router.route '/member/:username/tutoring', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_tutoring'
+    #     ), name:'user_tutoring'
+    # Router.route '/member/:username/groups', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_groups'
+    #     ), name:'user_groups'
+    # Router.route '/member/:username/shop', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_shop'
+    #     ), name:'user_shop'
+    # Router.route '/member/:username/right', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_right'
+    #     ), name:'user_right'
+    # Router.route '/member/:username/credit', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_credit'
+    #     ), name:'user_credit'
+    # Router.route '/member/:username/wrong', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_wrong'
+    #     ), name:'user_wrong'
+    # Router.route '/member/:username/karma', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_karma'
+    #     ), name:'user_karma'
+    # Router.route '/member/:username/cart', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_cart'
+    #     ), name:'user_cart'
+    # Router.route '/member/:username/payment', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_payment'
+    #     ), name:'user_payment'
+    # Router.route '/member/:username/fiq', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_fiq'
+    #     ), name:'user_fiq'
+    # # Router.route '/member/:username/contact', (->
+    # #     @layout 'member_user_layout'
+    # #     @render 'user_contact'
+    # #     ), name:'user_contact'
+    # Router.route '/member/:username/brain', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_brain'
+    #     ), name:'user_brain'
+    # Router.route '/member/:username/stats', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_stats'
+    #     ), name:'user_stats'
+    # Router.route '/member/:username/votes', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_votes'
+    #     ), name:'user_votes'
+    # # Router.route '/member/:username/dashboard', (->
+    # #     @layout 'member_user_layout'
+    # #     @render 'user_dashboard'
+    # #     ), name:'user_dashboard'
+    # Router.route '/member/:username/jobs', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_jobs'
+    #     ), name:'user_jobs'
+    # Router.route '/member/:username/requests', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_requests'
+    #     ), name:'user_requests'
+    # Router.route '/member/:username/feed', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_feed'
+    #     ), name:'user_feed'
+    # Router.route '/member/:username/tags', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_tags'
+    #     ), name:'user_tags'
+    # Router.route '/member/:username/tasks', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_tasks'
+    #     ), name:'user_tasks'
+    # Router.route '/member/:username/transactions', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_transactions'
+    #     ), name:'user_transactions'
+    # Router.route '/member/:username/messages', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_messages'
+    #     ), name:'user_messages'
+    # Router.route '/member/:username/bookmarks', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_bookmarks'
+    #     ), name:'user_bookmarks'
+    # Router.route '/member/:username/documents', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_documents'
+    #     ), name:'user_documents'
+    # Router.route '/member/:username/social', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_social'
+    #     ), name:'user_social'
+    # Router.route '/member/:username/friends', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_friends'
+    #     ), name:'user_friends'
+    # Router.route '/member/:username/tests', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_tests'
+    #     ), name:'user_tests'
+    # Router.route '/member/:username/passages', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_passages'
+    #     ), name:'user_passages'
+    # Router.route '/member/:username/questions', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_questions'
+    #     ), name:'user_questions'
+    # Router.route '/member/:username/awards', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_awards'
+    #     ), name:'user_awards'
+    # Router.route '/member/:username/events', (->
+    #     @layout 'member_user_layout'
+    #     @render 'user_events'
+    #     ), name:'user_events'
 
 
 

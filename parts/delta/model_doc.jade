@@ -1,0 +1,103 @@
+template(name='model_doc_edit')
+    if template_exists
+        +Template.dynamic template=model_template
+    else
+        with current_doc
+            .ui.stackable.padded.grid
+                .centered.row
+                    .four.wide.column
+                        .ui.header(title="model: #{model}")
+                            |edit #{model}
+                        +creation_info
+                        a.ui.large.icon.button(href="/m/#{model}/#{_id}/view" title='save')
+                            i.large.checkmark.icon
+                        #delete_doc.ui.icon.button
+                            i.trash.icon
+                        if is_user
+                            +boolean_edit key='private' direct=true
+                    .twelve.wide.column
+                        //- |#{model}
+                        each edit_fields
+                            +Template.dynamic template=edit_template 
+                            // .ui.header #{key} [#{field}] #{label}
+                if watson 
+                    .row
+                        .sixteen.wide.column
+                            +watson_view
+
+template(name='model_doc_view')
+    if template_exists
+        +Template.dynamic template=model_template
+    else
+        with current_doc
+            .ui.stackable.padded.grid
+                .row
+                    .four.wide.column
+                        .ui.large.button.back_to_model(title=current_model.title)
+                            i.chevron.left.icon
+                            i.icon(class=current_model.icon)
+                            //- |#{current_model.title}
+                        if can_edit
+                            a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
+                                i.pencil.icon
+                        if is_admin
+                            div
+                            i.large.clock.grey.icon(title='timestamp tags')
+                            each _timestamp_tags
+                                .ui.label #{this}
+                        +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
+                        div
+                        .ui.small.header #{views} views
+                        .ui.small.inline.header by
+                        each viewer_usernames
+                            .ui.small.label #{this}
+                        
+                        .ui.small.header
+                            |by
+                            +author_info
+                            +creation_info
+                        +comments
+                        div
+                        //- +karma_transaction
+                    .twelve.wide.column
+                        .ui.header
+                            each fields
+                                if header
+                                    +Template.dynamic template=view_template 
+                            // if icon
+                            //     i.icon(class=icon)
+                            // |#{title}
+                        each fields
+                            unless header
+                                .item
+                                    +Template.dynamic template=view_template 
+                    //- .four.wide.column                
+                    //-     .ui.header actions 
+                    //-     //- each actions
+                    //-     //-     .ui.header #{title} 
+                    //-     //-     +Template.dynamic template=slug
+                    //-     //- each action_types
+                    //-     //-     .ui.header #{title}
+                    //-     //-     +Template.dynamic template=slug
+                    //-     +comments
+                    //-     //- div
+            if watson
+                .row
+                    .sixteen.wide.column
+                        +watson_view
+
+
+template(name='karma_transaction')
+    .ui.header my karma #{currentUser.karma}
+    .ui.header offer karma
+    .ui.input
+        input.offer_karma_amount(type='number')
+    .ui.button.offer_karma
+        i.right.chevron.icon
+    each offers
+        +offer
+        
+        
+template(name='offer')
+    .ui.small.inline.header amount #{amount}
+    +author_info

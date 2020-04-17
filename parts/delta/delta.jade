@@ -1,0 +1,248 @@
+template(name='delta')
+    .ui.stackable.grid
+        with current_model
+            .row
+                .five.wide.column.largescroll
+                    if is_loading
+                        .ui.inline.header.pulsing
+                            //- img(src='https://loading.io/spinners/hive/index.hexagon-grid-loader.gif')
+                            i.icon(class=icon)
+                            |loading #{title}
+                    else
+                        .ui.inline.header(title="#{description}, #{views} views")
+                            i.icon(class=icon)
+                            | #{title}
+                    unless is_loading
+                        if currentUser
+                            .ui.icon.compact.button.add_model_doc(title="add #{title}")
+                                i.plus.large.icon
+                        //- +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label="bookmark"
+                        if is_admin
+                            .ui.icon.button.edit_model
+                                i.cog.icon
+                        if current_delta
+                            if is_dev
+                                i.refresh.link.reset.circular.icon(title='reload session')
+                                i.code.link.circular.icon.print_delta(title='print session doc')
+                                i.trash.delete_delta.link.circular.icon(title='delete session')
+                        else
+                            .create_delta.ui.large.button(title='new session')
+                                i.plus.icon
+                                |session
+                        //- if is_dev
+                        //-     .ui.input
+                        //-         input.import_subreddit(type='text' placeholder='import_subreddit')
+                    //- // |did: #{session_delta_id}
+                    //- span(title='views')
+                    //-     i.grey.eye.icon
+                    //-     |#{views}
+                    div
+                    each sorted_facets
+                        +facet
+                .eleven.wide.column
+                    .filter_row.ui.basic.segment(class=loading_class)
+                        .ui.inline.small.grey.header(title='change sort direction')
+                            |sort by
+                        .ui.compact.small.menu
+                            .ui.simple.dropdown.item
+                                strong #{current_delta.sort_key}
+                                i.dropdown.icon
+                                .menu
+                                    each sortable_fields
+                                        .item.set_sort_key 
+                                            |#{title}
+                        .ui.compact.icon.button.set_sort_direction
+                            if sorting_up
+                                i.sort.amount.down.icon
+                            else
+                                i.sort.amount.up.icon
+                        //- .ui.compact.button.set_sort_direction
+                        //-     |#{current_delta.sort_direction}
+                        |&nbsp;
+                        |&nbsp;
+                        .ui.inline.small.grey.header
+                            |limit
+                        .ui.compact.small.menu
+                            .ui.simple.dropdown.item
+                                strong #{current_delta.limit}
+                                i.dropdown.icon
+                                .menu
+                                    +set_limit amount=1
+                                    +set_limit amount=5
+                                    +set_limit amount=10
+                                    +set_limit amount=20
+                                    +set_limit amount=50
+                        //- .ui.inline.small.grey.header
+                        //-     |search
+                        //- .ui.small.input
+                        //-     input(type='text' val=search_value)
+                        //- |&nbsp;
+                        |&nbsp;
+                        //- .ui.inline.small.grey.header view
+                        //- .ui.compact.menu
+                        //-     .ui.simple.dropdown.item
+                        //-         |#{current_delta.view_mode}
+                        //-         i.dropdown.icon
+                        //-         .menu
+                        //-             +set_view_mode title='table' icon='table'
+                        //-             +set_view_mode title='list' icon='list'
+                        //-             +set_view_mode title='cards' icon='cards'
+                        //-             +set_view_mode title='items' icon='list'
+                        //-             +set_view_mode title='map' icon='map'
+                        //-             +set_view_mode title='graph' icon='graph'
+                        .ui.hidden.fitted.divider
+                    .scrolling    
+                        //- +Template.dynamic template=view_mode_template
+                        each current_delta.result_ids
+                            //- .column
+                            if is_loading
+                                .ui.segment
+                                    .ui.fluid.placeholder
+                                        .line
+                                        .line
+                                        .line
+                                        .line
+                                        .line
+                                        .line
+                                        .line
+                                        .line
+                                        .line
+                            else 
+                                +delta_result
+            //- .row 
+                //- .sixteen.wide.column
+                //-     if model_stats_exists
+                //-         +Template.dynamic template=model_stats
+                //-     .ui.header calculations
+                //-     .ui.button rerun calculations
+        unless current_model
+            .ui.big.button.create_model create model
+                
+template(name='delta_table')
+    .ui.table
+        thead
+            each fields
+                th #{title}
+        tbody
+            each current_delta.result_ids
+                tr
+                    each fields
+                        td
+                            |#{field_value}   
+                            
+                            
+template(name='delta_list')
+    each current_delta.result_ids
+        //- .column
+        +delta_result
+                        
+template(name='delta_cards')
+    .ui.four.cards
+        each current_delta.result_ids
+            +delta_card
+            
+template(name='delta_card')            
+    with result 
+        .card 
+            if image_link 
+                .image.pointer.result
+                    img(src=image_link)
+            .content
+                .ui.icon.header.pointer.result
+                    i.icon(class=icon)
+                    |#{title}
+            //- +delta_result
+                    
+                        
+                
+                
+                
+template(name='set_limit')
+    .item.set_limit #{amount}
+
+template(name='set_view_mode')
+    .item.set_view_mode 
+        |#{title}
+
+template(name='facet')
+    div
+    if filtering_res
+        //- .ui.hidden.divider
+        //- .ui.unstyled.accordion
+        //-     .active.title
+        if icon
+            i.icon(class=icon)
+        .ui.grey.inline.header 
+            if title
+                |#{title}
+            else 
+                |#{key}
+                //- i.dropdown.icon
+        //- .ui.icon.small.transparent.input
+        //-     i.search.icon
+        //-     input.add_filter(type='text')
+            .active.content
+                //- div
+        each filtering_res
+            if name
+                .selector.ui.compact.button.toggle_selection(class=toggle_value_class title=count)
+                    strong #{name}
+                    if is_admin
+                        small #{cal_count} #{count}
+            else
+                .selector.ui.compact.small.button.toggle_selection(class=toggle_value_class)
+                    strong [null]
+                    //- small #{cal_count}
+        //- .ui.hidden.divider
+
+template(name='toggle_delta_config')
+    if boolean_true
+        .ui.active.icon.button.disable_key(title=label)
+            // | #{label}
+    else
+        .ui.icon.button.enable_key(title=label)
+            // | #{label}
+
+
+
+template(name='delta_result')
+    //- .ui.header hi
+    with result 
+        if template_exists
+            +Template.dynamic template=model_template
+        else
+            .ui.result.cloud.fluid.pointer.segment(class=loading_class tabindex="0")
+                .content
+                    each fields
+                        +Template.dynamic template=view_template
+                        div
+                    .extra
+                        if is_model
+                            +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
+                            a.ui.button.route_model(href="/m/#{slug}")
+                                i.sitemap.icon
+                                |view model
+                            if is_admin
+                                a.ui.button.route_model(href="/model/edit/#{_id}")
+                                    i.edit.icon
+                                    |edit model
+                            .ui.header #{views} view
+                        //- else
+                        //-     if can_edit
+                        //-         a.ui.icon.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
+                        //-             i.pencil.large.icon
+                        //-             //- |edit
+                        //-     a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
+                        //-         i.right.chevron.yellow.large.icon
+                        if _author_id
+                            +author_info
+                        +creation_info
+                        .ui.small.inline.header #{views} views
+                            //- i.eye.icon
+                            each viewer_usernames
+                                .ui.small.label #{this}
+                        //- +comments
+                    if is_dev
+                        +remove_button
+            
+                    

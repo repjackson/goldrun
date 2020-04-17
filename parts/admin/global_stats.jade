@@ -1,0 +1,136 @@
+template(name='global_stats')
+    .ui.grid 
+        .eight.wide.column
+            if is_dev
+                i.refresh.link.icon.refresh_global_stats
+            with global_stats
+                .ui.big.list    
+                    .item #{home_views} 
+                        small homepage views
+                    .item #{total_owners_count} 
+                        small total owners count
+                    .item #{total_handlers_count} 
+                        small total handlers count
+                    .item #{current_active_handlers} 
+                        small current active handlers
+                    .item #{current_average_hourly_wage} 
+                        small current average hourly wage
+                    .item #{todays_average_hourly_wage} 
+                        small todays average hourly wage
+                    .item #{yesterdays_average_hourly_wage} 
+                        small yesterdays average hourly wage
+                    .item #{this_weeks_average_hourly_wage} 
+                        small this weeks average hourly wage
+                    .item #{last_weeks_average_hourly_wage} 
+                        small last weeks average hourly wage
+                    .item #{total_count} 
+                        small total docs
+                    .item #{total_members_count}
+                        small members
+                    .item #{service_count}
+                        small services
+        .eight.wide.column
+            with global_stats
+                .ui.big.list
+                    .item 
+                        small total reservation revenue
+                        | $#{total_reservation_revenue}
+                    .item 
+                        small total owner revenue
+                        | $#{total_owner_revenue}
+                    .item 
+                        small total handler revenue
+                        | $#{total_handler_revenue}
+                    .item 
+                        small total tax revenue
+                        | $#{total_tax_revenue}
+                    .item 
+                        |$#{total_payment_amount}
+                        small in payments
+                    .item #{product_count} 
+                        small products
+                    //- .item #{withdrawel_count}
+                    //-     small withdrawels
+                    .item #{payment_count}
+                        small payments
+                    .item #{reservation_count}
+                        small reservations
+                    .item #{bid_count}
+                        small bids
+                    .item #{rental_count}
+                        small  rentals
+
+                    .item 
+                        |complete_count #{complete_count}
+                    .item 
+                        |incomplete_count #{incomplete_count}
+                    .item 
+                        |rental_count #{rental_count}
+                    .item 
+                        |product_count #{product_count}
+                    .item 
+                        |service_count #{service_count}
+                    .item 
+                        |bid_count #{bid_count}
+                    .item 
+                        |reservation_count #{reservation_count}
+                    .item 
+                        |total_reservation_cost #{total_reservation_cost}
+                    .item 
+                        |total_reservation_revenue #{total_reservation_revenue}
+                    .item 
+                        |payment_count #{payment_count}
+                    .item 
+                        |withdrawel_count #{withdrawel_count}
+                    .item 
+                        |total_users_count #{total_users_count}
+                    .item 
+                        |total_payment_amount #{total_payment_amount}
+                    .item 
+                        |home_views #{home_views}
+                    .item 
+                        |total_owners_count #{total_owners_count}
+                    .item 
+                        |total_handlers_count #{total_handlers_count}
+                    .item 
+                        |current_active_handlers #{current_active_handlers}
+                    .item 
+                        |total_handler_revenue:  #{total_handler_revenueN}
+                    .item 
+                        |total_owner_revenue #{total_owner_revenue}
+                    .item 
+                        |total_tax_revenue #{total_tax_revenue}
+                    .item 
+                        |total_members_count #{total_members_count}
+
+    //- {
+    //-   "_id": "R4dL46A5gKAvcJn9e",
+    //-   "model": "reservation",
+    //-   "rental_id": "XCEC3RjaCJog7DDJs",
+//-   "_author_id": "ytjpFxiwnWaJELZEd",
+//-   "_timestamp": 1570238484414,
+//-   "_timestamp_long": "Friday, October 4th 2019, 7:21:24 pm",
+//-   "_timestamp_tags": [
+//-     "pm",
+//-     "friday",
+//-     "october",
+//-     "4th",
+//-     "2019"
+//-   ],
+//-   "_author_username": "dev",
+//-   "now": true,
+//-   "start_datetime": "2019-10-04T19:21",
+//-   "start_timestamp": 1570238487632,
+//-   "hour_duration": "6.00",
+//-   "end_datetime": "2019-10-05T01:21",
+//-   "cost": 7,
+//-   "taxes_payout": "0.30",
+//-   "owner_payout": "3.00",
+//-   "handler_payout": "2.70",
+//-   "res_end_pickup_selected": false,
+//-   "res_start_dropoff_selected": false,
+//-   "views": 1,
+//-   "viewer_usernames": [
+//-     "dev"
+//-   ]
+//- }

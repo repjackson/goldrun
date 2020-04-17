@@ -1,0 +1,72 @@
+template(name='key_view')
+    //- div
+    //- .ui.inline.grey.header(title='name') #{key}
+    div
+    with context
+        +Template.dynamic template=field_view
+    // .ui.divider
+    // +jsonView json=meta
+        
+        
+
+template(name='view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column.scrolling
+                    a.ui.fluid.button(href="/alpha")
+                        i.left.chevron.icon
+                    .ui.segment.large150
+                        .ui.header
+                            if icon
+                                i.grey.icon(class=icon)
+                            |#{title}
+                        if currentUser
+                            +clone_button
+                            div
+                            +author_info
+                            div
+                            +creation_info
+                            div
+                            if is_author
+                                a.ui.big.icon.button(href="/edit/#{_id}")
+                                    i.pencil.icon
+                            +detect
+                        //- +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' add_label='Bookmark' remove_label='Unbookmark' color='red' big=true
+                        //- +clone_button
+                        //- if watson
+                        //-     +doc_sentiment
+                        //-     +doc_emotion
+                        //-     +concepts
+                        //-     +categories
+                        //-     +entities
+                        //-     +semantic_roles
+                        //-     +keyword_list
+                        //-     +keywords
+                        //-     +concept_list
+                        //-     +relations
+                        //-     +personality
+                        //-     +consumption_preferences
+                .twelve.wide.column.scrolling
+                    .large150
+                        each _keys
+                            //- .ui.label #{this}
+                            +key_view
+                        //- .ui.hidden.divider
+                        if analyzed_text
+                            |#{nl2br analyzed_text}
+                            .ui.hidden.divider
+                        div
+                        +comments
+                        +voting
+                //- .column.scrolling
+                //-     //- .ui.segment.large150
+                //-         //- if watson
+                //-         //-     +tone
+                //-         //-     +keywords
+                //-         //- //- +watson_view
+                //-         //- if visual_classes
+                //-         //-     +visual_classes
+                //-     .ui.header.pointer.calc_similar similar
+                //-     each matching_docs 
+                //-         .ui.header hi #{doc_id} #{matching_points}

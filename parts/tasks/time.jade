@@ -1,0 +1,77 @@
+template(name='time')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.grey.center.aligned.header 
+                    i.clock.icon
+                    |time sessions
+            .eight.wide.column
+                i.link.refresh.icon.refresh_my_time_stats
+                with currentUser
+                    .ui.horizontal.list
+                        .item(title='hours today')
+                            i.sun.icon
+                            i.clock.icon
+                            | #{daily_hours}hrs
+                        .item(title='weekly hours')
+                            i.calendar.icon
+                            i.clock.icon
+                            | #{weekly_hours}hrs
+                        .item(title='sessions today')
+                            i.sun.icon
+                            i.business.time.icon
+                            | #{daily_sessions} sessions
+                        .item(title='weekly sessions')
+                            i.calendar.icon
+                            i.business.time.icon
+                            | #{weekly_sessions} sessions
+        .row
+            .four.wide.column
+                +cloud filter='time_session'
+            .eight.wide.column
+                each time_sessions 
+                    .ui.segment 
+                        a.ui.header(href="/m/time_session/#{_id}/view") #{_author_username}
+                        .meta #{when}
+                        |from
+                        large {{long_date start_datetime}}
+                        small ({{from_now start_datetime}})
+                        |-
+                        large {{long_date end_datetime}}
+                        small ({{from_now end_datetime}})
+                        div 
+                        each tags 
+                            .ui.label #{this}
+            .four.wide.column
+                .ui.header current session 
+                if my_current_session 
+                    with my_current_session
+                        .ui.segment 
+                            .ui.small.header {{from_now start_timestamp}}
+                            //- +text_edit key='description' direct=true
+                            +array_edit key='tags' direct=true
+                            a.ui.icon.button(href="/m/time_session/#{_id}/view")
+                                i.chevron.right.icon
+                            .ui.icon.button.cancel_session(title='cancel session') 
+                                i.ban.icon
+                            .ui.red.icon.button.end_session(title='end session') 
+                                i.checkmark.icon
+                else 
+                    .ui.small.header no current session 
+                    .ui.small.button.start_session 
+                        i.hourglass.start.icon
+                        |start session 
+                .ui.header other current sessions 
+                .ui.list 
+                    each current_sessions 
+                        .item #{_author_username}
+                i.refresh.link.icon.refresh_time_stats
+                with time_stats_doc
+                    .ui.small.grey.header #{total_sessions} total sessions 
+                    .ui.small.grey.header #{week_time_sessions_count} sessions this week
+                    .ui.small.grey.header #{day_time_sessions_count} sessions today
+                    .ui.small.grey.header total time 
+                    .ui.small.grey.header time this week
+                    .ui.small.grey.header #{total_hours_today} total time today
+                    .ui.small.grey.header current sessions
+                    

@@ -1,0 +1,55 @@
+//- template(name='offer_card_template')
+//-     .ui.fluid.segment.grid
+//-         .row
+//-             .sixteen.wide.column
+//-                 a.ui.inline.header(href="/service/#{_id}/view") #{title} 
+//-                     if variable_price
+//-                         |~
+//-                     |$#{hourly_rate}/hr
+//-         .row
+//-             .twelve.wide.column
+//-                 div
+//-                 .ui.grey.inline.header location
+//-                 each location_tags
+//-                     .ui.label #{this}
+//-                 div
+//-                 .ui.grey.inline.header tags
+//-                 each tags
+//-                     .ui.label #{this}
+//-                 +single_user_view key='resident' label='resident' direct=true
+//-                 div
+//-                 +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' add_label='bookmark' remove_label='unbookmark'  big=true
+//- 
+//-                 +voting
+//-                 div
+//-                 if currentUser
+//-                     if can_edit
+//-                         a.ui.button(href="/service/#{_id}/edit")
+//-                             i.pencil.icon
+//-                             |edit
+//-                 a.ui.button(href="/service/#{_id}/view")
+//-                     |view
+//-                     i.right.chevron.icon
+//-                 +author_info
+
+
+
+
+template(name='user_offers')
+    .ui.header 
+        +i name='sell' classes='ui inline image'
+        |offers
+    a.ui.button(href="/m/offer") 
+        i.external.icon
+        |view all
+    .ui.button.new_offer
+        i.green.plus.icon
+        | offer #{user_from_username_param.name} something
+    
+    each offers
+        .ui.segment
+            .ui.header #{title}
+            .ui.small.header #{status}
+            +author_info
+            +edit_button
+            +view_button

@@ -1,0 +1,106 @@
+template(name='my_events')
+    .ui.header events
+    with my_events
+        .ui.header #{title} #{when}
+
+template(name='event_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .eight.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        |edit event
+                    a.ui.big.icon.fluid.button(href="/event/#{_id}/view" title='save')
+                        i.green.checkmark.icon
+                    +remove_button
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +image_edit key='image' label='image' icon='image' direct=true
+                    +price_edit key='price' label='price' icon='money' direct=true
+                .eight.wide.column 
+                    +text_edit key='title' label='title' icon='title' direct=true
+                    +html_edit key='description' label='description' icon='content' direct=true
+                    +boolean_edit key='published' label='published' icon='checkmark' direct=true
+                .twelve.wide.column 
+                    .ui.dividing.header visibility
+                    +boolean_edit key='public' label='visible to public' direct=true
+                    .ui.dividing.header when and where
+                    +text_edit key='location_text' label='location text' icon='marker' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    +date_edit key='start_date' label='start date' direct=true
+                    +date_edit key='end_date' label='end date' direct=true
+                    +time_edit key='start_time' label='start time' direct=true
+                    +time_edit key='end_time' label='end time' direct=true
+                    .ui.dividing.header registration
+                    +date_edit key='registration_start_date' label='registration start date' direct=true
+                    +date_edit key='registration_end_date' label='registration end date' direct=true
+                    +boolean_edit key='allow_guest_registration' label='allow guest registration' direct=true
+                    if allow_guest_registration
+                        +number_edit key='guest_limit' label='guest limit per registration' direct=true
+
+
+template(name='event_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    a.ui.fluid.button(href="/m/event")
+                        +i name='calendar'
+                        |events
+                    .ui.header view event
+                    a.ui.big.icon.button(href="/event/#{_id}/edit")
+                        i.pencil.icon
+                    +voting_full
+                    +viewing
+                    +price_view key='price' label='price' icon='money' direct=true
+    
+                .twelve.wide.column 
+                    +text_view key='title' label='title' direct=true
+                    +array_view key='tags' label='tags' icon='tags' direct=true
+                    +html_view key='description' icon='content' label='description' direct=true
+                    +boolean_view key='published' label='published' direct=true
+                    +comments
+
+
+template(name='event_slider')
+    //- #layerslider(style='width:100%; height: 400px;')
+    #event_slider(style='width:100%; height: 250px')
+        each slides
+            .ls-slide(data-ls='slidedelay: 10000;')
+                //- if image_url
+                //-     img.ls-bg(src=image_url)
+                .ls-l(style="top: 5px; left: 10px;" )
+                    .ui.header #{title}
+                .ls-l(style="top: 25px; left: 10px; width:200px; height:20px;" )
+                    .ui.small.header !{description}
+                img.ui.cent.image.ls-l(src="{{c.url image_id height=180 width=300 crop='fill'}}" style="top: 50px; left: 0%;")
+                //- img.ls-bg(src="{{c.url image height=500 width=800 background='white' crop='lpad'}}", alt='Slide background' )
+                //- .ls-l(style="top: 50%; height: 170px; width: 170px; left: 20%;" )
+                //-     h2.slider-subheader: subtitle
+                //-     // h2.slider-subheader
+                //-     //     | My goal is to spread light to others to help them navigate their own journey through life.
+                    
+                    
+template(name='event_small')
+    a.ui.header(href="/events")
+        //- i.calendar.icon
+        +i name='calendar'
+        &nbsp;
+        strong.f7 events
+    //- +event_slider
+    //- +model_scroller model='event' header='events' icon='calendar'
+
+    .ui.animated.large.list
+        each gr_events
+            //- a.active.item(href="/event/#{_id}/view") 
+            .ui.small.header #{title} 
+                .ui.label #{start_date}
+                //- each tags
+                //-     .ui.small.label #{this}
+                //- span(title='views and points')
+                //-     |#{views}
+                //-     i.eye.grey.icon
+                //-     |#{points}
+                //-     i.thumbs.up.outline.grey.icon
+    
+            //- a.active.item(href="/m/#{model}/#{_id}/view")

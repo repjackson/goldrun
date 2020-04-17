@@ -1,0 +1,78 @@
+head
+    title gold run
+    meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black')
+    meta(name="msapplication-TileColor" content="#000000")
+    meta(name="theme-color" content="#000000")
+    link(rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.4/dist/semantic.min.css')
+    link(href="https://fonts.googleapis.com/css?family=Ubuntu:300,400&display=swap" rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:300,400&display=swap" rel="stylesheet")
+    link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
+    link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
+    link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
+    link(rel="manifest" href="/site.webmanifest")
+    link(rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000")
+
+    script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
+    script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.4/dist/semantic.min.js')
+    //- /* script(src='tablesort.js') */
+    script(src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js")
+    //- /* script(src='https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js') */
+    //- script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-140259454-1')
+    //- script.
+    //-     window.dataLayer = window.dataLayer || [];
+    //-     function gtag(){dataLayer.push(arguments);}
+    //-     gtag('js', new Date());
+    //-     gtag('config', 'UA-140259454-1');
+
+    
+template(name='layout')
+    //- img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+    +nav
+    .context
+        .ui.stackable.grid.global_container(class=invert_class)
+            .centered.row
+                .sixteen.wide.column
+                    +yield
+        unless is_frontdesk
+            +footer
+        //- +shortcut_modal
+
+template(name='mlayout')
+    .global_container(class=invert_class)
+        unless is_frontdesk
+            +nav
+        //- img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")    
+        +yield
+
+
+template(name='verification_confirmation')
+    .ui.text.container
+        h1.ui.header your email has been verified; you may close the window. 
+
+
+
+template(name='not_found')
+    .ui.center.aligned.padded.segment
+        .ui.center.aligned.header not found
+        if is_staff
+            a.ui.button(href="/staff") 
+                +i name='user shield'
+                |staff
+        else 
+            a.ui.button(href="/") 
+                +i name='home'
+                |home
+
+
+
+template(name='shortcut_modal')
+    .ui.shortcut.modal
+        .ui.header keyboard shortcuts
+        .content
+            .ui.large.list
+                each shortcuts
+                    .item 
+                        .header #{combo}
+                        .content #{action}

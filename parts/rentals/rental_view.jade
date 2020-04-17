@@ -1,0 +1,268 @@
+template(name='sort_item')
+    .item.set_sort #{label}
+    
+
+
+template(name='rental_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+            //- .row
+            //-     .sixteen.wide.column
+            //-         +rental_calendar
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href='/rentals' title='rentals')
+                        i.left.chevron.icon
+                        |rentals
+                    +rental_status
+                    .ui.header 
+                        |#{hourly_dollars}c
+                        small /hr standard rate
+                    if can_edit
+                        a.ui.fluid.button(href="/rental/#{_id}/edit")
+                            i.pencil.icon
+                            |edit
+                    img.ui.centered.rounded.medium.invert.image(src="{{c.url image width=400 height=400 crop='fit'}}")
+                    +rental_stats
+                    .ui.header added by #{_author_username}
+                    |#{when}
+                    with _author_id
+                        +user_card
+                    +array_view key='tags' icon='tags' direct=true title='tags'
+                    div
+                    +array_view key='location_tags' icon='marker' direct=true title='location tags'
+                    div
+                    +text_view key='location' icon='marker' label='location' direct=true
+                    .ui.grey.header 
+                        i.user.shield.icon
+                        | owner
+                    +single_user_view key='owner_username' direct=true
+                    .ui.grey.header 
+                        i.user.clock.icon
+                        | handler
+                    +single_user_view key='handler_username' direct=true
+                .four.wide.column
+                    .ui.large.center.aligned.inline.header #{title}
+                    +html_view key='description' label='description' icon='content' direct=true
+                    div
+                    if security_deposit_required
+                        .ui.header 
+                        |$#{security_deposit_amount}
+                        small security deposit
+                    +text_view key='contact_info' label='contact info' icon='info' direct=true
+                    div
+                    +link_view key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
+                    +rental_calendar
+                    +rental_view_reservations
+                    +comments
+                .four.wide.column
+                    +reserve_button
+                    +boolean_view key='daily_rate' label='daily rate' icon='sun' direct=true
+                    if daily_rate
+                        +float_view key='daily_dollars' label='daily rate' icon='exchange' direct=true
+                    div
+                    +boolean_view key='auction' label='auction' icon='podium-with-audience--v2' direct=true
+                    if auction
+                        +number_view key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
+                        +float_view key='minimum_bid' label='hour minimum bid' icon='refund' direct=true
+                    div
+                    +boolean_view key='security_deposit_required' label='security deposit required' icon='lock' direct=true
+                    if security_deposit_required
+                        +number_view key='security_deposit_amount' label='security deposit amount' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
+                        div
+                        +boolean_view key='friends_exempt' label='friends exempt' icon='users' direct=true
+                        
+                    +boolean_view key='approval_required' label='approval required' icon='checkmark' direct=true
+                    if approval_required
+                        div
+                        |you will receive a notification when reservations are requested
+                    .ui.header
+                        +i name='refund'
+                        | refunds
+                    +boolean_view key='allow_refunds' label='allow refunds' icon='refund' direct=true
+                    if allow_refunds
+                        +number_view key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
+                        +number_view key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
+
+                    .ui.header
+                        i.pie.chart.icon 
+                        |ownership
+                    .content
+                        +single_user_view key='owner_username' label='owner' direct=true
+                        +single_user_view key='handler_username' label='handler' direct=true
+                    .ui.header
+                        i.clock.icon
+                        |availability
+                    .content
+                        +array_view key='availability_tags' label='availability tags' icon='clock' direct=true
+                        +boolean_view key='available' label='currently available' direct=true
+                        +multi_doc_view key='available_days' label='available days' ref_model='day_of_week' direct=true
+                    .ui.header
+                        i.users.icon
+                        |audience
+                    .content
+                        +boolean_view key='transaction_number_restriction' label='transaction number restriction' icon='hashtag' direct=true
+                        if transaction_number_restriction
+                            +number_view key='transaction_number_restriction_threshold' label='transaction number restriction threshold' direct=true
+                        +boolean_view key='transaction_amount_restriction' label='transaction amount restriction' icon='money' direct=true
+                        if transaction_amount_restriction
+                            +number_view key='transaction_amount_restriction_threshold' label='transaction amount restriction threshold' direct=true
+                        +boolean_view key='visible_to_public' label='visible to public' direct=true
+                        unless visible_to_public
+                            +boolean_view key='visible_to_friends' label='visible to friends' direct=true
+                        unless visible_to_public
+                            +boolean_view key='visible_to_specific_people' label='visible to specific people' direct=true
+                            if visible_to_specific_people
+                                +multi_user_view key='visible_to_member_ids' label='visible to members:' direct=true
+                    .ui.header
+                        i.people.carry.icon
+                        |delivery
+                    .content
+                        .ui.header
+                            +i name='clock' classes='ui inline tiny image'
+                            |reservation start
+                        +boolean_view key='res_start_pickup' label='pickup' icon='truck' direct=true
+                        +boolean_view key='res_start_dropoff' label='dropoff' icon='dolly' direct=true
+                        if res_start_dropoff
+                            +number_view key='res_start_dropoff_fee' label='reservation start dropoff fee' icon='low-price' direct=true
+                        .ui.header
+                            i.clock.icon
+                            |reservation end
+                        +boolean_view key='res_end_dropoff' label='dropoff' icon='dolly' direct=true
+                        +boolean_view key='res_end_pickup' label='pickup' icon='truck' direct=true
+                        if res_end_pickup
+                            +number_view key='res_end_pickup_fee' label='reservation end pickup fee' icon='low-price' direct=true
+                    .ui.header
+                        i.bell.icon
+                        |notifications
+                    .content
+                        +boolean_view key='notify_on_reservation' label='on new reservation' icon='plus' direct=true
+                        +boolean_view key='notify_on_cancelation' label='on reservation cancelation' icon='cancel-2--v1' direct=true
+                .four.wide.column
+                    .ui.header stats
+                    .ui.list 
+                        .item earnings per day avg 
+                        .item earnings per week avg
+                        .item earnings per month avg
+                    .ui.header total earnins
+                        |#{total_earnings}
+                    .ui.header projected daily earnings
+                    .ui.header projected weekly earnings
+                    .ui.header projected monthly earnings
+                    
+                    
+
+template(name='rental_stats')
+    //- .ui.accordion
+    //-     .title
+    .ui.grey.header.refresh_rental_stats
+        i.line.chart.icon
+        |stats
+    //- i.dropdown.icon
+    //- .content
+    .ui.big.list
+        .item #{views} views
+        .item #{reservation_count} reservations
+        .item #{total_earnings}c/#{total_rental_hours}hrs total
+        .item #{average_rental_cost}c / #{average_rental_duration}hrs avg rental
+        //- .item rental ranking # reservations
+        //- .item rental ranking $ earned
+        //- .item # different renters
+        //- .item avg daily earnings
+        //- .item avg weekly earnings
+        //- .item avg monthly earnings
+        //- .item biggest renter
+        //- .item predicted payback duration 
+        //- .item predicted payback date 
+
+    //-     //- .ui.header res slot exists
+    //-     +reservation_slot_template
+    //- else
+    //-     if is_product_author
+    //-         .ui.button.new_slot
+    //-             |new slot
+        
+    
+template(name='rental_status')
+    if available 
+        .ui.green.label available now
+    else 
+        .ui.label off the clock
+        
+        
+        
+template(name='reserve_button')
+    unless approval_required
+        .ui.big.green.fluid.button.new_reservation 
+            |reserve
+    else 
+        .ui.big.blue.fluid.button.new_reservation 
+            |request
+
+
+
+template(name='rental_view_reservations')
+    .ui.header 
+        i.clock.icon
+        |reservations
+    //- .ui.icon.button.set_card_view
+    //-     i.clone.icon
+    //- .ui.icon.button.set_segment_view
+    //-     i.list.icon
+    //- .ui.hidden.divider
+    //- if view_res_cards
+    //-     .ui.stackable.three.cards
+    //-         each reservations
+    //-             +res_card
+    //- else if view_res_segments
+    each reservations
+        +reservation_segment
+        
+template(name='set_date_filter')        
+    .ui.button.set_date_filter(class=date_filter_class)
+        |#{label}
+        
+        
+
+template(name='reservation_segment')
+    .ui.segment
+        a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/view")
+            small from 
+            |{{cal_time start_datetime}}
+            //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
+            //- |{{long_date start_datetime}}
+            small to 
+            |{{cal_time end_datetime}}
+        //- .ui.inline.header #{_author_username}
+        .ui.inline.header #{author.name}
+        .ui.grey.inline.header #{hour_duration}hrs
+        .ui.grey.inline.header(title='credits')
+            | $#{cost}
+        .ui.small.inline.header #{when} by #{_author_username}
+        a.ui.large.button(href="/reservation/#{_id}/view")
+            |view
+            i.right.chevron.icon
+                
+                
+                
+                
+template(name='res_card')
+    .ui.card
+        .content
+            a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/view")
+                small from 
+                |{{cal_time start_datetime}}
+                //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
+                //- |{{long_date start_datetime}}
+                small to 
+                |{{cal_time end_datetime}}
+            div
+            .ui.grey.inline.header #{hour_duration} hrs
+            .ui.grey.inline.header(title='credits')
+                //- i.coins.icon
+                | #{cost}c
+            .ui.small.header #{when} by #{_author_username}
+            a.ui.large.fluid.button(href="/reservation/#{_id}/view")
+                |view
+                i.right.chevron.icon

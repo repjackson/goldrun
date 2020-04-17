@@ -1,0 +1,165 @@
+template(name='home')
+    .ui.stackable.padded.grid
+        .row 
+            .twelve.wide.column
+                .ui.centered.stackable.five.cards 
+                    if is_dev
+                        a.ui.card(href="/alpha")
+                            .content 
+                                .ui.grey.icon.header
+                                    +i name='alpha'
+                                    | alpha
+                        a.ui.card(href="/m/model")
+                            .content 
+                                .ui.grey.icon.header 
+                                    +i name='d'
+                                    |delta
+                    a.ui.card(href="/m/food")
+                        .content 
+                            .ui.grey.icon.header 
+                                +i name='food'
+                                |food
+                    a.ui.card(href="/rentals")
+                        .content 
+                            .ui.grey.icon.header 
+                                +i name='clock'
+                                | rentals
+                    a.ui.card(href="/chat")
+                        .content 
+                            .ui.grey.icon.header
+                                +i name='chat'
+                                | chat
+                    a.ui.card(href="/events")
+                        .content 
+                            .ui.grey.icon.header
+                                +i name='calendar'
+                                | events
+                    a.ui.card(href="/m/reservation")
+                        .content 
+                            .ui.grey.icon.header
+                                +i name='invoice'
+                                | reservations
+                    a.ui.card(href="/bounty")
+                        .content 
+                            .ui.grey.icon.header
+                                +i name='get-cash'
+                                | bounties
+                    a.ui.card(href="/m/service")
+                        .content 
+                            .ui.grey.icon.header
+                                +i name='work'
+                                | services
+                    a.ui.card(href="/alerts")
+                        .content 
+                            .ui.grey.icon.header
+                                +i name='bell'
+                                | alerts
+                    a.ui.card(href="/users")
+                        .content 
+                            .ui.grey.icon.header
+                                +i name='groups'
+                                |users
+                    .ui.card.gt_tasks.pointer
+                        .content 
+                            .ui.grey.icon.header
+                                +i name='task'
+                                |tasks
+                    a.ui.card(href="/m/bug")
+                        .content 
+                            .ui.grey.icon.header
+                                +i name='bug'
+                                |bugs
+            .four.wide.column
+                +latest_activity
+            
+            
+    +global_stats        
+            
+            
+
+
+template(name='revenue_calculator')
+    .ui.fluid.accordion
+        .active.title
+            .ui.header 
+                +i name='calculator'
+                |rental revenue calculator
+                i.dropdown.icon
+        .active.content
+            with calculator_doc
+                .ui.stackable.grid
+                    .ten.wide.column
+                        if is_admin
+                            .ui.button.create_simluated_item 
+                                i.plus.icon
+                                |simulated item
+                        .ui.three.stackable.cards
+                            each items
+                                +simulated_rental_item
+                    .six.wide.column.result_column
+                        .ui.header 
+                            |daily: 
+                            small spend 
+                            | #{total_daily_hours_committed}
+                            small hrs on 
+                            | #{daily_rentals}
+                            small reservations for
+                            |$#{totaled_daily_revenue}
+                        .ui.header
+                            |weekly:  
+                            small spend
+                            | #{total_weekly_hours_committed}
+                            small hrs on
+                            |#{total_weekly_rentals}
+                            small reservations for
+                            |$#{totaled_weekly_revenue}
+                        .ui.header 
+                            |$#{totaled_monthly_revenue}
+                            small per month
+                        .ui.header
+                            small avg
+                            |$#{average_hourly_wage}
+                            small per hr wage
+                        .ui.header 
+                            //- +i name='friends'
+                            |#{total_neighbor_interactions} neighbor interactions
+
+
+template(name='simulated_rental_item')
+    .ui.card
+        .content
+            .ui.inline.header simulated item
+            .ui.form
+                .eight.wide.field(title='individual reservations, extra revenue for requested pickup/dropoff')
+                    label reservations/day
+                    input.rental_amount(type='number' value="#{rental_amount}" min='0')
+                .ui.right.labeled.fluid.input(title='hourly rate, your cut depends on owner/handler status')
+                    input.average_hourly(type='number' value="#{average_hourly}" min='0')
+                    .ui.basic.label $/hr
+                .ui.labeled.fluid.input(title='hours per day rental is active/circulated')
+                    input.daily_hours_rented(type='number' value="#{daily_hours_rented}" min='0' max='24')
+                    .ui.basic.label hrs/day
+            //- |$#{average_hourly}/hr 
+            +small_boolean_edit key='owned' icon='money bill' title='you own the product and passively get 50% of the fee')
+            +small_boolean_edit key='handled' icon='suitcase rolling' title='you facilitate the rental and get 45% of the fee')
+            if handled
+                +small_boolean_edit key='delivery' icon='luggage cart' title='assume a 5min delivery and pickup per reservation')
+            |* #{hourly_cut}% cut
+            div
+            .ui.inline.header(title='time spent facilitating transactions')
+                |= 
+                |#{minutes_committed}
+                small mins for
+            .ui.inline.header 
+                |$#{calculated_daily_revenue} 
+                small daily
+            .ui.inline.header 
+                |$#{calculated_weekly_revenue} 
+                small weekly
+        if is_admin
+            +remove_button
+    
+
+template(name='small_boolean_edit')
+    .ui.icon.button.toggle_boolean(title=title class=boolean_toggle_class)
+        i.icon(class=icon)

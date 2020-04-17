@@ -1,0 +1,209 @@
+template(name='rules_signing')
+    with signing_doc
+        .ui.container
+            .ui.hidden.divider
+            .ui.grey.center.aligned.header read and scroll down to sign
+            h1.ui.center.aligned.header gold run rules and regulations
+            +document_view key='rules_regs'
+            +user_card resident
+            .ui.small.header
+                +i name='reading-confirmation'
+                |valid email address for receipt
+            .ui.header #{resident_doc.username}
+            +emails_edit    
+            unless resident_email        
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+            
+            
+            
+            //- .ui.fluid.action.input
+            //-     input.email_value(type='text' value=resident_email)
+            //- div
+            //- .ui.green.big.button.confirm_email confirm email
+            if resident_email
+                //- .ui.header I agree to the rules and regulations
+                //-     if agree
+                //-         i.huge.checkmark.green.link.icon.agree
+                //-     else
+                //-         i.huge.circle.outline.grey.link.icon.agree
+                //- if agree
+                .ui.small.header by signing below you agree to the rules and regulations and acknowledge receipt
+                if signature_saved
+                    +signature_view key='signature' direct=true
+                    if is_admin
+                        i.pencil.large.icon.edit_signature
+                else
+                    +signature_edit key='signature' direct=true
+                if signature_saved
+                    .ui.big.green.fluid.button.submit_rules
+                        .ui.inline.green.header submit signing
+                        i.right.chevron.icon
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+
+
+
+template(name='download_rules_pdf')
+    .ui.header Gold Run account verified.  Click below to download copy of Rules and Regulations. You may close the window.
+    with downloading_user
+        +rules_and_regs_check
+    .ui.massive.button.download_rules_pdf
+        i.download.icon
+        |Download Rules PDF    
+
+
+template(name='add_guest')
+    with new_guest_doc
+        .ui.fluid.big.button.cancel_new_guest
+            i.left.chevron.icon
+            |back to check in
+        .ui.container
+            +document_view key='guest_waiver'
+            //- .ui.inline.header guest of
+            //-     +user_card resident
+            +text_edit key='guest_name' label='guest name' direct=true
+            //- +text_edit key='first_name' label='First Name' direct=true
+            //- +text_edit key='last_name' label='Last Name' direct=true
+            +number_edit key='guest_phone' label='guest phone' direct=true
+            div
+            +text_edit key='emergency_contact_name' label='emergency contact name' direct=true
+            div
+            +number_edit key='emergency_contact_phone' label='emergency contact phone' direct=true
+            if guest_name
+                if guest_phone
+                    //- if emergency_contact_name
+                    //- if emergency_contact_phone
+                    .ui.header I agree to the guest waiver terms
+                        if agree
+                            i.huge.checkmark.green.link.icon.agree
+                        else
+                            i.huge.circle.outline.grey.link.icon.agree
+                    if agree
+                        .ui.header please sign below
+                        if signature_saved
+                            +signature_view key='signature' direct=true
+                            i.pencil.large.icon.edit_signature
+                        else
+                            +signature_edit key='signature' direct=true
+                        if signature_saved
+                            .ui.big.green.fluid.button.submit_guest
+                                .ui.green.inline.header submit
+                                i.right.chevron.green.icon
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+                    .ui.hidden.divider
+
+
+
+
+
+template(name='guidelines_signing')
+    with signing_doc
+        .ui.container
+            .ui.hidden.divider
+            .ui.grey.center.aligned.header read and scroll down to sign
+            h1.ui.center.aligned.header member guidelines and waiver
+            +document_view key='member_guidelines'
+            +user_card resident
+            .ui.small.header
+                +i name='email'
+                |valid email address for receipt
+            .ui.header #{resident_doc.username}
+            +emails_edit    
+            unless resident_email        
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+            //- .ui.fluid.action.input
+            //-     input.email_value(type='text' value=resident_email)
+            //- div
+            //- .ui.green.big.button.confirm_email confirm email
+            if resident_email
+                //- .ui.header I agree to the rules and regulations
+                //-     if agree
+                //-         i.huge.checkmark.green.link.icon.agree
+                //-     else
+                //-         i.huge.circle.outline.grey.link.icon.agree
+                //- if agree
+                .ui.small.header by signing below you agree to the member guidelines and acknowledge receipt
+                if signature_saved
+                    +signature_view key='signature' direct=true
+                    if is_admin
+                        i.pencil.large.icon.edit_signature
+                else
+                    +signature_edit key='signature' direct=true
+                if signature_saved
+                    .ui.big.green.fluid.button.submit_guidelines
+                        .ui.inline.green.header  submit signing
+                        i.right.chevron.icon
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider
+                .ui.hidden.divider

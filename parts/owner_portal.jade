@@ -1,0 +1,90 @@
+template(name='owner_portal')
+    .ui.padded.stackable.grid
+        .row
+            .twelve.wide.column
+                .ui.inline.header
+                    +i name='dashboard'
+                    |owner portal
+                .ui.inline.grey.header
+                    |your unit
+                    |##{currentUser.unit_number}
+                    |at ##{currentUser.building_number}
+            .four.wide.column
+                .ui.button.add_work_order
+                    i.large.plus.icon
+                    |work order
+        .four.column.row
+            .column
+                +board_member_small
+                +documents_small
+            .column
+                +minutes_small
+                .ui.header 
+                    +i name='work' 
+                    |maintenance
+                .ui.header response time
+                .ui.header total requests
+                .ui.header total incomplete
+                .ui.header total diverted
+                .ui.header total complete
+            .column
+                +latest_project_updates
+            .column
+                +projects_small
+            
+            
+            
+template(name='board_member_small')            
+    .ui.header 
+        +i name='meeting-room'
+        |board
+    .ui.large.link.list
+        each board_members
+            a.active.item(href="/user/#{username}") #{first_name} #{last_name} - #{title}
+                .ui.label(title='approval rating') #{approval_rating}%
+            div
+
+
+template(name='projects_small')            
+    a.ui.header(href='/m/project')
+        +i name='project'
+        |projects
+    .ui.link.large.list.smallscroll
+        each projects
+            a.active.item(href="/project/#{_id}/view") 
+                +ismall name=icon classes='ui middle aligned image'
+                |#{title}
+                //- span
+                //-     |#{views} 
+                //-     i.grey.eye.icon
+                //- span
+                //-     |#{comment_count}
+                //-     i.grey.comment.icon
+
+
+template(name='minutes_small')            
+    .ui.header 
+        +i name='checklist'
+        |board meeting minutes
+    .ui.bulleted.large.link.list
+        each minutes
+            a.active.item(href="/minute/#{_id}/view") {{medium_date meeting_date}}
+                
+
+
+
+template(name='documents_small')
+    .ui.header
+        +i name='document'
+        |documents
+    .ui.large.link.list
+        each documents
+            a.active.item(href="/m/document/#{_id}/view") 
+                .inline.log_view
+                    |#{title}
+                span 
+                    |#{views}
+                    i.eye.grey.icon
+                span         
+                    |#{points}
+                    i.thumbs.up.grey.icon

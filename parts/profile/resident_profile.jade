@@ -1,0 +1,413 @@
+template(name='user_layout')
+    //- img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+    +nav
+    with user_from_username_param
+        .ui.stackable.grid.global_container
+            .row
+                //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
+                .four.wide.column
+                    if user_is_resident
+                        if is_staff
+                            if kiosk_photo
+                                img.ui.centered.image(src="{{c.url kiosk_photo height=300 width=300 gravity='face' crop='fill'}}")
+                            else if image_id
+                                img.ui.centered.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                        else
+                            img.ui.centered.shadowed.image(src="{{c.url profile_image_id height=300 width=300 gravity='face' crop='fill'}}")
+                        //- a.item(href="/user/#{user_from_username_param.username}/")
+                    else
+                        if is_current_user
+                            +image_edit key='profile_photo' label='profile photo' direct=true
+                    .ui.center.aligned.segment
+                        a(href="/user/#{user.username}")
+                            h1.ui.large.center.aligned.header
+                                strong #{user.first_name} #{user.last_name}
+                                small @#{user.username}        
+                    if user_is_resident
+                        if is_staff
+                            a.ui.big.button.item(href="/user/#{user_from_username_param.username}/edit")
+                                i.cog.icon
+                                //- +i name='settings' 
+                                |edit
+                            +resident_info         
+                            +user_check_steps
+                            +staff_verification
+                    else 
+                        .ui.vertical.menu
+                            a.item(href="/user/#{_id}/shop" class="{{isActiveRoute regex='user_shop'}}")
+                                i.shopping.cart.grey.icon
+                                |shop
+                            a.item(href="/user/#{_id}/requests" class="{{isActiveRoute regex='user_requests'}}")
+                                i.hand.holding.usd.grey.icon
+                                | requests
+                            a.item(href="/user/#{_id}/social" class="{{isActiveRoute regex='user_social'}}")
+                                i.comments.grey.icon
+                                |social
+                            a.item(href="/user/#{_id}/brain" class="{{isActiveRoute regex='user_brain'}}")
+                                i.grey.brain.icon
+                                |brain
+                            a.item(href="/user/#{_id}/karma" class="{{isActiveRoute regex='user_karma'}}")
+                                i.grey.yin.yang.icon
+                                |karma
+                    
+                        .ui.small.header #{tagline}
+                        +ismall name='tags'
+                        each tags
+                            .ui.small.label #{this}
+                    if is_current_user
+                        a.ui.large.button.item(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                            +i name='settings' 
+                            //- i.cog.icon
+                            |edit
+                    else if is_admin
+                        a.ui.large.button.item(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                            +i name='settings' 
+                            //- i.cog.icon
+                            |edit
+                    if is_dev
+                        +boolean_edit key='disabled' label='disabled' icon='user shield' direct='true'
+                    //- else
+                    //-     .ui.button.direct_message(title='new message')
+                    //-         +i name='envelope'
+                    if is_current_user
+                        a.ui.large.button.logout(href="#" title='logout')
+                            //- i.sign.out.alternate.icon
+                            +ismall name='exit' 
+                            |log out
+                        a.ui.large.button.logout_other_clients(href="#" title='logout other clients')
+                            //- i.globe.icon
+                            +ismall name='globe' 
+                            |log out other clients
+                    if is_admin
+                        .ui.segment
+                            .ui.header 
+                                +i name='shield'
+                                |roles
+                            each roles
+                                .ui.label #{this}
+                .twelve.wide.column.shadowed-box
+                    if is_staff
+                        if user_is_resident
+                            a.ui.button(href="/user/#{username}/healthclub" class="{{isActiveRoute 'user_healthclub'}}")
+                                +ismall name='treadmill' classes='ui inline image'
+                                |healthclub
+                        div
+                    +yield
+    unless is_frontdesk
+        //- unless is_staff
+        +footer 
+
+
+template(name='user_check_steps')
+    each user_check
+        unless user_check_completed
+            .ui.compact.small.button.recheck
+                if user_check_completed
+                    i.large.checkmark.icon
+                    |#{title}
+                else 
+                    i.large.circle.outline.icon 
+                    |#{fail_text}
+                //- i.icon(name=icon)
+                //- +i name=icon classes='ui avatar image'
+    if checkins_without_gov_id
+        if is_staff
+            .ui.tiny.header #{checkins_left_without_gov_id} check in's left without government ID
+        else
+            .ui.header #{checkins_left_without_gov_id} check in's left without government ID
+    if checkins_without_email_verification
+        if is_staff
+            .ui.tiny.header #{checkins_left_without_email_verification} check in's left without email verification
+        else
+            .ui.header #{checkins_left_without_email_verification} check in's left without email verification
+        +email_validation_check
+
+
+
+
+
+template(name='staff_verification')
+    if is_staff
+        .ui.segment
+            .ui.header 
+                if staff_verifier
+                    +i name='id-verified' classes='ui mini inline image'
+                else
+                    i.red.ban.icon
+                |verified by #{staff_verifier} on {{long_date verification_timestamp}}
+            unless staff_verifier
+                .ui.button.verify verify government ID as #{currentUser.username}
+            .ui.small.header #{user_from_username_param.username} created by #{user_from_username_param.added_by_username} on {{long_date user_from_username_param.createdAt}}
+
+
+
+template(name='user_residency')
+    +resident_info         
+    +user_key
+    +user_unit
+    .ui.segment
+        //- +text_view key='first_name' label='First Name' direct=true
+        //- +text_view key='last_name' label='Last Name' direct=true
+        if is_admin
+            +text_view key='address' label='address' direct=true
+        //- +text_view key='email' label='Email' direct=true
+        +phone_view key='phone' label='phone' icon='phone' direct=true
+        if user_is_resident
+            //- if is_staff
+            +number_view key='unit_number' label='unit #' direct=true
+            +number_view key='building_number' label='building #' direct=true
+            +number_view key='healthclub_code' label='healthclub_code' direct=true
+            +text_view key='building_code' label='building code' direct=true
+            +date_view key='start_date' label='start date' icon='overtime' direct=true
+            +date_view key='expiration_date' icon='calendar-minus' label='lease expires' direct=true
+        +textarea_view key='notes' label='notes' icon='align-left' direct=true
+        each emails
+            .ui.label #{address}
+    
+    
+template(name='user_healthclub')
+    .ui.segment
+        //- .ui.header 
+        //-     +i name='token-card-code'
+        //-     |hc card
+        //- .ui.button.generate_barcode
+        //-     +i name='barcode' classes='ui inline image'
+        //-     |generate health club checkin barcode
+        //- div
+        //- svg#barcode
+    
+template(name='profile_home')
+    //- if user_is_owner
+    //-     +owner_profile
+    if user_is_resident
+        +resident_about    
+    
+    
+template(name='owner_profile')
+    .ui.header owner profile    
+    each roles
+        .ui.large.label #{this}
+    
+    
+template(name='resident_about')
+    //- img.ui.fluid.rounded.image(src="{{c.url banner_image_id width=1000 height=200 crop='crop'}}")
+    .ui.stackable.grid
+        .three.column.row
+            //- if user_from_username_param.healthclub_code
+            //-     .column
+            //-         +user_healthclub                        
+            if user_is_resident
+                if is_staff
+                    each staff_resident_widgets
+                        .column
+                            +Template.dynamic template=widget_template
+                    .column
+                        +user_checkins
+                    .column
+                        +user_guests
+                    //- .column
+                    //-     +user_signatures
+                    .column
+                        +user_notes        
+                    .column
+                        +user_unit
+                    .column
+                        +membership_status
+                    .column
+                        +user_permit
+                
+template(name='resident_info')
+    .ui.segment
+        //- +text_view key='first_name' label='First Name' direct=true
+        //- +text_view key='last_name' label='Last Name' direct=true
+        if is_admin
+            +text_view key='address' label='address' direct=true
+        //- +text_view key='email' label='Email' direct=true
+        +phone_view key='phone' label='phone' icon='phone' direct=true
+        if user_is_resident
+            //- if is_staff
+            +number_view key='unit_number' icon='room' label='unit #' direct=true
+            +number_view key='building_number' icon='building' label='building #' direct=true
+            +number_view key='healthclub_code' label='healthclub code' direct=true
+            +text_view key='building_code' label='building code' direct=true
+            +date_view key='start_date' label='start date' direct=true
+            +date_view key='expiration_date' label='expiration date' direct=true
+        +textarea_view key='notes' label='notes' icon='align-left' direct=true
+        div
+        each emails
+            if verified
+                .ui.large.label(title='verified') #{address}
+            else
+                .ui.orange.large.label(title='unverified') #{address}
+
+    
+            
+template(name='user_permit')
+    .ui.segment
+        .ui.inline.center.aligned.header 
+            |permit
+        +goto_model slug='parking_permit'
+        
+        with permit_doc
+            .ui.inline.header permit
+            .ui.inline.header #{permit}
+            div
+            .ui.inline.header date issued
+            .ui.inline.header #{date_issued}
+            div
+            .ui.inline.header expiration date
+            .ui.inline.header #{expiration_date}
+            div
+            .ui.inline.header License Plate 
+            .ui.inline.header #{license_plate}
+            div
+
+
+            
+template(name='user_permits')
+    if user_permits
+        .ui.segment
+            .ui.inline.center.aligned.header 
+                i.id.card.alternate.icon
+                +goto_model slug='parking_permit'
+                |permits
+
+            
+template(name='user_signatures')
+    .ui.segment
+        .ui.inline.center.aligned.header 
+            i.pencil.icon
+            | signatures
+        .ui.link.large.list
+            a.item(href='#') Rules and Regulations
+            +goto_model slug='rules_regs_signing'
+
+            a.item(href='#') Proof of Residency
+            a.item(href='#') Injury Waiver
+
+
+template(name='user_notes')
+    if user_is_resident
+        if is_staff
+            +textarea_edit key='staff_notes' title='private staff notes' icon='note' direct=true
+            +textarea_edit key='public_staff_notes' title='public staff notes (shown on checkin screen)' icon='note' direct=true
+
+            
+            
+template(name='user_checkins')
+    .ui.segment
+        .ui.inline.center.aligned.header 
+            |health club check ins
+        if is_staff
+            +checkin_button
+        .ui.list.smallscroll
+            each healthclub_checkins
+                .item #{when}
+            
+            
+            
+template(name='user_guests')
+    .ui.segment
+        .ui.inline.center.aligned.header 
+            i.users.icon
+            |guests
+        +goto_model slug='guest'
+        //- +add_button model='guest'
+        //- .ui.button.add_guest
+        //-     |Add Guest
+        //- with user_from_username_param
+        //-     .ui.header total guests #{total_guests}
+            //- .ui.header guests this month #{current_month_guests}
+        .ui.link.large.list
+            each resident_guests
+                a.item(href="/m/guest/#{_id}/view")
+                    img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+                    .content
+                        |#{guest_name} #{first_name} #{last_name} #{username}
+
+            
+            
+template(name='user_unit')
+    .ui.segment
+        .ui.inline.center.aligned.header 
+            i.home.icon
+            |unit
+        +goto_model slug='unit'
+        with unit
+            +number_view key='building_number' label='building number' direct=true
+            +number_view key='unit_number' label='unit #' direct=true
+            if is_admin
+                div
+                +edit_button
+                +view_button
+
+            
+            
+            
+template(name='user_section')
+    +user_delta
+    // +Template.dynamic template=user_section_template
+
+    
+
+template(name='user_log')
+    //- .ui.fluid.styled.accordion
+    .ui.segment
+        .ui.inline.center.aligned.header 
+            //- +i name='overview-pages-4'
+            i.list.icon
+            |log
+        scroll
+            .ui.list
+                each user_log_events
+                    .item
+                        .content
+                            .header #{body}
+                            .description #{when}
+
+
+template(name='user_rules_widget')
+    .ui.cloud.segment
+        .ui.header
+            i.signature.icon
+            | user rules signature
+    
+
+                
+template(name='user_array_list')
+    .ui.list
+        each users
+            .item
+                +user_info
+
+            
+template(name='user_array_element_toggle')
+    .ui.button.toggle_element(class=user_array_element_toggle_class)
+        |#{value}
+
+template(name='user_string_toggle')
+    .ui.button.toggle_element(class=user_string_element_toggle_class)
+        |#{value}
+        
+            
+            
+template(name='membership_status')
+    .ui.segment
+        .ui.inline.center.aligned.header 
+            |membership status
+        +email_validation_check
+        +lease_expiration_check
+        +rules_and_regs_check
+        .ui.large.button.email_rules_receipt
+            i.envelope.teal.icon
+            |email rules and regs receipt
+        //- +rules_and_regs_
+        if user_is_owner
+            +image_view key='ownership_paperwork' label='ownership paperwork' direct=true
+            +pdf_view key='lease_agreement' label='lease agreement' direct=true
+        else if user_is_resident
+            +date_view key='expiration_date' label='expiration date' direct=true
+            div
+            +pdf_view key='lease_agreement' label='lease agreement' direct=true
+            div
+            +pdf_view key='lease_addendum' label='lease addendum' direct=true

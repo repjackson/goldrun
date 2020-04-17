@@ -1,0 +1,142 @@
+template(name='person_card_template')
+    .ui.fluid.segment
+        img.ui.inline.image(src="{{c.url image width=400 height=400}}")        
+        a.ui.header(href="/m/person/#{_id}/view")
+            |#{first_name} #{last_name}
+        a.ui.small.grey.header(href="/m/person/#{_id}/view")
+            |#{title}
+        .ui.fluid.styled.accordion
+            .title 
+                +ismall name='tags' classes='ui inline image'
+                |tags
+                i.dropdown.icon
+            .content 
+                each tags
+                    .ui.label #{this}
+            .title 
+                +ismall name='info' classes='ui inline image'
+                |bio
+                i.dropdown.icon
+            .content 
+                |!{bio}                
+            .title 
+                +ismall name='education' classes='ui inline image'
+                |education
+                i.dropdown.icon
+            .content 
+                |!{education}                
+            .title 
+                +ismall name='business' classes='ui inline image'
+                |work history
+                i.dropdown.icon
+            .content 
+                |!{work_history}                
+            .title 
+                +ismall name='wrench' classes='ui inline image'
+                |skills
+                i.dropdown.icon
+            .content 
+                |!{skills}                
+        div
+        +voting_full
+        a.ui.button(href="/m/person/#{_id}/view")
+            |view
+            i.right.chevron.icon
+
+
+template(name='person_update_small')
+    .ui.small.header #{text}
+
+
+
+
+//- template(name='person_edit')
+//-     with current_doc
+//-         .ui.stackable.padded.grid
+//-             .row
+//-                 .four.wide.column 
+//-                     .ui.header 
+//-                         i.pencil.icon
+//-                         |edit person
+//-                     .ui.header
+//-                         if icon
+//-                             +i name=icon
+//-                         |#{title}
+//-                     a.ui.big.fluid.button(href="/person/#{_id}/view" title='save')
+//-                         i.green.checkmark.icon
+//-                         |save
+//-                     +remove_button
+//-                     +icon_edit key='icon' label='icon' direct=true
+//-                     +array_edit key='tags' label='tags' icon='tags' direct=true
+//-                 .six.wide.column 
+//-                     +text_edit key='title' label='title' icon='title' direct=true
+//-                     +image_edit key='image' label='image' icon='image' direct=true
+//-                     +html_edit key='description' label='description' icon='content' direct=true
+//-                     +single_user_edit key='manager' label='manager' direct=true
+//-                     //- +activity
+//-                 .six.wide.column
+//-                     +multi_user_edit key='members' direct=true
+//-                     +boolean_edit key='private' direct=true
+                    
+                     
+                     
+template(name='person_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .eight.wide.column 
+                    a.ui.icon.button(href="/m/person" title='view persons')
+                        i.left.chevron.icon
+                        +i name='groups' classes='ui avatar image'
+                        |persons
+                    img.ui.medium.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+                .eight.wide.column
+                    h1.ui.header
+                        if icon
+                            +i name=icon
+                        |#{title}
+                    a.ui.big.icon.button(href="/person/#{_id}/edit")
+                        i.pencil.icon
+                    .ui.small.grey.header managed by #{manager}
+                    .ui.small.grey.header #{members.length} members
+            .row
+                .four.wide.column 
+                    +image_view key='image' icon='image' label='image' direct=true
+                    +viewing
+                    +voting_full
+                .six.wide.column
+                    .ui.fluid.styled.accordion
+                        .title 
+                            |tags
+                            i.dropdown.icon
+                        .content 
+                            each tags
+                                .ui.label #{this}
+                        .title 
+                            |bio
+                            i.dropdown.icon
+                        .content 
+                            |!{bio}                
+                        .title 
+                            |education
+                            i.dropdown.icon
+                        .content 
+                            |!{education}                
+                        .title 
+                            |work history
+                            i.dropdown.icon
+                        .content 
+                            |!{work_history}                
+                        .title 
+                            |skills
+                            i.dropdown.icon
+                        .content 
+                            |!{skills}                
+                    
+                .six.wide.column 
+                    .ui.header 
+                        +i name='rss'
+                        |activity
+                    each log_items
+                        +log_item
+                    +comments

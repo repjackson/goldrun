@@ -1,0 +1,48 @@
+template(name='task_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row 
+                .four.wide.column
+                    a.ui.fluid.large.button(href="/task/#{_id}/view") 
+                        i.checkmark.icon
+                        |save
+                    +remove_button
+                    +boolean_edit key='approval_required' label='approval required' direct=true
+                    if approval_required 
+                        +text_edit key='approving_username' label='approving username' direct=true
+                    +boolean_edit key='bounty' label='bounty' direct=true
+                    if bounty 
+                        +number_edit key='bounty_amount' label='bounty amount' direct=true
+                    +number_edit key='estimated_hours' label='estimated hours' direct=true
+                    +number_edit key='actual_hours' label='actual hours' direct=true
+                
+                .eight.wide.column
+                    +text_edit key='title' label='title' direct=true
+                    +html_edit key='description' label='description' direct=true
+                    div 
+                    +array_edit key='tags' label='tags' direct=true
+                .four.wide.column
+                    +text_edit key='parent_id' label='parent id' direct=true
+                    //- if task_list_id 
+                    //-     with task_list
+                    //-         .ui.segment
+                    //-             i.grey.list.icon
+                    //-             a.ui.inline.header(href="/task_list/#{_id}/view" title='view task list') #{title}
+                    //-             i.small.link.grey.remove.icon.clear_task_list(title='remove from list')
+                    //- +task_list_lookup key='task_list_id' label='task list' direct=true
+                    //- if task_list_id 
+                    //-     with task_list
+                    //-         .ui.segment
+                    //-             i.grey.list.icon
+                    //-             a.ui.inline.header(href="/task_list/#{_id}/view" title='view task list') #{title}
+                    //-             i.small.link.grey.remove.icon.clear_task_list(title='remove from list')
+                    +single_user_edit key='assigned_by' label='assigned by' direct=true
+                    if assigned_by
+                        +text_view key='assigned_by' direct=true
+                    +single_user_edit key='assigned_to' label='assigned to' icon='sign out' direct=true
+                    if assigned_to
+                        +text_view key='assigned_to' icon='sign in' direct=true
+                    +date_edit key='due_date' label='due date' icon='calendar' direct=true
+                    +boolean_edit key='complete' label='complete' icon='checkmark' direct=true
+                    +number_edit key='percent_complete' label='percent complete' icon='percent' min=0 max=100 direct=true
+                    +number_edit key='weight' label='weight' icon='sort up' min=0 max=100 direct=true

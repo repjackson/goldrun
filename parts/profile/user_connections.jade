@@ -1,0 +1,52 @@
+template(name='user_connections')
+    .ui.segment
+        .ui.grey.inline.center.aligned.header 
+            //- +i name='omnichannel'
+            i.users.icon
+            | Connections
+        unless is_user
+            with user_from_username_param
+                +user_connect_button
+        //- .ui.tiny.grey.header people #{user_from_username_param.username} connected to
+        .ui.middle.aligned.list
+            each connections
+                +user_segment
+        if is_dev
+            .ui.tiny.grey.header people connected to #{user_from_username_param.username}
+                each people_connected
+                    +user_segment
+
+
+template(name='user_segment')
+    .item
+        img.ui.avatar.image(src="{{c.url image_id gravity='face' crop='crop'}}")
+        .content
+            a.header(href="/user/#{username}")
+                |#{first_name} #{last_name} 
+                small @#{username}
+            .description
+                each three_tags
+                    .ui.label #{this}
+            +user_connect_button
+            +user_status user
+
+    //- .ui.card
+    //-     .image
+    //-         if image_id
+    //-             img(src="{{c.url image_id gravity='face' crop='crop'}}")
+    //-     .content
+    //-         a.ui.header(href="/user/#{username}")
+    //-             |#{first_name} #{last_name}
+    //-             //- |#{username}
+    //-         //- .ui.header Tags
+    //-         each tags
+    //-             .ui.label #{this}
+    //-         .ui.header #{body}
+
+template(name='user_connect_button')
+    if is_connected
+        .ui.black.icon.button.disconnect(title='connected')
+            i.handshake.icon
+    else
+        .ui.icon.button.connect(title='not connected')
+            i.handshake.outline.icon

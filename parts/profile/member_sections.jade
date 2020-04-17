@@ -1,0 +1,372 @@
+template(name='member_info')
+    //- +text_view key='address' label='address' icon='marker' direct=true
+    //- +phone_view key='phone' label='phone' icon='phone' direct=true
+    //- +text_view key='tagline' label='tag line' icon='signature' direct=true
+    +array_view key='tags' label='tags' icon='tags' direct=true
+    +array_view key='location_tags' label='location tags' icon='location' direct=true
+    +link_view key='link' label='link' icon='link' direct=true
+    //- .ui.header member activity
+    .ui.icon.button.refresh_member_stats(title='refresh stats')
+        i.refresh.icon
+    with member_stats
+        .ui.stackable.grid
+            .three.column.row
+                .column
+                    //- .ui.small.header #{total_passive_potential} total passive potential
+                    //- |if all of your rentals were reserved full time, without handling
+                    .ui.big.list
+                        .item 
+                            +i name='handshake'
+                            |#{rental_count} rentals
+                        .item 
+                            +i name='handshake'
+                            |#{owned_count} owned rentals
+                .column
+                    .ui.header rental potential
+                    .ui.inline.header 
+                        +i name='yin-yang'
+                        |$#{total_hourly_credit}
+                        small hourly
+                    //- | if rentals are circulating
+                    div
+                    .ui.inline.header 
+                        +i name='sun'
+                        |$#{potential_two_hour_daily_revenue}
+                        small daily
+                    | 2hrs/day
+                    div
+                    .ui.inline.header 
+                        +i name='sun'
+                        |$#{potential_daily_revenue}
+                        small daily 
+                    | 8hrs/day
+                    div
+                    .ui.inline.header 
+                        i.calendar.icon
+                        |$#{potential_two_hour_weekly_revenue}
+                        small weekly
+                    | 2hrs/day
+                    div
+                    .ui.inline.header 
+                        i.week.icon
+                        |$#{potential_weekly_revenue}
+                        small weekly 
+                    | 8hrs/day
+                .column
+                    .ui.header 
+                        +i name='hand-box'
+                        |#{handled_count} handled rentals
+                    .ui.header 
+                        i.clock.icon
+                        |#{reservation_count} reservations
+    
+
+
+
+template(name='member_dashboard')
+    .ui.stackable.grid
+        .two.column.row
+            .column
+                .ui.header
+                    +i name='clock'
+                    |current reservations
+                each current_reservations
+                    .ui.header hi
+                .ui.header 
+                    +i name='clock'
+                    |upcoming reservations
+                each upcoming_reservations
+                    .ui.header hi
+                    
+                .ui.pointer.header.recalc_wage_stats
+                    +i name='discount--v2'
+                    |current hourly wage
+                .ui.header 
+                    |#{current_interest_rate}c
+                    small /hr from interest
+                .ui.header 
+                    |#{current_rental_combined_revenue}c
+                    small /hr from active reservations
+                if current_user
+                    if currentUser.handling_active
+                        if current_handling_rentals
+                            .ui.small.header current active handled rentals
+                            |you're earning 10% of the potential hourly wage every hour you're active
+                            each current_handling_rentals
+                                +rental_small_interest
+                    else 
+                        |you'd earn 10% of the potential hourly wage every hour you're active
+                    .ui.small.header from active reservations
+            .column
+                +handling_sessions
+                
+                
+template(name='handling_sessions')
+    .ui.header.calc_handling_session_totals
+        i.clock.icon
+        |handling sessions
+    .ui.bulleted.list
+        each sessions
+            .item {{cal_time clock_in_timestamp}} to {{long_time clock_out_timestamp}} (#{current_session_diff})
+            if is_dev
+                +remove_button
+                
+        
+template(name='user_cart')
+    +cart
+
+
+        
+template(name='rental_small_interest')        
+    .ui.stackable.grid
+        .four.wide.column
+            a(href="/rental/#{_id}/view")
+                img.ui.centered.image(src="{{c.url image height=200 width=200 background='white' crop='pad'}}")
+        .twelve.wide.column
+            a.ui.inline.header(href="/rental/#{_id}/view") #{title} 
+            .ui.label #{hourly_dollars}c/hr
+            +rental_status
+            div
+            .ui.small.inline.header #{rental_interest_rate}c/hr interest
+            a.ui.button(href="/rental/#{_id}/view")
+                |view
+                i.right.chevron.icon
+            unless is_handler
+                +reserve_button
+
+
+
+
+
+
+template(name='member_finance')
+    //- .ui.header 
+    //-     +i name='money'
+    //-     |finance
+    //- .ui.statistic
+    //-     .label #{user_from_username_param.name}'s credits
+    //-     .value $#{user_from_username_param.credit}
+    .ui.stackable.two.column.grid
+        if is_current_user
+            .column
+                .ui.header 
+                    +i name='initiate-money-transfer'
+                    |withdraw
+                |$42 minimum, takes one business day 
+                .ui.action.fluid.input
+                    input.withdrawal_amount(type='number' min='1' max=currentUser.credit placeholder='amount')
+                    .ui.icon.button.initial_withdrawal 
+                        i.right.chevron.icon
+                .ui.small.header withdrawals
+                .ui.bulleted.list
+                    each withdrawals
+                        .item
+                            .ui.header #{when} for #{amount} credit
+                            |status: #{status}
+                            .ui.button.cancel_withdrawal
+                                i.ban.icon
+                                |cancel
+            .column
+                .ui.header 
+                    +i name='initiate-money-transfer'
+                    |deposits
+                |deposits are given +5% credit after credit card processing fee
+                .ui.action.fluid.input
+                    input.deposit_amount(type='number' min='1' placeholder='deposit')
+                    .ui.icon.button.add_credits   
+                        i.right.chevron.icon
+                        
+                .ui.large.bulleted.list
+                    each deposits
+                        .item 
+                            .content
+                                .header 
+                                    |#{deposit_amount}c + #{bonus}c
+                                .description #{when} {{long_date _timestamp}}
+                                if is_dev
+                                    +remove_button
+    .ui.grid      
+        .three.column.row
+            .column
+                .ui.segment
+                    .ui.small.header 
+                        strong $#{ssd.total_credit_amount}
+                        small total weekly income
+                    .ui.small.header
+                        strong #{ssd.credit_count}
+                        small credits
+            .column
+                .ui.segment
+                    .ui.small.header
+                        strong $#{ssd.total_debit_amount}
+                        small total weekly expenses
+                    .ui.small.header
+                        strong #{ssd.debit_count}
+                        small debits
+            .column
+                .ui.segment
+                    .ui.small.header
+                        |growth from last week
+        .two.column.row
+            .column
+                .ui.segment
+                    .ui.header 
+                        |weekly credits
+                    //- .ui.bulleted.list
+                    //-     each user_credits
+                    //-         .item 
+                    //-             |#{amount}
+                    //-             if icon
+                    //-                 +i name=icon
+                    //-             strong #{text}
+                    //-             small #{when}
+                    .ui.feed.mediumscroll
+                        each user_credits
+                            .event 
+                                .label
+                                    if is_credit
+                                        i.grey.chevron.up.icon
+                                    if is_debit
+                                        i.grey.chevron.down.icon
+                                    else if icon
+                                        i.grey.icon(class=icon)
+                                .content
+                                    .summary
+                                        a.user(href="/user/#{target_user.username}")
+                                            |#{target_user.name}
+                                        |#{text}
+                                        .date #{when}
+                                    .meta
+                                        +voting_small
+                                        //- a.like
+                                        //-     i.like.icon 
+                                        //-     |4 likes
+                                        a.remove
+                                            i.grey.undo.icon
+                                        //- if is_dev
+                                        //-     +remove_button
+            .column
+                .ui.segment
+                    .ui.header 
+                        i.chevron.down.icon
+                        |weekly debits
+                    .ui.feed.mediumscroll
+                        each user_debits
+                            .event 
+                                .label
+                                    if is_credit
+                                        i.chevron.up.icon
+                                    if is_debit
+                                        i.chevron.down.icon
+                                    else if icon
+                                        i.icon(class=icon)
+                                .content
+                                    .summary
+                                        a.user(href="/user/#{target_user.username}")
+                                            |#{target_user.name}
+                                        |#{text}
+                                        .date #{when}
+                                    .meta
+                                        +voting_small
+                                        //- a.like
+                                        //-     i.like.icon 
+                                        //-     |4 likes
+                                        a.remove
+                                            i.grey.undo.icon
+                                        //- if is_dev
+                                        //-     +remove_button
+                        //- +range_edit                
+            .column 
+                .ui.header offer
+                .ui.button.add_offer
+                    |+ offer
+        
+
+template(name='member_reservations')
+    .scrolling
+        .ui.segments
+            each reservations 
+                +profile_reservation_item
+
+template(name='profile_reservation_item')
+    .ui.segment.grid
+        .row
+            .twelve.wide.column
+                .ui.header #{rental.title}
+        .row
+            .four.wide.column
+                with rental
+                    //- img.ui.mini.image(src=image)
+                    +image_view key='image' direct=true classes='zoom ui tiny image'
+            .twelve.wide.column
+                a.ui.header.inline.lowercase(href="/reservation/#{_id}/view")
+                    small from 
+                    |{{cal_time start_datetime}}
+                a.ui.header.inline.lowercase(href="/reservation/#{_id}/view")
+                    small to 
+                    |{{cal_time end_datetime}}
+                div
+                .ui.grey.inline.header #{hour_duration} hrs
+                .ui.grey.inline.header(title='credits')
+                    i.coins.icon
+                    | #{cost}
+                .ui.small.inline.header #{when} by #{_author_username}
+                a.ui.large.button(href="/reservation/#{_id}/view")
+                    |view
+                    i.right.chevron.icon
+                if is_admin
+                    +remove_button
+
+
+
+template(name='member_rentals')
+    .ui.three.cards
+        each rentals 
+            +rental_card
+        
+        
+template(name='member_handling')
+    .ui.small.header rentals that member is facilitating
+    .ui.three.cards
+        each handling_rentals 
+            +member_rental_card
+        
+        
+        
+template(name='member_rental_card')
+    .ui.small.card
+        a.zoom(href="/rental/#{_id}/view")
+            img.ui.centered.image(src="{{c.url image height=200 width=200 background='white' crop='pad'}}")
+        .content
+            a.ui.inline.header(href="/rental/#{_id}/view") #{title} 
+                if variable_price
+                    |~
+                if hourly_dollars
+                    .ui.label #{hourly_dollars}c/hr
+                if daily_dollars
+                    .ui.label #{daily_dollars}c/day
+            //- if hourly_karma
+            //-     +ismall name='yin-yang'
+            //-     |#{hourly_karma}/hr
+            //- if daily_karma
+            //-     +ismall name='yin-yang'
+            //-     | #{daily_karma}/day
+            +rental_status
+        .content
+            span(title='views')
+                +ismall name='eye'
+                |#{views}
+            div
+            +ismall name='marker'
+            each location_tags
+                .ui.label #{this}
+            div
+            +ismall name='tags'
+            each tags
+                .ui.label #{this}
+            +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' add_label='bookmark' remove_label='unbookmark'  big=true
+            div
+            a.ui.button(href="/rental/#{_id}/view")
+                |view
+                i.right.chevron.icon
+            +reserve_button

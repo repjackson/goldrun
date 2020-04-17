@@ -1,0 +1,217 @@
+template(name='resident_portal')
+    //- img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=600 crop='crop'}}")    
+    .ui.padded.stackable.grid
+        .three.column.row
+            .column
+                +i name='home' classes='ui inline image'
+                .ui.inline.header
+                    | resident portal
+        .four.column.row
+            .column
+                +event_small
+            .column
+                +posts_small
+            .column
+                +market_small
+            .column
+                .ui.header 
+                    +i name='billboard'
+                    |advertisement
+        .four.column.row
+            .column
+                .ui.header
+                    +i name='treadmill'
+                    |healthclub
+                +health_club_status
+            .column
+                .ui.header
+                    +i name='google-alerts'
+                    |notifications
+                .ui.list
+                    each notifications
+                        .item #{text}
+            .column
+                .ui.header
+                    +i name='rss'
+                    |activity
+                .ui.list
+                    each event_logs
+                        .item #{text}
+            .column
+                .ui.header subscriptions
+                    
+        .four.column.row
+            .column
+                +published_resident_small
+            .column
+                +karma_leaderboard
+            .column
+                +most_viewed_posts
+            .column
+                +most_viewed_models
+                //- +meal_widget
+                //- +marketplace_widget
+                //- .ui.header chat
+                //- +model_scroller model='for_rent' header='For Rent' icon='business'
+                //- +model_scroller model='event' header='Events' icon='calendar'
+            //- .column
+            //-     +cal
+                //- +model_scroller model='photo' header='Photos' icon='image'
+        //- .two.column.row    
+        //-     .column
+        //-         +model_scroller model='shop' header='marketplace' icon='shop'
+        //-     .column
+        //-         +model_scroller model='gr_post' header='posts' icon='post'
+        //- .one.column.row    
+        //-     .column
+        //-         iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241.41414983186405!2d-105.2554393150354!3d40.00847065387155!2m3!1f357.8823529411765!2f37.27633198895564!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x0%3A0x710555f334428f65!2sGold+Run+Health+Club!5e1!3m2!1sen!2sus!4v1559922280502!5m2!1sen!2sus" width="1200" height="450" frameborder="0" style="border:0" allowfullscreen)
+        //- .three.column.row    
+        //-     .column
+        //-         +model_scroller model='group' header='groups' icon='groups'
+        //-     .column
+        //-         +model_scroller model='company' header='businesses' icon='business'
+        //- .three.column.row    
+        //-     .column
+        //-         +model_scroller model='library' header='library' icon='library'
+        //-     .column
+        //-         +model_scroller model='ad' header='resident ads' icon='presentation'
+        //-     .column
+        //-         +model_scroller model='for_rent' header='for rent' icon='business'
+
+
+        
+template(name='most_viewed_posts')
+    .ui.header 
+        +i name='eye'
+        |most viewed posts
+    .ui.animated.list.mediumscroll
+        each most_viewed_posts
+            a.item.pointer(href="/m/#{model}/#{_id}/view")
+                .ui.small.header #{title} 
+                    .ui.label(title='model') #{model}
+                    .ui.blue.label(title='views') #{views}
+                each five_tags
+                    .ui.small.label #{this}
+            
+        
+template(name='most_viewed_models')
+    .ui.header 
+        +i name='cube'
+        |most viewed models
+    .ui.animated.list.mediumscroll
+        each most_viewed
+            a.item(href="/m/#{slug}") 
+                .inline.header 
+                    +ismall name=icon
+                    |#{title}
+                span 
+                    | #{views}
+                    i.eye.grey.icon
+                
+        
+        
+            
+            
+                        
+
+template(name='chat_small')
+    .ui.segment
+        .ui.header chat
+    
+
+//- template(name='market_small')
+//-     .ui.header 
+//-         +i name='shop'
+//-         |market
+//-     each market_items
+//-         .ui.small.header #{title}
+
+
+template(name='published_resident_small')
+    .ui.header
+        +i name='groups'
+        |published profiles
+    each published_residents
+        .ui.small.header #{first_name} #{last_name}
+            each five_tags
+                .ui.small.label #{this}
+
+
+
+template(name='gr_post_doc_view')
+    +image_view key='image' direct=true
+    +html_view key='content' direct=true
+    //- +array_view key='tags' direct=true
+template(name='company_doc_view')
+    +image_view key='logo' direct=true
+    +html_view key='content' direct=true
+    //- +array_view key='tags' direct=true
+template(name='group_doc_view')
+    +text_view key='title' direct=true
+    +image_view key='image' direct=true
+    +html_view key='content' direct=true
+    +array_view key='tags' direct=true
+
+
+template(name='ad_doc_view')
+    +image_view key='image' direct=true
+    +html_view key='content' direct=true
+    //- +array_view key='tags' direct=true
+template(name='library_doc_view')
+    +image_view key='image' direct=true
+    +html_view key='content' direct=true
+    //- +array_view key='tags' direct=true
+template(name='for_rent_doc_view')
+    +image_view key='image' direct=true
+    +html_view key='content' direct=true
+    //- +array_view key='tags' direct=true
+template(name='free_doc_view')
+    +image_view key='image' direct=true
+    +html_view key='content' direct=true
+    //- +array_view key='tags' direct=true
+template(name='business_doc_view')
+    +image_view key='image' direct=true
+    +html_view key='content' direct=true
+    //- +array_view key='tags' direct=true
+    
+template(name='event_doc_view')
+    +text_view key='title' direct=true
+    +image_view key='image_id' direct=true
+    +html_view key='description' direct=true
+    //- +array_view key='tags' direct=true
+    
+template(name='shop_doc_view')
+    +image_view key='picture' direct=true
+    +html_view key='description' direct=true
+    +number_view key='karma_price' direct=true
+    //- +array_view key='tags' direct=true
+template(name='photo_doc_view')
+    img.ui.image(src="{{c.url image width=400 height=400 gravity='face' crop='fill'}}")
+
+
+template(name='model_scroller')
+    .ui.segment
+        a.ui.inline.header.go_to_model(href="/m/#{model}")
+            if icon 
+                +i name=icon
+                //- i.ico/n(class=icon)
+            |#{header}
+        //- if can_go_left 
+        .ui.icon.button.go_left(class="{{#unless can_go_left}}disabled{{/unless}}")
+            i.left.chevron.icon
+        //- if can_go_right
+        .ui.icon.button.go_right(class="{{#unless can_go_right}}disabled{{/unless}}")
+            i.right.chevron.icon
+        div           
+        with current_doc
+            +Template.dynamic template=model_doc_template
+            //- if currentUser
+            +view_button
+
+template(name='health_club_status')
+    .ui.header upper hot tub
+        +water_status slug='upper_hot_tub'
+    .ui.header lower hot tub
+        +water_status slug='lower_hot_tub'
+    .ui.header pool
+        +water_status slug='pool'

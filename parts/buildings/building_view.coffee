@@ -22,10 +22,6 @@ Router.route '/building/:doc_id/market', (->
     @layout 'building_layout'
     @render 'building_market'
     ), name:'building_market'
-Router.route '/building/:doc_id/events', (->
-    @layout 'building_layout'
-    @render 'building_events'
-    ), name:'building_events'
 Router.route '/building/:doc_id/food', (->
     @layout 'building_layout'
     @render 'building_food'
@@ -38,22 +34,14 @@ Router.route '/building/:doc_id/services', (->
     @layout 'building_layout'
     @render 'building_services'
     ), name:'building_services'
-Router.route '/building/:doc_id/stats', (->
+Router.route '/building/:doc_id/orders', (->
     @layout 'building_layout'
-    @render 'building_stats'
-    ), name:'building_stats'
-Router.route '/building/:doc_id/transactions', (->
-    @layout 'building_layout'
-    @render 'building_transactions'
-    ), name:'building_transactions'
+    @render 'building_orders'
+    ), name:'building_orders'
 Router.route '/building/:doc_id/messages', (->
     @layout 'building_layout'
     @render 'building_messages'
     ), name:'building_messages'
-Router.route '/building/:doc_id/posts', (->
-    @layout 'building_layout'
-    @render 'building_posts'
-    ), name:'building_posts'
 
 
 
@@ -62,7 +50,6 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'children', 'building_update', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'members', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'building_dishes', Router.current().params.building_slug
     Template.building_layout.helpers
         current_building: ->
             Docs.findOne

@@ -1,7 +1,6 @@
 if Meteor.isClient
     Template.karma_transaction.onCreated ->
         console.log @
-        @autorun => Meteor.subscribe 'offers', @data._id
 
     Template.karma_transaction.helpers
         requests: ->
@@ -99,17 +98,3 @@ if Meteor.isClient
                 # email:Meteor.user().emails[0].address
                 description: 'gro shop'
                 amount: @price*100
-
-
-
-
-
-
-
-
-
-if Meteor.isServer
-    Meteor.publish 'offers', (marketplace_id)->
-        Docs.find
-            parent_id:marketplace_id
-            model: 'offer'

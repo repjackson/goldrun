@@ -1,0 +1,11 @@
+template(name='building_food')
+    .ui.stackable.padded.grid
+        .row
+            .ui.header
+                +i name='product'
+                | food
+        .row
+            .eight.wide.column
+                each meals
+                    .ui.header #{title}
+    

@@ -74,7 +74,7 @@ template(name='follow')
     .ui.segment
         .ui.header
             i.user.plus.icon
-            |Follow
+            |follow
         +user_list_toggle key='follower_ids' icon='rss' add_label='Follow' remove_label='Unfollow' color='black'
 
 
@@ -141,54 +141,6 @@ template(name='user_card')
         //- +user_status user
 
 
-template(name='member_card')
-    with user
-        .ui.fluid.card
-            .image
-                if kiosk_photo
-                    img.ui.rounded.image(src="{{c.url kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
-                else if image_id
-                    img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-            .content    
-                a.header(href="/user/#{username}") #{first_initial} #{last_name} 
-                //- .meta @#{username}
-                |#{points} pts
-                span(title='karma')
-                |#{karma} 
-                i.yin.yang.icon
-                if is_admin
-                    div
-                    +user_email
-                //- +emails_edit    
-        +user_status user
-
-template(name='small_horizontal_member_card')
-    with user
-        .ui.small.card
-            .image
-                if profile_photo
-                    img.ui.rounded.tiny.image(src="{{c.url profile_photo width=200 height=200 gravity='face' crop='fill'}}")
-                else if kiosk_photo
-                    img.ui.rounded.image(src="{{c.url kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
-                else if image_id
-                    img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-            .content    
-                a.header(href="/member/#{username}") #{first_initial} #{last_name} 
-                //- .meta @#{username}
-                //- span(title='points')
-                //-     |#{points} pts
-                //- span(title='karma')
-                //-     |#{karma} 
-                //-     i.yin.yang.icon
-                each tags
-                    .ui.small.label #{this}
-                if is_admin
-                    div
-                    +user_email
-                //- +emails_edit    
-        +user_status user
-
-
 template(name='user_email')
     .ui.small.inline.header #{email_address}
     if email_verified
@@ -215,36 +167,8 @@ template(name='big_user_card')
                     //- +array_view key='tags' label='Tags' direct=true
             if is_staff
                 .content
-                    +text_view key='address' label='address' direct=true
-                    +number_view key='building_number' label='building #' direct=true
-                    +number_view key='unit_number' label='apartment #' direct=true
-                    +text_view key='building_code' label='building code' direct=true
-                    //- +array_view key='tags' label='Tags'
-                    if user_is_resident
-                        +date_view key='start_date' label='start date' direct=true
-                        +date_view key='expiration_date' label='expiration date' direct=true
-                    +checkin_button
-                    +garden_key_checkout
-                    +unit_key_checkout
-                    +email_validation_check
-                    +lease_expiration_check
-                    +rules_and_regs_check
                     +array_view key='roles' direct=true
                         
-                    //- +i name='swimming-pool' classes='ui avatar image'
-                    //- +i name='weightlift' classes='ui avatar image'
-                    //- +i name='jacuzzi' classes='ui avatar image'
-                    //- +i name='shower' classes='ui avatar image'
-                    //- +i name='racquetball' classes='ui avatar image'
-                    //- +i name='water-steam' classes='ui avatar image'
-
-
-template(name='unit_key_checkout')
-    .ui.compact.button.unit_key_checkout
-        +i name='key' classes='ui mini inline image'
-        strong Checkout Unit Key
-
-
 template(name='user_button')
     a.ui.compact.button(href="/user/#{user.username}/")
         if user.kiosk_photo
@@ -419,13 +343,6 @@ template(name='add_model_button')
         |#{model}
 
 
-template(name='clone_button')
-    a.ui.icon.circular.big.button.clone_doc(title='clone' href="#")
-        i.clone.icon
-
-
-
-
             
 template(name='email_validation_check')
     //- if email_verified
@@ -446,119 +363,3 @@ template(name='email_validation_check')
             .ui.button.toggle_email_verified
                 |mark email verified
         
-        
-template(name='lease_expiration_check')
-    div
-    if expiration_date
-        i.grey.clock.icon
-        //- +i name='clock' classes='ui avatar image'
-        |lease expiring 
-        |#{lease_expiring}
-        
-        
-template(name='rules_and_regs_check')
-    if is_staff
-        if rules_signed
-            a.ui.button(href="/m/rules_regs_signing/#{rules_signed._id}/view" title='click to view/edit signing document')
-                i.signature.large.icon
-                |rules and regs signed 
-        else
-            .ui.button
-                i.signature.large.icon
-                | rules+regs unsigned
-    //- else
-    //-     unless rules_signed
-    //-         .ui.large.button.sign_rules
-    //-             i.signature.icon
-    //-             |click to sign rules and regulations
-        //- else if is_staff
-        //-     .ui.large.button
-        //-         i.signature.icon
-        //-         |rules and regs signed 
-        
-        
-        
-template(name='member_guidelines_check')
-    if is_staff
-        if guidelines_signed
-            a.ui.button(href="/m/sign_guidelines/#{guidelines_signed._id}/view" title='click to view/edit signing document')
-                i.signature.icon
-                |member guidelines signed 
-        else
-            .ui.fluid.button
-                i.signature.icon
-                | member guidelines not signed
-    else
-        unless guidelines_signed
-            .ui.large.fluid.button.sign_guidelines
-                i.signature.icon
-                | sign member guidelines
-    //-     else if is_staff
-    //-         .ui.large.button
-    //-             i.signature.icon
-    //-             |rules and regs signed 
-                
-        
-template(name='resident_key_check')
-    //- unless key_on_file
-    //-     .ui.large.orange.button
-    //-         i.ban.icon
-    //-         |key not on file 
-    //- else
-    .ui.large.button
-        i.key.icon
-        |Key on File 
-        
-        
-template(name='guest_waiver_check')
-    unless waiver_signed
-        .ui.large.button
-            i.signature.icon
-            |guest waiver not signed 
-        
-        
-            
-        
-template(name='kiosk_send_message')                
-    .ui.big.fluid.button.create_message 
-        i.envelope.icon
-        |send private message
-    if sending_message
-        +sending_kiosk_message
-
-template(name='sending_kiosk_message')
-    .ui.header include contact info
-    with sending_message_doc
-        +textarea_edit key='body' direct=true
-        .ui.big.fluid.green.button.send_message send
-    .ui.big.button.cancel_message cancel
-                    
-
-
-
-template(name='suggestion_box')
-    .ui.inline.header 
-        |suggestion box
-    .ui.icon.button.add_suggestion
-        i.plus.icon
-    .ui.bulleted.list
-        each public_suggestions
-            .item 
-                |#{content}
-                small #{when}
-                if is_admin
-                    +remove_button
-    
-    
-    .ui.new_suggestion_modal.modal 
-        i.close.icon
-        .header add suggestion
-        .content
-            with editing_suggestion
-                +textarea_edit key='content' direct=true
-                +boolean_edit key='public' direct=true
-        .actions    
-            .ui.deny.button cancel
-            .ui.green.positive.labeled.icon.button
-                i.checkmark.icon
-                |submit

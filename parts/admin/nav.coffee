@@ -1,25 +1,4 @@
 if Meteor.isClient
-    Template.footer.events
-        'click .shortcut_modal': ->
-            $('.ui.shortcut.modal').modal('show')
-    Template.nav.onRendered ->
-        # @autorun =>
-        #     if @subscriptionsReady()
-        #         Meteor.setTimeout ->
-        #             $('.menu_dropdown').dropdown(
-        #                 on:'hover'
-        #             )
-        #         , 3000
-
-        Meteor.setTimeout ->
-            $('.item').popup(
-                preserve:true;
-                hoverable:false;
-            )
-        , 3000
-
-
-
     Template.nav.events
         # 'mouseenter .item': (e,t)->
         #     $(e.currentTarget).closest('.item').transition('pulse')
@@ -46,51 +25,13 @@ if Meteor.isClient
             Meteor.call 'set_facets', @slug, ->
                 Session.set 'loading', false
 
-        'click .spinning': ->
-            Session.set 'loading', false
-
-    Template.footer_chat.onCreated ->
-        @autorun -> Meteor.subscribe 'model_docs', 'footer_chat'
-    Template.footer_chat.helpers
-        chat_messages: ->
-            Docs.find
-                model:'footer_chat'
-    Template.footer_chat.events
-        'keyup .new_footer_chat_message': (e,t)->
-            if e.which is 13
-                new_message = $('.new_footer_chat_message').val()
-                Docs.insert
-                    model:'footer_chat'
-                    text:new_message
-                $('.new_footer_chat_message').val('')
-
-        'click .remove_message': (e,t)->
-            # if confirm 'remove message?'
-            $(e.currentTarget).closest('.item').transition('fade right')
-            Meteor.setTimeout =>
-                Docs.remove @_id
-            , 750
-
     Template.nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
         @autorun -> Meteor.subscribe 'users'
         # @autorun -> Meteor.subscribe 'users_by_role','staff'
-        @autorun => Meteor.subscribe 'global_settings'
-
-        # @autorun -> Meteor.subscribe 'current_session'
         # @autorun -> Meteor.subscribe 'unread_messages'
 
     Template.nav.helpers
-        member_nav_button_class: ->
-            if Meteor.user().handling_active
-                'green'
-            else
-                ''
-        member_nav_button_title: ->
-            if Meteor.user().handling_active
-                'clocked in as handler'
-            else
-                'click to view profile'
         notifications: ->
             Docs.find
                 model:'notification'
@@ -194,12 +135,6 @@ if Meteor.isServer
                 model:'model'
                 bookmark_ids:$in:[Meteor.userId()]
 
-
-    Meteor.publish 'my_cart', ->
-        if Meteor.userId()
-            Docs.find
-                model:'cart_item'
-                _author_id:Meteor.userId()
 
     Meteor.publish 'unread_messages', (username)->
         if Meteor.userId()

@@ -158,7 +158,6 @@ template(name='meal_view')
                     +user_card
                 with current_doc
                     +voting
-                    .ui.header similar meals
                     .ui.header alerts
                     |alergen alert
                     |#{alergen_alert}
@@ -172,7 +171,6 @@ template(name='meal_edit')
                 .ui.header #{title}
                 +array_edit key='tags' direct=true
                 +array_edit key='ingredients' direct=true
-                +array_edit key='location_tags' direct=true
                 .ui.small.header
                     |date available
                     |#{available_date}

@@ -1,40 +1,30 @@
 template(name='building_layout')
+    img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     +nav
     with current_doc
         .ui.stackable.padded.grid
             .middle.aligned.row
-                .four.wide.center.aligned.column
-                    a.ui.circular.basic.button(href="/m/building")
-                        i.left.chevron.icon
-                        +i name='building' classes='ui mini inline image'
-                        |buildings
-                .eight.wide.center.aligned.column 
-                    .ui.center.aligned.header 
+                .sixteen.wide.column 
+                    .ui.inline.large.header 
                         |building #{title}
-                .four.wide.center.aligned.column 
                     if can_edit
                         a.ui.circular.basic.icon.button(href="/building/#{_id}/edit")
                             i.setting.large.icon
-            .row
-                .sixteen.wide.column
                     a.ui.basic.circular.compact.button(href="/building/#{_id}/view" class="{{isActiveRoute regex='building_dashboard'}}")
                         +i name='dashboard' classes='ui avatar image'
                         |dashboard
                     a.ui.basic.circular.compact.button(href="/building/#{_id}/members" class="{{isActiveRoute regex='building_members'}}")
                         +i name='groups' classes='ui avatar image'
                         |members
-                    a.ui.basic.circular.compact.button(href="/building/#{_id}/credit" class="{{isActiveRoute regex='building_credit'}}")
-                        +i name='coins' classes='ui avatar image'
-                        |credit
+                    a.ui.basic.circular.compact.button(href="/building/#{_id}/orders" class="{{isActiveRoute regex='building_orders'}}")
+                        +i name='invoice' classes='ui avatar image'
+                        |orders
                     //- a.ui.basic.circular.compact.button(href="/building/#{_id}/meals" class="{{isActiveRoute regex='building_meals'}}")
                     //-     +i name='meal' classes='ui avatar image'
                     //-     |meals
                     //- a.ui.basic.circular.compact.button(href="/building/#{_id}/dishes" class="{{isActiveRoute regex='building_dishes'}}")
                     //-     +i name='meal' classes='ui avatar image'
                     //-     |dishes
-                    a.ui.basic.circular.compact.button(href="/building/#{_id}/events" class="{{isActiveRoute regex='building_events'}}")
-                        +i name='calendar' classes='ui avatar image'
-                        |events
                     a.ui.basic.circular.compact.button(href="/building/#{_id}/food" class="{{isActiveRoute regex='building_food'}}")
                         +i name='food' classes='ui avatar image'
                         |food
@@ -49,10 +39,7 @@ template(name='building_layout')
                     //-     |services
 
             .row
-                .four.wide.column 
-                    +image_view key='image_id' icon='image' label='image'
-                    //- +viewing
-                .twelve.wide.column
+                .sixteen.wide.column
                     +yield
     //- +footer
 

@@ -112,11 +112,6 @@ if Meteor.isClient
         user: -> Meteor.users.findOne @valueOf()
 
 
-    Template.small_horizontal_member_card.onCreated ->
-        @autorun => Meteor.subscribe 'user_from_username', @data
-    Template.small_horizontal_member_card.helpers
-        user: -> Meteor.users.findOne username:@valueOf()
-
 
 
     Template.big_user_card.onCreated ->
@@ -157,27 +152,6 @@ if Meteor.isClient
             console.log Template.parentData(2)
             console.log Template.parentData(3)
             console.log Template.parentData(4)
-
-
-
-
-    Template.clone_button.events
-        'click .clone_doc': (e,t)->
-            e.preventDefault()
-            doc = @
-            keys = @_keys
-            cloned_fields = {}
-            for key in keys
-                cloned_fields["#{key}"] = doc["#{key}"]
-                cloned_fields["_#{key}"] = doc["_#{key}"]
-            cloned_fields['_keys'] = keys
-            console.log cloned_fields
-            cloned_id = Docs.insert cloned_fields
-            Router.go "/edit/#{cloned_id}"
-
-
-
-
 
 
 

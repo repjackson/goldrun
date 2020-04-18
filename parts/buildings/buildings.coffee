@@ -11,9 +11,6 @@ if Meteor.isClient
 
     Template.building_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'building_units', Router.current().params.building_code
-
-
 
     Template.building_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
@@ -39,10 +36,10 @@ if Meteor.isClient
     #             # building_slug:Router.current().params.building_code
 
     Template.buildings.events
-        'mouseenter .home_segment': (e,t)->
-            t.$(e.currentTarget).closest('.home_segment').addClass('raised')
-        'mouseleave .home_segment': (e,t)->
-            t.$(e.currentTarget).closest('.home_segment').removeClass('raised')
+        'mouseenter .building_card': (e,t)->
+            t.$(e.currentTarget).closest('.building_card').addClass('raised')
+        'mouseleave .building_card': (e,t)->
+            t.$(e.currentTarget).closest('.building_card').removeClass('raised')
 
 
 

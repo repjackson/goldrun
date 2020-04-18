@@ -1,3 +1,50 @@
+template(name='user_credit')
+    //- .ui.header 
+    //-     +i name='money'
+    //-     |finance
+    //- .ui.statistic
+    //-     .label #{user_from_username_param.name}'s credits
+    //-     .value $#{user_from_username_param.credit}
+    .ui.stackable.two.column.grid
+        if is_current_user
+            .column
+                .ui.header 
+                    |withdraw
+                |$10 minimum, takes one business day 
+                .ui.action.fluid.input
+                    input.withdrawal_amount(type='number' min='1' max=currentUser.credit placeholder='amount')
+                    .ui.icon.button.initial_withdrawal 
+                        i.right.chevron.icon
+                .ui.small.header withdrawals
+                .ui.bulleted.list
+                    each withdrawals
+                        .item
+                            .ui.header #{when} for #{amount} credit
+                            |status: #{status}
+                            .ui.button.cancel_withdrawal
+                                i.ban.icon
+                                |cancel
+            .column
+                .ui.header 
+                    |deposits
+                |deposits are given +5% credit after credit card processing fee
+                .ui.action.fluid.input
+                    input.deposit_amount(type='number' min='1' placeholder='deposit')
+                    .ui.icon.button.add_credits   
+                        i.right.chevron.icon
+                        
+                .ui.large.bulleted.list
+                    each deposits
+                        .item 
+                            .content
+                                .header 
+                                    |$#{amount} + #{bonus}c
+                                .description #{when} {{long_date _timestamp}}
+                                //- if is_dev
+                                +remove_button
+
+
+
 template(name='user_info')
     //- +text_view key='address' label='address' icon='marker' direct=true
     //- +phone_view key='phone' label='phone' icon='phone' direct=true

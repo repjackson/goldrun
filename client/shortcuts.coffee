@@ -1,11 +1,5 @@
 globalHotkeys = new Hotkeys();
 
-Template.shortcut_modal.onCreated ->
-    Meteor.subscribe 'model_docs', 'keyboard_shortcut'
-Template.shortcut_modal.helpers
-    shortcuts: ->
-        Docs.find
-            model:'keyboard_shortcut'
 globalHotkeys.add
 	combo: "d r"
 	callback: ->
@@ -28,22 +22,6 @@ globalHotkeys.add
                 Meteor.users.update Meteor.userId(), $pull:roles:'admin'
             else
                 Meteor.users.update Meteor.userId(), $addToSet:roles:'admin'
-globalHotkeys.add
-	combo: "r m"
-	callback: ->
-        if Meteor.userId() and Meteor.userId() is 'vwCi2GTJgvBJN5F6c'
-            if 'member' in Meteor.user().roles
-                Meteor.users.update Meteor.userId(), $pull:roles:'member'
-            else
-                Meteor.users.update Meteor.userId(), $addToSet:roles:'member'
-globalHotkeys.add
-	combo: "r s"
-	callback: ->
-        if Meteor.userId() and Meteor.userId() is 'vwCi2GTJgvBJN5F6c'
-            if 'staff' in Meteor.user().roles
-                Meteor.users.update Meteor.userId(), $pull:roles:'staff'
-            else
-                Meteor.users.update Meteor.userId(), $addToSet:roles:'staff'
 # globalHotkeys.add
 # 	combo: "r m"
 # 	callback: ->
@@ -60,43 +38,6 @@ globalHotkeys.add
                 Meteor.users.update Meteor.userId(), $pull:roles:'dev'
             else
                 Meteor.users.update Meteor.userId(), $addToSet:roles:'dev'
-globalHotkeys.add
-	combo: "r o"
-	callback: ->
-        if Meteor.userId() and Meteor.userId() is 'vwCi2GTJgvBJN5F6c'
-            if 'owner' in Meteor.user().roles
-                Meteor.users.update Meteor.userId(), $pull:roles:'owner'
-            else
-                Meteor.users.update Meteor.userId(), $addToSet:roles:'owner'
-
-globalHotkeys.add
-	combo: "r r"
-	callback: ->
-        if Meteor.userId() and Meteor.userId() is 'vwCi2GTJgvBJN5F6c'
-            if 'resident' in Meteor.user().roles
-                Meteor.users.update Meteor.userId(), $pull:roles:'resident'
-            else
-                Meteor.users.update Meteor.userId(), $addToSet:roles:'resident'
-globalHotkeys.add
-	combo: "r f"
-	callback: ->
-        if Meteor.userId() and Meteor.userId() is 'vwCi2GTJgvBJN5F6c'
-            if 'frontdesk' in Meteor.user().roles
-                Meteor.users.update Meteor.userId(), $pull:roles:'frontdesk'
-            else
-                Meteor.users.update Meteor.userId(), $addToSet:roles:'frontdesk'
-
-
-# globalHotkeys.add
-# 	combo: "m r "
-# 	callback: ->
-#         if Meteor.userId()
-#             Meteor.call ''
-#                 Meteor.users.update Meteor.userId(), $pull:roles:'frontdesk'
-#             else
-#                 Meteor.users.update Meteor.userId(), $addToSet:roles:'frontdesk'
-
-
 
 globalHotkeys.add
 	combo: "g h"
@@ -107,9 +48,6 @@ globalHotkeys.add
         if Meteor.userId() and Meteor.userId() is 'vwCi2GTJgvBJN5F6c'
             Router.go '/dev'
 
-globalHotkeys.add
-	combo: "g l"
-	callback: -> Router.go '/healthclub'
 globalHotkeys.add
 	combo: "g k"
 	callback: -> Router.go '/karma'
@@ -137,21 +75,6 @@ globalHotkeys.add
 # globalHotkeys.add
 # 	combo: "g m"
 # 	callback: -> Router.go "/members"
-globalHotkeys.add
-	combo: "g a"
-	callback: -> Router.go "/admin"
-globalHotkeys.add
-	combo: "g s"
-	callback: -> Router.go "/staff"
-globalHotkeys.add
-	combo: "g c"
-	callback: -> Router.go "/chat"
-globalHotkeys.add
-	combo: "g t"
-	callback: -> Router.go "/m/task"
-globalHotkeys.add
-	combo: "g a"
-	callback: -> Router.go "/admin"
 
 
 globalHotkeys.add

@@ -4,11 +4,6 @@ template(name='home')
             .twelve.wide.column
                 .ui.centered.stackable.five.cards 
                     if is_dev
-                        a.ui.card(href="/alpha")
-                            .content 
-                                .ui.grey.icon.header
-                                    +i name='alpha'
-                                    | alpha
                         a.ui.card(href="/m/model")
                             .content 
                                 .ui.grey.icon.header 
@@ -29,26 +24,11 @@ template(name='home')
                             .ui.grey.icon.header 
                                 +i name='clock'
                                 | rentals
-                    a.ui.card(href="/chat")
-                        .content 
-                            .ui.grey.icon.header
-                                +i name='chat'
-                                | chat
-                    a.ui.card(href="/events")
-                        .content 
-                            .ui.grey.icon.header
-                                +i name='calendar'
-                                | events
                     a.ui.card(href="/m/reservation")
                         .content 
                             .ui.grey.icon.header
                                 +i name='invoice'
                                 | reservations
-                    a.ui.card(href="/bounty")
-                        .content 
-                            .ui.grey.icon.header
-                                +i name='get-cash'
-                                | bounties
                     a.ui.card(href="/m/service")
                         .content 
                             .ui.grey.icon.header
@@ -64,21 +44,9 @@ template(name='home')
                             .ui.grey.icon.header
                                 +i name='groups'
                                 |users
-                    .ui.card.gt_tasks.pointer
-                        .content 
-                            .ui.grey.icon.header
-                                +i name='task'
-                                |tasks
-                    a.ui.card(href="/m/bug")
-                        .content 
-                            .ui.grey.icon.header
-                                +i name='bug'
-                                |bugs
             .four.wide.column
                 +latest_activity
             
-            
-    +global_stats        
             
             
 

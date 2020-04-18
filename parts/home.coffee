@@ -6,13 +6,7 @@ if Meteor.isClient
 
     Template.home.onCreated ->
         @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun -> Meteor.subscribe 'schema', Router.current().params.doc_id
 
-
-    Template.detect.events
-        'click .detect_fields': ->
-            # console.log @
-            Meteor.call 'detect_fields', @_id
 
     Template.home.events
         'click .calc_similar': ->
@@ -32,26 +26,3 @@ if Meteor.isClient
     #
     #     meta: ->
     #         key_string = @
-
-
-
-
-    Template.revenue_calculator.onCreated ->
-        @autorun => Meteor.subscribe 'member_revenue_calculator_doc', Router.current().params.username
-    Template.revenue_calculator.helpers
-        calculator_doc: ->
-            Docs.findOne
-                model:'calculator_doc'
-                member_username:Router.current().params.username
-        calculated_daily_revenue: ->
-            cd =
-                Docs.findOne
-                    model:'calculator_doc'
-                    member_username:Router.current().params.username
-            cd.rental_amount*cd.average_hourly*cd.daily_hours_rented
-        calculated_weekly_revenue: ->
-            cd =
-                Docs.findOne
-                    model:'calculator_doc'
-                    member_username:Router.current().params.username
-            cd.rental_amount*cd.average_hourly*cd.daily_hours_rented*7

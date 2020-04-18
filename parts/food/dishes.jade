@@ -1,0 +1,158 @@
+template(name='dish_card')
+    .ui.stackable.grid.segment
+        .four.wide.center.aligned.column
+            //- img.ui.fluid.image(src="{{c.url image }}")
+            img.ui.fluid.rounded.image(src="{{c.url image_id width=400 height=600 crop='fit'}}")
+        .twelve.wide.center.aligned.column
+            .ui.header #{title}
+            +ismall name='dish'
+            .ui.inline.small.header dishes
+            each dishes
+                .ui.basic.label #{this}
+            .ui.inline.small.header tags
+            each tags
+                .ui.basic.label #{this}
+            .ui.inline.small.header location_tags
+            each location_tags
+                .ui.basic.label #{this}
+            .ui.header available {{from_now date}} at #{time_available}
+            .ui.header servings available #{servings_available}
+            a.ui.large.basic.icon.button(href="/dish/#{_id}/edit")
+                i.pencil.icon
+            a.ui.large.basic.icon.button(href="/dish/#{_id}/view")
+                i.right.chevron.icon        
+            //- +edit_button
+            //- +view_button
+
+template(name='dish_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .centered.middle.aligned.row
+                .four.wide.center.aligned.column
+                    a.ui.large.basic.circular.compact.button(href="/m/dish")
+                        i.left.chevron.icon
+                        +i name='real-food-for-meals' classes='ui mini inline image'
+                        |dishes
+                    
+                .eight.wide.center.aligned.column
+                    .ui.center.aligned.header
+                        small viewing
+                        |'#{title}'
+                        small dish
+                .four.wide.center.aligned.column
+                    if can_edit
+                        a.ui.large.basic.circular.button(href="/dish/#{_id}/edit")
+                            i.pencil.blue.icon
+                            |edit
+            .six.wide.column
+                +array_view key='tags' direct=true
+                +array_view key='dishes' direct=true
+                +array_view key='location_tags' direct=true
+                img.ui.rounded.fluid.image(src="{{c.url image_id width=500 gravity='face' crop='fill'}}")
+            .six.wide.column
+                .ui.dividing.header
+                    +i name='meal'
+                    |meals used in
+                .ui.large.selection.animated.list
+                    each dish_meals
+                        a.item(href="/meal/#{_id}/view")
+                            img.ui.avatar.image(src="{{c.url _author.profile_image_id width=200 gravity='face' crop='fill'}}")
+                            .content
+                                .header {{long_date datetime_available}} by #{_author_username}
+                +textarea_view key='description' direct=true
+                .ui.dividing.header 
+                    +i name='ingredients'
+                    |ingredients
+                .ui.large.selection.animated.list
+                    each dish_ingredients
+                        a.item(href="/ingredient/#{_id}/view" title='view ingredient')
+                            if image_id
+                                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                            .content
+                                .header 
+                                    |#{title}
+                +comments
+            .four.wide.column
+                //- +reservations
+                .ui.header 
+                    +i name='chef-hat'
+                    |cook #{_author_username}
+                with _author
+                    +user_card
+                with current_doc
+                    +voting_full
+                    .ui.header similar dishes
+                    .ui.header alerts
+                    |alergen alert
+                    |#{alergen_alert}
+
+
+
+template(name='dish_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .four.wide.column
+                .ui.small.grey.inline.header edit dish:
+                .ui.inline.header #{title}
+                +text_edit key='title' direct=true
+                +array_edit key='tags' direct=true
+                +image_edit key='image_id' direct=true
+                
+            .eight.wide.column
+                +boolean_edit label='paleo' color_icon='caveman' direct=true key='paleo'
+                +boolean_edit label='vegan' color_icon='vegan-symbol' direct=true key='vegan'
+                +boolean_edit label='keto' color_icon='carbohydrates' direct=true key='paleo'
+                +boolean_edit label='vegetarian' color_icon='vegetarian-mark' direct=true key='vegetarian'
+                +boolean_edit label='sugar free' color_icon='sugar' direct=true key='sugar free'
+                +boolean_edit label='heart healthy' color_icon='heart-health' direct=true key='heart_healthy'
+                +boolean_edit label='dairy free' color_icon='no-milk' direct=true key='dairy_free'
+                +boolean_edit label='nut free' color_icon='no-nut' direct=true key='nut_free'
+                +boolean_edit label='no shellfish' color_icon='no-shellfish' direct=true key='shellfish_free'
+                img.ui.large.image(src="{{c.url image width=800 height=500 gravity='face' crop='fill'}}")
+                //- +textarea_edit key='description' direct=true
+                .ui.header proteins
+                each protein_ingredients
+                    .ui.label #{title}
+                .ui.header vegetables
+                .ui.header fruit
+                .ui.header grain
+                .ui.header dairy
+                .ui.header all ingredients
+                .ui.four.cards
+                    each dish_ingredients
+                        .ui.card
+                            if image_id
+                                .image
+                                    img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+
+                            .content
+                                .header #{title}
+                                .ui.button.make_protein
+                                    |protein
+                                .ui.button.remove_ingredient 
+                                    i.remove.icon
+                                    |remove
+                
+            .four.wide.column
+                a.ui.large.basic.fluid.button(href="/dish/#{_id}/view")
+                    i.checkmark.green.icon
+                    |save        
+                .ui.header ingredients 
+                //- .ui.icon.button.add_ingredient
+                //-     i.plus.icon
+                .ui.fluid.input
+                    input.search_ingredient(type='text' placeholder='search/add ingredient')
+                //- each dish_ingredients
+                //-     a.ui.small.header #{title}
+                if current_ingredient_query
+                    .ui.small.header results
+                    if ingredient_results
+                        .ui.large.divided.middle.aligned.selection.animated.list
+                            each ingredient_results
+                                a.item.select_ingredient
+                                    img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+         
+                                    .content
+                                        .header #{title}
+                    else
+                        a.ui.header.add_new_ingredient add #{current_ingredient_query}

@@ -1,0 +1,60 @@
+template(name='meal_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .middle.aligned.row
+                .four.wide.column
+                .eight.wide.column
+                    .ui.header editing meal
+                    .ui.header #{title}
+                .four.wide.column
+                    .ui.large.circular.green.button.save_meal
+                        i.checkmark.icon   
+                        |save     
+
+            .five.wide.column
+                +image_edit key='image_id' label='image' direct=true
+                +number_edit key='servings_amount' label='servings available' direct=true
+                +text_edit key='serving_unit' label='serving unit' direct=true
+                +number_edit key='price_per_serving' label='price per serving' direct=true
+                .ui.header $#{total_potential_revenue} 
+                    small total potential revenue
+                +array_edit key='ingredients' label='ingredients'  direct=true
+            .six.wide.column
+                //- .ui.small.header
+                //- +date_edit key='date_available' label='date available'
+                //- //- .ui.small.header
+                //- +time_edit key='time_available' label='time available'
+                .mobile.hidden
+                    .ui.small.header date/time available
+                    #availability.ui.calendar
+                        .ui.fluid.input
+                            input.select_available_datetime(type='text' placeholder=datetime_available)
+                    .ui.green.button.save_availability
+                        i.checkmark.icon
+                        |save
+                .mobile.only
+                    +datetime_edit key='datetime_available' label='date/time available' direct=true
+                .ui.small.header #{datetime_available}
+                img.ui.large.image(src="{{c.url image width=800 height=500 gravity='face' crop='fill'}}")
+                +textarea_edit key='description' label='description' direct=true
+            .five.wide.column
+                if can_delete
+                    .ui.red.button.delete_meal
+                        i.remove.icon   
+                        |cancel and delete
+                else  
+                    .ui.red.disabled.button(title='existing reservations')
+                        i.remove.icon   
+                        | can't cancel  
+                .ui.segment
+                    +boolean_edit key='delivery' label='delivery' color_icon='deliver-food' direct=true
+                    if delivery
+                        .ui.header delivery
+                        +text_edit key='delivery_notes' label='delivery notes' direct=true
+                        +number_edit key='delivery_fee' label='delivery fee' direct=true
+                .ui.segment
+                    +boolean_edit key='pickup' label='pickup' color_icon='doormat' direct=true
+                    if pickup
+                        .ui.header pickup
+                        +text_edit key='pickup_notes' label='pickup notes' direct=true
+                        +time_edit key='pickup_cutoff' label='pickup cutoff' direct=true

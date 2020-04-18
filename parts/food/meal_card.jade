@@ -1,0 +1,54 @@
+template(name='meal_card')
+    .ui.card(class=meal_card_class)
+        .image
+            img.ui.zoom.pointer.goto_meal.image(src="{{c.url meal_dish.image_id width=400 height=300 crop='pad'}}")
+        .content
+            a.ui.header(href="/meal/#{_id}/view") 
+                |#{_author.name}'s #{meal_dish.title}
+            //- if session_is 'view_ingredients' true
+            +ismall name='ingredients'
+            each ingredient_titles
+                .ui.basic.label #{this}
+        //- .ui.inline.small.header tags
+        .content
+            .right.floated.meta
+                | {{from_now datetime_available}}
+            //- if session_is 'view_users' true
+            img.ui.avatar.image(src="{{c.url _author.profile_image_id width=400 height=600 crop='fit'}}")
+            |#{_author.username}
+        //- i.yellow.star.icon
+            //- |3.4
+        //- a.image(href="/meal/#{_id}/view")
+            
+        .content    
+            .ui.inline.header
+                |#{servings_left}/#{servings_amount}
+                small
+                    if serving_unit
+                        |#{serving_unit}s
+                    else 
+                        |servings
+                    
+                    | left
+            .ui.inline.right.aligned.header $#{price_per_serving}
+                small
+                    |/
+                    if serving_unit
+                        |#{serving_unit}
+                    else 
+                        |serving
+            div
+            if delivery
+                +i name='deliver-food'
+            if pickup
+                +i name='doormat'
+            if can_edit
+                a.ui.large.basic.icon.button(href="/meal/#{_id}/edit")
+                    i.pencil.icon
+        //- .ui.bottom.attached.buttons        
+        //-     .ui.green.button.quickbuy
+        //-         i.lightning.icon
+        //-         |buy
+        //-     a.ui.basic.button(href="/meal/#{_id}/view")
+        //-         |view
+        //-         i.right.chevron.icon

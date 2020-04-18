@@ -13,7 +13,7 @@ template(name='building_layout')
                     a.ui.basic.circular.compact.button(href="/building/#{_id}/view" class="{{isActiveRoute regex='building_dashboard'}}")
                         +i name='dashboard' classes='ui avatar image'
                         |dashboard
-                    a.ui.basic.circular.compact.button(href="/building/#{_id}/members" class="{{isActiveRoute regex='building_members'}}")
+                    a.ui.basic.circular.compact.button(href="/building/#{_id}/members" class="{{isActiveRoute regex='building_users'}}")
                         +i name='groups' classes='ui avatar image'
                         |members
                     a.ui.basic.circular.compact.button(href="/building/#{_id}/orders" class="{{isActiveRoute regex='building_orders'}}")

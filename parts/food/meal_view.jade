@@ -1,0 +1,99 @@
+template(name='meal_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .middle.aligned.row
+                .four.wide.center.aligned.column
+                .eight.wide.center.aligned.column
+                    .ui.large.header 
+                        //- small viewing
+                        h1 #{title}
+                        //- small meal
+                .four.wide.center.aligned.column
+                    if can_edit
+                        a.ui.large.basic.circular.button(href="/meal/#{_id}/edit")
+                            i.pencil.blue.icon
+                            |edit
+            .three.column.row
+                .column
+                    img.ui.fluid.rounded.image(src="{{c.url image_id width=400 height=400}}")
+                    div
+                    .ui.inline.header 
+                        small available 
+                        |{{from_now datetime_available}}:
+                    +textarea_view key='description' direct=true
+                    .ui.small.inline.header {{long_date datetime_available}}
+                    .ui.header 
+                        +i name='ingredients'
+                        |ingredients
+                    each ingredients
+                        .ui.basic.label #{this}
+                    .ui.dividing.header
+                        +i name='rules'
+                        |rules
+                .column
+                    .ui.header #{servings_amount} servings for sale
+                    .ui.header $#{price_per_serving}/serving
+                    .ui.inline.header
+                        if pickup
+                            i.green.checkmark.icon
+                        else 
+                            i.red.ban.icon
+                        |pickup
+                    +i name='doormat' classes='ui mini inline image'
+                    div
+                    .ui.inline.header 
+                        if delivery
+                            i.checkmark.green.icon
+                        else 
+                            i.red.ban.icon
+                        |delivery
+                    +i name='delivery' classes='ui mini inline image'
+                    
+                    .ui.header cook #{_author_username}
+                    with _author
+                        +user_card
+                .column
+                    .ui.header #{servings_left} 
+                        if serving_unit
+                            |#{serving_unit}s
+                        else 
+                            |servings
+                        | left
+                    if can_order
+                        +order_button
+                    .ui.dividing.header 
+                        +i name='order-history'
+                        |orders
+                    each meal_orders
+                        .ui.segment(class=meal_order_class)
+                            .ui.inline.green.header
+                                |$#{order_price}
+                            a.ui.small.inline.header(href="/user/#{_author.username}" title='view profile')
+                                if _author.profile_image_id
+                                    img.ui.avatar.image(src="{{c.url _author.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                |#{_author.username}
+                            div
+                            .ui.small.inline.header
+                                | #{when} ({{long_date _timestamp}})
+                            a.ui.compact.circular.basic.button(href="/order/#{_id}/view")
+                                |view details
+                                i.right.chevron.icon
+                            if can_edit
+                                .ui.small.compact.basic.button.cancel_order
+                                    i.remove.red.icon
+                                    |cancel
+                    .ui.hidden.divider
+                    +comments
+                    
+
+
+template(name='order_button')
+    if servings_left
+        .ui.green.fluid.large.circular.button.order_meal
+            i.cart.plus.large.icon
+            |order #{serving_unit}
+    else 
+        .ui.teal.large.fluid.circular.button.join_waitlist
+            i.clock.large.icon
+            |join wait list
+        

@@ -4,8 +4,8 @@ Router.route '/building/:doc_id/view', (->
     ), name:'building_dashboard'
 Router.route '/building/:doc_id/members', (->
     @layout 'building_layout'
-    @render 'building_members'
-    ), name:'building_members'
+    @render 'building_users'
+    ), name:'building_users'
 Router.route '/building/:doc_id/credit', (->
     @layout 'building_layout'
     @render 'building_credit'

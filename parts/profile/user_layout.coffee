@@ -1,7 +1,7 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
         @layout 'user_layout'
-        @render 'profile_home'
+        @render 'user_dashboard'
         ), name:'user_home'
     Router.route '/user/:username/finance', (->
         @layout 'user_layout'
@@ -23,26 +23,10 @@ if Meteor.isClient
         @layout 'user_layout'
         @render 'user_reservations'
         ), name:'user_reservations'
-    Router.route '/user/:username/handling', (->
-        @layout 'user_layout'
-        @render 'user_handling'
-        ), name:'user_handling'
     Router.route '/user/:username/rentals', (->
         @layout 'user_layout'
         @render 'user_rentals'
         ), name:'user_rentals'
-    Router.route '/user/:username/offers', (->
-        @layout 'user_layout'
-        @render 'user_offers'
-        ), name:'user_offers'
-    Router.route '/user/:username/contact', (->
-        @layout 'user_layout'
-        @render 'user_contact'
-        ), name:'user_contact'
-    Router.route '/user/:username/stats', (->
-        @layout 'user_layout'
-        @render 'user_stats'
-        ), name:'user_stats'
     Router.route '/user/:username/dashboard', (->
         @layout 'user_layout'
         @render 'user_dashboard'

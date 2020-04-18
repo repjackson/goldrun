@@ -6,9 +6,12 @@ template(name='users')
                 //-     +i name='groups'
                 //-     //- i.users.icon
                 //-     |users
-                .ui.left.icon.fluid.input
+                .ui.left.icon.input
                     i.search.icon
                     input.username_search(type='text' placeholder='lookup user' autofocus='autofocus')
+                if is_admin
+                    .ui.button.add_user
+                        |add user
                 .ui.hidden.divider
                 .ui.centered.five.stackable.cards
                     each users
@@ -19,10 +22,7 @@ template(name='user')
         .image
             //- a(href="/user/#{username}/")
             //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
-            if kiosk_photo
-                img.ui.image(src="{{c.url kiosk_photo width=400 height=400 crop='fit'}}")
-            else if image_id
-                img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+            img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
         .content
             a(href="/user/#{username}/")
                 h2.ui.center.aligned.header #{first_name} #{last_name} 
@@ -39,10 +39,7 @@ template(name='user_card_template')
         .image
             //- a(href="/user/#{username}/")
             //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
-            if kiosk_photo
-                img.ui.image(src="{{c.url kiosk_photo width=400 height=400 crop='fit'}}")
-            else if image_id
-                img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+            img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
         .content
             a(href="/user/#{username}/")
                 h2.ui.center.aligned.header #{first_name} #{last_name} 

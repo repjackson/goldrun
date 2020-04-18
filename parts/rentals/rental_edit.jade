@@ -23,7 +23,7 @@ template(name='rental_edit')
                             | info
                         if viewing_info
                             +image_edit key='image' label='image' direct=true
-                            +html_edit key='description' label='description' icon='content' direct=true
+                            +textarea_edit key='description' label='description' icon='content' direct=true
                     .ui.fluid.segment
                         .ui.header.pointer.toggle_finance(data-name='info')
                             i.money.small.icon

@@ -7,15 +7,22 @@ if Meteor.isClient
     Template.users.helpers
         users: ->
             username_query = Session.get('username_query')
-            Meteor.users.find({
-                username: {$regex:"#{username_query}", $options: 'i'}
-                # healthclub_checkedin:$ne:true
-                # roles:$in:['resident','owner']
-                },{ limit:20 }).fetch()
+            if username_query
+                Meteor.users.find({
+                    username: {$regex:"#{username_query}", $options: 'i'}
+                    # roles:$in:['resident','owner']
+                    },{ limit:20 }).fetch()
+            else
+                Meteor.users.find({
+                    },{ limit:20 }).fetch()
+
     Template.users.events
-        # 'click #add_user': ->
-        #     id = Docs.insert model:'person'
-        #     Router.go "/person/edit/#{id}"
+        'click .add_user': ->
+            new_username = prompt('username')
+            Meteor.call 'add_user', new_username, (err,res)->
+                console.log res
+                new_user = Meteor.users.findOne res
+                Router.go "/user/#{new_user.username}/dashboard"
         'keyup .username_search': (e,t)->
             username_query = $('.username_search').val()
             if e.which is 8

@@ -38,38 +38,6 @@ template(name='price_view')
 
 
 
-template(name='color_edit')
-    .ui.large.form
-        .field
-            label 
-                if icon
-                    i.grey.icon(class=icon)
-                    //- +i name=icon                
-                if title
-                    |#{title}
-                else if key
-                    |#{key}
-                else
-                    |#{this}
-            input.edit_color(type='color' value=field_value placeholder='color' autocomplete="off")
-
-
-
-template(name='color_view')
-    .ui.form
-        .field
-            label 
-                if icon
-                    i.grey.icon(class=icon)
-                    //- +i name=icon                
-                if title
-                    |#{title}
-                else if key
-                    |#{key}
-                else
-                    |#{this}
-            .ui.large.label(style="background:#{field_value}")
-            |#{field_value}
 
 template(name='color_icon_edit')
     div
@@ -202,57 +170,6 @@ template(name='image_view')
         //-     |download
     //- +call_visual
 
-template(name='pdf_edit')
-    .ui.form
-        if icon
-            i.grey.icon(class=icon)
-            //- +i name=icon
-        .ui.inline.header
-            if title
-                |#{title}
-            else if label
-                |#{label}
-            else if key
-                |#{key}
-            else
-                |#{this}            
-        .field
-            if field_value
-                label uploaded pdf
-                a.ui.button(href="{{c.url field_value gravity='face' crop='fit'}}")
-                    |download pdf
-                #remove_photo.ui.icon.button
-                    i.remove.red.icon
-            else
-                //- if icon
-                //-     i.grey.icon(class=icon)
-                //- |#{title}
-                //- if is_dev
-                //-     input.cloudinary_id(type='text' value=field_value placeholder='cloudinary_id' autocomplete="off")
-                // else
-                //     label Upload Image
-                input(type='file' name='upload_pdf' accept='application/pdf')
-
-template(name='pdf_view')
-    if field_value
-        if icon
-            i.grey.icon(class=icon)
-            //- +i name=icon
-        if title
-            |#{title}
-        //- else if key
-        //-     |#{key}
-        //- else
-        //-     |#{this}
-        //- img.ui.large.centered.rounded.image(src="{{c.url field_value 'pdf.jpg' height=500 crop='fill'}}")
-        
-        a.ui.animated.button(href="{{c.url field_value }}")
-            .visible.content
-                i.download.icon
-                |#{label}
-            .hidden.content
-                |download pdf
-    //- +call_visual
 
 template(name='image_edit')
     .ui.form
@@ -331,34 +248,6 @@ template(name='textarea_edit')
             textarea.edit_textarea(rows='5') #{field_value}
 
 
-template(name='document_edit')
-    // .ui.labeled.fluid.icon.input
-    //     .ui.label 
-    //         // if icon
-    //         //     i.grey.icon(class=icon)
-    //         if title
-    //             |#{title}
-    //         else
-    //             |#{key}
-    //     input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
-    with referenced_document
-        .ui.header 
-            |#{title}
-        .content 
-            |!{content}
-            
-                
-template(name='document_view')
-    //- .ui.styled.fluid.accordion
-    //-     .title 
-    //-         .ui.header 
-    //-             |#{title}
-    //-             i.dropdown.icon
-    //-     .content 
-    if is_staff
-        with referenced_document
-            +edit_button
-    |!{referenced_document.content}
         
 template(name='text_edit')
     div
@@ -809,58 +698,6 @@ template(name='child_view')
 
 
 
-template(name='youtube_edit')
-    .ui.labeled.fluid.icon.input
-        .ui.large.label 
-            // if icon
-            //     i.grey.icon(class=icon)
-            |youtube id
-        input.youtube_id(type='text' value=field_value placeholder=placeholder autocomplete="off")
-    if field_value
-        iframe.youtube_view(width='560' height='315' src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
-
-template(name='youtube_view')
-    if field_value
-        if icon
-            //- i.grey.icon(class=icon)
-            +i name=icon
-        .ui.embed.youtube_view(data-source="youtube" data-id=field_value)
-
-        //- // iframe(width='560' height='315' src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
-        //- iframe(src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
-
-
-
-template(name='signature_edit')
-    .ui.segment
-        canvas.canvas_area(id="signature-pad" class="signature-pad" width='800' height='200')
-    .ui.grid
-        .middle.aligned.row
-            .fifteen.wide.column
-                .ui.huge.fluid.button.save(title='Save')
-                    i.checkmark.icon
-                    |submit
-            .one.wide.column
-                .ui.large.icon.button.clear(title='Clear')
-                    i.remove.icon
-
-template(name='signature_view')
-    .ui.header
-        if icon
-            i.grey.icon(class=icon)
-            //- +i name=icon
-        | #{title}    
-    img.ui.fluid.centered.rounded.image(src=field_value)
-    if is_admin
-        .ui.button.print_rules
-            i.download.icon
-            |download pdf
-    //- .ui.icon.button.print_guest
-    //-     i.download.icon
-    //-     |Download Guest PDF
-
-
-
 template(name='boolean_edit')
     //- div
     .pointer.ui.button.toggle_boolean(class="#{boolean_toggle_class} #{classes}" title=tooltip)
@@ -979,33 +816,6 @@ template(name='multi_doc_edit')
     
     
     
-template(name='business_edit')
-    .ui.input
-        input#business_name(type='text' placeholder=title autocomplete="off")
-        //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
-    //- each selections
-    //-     .ui.large.label
-    //-         |#{title}
-    with referenced_business
-        .ui.header #{title}
-    //- if doc_results
-    //-     .ui.attached.secondary.segment
-    //-         .ui.middle.aligned.selection.animated.list
-    //-             each doc_results
-    //-                 .select_doc.item
-    //-                     h2.ui.header
-    //-                         //- img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
-    //-                         strong + #{guest_name} #{first_name} #{last_name}
-
-
-template(name='single_unit_edit')
-    .ui.header single unit lookup
-    
-    
-    
-template(name='multiple_unit_edit')
-    .ui.header multiple unit lookup
-    
 
 template(name='multi_doc_view')
     div
@@ -1073,53 +883,6 @@ template(name='single_user_view')
                 +username_info
             
 
-
-template(name='single_person_view')
-    div
-    .ui.header #{title}
-    if field_value
-        +person_card field_value
-    div
-            
-            
-template(name='single_person_edit')
-    .ui.header #{title}
-    .ui.form
-        if field_value
-            +person_card field_value
-            .ui.circlar.button.clear_selection
-                i.remove.icon
-                |clear
-        else
-            .field.attached
-                input#single_person_select_input(type='text' placeholder='Lookup Username..')
-            if person_results
-                .ui.top.attached.segment
-                    .ui.middle.aligned.selection.animated.large.list
-                        each person_results
-                            .select_person.item
-                                h3.ui.header
-                                    if image
-                                        img.ui.avatar.image(src="{{c.url image width=100 height=100 gravity='face' crop='fill'}}")
-                                    //- else
-                                    //-     i.user.icon
-                                    strong &nbsp; #{first_name} #{last_name}
-                                 |@#{username}
-                                .ui.sub.header #{building_number} #{address}
-            else
-                .ui.header no results
-            // .ui.list
-            //     each field_value
-            //         |#{this}
-            //         .item
-            //             .right.floated.content
-            //                 i.pull_user.remove.link.icon
-            //             .image
-            //                 img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
-            //             .content
-            //                 h4.ui.header
-            //                     |#{first_name} #{last_name}
-            //                     @#{username}
 
 
 template(name='multi_user_edit')
@@ -1212,52 +975,6 @@ template(name='multi_doc_input')
                 //-                 |#{first_name} #{last_name}
                 //-                 @#{username}
 
-template(name='project_lookup')
-    //- .ui.form
-        //- .ui.inline.header
-        //-     if icon
-        //-         i.grey.icon(class=icon)
-        //-     if title
-        //-         |#{title}
-        //-     else if label
-        //-         |#{label}
-        //-     else if key
-        //-         |#{key}
-        //-     else
-        //-         |#{this}
-    unless field_value
-        .ui.input
-            input.project_title_lookup(type='text' placeholder='lookup project' autocomplete="off")
-        //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
-    each selections
-        .ui.large.label
-            |#{title}
-    if doc_results
-        .ui.attached.segment
-            .ui.middle.aligned.selection.animated.list
-                each doc_results
-                    .select_doc.item
-                        +ismall name=icon classes='ui middle aligned image'
-                        .ui.inline.header
-                            strong #{title}
-                        div
-        //- +clear_value                
-        //- .ui.list
-        //-     each field_value
-        //-         // |#{this}
-        //-         +user_card
-        //-         .ui.large.button
-        //-             |#{first_name} #{last_name}
-                //- with user_from_id
-                //-     .item
-                //-         .right.floated.content
-                //-             i.pull_user.remove.link.icon
-                //-         .image
-                //-             img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
-                //-         .content
-                //-             h4.ui.header
-                //-                 |#{first_name} #{last_name}
-                //-                 @#{username}
 
 template(name='multi_user_view')
     .ui.header 
@@ -1294,41 +1011,4 @@ template(name='range_edit')
 
 
 
-template(name='html_view')
-    if field_value
-        div
-        //- if icon
-        //-     i.icon(class=field_value)
-        .ui.inline.small.header
-            if title
-                |#{title}
-            else if label
-                |#{label}
-        .f6 {{nl2br field_value}}
-        if view_watson
-            if watson
-                +watson_view
-
-template(name='html_edit')
-    .ui.form
-        .field
-            label 
-                if icon
-                    i.icon(class=icon)
-                if title
-                    |#{title}
-                else if label
-                    |#{label}
-                else if key
-                    |#{key}
-                else
-                    |#{this}
-    .froala-container
-        +froalaReactive getFEContext
-    //- if is_dev
-    +call_watson mode='html' key=key
-    div
-    //- +tone mode='html'
-    if watson
-        +watson_view
         

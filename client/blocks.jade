@@ -1,9 +1,6 @@
 template(name='comments')
-    //- div
-    //- i.comments.icon
     .ui.header
-        i.comments.icon
-        //- +i name='comments' classes='ui middle aligned image'
+        +i name='comments' classes='ui middle aligned image'
         |comments
     div
     if currentUser
@@ -16,9 +13,8 @@ template(name='comments')
                 .content
                     .ui.header #{body}
                     .meta #{when}
-                        unless is_frontdesk
-                            |by 
-                            a(href="/user/#{author.username}") #{author.first_name} #{author.last_name}
+                        |by 
+                        a(href="/user/#{author.username}") #{author.first_name} #{author.last_name}
                         if currentUser
                             +voting_small
                             if can_edit

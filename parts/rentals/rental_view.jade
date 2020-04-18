@@ -44,7 +44,7 @@ template(name='rental_view')
                     +single_user_view key='handler_username' direct=true
                 .four.wide.column
                     .ui.large.center.aligned.inline.header #{title}
-                    +html_view key='description' label='description' icon='content' direct=true
+                    +textarea_view key='description' label='description' icon='content' direct=true
                     div
                     if security_deposit_required
                         .ui.header 

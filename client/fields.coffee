@@ -781,10 +781,10 @@ Template.single_user_edit.events
         user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
-                $set:"#{field.key}":@username
+                $set:"#{field.key}":@_id
         else if user
             Meteor.users.update parent._id,
-                $set:"#{field.key}":@username
+                $set:"#{field.key}":@_id
 
         t.user_results.set null
         $('#single_user_select_input').val ''
@@ -792,12 +792,19 @@ Template.single_user_edit.events
         #     $set: assignment_timestamp:Date.now()
 
     'click .pull_user': ->
-        parent = Template.parentData(5)
-        field = Template.currentData()
-        Docs.update parent._id,
-            $unset:"#{field.key}":1
+        # console.log Template.parentData(1)
+        # console.log Template.parentData(2)
+        # console.log Template.parentData(3)
+        # console.log Template.parentData(4)
+        # console.log Template.parentData(5)
+        # console.log Template.parentData(6)
+        # console.log Template.parentData(7)
+        if confirm "Remove #{@username}?"
+            parent = Template.parentData(1)
+            field = Template.currentData()
+            Docs.update parent._id,
+                $unset:"#{field.key}":1
 
-        # if confirm "Remove #{@username}?"
         #     page_doc = Docs.findOne Router.current().params.id
             # Meteor.call 'unassign_user', page_doc._id, @
 
@@ -928,10 +935,10 @@ Template.multi_user_edit.events
         user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
-                $addToSet:"#{field.key}":@username
+                $addToSet:"#{field.key}":@_id
         else if user
             Meteor.users.update parent._id,
-                $addToSet:"#{field.key}":@username
+                $addToSet:"#{field.key}":@_id
 
 
         t.user_results.set null

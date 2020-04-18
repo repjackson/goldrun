@@ -30,14 +30,13 @@ head
 template(name='layout')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     +nav
-    .context
-        .ui.stackable.grid.global_container(class=invert_class)
-            .centered.row
-                .sixteen.wide.column
-                    +yield
-        unless is_frontdesk
-            +footer
-        //- +shortcut_modal
+    //- .context
+    //-     .ui.stackable.grid.global_container(class=invert_class)
+    //-         .centered.row
+    //-             .sixteen.wide.column
+    +yield
+    //- +footer
+    //- +shortcut_modal
 
 template(name='mlayout')
     .global_container(class=invert_class)

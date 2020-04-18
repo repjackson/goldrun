@@ -71,11 +71,9 @@ if Meteor.isClient
                 Docs.remove @_id
             , 750
 
-    Template.mlayout.onCreated ->
-        @autorun -> Meteor.subscribe 'me'
     Template.nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
-        # @autorun -> Meteor.subscribe 'role_models'
+        @autorun -> Meteor.subscribe 'users'
         # @autorun -> Meteor.subscribe 'users_by_role','staff'
         @autorun => Meteor.subscribe 'global_settings'
 

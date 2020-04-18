@@ -1,0 +1,148 @@
+template(name='buildings')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.center.aligned.column
+                .ui.header 
+                    +i name='building'
+                    |buildings
+        each buildings
+            .four.wide.column
+                a(href="/building/#{_id}/view")
+                    .ui.card.building_card
+                        img.ui.fluid.image(src="{{c.url image_id width=400 height=200 crop='fill'}}")
+                        .content
+                            .ui.large.header #{building_code} #{title}
+                                each building_numbers
+                                    .ui.label #{this}
+                            .ui.grey.small.header #{building_street}
+                
+//- 
+//- template(name='building_view')
+//-     with current_doc
+//-         .ui.padded.stackable.grid
+//-             .row
+//-                 .four.wide.center.aligned.column
+//-                     a.ui.basic.button(href="/buildings")
+//-                         i.chevron.left.icon
+//-                         +i name='building' classes='ui inline mini image'
+//-                         |buildings
+//-                 .eight.wide.center.aligned.column
+//-                     .ui.large.inline.header 
+//-                         small building
+//-                         strong #{title}
+//-                     each building.building_numbers
+//-                         .ui.large.label #{this}
+//-                 .four.wide.center.aligned.column
+//-                     if can_edit 
+//-                         a.ui.basic.icon.button(href="/building/#{_id}/edit")
+//-                             i.pencil.icon
+//-             .row
+//-                 .sixteen.wide.column
+//-                     a.ui.basic.circular.compact.button(href="/tribe/#{slug}" class="{{isActiveRoute regex='tribe_dashboard'}}")
+//-                         +ismall name='dashboard' classes='ui inline image'
+//-                         |dashboard
+//-                     a.ui.basic.circular.compact.button(href="/tribe/#{slug}/members" class="{{isActiveRoute regex='tribe_members'}}")
+//-                         +ismall name='info' classes='ui inline image'
+//-                         |members
+//-                     a.ui.basic.circular.compact.button(href="/tribe/#{slug}/credit" class="{{isActiveRoute regex='tribe_credit'}}")
+//-                         +ismall name='coins' classes='ui inline image'
+//-                         |credit
+//-                     a.ui.basic.circular.compact.button(href="/tribe/#{slug}/meals" class="{{isActiveRoute regex='tribe_meals'}}")
+//-                         +ismall name='meal' classes='ui inline image'
+//-                         |meals
+//-                     a.ui.basic.circular.compact.button(href="/tribe/#{slug}/dishes" class="{{isActiveRoute regex='tribe_dishes'}}")
+//-                         +ismall name='meal' classes='ui inline image'
+//-                         |dishes
+//-                     a.ui.basic.circular.compact.button(href="/tribe/#{slug}/voting" class="{{isActiveRoute regex='tribe_voting'}}")
+//-                         +ismall name='elections' classes='ui inline image'
+//-                         |voting
+//-                     a.ui.basic.circular.compact.button(href="/tribe/#{slug}/events" class="{{isActiveRoute regex='tribe_events'}}")
+//-                         +ismall name='calendar' classes='ui inline image'
+//-                         |events
+//-                     a.ui.basic.circular.compact.button(href="/tribe/#{slug}/food" class="{{isActiveRoute regex='tribe_food'}}")
+//-                         +ismall name='food' classes='ui inline image'
+//-                         |food
+//-                     //- a.ui.basic.circular.compact.button(href="/tribe/#{slug}/settings" class="{{isActiveRoute regex='tribe_settings'}}")
+//-                     //-     +ismall name='settings' classes='ui inline image'
+//-                     //-     |settings
+//-                     a.ui.basic.circular.compact.button(href="/tribe/#{slug}/products" class="{{isActiveRoute regex='tribe_products'}}")
+//-                         +ismall name='shopping-cart' classes='ui inline image'
+//-                         |products
+//-                     a.ui.basic.circular.compact.button(href="/tribe/#{slug}/services" class="{{isActiveRoute regex='tribe_services'}}")
+//-                         +ismall name='service-bell' classes='ui inline image'
+//-                         |services
+//- 
+//-             .row
+//-                 .four.wide.column 
+//-                     +image_view key='image_id' icon='image' label='image'
+//-                     +array_view key='tags' icon='tags'
+//-                     .spacer
+//-                     if link
+//-                         a.ui.basic.circular.button(href=link target='_window')
+//-                             i.external.icon
+//-                             |view site
+//-                         .spacer
+//-                     div
+//-                     .spacer
+//-                     a.ui.compact.basic.circular.button(href=address_link target='_window')
+//-                         i.marker.icon
+//-                         |#{address}
+//-                     +viewing
+//-                 .twelve.wide.column
+//-                     div
+//-                     +yield
+//- 
+//-                 .ui.four.wide.column
+//-                     +image_view key='image_id' direct=true
+//-                 .ui.four.wide.column
+//-                     .ui.segment
+//-                         .ui.header 
+//-                             +i name='meal'
+//-                             |meals
+//-                 .ui.four.wide.column
+//-                     .ui.segment
+//-                         .ui.header 
+//-                             +i name='product'
+//-                             |products
+//-                 .ui.four.wide.column
+//-                     .ui.segment
+//-                         .ui.header 
+//-                             +i name='wrench'
+//-                             |services
+//-                 .ui.four.wide.column
+//-                     .ui.segment
+//-                         .ui.header 
+//-                             +i name='groups'
+//-                             |users
+//-                         +multi_user_view key='building_user_ids' direct=true
+//- 
+//- 
+//- 
+//- 
+//- template(name='building_edit')
+//-     with current_doc
+//-         .ui.stackable.padded.grid
+//-             .row
+//-                 .four.wide.center.aligned.column
+//-                     a.ui.big.fluid.button(href="/building/#{_id}/view")
+//-                         i.green.checkmark.icon
+//-                         |save
+//-                 .eight.wide.center.aligned.column
+//-                     .ui.header #{title}
+//-                 .four.wide.center.aligned.column
+//-                     .ui.icon.button.delete_product_item 
+//-                         i.trash.icon
+//-             .row
+//-                 .four.wide.column
+//-                     +text_edit key='title' icon='header' direct=true
+//-                     +image_edit key='image_id' direct=true
+//- 
+//-                     +array_edit key='tags' icon='tags' direct=true
+//-                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+//-                 .eight.wide.column
+//-                     +textarea_edit key='description' direct=true
+//-                 .four.wide.column
+//-                     .ui.header
+//-                         +i name='groups'
+//-                         |users
+//-                     +multi_user_edit key='building_user_ids' label='lookup users' direct=true

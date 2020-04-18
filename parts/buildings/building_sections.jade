@@ -1,0 +1,39 @@
+template(name='building_members')
+    .ui.header 
+        +i name='shield'
+        |leader
+    .ui.header #{building_leader.username}
+    .ui.header    
+        +i name='groups'
+        |members
+    each building_users
+        .ui.header #{username}    
+    
+template(name='building_meals')
+    .ui.header meals
+    
+template(name='building_dishes')
+    .ui.header dishes
+    
+template(name='building_food')
+    .ui.header
+        +i name='product'
+        | food
+    
+template(name='building_stats')
+    .ui.header stats
+    
+template(name='building_forum')
+    .ui.header forum
+    
+template(name='building_posts')
+    .ui.header members
+    
+template(name='building_events')
+    .ui.header events
+    
+template(name='building_credit')
+    .ui.header credit
+    
+template(name='building_settings')
+    .ui.header settings

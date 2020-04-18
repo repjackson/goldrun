@@ -109,13 +109,7 @@ if Meteor.isClient
     Template.user_card.onCreated ->
         @autorun => Meteor.subscribe 'user_from_username', @data
     Template.user_card.helpers
-        user: -> Meteor.users.findOne username:@valueOf()
-
-
-    Template.member_card.onCreated ->
-        @autorun => Meteor.subscribe 'user_from_username', @data
-    Template.member_card.helpers
-        user: -> Meteor.users.findOne username:@valueOf()
+        user: -> Meteor.users.findOne @valueOf()
 
 
     Template.small_horizontal_member_card.onCreated ->
@@ -273,38 +267,6 @@ if Meteor.isClient
 
 
 
-    Template.lease_expiration_check.helpers
-        lease_expiring: ->
-            if @expiration_date
-                # console.log @expiration_date
-                today = moment(Date.now())
-                expiration_moment = moment(@expiration_date)
-                # diff = today-@expiration_date
-                # console.log diff
-                # console.log moment(@expiration_date).subtract(30, 'd').calendar()
-                # console.log moment(@expiration_date).fromNow()
-                # console.log moment(@expiration_date).calendar()
-                expiration_moment.from(today)
-                # date1_ms = @expiration_date.getTime()
-                # date2_ms = today.getTime()
-                #
-                # # // Calculate the difference in milliseconds
-                # difference_ms = Math.abs(date1_ms - date2_ms)
-                #
-                # # // Convert back to days and return
-                # console.log Math.round(difference_ms/ONE_DAY)
-
-
-                # minute_difference = diff/1000/60
-                # if minute_difference>60
-                    # Meteor.users.update(member._id,{$set:healthclub_checkedin:false})
-
-
-
-
-
-
-
     Template.email_validation_check.events
         'click .send_verification': ->
             console.log @
@@ -374,86 +336,6 @@ if Meteor.isClient
         'click .view_user': ->
             Router.go "/user/#{username}"
 
-    Template.kiosk_send_message.onCreated ->
-        Session.set('sending_message',false)
-        # @sending_message = new ReactiveVar false
-        Session.set('sending_message_id', '')
-    Template.sending_kiosk_message.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Session.get('sending_message_id')
-        @autorun => Meteor.subscribe 'type', 'kiosk_message'
-
-    Template.kiosk_send_message.events
-        'click .create_message': (e,t)->
-            # t.sending_message.set true
-            Session.set('sending_message', true)
-            # console.log @
-            new_message_id = Docs.insert
-                model:'message'
-                type:'kiosk_message'
-                parent_id: @_id
-            Session.set('sending_message_id',new_message_id)
-            # t.sending_message_id.set new_message_id
-
-    Template.sending_kiosk_message.events
-        'click .cancel_message': (e,t)->
-            #     # t.sending_message.set false
-            # console.log @
-            # console.log Session.get('sending_message_id')
-            # console.log Session.get('sending_message_id')
-            # console.log @
-            Docs.remove Session.get('sending_message_id')
-            Session.set 'sending_message', null
-            Session.set 'sending_message_id', null
-        'click .send_message': ->
-            console.log @
-            Meteor.call 'send_kiosk_message', @, (err,res)->
-                alert 'kiosk message sent'
-                Session.set 'sending_message', null
-                Session.set 'sending_message_id', null
-
-    Template.kiosk_send_message.helpers
-        sending_message: ->
-            Session.get('sending_message')
-            # Template.instance().sending_message.get()
-    Template.sending_kiosk_message.helpers
-        sending_message_doc: ->
-            Docs.findOne
-                type:'kiosk_message'
-            # Docs.findOne Session.get('sending_message_id')
-            # Docs.findOne Template.instance().sending_message_id.get()
-
-
-
-    Template.suggestion_box.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'suggestion'
-    Template.suggestion_box.events
-        'click .add_suggestion': (e,t)->
-            new_suggestion_id =
-                Docs.insert
-                    model:'suggestion'
-            Session.set 'current_suggestion_id', new_suggestion_id
-            $('.ui.modal').modal('show')
-
-    Template.suggestion_box.helpers
-        editing_suggestion: ->
-            Docs.findOne Session.get('current_suggestion_id')
-        public_suggestions: ->
-            Docs.find
-                model:'suggestion'
-                public:true
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 if Meteor.isServer
     Meteor.methods
@@ -467,27 +349,6 @@ if Meteor.isServer
                 model:'log_event'
                 log_type:'kiosk_message_sent'
                 text:"kiosk message sent"
-
-
-    Meteor.publish 'rules_signed_username', (username)->
-        Docs.find
-            model:'rules_and_regs_signing'
-            resident:username
-            # agree:true
-
-    Meteor.publish 'type', (type)->
-        Docs.find
-            type:type
-
-    Meteor.publish 'member_guidelines_username', (username)->
-        Docs.find
-            model:'member_guidelines_signing'
-            # resident:username
-            # agree:true
-
-    Meteor.publish 'guests', ()->
-        Meteor.users.find
-            roles:$in:['guest']
 
 
     Meteor.publish 'children', (model, parent_id, limit)->

@@ -3,14 +3,10 @@ if Meteor.isClient
         @layout 'user_layout'
         @render 'profile_home'
         ), name:'user_home'
-    Router.route '/user/:username/healthclub', (->
+    Router.route '/user/:username/finance', (->
         @layout 'user_layout'
-        @render 'resident_about'
-        ), name:'resident_about'
-    Router.route '/user/:username/residency', (->
-        @layout 'user_layout'
-        @render 'user_residency'
-        ), name:'user_residency'
+        @render 'user_finance'
+        ), name:'user_finance'
     Router.route '/user/:username/info', (->
         @layout 'user_layout'
         @render 'user_info'
@@ -19,10 +15,6 @@ if Meteor.isClient
         @layout 'user_layout'
         @render 'user_services'
         ), name:'user_services'
-    Router.route '/user/:username/bids', (->
-        @layout 'user_layout'
-        @render 'user_bids'
-        ), name:'user_bids'
     Router.route '/user/:username/products', (->
         @layout 'user_layout'
         @render 'user_products'
@@ -39,10 +31,6 @@ if Meteor.isClient
         @layout 'user_layout'
         @render 'user_rentals'
         ), name:'user_rentals'
-    Router.route '/user/:username/workhistory', (->
-        @layout 'user_layout'
-        @render 'user_workhistory'
-        ), name:'user_workhistory'
     Router.route '/user/:username/offers', (->
         @layout 'user_layout'
         @render 'user_offers'
@@ -55,10 +43,6 @@ if Meteor.isClient
         @layout 'user_layout'
         @render 'user_stats'
         ), name:'user_stats'
-    Router.route '/user/:username/votes', (->
-        @layout 'user_layout'
-        @render 'user_votes'
-        ), name:'user_votes'
     Router.route '/user/:username/dashboard', (->
         @layout 'user_layout'
         @render 'user_dashboard'
@@ -91,6 +75,10 @@ if Meteor.isClient
         @layout 'user_layout'
         @render 'user_social'
         ), name:'user_social'
+    Router.route '/user/:username/friends', (->
+        @layout 'user_layout'
+        @render 'user_friends'
+        ), name:'user_friends'
     Router.route '/user/:username/comparison', (->
         @layout 'user_layout'
         @render 'user_comparison'
@@ -110,7 +98,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_models', Router.current().params.username
-        @autorun -> Meteor.subscribe 'model_docs', 'staff_resident_widget'
+        @autorun -> Meteor.subscribe 'model_docs', 'staff_user_widget'
 
     Template.user_layout.onRendered ->
         Meteor.setTimeout ->
@@ -248,7 +236,7 @@ if Meteor.isServer
 
     Meteor.publish 'user_referenced_docs', (username)->
         Docs.find
-            resident:username
+            user:username
 
 
 if Meteor.isClient
@@ -264,9 +252,9 @@ if Meteor.isClient
 
 
     # Template.member_about.helpers
-    #     staff_resident_widgets: ->
+    #     staff_user_widgets: ->
     #         Docs.find
-    #             model:'staff_resident_widget'
+    #             model:'staff_user_widget'
 
     # Template.member_section.helpers
     #     member_section_template: ->

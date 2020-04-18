@@ -1,14 +1,22 @@
 template(name='product_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .row
-                .four.wide.column
-                    .ui.inline.header #{title}
+            .middle.aligned.row
+                .four.wide.center.aligned.column
+                    a.ui.button(href="/building/#{building_id}/market")
+                        i.chevron.left.icon
+                        |building
+                .eight.wide.center.aligned.column
+                    .ui.header 
+                        |editing #{title} product
+                .four.wide.center.aligned.column
                     a.ui.big.fluid.button(href="/product/#{_id}/view")
                         i.green.checkmark.icon
                         |save
                     .ui.icon.button.delete_product_item 
                         i.trash.icon
+            .row
+                .four.wide.column
                     +text_edit key='title' icon='header' direct=true
                     +image_edit key='image' direct=true
         
@@ -17,9 +25,11 @@ template(name='product_edit')
                     +number_edit key='dollar_price' icon='money' label='dollar price' direct=true
                 .eight.wide.column
                     +textarea_edit key='description' direct=true
-                    +text_edit key='model' direct=true
+                    if is_admin
+                        +text_edit key='model' direct=true
                 .four.wide.column
                     .ui.header
+                        +i name='delivery'
                         |delivery
                     +boolean_edit key='pickup_delivery' label='pickup' direct=true
                     +boolean_edit key='home_dropoff_delivery' label='home dropoff' direct=true
@@ -33,7 +43,7 @@ template(name='product_view')
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             .row
-                .four.wide.column
+                .five.wide.column
                     img.ui.centered.rounded.shadowed.image(src="{{c.url image width=1000 height=400 crop='fit'}}")
                     .ui.large.header #{title}
                     if can_edit
@@ -47,10 +57,10 @@ template(name='product_view')
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +text_view key='location' icon='marker' label='location description' direct=true
                     +number_view key='dollar_price' icon='money' label='dollar price' direct=true
-                .eight.wide.column
+                .six.wide.column
                     +html_view key='description' direct=true
                     +comments
-                .four.wide.column
+                .five.wide.column
                     div
                     +product_location
                     unless sold_out

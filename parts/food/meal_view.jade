@@ -27,9 +27,9 @@ template(name='meal_view')
                         |ingredients
                     each ingredients
                         .ui.basic.label #{this}
-                    .ui.dividing.header
-                        +i name='rules'
-                        |rules
+                    //- .ui.dividing.header
+                    //-     +i name='rules'
+                    //-     |rules
                 .column
                     .ui.header #{servings_amount} servings for sale
                     .ui.header $#{price_per_serving}/serving
@@ -69,8 +69,8 @@ template(name='meal_view')
                             .ui.inline.green.header
                                 |$#{order_price}
                             a.ui.small.inline.header(href="/user/#{_author.username}" title='view profile')
-                                if _author.profile_image_id
-                                    img.ui.avatar.image(src="{{c.url _author.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                if _author.image_id
+                                    img.ui.avatar.image(src="{{c.url _author.image_id width=100 height=100 gravity='face' crop='fill'}}")
                                 |#{_author.username}
                             div
                             .ui.small.inline.header

@@ -112,24 +112,11 @@ template(name='user_card')
         .ui.tiny.card
             //- if is_staff
             .image
-                if kiosk_photo
-                    img.ui.tiny.image(src="{{c.url kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
-                else if image_id
-                    img.ui.tiny.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                img.ui.tiny.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
             .content    
-                if is_frontdesk
-                    .header 
-                        |#{first_name} #{last_name}
-                else
-                    a.header(href="/user/#{username}") #{first_initial} #{last_name} 
-                    //- .meta @#{username}
-                    if is_staff
-                        .ui.list
-                            .item #{address}
-                            //- .item #{building_code}
-                            //- .item #{unit_number}
-                            //- .item #{building_number}
-                        |#{points} points
+                .header 
+                    a.header(href="/user/#{username}") #{first_name} #{last_name} 
+                    .meta @#{username}
                     if is_admin
                         div
                         +user_email
@@ -183,7 +170,7 @@ template(name='user_button')
 template(name='username_info')
     .ui.small.compact.button.goto_profile
         if is_member
-            img.ui.avatar.image(src="{{c.url user.profile_image_id width=100}}")
+            img.ui.avatar.image(src="{{c.url user.image_id width=100}}")
         else if user.kiosk_photo
             img.ui.avatar.image(src="{{c.url user.kiosk_photo width=100}}")
         else if user.image_id

@@ -671,20 +671,20 @@ Template.single_user_edit.events
                     t.user_results.set res
 
     'click .select_user': (e,t) ->
-        # page_doc = Docs.findOne Router.current().params.id
+        page_doc = Docs.findOne Router.current().params.doc_id
         field = Template.currentData()
 
         val = t.$('.edit_text').val()
-        if field.direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        # if field.direct
+        #     parent = Template.parentData()
+        # else
+        #     parent = Template.parentData(5)
 
 
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
-        if doc
-            Docs.update parent._id,
+        if page_doc
+            Docs.update page_doc._id,
                 $set:"#{field.key}":@_id
         else if user
             Meteor.users.update parent._id,
@@ -709,7 +709,7 @@ Template.single_user_edit.events
             Docs.update parent._id,
                 $unset:"#{field.key}":1
 
-        #     page_doc = Docs.findOne Router.current().params.id
+        #     page_doc = Docs.findOne Router.current().params.doc_id
             # Meteor.call 'unassign_user', page_doc._id, @
 
 
@@ -734,7 +734,7 @@ Template.multi_user_edit.events
                 else
                     t.user_results.set res
     'click .select_user': (e,t) ->
-        page_doc = Docs.findOne Router.current().params.id
+        page_doc = Docs.findOne Router.current().params.doc_id
         val = t.$('.edit_text').val()
         field = Template.currentData()
 
@@ -760,7 +760,7 @@ Template.multi_user_edit.events
 
     'click .pull_user': ->
         if confirm "remove #{@username}?"
-            page_doc = Docs.findOne Router.current().params.id
+            page_doc = Docs.findOne Router.current().params.doc_id
             parent = Template.parentData(5)
             doc = Docs.findOne parent._id
             user = Meteor.users.findOne parent._id
@@ -806,7 +806,7 @@ Template.multi_doc_input.events
 
     'click .pull_user': ->
         if confirm "Remove #{@username}?"
-            page_doc = Docs.findOne Router.current().params.id
+            page_doc = Docs.findOne Router.current().params.doc_id
             parent = Template.parentData(5)
             doc = Docs.findOne parent._id
             user = Meteor.users.findOne parent._id

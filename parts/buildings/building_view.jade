@@ -58,7 +58,7 @@ template(name='building_dashboard')
                 .ui.large.selection.animated.list
                     each members 
                         a.item(href="/building/#{_id}/#{username}")
-                            img.ui.mini.image(src="{{c.url profile_image_id width=200 height=200}}")
+                            img.ui.mini.image(src="{{c.url image_id width=200 height=200}}")
                             .content
                                 .header
                                     |#{username}

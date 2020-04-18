@@ -7,9 +7,9 @@ if Meteor.isClient
 
     Template.meal_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'dish_from_meal_id', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'dish_from_meal_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'orders_from_meal_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'ingredients_from_meal_id', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'ingredients_from_meal_id', Router.current().params.doc_id
 
 
     Template.meal_view.events
@@ -36,7 +36,7 @@ if Meteor.isClient
 
 
     Template.meal_view.helpers
-        can_order: -> @_author_id isnt Meteor.userId()
+        can_order: -> @cook_user_id isnt Meteor.userId()
 
         meal_order_class: ->
             if @waitlist then 'blue' else 'green'

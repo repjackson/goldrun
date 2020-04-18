@@ -15,7 +15,7 @@ template(name='user_edit')
                     if is_staff
                         +image_edit key='kiosk_photo' icon='picture' title='profile image' direct=true
                     else
-                        +image_edit key='profile_image_id' icon='picture' title='profile image' direct=true
+                        +image_edit key='image_id' icon='picture' title='profile image' direct=true
                     if is_current_user
                         +password_edit
                         //- +phone_editor

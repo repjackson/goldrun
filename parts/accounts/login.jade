@@ -4,43 +4,26 @@ template(name='login')
             .eight.wide.column
                 h1.ui.center.aligned.header
                     +i name='one-ring'
-                    | gold run enter
+                    | gold run login
                 .ui.inline.small.header 
                     +i name='user-male'
-                    //- i.user.icon
                     |username
                 .ui.fluid.large.input(class=login_class)
                     input.username(type='text')
                 .spacer
                 .ui.inline.small.header 
                     +i name='password'
-                    //- i.lock.icon
                     | password
                 .ui.fluid.large.input(class=login_class)
                     input.password(type='password')
                 //- if username
-                if logging_in
-                    .ui.fluid.big.basic.button.enter(title="login #{username}" class=enter_class)
-                        i.sign.in.alternate.icon
-                        //- +i name='internal' classes='ui mini inline image'
-                        |login
-                        strong #{username}
-                        //- i.right.chevron.icon
-                //- else
-                //-     if username
-                //-         .ui.center.aligned.basic.segment
-                //-             .ui.header no '#{username}' user
-                //-             a.ui.basic.button(href='/register')
-                //-                 i.user.plus.icon
-                //-                 //- +i name='enter-2' classes='ui mini inline image'                    
-                //-                 | register
+                //- if logging_in
+                .ui.fluid.big.basic.button.enter(title="login #{username}" class=enter_class)
+                    +i name='internal' classes='ui mini inline image'
+                    |login
+                    strong #{username}
+                    //- i.right.chevron.icon
                 .ui.center.aligned.basic.segment    
                     a.ui.basic.button(href='/forgot_password')
-                        //- +i name='forgot-password' classes='ui mini inline image'                    
-                        i.refresh.icon
+                        +i name='forgot-password' classes='ui mini inline image'                    
                         |forgot password
-                    //- a.ui.large.basic.button(href='/register') 
-                    //-     //- +i name='add-user-male' classes='ui mini inline image'                    
-                    //-     i.user.plus.icon
-                    //-     |register
-                    //- .ui.center.aligned.inline.header see the front desk to register an account

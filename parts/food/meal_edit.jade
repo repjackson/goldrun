@@ -12,6 +12,7 @@ template(name='meal_edit')
                         |save     
 
             .five.wide.column
+                +text_edit key='title' label='title' direct=true
                 +image_edit key='image_id' label='image' direct=true
                 +number_edit key='servings_amount' label='servings available' direct=true
                 +text_edit key='serving_unit' label='serving unit' direct=true
@@ -58,3 +59,5 @@ template(name='meal_edit')
                         .ui.header pickup
                         +text_edit key='pickup_notes' label='pickup notes' direct=true
                         +time_edit key='pickup_cutoff' label='pickup cutoff' direct=true
+                +single_user_edit key='cook_user_id' label='cook'
+                

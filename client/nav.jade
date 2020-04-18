@@ -33,12 +33,12 @@ template(name='nav')
                 a.item(href="/user/#{currentUser.username}/finance" class="{{isActiveRoute regex='user_finance'}}" title='your credits')
                     |#{currentUser.credit}c
                 a.item(href="/user/#{currentUser.username}/dashboard" class=user_nav_button_class title=user_nav_button_title)
-                    if currentUser.profile_image_id
-                        img.ui.avatar.inline.image(src="{{c.url currentUser.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+                    if currentUser.image_id
+                        img.ui.avatar.inline.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
                     else
                         i.user.icon
                     span.mobile.hidden #{currentUser.name}
-                        |${{int currentUser.credit}}
+                        //- |${{int currentUser.credit}}
                 //- else
                 //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='log out')
                 //-         i.sign.out.icon

@@ -28,13 +28,13 @@ Meteor.methods
     change_username:  (user_id, new_username) ->
         user = Meteor.users.findOne user_id
         Accounts.setUsername(user._id, new_username)
-        return "Updated Username to #{new_username}."
+        return "updated username to #{new_username}."
 
 
     add_email: (user_id, new_email) ->
         Accounts.addEmail(user_id, new_email);
         Accounts.sendVerificationEmail(user_id, new_email)
-        return "Updated Email to #{new_email}"
+        return "updated email to #{new_email}"
 
     remove_email: (user_id, email)->
         # user = Meteor.users.findOne username:username
@@ -69,63 +69,58 @@ Meteor.methods
         	Email.send({
                 to:["<#{to_user.emails[0].address}>"]
                 from:"relay@goldrun.online"
-                subject:"Gold Run Message Notification from #{message._author_username}"
+                subject:"gold run message notification from #{message._author_username}"
                 html: "<h3> #{message._author_username} sent you the message:</h3>"+"<h2> #{message.body}.</h2>"+
-                    "<br><h4>View your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
+                    "<br><h4>view your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
             })
 
-    checkout_members: ()->
-        now = Date.now()
-        # checkedin_members = Meteor.users.find(healthclub_checkedin:true).fetch()
-        checkedin_sessions = Docs.find(
-            model:'healthclub_session',
-            active:true
-            garden_key:$ne:true
-            ).fetch()
-
-
-        for session in checkedin_sessions
-            # checkedin_doc =
-            #     Docs.findOne
-            #         user_id:member._id
-            #         model:'healthclub_checkin'
-            #         active:true
-            diff = now-session._timestamp
-            minute_difference = diff/1000/60
-            if minute_difference>60
-                # Meteor.users.update(member._id,{$set:healthclub_checkedin:false})
-                Docs.update session._id,
-                    $set:
-                        active:false
-                        logout_timestamp:Date.now()
-                # checkedin_members = Meteor.users.find(healthclub_checkedin:true).fetch()
-
-    check_resident_status: (user_id)->
-        user = Meteor.users.findOne user_id
-
-
-
-    checkout_user: (user_id)->
-        Meteor.users.update user_id,
-            $set:
-                healthclub_checkedin:false
-        checkedin_doc =
-            Docs.findOne
-                user_id:user_id
-                model:'healthclub_checkin'
-                active:true
-        if checkedin_doc
-            Docs.update checkedin_doc._id,
-                $set:
-                    active:false
-                    logout_timestamp:Date.now()
-
+    order_meal: (meal_id)->
+        meal = Docs.findOne meal_id
         Docs.insert
-            model:'log_event'
-            parent_id:user_id
-            object_id:user_id
-            user_id:user_id
-            body: "#{@first_name} #{@last_name} checked out."
+            model:'order'
+            meal_id: meal._id
+            order_price: meal.price_per_serving
+            buyer_id: Meteor.userId()
+        Meteor.users.update Meteor.userId(),
+            $inc:credit:-meal.price_per_serving
+        Meteor.users.update meal._author_id,
+            $inc:credit:meal.price_per_serving
+        Meteor.call 'calc_meal_data', meal_id, ->
+
+    calc_meal_data: (meal_id)->
+        meal = Docs.findOne meal_id
+        console.log meal
+        order_count =
+            Docs.find(
+                model:'order'
+                meal_id:meal_id
+            ).count()
+        console.log 'order count', order_count
+        servings_left = meal.servings_amount-order_count
+        console.log 'servings left', servings_left
+
+        # meal_dish =
+        #     Docs.findOne meal.dish_id
+        # console.log 'meal_dish', meal_dish
+        # if meal_dish.ingredient_ids
+        #     meal_ingredients =
+        #         Docs.find(
+        #             model:'ingredient'
+        #             _id: $in:meal_dish.ingredient_ids
+        #         ).fetch()
+        #
+        #     ingredient_titles = []
+        #     for ingredient in meal_ingredients
+        #         console.log ingredient.title
+        #         ingredient_titles.push ingredient.title
+        #     Docs.update meal_id,
+        #         $set:
+        #             ingredient_titles:ingredient_titles
+
+        Docs.update meal_id,
+            $set:
+                order_count:order_count
+                servings_left:servings_left
 
 
 

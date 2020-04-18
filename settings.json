@@ -7,8 +7,8 @@
 	"private": {
 		"stripe_test_secret": "sk_test_6QfNJiwUC94nsS3DCax248Ir00fv9fPijc",
 		"stripe_live_secret": "sk_live_zI09tiGK1RoMXX1KVJ7Mmhow00KLXdfHOU",
-		"cloudinary_key": "754714459692734",
-		"cloudinary_secret": "rPPXD3rZM_GCjODvh0T70XeDCSw",
+		"cloudinary_key": "493658865494442",
+		"cloudinary_secret": "sgysKUZXE03YkHU_xvrVgl_76lM",
 		"tone": {
 			"url": "https://gateway.watsonplatform.net/tone-analyzer/api",
 			"apikey": "LoYmT-a3MSsEOtHgYef1rf6xIkHZ_zf8ICXcIud9UNtu",
@@ -42,7 +42,6 @@
 	"galaxy.meteor.com": {
 		"env": {
 			"MONGO_URL": "mongodb+srv://daoadmin:daoadminpassword@cluster1-etul3.mongodb.net/daodb",
-            "MAIL_URL": "smtp://postmaster%40mg.goldrun.online:6f213f0ad9eae2a2f91f5f29a8e665bd-fd0269a6-78c00f51@smtp.mailgun.org:587",
 			"ROOT_URL": "https://www.goldrun.online"
 		}
 	}

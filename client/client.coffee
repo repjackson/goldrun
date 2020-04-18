@@ -47,8 +47,6 @@ Template.body.events
 
 # Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
 
-Session.setDefault 'invert', false
-Template.registerHelper 'loading_checkin', () -> Session.get 'loading_checkin'
 Template.registerHelper 'parent', () -> Template.parentData()
 Template.registerHelper 'parent_doc', () ->
     Docs.findOne @parent_id
@@ -59,15 +57,6 @@ Template.registerHelper 'rental', () ->
 Template.registerHelper 'gs', () ->
     Docs.findOne
         model:'global_settings'
-Template.registerHelper 'rick_mode', () ->
-    gs = Docs.findOne
-        model:'global_settings'
-    # if Meteor.user() and 'dev' in Meteor.user().roles
-    #     false
-    # else
-    if gs
-        gs.rick_mode
-Template.registerHelper 'invert_class', () -> if Session.equals('dark_mode',true) then 'invert' else ''
 Template.registerHelper 'display_mode', () -> Session.get('display_mode',true)
 Template.registerHelper 'is_loading', () -> Session.get 'loading'
 Template.registerHelper 'dev', () -> Meteor.isDevelopment
@@ -123,12 +112,6 @@ Template.registerHelper 'hsd', () ->
     Docs.findOne
         model:'home_stats'
 
-Template.registerHelper 'project', () ->
-    Docs.findOne
-        _id:@project_id
-        model:'project'
-
-
 
 Template.registerHelper 'grabber', () ->
     Meteor.users.findOne
@@ -139,6 +122,26 @@ Template.registerHelper 'grabber', () ->
 Template.registerHelper 'is_grabber', () ->
     @grabber_id is Meteor.userId()
 
+Template.registerHelper 'total_potential_revenue', () ->
+    @price_per_serving * @servings_amount
+
+# Template.registerHelper 'servings_available', () ->
+#     @price_per_serving * @servings_amount
+
+Template.registerHelper 'session_is', (key, value)->
+    Session.equals(key, value)
+
+Template.registerHelper 'key_value_is', (key, value)->
+    # console.log 'key', key
+    # console.log 'value', value
+    # console.log 'this', this
+    @["#{key}"] is value
+
+Template.registerHelper 'parent_key_value_is', (key, value)->
+    # console.log 'key', key
+    # console.log 'value', value
+    # console.log 'this', this
+    @["#{key}"] is value
 
 
 

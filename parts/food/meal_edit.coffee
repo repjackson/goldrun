@@ -8,7 +8,7 @@ if Meteor.isClient
 
     Template.meal_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'dish'
+        # @autorun => Meteor.subscribe 'model_docs', 'dish'
 
     Template.meal_edit.onRendered ->
         Meteor.setTimeout ->
@@ -57,17 +57,17 @@ if Meteor.isClient
 
 
 
-        'click .select_dish': ->
-            Docs.update Router.current().params.doc_id,
-                $set:
-                    dish_id: @_id
-
-
-        'click .clear_dish': ->
-            if confirm 'clear dish?'
-                Docs.update Router.current().params.doc_id,
-                    $set:
-                        dish_id: null
+        # 'click .select_dish': ->
+        #     Docs.update Router.current().params.doc_id,
+        #         $set:
+        #             dish_id: @_id
+        #
+        #
+        # 'click .clear_dish': ->
+        #     if confirm 'clear dish?'
+        #         Docs.update Router.current().params.doc_id,
+        #             $set:
+        #                 dish_id: null
 
 
 

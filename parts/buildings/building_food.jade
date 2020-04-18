@@ -1,15 +1,15 @@
 template(name='building_food')
     .ui.stackable.padded.grid
         .row
-            .ui.header
-                +i name='product'
-                | food
-        .row
-            .eight.wide.column
-                .ui.stackable.cards
+            .four.wide.column
+                .ui.header
+                    +i name='food'
+                    | food
+            .twelve.wide.column
+                .ui.stackable.three.cards
                     each meals
-                        .ui.card
-                            img.ui.rounded.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+                        .card
+                            img.ui.rounded.image(src="{{c.url image_id width=400 height=400 crop='lfill'}}")
                             .content
                                 a.ui.header(href="/meal/#{_id}/view") #{title}
                                 each ingredients

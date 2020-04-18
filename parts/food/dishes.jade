@@ -56,7 +56,7 @@ template(name='dish_view')
                 .ui.large.selection.animated.list
                     each dish_meals
                         a.item(href="/meal/#{_id}/view")
-                            img.ui.avatar.image(src="{{c.url _author.profile_image_id width=200 gravity='face' crop='fill'}}")
+                            img.ui.avatar.image(src="{{c.url _author.image_id width=200 gravity='face' crop='fill'}}")
                             .content
                                 .header {{long_date datetime_available}} by #{_author_username}
                 +textarea_view key='description' direct=true

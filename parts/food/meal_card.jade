@@ -14,7 +14,7 @@ template(name='meal_card')
             .right.floated.meta
                 | {{from_now datetime_available}}
             //- if session_is 'view_users' true
-            img.ui.avatar.image(src="{{c.url _author.profile_image_id width=400 height=600 crop='fit'}}")
+            img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
             |#{_author.username}
         //- i.yellow.star.icon
             //- |3.4

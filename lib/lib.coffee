@@ -83,6 +83,29 @@ Docs.helpers
             Meteor.users.findOne @to_user_id
 
 
+    meal_orders: ->
+        # if @order_ids
+        Docs.find
+            meal_id:@_id
+            model:'order'
+        # else
+        #     []
+    order_meal: ->
+        Docs.findOne
+            model:'meal'
+            _id:@meal_id
+
+    order_total_transaction_amount: ->
+        @serving_purchase_price+@cook_tip
+
+
+    order: ->
+        Docs.findOne
+            model:'order'
+            _id:@order_id
+
+
+
     upvoters: ->
         if @upvoter_ids
             upvoters = []
@@ -97,6 +120,8 @@ Docs.helpers
                 downvoter = Meteor.users.findOne downvoter_id
                 downvoters.push downvoter
             downvoters
+
+
 Meteor.users.helpers
     name: ->
         if @nickname

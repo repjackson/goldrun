@@ -8,18 +8,15 @@ if Meteor.isClient
             Session.set 'username', username
             Meteor.call 'find_username', username, (err,res)->
                 if res
-                    Session.set 'enter_mode', 'login'
-                else
-                    Session.set 'enter_mode', 'register'
+                    console.log res
+                    Session.set('enter_mode', 'login')
 
         'blur .username': ->
             username = $('.username').val()
             Session.set 'username', username
             Meteor.call 'find_username', username, (err,res)->
                 if res
-                    Session.set 'enter_mode', 'login'
-                else
-                    Session.set 'enter_mode', 'register'
+                    Session.set('enter_mode', 'login')
 
         'click .enter': (e,t)->
             e.preventDefault()
@@ -38,10 +35,7 @@ if Meteor.isClient
                     })
                 else
                     # console.log res
-                    if Meteor.user().roles and 'staff' in Meteor.user().roles
-                        Router.go "/staff"
-                    else
-                        Router.go "/"
+                    Router.go "/"
                     # Router.go "/user/#{username}"
 
         'keyup .password, keyup .username': (e,t)->
@@ -63,10 +57,7 @@ if Meteor.isClient
                             })
                         else
                             # Router.go "/user/#{username}"
-                            if Meteor.user().roles and 'staff' in Meteor.user().roles
-                                Router.go "/staff"
-                            else
-                                Router.go "/"
+                            Router.go "/"
 
 
     Template.login.helpers
@@ -74,8 +65,7 @@ if Meteor.isClient
         logging_in: -> Session.equals 'enter_mode', 'login'
         enter_class: ->
             if Session.get('username').length
-                if Session.get 'enter_mode', 'login'
-                    if Meteor.loggingIn() then 'loading disabled' else ''
+                if Meteor.loggingIn() then 'loading disabled' else ''
             else
                 'disabled'
         is_logging_in: -> Meteor.loggingIn()

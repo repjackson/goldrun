@@ -46,13 +46,6 @@ template(name='user_credit')
 
 
 template(name='user_info')
-    //- +text_view key='address' label='address' icon='marker' direct=true
-    //- +phone_view key='phone' label='phone' icon='phone' direct=true
-    //- +text_view key='tagline' label='tag line' icon='signature' direct=true
-    +array_view key='tags' label='tags' icon='tags' direct=true
-    +array_view key='location_tags' label='location tags' icon='location' direct=true
-    +link_view key='link' label='link' icon='link' direct=true
-    //- .ui.header member activity
     .ui.icon.button.refresh_user_stats(title='refresh stats')
         i.refresh.icon
     with user_stats
@@ -159,10 +152,6 @@ template(name='handling_sessions')
                 +remove_button
                 
         
-template(name='user_cart')
-    +cart
-
-
         
 template(name='rental_small_interest')        
     .ui.stackable.grid
@@ -323,10 +312,10 @@ template(name='user_finance')
                                         //- if is_dev
                                         //-     +remove_button
                         //- +range_edit                
-            .column 
-                .ui.header offer
-                .ui.button.add_offer
-                    |+ offer
+            //- .column 
+            //-     .ui.header offer
+            //-     .ui.button.add_offer
+            //-         |+ offer
         
 
 template(name='user_reservations')

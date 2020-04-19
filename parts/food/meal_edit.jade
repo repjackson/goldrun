@@ -2,11 +2,13 @@ template(name='meal_edit')
     with current_doc
         .ui.stackable.padded.grid
             .middle.aligned.row
-                .four.wide.column
-                .eight.wide.column
-                    .ui.header editing meal
-                    .ui.header #{title}
-                .four.wide.column
+                .four.wide.center.aligned.column
+                .eight.wide.center.aligned.column
+                    .ui.header
+                        small editing
+                        | #{title}
+                        small meal
+                .four.wide.center.aligned.column
                     .ui.large.circular.green.button.save_meal
                         i.checkmark.icon   
                         |save     
@@ -47,13 +49,13 @@ template(name='meal_edit')
                     .ui.red.disabled.button(title='existing reservations')
                         i.remove.icon   
                         | can't cancel  
-                .ui.segment
+                .ui.secondary.segment
                     +boolean_edit key='delivery' label='delivery' color_icon='deliver-food' direct=true
                     if delivery
                         .ui.header delivery
                         +text_edit key='delivery_notes' label='delivery notes' direct=true
                         +number_edit key='delivery_fee' label='delivery fee' direct=true
-                .ui.segment
+                .ui.secondary.segment
                     +boolean_edit key='pickup' label='pickup' color_icon='doormat' direct=true
                     if pickup
                         .ui.header pickup

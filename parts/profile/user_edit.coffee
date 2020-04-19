@@ -4,40 +4,10 @@ if Meteor.isClient
     Template.user_edit.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
 
-
-    Template.user_model_editor.onCreated ->
-        @autorun -> Meteor.subscribe 'user_models'
-
-
     Template.user_edit.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
         , 2000
-
-
-    Template.user_model_editor.helpers
-        models: ->
-            Docs.find
-                model:'model'
-                user_model:true
-
-        user_model_class: ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
-
-            if current_user.model_ids and @_id in current_user.model_ids then 'grey' else ''
-
-
-
-    Template.user_model_editor.events
-        'click .toggle_model': ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
-            if current_user.model_ids and @_id in current_user.model_ids
-                Meteor.users.update current_user._id,
-                    $pull: model_ids: @_id
-            else
-                Meteor.users.update current_user._id,
-                    $addToSet: model_ids: @_id
-
 
 
     Template.user_single_doc_ref_editor.onCreated ->
@@ -114,20 +84,20 @@ if Meteor.isClient
                 Meteor.users.remove @_id
                 Router.go "/users"
 
-        "change input[name='profile_image']": (e) ->
-            files = e.currentTarget.files
-            Cloudinary.upload files[0],
-                # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload
-                # model:"private" # optional: makes the image accessible only via a signed url. The signed url is available publicly for 1 hour.
-                (err,res) -> #optional callback, you can catch with the Cloudinary collection as well
-                    # console.dir res
-                    if err
-                        console.error 'Error uploading', err
-                    else
-                        user = Meteor.users.findOne username:Router.current().params.username
-                        Meteor.users.update user._id,
-                            $set: "image_id": res.public_id
-                    return
+        # "change input[name='profile_image']": (e) ->
+        #     files = e.currentTarget.files
+        #     Cloudinary.upload files[0],
+        #         # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload
+        #         # model:"private" # optional: makes the image accessible only via a signed url. The signed url is available publicly for 1 hour.
+        #         (err,res) -> #optional callback, you can catch with the Cloudinary collection as well
+        #             # console.dir res
+        #             if err
+        #                 console.error 'Error uploading', err
+        #             else
+        #                 user = Meteor.users.findOne username:Router.current().params.username
+        #                 Meteor.users.update user._id,
+        #                     $set: "image_id": res.public_id
+        #             return
 
 
     Template.username_edit.events

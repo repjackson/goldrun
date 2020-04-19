@@ -5,20 +5,21 @@ template(name='building_layout')
         .ui.stackable.padded.grid
             .middle.aligned.row
                 .sixteen.wide.column 
-                    .ui.inline.large.header 
-                        |building #{title}
+                    .ui.inline.header 
+                        +i name='building'
+                        strong #{title}
                     if can_edit
                         a.ui.circular.basic.icon.button(href="/building/#{_id}/edit")
                             i.setting.large.icon
                     a.ui.basic.circular.compact.button(href="/building/#{_id}/view" class="{{isActiveRoute regex='building_dashboard'}}")
                         +i name='dashboard' classes='ui avatar image'
-                        |dashboard
+                        span.mobile.hidden dashboard
                     a.ui.basic.circular.compact.button(href="/building/#{_id}/members" class="{{isActiveRoute regex='building_users'}}")
                         +i name='groups' classes='ui avatar image'
-                        |members
+                        span.mobile.hidden members
                     a.ui.basic.circular.compact.button(href="/building/#{_id}/orders" class="{{isActiveRoute regex='building_orders'}}")
                         +i name='invoice' classes='ui avatar image'
-                        |orders
+                        span.mobile.hidden orders
                     //- a.ui.basic.circular.compact.button(href="/building/#{_id}/meals" class="{{isActiveRoute regex='building_meals'}}")
                     //-     +i name='meal' classes='ui avatar image'
                     //-     |meals
@@ -27,10 +28,10 @@ template(name='building_layout')
                     //-     |dishes
                     a.ui.basic.circular.compact.button(href="/building/#{_id}/food" class="{{isActiveRoute regex='building_food'}}")
                         +i name='food' classes='ui avatar image'
-                        |food
+                        span.mobile.hidden food
                     a.ui.basic.circular.compact.button(href="/building/#{_id}/market" class="{{isActiveRoute regex='building_market'}}")
                         +i name='shop' classes='ui avatar image'
-                        |market
+                        span.mobile.hidden market
                     //- a.ui.basic.circular.compact.button(href="/building/#{_id}/products" class="{{isActiveRoute regex='building_products'}}")
                     //-     +i name='shopping-cart' classes='ui avatar image'
                     //-     |products
@@ -44,7 +45,7 @@ template(name='building_layout')
     //- +footer
 
 template(name='building_dashboard')
-    .ui.grid
+    .ui.stackable.grid
         .three.column.row
             .column
                 .ui.inline.header 

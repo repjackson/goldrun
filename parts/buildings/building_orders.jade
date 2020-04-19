@@ -1,0 +1,18 @@
+template(name='building_orders')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header
+                    +i name='invoice'
+                    | orders
+            .twelve.wide.column
+                each orders
+                    .ui.segment.stackable.padded.grid
+                        .four.wide.column
+                            img.ui.rounded.image(src="{{c.url order_meal.image_id width=400 height=400 crop='lfill'}}")
+                        .content
+                            a.ui.header(href="/order/#{_id}/view") #{order_meal.title} #{when}
+                            div
+                            each order_meal.ingredients
+                                .ui.basic.label #{this}
+    

@@ -8,14 +8,11 @@ template(name='user_edit')
                         | #{user_from_username_param.first_name} #{user_from_username_param.last_name}
                     //- +i name='pencil'
                     .ui.small.inline.header @#{user_from_username_param.username}
-                    a.ui.big.button(href="/user/#{user_from_username_param.username}/") 
-                        i.checkmark.big.icon
+                    a.ui.basic.button(href="/user/#{user_from_username_param.username}/") 
+                        i.checkmark.green.icon
                         strong save
                     .ui.hidden.divider
-                    if is_staff
-                        +image_edit key='kiosk_photo' icon='picture' title='profile image' direct=true
-                    else
-                        +image_edit key='image_id' icon='picture' title='profile image' direct=true
+                    +image_edit key='image_id' icon='picture' title='profile image' direct=true
                     if is_current_user
                         +password_edit
                         //- +phone_editor
@@ -27,61 +24,18 @@ template(name='user_edit')
                                 |delete user
                 .eight.wide.column
                     .ui.form
-                        if user_is_resident_or_owner
-                            if is_staff
-                                +text_edit key='first_name' label='first name' icon='header' direct=true
-                                +text_edit key='last_name' label='last name' icon='text' direct=true
-                                +text_edit key='address' label='address' icon='marker' direct=true
-                                +number_edit key='unit_number' label='unit #' icon='home' direct=true tip='apt #'
-                                +number_edit key='building_number' label='building #' icon='building' direct=true tip='eg 203'
-                                //- +text_edit key='building_code' label='building code' icon='building' direct=true
-                                //- +number_edit key='healthclub_code' label='keycard code' icon='barcode' direct=true
-                                +boolean_edit key='owner' icon='rent' label='owner' direct=true
-                            else
-                                +text_view key='first_name' label='first name' direct=true
-                                +text_view key='last_name' label='last name' direct=true
-                                div
-                                +number_view key='building_number' label='building #' direct=true
-                                //- +text_view key='building_code' label='building code' direct=true
-                                div
-                                +boolean_edit key='profile_published' label='publish profile' direct=true
-                        //- +text_edit key='email' label='email' direct=true
+                        +text_view key='first_name' label='first name' direct=true
+                        +text_view key='last_name' label='last name' direct=true
                         div
                         .ui.segment
                             .ui.header 
                                 i.envelope.outline.icon
                                 |emails
                             +emails_edit
-            
                         +phone_edit key='phone' label='phone' icon='phone' direct=true
-                        +array_edit key='tags' label='tags' direct=true
-                        +image_edit key='banner_image_id' label='banner image' direct=true
-                        +text_edit key='tagline' label='tag line' direct=true
                 .four.wide.column
-                    if user_is_resident_or_owner
-                        unless owner
-                            if is_staff
-                                .ui.segment
-                                    +i name='home' classes='ui inline mini image'
-                                    .ui.inline.header residency
-                                    .ui.divider
-                                    +pdf_edit key='lease_agreement' label='lease agreement (pdf)' icon='clipboard' direct=true
-                                    .ui.horizontal.divider or
-                                    +image_edit key='lease_agreement' label='lease agreement (image)' icon='picture' direct=true
-                                    +pdf_edit key='lease_addendum' label='lease addendum' icon='clipboard' direct=true
-                                    +date_edit key='start_date' label='start date' icon='calendar' direct=true
-                                    +date_edit key='expiration_date' label='expiration date' icon='calendar minus' direct=true
-                                    +boolean_edit key='active_violations' label='active violations' direct=true
-                        if owner
-                            if is_staff
-                                .ui.segment
-                                    +i name='rent' classes='ui inline mini image'
-                                    .ui.inline.header owner
-                                    .ui.divider
-                                    +pdf_edit key='ownership_paperwork' label='ownership paperwork (pdf)' icon='pdf' direct=true
-                                    //- .ui.horizontal.divider or
-                                    +image_edit key='ownership_paperwork' label='ownership paperwork (image)' icon='picture' direct=true
-                    
+                    +array_edit key='allergens' label='allergens' direct=true
+                    +array_edit key='food_dislikes' label='food dislikes' direct=true
                     
 template(name='user_settings')
     .ui.segment
@@ -92,14 +46,6 @@ template(name='user_settings')
             +boolean_edit key='show_bookmarked_model_bar' label='show bookmarked model bar' direct=true
 
 
-template(name='user_model_editor')
-    .ui.header profile sections
-    each models
-        .ui.button.toggle_model(class=user_model_class title=title)
-            i.icon(class=icon)
-            |#{title}
-            
-            
 template(name='user_single_doc_ref_editor')
     .ui.header #{label}
     each choices
@@ -195,7 +141,7 @@ template(name='emails_edit')
                                 i.caret.right.icon
                     .ui.small.icon.button.remove_email
                         i.remove.icon
-    .ui.action.big.fluid.icon.action.input
+    .ui.action.fluid.icon.action.input
         input#new_email(type='email' placeholder='add new email address' autocomplete="off")
         #add_email.ui.submit.icon.button 
             i.plus.icon

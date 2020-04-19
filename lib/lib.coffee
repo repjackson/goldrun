@@ -2,11 +2,6 @@
 @Tags = new Meteor.Collection 'tags'
 @Rental_tags = new Meteor.Collection 'rental_tags'
 
-@Question_tags = new Meteor.Collection 'question_tags'
-@Test_tags = new Meteor.Collection 'test_tags'
-@Post_tags = new Meteor.Collection 'post_tags'
-@Course_tags = new Meteor.Collection 'course_tags'
-
 
 
 Docs.before.insert (userId, doc)->
@@ -67,6 +62,8 @@ if Meteor.isServer
 
 Docs.helpers
     author: -> Meteor.users.findOne @_author_id
+    cook: -> Meteor.users.findOne @cook_user_id
+
     when: -> moment(@_timestamp).fromNow()
     ten_tags: -> if @tags then @tags[..10]
     five_tags: -> if @tags then @tags[..4]

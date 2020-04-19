@@ -48,9 +48,10 @@ template(name='meal_view')
                             i.red.ban.icon
                         |delivery
                     +i name='delivery' classes='ui mini inline image'
-                    
-                    .ui.header cook #{_author_username}
-                    with _author
+                    .ui.header 
+                        +i name='chef-hat'
+                        |cook #{cook.username}
+                    with cook
                         +user_card
                 .column
                     .ui.header #{servings_left} 
@@ -61,7 +62,7 @@ template(name='meal_view')
                         | left
                     if can_order
                         +order_button
-                    .ui.dividing.header 
+                    .ui.header 
                         +i name='order-history'
                         |orders
                     each meal_orders

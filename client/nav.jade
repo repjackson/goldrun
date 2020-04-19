@@ -13,17 +13,17 @@ template(name='nav')
         //-     |rentals
         a.item(href='/users' class="{{isActivePath '/users'}}")
             +i name='groups' classes='ui mini inline image'
-            |users
+            span.mobile.hidden users
         if is_dev
             a.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='model delta view')
                 +i name='database'
                 |models
         a.item(href='/buildings' class="{{isActivePath '/buildings'}}" title='model delta view')
             +i name='building'
-            |buildings
-        a.item(href='/food' class="{{isActivePath '/food'}}" title='food')
+             span.mobile.hidden buildings
+        a.item(href='/meals' class="{{isActivePath '/meals'}}" title='food')
             +i name='food'
-            |food
+            span.mobile.hidden food
         .right.menu
             if currentUser
                 //- a.icon.item(href="/chat" class="{{isActivePath '/chat'}}")

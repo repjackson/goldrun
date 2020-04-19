@@ -1,10 +1,11 @@
 template(name='meal_card')
     .ui.card(class=meal_card_class)
         .image
-            img.ui.zoom.pointer.goto_meal.image(src="{{c.url meal_dish.image_id width=400 height=300 crop='pad'}}")
+            img.ui.zoom.pointer.goto_meal.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
             a.ui.header(href="/meal/#{_id}/view") 
-                |#{_author.name}'s #{meal_dish.title}
+                //- |#{_author.name}'s
+                | #{title}
             //- if session_is 'view_ingredients' true
             +ismall name='ingredients'
             each ingredient_titles

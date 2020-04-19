@@ -60,9 +60,12 @@ template(name='user_layout')
                     a.ui.compact.basic.button(href="/user/#{username}/rentals" class="{{isActiveRoute 'user_rentals'}}")
                         +i name='clock' classes='ui avatar image'
                         |rentals
-                    a.ui.compact.basic.button(href="/user/#{username}/reservations" class="{{isActiveRoute 'user_reservations'}}")
-                        +i name='clock' classes='ui avatar image'
-                        |reservations
+                    a.ui.compact.basic.button(href="/user/#{username}/orders" class="{{isActiveRoute 'user_orders'}}")
+                        +i name='invoice' classes='ui avatar image'
+                        |orders
+                    //- a.ui.compact.basic.button(href="/user/#{username}/reservations" class="{{isActiveRoute 'user_reservations'}}")
+                    //-     +i name='clock' classes='ui avatar image'
+                    //-     |reservations
                     a.ui.compact.basic.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}")
                         +i name='chat' classes='ui avatar image'
                         |mail

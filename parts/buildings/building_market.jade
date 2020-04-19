@@ -11,7 +11,7 @@ template(name='building_market')
                 .ui.circular.icon.button.add_product
                     i.plus.icon
                 each building_products
-                    .ui.header #{title}
+                    a.ui.header(href="/product/#{_id}/view") #{title}
             .column
                 .ui.header 
                     +i name='service'

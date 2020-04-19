@@ -8,7 +8,7 @@ template(name='order_view')
                         +i name='purchase-order' classes='ui mini inline image'
                         |orders
                 .eight.wide.center.aligned.column
-                    .ui.header view '#{order_meal.meal_dish.title}' order
+                    .ui.header view '#{order_meal.title}' order
                 .four.wide.center.aligned.column
                     if can_edit
                         a.ui.large.circular.basic.button(href="/order/#{_id}/edit")
@@ -24,7 +24,7 @@ template(name='order_view')
                         a.ui.basic.circular.button(href="/meal/#{meal_id}/view")
                             | view meal
                         with order_meal
-                            .ui.header #{meal_dish.title} meal title
+                            .ui.header #{title} meal title
                             .ui.header meal
                             .ui.header #{serving_purchase_price} serving perchase price
                             .ui.header #{cook_tip} cook tip
@@ -37,7 +37,7 @@ template(name='order_view')
                     +textarea_view key='description'
                     .ui.small.inline.header {{long_date datetime_available}}
                     .ui.header ingredients
-                    each ingredient_titles
+                    each order_meal.ingredients
                         .ui.label #{this}
                     .ui.header
                         if pickup

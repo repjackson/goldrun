@@ -18,9 +18,9 @@ template(name='nav')
             a.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='model delta view')
                 +i name='database'
                 |models
-        a.item(href='/buildings' class="{{isActivePath '/buildings'}}" title='model delta view')
-            +i name='building'
-             span.mobile.hidden buildings
+        //- a.item(href='/buildings' class="{{isActivePath '/buildings'}}" title='model delta view')
+        //-     +i name='building'
+        //-      span.mobile.hidden buildings
         a.item(href='/meals' class="{{isActivePath '/meals'}}" title='food')
             +i name='food'
             span.mobile.hidden food

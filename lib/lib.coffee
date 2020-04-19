@@ -2,6 +2,7 @@
 @Tags = new Meteor.Collection 'tags'
 @Rental_tags = new Meteor.Collection 'rental_tags'
 
+@Ingredients = new Meteor.Collection 'ingredients'
 
 
 Docs.before.insert (userId, doc)->

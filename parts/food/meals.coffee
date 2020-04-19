@@ -6,14 +6,6 @@ if Meteor.isClient
 
 
     Template.meals.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'meal'
-
-    Template.meals.helpers
-        meals: ->
-            Docs.find
-                model:'meal'
-
-    Template.home.onCreated ->
         Session.setDefault 'view_mode', 'list'
         Session.setDefault 'meal_sort_key', 'datetime_available'
         Session.setDefault 'meal_sort_label', 'available'
@@ -31,8 +23,8 @@ if Meteor.isClient
     #             $('#search').val('')
     #             $('#search').blur()
     #
-    Template.home.onCreated ->
-        @autorun => @subscribe 'model_docs', 'dish'
+    Template.meals.onCreated ->
+        # @autorun => @subscribe 'model_docs', 'dish'
         # @autorun => @subscribe 'results',
         #     selected_tags.array()
         #     selected_authors.array()
@@ -56,7 +48,7 @@ if Meteor.isClient
 
 
 
-    Template.home.events
+    Template.meals.events
         # 'click .toggle_dark': ->
         #     Meteor.users.update Meteor.userId(),
         #         $set: dark_mode: !Meteor.user().dark_mode
@@ -149,7 +141,7 @@ if Meteor.isClient
                 Session.set('meal_sort_direction', -1)
 
 
-    Template.home.helpers
+    Template.meals.helpers
         quickbuying_meal: ->
             Docs.findOne Session.get('quickbuying_id')
 

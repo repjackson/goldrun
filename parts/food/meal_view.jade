@@ -10,9 +10,8 @@ template(name='meal_view')
                         //- small meal
                 .four.wide.center.aligned.column
                     if can_edit
-                        a.ui.large.basic.circular.button(href="/meal/#{_id}/edit")
-                            i.pencil.blue.icon
-                            |edit
+                        a.ui.large.basic.circular.icon.button(href="/meal/#{_id}/edit")
+                            i.pencil.blue.large.icon
             .three.column.row
                 .column
                     img.ui.fluid.rounded.image(src="{{c.url image_id width=400 height=400}}")

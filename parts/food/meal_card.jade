@@ -8,17 +8,18 @@ template(name='meal_card')
                 | #{title}
             //- if session_is 'view_ingredients' true
             +ismall name='ingredients'
-            each ingredient_titles
-                .ui.basic.label #{this}
+            each ingredients
+                .ui.basic.small.circular.label #{this}
         //- .ui.inline.small.header tags
         .content
             .right.floated.meta
                 | {{from_now datetime_available}}
             //- if session_is 'view_users' true
-            img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
-            |#{_author.username}
-        //- i.yellow.star.icon
-            //- |3.4
+            a(href="/user/#{cook.username}")
+                img.ui.avatar.image(src="{{c.url cook.image_id width=400 height=600 crop='fit'}}")
+                |#{cook.username}
+                i.yellow.star.icon
+                |3.4
         //- a.image(href="/meal/#{_id}/view")
             
         .content    

@@ -1,41 +1,6 @@
 template(name='meals')
     .ui.stackable.padded.grid
         .four.wide.column
-            +session_boolean_toggle key='view_tribes' label='tribes' icon='log-cabin'
-            //- if session_is 'view_tribes' true
-            //-     .ui.left.icon.search.small.input
-            //-         i.search.icon
-            //-         input#search_tribe.prompt(type='text' autocomplete="off" placeholder='tribes')
-            //-     if selected_tribes_plural
-            //-         .ui.icon.circular.black.compact.button.clear_selected_tribes
-            //-             i.remove.icon
-            //-     each selected_tribes
-            //-         button.ui.black.compact.circular.button.unselect_tag(tabindex='0')
-            //-             //- i.remove.icon
-            //-             | #{this}
-            //-     each tribes
-            //-         button.ui.basic.circular.compact.button.result(tabindex="0" class=result_class title=count) #{title}
-            //-             //- small #{count}
-            //-     .spacer
-            //- +session_boolean_toggle key='view_users' label='users' icon='groups'
-            //- if session_is 'view_users' true
-            //-     .ui.left.icon.search.small.input
-            //-         i.search.icon
-            //-         input#search_user.prompt(type='text' autocomplete="off" placeholder='usernames')
-            //-     if selected_users_plural
-            //-         .ui.icon.circular.black.compact.button.clear_selected_users
-            //-             i.remove.icon
-            //-     each selected_users
-            //-         button.ui.black.compact.circular.button.unselect_user(tabindex='0')
-            //-             //- i.remove.icon
-            //-             | #{this}
-            //-     each users
-            //-         button.ui.basic.circular.compact.button.result(tabindex="0" class=result_class title=count) #{username}
-            //-     .spacer
-            //- 
-            .ui.header ingredients
-            //- +session_boolean_toggle key='view_ingredients' label='ingredients' icon='ingredients'
-            //- if session_is 'view_ingredients' true
             .ui.left.icon.search.small.input
                 i.search.icon.refresh_tags
                 input#search_ingredient.prompt(type='text' autocomplete="off" placeholder='ingredients')
@@ -57,29 +22,6 @@ template(name='meals')
             .ui.circular.basic.compact.button.toggle_pickup
                 +i name='doormat' classes='ui inline mini image'
                 |pickup
-
-            //- +session_boolean_toggle key='view_food_tags' label='food tags' icon='no-nuts'
-            //- if selected_food_tags
-            //-     .ui.icon.circular.black.compact.button.clear_selected_food_tags
-            //-         i.remove.icon
-            //- each selected_food_tags
-            //-     button.ui.black.compact.circular.button.unselect_food_preference(tabindex='0')
-            //-         | #{this}
-            //- each food_tags
-            //-     button.ui.basic.circular.compact.button.food_preference_result(tabindex="0" class=result_class title=count) #{title}
-            //-         //- small #{count}
-            //- div
-            //- .ui.small.inline.header meal
-            //- .ui.circular.basic.compact.small.button
-            //-     +i name='breakfast' classes='ui mini inline image'
-            //-     |breakfast
-            //- .ui.circular.basic.compact.small.button
-            //-     +i name='lunch' classes='ui mini inline image'
-            //-     |lunch
-            //- .ui.circular.basic.compact.small.button
-            //-     +i name='dinner' classes='ui mini inline image'
-            //-     |dinner
-            //- div
             .ui.small.inline.header available
             .ui.circular.basic.compact.small.button
                 +i name='present' classes='ui mini inline image'

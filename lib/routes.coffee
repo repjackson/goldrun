@@ -27,9 +27,6 @@ Router.onBeforeAction(force_loggedin, {
 
 
 Router.route '/inbox', -> @render 'inbox'
-Router.route '/register', -> @render 'register'
-Router.route '/stats', -> @render 'stats'
-Router.route '/dashboard', -> @render 'dashboard'
 
 
 
@@ -95,4 +92,4 @@ Router.route '/login', -> @render 'login'
 
 # Router.route '/', -> @redirect '/m/model'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
-# Router.route '/', -> @render 'home'
+Router.route '/', -> @render 'meals'

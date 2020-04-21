@@ -41,14 +41,6 @@ Meteor.methods
         Accounts.removeEmail user_id, email
 
 
-    check_lease_status: ->
-        residents =
-            Meteor.users.find(
-                roles:$in:['resident']
-            ).fetch()
-
-
-
     verify_email: (user_id, email)->
         user = Meteor.users.findOne user_id
         console.log 'sending verification', user.username
@@ -69,7 +61,7 @@ Meteor.methods
         	Email.send({
                 to:["<#{to_user.emails[0].address}>"]
                 from:"relay@goldrun.online"
-                subject:"gold run message notification from #{message._author_username}"
+                subject:"gold run message from #{message._author_username}"
                 html: "<h3> #{message._author_username} sent you the message:</h3>"+"<h2> #{message.body}.</h2>"+
                     "<br><h4>view your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
             })
@@ -83,7 +75,7 @@ Meteor.methods
             buyer_id: Meteor.userId()
         Meteor.users.update Meteor.userId(),
             $inc:credit:-meal.price_per_serving
-        Meteor.users.update meal._author_id,
+        Meteor.users.update meal.cook_user_id,
             $inc:credit:meal.price_per_serving
         Meteor.call 'calc_meal_data', meal_id, ->
 

@@ -9,15 +9,13 @@ template(name='meal_edit')
                         | #{title}
                         small meal
                 .four.wide.center.aligned.column
-                    .ui.large.circular.green.button.save_meal
-                        i.checkmark.icon   
-                        |save     
-
+                    .ui.large.circular.icon.green.button.save_meal(title='save meal')
+                        i.checkmark.large.icon   
             .five.wide.column
                 +text_edit key='title' label='title' direct=true
                 +image_edit key='image_id' label='image' direct=true
                 +number_edit key='servings_amount' label='servings available' direct=true
-                //- +text_edit key='serving_unit' label='serving unit' direct=true
+                +text_edit key='serving_unit' label='serving unit' direct=true
                 +number_edit key='price_per_serving' label='price per serving' direct=true
                 .ui.header $#{total_potential_revenue} 
                     small total potential revenue
@@ -27,19 +25,25 @@ template(name='meal_edit')
                 //- +date_edit key='date_available' label='date available'
                 //- //- .ui.small.header
                 //- +time_edit key='time_available' label='time available'
-                .mobile.hidden
-                    .ui.small.header date/time available
-                    #availability.ui.calendar
-                        .ui.fluid.input
-                            input.select_available_datetime(type='text' placeholder=datetime_available)
-                    .ui.green.button.save_availability
-                        i.checkmark.icon
-                        |save
-                .mobile.only
-                    +datetime_edit key='datetime_available' label='date/time available' direct=true
-                .ui.small.header #{datetime_available}
-                img.ui.large.image(src="{{c.url image width=800 height=500 gravity='face' crop='fill'}}")
+                .ui.secondary.segment
+                    .mobile.hidden
+                        .ui.small.header date/time available
+                        #availability.ui.calendar
+                            .ui.input
+                                input.select_available_datetime(type='text' placeholder=datetime_available)
+                            .ui.green.icon.button.save_availability
+                                i.checkmark.icon
+                    .mobile.only
+                        +datetime_edit key='datetime_available' label='date/time available' direct=true
+                    .ui.small.header {{from_now datetime_available}}
+                    .ui.small.header {{long_date datetime_available}}
                 +textarea_edit key='description' label='description' direct=true
+                .ui.header 
+                    i.cog.icon
+                    |settings
+                +boolean_edit key='allow_refunds' label='allow refunds' direct=true
+                +boolean_edit key='open' label='open for orders' direct=true
+                .ui.small.header close the meal if servings no longer available 
             .five.wide.column
                 if can_delete
                     .ui.red.button.delete_meal

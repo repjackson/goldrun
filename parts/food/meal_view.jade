@@ -10,7 +10,7 @@ template(name='meal_view')
                         //- small meal
                 .four.wide.center.aligned.column
                     if can_edit
-                        a.ui.large.basic.circular.icon.button(href="/meal/#{_id}/edit")
+                        a.ui.large.circular.icon.button(href="/meal/#{_id}/edit")
                             i.pencil.blue.large.icon
             .three.column.row
                 .column
@@ -25,7 +25,7 @@ template(name='meal_view')
                         +i name='ingredients'
                         |ingredients
                     each ingredients
-                        .ui.basic.label #{this}
+                        .ui.label #{this}
                     //- .ui.dividing.header
                     //-     +i name='rules'
                     //-     |rules
@@ -47,11 +47,28 @@ template(name='meal_view')
                             i.red.ban.icon
                         |delivery
                     +i name='delivery' classes='ui mini inline image'
-                    .ui.header 
-                        +i name='chef-hat'
-                        |cook #{cook.username}
-                    with cook
-                        +user_card
+                    if is cook._id currentUser._id
+                        .ui.header 
+                            +i name='chef-hat'
+                            |cook admin
+                        unless ready 
+                            .ui.green.button.mark_ready
+                                i.checkmark.icon
+                                |mark ready 
+                        else 
+                            .ui.header 
+                                i.checkmark.icon
+                                |marked ready {{from_now ready_timestamp}}
+                            i.circular.undo.link.icon.unmark_ready
+                            each meal_orders
+                                .ui.header
+                                    |#{_author.username} #{when}
+                    else    
+                        .ui.header 
+                            +i name='chef-hat'
+                            |cook #{cook.username}
+                        with cook
+                            +user_card
                 .column
                     .ui.header #{servings_left} 
                         if serving_unit
@@ -75,11 +92,11 @@ template(name='meal_view')
                             div
                             .ui.small.inline.header
                                 | #{when} ({{long_date _timestamp}})
-                            a.ui.compact.circular.basic.button(href="/order/#{_id}/view")
+                            a.ui.compact.circular.button(href="/order/#{_id}/view")
                                 |view details
                                 i.right.chevron.icon
-                            if can_edit
-                                .ui.small.compact.basic.button.cancel_order
+                            if can_cancel
+                                .ui.small.compact.button.cancel_order
                                     i.remove.red.icon
                                     |cancel
                     .ui.hidden.divider

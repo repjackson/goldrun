@@ -30,18 +30,18 @@ template(name='user_layout')
                                 i.coins.icon
                                 |{{fixed user.credit}}
                     if is_current_user
-                        a.ui.fluid.basic.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                        a.ui.fluids.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             +i name='settings' classes='ui avatar image'
                             |edit
                     else if is_admin
-                        a.ui.fluid.basic.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                        a.ui.fluids.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             +i name='settings' classes='ui avatar image'
                             |edit
                     if is_current_user
-                        a.ui.fluid.basic.button.logout(href="#" title='logout')
+                        a.ui.fluids.button.logout(href="#" title='logout')
                             i.sign.out.alternate.icon
                             |log out
-                        a.ui.fluid.basic.button.logout_other_clients(href="#" title='logout other clients')
+                        a.ui.fluids.button.logout_other_clients(href="#" title='logout other clients')
                             i.globe.icon
                             |log out other clients
                     if is_admin
@@ -51,31 +51,31 @@ template(name='user_layout')
                         each roles
                             .ui.label #{this}
                 .twelve.wide.column
-                    a.ui.compact.basic.button(href="/user/#{username}/dashboard" class="{{isActiveRoute 'user_dashboard'}}")
+                    a.ui.compacts.button(href="/user/#{username}/dashboard" class="{{isActiveRoute 'user_dashboard'}}")
                         +i name='dashboard' classes='ui avatar image'
                         |dashboard
-                    a.ui.compact.basic.button(href="/user/#{username}/info" class="{{isActiveRoute 'user_info'}}")
+                    a.ui.compacts.button(href="/user/#{username}/info" class="{{isActiveRoute 'user_info'}}")
                         +i name='info' classes='ui avatar image'
                         |info
-                    a.ui.compact.basic.button(href="/user/#{username}/rentals" class="{{isActiveRoute 'user_rentals'}}")
-                        +i name='clock' classes='ui avatar image'
-                        |rentals
-                    a.ui.compact.basic.button(href="/user/#{username}/orders" class="{{isActiveRoute 'user_orders'}}")
+                    //- a.ui.compacts.button(href="/user/#{username}/rentals" class="{{isActiveRoute 'user_rentals'}}")
+                    //-     +i name='clock' classes='ui avatar image'
+                    //-     |rentals
+                    a.ui.compacts.button(href="/user/#{username}/orders" class="{{isActiveRoute 'user_orders'}}")
                         +i name='invoice' classes='ui avatar image'
                         |orders
-                    //- a.ui.compact.basic.button(href="/user/#{username}/reservations" class="{{isActiveRoute 'user_reservations'}}")
+                    //- a.ui.compacts.button(href="/user/#{username}/reservations" class="{{isActiveRoute 'user_reservations'}}")
                     //-     +i name='clock' classes='ui avatar image'
                     //-     |reservations
-                    a.ui.compact.basic.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}")
+                    a.ui.compacts.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}")
                         +i name='chat' classes='ui avatar image'
                         |mail
-                    a.ui.compact.basic.button(href="/user/#{username}/food" class="{{isActiveRoute 'user_food'}}")
+                    a.ui.compacts.button(href="/user/#{username}/food" class="{{isActiveRoute 'user_food'}}")
                         +i name='food' classes='ui avatar image'
                         |food
-                    a.ui.compact.basic.button(href="/user/#{username}/shop" class="{{isActiveRoute regex='user_shop'}}")
-                        +i name='shop' classes='ui avatar image'
-                        |shop
-                    a.ui.compact.basic.button(href="/user/#{username}/finance" class="{{isActiveRoute regex='user_finance'}}")
+                    //- a.ui.compacts.button(href="/user/#{username}/shop" class="{{isActiveRoute regex='user_shop'}}")
+                    //-     +i name='shop' classes='ui avatar image'
+                    //-     |shop
+                    a.ui.compacts.button(href="/user/#{username}/finance" class="{{isActiveRoute regex='user_finance'}}")
                         +i name='money' classes='ui avatar image'
                         |finance
         

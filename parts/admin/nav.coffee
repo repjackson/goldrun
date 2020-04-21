@@ -7,6 +7,11 @@ if Meteor.isClient
                 # on:'hover'
             # )
 
+        'click .add_meal': ->
+            new_id =
+                Docs.insert
+                    model:'meal'
+            Router.go("/meal/#{new_id}/edit")
 
         'click #logout': ->
             Session.set 'logging_out', true

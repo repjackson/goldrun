@@ -13,6 +13,20 @@ if Meteor.isClient
 
 
     Template.meal_view.events
+        'click .mark_ready': ->
+            if confirm 'mark meal ready?'
+                Docs.update Router.current().params.doc_id,
+                    $set:
+                        ready:true
+                        ready_timestamp:Date.now()
+
+        'click .unmark_ready': ->
+            if confirm 'unmark meal ready?'
+                Docs.update Router.current().params.doc_id,
+                    $set:
+                        ready:false
+                        ready_timestamp:null
+
         'click .cancel_order': ->
             Swal.fire({
                 title: 'confirm cancel'
@@ -23,6 +37,8 @@ if Meteor.isClient
                 cancelButtonText: 'cancel'
             }).then((result) =>
                 if result.value
+                    Meteor.users.update Meteor.userId(),
+                        $inc:credit:@order_price
                     Meteor.users.update @_author_id,
                         $inc:credit:@order_price
                     Swal.fire(
@@ -36,7 +52,25 @@ if Meteor.isClient
 
 
     Template.meal_view.helpers
-        can_order: -> @cook_user_id isnt Meteor.userId()
+        can_cancel: ->
+            meal = Docs.findOne Router.current().params.doc_id
+            if Meteor.userId() is meal._author_id
+                if meal.ready
+                    false
+                else
+                    true
+            else if Meteor.userId() is @_author_id
+                if meal.ready
+                    false
+                else
+                    true
+
+
+        can_order: ->
+            if Meteor.user().roles and 'admin' in Meteor.user().roles
+                true
+            else
+                @cook_user_id isnt Meteor.userId()
 
         meal_order_class: ->
             if @waitlist then 'blue' else 'green'

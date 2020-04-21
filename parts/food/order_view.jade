@@ -3,7 +3,7 @@ template(name='order_view')
         .ui.stackable.padded.grid
             .row
                 .four.wide.center.aligned.column
-                    a.ui.circular.compact.basic.button(href="/orders")
+                    a.ui.circular.compact.button(href="/orders")
                         i.left.chevron.icon
                         +i name='purchase-order' classes='ui mini inline image'
                         |orders
@@ -11,23 +11,23 @@ template(name='order_view')
                     .ui.header view '#{order_meal.title}' order
                 .four.wide.center.aligned.column
                     if can_edit
-                        a.ui.large.circular.basic.button(href="/order/#{_id}/edit")
+                        a.ui.large.circular.button(href="/order/#{_id}/edit")
                             i.pencil.icon
                             |edit
             .three.column.row
                 .column
-                    img.ui.image(src="{{c.url order_meal.meal_dish.image_id width=400 height=400}}")
                     .ui.header ordered #{when}
                     .ui.header order price #{order_price}
                     
                     .ui.segment 
-                        a.ui.basic.circular.button(href="/meal/#{meal_id}/view")
-                            | view meal
                         with order_meal
-                            .ui.header #{title} meal title
+                            a(href="/meal/#{_id}/view")
+                                img.ui.rounded.image(src="{{c.url image_id width=400 height=400}}")
+                            a(href="/meal/#{_id}/view")
+                                .ui.header #{title}
                             .ui.header meal
                             .ui.header #{serving_purchase_price} serving perchase price
-                            .ui.header #{cook_tip} cook tip
+                            //- .ui.header #{cook_tip} cook tip
                             .ui.header $#{order_total_transaction_amount} 
                                 small total transaction amount
                     div
@@ -63,15 +63,15 @@ template(name='order_view')
                         .ui.segment 
                             |#{when} #{_author.username}
                             if can_edit
-                                .ui.small.compact.basic.button.cancel_order
+                                .ui.small.compact.button.cancel_order
                                     i.remove.icon
                                     |cancel
                     .ui.hidden.divider
                     +comments
                 .column
-                    .ui.header author #{_author_username}
+                    .ui.header buyer #{_author_username}
                     with _author
                         +user_card
-                    .ui.header author #{_author_username}
+                    .ui.header seller #{_author_username}
                     with _author
                         +user_card

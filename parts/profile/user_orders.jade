@@ -16,7 +16,7 @@ template(name='profile_order_item')
                 a.ui.small.header.inline.lowercase(href="/order/#{_id}/view")
                     |#{order_amount}c
                 .ui.small.inline.header #{when} by #{_author_username}
-                a.ui.basic.button(href="/order/#{_id}/view")
+                a.ui.button(href="/order/#{_id}/view")
                     |view
                     i.right.chevron.icon
                 if is_admin

@@ -6,9 +6,9 @@ template(name='nav')
         else 
             a.item(href='/meals' class="{{isActivePath '/meals'}}")
                 +i name='one-ring'
-        //- a.item(href='/meals' class="{{isActivePath '/meals'}}" title='food')
-        //-     +i name='food'
-        //-     span.mobile.hidden food
+        if currentUser
+            a.item.add_meal(title='cook')
+                +i name='plus'
         .right.menu
             if currentUser
                 a.icon.item(href="/alerts" class="{{isActivePath '/alerts'}}")
@@ -17,7 +17,7 @@ template(name='nav')
                     |#{currentUser.credit}c
                 a.item(href="/user/#{currentUser.username}/dashboard" class=user_nav_button_class title=user_nav_button_title)
                     if currentUser.image_id
-                        img.ui.avatar.inline.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
+                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
                     else
                         i.user.icon
                     span.mobile.hidden #{currentUser.name}

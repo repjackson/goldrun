@@ -11,7 +11,7 @@ body {
     /* background: #0e0e44 !important; */
 }
 
-.ui.image:not(.avatar), .label,  img:not(.avatar) {
+.ui.image:not(.avatar2), .label, .button, img:not(.avatar2) {
     filter: invert(1) !important;
 }
 ::-webkit-scrollbar {

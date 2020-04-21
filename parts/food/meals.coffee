@@ -17,25 +17,21 @@ if Meteor.isClient
             Session.get('meal_limit')
             Session.get('meal_sort_key')
             Session.get('meal_sort_direction')
+            Session.get('view_delivery')
+            Session.get('view_pickup')
 
         @autorun => @subscribe 'meal_results',
             selected_ingredients.array()
             Session.get('meal_limit')
             Session.get('meal_sort_key')
             Session.get('meal_sort_direction')
-
+            Session.get('view_delivery')
+            Session.get('view_pickup')
 
 
     Template.meals.events
-        'click .calc_leaderboard': ->
-            # console.log @
-            # console.log selected_tags.array()
-            Meteor.call 'calc_leaders', selected_tags.array(), (err,res)->
-                console.log res
-
-        'click .toggle_images': -> Session.set('view_images', !Session.get('view_images'))
-        'click .toggle_videos': -> Session.set('view_videos', !Session.get('view_videos'))
-        'click .toggle_articles': -> Session.set('view_articles', !Session.get('view_articles'))
+        'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
+        'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
 
         'click .ingredient_result': -> selected_ingredients.push @title
         'click .unselect_ingredient': ->
@@ -73,11 +69,6 @@ if Meteor.isClient
         'click .calc_meal_count': ->
             Meteor.call 'calc_meal_count', ->
 
-        'click .calc_post': ->
-            console.log @
-            # Meteor.call 'get_reddit_post', (@_id)->
-
-
         # 'keydown #search': _.throttle((e,t)->
         #     if e.which is 8
         #         search = $('#search').val()
@@ -107,10 +98,8 @@ if Meteor.isClient
         sorting_up: ->
             parseInt(Session.get('meal_sort_direction')) is 1
 
-        view_images_class: -> if Session.get('view_images') then 'white' else 'grey'
-        view_videos_class: -> if Session.get('view_videos') then 'white' else 'grey'
-        view_articles_class: -> if Session.get('view_articles') then 'white' else 'grey'
-        view_tweets_class: -> if Session.get('view_tweets') then 'white' else 'grey'
+        toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
+        toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
         connection: ->
             console.log Meteor.status()
             Meteor.status()
@@ -120,7 +109,6 @@ if Meteor.isClient
             if Meteor.user()
                 if Meteor.user().dark_mode
                     'invert'
-        view_menu: -> Session.get('view_menu')
         tags: ->
             # if Session.get('current_query') and Session.get('current_query').length > 1
             #     Terms.find({}, sort:count:-1)
@@ -165,13 +153,6 @@ if Meteor.isClient
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
-
-        home_subs_ready: ->
-            if Template.instance().subscriptionsReady()
-                Session.set('global_subs_ready', true)
-            else
-                Session.set('global_subs_ready', false)
-
         users: ->
             # if selected_tags.array().length > 0
             Meteor.users.find {
@@ -188,18 +169,12 @@ if Meteor.isClient
                 sort: count:-1
                 # limit:1
 
-
-
-
         meal_limit: ->
             Session.get('meal_limit')
 
         current_meal_sort_label: ->
             Session.get('meal_sort_label')
 
-
-        result_cloud: ->
-            console.log @
 
     Template.set_meal_limit.events
         'click .set_limit': ->
@@ -257,6 +232,8 @@ if Meteor.isServer
         doc_limit
         doc_sort_key
         doc_sort_direction
+        view_delivery
+        view_pickup
         )->
         # console.log selected_ingredients
         if doc_limit
@@ -269,6 +246,10 @@ if Meteor.isServer
             sort_direction = parseInt(doc_sort_direction)
         self = @
         match = {model:'meal'}
+        if view_delivery
+            match.delivery = $ne:false
+        if view_pickup
+            match.pickup = $ne:false
         if selected_ingredients.length > 0
             match.ingredients = $all: selected_ingredients
             sort = 'price_per_serving'
@@ -305,6 +286,8 @@ if Meteor.isServer
         doc_limit
         doc_sort_key
         doc_sort_direction
+        view_delivery
+        view_pickup
         )->
         # console.log 'dummy', dummy
         # console.log 'query', query
@@ -313,10 +296,10 @@ if Meteor.isServer
         self = @
         match = {}
         match.model = 'meal'
-        # if view_images
-        #     match.is_image = $ne:false
-        # if view_videos
-        #     match.is_video = $ne:false
+        if view_delivery
+            match.delivery = $ne:false
+        if view_pickup
+            match.pickup = $ne:false
         if selected_ingredients.length > 0 then match.ingredients = $all: selected_ingredients
             # match.$regex:"#{current_query}", $options: 'i'}
         # if query and query.length > 1

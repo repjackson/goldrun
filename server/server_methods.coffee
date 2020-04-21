@@ -127,11 +127,6 @@ Meteor.methods
                 username: {$regex:"#{username_query}", $options: 'i'}
                 },{limit:10}).fetch()
 
-    lookup_user_by_code: (healthclub_code)->
-        unless isNaN(healthclub_code)
-            Meteor.users.findOne({
-                healthclub_code:healthclub_code
-                })
 
     lookup_doc: (guest_name, model_filter)->
         Docs.find({
@@ -139,11 +134,6 @@ Meteor.methods
             guest_name: {$regex:"#{guest_name}", $options: 'i'}
             },{limit:10}).fetch()
 
-    lookup_project: (project_title)->
-        Docs.find({
-            model:'project'
-            title: {$regex:"#{project_title}", $options: 'i'}
-            }).fetch()
 
     # lookup_username: (username_query)->
     #     found_users =
@@ -173,38 +163,6 @@ Meteor.methods
     set_password: (user_id, new_password)->
         Accounts.setPassword(user_id, new_password)
 
-
-
-    keys: (specific_key)->
-        start = Date.now()
-
-        if specific_key
-            cursor = Docs.find({
-                "#{specific_key}":$exists:true
-                _keys:$exists:false
-                }, { fields:{_id:1} })
-        else
-            cursor = Docs.find({
-                _keys:$exists:false
-            }, { fields:{_id:1} })
-
-        found = cursor.count()
-
-        for doc in cursor.fetch()
-            Meteor.call 'key', doc._id
-
-        stop = Date.now()
-
-        diff = stop - start
-
-    key: (doc_id)->
-        doc = Docs.findOne doc_id
-        keys = _.keys doc
-
-        light_fields = _.reject( keys, (key)-> key.startsWith '_' )
-
-        Docs.update doc._id,
-            $set:_keys:light_fields
 
 
     global_remove: (keyname)->
@@ -242,114 +200,6 @@ Meteor.methods
 
         for doc in cursor.fetch()
             Meteor.call 'key', doc._id
-
-
-
-
-    detect_fields: (doc_id)->
-        doc = Docs.findOne doc_id
-        keys = _.keys doc
-        light_fields = _.reject( keys, (key)-> key.startsWith '_' )
-
-        Docs.update doc._id,
-            $set:_keys:light_fields
-
-        for key in light_fields
-            value = doc["#{key}"]
-
-            meta = {}
-
-            js_type = typeof value
-
-
-            if js_type is 'object'
-                meta.object = true
-                if Array.isArray value
-                    meta.array = true
-                    meta.length = value.length
-                    meta.array_element_type = typeof value[0]
-                    meta.field = 'array'
-                else
-                    if key is 'watson'
-                        meta.field = 'object'
-                        # meta.field = 'watson'
-                    else
-                        meta.field = 'object'
-
-            else if js_type is 'boolean'
-                meta.boolean = true
-                meta.field = 'boolean'
-
-            else if js_type is 'number'
-                meta.number = true
-                d = Date.parse(value)
-                # nan = isNaN d
-                # !nan
-                if value < 0
-                    meta.negative = true
-                else if value > 0
-                    meta.positive = false
-
-                integer = Number.isInteger(value)
-                if integer
-                    meta.integer = true
-                meta.field = 'number'
-
-
-            else if js_type is 'string'
-                meta.string = true
-                meta.length = value.length
-
-                html_check = /<[a-z][\s\S]*>/i
-                html_result = html_check.test value
-
-                url_check = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/
-                url_result = url_check.test value
-
-                youtube_check = /((\w|-){11})(?:\S+)?$/
-                youtube_result = youtube_check.test value
-
-                if key is 'html'
-                    meta.html = true
-                    meta.field = 'html'
-                if key is 'youtube_id'
-                    meta.youtube = true
-                    meta.field = 'youtube'
-                else if html_result
-                    meta.html = true
-                    meta.field = 'html'
-                else if url_result
-                    meta.url = true
-                    image_check = (/\.(gif|jpg|jpeg|tiff|png)$/i).test value
-                    if image_check
-                        meta.image = true
-                        meta.field = 'image'
-                    else
-                        meta.field = 'url'
-                # else if youtube_result
-                #     meta.youtube = true
-                #     meta.field = 'youtube'
-                else if Meteor.users.findOne value
-                    meta.user_id = true
-                    meta.field = 'user_ref'
-                else if Docs.findOne value
-                    meta.doc_id = true
-                    meta.field = 'doc_ref'
-                else if meta.length is 20
-                    meta.field = 'image'
-                else if meta.length > 20
-                    meta.field = 'textarea'
-                else
-                    meta.field = 'text'
-
-            Docs.update doc_id,
-                $set: "_#{key}": meta
-
-        # Docs.update doc_id,
-        #     $set:_detected:1
-
-        return doc_id
-
 
     send_enrollment_email: (user_id, email)->
         user = Meteor.users.findOne(user_id)

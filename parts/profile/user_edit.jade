@@ -8,7 +8,7 @@ template(name='user_edit')
                         | #{user_from_username_param.first_name} #{user_from_username_param.last_name}
                     //- +i name='pencil'
                     .ui.small.inline.header @#{user_from_username_param.username}
-                    a.ui.basic.button(href="/user/#{user_from_username_param.username}/") 
+                    a.ui.button(href="/user/#{user_from_username_param.username}/") 
                         i.checkmark.green.icon
                         strong save
                     .ui.hidden.divider

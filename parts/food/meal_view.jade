@@ -105,12 +105,14 @@ template(name='meal_view')
 
 
 template(name='order_button')
-    if servings_left
-        .ui.green.fluid.large.circular.button.order_meal
-            i.cart.plus.large.icon
-            |order #{serving_unit}
+    if open
+        if servings_left
+            .ui.green.fluid.large.circular.button.order_meal
+                i.cart.plus.large.icon
+                |order #{serving_unit}
+        else 
+            .ui.teal.large.fluid.circular.button.join_waitlist
+                i.clock.large.icon
+                |join wait list
     else 
-        .ui.teal.large.fluid.circular.button.join_waitlist
-            i.clock.large.icon
-            |join wait list
-        
+        .ui.grey.header closed to new orders

@@ -1,0 +1,21 @@
+template(name='user_meals')
+    .scrolling
+        .ui.segments
+            each meals 
+                +profile_meal_item
+
+template(name='profile_meal_item')
+    .ui.segment.grid
+        .row
+            .four.wide.column
+                +image_view key='image_id' direct=true classes='zoom ui tiny image'
+            .twelve.wide.column
+                .ui.header #{title}
+                a.ui.small.header.inline.lowercase(href="/meal/#{_id}/view")
+                    |#{price_per_serving}c / #{serving_unit}
+                .ui.small.inline.header #{when} by #{_author_username}
+                a.ui.button(href="/meal/#{_id}/view")
+                    |view
+                    i.right.chevron.icon
+                if is_admin
+                    +remove_button

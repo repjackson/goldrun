@@ -37,15 +37,16 @@ if Meteor.isClient
                 cancelButtonText: 'cancel'
             }).then((result) =>
                 if result.value
+                    meal = Docs.findOne Router.current().params.doc_id
                     Meteor.users.update Meteor.userId(),
                         $inc:credit:@order_price
-                    Meteor.users.update @_author_id,
+                    Meteor.users.update meal.cook_user_id,
                         $inc:credit:@order_price
                     Swal.fire(
                         'refund processed',
                         ''
                         'success'
-                    Meteor.call 'calc_meal_data', @meal_id
+                    Meteor.call 'calc_meal_data', meal._id
                     Docs.remove @_id
                     )
             )

@@ -16,20 +16,23 @@ template(name='meals')
                     //- small #{count}
             .spacer
             //- +i name='ingredients' classes='ui inline mini image'
-            .ui.circular,compact.button.toggle_delivery(class=toggle_delivery_class)
+            .ui.circular.compact.button.toggle_delivery(class=toggle_delivery_class)
                 +i name='deliver-food' classes='ui inline avatar image' 
                 |delivery
-            .ui.circular,compact.button.toggle_pickup(class=toggle_pickup_class)
+            .ui.circular.compact.button.toggle_pickup(class=toggle_pickup_class)
                 +i name='doormat' classes='ui inline avatar image'
                 |pickup
-            .ui.small.inline.header available
-            .ui.circular,compact.small.button
+            .ui.circular.compact.button.toggle_open(class=toggle_open_class)
+                +i name='checkmark' classes='ui inline avatar image'
+                |open
+            .ui.small.header available
+            .ui.circular.compact.small.button
                 +i name='present' classes='ui mini inline image'
                 |now
-            .ui.circular,compact.small.button
+            .ui.circular.compact.small.button
                 +i name='today' classes='ui mini inline image'
                 |today
-            .ui.circular,compact.small.button
+            .ui.circular.compact.small.button
                 +i name='date-to' classes='ui mini inline image'
                 |tomorrow
 

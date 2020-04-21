@@ -10,6 +10,7 @@ if Meteor.isClient
         Session.setDefault 'meal_sort_key', 'datetime_available'
         Session.setDefault 'meal_sort_label', 'available'
         Session.setDefault 'meal_limit', 5
+        Session.setDefault 'view_open', true
 
     Template.meals.onCreated ->
         @autorun => @subscribe 'meal_facets',
@@ -19,6 +20,7 @@ if Meteor.isClient
             Session.get('meal_sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
+            Session.get('view_open')
 
         @autorun => @subscribe 'meal_results',
             selected_ingredients.array()
@@ -27,11 +29,13 @@ if Meteor.isClient
             Session.get('meal_sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
+            Session.get('view_open')
 
 
     Template.meals.events
         'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
         'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
+        'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
 
         'click .ingredient_result': -> selected_ingredients.push @title
         'click .unselect_ingredient': ->
@@ -100,6 +104,7 @@ if Meteor.isClient
 
         toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
         toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
+        toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
         connection: ->
             console.log Meteor.status()
             Meteor.status()
@@ -234,6 +239,7 @@ if Meteor.isServer
         doc_sort_direction
         view_delivery
         view_pickup
+        view_open
         )->
         # console.log selected_ingredients
         if doc_limit
@@ -246,6 +252,8 @@ if Meteor.isServer
             sort_direction = parseInt(doc_sort_direction)
         self = @
         match = {model:'meal'}
+        if view_open
+            match.open = $ne:false
         if view_delivery
             match.delivery = $ne:false
         if view_pickup
@@ -288,6 +296,7 @@ if Meteor.isServer
         doc_sort_direction
         view_delivery
         view_pickup
+        view_open
         )->
         # console.log 'dummy', dummy
         # console.log 'query', query
@@ -296,6 +305,9 @@ if Meteor.isServer
         self = @
         match = {}
         match.model = 'meal'
+        if view_open
+            match.open = $ne:false
+
         if view_delivery
             match.delivery = $ne:false
         if view_pickup

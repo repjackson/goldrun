@@ -7,42 +7,14 @@ if Meteor.isClient
         @layout 'user_layout'
         @render 'user_finance'
         ), name:'user_finance'
-    Router.route '/user/:username/info', (->
-        @layout 'user_layout'
-        @render 'user_info'
-        ), name:'user_info'
-    Router.route '/user/:username/services', (->
-        @layout 'user_layout'
-        @render 'user_services'
-        ), name:'user_services'
-    Router.route '/user/:username/products', (->
-        @layout 'user_layout'
-        @render 'user_products'
-        ), name:'user_products'
     Router.route '/user/:username/orders', (->
         @layout 'user_layout'
         @render 'user_orders'
         ), name:'user_orders'
-    Router.route '/user/:username/reservations', (->
-        @layout 'user_layout'
-        @render 'user_reservations'
-        ), name:'user_reservations'
-    Router.route '/user/:username/rentals', (->
-        @layout 'user_layout'
-        @render 'user_rentals'
-        ), name:'user_rentals'
     Router.route '/user/:username/dashboard', (->
         @layout 'user_layout'
         @render 'user_dashboard'
         ), name:'user_dashboard'
-    Router.route '/user/:username/requests', (->
-        @layout 'user_layout'
-        @render 'user_requests'
-        ), name:'user_requests'
-    Router.route '/user/:username/transactions', (->
-        @layout 'user_layout'
-        @render 'user_transactions'
-        ), name:'user_transactions'
     Router.route '/user/:username/messages', (->
         @layout 'user_layout'
         @render 'user_messages'
@@ -51,6 +23,10 @@ if Meteor.isClient
         @layout 'user_layout'
         @render 'user_notifications'
         ), name:'user_notifications'
+    Router.route '/user/:username/meals', (->
+        @layout 'user_layout'
+        @render 'user_meals'
+        ), name:'user_meals'
 
 
 

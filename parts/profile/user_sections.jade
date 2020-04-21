@@ -1,10 +1,4 @@
 template(name='user_credit')
-    //- .ui.header 
-    //-     +i name='money'
-    //-     |finance
-    //- .ui.statistic
-    //-     .label #{user_from_username_param.name}'s credits
-    //-     .value $#{user_from_username_param.credit}
     .ui.stackable.two.column.grid
         if is_current_user
             .column
@@ -45,143 +39,16 @@ template(name='user_credit')
 
 
 
-template(name='user_info')
-    .ui.icon.button.refresh_user_stats(title='refresh stats')
-        i.refresh.icon
-    with user_stats
-        .ui.stackable.grid
-            .three.column.row
-                .column
-                    //- .ui.small.header #{total_passive_potential} total passive potential
-                    //- |if all of your rentals were reserved full time, without handling
-                    .ui.big.list
-                        .item 
-                            +i name='handshake'
-                            |#{rental_count} rentals
-                        .item 
-                            +i name='handshake'
-                            |#{owned_count} owned rentals
-                .column
-                    .ui.header rental potential
-                    .ui.inline.header 
-                        +i name='yin-yang'
-                        |$#{total_hourly_credit}
-                        small hourly
-                    //- | if rentals are circulating
-                    div
-                    .ui.inline.header 
-                        +i name='sun'
-                        |$#{potential_two_hour_daily_revenue}
-                        small daily
-                    | 2hrs/day
-                    div
-                    .ui.inline.header 
-                        +i name='sun'
-                        |$#{potential_daily_revenue}
-                        small daily 
-                    | 8hrs/day
-                    div
-                    .ui.inline.header 
-                        i.calendar.icon
-                        |$#{potential_two_hour_weekly_revenue}
-                        small weekly
-                    | 2hrs/day
-                    div
-                    .ui.inline.header 
-                        i.week.icon
-                        |$#{potential_weekly_revenue}
-                        small weekly 
-                    | 8hrs/day
-                .column
-                    .ui.header 
-                        +i name='hand-box'
-                        |#{handled_count} handled rentals
-                    .ui.header 
-                        i.clock.icon
-                        |#{reservation_count} reservations
-    
-
-
-
 template(name='user_dashboard')
     .ui.stackable.grid
         .two.column.row
             .column
                 .ui.header
                     +i name='clock'
-                    |current reservations
-                each current_reservations
-                    .ui.header hi
-                .ui.header 
-                    +i name='clock'
-                    |upcoming reservations
-                each upcoming_reservations
-                    .ui.header hi
-                    
-                .ui.pointer.header.recalc_wage_stats
-                    +i name='discount--v2'
-                    |current hourly wage
-                .ui.header 
-                    |#{current_interest_rate}c
-                    small /hr from interest
-                .ui.header 
-                    |#{current_rental_combined_revenue}c
-                    small /hr from active reservations
-                if current_user
-                    if currentUser.handling_active
-                        if current_handling_rentals
-                            .ui.small.header current active handled rentals
-                            |you're earning 10% of the potential hourly wage every hour you're active
-                            each current_handling_rentals
-                                +rental_small_interest
-                    else 
-                        |you'd earn 10% of the potential hourly wage every hour you're active
-                    .ui.small.header from active reservations
-            .column
-                +handling_sessions
-                
-                
-template(name='handling_sessions')
-    .ui.header.calc_handling_session_totals
-        i.clock.icon
-        |handling sessions
-    .ui.bulleted.list
-        each sessions
-            .item {{cal_time clock_in_timestamp}} to {{long_time clock_out_timestamp}} (#{current_session_diff})
-            if is_dev
-                +remove_button
-                
-        
-        
-template(name='rental_small_interest')        
-    .ui.stackable.grid
-        .four.wide.column
-            a(href="/rental/#{_id}/view")
-                img.ui.centered.image(src="{{c.url image height=200 width=200 background='white' crop='pad'}}")
-        .twelve.wide.column
-            a.ui.inline.header(href="/rental/#{_id}/view") #{title} 
-            .ui.label #{hourly_dollars}c/hr
-            +rental_status
-            div
-            .ui.small.inline.header #{rental_interest_rate}c/hr interest
-            a.ui.button(href="/rental/#{_id}/view")
-                |view
-                i.right.chevron.icon
-            unless is_handler
-                +reserve_button
-
-
-
-
+                    |current orders
 
 
 template(name='user_finance')
-    //- .ui.header 
-    //-     +i name='money'
-    //-     |finance
-    //- .ui.statistic
-    //-     .label #{user_from_username_param.name}'s credits
-    //-     .value $#{user_from_username_param.credit}
     .ui.stackable.two.column.grid
         if is_current_user
             .column

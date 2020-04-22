@@ -1,15 +1,15 @@
-template(name='meal_card')
-    .ui.card(class=meal_card_class)
+template(name='food_card')
+    .ui.card(class=food_card_class)
         .image
-            img.ui.zoom.pointer.goto_meal.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+            img.ui.zoom.pointer.goto_food.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
-            a.ui.header(href="/meal/#{_id}/view") 
+            a.ui.header(href="/food/#{_id}/view") 
                 //- |#{_author.name}'s
                 | #{title}
             //- if session_is 'view_ingredients' true
             +ismall name='ingredients'
             each ingredients
-                .ui.small.circular.inverted.label #{this}
+                .ui.small.circular.label #{this}
         //- .ui.inline.small.header tags
         .content
             .right.floated.meta
@@ -20,7 +20,7 @@ template(name='meal_card')
                 |#{cook.username}
                 i.yellow.star.icon
                 |3.4
-        //- a.image(href="/meal/#{_id}/view")
+        //- a.image(href="/food/#{_id}/view")
             
         .content    
             .ui.inline.header
@@ -52,12 +52,12 @@ template(name='meal_card')
             if pickup
                 +i name='doormat' classes='ui avatar image'
             if can_edit
-                a.ui.large.icon.button(href="/meal/#{_id}/edit")
+                a.ui.large.icon.button(href="/food/#{_id}/edit")
                     i.pencil.icon
         //- .ui.bottom.attached.buttons        
         //-     .ui.green.button.quickbuy
         //-         i.lightning.icon
         //-         |buy
-        //-     a.ui.button(href="/meal/#{_id}/view")
+        //-     a.ui.button(href="/food/#{_id}/view")
         //-         |view
         //-         i.right.chevron.icon

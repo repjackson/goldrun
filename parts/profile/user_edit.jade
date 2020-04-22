@@ -24,14 +24,13 @@ template(name='user_edit')
                                 |delete user
                 .eight.wide.column
                     .ui.form
-                        +text_view key='first_name' label='first name' direct=true
-                        +text_view key='last_name' label='last name' direct=true
+                        +text_edit key='first_name' label='first name' direct=true
+                        +text_edit key='last_name' label='last name' direct=true
                         div
-                        .ui.segment
-                            .ui.header 
-                                i.envelope.outline.icon
-                                |emails
-                            +emails_edit
+                        .ui.header 
+                            i.envelope.outline.icon
+                            |emails
+                        +emails_edit
                         +phone_edit key='phone' label='phone' icon='phone' direct=true
                 .four.wide.column
                     +array_edit key='allergens' label='allergens' direct=true

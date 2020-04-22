@@ -137,10 +137,10 @@ if Meteor.isClient
 
 
 
-    Template.user_info.onCreated ->
-        @autorun => Meteor.subscribe 'user_from_id', @data
-    Template.user_info.helpers
-        user: -> Meteor.users.findOne @valueOf()
+    # Template.user_info.onCreated ->
+    #     @autorun => Meteor.subscribe 'user_from_id', @data
+    # Template.user_info.helpers
+    #     user: -> Meteor.users.findOne @valueOf()
 
 
     Template.toggle_edit.events
@@ -310,6 +310,44 @@ if Meteor.isClient
         'click .view_user': ->
             Router.go "/user/#{username}"
 
+
+    Template.session_edit_value_button.events
+        'click .set_session_value': ->
+            # console.log @key
+            # console.log @value
+            Session.set(@key, @value)
+
+    Template.session_edit_value_button.helpers
+        calculated_class: ->
+            res = ''
+            # console.log @
+            if @classes
+                res += @classes
+            if Session.equals(@key,@value)
+                res += ' active'
+            # console.log res
+            res
+
+
+
+    Template.session_boolean_toggle.events
+        'click .toggle_session_key': ->
+            console.log @key
+            Session.set(@key, !Session.get(@key))
+
+    Template.session_boolean_toggle.helpers
+        calculated_class: ->
+            res = ''
+            # console.log @
+            if @classes
+                res += @classes
+            if Session.get(@key)
+                res += ' blue'
+            else
+                res += ' basic'
+
+            # console.log res
+            res
 
 if Meteor.isServer
     Meteor.methods

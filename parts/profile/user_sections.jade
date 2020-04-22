@@ -1,41 +1,3 @@
-template(name='user_credit')
-    .ui.stackable.two.column.grid
-        if is_current_user
-            .column
-                .ui.header 
-                    |withdraw
-                |$10 minimum, takes one business day 
-                .ui.action.fluid.input
-                    input.withdrawal_amount(type='number' min='1' max=currentUser.credit placeholder='amount')
-                    .ui.icon.button.initial_withdrawal 
-                        i.right.chevron.icon
-                .ui.small.header withdrawals
-                .ui.bulleted.list
-                    each withdrawals
-                        .item
-                            .ui.header #{when} for #{amount} credit
-                            |status: #{status}
-                            .ui.button.cancel_withdrawal
-                                i.ban.icon
-                                |cancel
-            .column
-                .ui.header 
-                    |deposits
-                |deposits are given +5% credit after credit card processing fee
-                .ui.action.fluid.input
-                    input.deposit_amount(type='number' min='1' placeholder='deposit')
-                    .ui.icon.button.add_credits   
-                        i.right.chevron.icon
-                        
-                .ui.large.bulleted.list
-                    each deposits
-                        .item 
-                            .content
-                                .header 
-                                    |$#{amount} + #{bonus}c
-                                .description #{when} {{long_date _timestamp}}
-                                //- if is_dev
-                                +remove_button
 
 
 
@@ -48,141 +10,6 @@ template(name='user_dashboard')
                     |current orders
 
 
-template(name='user_finance')
-    .ui.stackable.two.column.grid
-        if is_current_user
-            .column
-                .ui.header 
-                    +i name='initiate-money-transfer'
-                    |withdraw
-                |$42 minimum, takes one business day 
-                .ui.action.fluid.input
-                    input.withdrawal_amount(type='number' min='1' max=currentUser.credit placeholder='amount')
-                    .ui.icon.button.initial_withdrawal 
-                        i.right.chevron.icon
-                .ui.small.header withdrawals
-                .ui.bulleted.list
-                    each withdrawals
-                        .item
-                            .ui.header #{when} for #{amount} credit
-                            |status: #{status}
-                            .ui.button.cancel_withdrawal
-                                i.ban.icon
-                                |cancel
-            .column
-                .ui.header 
-                    +i name='initiate-money-transfer'
-                    |deposits
-                |deposits are given +5% credit after credit card processing fee
-                .ui.action.fluid.input
-                    input.deposit_amount(type='number' min='1' placeholder='deposit')
-                    .ui.icon.button.add_credits   
-                        i.right.chevron.icon
-                        
-                .ui.large.bulleted.list
-                    each deposits
-                        .item 
-                            .content
-                                .header 
-                                    |#{deposit_amount}c + #{bonus}c
-                                .description #{when} {{long_date _timestamp}}
-                                if is_dev
-                                    +remove_button
-    .ui.grid      
-        .three.column.row
-            .column
-                .ui.segment
-                    .ui.small.header 
-                        strong $#{ssd.total_credit_amount}
-                        small total weekly income
-                    .ui.small.header
-                        strong #{ssd.credit_count}
-                        small credits
-            .column
-                .ui.segment
-                    .ui.small.header
-                        strong $#{ssd.total_debit_amount}
-                        small total weekly expenses
-                    .ui.small.header
-                        strong #{ssd.debit_count}
-                        small debits
-            .column
-                .ui.segment
-                    .ui.small.header
-                        |growth from last week
-        .two.column.row
-            .column
-                .ui.segment
-                    .ui.header 
-                        |weekly credits
-                    //- .ui.bulleted.list
-                    //-     each user_credits
-                    //-         .item 
-                    //-             |#{amount}
-                    //-             if icon
-                    //-                 +i name=icon
-                    //-             strong #{text}
-                    //-             small #{when}
-                    .ui.feed.mediumscroll
-                        each user_credits
-                            .event 
-                                .label
-                                    if is_credit
-                                        i.grey.chevron.up.icon
-                                    if is_debit
-                                        i.grey.chevron.down.icon
-                                    else if icon
-                                        i.grey.icon(class=icon)
-                                .content
-                                    .summary
-                                        a.user(href="/user/#{target_user.username}")
-                                            |#{target_user.name}
-                                        |#{text}
-                                        .date #{when}
-                                    .meta
-                                        +voting_small
-                                        //- a.like
-                                        //-     i.like.icon 
-                                        //-     |4 likes
-                                        a.remove
-                                            i.grey.undo.icon
-                                        //- if is_dev
-                                        //-     +remove_button
-            .column
-                .ui.segment
-                    .ui.header 
-                        i.chevron.down.icon
-                        |weekly debits
-                    .ui.feed.mediumscroll
-                        each user_debits
-                            .event 
-                                .label
-                                    if is_credit
-                                        i.chevron.up.icon
-                                    if is_debit
-                                        i.chevron.down.icon
-                                    else if icon
-                                        i.icon(class=icon)
-                                .content
-                                    .summary
-                                        a.user(href="/user/#{target_user.username}")
-                                            |#{target_user.name}
-                                        |#{text}
-                                        .date #{when}
-                                    .meta
-                                        +voting_small
-                                        //- a.like
-                                        //-     i.like.icon 
-                                        //-     |4 likes
-                                        a.remove
-                                            i.grey.undo.icon
-                                        //- if is_dev
-                                        //-     +remove_button
-                        //- +range_edit                
-            //- .column 
-            //-     .ui.header offer
-            //-     .ui.button.add_offer
-            //-         |+ offer
         
 
 template(name='user_reservations')
@@ -200,7 +27,7 @@ template(name='profile_reservation_item')
             .four.wide.column
                 with rental
                     //- img.ui.mini.image(src=image)
-                    +image_view key='image' direct=true classes='zoom ui tiny image'
+                    +image_view key='image_id' direct=true classes='zoom ui tiny image'
             .twelve.wide.column
                 a.ui.header.inline.lowercase(href="/reservation/#{_id}/view")
                     small from 
@@ -222,12 +49,6 @@ template(name='profile_reservation_item')
 
 
 
-template(name='user_rentals')
-    .ui.three.cards
-        each rentals 
-            +rental_card
-        
-        
 template(name='user_handling')
     .ui.small.header rentals that member is facilitating
     .ui.three.cards

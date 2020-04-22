@@ -1,4 +1,4 @@
-template(name='meal_view')
+template(name='food_view')
     with current_doc
         .ui.stackable.padded.grid
             .middle.aligned.row
@@ -7,10 +7,10 @@ template(name='meal_view')
                     .ui.large.header 
                         //- small viewing
                         h1 #{title}
-                        //- small meal
+                        //- small food
                 .four.wide.center.aligned.column
                     if can_edit
-                        a.ui.large.circular.icon.button(href="/meal/#{_id}/edit")
+                        a.ui.large.circular.icon.button(href="/food/#{_id}/edit")
                             i.pencil.blue.large.icon
             .three.column.row
                 .column
@@ -60,7 +60,7 @@ template(name='meal_view')
                                 i.checkmark.icon
                                 |marked ready {{from_now ready_timestamp}}
                             i.circular.undo.link.icon.unmark_ready
-                            each meal_orders
+                            each food_orders
                                 .ui.header
                                     |#{_author.username} #{when}
                     else    
@@ -81,8 +81,8 @@ template(name='meal_view')
                     .ui.header 
                         +i name='order-history'
                         |orders
-                    each meal_orders
-                        .ui.segment(class=meal_order_class)
+                    each food_orders
+                        .ui.segment(class=food_order_class)
                             .ui.inline.green.header
                                 |$#{order_price}
                             a.ui.small.inline.header(href="/user/#{_author.username}" title='view profile')
@@ -107,12 +107,13 @@ template(name='meal_view')
 template(name='order_button')
     if open
         if servings_left
-            .ui.green.fluid.large.circular.button.order_meal
+            .ui.green.fluid.large.circular.button.order_food
                 i.cart.plus.large.icon
                 |order #{serving_unit}
         else 
-            .ui.teal.large.fluid.circular.button.join_waitlist
-                i.clock.large.icon
-                |join wait list
+            .ui.grey.header sold out
+            //- .ui.teal.large.fluid.circular.button.join_waitlist
+            //-     i.clock.large.icon
+            //-     |join wait list
     else 
         .ui.grey.header closed to new orders

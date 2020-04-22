@@ -20,9 +20,9 @@ template(name='users')
 template(name='user')                
     .ui.card
         .image
-            //- a(href="/user/#{username}/")
+            a(href="/user/#{username}/")
+                img.ui.small.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
             //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
-            img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
         .content
             a(href="/user/#{username}/")
                 h2.ui.center.aligned.header #{first_name} #{last_name} 
@@ -30,8 +30,6 @@ template(name='user')
             each five_tags
                 .ui.compact.small.button.person_tag(class=tag_class) 
                     strong #{this}
-            +text_view key='first_name' label='First Name'
-            +text_view key='last_name' label='Last Name'
             
             
 template(name='user_card_template')                

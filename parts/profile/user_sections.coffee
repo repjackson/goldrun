@@ -124,7 +124,7 @@ if Meteor.isClient
             }, sort:_timestamp:-1
 
 
-    Template.user_finance.onCreated ->
+    Template.user_credit.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'deposit'
         # @autorun => Meteor.subscribe 'model_docs', 'reservation'
@@ -166,7 +166,7 @@ if Meteor.isClient
     	)
 
 
-    Template.user_finance.events
+    Template.user_credit.events
         'click .add_credits': ->
             deposit_amount = parseInt $('.deposit_amount').val()*100
             calculated_amount = deposit_amount*1.02+20
@@ -195,7 +195,7 @@ if Meteor.isClient
 
 
 
-    Template.user_finance.helpers
+    Template.user_credit.helpers
         owner_earnings: ->
             Docs.find
                 model:'reservation'

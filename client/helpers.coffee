@@ -366,7 +366,7 @@ Template.registerHelper 'sorted_field_values', () ->
 
 Template.registerHelper 'is_marketplace', () -> @model is 'marketplace'
 Template.registerHelper 'is_post', () -> @model is 'post'
-Template.registerHelper 'is_meal', () -> @model is 'meal'
+Template.registerHelper 'is_food', () -> @model is 'food'
 
 
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment

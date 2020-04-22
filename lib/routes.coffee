@@ -13,21 +13,21 @@ force_loggedin =  ()->
 Router.onBeforeAction(force_loggedin, {
   # only: ['admin']
   # except: ['register', 'forgot_password','reset_password','front','delta','doc_view','verify-email']
-  except: ['register'
+  except: [
+    'food'
+    'users'
     'home'
     'forgot_password'
     'reset_password'
-    'doc_view'
-    'rentals'
-    'rental_view'
-    'reservation_view'
+    'user_orders'
+    'user_food'
+    'user_finance'
+    'user_dashboard'
     'verify-email'
+    'food_view'
+    'food_view'
   ]
 });
-
-
-Router.route '/inbox', -> @render 'inbox'
-
 
 
 Router.route('enroll', {
@@ -80,9 +80,7 @@ Router.route '/add_resident', (->
     ), name:'add_resident'
 Router.route '/forgot_password', -> @render 'forgot_password'
 
-Router.route '/staff', -> @render 'staff'
-Router.route '/settings', -> @render 'settings'
-# Router.route "/meal/:meal_id", -> @render 'meal_doc'
+# Router.route "/food/:food_id", -> @render 'food_doc'
 
 Router.route '/reset_password/:token', (->
     @render 'reset_password'
@@ -92,4 +90,4 @@ Router.route '/login', -> @render 'login'
 
 # Router.route '/', -> @redirect '/m/model'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
-Router.route '/', -> @render 'meals'
+Router.route '/', -> @render 'food'

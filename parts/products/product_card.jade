@@ -1,0 +1,57 @@
+template(name='product_card')
+    .ui.card(class=product_card_class)
+        .image
+            img.ui.zoom.pointer.goto_product.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+        .content
+            a.ui.header(href="/product/#{_id}/view") 
+                //- |#{_author.name}'s
+                | #{title}
+            +ismall name='tags'
+            each tags
+                .ui.small.circular.label #{this}
+        .content
+            .right.floated.meta
+                | {{from_now datetime_available}}
+            //- if session_is 'view_users' true
+            a(href="/user/#{_author.username}")
+                img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
+                |#{_author.username}
+        .content    
+            .ui.inline.header
+                |#{servings_left}/#{servings_amount}
+                small
+                    if serving_unit
+                        |#{serving_unit}s
+                    else 
+                        |servings
+                    
+                    | left
+            .ui.inline.right.aligned.header 
+                |$#{price_per_serving}
+                small
+                    |/
+                    if serving_unit
+                        |#{serving_unit}
+                    else 
+                        |serving
+            div
+            if delivery
+                +i name='deliver-product' classes='ui avatar image'
+                if delivery_fee
+                    .ui.inline.header(title='delivery fee') $#{delivery_fee}
+            if open
+                +i name='checkmark' classes='ui avatar image'
+            else 
+                i.ban.icon(title='not open to new orders')
+            if pickup
+                +i name='doormat' classes='ui avatar image'
+            if can_edit
+                a.ui.large.icon.button(href="/product/#{_id}/edit")
+                    i.pencil.icon
+        //- .ui.bottom.attached.buttons        
+        //-     .ui.green.button.quickbuy
+        //-         i.lightning.icon
+        //-         |buy
+        //-     a.ui.button(href="/product/#{_id}/view")
+        //-         |view
+        //-         i.right.chevron.icon

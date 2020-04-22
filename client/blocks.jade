@@ -1,6 +1,6 @@
 template(name='comments')
     .ui.header
-        +i name='comments' classes='ui middle aligned image'
+        i.chat.blue.outline.icon
         |comments
     div
     if currentUser
@@ -35,6 +35,42 @@ template(name='viewing')
     each read_ids
         +user_info
 
+template(name='user_info')
+    .ui.header #{this}
+
+
+template(name='session_boolean_toggle')
+    .ui.circular.compact.button.toggle_session_key(class=calculated_class)
+        +i name=icon classes='ui avatar image'
+        |#{label}
+        //- if icon_view 
+        //- else 
+            if label
+                |#{label}
+            else 
+                |#{value}
+
+template(name='session_edit_value_button')
+    .ui.button.set_session_value(class=calculated_class)
+        if icon_view 
+            i.icon(class=icon)
+        else 
+            if label
+                |#{label}
+            else 
+                |#{value}
+
+
+template(name='set_sort_key')
+    .item.set_sort
+        if color
+            .ui.label(class=color) #{label}
+        else 
+            if emoji
+                em(data-emoji=emoji)
+            else if icon
+                i.icon(class=icon)
+            |#{label}
 
 template(name='goto_model')
     if is_staff
@@ -109,13 +145,13 @@ template(name='user_status')
 
 template(name='user_card')
     with user
-        .ui.horizontal.card
+        .ui.card
             //- if is_staff
-            .image
-                img.ui.tiny.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+            a.image(href="/user/#{username}")
+                img.ui.tiny.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
             .content    
                 .header 
-                    a.header(href="/user/#{username}") #{first_name} #{last_name} 
+                    a.header(href="/user/#{username}") #{name} 
                     .meta @#{username}
                     if is_admin
                         div
@@ -295,10 +331,10 @@ template(name='add_button')
 
 
 
-//- template(name='edit_button')
-//-     a.ui.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
-//-         i.blue.pencil.icon
-//-         |Edit
+template(name='edit_button')
+    a.ui.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
+        i.blue.pencil.icon
+        |Edit
 
 
 template(name='save_button')

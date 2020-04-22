@@ -1,0 +1,117 @@
+template(name='food')
+    .ui.stackable.padded.grid
+        .four.wide.column
+            if currentUser
+                a.ui.icon.basic.circular.button.add_food(title='cook')
+                    i.plus.green.large.icon
+            
+            .ui.left.icon.search.small.input
+                i.search.icon.refresh_tags
+                input#search_ingredient.prompt(type='text' autocomplete="off" placeholder='ingredients')
+            if selected_ingredient_plural
+                .ui.icon.circular.black.compact.button.clear_selected_ingredients
+                    i.remove.icon
+            each selected_ingredients
+                button.ui.blue.compact.circular.small.button.unselect_ingredient(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each ingredients
+                button.ui.circular.compact.small.basic.button.ingredient_result(tabindex="0" class=result_class title=count) #{title}
+                    //- small #{count}
+            .spacer
+            //- +i name='ingredients' classes='ui inline mini image'
+            //- .ui.circular.compact.button.toggle_delivery(class=toggle_delivery_class)
+            //-     +i name='deliver-food' classes='ui inline avatar image' 
+            //-     |delivery
+            //- .ui.circular.compact.button.toggle_pickup(class=toggle_pickup_class)
+            //-     +i name='doormat' classes='ui inline avatar image'
+            //-     |pickup
+            //- .ui.circular.compact.button.toggle_open(class=toggle_open_class)
+            //-     +i name='checkmark' classes='ui inline avatar image'
+            //-     |open
+            //- .ui.small.header available
+            //- .ui.circular.compact.small.button
+            //-     +i name='present' classes='ui mini inline image'
+            //-     |now
+            //- .ui.circular.compact.small.button
+            //-     +i name='today' classes='ui mini inline image'
+            //-     |today
+            //- .ui.circular.compact.small.button
+            //-     +i name='date-to' classes='ui mini inline image'
+            //-     |tomorrow
+
+                
+            if selected_tags
+                #clear_tags.ui.active.icon.button
+                    i.remove.icon
+                each selected_tags
+                    .unselect_tag.ui.active.button
+                        strong #{this}
+            each all_tags
+                .ui.compact.button.select_tag(class=cloud_tag_class) 
+                    strong #{this.name}
+            
+        .twelve.wide.column
+            //- .sorting_row
+            //-     .ui.icon.input
+            //-         i.search.icon
+            //-         input.ingredient_search(type='text' placeholder='search...')
+            //-     |sort by
+            //-     .ui.compact.small.menu
+            //-         .ui.simple.dropdown.item
+            //-             strong #{current_food_sort_label}
+            //-             i.dropdown.icon
+            //-             .menu
+            //-                 +set_food_sort_key key='price_per_serving' label='$/serving' icon='money'
+            //-                 +set_food_sort_key key='datetime_available' label='available' icon='clock'
+            //-                 //- +set_food_sort_key key='_timestamp' label='added' icon='clock'
+            //-                 +set_food_sort_key key='comment_count' label='comment count' icon='chat'
+            //-     .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
+            //-         if sorting_up
+            //-             i.sort.amount.down.icon
+            //-         else
+            //-             i.sort.amount.up.icon
+            //-     |&nbsp;
+            //-     |&nbsp;
+            //-     //- .ui.inline.small.grey.header
+            //-     //-     |show
+            //-     //- .ui.compact.menu
+            //-     //-     .ui.simple.dropdown.item
+            //-     //-         strong #{food_limit}
+            //-     //-         i.dropdown.icon
+            //-     //-         .menu
+            //-     //-             +set_food_limit amount=1
+            //-     //-             +set_food_limit amount=5
+            //-     //-             +set_food_limit amount=10
+            //-     //-             +set_food_limit amount=20
+            //- .spacer 
+            .ui.stackable.four.cards
+                each food
+                    +food_card
+
+
+
+
+
+
+        
+template(name='set_food_sort_key')
+    .item.set_sort
+        if color
+            .ui.label(class=color) #{label}
+        else 
+            if emoji
+                em(data-emoji=emoji)
+            else if icon
+                i.icon(class=icon)
+            |#{label}
+        
+
+template(name='set_view_mode_food')
+    .item.set_view
+        i.icon(class=icon)
+        |#{title}
+
+
+template(name='set_food_limit')
+    .item.set_limit #{amount}

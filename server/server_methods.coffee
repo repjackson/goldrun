@@ -66,50 +66,50 @@ Meteor.methods
                     "<br><h4>view your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
             })
 
-    order_meal: (meal_id)->
-        meal = Docs.findOne meal_id
+    order_food: (food_id)->
+        food = Docs.findOne food_id
         Docs.insert
             model:'order'
-            meal_id: meal._id
-            order_price: meal.price_per_serving
+            food_id: food._id
+            order_price: food.price_per_serving
             buyer_id: Meteor.userId()
         Meteor.users.update Meteor.userId(),
-            $inc:credit:-meal.price_per_serving
-        Meteor.users.update meal.cook_user_id,
-            $inc:credit:meal.price_per_serving
-        Meteor.call 'calc_meal_data', meal_id, ->
+            $inc:credit:-food.price_per_serving
+        Meteor.users.update food.cook_user_id,
+            $inc:credit:food.price_per_serving
+        Meteor.call 'calc_food_data', food_id, ->
 
-    calc_meal_data: (meal_id)->
-        meal = Docs.findOne meal_id
-        console.log meal
+    calc_food_data: (food_id)->
+        food = Docs.findOne food_id
+        console.log food
         order_count =
             Docs.find(
                 model:'order'
-                meal_id:meal_id
+                food_id:food_id
             ).count()
         console.log 'order count', order_count
-        servings_left = meal.servings_amount-order_count
+        servings_left = food.servings_amount-order_count
         console.log 'servings left', servings_left
 
-        # meal_dish =
-        #     Docs.findOne meal.dish_id
-        # console.log 'meal_dish', meal_dish
-        # if meal_dish.ingredient_ids
-        #     meal_ingredients =
+        # food_dish =
+        #     Docs.findOne food.dish_id
+        # console.log 'food_dish', food_dish
+        # if food_dish.ingredient_ids
+        #     food_ingredients =
         #         Docs.find(
         #             model:'ingredient'
-        #             _id: $in:meal_dish.ingredient_ids
+        #             _id: $in:food_dish.ingredient_ids
         #         ).fetch()
         #
         #     ingredient_titles = []
-        #     for ingredient in meal_ingredients
+        #     for ingredient in food_ingredients
         #         console.log ingredient.title
         #         ingredient_titles.push ingredient.title
-        #     Docs.update meal_id,
+        #     Docs.update food_id,
         #         $set:
         #             ingredient_titles:ingredient_titles
 
-        Docs.update meal_id,
+        Docs.update food_id,
             $set:
                 order_count:order_count
                 servings_left:servings_left
@@ -192,6 +192,8 @@ Meteor.methods
     rename: (old, newk)->
         old_count = Docs.find({"#{old}":$exists:true}).count()
         new_count = Docs.find({"#{newk}":$exists:true}).count()
+        console.log 'old count', old_count
+        console.log 'new count', new_count
         result = Docs.update({"#{old}":$exists:true}, {$rename:"#{old}":"#{newk}"}, {multi:true})
         result2 = Docs.update({"#{old}":$exists:true}, {$rename:"_#{old}":"_#{newk}"}, {multi:true})
 

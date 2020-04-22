@@ -2,11 +2,11 @@ template(name='user_layout')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     +nav
     with user_from_username_param
-        .ui.stackable.grid
+        .ui.stackable.padded.grid
             .row
                 //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .four.wide.column
-                    a.item.mobile.hidden(href="/user/#{user_from_username_param.username}/dashboard")
+                    a.item.mobile.hidden(href="/user/#{user_from_username_param.username}/food")
                         img.ui.centered.rounded.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
                     .spacer
                     a(href="/user/#{user.username}")
@@ -15,9 +15,8 @@ template(name='user_layout')
                             //- 
                             //- strong #{user.first_name} #{user.last_name}
                             //- small @#{user.username}        
-                    a.ui.header(href="/user/#{user_from_username_param.username}/finance" title='credit')
-                        i.coins.icon
-                        |{{fixed user.credit}}
+                    a.ui.center.aligned.inline.header.mobile.hidden(href="/user/#{user_from_username_param.username}/credit" title='credit')
+                        |{{fixed user.credit}}c
                     .ui.two.column.middle.aligned.grid.mobile.only
                         .column
                             img.ui.small.inline.image.mobile.only(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
@@ -25,23 +24,23 @@ template(name='user_layout')
                             .ui.inline.header
                                 strong #{user.name}
                                 //- small @#{user.username}        
-                            a.ui.inline.header(href="/user/#{user_from_username_param.username}/finance" title='credit')
+                            a.ui.inline.header(href="/user/#{user_from_username_param.username}/credit" title='credit')
                                 //- +i name='coins'
-                                i.coins.icon
-                                |{{fixed user.credit}}
+                                //- i.coins.icon
+                                |{{fixed user.credit}}c
                     if is_current_user
-                        a.ui.fluids.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
-                            +i name='settings' classes='ui avatar image'
+                        a.ui.fluid.basic.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                            i.cog.icon
                             |edit
                     else if is_admin
-                        a.ui.fluids.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                        a.ui.fluid.basic.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             +i name='settings' classes='ui avatar image'
                             |edit
                     if is_current_user
-                        a.ui.fluids.button.logout(href="#" title='logout')
+                        .ui.fluid.basic.button.logout
                             i.sign.out.alternate.icon
                             |log out
-                        //- a.ui.fluids.button.logout_other_clients(href="#" title='logout other clients')
+                        //- a.ui.fluid.basic.button.logout_other_clients(href="#" title='logout other clients')
                         //-     i.globe.icon
                         //-     |log out other clients
                     if is_admin
@@ -51,18 +50,24 @@ template(name='user_layout')
                         each roles
                             .ui.label #{this}
                 .twelve.wide.column
-                    a.ui.compacts.button(href="/user/#{username}/dashboard" class="{{isActiveRoute 'user_dashboard'}}")
-                        +i name='dashboard' classes='ui avatar image'
-                        |dashboard
-                    a.ui.compacts.button(href="/user/#{username}/orders" class="{{isActiveRoute 'user_orders'}}")
+                    a.ui.compact.basic.button(href="/user/#{username}/products" class="{{isActiveRoute 'user_products'}}")
+                        +i name='shop' classes='ui avatar image'
+                        |products
+                    a.ui.compact.basic.button(href="/user/#{username}/rentals" class="{{isActiveRoute 'user_rentals'}}")
+                        +i name='clock' classes='ui avatar image'
+                        |rentals
+                    a.ui.compact.basic.button(href="/user/#{username}/services" class="{{isActiveRoute 'user_services'}}")
+                        +i name='wrench' classes='ui avatar image'
+                        |services
+                    a.ui.compact.basic.button(href="/user/#{username}/food" class="{{isActiveRoute 'user_food'}}")
+                        +i name='food' classes='ui avatar image'
+                        |food
+                    a.ui.compact.basic.button(href="/user/#{username}/credit" class="{{isActiveRoute regex='user_credit'}}")
+                        +i name='money' classes='ui avatar image'
+                        |credit
+                    a.ui.compact.basic.button(href="/user/#{username}/orders" class="{{isActiveRoute 'user_orders'}}")
                         +i name='invoice' classes='ui avatar image'
                         |orders
-                    a.ui.compacts.button(href="/user/#{username}/meals" class="{{isActiveRoute 'user_meals'}}")
-                        +i name='food' classes='ui avatar image'
-                        |meals
-                    a.ui.compacts.button(href="/user/#{username}/finance" class="{{isActiveRoute regex='user_finance'}}")
-                        +i name='money' classes='ui avatar image'
-                        |finance
         
                     div.global_container
                         .spacer

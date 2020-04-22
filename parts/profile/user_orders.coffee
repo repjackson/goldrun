@@ -1,7 +1,7 @@
 if Meteor.isClient
     Template.user_orders.onCreated ->
         @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
-        @autorun => Meteor.subscribe 'model_docs', 'meal'
+        @autorun => Meteor.subscribe 'model_docs', 'food'
     Template.user_orders.helpers
         orders: ->
             current_user = Meteor.users.findOne username:Router.current().params.username

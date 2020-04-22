@@ -1,33 +1,34 @@
 if Meteor.isClient
-    Router.route '/meal/:doc_id/edit', (->
+    Router.route '/food/:doc_id/edit', (->
         @layout 'layout'
-        @render 'meal_edit'
-        ), name:'meal_edit'
+        @render 'food_edit'
+        ), name:'food_edit'
 
 
 
-    Template.meal_edit.onCreated ->
+    Template.food_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'dish'
 
-    Template.meal_edit.onRendered ->
+    Template.food_edit.onRendered ->
         Meteor.setTimeout ->
             today = new Date()
             $('#availability')
                 .calendar({
+                    inline:true
                     # minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5),
                     # maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5)
                 })
         , 2000
 
-    Template.meal_edit.helpers
+    Template.food_edit.helpers
         all_dishes: ->
             Docs.find
                 model:'dish'
         can_delete: ->
-            meal = Docs.findOne Router.current().params.doc_id
-            if meal.reservation_ids
-                if meal.reservation_ids.length > 1
+            food = Docs.findOne Router.current().params.doc_id
+            if food.reservation_ids
+                if food.reservation_ids.length > 1
                     false
                 else
                     true
@@ -35,11 +36,11 @@ if Meteor.isClient
                 true
 
 
-    Template.meal_edit.events
-        'click .save_meal': ->
-            meal_id = Router.current().params.doc_id
-            Meteor.call 'calc_meal_data', meal_id, ->
-            Router.go "/meal/#{meal_id}/view"
+    Template.food_edit.events
+        'click .save_food': ->
+            food_id = Router.current().params.doc_id
+            Meteor.call 'calc_food_data', food_id, ->
+            Router.go "/food/#{food_id}/view"
 
 
         'click .save_availability': ->
@@ -71,7 +72,7 @@ if Meteor.isClient
 
 
 
-        'click .delete_meal': ->
-            if confirm 'refund orders and cancel meal?'
+        'click .delete_food': ->
+            if confirm 'refund orders and cancel food?'
                 Docs.remove Router.current().params.doc_id
                 Router.go "/"

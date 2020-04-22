@@ -1,4 +1,4 @@
-template(name='meal_edit')
+template(name='food_edit')
     with current_doc
         .ui.stackable.padded.grid
             .middle.aligned.row
@@ -7,9 +7,9 @@ template(name='meal_edit')
                     .ui.header
                         small editing
                         | #{title}
-                        small meal
+                        small food
                 .four.wide.center.aligned.column
-                    .ui.large.circular.icon.green.button.save_meal(title='save meal')
+                    .ui.large.circular.icon.green.button.save_food(title='save food')
                         i.checkmark.large.icon   
             .five.wide.column
                 +text_edit key='title' label='title' direct=true
@@ -43,10 +43,10 @@ template(name='meal_edit')
                     |settings
                 +boolean_edit key='allow_refunds' label='allow refunds' direct=true
                 +boolean_edit key='open' label='open for orders' direct=true
-                .ui.small.header close the meal if servings no longer available 
+                .ui.small.header close the food if servings no longer available 
             .five.wide.column
                 if can_delete
-                    .ui.red.button.delete_meal
+                    .ui.red.button.delete_food
                         i.remove.icon   
                         |cancel and delete
                 else  

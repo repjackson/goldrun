@@ -309,7 +309,7 @@ template(name='view_button')
 
 
 template(name='remove_button')
-    .ui.icon.circular.button.remove_doc(title='delete')
+    .ui.icon.circular.basic.button.remove_doc(title='delete')
         i.remove.red.icon
         //- |Delete
 
@@ -380,3 +380,7 @@ template(name='email_validation_check')
             .ui.button.toggle_email_verified
                 |mark email verified
         
+
+template(name='print_this')
+    .ui.icon.circular.basic.button.print_this
+        i.orange.code.icon

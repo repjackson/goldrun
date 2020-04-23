@@ -3,15 +3,13 @@ template(name='rental_view')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    a.ui.fluid.basic.button(href="/rentals")
+                    a.ui.basic.button(href="/rentals" title='rentals')
                         i.left.chevron.icon
-                        +i name='wrench' classes='ui avatar image'
-                        |rentals
+                        +i name='clock' classes='ui avatar image'
                     .ui.header view rental
                     if can_edit
-                        a.ui.big.fluid.basic.button(href="/rental/#{_id}/edit")
+                        a.ui.big.icon.basic.button(href="/rental/#{_id}/edit")
                             i.pencil.icon
-                            |edit
                     +image_view key='image_id' label='image' direct=true
                     //- +voting_full
                     //- +viewing
@@ -23,13 +21,16 @@ template(name='rental_view')
                     +single_user_view key='resident' label='resident' direct=true
                     +text_view key='contact_info' label='contact info' icon='info' direct=true
                     div
-                    +comments
                     +rental_reservations
                 .four.wide.column 
+                    .ui.basic.green.button.new_reservation
+                        |reserve
+                
                     +number_view key='hourly_rate' label='hourly rate' icon='money' direct=true
                     +number_view key='daily_rate' label='daily rate' icon='calendar' direct=true
                     div
                     +rental_history
+                    +comments
 
                 
 template(name='rental_history')
@@ -50,14 +51,12 @@ template(name='rental_subscription')
             .item #{text} #{when}
             
 template(name='rental_reservations')
-    .ui.header
-        +ismall name='invoice'
-        |rental reservations
-    .ui.button.new_reservation
-        |new reservation
+    .ui.inline.header
+        +i name='invoice'
+        |reservations
     each reservations
         .ui.segment
-            .ui.header #{when}
-            .ui.header by #{_author_username}
-            +view_button
-            +edit_button
+            .ui.inline.header #{when}
+            .ui.inline.small.header by #{_author_username}
+            a.ui.basic.icon.button(href="/reservation/#{_id}/view")
+                i.right.chevron.icon

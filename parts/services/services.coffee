@@ -14,7 +14,7 @@ if Meteor.isClient
 
     Template.services.onCreated ->
         @autorun => @subscribe 'service_facets',
-            selected_ingredients.array()
+            selected_tags.array()
             Session.get('service_limit')
             Session.get('service_sort_key')
             Session.get('service_sort_direction')
@@ -23,7 +23,7 @@ if Meteor.isClient
             Session.get('view_open')
 
         @autorun => @subscribe 'service_results',
-            selected_ingredients.array()
+            selected_tags.array()
             Session.get('service_limit')
             Session.get('service_sort_key')
             Session.get('service_sort_direction')
@@ -44,19 +44,19 @@ if Meteor.isClient
         'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
         'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
 
-        'click .ingredient_result': -> selected_ingredients.push @title
-        'click .unselect_ingredient': ->
-            selected_ingredients.remove @valueOf()
-            # console.log selected_ingredients.array()
-            # if selected_ingredients.array().length is 1
+        'click .tag_result': -> selected_tags.push @title
+        'click .unselect_tag': ->
+            selected_tags.remove @valueOf()
+            # console.log selected_tags.array()
+            # if selected_tags.array().length is 1
                 # Meteor.call 'call_wiki', search, ->
 
-            # if selected_ingredients.array().length > 0
-                # Meteor.call 'search_reddit', selected_ingredients.array(), ->
+            # if selected_tags.array().length > 0
+                # Meteor.call 'search_reddit', selected_tags.array(), ->
 
-        'click .clear_selected_ingredients': ->
+        'click .clear_selected_tags': ->
             Session.set('current_query',null)
-            selected_ingredients.clear()
+            selected_tags.clear()
 
         'keyup #search': _.throttle((e,t)->
             query = $('#search').val()
@@ -132,31 +132,20 @@ if Meteor.isClient
             else
                 Tags.find()
 
-        ingredients: ->
-            # if Session.get('current_query') and Session.get('current_query').length > 1
-            #     Terms.find({}, sort:count:-1)
-            # else
-            service_count = Docs.find().count()
-            # console.log 'service count', service_count
-            if service_count < 3
-                Ingredients.find({count: $lt: service_count})
-            else
-                Ingredients.find()
-
         result_class: ->
             if Template.instance().subscriptionsReady()
                 ''
             else
                 'disabled'
 
-        selected_ingredients: -> selected_ingredients.array()
-        selected_ingredients_plural: -> selected_ingredients.array().length > 1
+        selected_tags: -> selected_tags.array()
+        selected_tags_plural: -> selected_tags.array().length > 1
         searching: -> Session.get('searching')
 
         one_post: ->
             Docs.find().count() is 1
         service: ->
-            # if selected_ingredients.array().length > 0
+            # if selected_tags.array().length > 0
             Docs.find {
                 model:'service'
             },
@@ -240,7 +229,7 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'service_results', (
-        selected_ingredients
+        selected_tags
         doc_limit
         doc_sort_key
         doc_sort_direction
@@ -248,7 +237,7 @@ if Meteor.isServer
         view_pickup
         view_open
         )->
-        # console.log selected_ingredients
+        # console.log selected_tags
         if doc_limit
             limit = doc_limit
         else
@@ -265,8 +254,8 @@ if Meteor.isServer
             match.delivery = $ne:false
         if view_pickup
             match.pickup = $ne:false
-        if selected_ingredients.length > 0
-            match.ingredients = $all: selected_ingredients
+        if selected_tags.length > 0
+            match.tags = $all: selected_tags
             sort = 'price_per_serving'
         else
             # match.tags = $nin: ['wikipedia']
@@ -277,7 +266,7 @@ if Meteor.isServer
         # if view_videos
         #     match.is_video = $ne:false
 
-        # match.tags = $all: selected_ingredients
+        # match.tags = $all: selected_tags
         # if filter then match.model = filter
         # keys = _.keys(prematch)
         # for key in keys
@@ -295,7 +284,7 @@ if Meteor.isServer
             limit: limit
 
     Meteor.publish 'service_facets', (
-        selected_ingredients
+        selected_tags
         selected_timestamp_tags
         query
         doc_limit
@@ -307,7 +296,7 @@ if Meteor.isServer
         )->
         # console.log 'dummy', dummy
         # console.log 'query', query
-        console.log 'selected ingredients', selected_ingredients
+        console.log 'selected tags', selected_tags
 
         self = @
         match = {}
@@ -319,7 +308,7 @@ if Meteor.isServer
             match.delivery = $ne:false
         if view_pickup
             match.pickup = $ne:false
-        if selected_ingredients.length > 0 then match.ingredients = $all: selected_ingredients
+        if selected_tags.length > 0 then match.tags = $all: selected_tags
             # match.$regex:"#{current_query}", $options: 'i'}
         # if query and query.length > 1
         # #     console.log 'searching query', query
@@ -337,7 +326,7 @@ if Meteor.isServer
             #     { $project: "tags": 1 }
             #     { $unwind: "$tags" }
             #     { $group: _id: "$tags", count: $sum: 1 }
-            #     { $match: _id: $nin: selected_ingredients }
+            #     { $match: _id: $nin: selected_tags }
             #     { $match: _id: {$regex:"#{query}", $options: 'i'} }
             #     { $sort: count: -1, _id: 1 }
             #     { $limit: 42 }
@@ -346,15 +335,15 @@ if Meteor.isServer
 
         # else
         # unless query and query.length > 2
-        # if selected_ingredients.length > 0 then match.tags = $all: selected_ingredients
-        # # match.tags = $all: selected_ingredients
+        # if selected_tags.length > 0 then match.tags = $all: selected_tags
+        # # match.tags = $all: selected_tags
         # # console.log 'match for tags', match
         # tag_cloud = Docs.aggregate [
         #     { $match: match }
         #     { $project: "tags": 1 }
         #     { $unwind: "$tags" }
         #     { $group: _id: "$tags", count: $sum: 1 }
-        #     { $match: _id: $nin: selected_ingredients }
+        #     { $match: _id: $nin: selected_tags }
         #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
         #     { $sort: count: -1, _id: 1 }
         #     { $limit: 20 }
@@ -373,11 +362,11 @@ if Meteor.isServer
         #         # index: i
 
 
-        ingredient_cloud = Docs.aggregate [
+        tag_cloud = Docs.aggregate [
             { $match: match }
-            { $project: "ingredients": 1 }
-            { $unwind: "$ingredients" }
-            { $group: _id: "$ingredients", count: $sum: 1 }
+            { $project: "tags": 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
             { $sort: count: -1, _id: 1 }
             { $limit: 20 }
             { $project: _id: 0, title: '$_id', count: 1 }
@@ -385,11 +374,11 @@ if Meteor.isServer
             allowDiskUse: true
         }
 
-        ingredient_cloud.forEach (ingredient, i) =>
-            # console.log 'ingredient result ', ingredient
-            self.added 'ingredients', Random.id(),
-                title: ingredient.title
-                count: ingredient.count
+        tag_cloud.forEach (tag, i) =>
+            # console.log 'tag result ', tag
+            self.added 'tags', Random.id(),
+                title: tag.title
+                count: tag.count
                 # category:key
                 # index: i
 

@@ -90,4 +90,4 @@ Router.route '/login', -> @render 'login'
 
 # Router.route '/', -> @redirect '/m/model'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
-Router.route '/', -> @render 'food'
+Router.route '/', -> @render 'home'

@@ -1,0 +1,132 @@
+template(name='task_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row 
+                .five.wide.column
+                    .ui.large.button.goto_tasks
+                        i.left.chevron.icon
+                        |tasks
+                    if parent_dependents
+                        .ui.small.header parent dependents
+                        each parent_dependents
+                            a.ui.button(href="/task/#{_id}/view")
+                                i.left.chevron.icon
+                                |#{title}
+                    
+                    a.ui.icon.button(href="/task/#{_id}/edit" title='edit') 
+                        i.pencil.grey.icon
+                    //- +multi_user_edit key='subscriber_ids' label='subscriptions' direct=true
+                    div
+                    +subscriptions
+                    div
+                    +author_info
+                    +creation_info
+                    div
+                    .ui.grey.inline.header 
+                        i.clock.small.icon
+                        |time tracking
+                    .ui.compact.icon.button.new_task
+                        i.plus.icon
+                    .ui.link.list
+                        each tasks 
+                            a.item(href="/task/#{_id}/view")
+                                |{{long_time start_datetime}}-{{long_time end_datetime}}
+                                small by #{_author_username}
+                    .ui.small.grey.header total time #{total_time}
+                    div
+                    +viewing
+                    div
+                    +voting_full
+                .seven.wide.column
+                    if parent_id
+                        a.ui.fluid.button(href="/task/#{parent_id}/view")
+                            i.up.chevron.icon
+                            |#{parent_doc.title}
+                    
+                    .ui.header #{title}
+                    | !{description}
+                    div
+                    +comments
+                    .ui.grey.inline.header 
+                        i.small.fork.icon
+                        |sub tasks 
+                    i.plus.link.icon.new_subtask
+                    div
+                    each subtasks 
+                        .ui.segment
+                            +text_edit key='title' direct=true
+                            +text_edit key='assigned_to' direct=true
+                            a.ui.icon.button(href="/task/#{_id}/view")
+                                i.right.chevron.icon
+                            +remove_button
+                .four.wide.column
+                    if child_dependents
+                        .ui.small.header child dependents
+                        each child_dependents
+                            a.ui.fluid.small.button(href="/task/#{_id}/view")
+                                i.right.chevron.icon
+                                |#{title}
+                    if group_id
+                        .ui.header
+                            i.list.icon 
+                            |group 
+                        with group 
+                            |#{title}
+                    div
+                    .ui.inline.small.grey.header 
+                        i.small.grey.sign.in.inline.icon 
+                        |assigned to
+                    .ui.inline.header #{assigned_to}
+                    div
+                    .ui.small.inline.grey.header 
+                        i.small.grey.sign.out.inline.icon 
+                        | assigned by
+                    .ui.inline.header #{assigned_by}
+                    if due_date
+                        div
+                        .ui.small.grey.inline.header
+                            i.small.grey.calendar.inline.icon 
+                            | due date
+                        .ui.inline.header #{due_date}
+                        div
+                        .ui.small.grey.inline.header due
+                        .ui.inline.header 
+                            |{{from_now due_date}}
+                    div
+                    if due_time
+                        .ui.inline.small.grey.header  due time
+                        .ui.inline.header #{due_time}
+                    if complete 
+                        .ui.large.green.label 
+                            |complete
+                        .ui.icon.button.mark_incomplete(title='mark incomplete')
+                            i.remove.icon
+                    else 
+                        .ui.large.label 
+                            |incomplete
+                        .ui.icon.button.mark_complete(title='mark complete')
+                            i.checkmark.icon
+                    .ui.grey.header 
+                        i.small.inline.rss.icon
+                        |activity 
+                    .ui.feed
+                        each log_events
+                            .event
+                                .content
+                                    .summary
+                                        |#{text}
+                                    .meta
+                                        |#{when} 
+                                        if is_admin 
+                                            +remove_icon
+                    if percent_complete
+                        .ui.disabled.indicating.progress(data-percent="{{percent_complete}}" title="{{percent_complete}}% complete")
+                            .bar
+                                .progress
+                            .label complete
+                        .ui.hidden.divider
+                    if weight
+                        .ui.disabled.indicating.progress(data-percent="{{weight}}" title="{{weight}} weight")
+                            .bar
+                                .progress
+                            .label weight

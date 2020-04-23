@@ -1,41 +1,38 @@
-template(name='service_card_template')
-    .ui.fluid.segment.grid
-        .row
-            .sixteen.wide.column
-                a.ui.inline.header(href="/service/#{_id}/view") #{title} 
-                    //- if variable_price
-                    //-     |~
-                    |#{hourly_dollars}/hr
-        .row
-            .four.wide.column
-                a(href="/service/#{_id}/view")
-                    +image_view key='image_id' direct=true
-            .twelve.wide.column
-                div
-                //- .ui.grey.inline.header location
-                //- each location_tags
-                //-     .ui.label #{this}
-                div
-                .ui.grey.inline.header tags
-                each tags
-                    .ui.label #{this}
-                +single_user_view key='resident' label='resident' direct=true
-                div
-                    
-                //- +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' add_label='bookmark' remove_label='unbookmark'  big=true
-    
-                //- +voting
-                div
-                //- if currentUser
-                //-     if can_edit
-                //-         a.ui.button(href="/service/#{_id}/edit")
-                //-             i.pencil.icon
-                //-             |edit
-                a.ui.button(href="/service/#{_id}/view")
-                    |view
-                    i.right.chevron.icon
-                unless is_frontdesk
-                    +author_info
+template(name='service_card')
+    .ui.card(class=service_card_class)
+        .image
+            img.ui.zoom.pointer.goto_service.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+        .content
+            a.ui.header(href="/service/#{_id}/view") 
+                //- |#{_author.name}'s
+                | #{title}
+            //- if session_is 'view_tags' true
+            +ismall name='tags'
+            each tags
+                .ui.small.circular.label #{this}
+        //- .ui.inline.small.header tags
+        .content
+            .right.floated.meta
+                | {{from_now datetime_available}}
+            //- if session_is 'view_users' true
+            a(href="/user/#{cook.username}")
+                img.ui.avatar.image(src="{{c.url cook.image_id width=400 height=600 crop='fit'}}")
+                |#{cook.username}
+        //- a.image(href="/service/#{_id}/view")
+            
+        .content    
+            |#{hourly_rate}/hr
+            |#{daily_rate}/day
+            if can_edit
+                a.ui.large.icon.button(href="/service/#{_id}/edit")
+                    i.pencil.icon
+        //- .ui.bottom.attached.buttons        
+        //-     .ui.green.button.quickbuy
+        //-         i.lightning.icon
+        //-         |buy
+        //-     a.ui.button(href="/service/#{_id}/view")
+        //-         |view
+        //-         i.right.chevron.icon
 
 
 template(name='service_view')
@@ -43,7 +40,7 @@ template(name='service_view')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    a.ui.fluid.basic.button(href="/m/service")
+                    a.ui.fluid.basic.button(href="/services")
                         i.left.chevron.icon
                         +i name='wrench' classes='ui inline avatar image'
                         |services
@@ -71,37 +68,6 @@ template(name='service_view')
                     //- +service_subscription
                     //- +multi_user_view key='associated_members' label='associated members' icon='groups' direct=true
 
-template(name='service_edit')
-    with current_doc
-        .ui.stackable.padded.grid
-            .row
-                .four.wide.column 
-                    .ui.header 
-                        +ismall name='add'
-                        |add service
-                    a.ui.big.fluid.button(href="/service/#{_id}/view" title='save')
-                        .ui.small.header
-                            i.checkmark.green.large.icon
-                            | save
-                    +remove_button
-                    +image_edit key='image' label='image' direct=true
-                .eight.wide.column 
-                    +text_edit key='title' direct=true
-                    +textarea_edit key='description' label='content' icon='content' direct=true
-                    +array_edit key='tags' label='tags' icon='tags' direct=true
-                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    +single_user_edit key='_author_username' label='author' direct=true
-                    +text_edit key='contact_info' label='contact info' icon='info' direct=true
-                .four.wide.column 
-                    +boolean_edit key='set_duration' label='set duration' direct=true
-                    if set_duration
-                        +number_edit key='duration_hours' label='duration hours' direct=true
-            
-                    +single_user_edit key='_author_username' label='author username' direct=true
-                    +number_edit key='hourly_dollars' label='hourly rate' icon='money' direct=true
-                    +boolean_edit key='variable_price' label='variable price' direct=true
-                    +array_edit key='availability_tags' label='availability tags' icon='clock' direct=true
-                    +multi_user_edit key='associated_members' label='associated members' icon='groups' direct=true
                     
                 
 template(name='service_history')

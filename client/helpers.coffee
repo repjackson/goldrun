@@ -8,6 +8,11 @@ Template.registerHelper 'parent_doc', () ->
 Template.registerHelper 'rental', () ->
     Docs.findOne @rental_id
     # Template.parentData()
+
+Template.registerHelper 'active_path', (metric) ->
+    false
+
+
 Template.registerHelper 'gs', () ->
     Docs.findOne
         model:'global_settings'
@@ -400,3 +405,11 @@ Template.registerHelper 'building_leader', () ->
 Template.registerHelper 'building_users', () ->
     Meteor.users.find
         _id: $in: @building_user_ids
+
+
+Template.registerHelper 'delta_key_value_is', (key, value)->
+    # console.log 'key', key
+    # console.log 'value', value
+    # console.log 'this', this
+    delta = Docs.findOne model:'delta'
+    delta["#{key}"] is value

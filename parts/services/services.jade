@@ -10,55 +10,24 @@ template(name='services')
             
             .ui.left.icon.search.small.input
                 i.search.icon.refresh_tags
-                input#search_ingredient.prompt(type='text' autocomplete="off" placeholder='ingredients')
-            if selected_ingredient_plural
-                .ui.icon.circular.black.compact.button.clear_selected_ingredients
+                input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
+            if selected_tag_plural
+                .ui.icon.circular.black.compact.button.clear_selected_tags
                     i.remove.icon
-            each selected_ingredients
-                button.ui.blue.compact.circular.small.button.unselect_ingredient(tabindex='0')
+            each selected_tags
+                button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
-            each ingredients
-                button.ui.circular.compact.small.basic.button.ingredient_result(tabindex="0" class=result_class title=count) #{title}
+            each tags
+                button.ui.circular.compact.small.basic.button.tag_result(tabindex="0" class=result_class title=count) #{title}
                     //- small #{count}
             .spacer
-            //- +i name='ingredients' classes='ui inline mini image'
-            //- .ui.circular.compact.button.toggle_delivery(class=toggle_delivery_class)
-            //-     +i name='deliver-service' classes='ui inline avatar image' 
-            //-     |delivery
-            //- .ui.circular.compact.button.toggle_pickup(class=toggle_pickup_class)
-            //-     +i name='doormat' classes='ui inline avatar image'
-            //-     |pickup
-            //- .ui.circular.compact.button.toggle_open(class=toggle_open_class)
-            //-     +i name='checkmark' classes='ui inline avatar image'
-            //-     |open
-            //- .ui.small.header available
-            //- .ui.circular.compact.small.button
-            //-     +i name='present' classes='ui mini inline image'
-            //-     |now
-            //- .ui.circular.compact.small.button
-            //-     +i name='today' classes='ui mini inline image'
-            //-     |today
-            //- .ui.circular.compact.small.button
-            //-     +i name='date-to' classes='ui mini inline image'
-            //-     |tomorrow
-
-                
-            if selected_tags
-                #clear_tags.ui.active.icon.button
-                    i.remove.icon
-                each selected_tags
-                    .unselect_tag.ui.active.button
-                        strong #{this}
-            each all_tags
-                .ui.compact.button.select_tag(class=cloud_tag_class) 
-                    strong #{this.name}
             
         .twelve.wide.column
             //- .sorting_row
             //-     .ui.icon.input
             //-         i.search.icon
-            //-         input.ingredient_search(type='text' placeholder='search...')
+            //-         input.tag_search(type='text' placeholder='search...')
             //-     |sort by
             //-     .ui.compact.small.menu
             //-         .ui.simple.dropdown.item

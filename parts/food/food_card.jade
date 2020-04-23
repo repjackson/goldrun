@@ -9,7 +9,7 @@ template(name='food_card')
             //- if session_is 'view_ingredients' true
             +ismall name='ingredients'
             each ingredients
-                .ui.small.circular.label #{this}
+                .ui.small.circular.basic.label #{this}
         //- .ui.inline.small.header tags
         .content
             .right.floated.meta
@@ -30,9 +30,8 @@ template(name='food_card')
                         |#{serving_unit}s
                     else 
                         |servings
-                    
                     | left
-            .ui.inline.right.aligned.header 
+            .ui.header 
                 |$#{price_per_serving}
                 small
                     |/
@@ -45,19 +44,9 @@ template(name='food_card')
                 +i name='deliver-food' classes='ui avatar image'
                 if delivery_fee
                     .ui.inline.header(title='delivery fee') $#{delivery_fee}
-            if open
-                +i name='checkmark' classes='ui avatar image'
-            else 
-                i.ban.icon(title='not open to new orders')
+            //- if open
+            //-     +i name='checkmark' classes='ui avatar image'
+            //- else 
+            //-     i.ban.icon(title='not open to new orders')
             if pickup
                 +i name='doormat' classes='ui avatar image'
-            if can_edit
-                a.ui.large.icon.button(href="/food/#{_id}/edit")
-                    i.pencil.icon
-        //- .ui.bottom.attached.buttons        
-        //-     .ui.green.button.quickbuy
-        //-         i.lightning.icon
-        //-         |buy
-        //-     a.ui.button(href="/food/#{_id}/view")
-        //-         |view
-        //-         i.right.chevron.icon

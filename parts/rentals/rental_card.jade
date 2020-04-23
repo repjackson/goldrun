@@ -1,0 +1,40 @@
+template(name='rental_card')
+    .ui.card(class=rental_card_class)
+        a.image(href="/rental/#{_id}/view") 
+            img.ui.zoom.pointer.goto_rental.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+        .content
+            a.ui.header(href="/rental/#{_id}/view") 
+                //- |#{_author.name}'s
+                | #{title}
+            //- if session_is 'view_tags' true
+            //- +ismall name='tags'
+            each tags
+                .ui.small.circular.basic.label #{this}
+        //- .ui.inline.small.header tags
+        .content
+            .right.floated.meta
+                | {{from_now datetime_available}}
+            //- if session_is 'view_users' true
+            a(href="/user/#{_author.username}")
+                img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
+                |#{_author.username}
+        .content    
+            if hourly_rate
+                .ui.inline.header
+                    |#{hourly_rate}c/hr
+            if daily_rate
+                .ui.inline.header
+                    |#{daily_rate}c/day
+            if weekly_rate
+                .ui.inline.header
+                    |#{daily_rate}c/day
+            if can_edit
+                a.ui.large.icon.button(href="/rental/#{_id}/edit")
+                    i.pencil.icon
+        //- .ui.bottom.attached.buttons        
+        //-     .ui.green.button.quickbuy
+        //-         i.lightning.icon
+        //-         |buy
+        //-     a.ui.button(href="/rental/#{_id}/view")
+        //-         |view
+        //-         i.right.chevron.icon

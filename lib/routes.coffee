@@ -16,6 +16,12 @@ Router.onBeforeAction(force_loggedin, {
   except: [
     'food'
     'users'
+    'services'
+    'service_view'
+    'products'
+    'product_view'
+    'rentals'
+    'rental_view'
     'home'
     'forgot_password'
     'reset_password'
@@ -24,7 +30,6 @@ Router.onBeforeAction(force_loggedin, {
     'user_finance'
     'user_dashboard'
     'verify-email'
-    'food_view'
     'food_view'
   ]
 });
@@ -90,4 +95,3 @@ Router.route '/login', -> @render 'login'
 
 # Router.route '/', -> @redirect '/m/model'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
-Router.route '/', -> @render 'home'

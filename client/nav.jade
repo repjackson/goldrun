@@ -6,29 +6,30 @@ template(name='nav')
         else 
             a.item(href='/' class="{{isActivePath '/'}}" title='food')
                 +i name='home' classes='ui inline mini image'
+            //- if is_admin
                 //- .mobile.hidden
                 //-     |&nbsp;
                 //-     | home
-            //- a.item(href='/food' class="{{isActivePath '/food'}}" title='food')
-            //-     +i name='food' classes='ui inline mini image'
-            //-     .mobile.hidden
-            //-         |&nbsp;
-            //-         | food
-            //- a.item(href='/products' class="{{isActivePath '/products'}}" title='shop')
-            //-     +i name='shop' classes='ui inline mini image'
-            //-     .mobile.hidden
-            //-         |&nbsp;
-            //-         | shop
-            //- a.item(href='/services' class="{{isActivePath '/services'}}" title='services')
-            //-     +i name='wrench' classes='ui inline mini image'
-            //-     .mobile.hidden
-            //-         |&nbsp;
-            //-         | services
-            //- a.item(href='/rentals' class="{{isActivePath '/rentals'}}")
-            //-     +i name='clock' classes='ui inline mini image'
-            //-     .mobile.hidden
-            //-         |&nbsp;
-            //-         | rentals
+            a.item(href='/food' class="{{isActivePath '/food'}}" title='food')
+                +i name='food' classes='ui inline mini image'
+                .mobile.hidden
+                    |&nbsp;
+                    | food
+            a.item(href='/products' class="{{isActivePath '/products'}}" title='shop')
+                +i name='shop' classes='ui inline mini image'
+                .mobile.hidden
+                    |&nbsp;
+                    | shop
+            a.item(href='/services' class="{{isActivePath '/services'}}" title='services')
+                +i name='wrench' classes='ui inline mini image'
+                .mobile.hidden
+                    |&nbsp;
+                    | services
+            a.item(href='/rentals' class="{{isActivePath '/rentals'}}")
+                +i name='clock' classes='ui inline mini image'
+                .mobile.hidden
+                    |&nbsp;
+                    | rentals
             //- a.item(href='/events' class="{{isActivePath '/events'}}")
             //-     +i name='calendar' classes='ui inline mini image'
             //-     .mobile.hidden

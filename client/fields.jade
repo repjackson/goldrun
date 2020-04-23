@@ -51,7 +51,8 @@ template(name='color_icon_edit')
             |#{key}
         else
             |#{this}
-    input.color_icon(type='url' value=field_value placeholder='icons8 class' autocomplete="off")
+    .ui.input
+        input.color_icon(type='url' value=field_value placeholder='icons8 class' autocomplete="off")
     if field_value
         i.large.icon(class=field_value)
         //- img.ui.inline.image(src="https://img.icons8.com/color/48/000000/#{field_value}.png")
@@ -262,7 +263,7 @@ template(name='text_edit')
         else if key
             |#{key}
             //- +clear_value
-    .ui.fluid.icon.input
+    .ui.icon.input
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         
 
@@ -419,7 +420,6 @@ template(name='number_edit')
         .ui.tiny.grey.inline.header #{tooltip}
         div
     //- +clear_value  
-    div  
     .ui.input            
         input.edit_number(type='number' min=min max=max class=classes value=field_value placeholder=placeholder autocomplete="off")
             

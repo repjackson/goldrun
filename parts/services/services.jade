@@ -2,7 +2,7 @@ template(name='services')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.inline.header 
-                i.wrench.icon
+                +i name='wrench'
                 |services
             if currentUser
                 a.ui.icon.basic.circular.button.add_service(title='cook')

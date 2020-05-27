@@ -17,24 +17,33 @@ template(name='rental_edit')
                     //- +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     +text_edit key='contact_info' label='contact info' icon='info' direct=true
                 .eight.wide.column
-                    .ui.styled.fluid.accordion 
-                        .title 
+                    .ui.segment
+                        .ui.header
                             i.info.icon
                             |info
-                            i.dropdown.icon
                         .content
-                            +image_edit key='image' label='image' direct=true
+                            +image_edit key='image_id' label='image' direct=true
                             +textarea_edit key='description' label='description' icon='content' direct=true
-                        .title 
+                    .ui.segment
+                        .ui.header
                             i.money.icon
                             |finance
-                            i.dropdown.icon
                         .content
-                            +float_edit key='hourly_dollars' label='hourly rate (c)' icon='clock' direct=true
+                            +boolean_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
+                            if hourly_rate
+                                +float_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
                             div
                             +boolean_edit key='daily_rate' label='daily rate' icon='sun' direct=true
                             if daily_rate
-                                +float_edit key='daily_dollars' label='daily rate (c)' icon='exchange' direct=true
+                                +float_edit key='daily_credit' label='daily rate' icon='exchange' direct=true
+                            div
+                            +boolean_edit key='weekly_rate' label='weekly rate' icon='sun' direct=true
+                            if weekly_rate
+                                +float_edit key='weekly_credit' label='weekly rate' icon='exchange' direct=true
+                            div
+                            +boolean_edit key='monthly_rate' label='monthly rate' icon='sun' direct=true
+                            if monthly_rate
+                                +float_edit key='monthly_credit' label='monthly rate' icon='exchange' direct=true
                             div
                             +boolean_edit key='auction' label='auction' icon='podium-with-audience--v2' direct=true
                             if auction
@@ -46,10 +55,10 @@ template(name='rental_edit')
                                 +number_edit key='security_deposit_amount' label='security deposit amount (c)' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
                                 div
                                 +boolean_edit key='friends_exempt' label='friends exempt' icon='users' direct=true
-                        .title.header
+                    .ui.segment
+                        .ui.header
                             i.shield.icon
                             | policies
-                            i.dropdown.icon
                         .content
                             +boolean_edit key='approval_required' label='approval required' icon='checkmark' direct=true
                             if approval_required
@@ -62,25 +71,25 @@ template(name='rental_edit')
                             if allow_refunds
                                 +number_edit key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
                                 +number_edit key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
-                        .title.header
+                    .ui.segment
+                        .ui.header
                             i.pie.chart.icon 
                             |ownership
-                            i.dropdown.icon
                         .content
                             +single_user_edit key='owner_username' label='owner' direct=true
                             +single_user_edit key='handler_username' label='handler' direct=true
-                        .title.header
+                    .ui.segment
+                        .ui.header
                             i.clock.icon
                             |availability
-                            i.dropdown.icon
                         .content
                             +array_edit key='availability_tags' label='availability tags' icon='clock' direct=true
                             +boolean_edit key='available' label='currently available' direct=true
                             +multi_doc_edit key='available_days' label='available days' ref_model='day_of_week' direct=true
-                        .title.header
+                    .ui.segment    
+                        .ui.header
                             i.users.icon
                             |audience
-                            i.dropdown.icon
                         .content
                             +boolean_edit key='transaction_number_restriction' label='transaction number restriction' icon='hashtag' direct=true
                             if transaction_number_restriction
@@ -95,10 +104,10 @@ template(name='rental_edit')
                                 +boolean_edit key='visible_to_specific_people' label='visible to specific people' direct=true
                                 if visible_to_specific_people
                                     +multi_user_edit key='visible_to_member_ids' label='visible to members:' direct=true
-                        .title.header
+                    .ui.segment
+                        .ui.header
                             i.people.carry.icon
                             |delivery
-                            i.dropdown.icon
                         .content
                             .ui.small.header
                                 +i name='clock' classes='ui inline tiny image'
@@ -114,21 +123,21 @@ template(name='rental_edit')
                             +boolean_edit key='res_end_pickup' label='pickup' icon='truck' direct=true
                             if res_end_pickup
                                 +number_edit key='res_end_pickup_fee' label='reservation end pickup fee' icon='low-price' direct=true
+                    .ui.segment
                         .title.header
                             i.bell.icon
                             |notifications
-                            i.dropdown.icon
                         .content
                             +boolean_edit key='notify_on_reservation' label='on new reservation' icon='plus' direct=true
                             +boolean_edit key='notify_on_cancelation' label='on reservation cancelation' icon='cancel-2--v1' direct=true
                 .four.wide.column
-                    unless published 
-                        if can_publish
-                            .ui.button.publish 
-                                |publish 
-                        else
-                            .ui.disabled.button
-                                |#{publish_message}
-                    a.ui.big.fluid.button(href="/rental/#{_id}/view" title='save')
-                        i.checkmark.icon
+                    //- unless published 
+                    //-     if can_publish
+                    //-         .ui.button.publish 
+                    //-             |publish 
+                    //-     else
+                    //-         .ui.disabled.button
+                    //-             |#{publish_message}
+                    a.ui.big.fluid.basic.button(href="/rental/#{_id}/view" title='save')
+                        i.checkmark.green.icon
                         |save

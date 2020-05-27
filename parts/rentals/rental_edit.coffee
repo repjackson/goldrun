@@ -6,6 +6,9 @@ if Meteor.isClient
 
 
     Template.rental_edit.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 1500
 
 
     Template.rental_edit.onCreated ->

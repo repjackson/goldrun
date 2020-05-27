@@ -32,7 +32,7 @@ if Meteor.isClient
             Session.equals('expand_field', @_id)
 
     Template.field_edit.events
-        'click .field_edit': ->
+        'click .section_edit': ->
             if Session.equals('expand_field', @_id)
                 Session.set('expand_field', null)
             else

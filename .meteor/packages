@@ -29,14 +29,11 @@ momentjs:moment
 reactive-var@1.0.11
 raix:handlebar-helpers
 matb33:collection-hooks
-mizzao:autocomplete
 mquandalle:jade
 underscore@1.0.10
 coffeescript
 ecmascript@0.14.3
 reywood:publish-composite
-lookback:emails
 flowkey:hotkeys
-mrgalaxy:stripe
 modules@0.15.0
 kevohagan:sweetalert

@@ -10,45 +10,6 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'handler_by_res_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'user_by_username', 'deb_sclar'
 
-        if Meteor.isDevelopment
-            pub_key = Meteor.settings.public.stripe_test_publishable
-        else if Meteor.isProduction
-            pub_key = Meteor.settings.public.stripe_live_publishable
-        Template.instance().checkout = StripeCheckout.configure(
-            key: pub_key
-            image: 'http://res.cloudinary.com/facet/image/upload/c_fill,g_face,h_300,w_300/k2zt563boyiahhjb0run'
-            locale: 'auto'
-            # zipCode: true
-            token: (token) ->
-                # product = Docs.findOne Router.current().params.doc_id
-                # deposit_amount = Math.abs(parseFloat($('.adding_credit').val()))*100
-                # stripe_charge = parseInt(deposit_amount*1.02+20)
-                # calculated_amount = deposit_amount*100
-                # console.log calculated_amount
-                deposit_amount = Math.abs(parseFloat($('.adding_credit').val()))
-                stripe_charge = parseFloat(deposit_amount)*100
-                console.log 'deposit_amount', deposit_amount
-                console.log 'stripe charge', stripe_charge
-
-                charge =
-                    amount: stripe_charge
-                    currency: 'usd'
-                    source: token.id
-                    description: token.description
-                    # receipt_email: token.email
-                Meteor.call 'STRIPE_single_charge', charge, Meteor.user(), (error, response)=>
-                    if error then alert error.reason, 'danger'
-                    else
-                        # alert 'payment received', 'success'
-                        Docs.insert
-                            model:'payment'
-                            deposit_amount:deposit_amount
-                            stripe_charge:stripe_charge
-                            amount_with_bonus:deposit_amount*1.05/100
-                            bonus:deposit_amount*.05/100
-                        Meteor.users.update Meteor.userId(),
-                            $inc: credit: deposit_amount*1.05
-    	)
 
     Template.key_value_edit.events
         'click .set_key_value': ->

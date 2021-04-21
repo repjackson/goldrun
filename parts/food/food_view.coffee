@@ -77,35 +77,6 @@ if Meteor.isClient
             if @waitlist then 'blue' else 'green'
 
     Template.order_button.onCreated ->
-        if Meteor.isDevelopment
-            pub_key = Meteor.settings.public.stripe_test_publishable
-        else if Meteor.isProduction
-            pub_key = Meteor.settings.public.stripe_live_publishable
-        if StripeCheckout
-            Template.instance().checkout = StripeCheckout.configure(
-                key: pub_key
-                image: 'https://res.cloudinary.com/facet/image/upload/v1585357133/wc_logo.png'
-                locale: 'auto'
-                # zipCode: true
-                token: (token) ->
-                    product = Docs.findOne Router.current().params.doc_id
-                    charge =
-                        amount: 5*100
-                        currency: 'usd'
-                        source: token.id
-                        description: token.description
-                        # receipt_email: token.email
-                    Meteor.call 'STRIPE_single_charge', charge, product, (error, response) =>
-                        if error then alert error.reason, 'danger'
-                        else
-                            alert 'Payment received.', 'success'
-                            Docs.insert
-                                model:'transaction'
-                                # product_id:product._id
-                            Meteor.users.update Meteor.userId(),
-                                $inc: credit:5
-
-        	)
 
     Template.order_button.helpers
 
@@ -165,20 +136,6 @@ if Meteor.isClient
             #                         'success'
             #                     )
             # )
-            else
-                alert 'need more credit, adding $5'
-                # deposit_amount = Math.abs(parseFloat($('.adding_credit').val()))
-                # stripe_charge = parseFloat(deposit_amount)*100*1.02+20
-                stripe_charge = 5000
-                # stripe_charge = parseInt(deposit_amount*1.02+20)
-
-                # if confirm "add #{deposit_amount} credit?"
-                Template.instance().checkout.open
-                    name: 'credit deposit'
-                    # email:Meteor.user().emails[0].address
-                    description: 'wc top up'
-                    amount: stripe_charge
-
 
 if Meteor.isServer
     Meteor.publish 'orders_from_food_id', (food_id)->

@@ -12,6 +12,8 @@ Template.registerHelper 'rental', () ->
 Template.registerHelper 'active_path', (metric) ->
     false
 
+Template.registerHelper 'user_from_id', (id)->
+    Meteor.users.findOne id
 
 Template.registerHelper 'gs', () ->
     Docs.findOne

@@ -41,8 +41,8 @@
 	},
 	"galaxy.meteor.com": {
 		"env": {
-			"MONGO_URL": "mongodb+srv://daoadmin:daoadminpassword@cluster1-etul3.mongodb.net/daodb",
-			"ROOT_URL": "https://www.goldrun.online"
+			"MONGO_URL": "mongodb+srv://daoadmin:daoadminpassword@daocluster.etul3.mongodb.net/daodb",
+			"ROOT_URL": "https://www.goldrun.community"
 		}
 	}
 }

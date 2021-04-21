@@ -15,6 +15,14 @@ template(name='user_reservations')
             each reservations 
                 +profile_reservation_item
 
+
+template(name='user_friends')
+    .scrolling
+        .ui.segments
+            each friends 
+                .ui.header #{username}
+
+
 template(name='profile_reservation_item')
     .ui.segment.grid
         .row

@@ -1,7 +1,7 @@
 template(name='home')
     .ui.stackable.padded.grid
-        .twelve.wide.column
-            .ui.grid 
+        .sixteen.wide.column
+            .ui.stackable.grid 
                 .eight.wide.column
                     .ui.segment
                         a.ui.header(href="/food")
@@ -53,8 +53,8 @@ template(name='home')
                                     img.ui.avatar.image(src=user.profile.profilePic title=name)
                                     |#{title}
 
-        .four.wide.column
-            +latest_activity
+        // .four.wide.column
+        //     +latest_activity
             
             
             

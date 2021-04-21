@@ -86,25 +86,22 @@ template(name='rental_view')
                         +number_view key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
                         +number_view key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
 
-                    .title.header
+                    .ui.small.header
                         i.pie.chart.icon 
                         |ownership
-                        i.dropdown.icon
                     .content
                         +single_user_view key='owner_username' label='owner' direct=true
                         +single_user_view key='handler_username' label='handler' direct=true
-                    .title.header
+                    .ui.small.header
                         i.clock.icon
                         |availability
-                        i.dropdown.icon
                     .content
                         +array_view key='availability_tags' label='availability tags' icon='clock' direct=true
                         +boolean_view key='available' label='currently available' direct=true
                         +multi_doc_view key='available_days' label='available days' ref_model='day_of_week' direct=true
-                    .title.header
+                    .ui.small.header
                         i.users.icon
                         |audience
-                        i.dropdown.icon
                     .content
                         +boolean_view key='transaction_number_restriction' label='transaction number restriction' icon='hashtag' direct=true
                         if transaction_number_restriction
@@ -119,10 +116,9 @@ template(name='rental_view')
                             +boolean_view key='visible_to_specific_people' label='visible to specific people' direct=true
                             if visible_to_specific_people
                                 +multi_user_view key='visible_to_member_ids' label='visible to members:' direct=true
-                    .title.header
+                    .ui.small.header
                         i.people.carry.icon
                         |delivery
-                        i.dropdown.icon
                     .content
                         .ui.small.header
                             +i name='clock' classes='ui inline tiny image'
@@ -138,10 +134,9 @@ template(name='rental_view')
                         +boolean_view key='res_end_pickup' label='pickup' icon='truck' direct=true
                         if res_end_pickup
                             +number_view key='res_end_pickup_fee' label='reservation end pickup fee' icon='low-price' direct=true
-                    .title.header
+                    .ui.small.header
                         i.bell.icon
                         |notifications
-                        i.dropdown.icon
                     .content
                         +boolean_view key='notify_on_reservation' label='on new reservation' icon='plus' direct=true
                         +boolean_view key='notify_on_cancelation' label='on reservation cancelation' icon='cancel-2--v1' direct=true
@@ -156,7 +151,6 @@ template(name='rental_stats')
     .ui.grey.header.refresh_rental_stats
         i.line.chart.icon
         |stats
-    //- i.dropdown.icon
     //- .content
     .ui.big.list
         .item #{views} views

@@ -20,19 +20,19 @@ if Meteor.isClient
 
     Template.order_view.helpers
         can_order: ->
-            if StripeCheckout
-                unless @_author_id is Meteor.userId()
-                    order_count =
-                        Docs.find(
-                            model:'order'
-                            order_id:@_id
-                        ).count()
-                    if order_count is @servings_amount
-                        false
-                    else
-                        true
-            else
-                false
+            # if StripeCheckout
+            unless @_author_id is Meteor.userId()
+                order_count =
+                    Docs.find(
+                        model:'order'
+                        order_id:@_id
+                    ).count()
+                if order_count is @servings_amount
+                    false
+                else
+                    true
+            # else
+            #     false
 
 
 

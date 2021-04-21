@@ -71,6 +71,9 @@ template(name='user_layout')
                     a.ui.compact.basic.button(href="/user/#{username}/groups" class="{{isActiveRoute 'user_groups'}}")
                         +i name='groups' classes='ui avatar image'
                         |groups
+                    a.ui.compact.basic.button(href="/user/#{username}/friends" class="{{isActiveRoute 'user_friends'}}")
+                        +i name='meeting' classes='ui avatar image'
+                        |friends
         
                     div.global_container
                         .spacer

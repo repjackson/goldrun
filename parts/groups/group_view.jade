@@ -1,9 +1,9 @@
-template(name='service_card')
-    .ui.card(class=service_card_class)
+template(name='group_card')
+    .ui.card(class=group_card_class)
         .image
-            img.ui.zoom.pointer.goto_service.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+            img.ui.zoom.pointer.goto_group.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
-            a.ui.header(href="/service/#{_id}/view") 
+            a.ui.header(href="/group/#{_id}/view") 
                 //- |#{_author.name}'s
                 | #{title}
             //- if session_is 'view_tags' true
@@ -18,35 +18,34 @@ template(name='service_card')
             a(href="/user/#{cook.username}")
                 img.ui.avatar.image(src="{{c.url cook.image_id width=400 height=600 crop='fit'}}")
                 |#{cook.username}
-        //- a.image(href="/service/#{_id}/view")
+        //- a.image(href="/group/#{_id}/view")
             
         .content    
             |#{hourly_rate}/hr
             |#{daily_rate}/day
             if can_edit
-                a.ui.large.icon.button(href="/service/#{_id}/edit")
+                a.ui.large.icon.button(href="/group/#{_id}/edit")
                     i.pencil.icon
-        //- .ui.bottom.attached.buttons        
-        //-     .ui.green.button.quickbuy
-        //-         i.lightning.icon
-        //-         |buy
-        //-     a.ui.button(href="/service/#{_id}/view")
-        //-         |view
-        //-         i.right.chevron.icon
+            .ui.green.button.quickbuy
+                i.lightning.icon
+                |buy
+            a.ui.button(href="/group/#{_id}/view")
+                |view
+                i.right.chevron.icon
 
 
-template(name='service_view')
+template(name='group_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    a.ui.fluid.basic.button(href="/services")
+                    a.ui.fluid.basic.button(href="/groups")
                         i.left.chevron.icon
                         +i name='wrench' classes='ui inline avatar image'
-                        |services
-                    .ui.header view service
+                        |groups
+                    .ui.header view group
                     if can_edit
-                        a.ui.big.fluid.button(href="/service/#{_id}/edit")
+                        a.ui.big.fluid.button(href="/group/#{_id}/edit")
                             i.pencil.icon
                             |edit
                     +image_view key='image_id' label='image' direct=true
@@ -60,25 +59,23 @@ template(name='service_view')
                     +text_view key='contact_info' label='contact info' icon='info' direct=true
                     div
                     +comments
-                    +service_reservations
                 .four.wide.column 
-                    +number_view key='hourly_rate' label='hourly rate' icon='money' direct=true
                     div
-                    +service_history
-                    //- +service_subscription
+                    +group_history
+                    //- +group_subscription
                     //- +multi_user_view key='associated_members' label='associated members' icon='groups' direct=true
 
                     
                 
-template(name='service_history')
+template(name='group_history')
     +ismall name='rss'
     .ui.inline.header
         |activity
     .ui.list
-        each service_events
+        each group_events
             .item #{text} #{when}
             
-template(name='service_subscription')
+template(name='group_subscription')
     //- +ismall name='renew-subscription'
     //- .ui.inline.header
     //-     |subscription settings
@@ -87,10 +84,10 @@ template(name='service_subscription')
         each subscribers
             .item #{text} #{when}
             
-template(name='service_reservations')
+template(name='group_reservations')
     .ui.header
         +ismall name='invoice'
-        |service reservations
+        |group reservations
     .ui.button.new_reservation
         |new reservation
     each reservations

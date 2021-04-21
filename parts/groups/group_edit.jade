@@ -1,0 +1,19 @@
+template(name='group_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    .ui.header 
+                        |edit group
+                    a.ui.big.fluid.button(href="/group/#{_id}/view" title='save')
+                        .ui.small.header
+                            i.checkmark.green.large.icon
+                            | save
+                    +remove_button
+                    +image_edit key='image' label='image' direct=true
+                .eight.wide.column 
+                    +text_edit key='title' direct=true
+                    +textarea_edit key='description' label='content' icon='content' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    +text_edit key='contact_info' label='contact info' icon='info' direct=true

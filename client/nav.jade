@@ -30,6 +30,11 @@ template(name='nav')
                 .mobile.hidden
                     |&nbsp;
                     | rentals
+            a.item(href='/groups' class="{{isActivePath '/groups'}}")
+                +i name='group' classes='ui inline mini image'
+                .mobile.hidden
+                    |&nbsp;
+                    | groups
             //- a.item(href='/events' class="{{isActivePath '/events'}}")
             //-     +i name='calendar' classes='ui inline mini image'
             //-     .mobile.hidden

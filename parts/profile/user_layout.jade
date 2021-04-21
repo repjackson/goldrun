@@ -68,6 +68,9 @@ template(name='user_layout')
                     a.ui.compact.basic.button(href="/user/#{username}/orders" class="{{isActiveRoute 'user_orders'}}")
                         +i name='invoice' classes='ui avatar image'
                         |orders
+                    a.ui.compact.basic.button(href="/user/#{username}/groups" class="{{isActiveRoute 'user_groups'}}")
+                        +i name='groups' classes='ui avatar image'
+                        |groups
         
                     div.global_container
                         .spacer

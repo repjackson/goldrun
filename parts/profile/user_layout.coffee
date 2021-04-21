@@ -27,6 +27,10 @@ if Meteor.isClient
         @layout 'user_layout'
         @render 'user_messages'
         ), name:'user_messages'
+    Router.route '/user/:username/groups', (->
+        @layout 'user_layout'
+        @render 'user_groups'
+        ), name:'user_groups'
     Router.route '/user/:username/notifications', (->
         @layout 'user_layout'
         @render 'user_notifications'

@@ -18,15 +18,15 @@ template(name='product_edit')
                 .five.wide.column
                     +text_edit key='title' icon='header' direct=true
                     +image_edit key='image' direct=true
-                .six.wide.column
-                    +array_edit key='tags' icon='tags' direct=true
-                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    +number_edit key='credit_price' icon='money' label='dollar price' direct=true
+                .seven.wide.column
                     +html_edit key='description' direct=true
                     if is_admin
                         +text_edit key='model' direct=true
+                .four.wide.column
                     +number_edit key='inventory' label='inventory' direct=true
-                .five.wide.column
+                    +number_edit key='credit_price' icon='money' label='dollar price' direct=true
+                    +array_edit key='tags' icon='tags' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     .ui.header
                         +i name='delivery'
                         |delivery
@@ -41,23 +41,19 @@ template(name='product_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
-            .middle.aligned.row
-                .four.wide.center.aligned.column
-                    a.ui.big.basic.button(href="/products")
-                        i.left.chevron.icon
-                        +i name='shop' classes='ui inline mini image'
-                        |shop
-                .eight.wide.center.aligned.column
+            .row
+                .four.wide.column
                     .ui.header 
                         small viewing
                         |#{title}
                         small product
-                .four.wide.center.aligned.column
+                    a.ui.big.basic.button(href="/products")
+                        i.left.chevron.icon
+                        +i name='shop' classes='ui inline mini image'
+                        |shop
                     if can_edit
                         a.ui.icon.large.basic.circular.button(href="/product/#{_id}/edit")
                             i.pencil.large.blue.icon
-            .row
-                .five.wide.column
                     img.ui.centered.rounded.shadowed.image(src="{{c.url image width=1000 height=400 crop='fit'}}")
                     .ui.large.header #{title}
                     .ui.header added by #{_author_username}

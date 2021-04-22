@@ -1,10 +1,10 @@
 template(name='user_layout')
-    img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+    img.ui.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     +nav
     with user_from_username_param
         .ui.stackable.padded.grid
             .row
-                //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
+                //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .four.wide.column
                     a.item.mobile.hidden(href="/user/#{user_from_username_param.username}/food")
                         img.ui.centered.rounded.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
@@ -29,18 +29,18 @@ template(name='user_layout')
                                 //- i.coins.icon
                                 |{{fixed user.credit}}c
                     if is_current_user
-                        a.ui.fluid.basic.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                        a.ui.basic.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             i.cog.icon
                             |edit
                     else if is_admin
-                        a.ui.fluid.basic.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                        a.ui.basic.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             +i name='settings' classes='ui avatar image'
                             |edit
                     if is_current_user
-                        .ui.fluid.basic.button.logout
+                        .ui.basic.button.logout
                             i.sign.out.alternate.icon
                             |log out
-                        //- a.ui.fluid.basic.button.logout_other_clients(href="#" title='logout other clients')
+                        //- a.ui.basic.button.logout_other_clients(href="#" title='logout other clients')
                         //-     i.globe.icon
                         //-     |log out other clients
                     if is_admin
@@ -74,6 +74,9 @@ template(name='user_layout')
                     a.ui.compact.basic.button(href="/user/#{username}/friends" class="{{isActiveRoute 'user_friends'}}")
                         +i name='meeting' classes='ui avatar image'
                         |friends
+                    a.ui.compact.basic.button(href="/user/#{username}/reservations" class="{{isActiveRoute 'user_reservations'}}")
+                        +i name='clock' classes='ui avatar image'
+                        |reservations
         
                     div.global_container
                         .spacer

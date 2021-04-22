@@ -4,33 +4,33 @@ template(name='nav')
             .icon.item
                 i.big.spinning.grey.yin.yang.icon.cancel
         else 
-            a.item(href='/' class="{{isActivePath '/'}}" title='food')
+            a.item.zoomer(href='/' class="{{isActivePath '/'}}" title='food')
                 +i name='home' classes='ui inline mini image'
             //- if is_admin
                 //- .mobile.hidden
                 //-     |&nbsp;
                 //-     | home
-            a.item(href='/food' class="{{isActivePath '/food'}}" title='food')
+            a.item.zoomer(href='/food' class="{{isActivePath '/food'}}" title='food')
                 +i name='food' classes='ui inline mini image'
                 .mobile.hidden
                     |&nbsp;
                     | food
-            a.item(href='/products' class="{{isActivePath '/products'}}" title='shop')
+            a.item.zoomer(href='/products' class="{{isActivePath '/products'}}" title='shop')
                 +i name='shop' classes='ui inline mini image'
                 .mobile.hidden
                     |&nbsp;
                     | shop
-            a.item(href='/services' class="{{isActivePath '/services'}}" title='services')
+            a.item.zoomer(href='/services' class="{{isActivePath '/services'}}" title='services')
                 +i name='wrench' classes='ui inline mini image'
                 .mobile.hidden
                     |&nbsp;
                     | services
-            a.item(href='/rentals' class="{{isActivePath '/rentals'}}")
+            a.item.zoomer(href='/rentals' class="{{isActivePath '/rentals'}}")
                 +i name='clock' classes='ui inline mini image'
                 .mobile.hidden
                     |&nbsp;
                     | rentals
-            a.item(href='/groups' class="{{isActivePath '/groups'}}")
+            a.item.zoomer(href='/groups' class="{{isActivePath '/groups'}}")
                 +i name='group' classes='ui inline mini image'
                 .mobile.hidden
                     |&nbsp;

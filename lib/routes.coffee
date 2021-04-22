@@ -15,6 +15,7 @@ Router.onBeforeAction(force_loggedin, {
   # except: ['register', 'forgot_password','reset_password','front','delta','doc_view','verify-email']
   except: [
     'food'
+    'register'
     'users'
     'services'
     'service_view'

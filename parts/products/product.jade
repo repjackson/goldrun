@@ -3,7 +3,7 @@ template(name='product_edit')
         .ui.stackable.padded.grid
             .middle.aligned.row
                 .four.wide.center.aligned.column
-                    a.ui.big.fluid.basic.button(href="/product/#{_id}/view")
+                    a.ui.big.basic.button(href="/product/#{_id}/view")
                         i.green.checkmark.icon
                         |save
                 .eight.wide.center.aligned.column
@@ -43,7 +43,7 @@ template(name='product_view')
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             .middle.aligned.row
                 .four.wide.center.aligned.column
-                    a.ui.big.fluid.basic.button(href="/products")
+                    a.ui.big.basic.button(href="/products")
                         i.left.chevron.icon
                         +i name='shop' classes='ui inline mini image'
                         |shop
@@ -54,7 +54,7 @@ template(name='product_view')
                         small product
                 .four.wide.center.aligned.column
                     if can_edit
-                        a.ui.icon.large.basic.button(href="/product/#{_id}/edit")
+                        a.ui.icon.large.basic.circular.button(href="/product/#{_id}/edit")
                             i.pencil.large.blue.icon
             .row
                 .five.wide.column
@@ -64,26 +64,28 @@ template(name='product_view')
                     |#{when}
                     with _author_id
                         +user_card
-                .six.wide.column
-                    +array_view key='tags' icon='tags' direct=true
+                .seven.wide.column
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +text_view key='location' icon='marker' label='location description' direct=true
                     +number_view key='credit_price' icon='money' label='dollar price' direct=true
                     +html_view key='description' direct=true
                     +comments
-                .five.wide.column
+                .four.wide.column
                     div
                     unless sold_out
-                        .ui.big.green.fluid.basic.button.buy_product 
+                        .ui.big.green.button.buy_product 
+                            i.cart.icon
                             |buy
                     else 
                         .ui.big.disabled.basic.button
                             |sold out
-                    //- +voting_full     
+                    div
+                    +voting_full     
                     .ui.segment
                         .ui.small.header
                             |delivery instructions
                         |#{delivery_instructions}      
+                    +array_view key='tags' icon='tags' direct=true
                     .ui.header
                         |delivery
                     +boolean_view key='pickup_delivery' label='pickup' direct=true
@@ -120,7 +122,7 @@ template(name='product_location')
     
 template(name='product_card')
     .ui.card(class=product_card_class)
-        .image
+        a.image(href="/product/#{_id}/view") 
             img.ui.zoom.pointer.goto_product.image(src="{{c.url image width=400 height=300 crop='pad'}}")
         .content
             a.ui.header(href="/product/#{_id}/view") 
@@ -137,8 +139,9 @@ template(name='product_card')
                 img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
                 |#{_author.username}
         .content    
-            .ui.header #{credit_price}c
-            div
+            if credit_price
+                .ui.inline.header #{credit_price}c
+            // div
             if delivery
                 +i name='deliver-product' classes='ui avatar image'
                 if delivery_fee

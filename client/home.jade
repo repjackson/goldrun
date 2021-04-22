@@ -10,7 +10,7 @@ template(name='home')
                         .ui.selection.list
                             each top_food
                                 a.item(href="/food/#{_id}/view")
-                                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                                    img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
                 .eight.wide.column
                     .ui.segment
@@ -20,7 +20,7 @@ template(name='home')
                         .ui.selection.list
                             each top_rentals
                                 a.item(href="/rental/#{_id}/view")
-                                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                                    img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
                 .eight.wide.column
                     .ui.segment
@@ -30,7 +30,7 @@ template(name='home')
                         .ui.selection.list
                             each top_products
                                 a.item(href="/product/#{_id}/view")
-                                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                                    img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
                 .eight.wide.column
                     .ui.segment
@@ -40,7 +40,7 @@ template(name='home')
                         .ui.selection.list
                             each top_services
                                 a.item(href="/service/#{_id}/view")
-                                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                                    img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
                 .eight.wide.column
                     .ui.segment

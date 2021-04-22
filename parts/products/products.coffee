@@ -9,7 +9,7 @@ if Meteor.isClient
         Session.setDefault 'view_mode', 'list'
         Session.setDefault 'product_sort_key', 'datetime_available'
         Session.setDefault 'product_sort_label', 'available'
-        Session.setDefault 'product_limit', 5
+        Session.setDefault 'product_limit', 20
         Session.setDefault 'view_open', true
 
     Template.products.onCreated ->
@@ -144,7 +144,7 @@ if Meteor.isClient
 
         one_post: ->
             Docs.find().count() is 1
-        product: ->
+        products: ->
             # if selected_tags.array().length > 0
             Docs.find {
                 model:'product'

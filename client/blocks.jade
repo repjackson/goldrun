@@ -274,14 +274,13 @@ template(name='voting_small')
 
 
 template(name='voting_full')
-    div
-    +ismall name='elections'
-    .ui.inline.header 
-        |voting
-    .ui.large.icon.button.upvote(title='upvote')
+    // +ismall name='elections'
+    // .ui.inline.header 
+    //     |voting
+    .ui.large.icon.compact.circular.basic.button.upvote(title='upvote')
         i.thumbs.up.icon(class=upvote_class)
         //- |like
-    .ui.large.icon.button.downvote(title='downvote')
+    .ui.large.icon.compact.circular.basic.button.downvote(title='downvote')
         i.thumbs.down.icon(class=downvote_class)
         //- |dislike
     if points

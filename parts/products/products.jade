@@ -1,13 +1,13 @@
 template(name='products')
     .ui.stackable.padded.grid
-        .four.wide.column
+        .sixteen.wide.column
             .ui.inline.header 
                 +i name='shop'
-                |products
+                |shop
             if currentUser
-                a.ui.icon.basic.circular.button.add_product(title='cook')
+                a.ui.icon.basic.compact.circular.button.add_product(title='add product')
                     i.plus.green.large.icon
-            .div
+            // .div
             .ui.left.icon.search.small.input
                 i.search.icon.refresh_tags
                 input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
@@ -21,43 +21,43 @@ template(name='products')
             each tags
                 button.ui.circular.compact.small.basic.button.tag_result(tabindex="0" class=result_class title=count) #{title}
                     //- small #{count}
-            .spacer
-        .twelve.wide.column
-            //- .sorting_row
-            //-     .ui.icon.input
-            //-         i.search.icon
-            //-         input.tag_search(type='text' placeholder='search...')
-            //-     |sort by
-            //-     .ui.compact.small.menu
-            //-         .ui.simple.dropdown.item
-            //-             strong #{current_product_sort_label}
-            //-             i.dropdown.icon
-            //-             .menu
-            //-                 +set_product_sort_key key='price_per_serving' label='$/serving' icon='money'
-            //-                 +set_product_sort_key key='datetime_available' label='available' icon='clock'
-            //-                 //- +set_product_sort_key key='_timestamp' label='added' icon='clock'
-            //-                 +set_product_sort_key key='comment_count' label='comment count' icon='chat'
-            //-     .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
-            //-         if sorting_up
-            //-             i.sort.amount.down.icon
-            //-         else
-            //-             i.sort.amount.up.icon
-            //-     |&nbsp;
-            //-     |&nbsp;
-            //-     //- .ui.inline.small.grey.header
-            //-     //-     |show
-            //-     //- .ui.compact.menu
-            //-     //-     .ui.simple.dropdown.item
-            //-     //-         strong #{product_limit}
-            //-     //-         i.dropdown.icon
-            //-     //-         .menu
-            //-     //-             +set_product_limit amount=1
-            //-     //-             +set_product_limit amount=5
-            //-     //-             +set_product_limit amount=10
-            //-     //-             +set_product_limit amount=20
-            //- .spacer 
-            .ui.stackable.four.cards
-                each product
+            // .spacer
+        .sixteen.wide.column
+            .sorting_row
+                .ui.icon.input
+                    i.search.icon
+                    input.tag_search(type='text' placeholder='search...')
+                |sort by
+                .ui.compact.small.menu
+                    .ui.simple.dropdown.item
+                        strong #{current_product_sort_label}
+                        i.dropdown.icon
+                        .menu
+                            +set_product_sort_key key='views' label='views' icon='eye'
+                            // +set_product_sort_key key='datetime_available' label='available' icon='clock'
+                            +set_product_sort_key key='_timestamp' label='added' icon='clock'
+                            +set_product_sort_key key='comment_count' label='comment count' icon='chat'
+                .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
+                    if sorting_up
+                        i.sort.amount.down.icon
+                    else
+                        i.sort.amount.up.icon
+                |&nbsp;
+                |&nbsp;
+                //.ui.inline.small.grey.header
+                //    |show
+                //.ui.compact.menu
+                //    .ui.simple.dropdown.item
+                //        strong #{product_limit}
+                //        i.dropdown.icon
+                //        .menu
+                //            +set_product_limit amount=1
+                //            +set_product_limit amount=5
+                //            +set_product_limit amount=10
+                //            +set_product_limit amount=20
+            .spacer 
+            .ui.stackable.four.centered.cards
+                each products
                     +product_card
 
 template(name='set_product_sort_key')

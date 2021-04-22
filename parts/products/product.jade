@@ -22,7 +22,7 @@ template(name='product_edit')
                     +array_edit key='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     +number_edit key='credit_price' icon='money' label='dollar price' direct=true
-                    +textarea_edit key='description' direct=true
+                    +html_edit key='description' direct=true
                     if is_admin
                         +text_edit key='model' direct=true
                     +number_edit key='inventory' label='inventory' direct=true
@@ -69,7 +69,7 @@ template(name='product_view')
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +text_view key='location' icon='marker' label='location description' direct=true
                     +number_view key='credit_price' icon='money' label='dollar price' direct=true
-                    +textarea_view key='description' direct=true
+                    +html_view key='description' direct=true
                     +comments
                 .five.wide.column
                     div
@@ -121,14 +121,14 @@ template(name='product_location')
 template(name='product_card')
     .ui.card(class=product_card_class)
         .image
-            img.ui.zoom.pointer.goto_product.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+            img.ui.zoom.pointer.goto_product.image(src="{{c.url image width=400 height=300 crop='pad'}}")
         .content
             a.ui.header(href="/product/#{_id}/view") 
                 //- |#{_author.name}'s
                 | #{title}
             +ismall name='tags'
             each tags
-                .ui.small.circular.label #{this}
+                .ui.small.circular.basic.label #{this}
         .content
             .right.floated.meta
                 | #{when}

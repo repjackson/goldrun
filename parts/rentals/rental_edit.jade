@@ -6,6 +6,9 @@ template(name='rental_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}' rental
+                    a.ui.big.fluid.basic.button(href="/rental/#{_id}/view" title='save')
+                        i.checkmark.green.icon
+                        |save
                     +remove_button
                     if is_dev
                         +single_user_edit key='_author_username' label='author username' direct=true
@@ -23,7 +26,7 @@ template(name='rental_edit')
                             |info
                         .content
                             +image_edit key='image_id' label='image' direct=true
-                            +textarea_edit key='description' label='description' icon='content' direct=true
+                            +html_edit key='description' label='description' icon='content' direct=true
                     .ui.segment
                         .ui.header
                             i.money.icon
@@ -55,6 +58,7 @@ template(name='rental_edit')
                                 +number_edit key='security_deposit_amount' label='security deposit amount (c)' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
                                 div
                                 +boolean_edit key='friends_exempt' label='friends exempt' icon='users' direct=true
+                .four.wide.column
                     .ui.segment
                         .ui.header
                             i.shield.icon
@@ -130,7 +134,6 @@ template(name='rental_edit')
                         .content
                             +boolean_edit key='notify_on_reservation' label='on new reservation' icon='plus' direct=true
                             +boolean_edit key='notify_on_cancelation' label='on reservation cancelation' icon='cancel-2--v1' direct=true
-                .four.wide.column
                     //- unless published 
                     //-     if can_publish
                     //-         .ui.button.publish 
@@ -138,6 +141,3 @@ template(name='rental_edit')
                     //-     else
                     //-         .ui.disabled.button
                     //-             |#{publish_message}
-                    a.ui.big.fluid.basic.button(href="/rental/#{_id}/view" title='save')
-                        i.checkmark.green.icon
-                        |save

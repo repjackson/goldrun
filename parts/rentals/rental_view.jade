@@ -23,7 +23,7 @@ template(name='rental_view')
                         a.ui.fluid.button(href="/rental/#{_id}/edit")
                             i.pencil.icon
                             |edit
-                    img.ui.centered.rounded.medium.invert.image(src="{{c.url image width=400 height=400 crop='fit'}}")
+                    img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
                     +rental_stats
                     .ui.header added by #{_author_username}
                     |#{when}

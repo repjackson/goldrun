@@ -4,50 +4,50 @@ template(name='home')
             .ui.stackable.grid 
                 .eight.wide.column
                     .ui.segment
-                        a.ui.header(href="/food")
+                        a.ui.center.aligned.header(href="/food")
                             +i name='food' classes='ui avatar image'
                             |food
-                        .ui.selection.list
+                        .ui.selection.animated.list
                             each top_food
                                 a.item(href="/food/#{_id}/view")
-                                    img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
+                                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
                 .eight.wide.column
                     .ui.segment
-                        a.ui.header(href="/rentals")
+                        a.ui.center.aligned.header(href="/rentals")
                             +i name='clock' classes='ui avatar image'
                             | rentals
-                        .ui.selection.list
+                        .ui.selection.animated.list
                             each top_rentals
                                 a.item(href="/rental/#{_id}/view")
-                                    img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
+                                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
                 .eight.wide.column
                     .ui.segment
-                        a.ui.header(href="/products")
+                        a.ui.center.aligned.header(href="/products")
                             +i name='shop' classes='ui avatar image'
                             | products
-                        .ui.selection.list
+                        .ui.selection.animated.list
                             each top_products
                                 a.item(href="/product/#{_id}/view")
                                     img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
                 .eight.wide.column
                     .ui.segment
-                        a.ui.header(href="/services")
+                        a.ui.center.aligned.header(href="/services")
                             +i name='work' classes='ui avatar image'
                             | services
-                        .ui.selection.list
+                        .ui.selection.animated.list
                             each top_services
                                 a.item(href="/service/#{_id}/view")
                                     img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
                 .eight.wide.column
                     .ui.segment
-                        a.ui.header(href="/users")
+                        a.ui.center.aligned.header(href="/users")
                             +i name='groups' classes='ui avatar image'
                             |users
-                        .ui.selection.list
+                        .ui.selection.animated.list
                             each dashboard_users
                                 a.item(href="/user/#{username}") #{username}
                                     img.ui.avatar.image(src=user.profile.profilePic title=name)

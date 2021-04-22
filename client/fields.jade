@@ -930,7 +930,7 @@ template(name='single_user_edit')
             //- |clear #{field_value}
     unless field_value
         .ui.input
-            input#single_user_select_input(type='text' placeholder='lookup user..' autocomplete='off')
+            input.single_user_select_input(type='text' placeholder='lookup user..' autocomplete='off')
             each selections
                 .ui.large.label
                     |#{name} 

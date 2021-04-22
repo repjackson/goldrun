@@ -18,9 +18,10 @@ template(name='users')
                     .ui.stackable.three.cards
                         each users
                             +user_card
-                else if session_is 'view_users' 'list'
+                    // else if session_is 'view_users' 'list'
+                else
                     .ui.large.list
-                        each users
+                        each user_docs
                             +user_item
                             div
 

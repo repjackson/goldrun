@@ -14,6 +14,8 @@ Template.registerHelper 'active_path', (metric) ->
 
 Template.registerHelper 'user_from_id', (id)->
     Meteor.users.findOne id
+Template.registerHelper 'skv_is', (key,value)->
+    Session.equals(key,value)
 
 Template.registerHelper 'gs', () ->
     Docs.findOne

@@ -5,7 +5,7 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe('users')
         @autorun => Meteor.subscribe 'user_search', Session.get('username_query')
     Template.users.helpers
-        users: ->
+        user_docs: ->
             username_query = Session.get('username_query')
             if username_query
                 Meteor.users.find({

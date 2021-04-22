@@ -562,8 +562,8 @@ Template.single_user_edit.events
     'click .clear_results': (e,t)->
         t.user_results.set null
 
-    'keyup #single_user_select_input': (e,t)->
-        search_value = $(e.currentTarget).closest('#single_user_select_input').val().trim()
+    'keyup .single_user_select_input': (e,t)->
+        search_value = $(e.currentTarget).closest('.single_user_select_input').val().trim()
         if search_value.length > 1
             console.log 'searching', search_value
             Meteor.call 'lookup_user', search_value, @role_filter, (err,res)=>
@@ -599,7 +599,7 @@ Template.single_user_edit.events
                 $set:"#{field.key}":@_id
             
         t.user_results.set null
-        $('#single_user_select_input').val ''
+        $('.single_user_select_input').val ''
         # Docs.update page_doc._id,
         #     $set: assignment_timestamp:Date.now()
 

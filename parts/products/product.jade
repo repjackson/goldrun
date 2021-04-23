@@ -49,7 +49,7 @@ template(name='product_view')
                         small product
                     a.ui.big.basic.button(href="/products")
                         i.left.chevron.icon
-                        +i name='shop' classes='ui inline mini image'
+                        +i name='shop' cl='ui inline mini image'
                         |shop
                     if can_edit
                         a.ui.icon.large.basic.circular.button(href="/product/#{_id}/edit")
@@ -139,15 +139,15 @@ template(name='product_card')
                 .ui.inline.header #{credit_price}c
             // div
             if delivery
-                +i name='deliver-product' classes='ui avatar image'
+                +i name='deliver-product' cl='ui avatar image'
                 if delivery_fee
                     .ui.inline.header(title='delivery fee') $#{delivery_fee}
             if open
-                +i name='checkmark' classes='ui avatar image'
+                +i name='checkmark' cl='ui avatar image'
             else 
                 i.ban.icon(title='not open to new orders')
             if pickup
-                +i name='doormat' classes='ui avatar image'
+                +i name='doormat' cl='ui avatar image'
             if can_edit
                 a.ui.large.icon.basic.button(href="/product/#{_id}/edit")
                     i.pencil.icon

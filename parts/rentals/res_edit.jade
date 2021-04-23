@@ -24,7 +24,7 @@ template(name='reservation_edit')
                         |&nbsp;
                         .ui.inline.header #{daily_dollars}c
                             small /day
-                        +image_view key='image' label='image' direct=true classes='ui rounded image'
+                        +image_view key='image' label='image' direct=true cl='ui rounded image'
                     .result_column   
                         .ui.big.list
                             .item
@@ -79,13 +79,13 @@ template(name='reservation_edit')
                                 .ui.header 
                                     small add reservation start dropoff for 
                                     |#{rental.res_start_dropoff_fee}c
-                                +boolean_edit key='res_start_dropoff_selected' classes='trigger_recalc' label='start dropoff' direct=true data=this._id  
+                                +boolean_edit key='res_start_dropoff_selected' cl='trigger_recalc' label='start dropoff' direct=true data=this._id  
                             div
                             if rental.res_end_pickup
                                 .ui.header
                                     small add reservation end pickup for 
                                     |#{rental.res_end_pickup_fee}c
-                                +boolean_edit key='res_end_pickup_selected' classes='trigger_recalc' label='end pickup' direct=true data=this._id
+                                +boolean_edit key='res_end_pickup_selected' cl='trigger_recalc' label='end pickup' direct=true data=this._id
                             .ui.divider
                             if can_buy
                                 .ui.header 

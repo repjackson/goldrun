@@ -32,7 +32,7 @@ template(name='profile_reservation_item')
             .four.wide.column
                 with rental
                     //- img.ui.mini.image(src=image)
-                    +image_view key='image_id' direct=true classes='zoom ui tiny image'
+                    +image_view key='image_id' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
                 a.ui.header.inline.lowercase(href="/reservation/#{_id}/view")
                     small from 

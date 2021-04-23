@@ -7,7 +7,7 @@ template(name='profile_service_item')
     .ui.segment.grid
         .row
             .four.wide.column
-                +image_view key='image_id' direct=true classes='zoom ui tiny image'
+                +image_view key='image_id' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
                 .ui.header #{title}
                 a.ui.small.header.inline.lowercase(href="/service/#{_id}/view")

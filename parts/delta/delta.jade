@@ -8,7 +8,7 @@ template(name='delta')
                     if is_loading
                         .ui.inline.header.pulsing
                             //- i.yin.yang.loading.large.icon
-                            +i name=color_icon classes='pulsing'
+                            +i name=color_icon cl='pulsing'
                             |loading #{title}...
                     else
                         //- unless key_value_is current_delta.model_filter 'model'
@@ -208,7 +208,7 @@ template(name='facet')
         //- .ui.fluid.rounded.accordion
             //- .active.title
         if icon
-            +i name=icon classes='ui avatar image'
+            +i name=icon cl='ui avatar image'
             //- i.grey.icon(class=icon)
         .ui.grey.inline.header 
             if title

@@ -41,12 +41,12 @@ template(name='food_card')
                         |serving
             div
             if delivery
-                +i name='deliver-food' classes='ui avatar image'
+                +i name='deliver-food' cl='ui avatar image'
                 if delivery_fee
                     .ui.inline.header(title='delivery fee') $#{delivery_fee}
             //- if open
-            //-     +i name='checkmark' classes='ui avatar image'
+            //-     +i name='checkmark' cl='ui avatar image'
             //- else 
             //-     i.ban.icon(title='not open to new orders')
             if pickup
-                +i name='doormat' classes='ui avatar image'
+                +i name='doormat' cl='ui avatar image'

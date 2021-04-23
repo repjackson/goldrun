@@ -1,0 +1,25 @@
+template(name='doc_array_togggle')
+    if currentUser
+        .ui.button.toggle(class=doc_array_toggle_class title=label)
+            if in_list
+                if remove_icon
+                    i.large.icon(class=remove_icon)
+                |#{remove_label}
+            else
+                if add_icon
+                    i.large.icon(class=add_icon)
+                |#{add_label}
+            |#{label}
+        //- each list_users
+        //-     +user_info
+template(name='bookmark_button')
+    if currentUser
+        .ui.icon.compact.button.toggle(class=bookmark_button_class title=label)
+            if bookmarked
+                |bookmarked
+                //- i.large.icon(class=remove_icon)
+            else
+                |bookmark
+                //- i.large.icon(class=add_icon)
+        //- each list_users
+        //-     +user_info

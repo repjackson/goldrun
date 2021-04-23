@@ -101,8 +101,8 @@ if Meteor.isClient
             #         # callback(events);
             #     # // Optional: id of the calendar
             #     id: "calendar1",
-            #     # // Optional: Additional classes to apply to the calendar
-            #     addedClasses: "col-md-8",
+            #     # // Optional: Additional cl to apply to the calendar
+            #     addedcl: "col-md-8",
             #     # // Optional: Additional functions to apply after each reactive events computation
             #     autoruns: [
             #         ()->
@@ -349,7 +349,7 @@ if Meteor.isClient
 
 
         hour_class: ->
-            classes = ''
+            cl = ''
             hour = parseInt(@.valueOf())
             day_moment_ob = Template.parentData().data.moment_ob
             # date = day_moment_ob.format("YYYY-MM-DD")
@@ -363,12 +363,12 @@ if Meteor.isClient
                 start_date: start_date
             }
             if found_res and found_res.submitted
-                classes += 'tertiary'
+                cl += 'tertiary'
             date = day_moment_ob.date()
             if Session.equals('current_hour', hour)
                 if Session.equals('current_date', date)
-                    classes += ' active blue'
-            classes
+                    cl += ' active blue'
+            cl
         pending_res: ->
             hour = parseInt(@.valueOf())
             day_moment_ob = Template.parentData().data.moment_ob

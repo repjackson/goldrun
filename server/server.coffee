@@ -94,6 +94,11 @@ Meteor.publish 'user_from_username', (username)->
 Meteor.publish 'user_from_id', (user_id)->
     Meteor.users.find user_id
 
+Meteor.publish 'doc_by_id', (doc_id)->
+    Docs.find doc_id
+Meteor.publish 'doc', (doc_id)->
+    Docs.find doc_id
+
 Meteor.publish 'author_from_doc_id', (doc_id)->
     doc = Docs.findOne doc_id
     Meteor.users.find user_id

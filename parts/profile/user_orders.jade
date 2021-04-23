@@ -9,7 +9,7 @@ template(name='profile_order_item')
             .four.wide.column
                 with order_food
                     //- img.ui.mini.image(src=image)
-                    +image_view key='image_id' direct=true classes='zoom ui tiny image'
+                    +image_view key='image_id' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
                 .ui.header #{order_food.title}
                 a.ui.small.header.inline.lowercase(href="/order/#{_id}/view")

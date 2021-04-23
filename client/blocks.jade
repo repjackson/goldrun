@@ -41,7 +41,7 @@ template(name='user_info')
 
 template(name='session_boolean_toggle')
     .ui.circular.compact.button.toggle_session_key(class=calculated_class)
-        +i name=icon classes='ui avatar image'
+        +i name=icon cl='ui avatar image'
         |#{label}
         //- if icon_view 
         //- else 
@@ -81,7 +81,7 @@ template(name='goto_model')
 template(name='events_column')
     .ui.accordion
         h4.active.title
-            // +i name='edit-property' classes='ui inline image'
+            // +i name='edit-property' cl='ui inline image'
             //- i.rss.icon
             | log
             i.dropdown.icon
@@ -127,7 +127,7 @@ template(name='user_list_info')
 //-         |call watson
 
 template(name='view_full_button')
-    a.ui.icon.button(href="/view/#{_id}" class=classes data-tooltip='View Full')
+    a.ui.icon.button(href="/view/#{_id}" class=cl data-tooltip='View Full')
         i.double.icon
         |view
 
@@ -304,7 +304,7 @@ template(name='voting_full')
 template(name='view_button')
     a.ui.icon.compact.button.view(title='view' href="/m/#{model}/#{_id}/view")
         //- i.right.chevron.large.icon
-        +i name='chevron right' classes='ui mini inline image'
+        +i name='chevron right' cl='ui mini inline image'
 
 
 template(name='remove_button')
@@ -321,7 +321,7 @@ template(name='add_button')
         //- |#{model.icon}
         if model.icon
             //- i.icon(class=icon)
-            +ismall name=model.icon classes='ui inline image'
+            +ismall name=model.icon cl='ui inline image'
         else 
             i.plus.icon
         if label
@@ -368,7 +368,7 @@ template(name='email_validation_check')
     unless email_verified
         .ui.fluid.button.send_verification
             //- i.user.shield.icon
-            //- +i name='user-shield' classes='ui inline image'
+            //- +i name='user-shield' cl='ui inline image'
             |resend verification email
         if times
             .ui.label

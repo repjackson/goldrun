@@ -1,0 +1,37 @@
+ 
+template(name='tribe_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                .eight.wide.column
+                    .ui.header 
+                        i.pencil.icon
+                        if icon
+                            +icolor name=icon
+                        |edit '#{title}' tribe
+                .four.wide.column
+                    a.ui.big.circular.basic.button(href="/tribe/#{slug}" title='save')
+                        i.green.checkmark.icon
+                        |save
+            .row
+                .four.wide.column 
+                    //- .ui.header
+                    //-     |#{title}
+                    +remove_button
+                    +color_icon_edit key='icon' label='icon'
+                    div
+                    +slug_edit key='slug' label='tribe slug' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +link_edit key='link' label='link' icon='link' direct=true
+                    +single_user_edit key='leader' label='leader' direct=true
+                .six.wide.column 
+                    +text_edit key='title' label='title' icon='title' direct=true
+                    .spacer
+                    +image_edit key='image_id' label='image' icon='image' direct=true
+                    .spacer
+                    +text_edit key='address' label='address' icon='marker' direct=true
+                    .spacer
+                    +text_edit key='address_link' label='address link' icon='marker' direct=true
+                .six.wide.column
+                    +html_edit key='description' label='description' icon='content' direct=true

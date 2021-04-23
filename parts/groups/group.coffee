@@ -1,9 +1,9 @@
-Router.route '/group/:doc_id/view', (->
-    @render 'group_view'
-    ), name:'group_view'
-Router.route '/group/:doc_id/edit', (->
-    @render 'group_edit'
-    ), name:'group_edit'
+# Router.route '/group/:doc_id/', (->
+#     @render 'group_view'
+#     ), name:'group_view'
+# Router.route '/group/:doc_id/edit', (->
+#     @render 'group_edit'
+#     ), name:'group_edit'
 
 
 if Meteor.isClient

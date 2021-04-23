@@ -38,7 +38,7 @@ template(name='food_view')
                         else 
                             i.red.ban.icon
                         |pickup
-                    +i name='doormat' classes='ui mini inline image'
+                    +i name='doormat' cl='ui mini inline image'
                     div
                     .ui.inline.header 
                         if delivery
@@ -46,7 +46,7 @@ template(name='food_view')
                         else 
                             i.red.ban.icon
                         |delivery
-                    +i name='delivery' classes='ui mini inline image'
+                    +i name='delivery' cl='ui mini inline image'
                     if is cook._id currentUser._id
                         .ui.header 
                             +i name='chef-hat'

@@ -107,12 +107,12 @@ template(name='reservation_small')
                         small + security deposit 
                         |#{rental.security_deposit_amount}c
                 if rental.res_start_dropoff
-                    +boolean_edit key='res_start_dropoff_selected' classes='trigger_recalc' label="start dropoff (+1)" direct=true data=this._id  
-                    //- +boolean_edit key='res_start_dropoff_selected' classes='trigger_recalc' label="start dropoff (+#{rental.res_start_dropoff_fee})" direct=true data=this._id  
+                    +boolean_edit key='res_start_dropoff_selected' cl='trigger_recalc' label="start dropoff (+1)" direct=true data=this._id  
+                    //- +boolean_edit key='res_start_dropoff_selected' cl='trigger_recalc' label="start dropoff (+#{rental.res_start_dropoff_fee})" direct=true data=this._id  
                 div
                 if rental.res_end_pickup
-                    +boolean_edit key='res_end_pickup_selected' classes='trigger_recalc' label="end pickup (+1)" direct=true data=this._id
-                    //- +boolean_edit key='res_end_pickup_selected' classes='trigger_recalc' label="end pickup (+#{rental.res_end_pickup_fee})" direct=true data=this._id
+                    +boolean_edit key='res_end_pickup_selected' cl='trigger_recalc' label="end pickup (+1)" direct=true data=this._id
+                    //- +boolean_edit key='res_end_pickup_selected' cl='trigger_recalc' label="end pickup (+#{rental.res_end_pickup_fee})" direct=true data=this._id
                 .ui.divider
                 if can_buy
                     .ui.header 

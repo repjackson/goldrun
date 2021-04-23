@@ -18,13 +18,13 @@ template(name='login')
                 //- if username
                 //- if logging_in
                 .ui.fluid.big.basic.button.enter(title="login #{username}" class=enter_class)
-                    +i name='internal' classes='ui mini inline image'
+                    +i name='internal' cl='ui mini inline image'
                     |login
                     strong #{username}
                     //- i.right.chevron.icon
                 .ui.center.aligned.basic.segment    
                     a.ui.compact.small.basic.button(href='/forgot_password')
-                        +i name='forgot-password' classes='ui mini inline image'                    
+                        +i name='forgot-password' cl='ui mini inline image'                    
                         |forgot password
 
                 .ui.center.aligned.basic.segment    

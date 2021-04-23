@@ -321,8 +321,8 @@ if Meteor.isClient
         calculated_class: ->
             res = ''
             # console.log @
-            if @classes
-                res += @classes
+            if @cl
+                res += @cl
             if Session.equals(@key,@value)
                 res += ' active'
             # console.log res
@@ -339,8 +339,8 @@ if Meteor.isClient
         calculated_class: ->
             res = ''
             # console.log @
-            if @classes
-                res += @classes
+            if @cl
+                res += @cl
             if Session.get(@key)
                 res += ' blue'
             else
@@ -371,3 +371,26 @@ if Meteor.isServer
             model:model
             parent_id:parent_id
         }, limit:limit
+        
+        
+if Meteor.isClient
+    Template.doc_array_togggle.helpers
+        doc_array_toggle_class: ->
+            parent = Template.parentData()
+            # user = Meteor.users.findOne Router.current().params.username
+            if parent["#{@key}"] and @value in parent["#{@key}"] then 'active' else 'basic'
+    Template.doc_array_togggle.events
+        'click .toggle': (e,t)->
+            parent = Template.parentData()
+            if parent["#{@key}"]
+                if @value in parent["#{@key}"]
+                    Docs.update parent._id,
+                        $pull: "#{@key}":@value
+                else
+                    Docs.update parent._id,
+                        $addToSet: "#{@key}":@value
+            else
+                Docs.update parent._id,
+                    $addToSet: "#{@key}":@value
+
+

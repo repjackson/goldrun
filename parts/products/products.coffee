@@ -198,8 +198,8 @@ if Meteor.isClient
         calculated_class: ->
             res = ''
             # console.log @
-            if @classes
-                res += @classes
+            if @cl
+                res += @cl
             if Session.equals(@key,@value)
                 res += ' active'
             # console.log res
@@ -216,8 +216,8 @@ if Meteor.isClient
         calculated_class: ->
             res = ''
             # console.log @
-            if @classes
-                res += @classes
+            if @cl
+                res += @cl
             if Session.get(@key)
                 res += ' blue'
             else

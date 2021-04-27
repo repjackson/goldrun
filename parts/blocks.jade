@@ -1,7 +1,7 @@
 template(name='doc_array_togggle')
     if currentUser
         .ui.button.toggle(class=doc_array_toggle_class title=label)
-            if in_list
+            if in_list member_ids
                 if remove_icon
                     i.large.icon(class=remove_icon)
                 |#{remove_label}

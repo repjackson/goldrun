@@ -244,10 +244,15 @@ Template.array_edit.events
                 else
                     parent = Template.parentData(5)
                 doc = Docs.findOne parent._id
+
                 user = Meteor.users.findOne parent._id
                 if doc
                     Docs.update parent._id,
                         $addToSet:"#{@key}":element_val
+                else if user
+                    Meteor.users.update parent._id,
+                        $addToSet:"#{@key}":element_val
+                        
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance element_val
                 t.$('.new_element').val('')
 
@@ -265,6 +270,9 @@ Template.array_edit.events
         user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
+                $pull:"#{field.key}":element
+        else if user
+            Meteor.users.update parent._id,
                 $pull:"#{field.key}":element
 
         t.$('.new_element').focus()
@@ -324,6 +332,9 @@ Template.text_edit.events
         user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
+                $set:"#{@key}":val
+        else if user
+            Meteor.users.update parent._id,
                 $set:"#{@key}":val
 
 

@@ -12,16 +12,17 @@ template(name='rental_view')
             //-         +rental_calendar
             .row
                 .four.wide.column
-                    a.ui.fluid.button(href='/' title='rentals')
+                    a.ui.fluid.basic.button(href='/' title='rentals')
                         i.left.chevron.icon
+                        +i name='clock' cl='ui avatar image'
                         |rentals
                     +rental_status
                     .ui.header 
                         |#{hourly_dollars}c
                         small /hr standard rate
                     if can_edit
-                        a.ui.fluid.button(href="/rental/#{_id}/edit")
-                            i.pencil.icon
+                        a.ui.fluid.basic.button(href="/rental/#{_id}/edit")
+                            i.pencil.blue.icon
                             |edit
                     img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
                     +rental_stats

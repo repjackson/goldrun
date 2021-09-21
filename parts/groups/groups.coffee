@@ -144,7 +144,7 @@ if Meteor.isClient
 
         one_post: ->
             Docs.find().count() is 1
-        group: ->
+        group_docs: ->
             # if selected_tags.array().length > 0
             Docs.find {
                 model:'group'

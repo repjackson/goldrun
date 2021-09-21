@@ -7,17 +7,28 @@ template(name='home')
                         a.ui.center.aligned.header(href="/food")
                             +i name='food' cl='ui avatar image'
                             |food
-                        .ui.selection.animated.list
+                        .ui.selection.animated.list.smallscroll
                             each top_food
                                 a.item(href="/food/#{_id}/view")
                                     img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
                 .eight.wide.column
                     .ui.segment
+                        a.ui.center.aligned.header(href="/food")
+                            +i name='inbox' cl='ui avatar image'
+                            |inbox
+                        .ui.selection.animated.list.smallscroll
+                            each my_messages
+                                a.item(href="/message/#{_id}/")
+                                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                                    |!{body}
+                        +compose_message_icon
+                .eight.wide.column
+                    .ui.segment
                         a.ui.center.aligned.header(href="/rentals")
                             +i name='clock' cl='ui avatar image'
                             | rentals
-                        .ui.selection.animated.list
+                        .ui.selection.animated.list.smallscroll
                             each top_rentals
                                 a.item(href="/rental/#{_id}/view")
                                     img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
@@ -27,7 +38,7 @@ template(name='home')
                         a.ui.center.aligned.header(href="/products")
                             +i name='shop' cl='ui avatar image'
                             | products
-                        .ui.selection.animated.list
+                        .ui.selection.animated.list.smallscroll
                             each top_products
                                 a.item(href="/product/#{_id}/view")
                                     img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
@@ -53,8 +64,15 @@ template(name='home')
                                     img.ui.avatar.image(src=user.profile.profilePic title=name)
                                     |#{title}
 
-        // .four.wide.column
-        //     +latest_activity
+        .four.wide.column
+            +latest_activity
+        .four.wide.column
+            .ui.grey.header 
+                |advertise here
             
             
             
+
+
+template(name='compose_message_icon')
+    i.plus.circular.link.icon.zoomer.new_message

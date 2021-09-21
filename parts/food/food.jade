@@ -1,10 +1,12 @@
 template(name='food')
     .ui.stackable.padded.grid
         .four.wide.column
+            .ui.header 
+                +i name='food'
+                |food
             if currentUser
                 a.ui.icon.basic.circular.button.add_food(title='cook')
                     i.plus.green.large.icon
-            
             .ui.left.icon.search.small.input
                 i.search.icon.refresh_tags
                 input#search_ingredient.prompt(type='text' autocomplete="off" placeholder='ingredients')

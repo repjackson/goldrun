@@ -11,36 +11,45 @@ template(name='nav')
                 //- .mobile.hidden
                 //-     |&nbsp;
                 //-     | home
-            a.item.zoomer(href='/food' class="{{isActivePath '/food'}}" title='food')
+            a.icon.item.zoomer(href='/food' class="{{isActivePath '/food'}}" title='food')
                 +i name='food' cl='ui inline mini image'
-                .mobile.hidden
-                    |&nbsp;
-                    | food
+            a.icon.item.zoomer(href='/events' class="{{isActivePath '/events'}}" title='events')
+                +i name='calendar' cl='ui inline mini image'
+            a.icon.item.zoomer(href='/buildings' class="{{isActivePath '/events'}}" title='events')
+                +i name='building' cl='ui inline mini image'
+                // .mobile.hidden
+                //     |&nbsp;
+                //     | food
             a.item.zoomer(href='/products' class="{{isActivePath '/products'}}" title='shop')
                 +i name='shop' cl='ui inline mini image'
-                .mobile.hidden
-                    |&nbsp;
-                    | shop
+                // .mobile.hidden
+                //     |&nbsp;
+                //     | shop
             a.item.zoomer(href='/posts' class="{{isActivePath '/posts'}}" title='shop')
                 +i name='blog' cl='ui inline mini image'
-                .mobile.hidden
-                    |&nbsp;
-                    | posts
+                // .mobile.hidden
+                //     |&nbsp;
+                //     | posts
             a.item.zoomer(href='/services' class="{{isActivePath '/services'}}" title='services')
                 +i name='wrench' cl='ui inline mini image'
-                .mobile.hidden
-                    |&nbsp;
-                    | services
+                // .mobile.hidden
+                //     |&nbsp;
+                //     | services
             a.item.zoomer(href='/rentals' class="{{isActivePath '/rentals'}}")
                 +i name='clock' cl='ui inline mini image'
-                .mobile.hidden
-                    |&nbsp;
-                    | rentals
+                // .mobile.hidden
+                //     |&nbsp;
+                //     | rentals
             a.item.zoomer(href='/groups' class="{{isActivePath '/groups'}}")
                 +i name='group' cl='ui inline mini image'
-                .mobile.hidden
-                    |&nbsp;
-                    | groups
+                // .mobile.hidden
+                //     |&nbsp;
+                //     | groups
+            a.item.zoomer(href='/gruber' class="{{isActivePath '/gruber'}}")
+                +i name='car' cl='ui inline mini image'
+                // .mobile.hidden
+                //     |&nbsp;
+                //     | groups
             //- a.item(href='/events' class="{{isActivePath '/events'}}")
             //-     +i name='calendar' cl='ui inline mini image'
             //-     .mobile.hidden
@@ -52,22 +61,22 @@ template(name='nav')
             //-         |&nbsp;
             //-         | users
         .right.menu
-            if is_admin
-                a.item(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks')
-                    +i name='tasks' cl='ui inline mini image'
-                a.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='delta')
-                    +i name='database' cl='ui inline mini image'
+            // if is_admin
+            //     a.item(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks')
+            //         +i name='tasks' cl='ui inline mini image'
+            //     a.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='delta')
+            //         +i name='database' cl='ui inline mini image'
             if currentUser
                 //- a.icon.item(href="/alerts" class="{{isActivePath '/alerts'}}")
                 //-     i.bell.icon
                 a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
-                    .ui.inline.header #{currentUser.credit}c
+                    | {{fixed currentUser.credit}}c
                 a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
                     if currentUser.image_id
                         img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
                     else
                         i.user.icon
-                    span.mobile.hidden #{currentUser.name}
+                    span.mobile.hidden #{currentUser.username}
                         //- |${{int currentUser.credit}}
                 //- else
                 //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='log out')

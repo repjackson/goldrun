@@ -234,30 +234,30 @@ template(name='group_layout')
                         a.ui.circular.basic.icon.button(href="/group/#{_id}/edit")
                             i.setting.large.icon
                 .twelve.wide.column
-                    a.ui.basic.circular.compact.button(href="/group/#{_id}" class="{{isActiveRoute regex='group_dashboard'}}")
+                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}" class="{{isActiveRoute regex='group_dashboard'}}")
                         +i name='dashboard' cl='ui inline image'
-                        |dashboard
-                    a.ui.basic.circular.compact.button(href="/group/#{_id}/members" class="{{isActiveRoute regex='group_members'}}")
+                        // |dashboard
+                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/members" class="{{isActiveRoute regex='group_members'}}")
                         +i name='info' cl='ui inline image'
-                        |members
-                    a.ui.basic.circular.compact.button(href="/group/#{_id}/credit" class="{{isActiveRoute regex='group_credit'}}")
+                        // |members
+                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/credit" class="{{isActiveRoute regex='group_credit'}}")
                         +i name='coins' cl='ui inline image'
-                        |credit
-                    a.ui.basic.circular.compact.button(href="/group/#{_id}/meals" class="{{isActiveRoute regex='group_meals'}}")
+                        // |credit
+                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/meals" class="{{isActiveRoute regex='group_meals'}}")
                         +i name='meal' cl='ui inline image'
-                        |meals
-                    a.ui.basic.circular.compact.button(href="/group/#{_id}/dishes" class="{{isActiveRoute regex='group_dishes'}}")
+                        // |meals
+                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/dishes" class="{{isActiveRoute regex='group_dishes'}}")
                         +i name='meal' cl='ui inline image'
-                        |dishes
-                    a.ui.basic.circular.compact.button(href="/group/#{_id}/voting" class="{{isActiveRoute regex='group_voting'}}")
+                        // |dishes
+                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/voting" class="{{isActiveRoute regex='group_voting'}}")
                         +i name='elections' cl='ui inline image'
-                        |voting
-                    a.ui.basic.circular.compact.button(href="/group/#{_id}/events" class="{{isActiveRoute regex='group_events'}}")
+                        // |voting
+                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/events" class="{{isActiveRoute regex='group_events'}}")
                         +i name='calendar' cl='ui inline image'
-                        |events
-                    a.ui.basic.circular.compact.button(href="/group/#{_id}/food" class="{{isActiveRoute regex='group_food'}}")
+                        // |events
+                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/food" class="{{isActiveRoute regex='group_food'}}")
                         +i name='food' cl='ui inline image'
-                        |food
+                        // |food
                     //- a.ui.basic.circular.compact.button(href="/group/#{_id}/settings" class="{{isActiveRoute regex='group_settings'}}")
                     //-     +ismall name='settings' cl='ui inline image'
                     //-     |settings
@@ -342,7 +342,7 @@ template(name='group_dashboard')
                 .item #{dish_count} dishes
                 .item #{total_credit_exchanged} credits exchanged
         .column
-            - +comments
+            +comments
 template(name='group_members')
     .ui.header members
     

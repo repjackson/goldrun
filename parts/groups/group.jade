@@ -261,12 +261,12 @@ template(name='group_layout')
                     //- a.ui.basic.circular.compact.button(href="/group/#{_id}/settings" class="{{isActiveRoute regex='group_settings'}}")
                     //-     +ismall name='settings' cl='ui inline image'
                     //-     |settings
-                    a.ui.basic.circular.compact.button(href="/group/#{_id}/products" class="{{isActiveRoute regex='group_products'}}")
-                        +ismall name='shopping-cart' cl='ui inline image'
-                        |products
-                    a.ui.basic.circular.compact.button(href="/group/#{_id}/services" class="{{isActiveRoute regex='group_services'}}")
-                        +ismall name='service-bell' cl='ui inline image'
-                        |services
+                    a.ui.basic.circular.icon.compact.button(href="/group/#{_id}/products" class="{{isActiveRoute regex='group_products'}}")
+                        +i name='shopping-cart' cl='ui inline image'
+                        // |products
+                    a.ui.basic.circular.icon.compact.button(href="/group/#{_id}/services" class="{{isActiveRoute regex='group_services'}}")
+                        +i name='service-bell' cl='ui inline image'
+                        // |services
 
             .row
                 .four.wide.column 

@@ -5,6 +5,14 @@ template(name='home')
                 .column
                     +latest_activity
                 .column
+                    .ui.segment
+                        a.ui.center.aligned.header(href="/gym")
+                            +i name='running' cl='ui avatar image'
+                            |gym
+                        .ui.header #{current_patrons} current exercisers
+                        .ui.big.disabled.button
+                            |checkin
+                .column
                     .ui.segment.zoomer
                         .ui.center.aligned.header
                             +i name='pencil' cl='ui avatar image'
@@ -27,6 +35,7 @@ template(name='home')
                                 a.item(href="/food/#{_id}/view")
                                     img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
+
                 .column
                     .ui.segment
                         a.ui.center.aligned.header(href="/inbox" title='go to inbox')

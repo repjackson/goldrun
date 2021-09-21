@@ -4,6 +4,14 @@ Meteor.methods
             $inc:views:1
 
 
+    insert_log: (type, user_id)->
+        if type
+            new_id = 
+                Docs.insert 
+                    model:'log_event'
+                    log_type:type
+                    user_id:user_id
+    
     add_user: (username)->
         options = {}
         options.username = username

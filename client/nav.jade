@@ -103,13 +103,13 @@ template(name='my_latest_activity')
 
 
 template(name='latest_activity')
-    .ui.grey.header 
-        i.grey.rss.icon
-        |all activity
+    .ui.header 
+        +i name='order-history'
+        | activity
     .ui.list
         each latest_activity
             .item 
                 img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
                 |#{text} #{body} 
-                .ui.label #{log_type}
+                .ui.label(title='log type') #{log_type}
                 small #{when}

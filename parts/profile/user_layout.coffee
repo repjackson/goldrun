@@ -76,5 +76,7 @@ if Meteor.isClient
             Meteor.logoutOtherClients()
 
         'click .logout': ->
+            Meteor.call 'insert_log', 'logout', Meteor.userId(), ->
+                
             Router.go '/login'
             Meteor.logout()

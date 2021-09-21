@@ -37,9 +37,9 @@ template(name='user_layout')
                             +i name='settings' cl='ui avatar image'
                             |edit
                     if is_current_user
-                        .ui.basic.button.logout
+                        .ui.basic.large.icon.button.logout(title='log out')
                             i.sign.out.alternate.icon
-                            |log out
+                            // |log out
                         //- a.ui.basic.button.logout_other_clients(href="#" title='logout other clients')
                         //-     i.globe.icon
                         //-     |log out other clients

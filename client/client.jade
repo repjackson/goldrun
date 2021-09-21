@@ -44,7 +44,9 @@ template(name='verification_confirmation')
 
 template(name='not_found')
     .ui.center.aligned.padded.basic.segment
-        .ui.center.aligned.header page not found
-        //- a.ui.button(href="/") 
-        //-     //- +i name='home' 
-        //-     |home
+        .ui.center.aligned.header 
+            +i name='navigation'
+            |page not found
+        a.ui.basic.button(href="/") 
+          +i name='home' cl='ui avatar image' 
+          |home

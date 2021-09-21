@@ -1,12 +1,12 @@
 template(name='nav')
-    #topnav.topnav.ui.attached.borderless.inverted.menu
+    #topnav.topnav.ui.attached.borderless.large.menu
         if is_loading
             .icon.item
                 i.big.spinning.grey.yin.yang.icon.cancel
         else 
             a.item.zoomer(href='/' class="{{isActivePath '/'}}" title='food')
                 +i name='home' cl='ui inline mini image'
-                |gold run
+                // |gold run
             //- if is_admin
                 //- .mobile.hidden
                 //-     |&nbsp;

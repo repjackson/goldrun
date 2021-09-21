@@ -3,7 +3,7 @@ template(name='product_edit')
         .ui.stackable.padded.grid
             .middle.aligned.row
                 .four.wide.center.aligned.column
-                    a.ui.big.basic.button(href="/product/#{_id}/view")
+                    a.ui.big.green.button(href="/product/#{_id}/view")
                         i.green.checkmark.icon
                         |save
                 .eight.wide.center.aligned.column
@@ -15,10 +15,9 @@ template(name='product_edit')
                     .ui.icon.basic.button.delete_product_item 
                         i.trash.icon
             .row
-                .five.wide.column
+                .twelve.wide.column
                     +text_edit key='title' icon='header' direct=true
                     +image_edit key='image' direct=true
-                .seven.wide.column
                     +html_edit key='description' direct=true
                     if is_admin
                         +text_edit key='model' direct=true
@@ -69,11 +68,11 @@ template(name='product_view')
                 .four.wide.column
                     div
                     unless sold_out
-                        .ui.big.green.button.buy_product 
+                        .ui.big.green.fluid.button.buy_product 
                             i.cart.icon
                             |buy
                     else 
-                        .ui.big.disabled.basic.button
+                        .ui.big.disabled.fluid.basic.button
                             |sold out
                     div
                     +voting_full     
@@ -158,3 +157,48 @@ template(name='product_card')
         //-     a.ui.basic.button(href="/product/#{_id}/view")
         //-         |view
         //-         i.right.chevron.icon
+
+
+
+template(name='order_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .five.wide.column
+                .ui.header editing order
+                .ui.header #{title}
+                +array_edit key='tags' 
+                +float_edit key='serving_purchase_price' label='serving purchase price' direct=true
+                +float_edit key='cook_tip' label='cook tip' direct=true
+                .ui.header $#{order_total_transaction_amount} 
+                    small total transaction amount
+                .ui.header dish
+                if order_dish
+                    .ui.small.header #{order_dish.title}
+                else 
+                    .ui.small.header select dish
+                    each all_dishes
+                        .ui.button.select_dish #{title}
+            .six.wide.column
+                +image_edit key='image_id'
+                //- img.ui.large.image(src="{{c.url image width=800 height=500 gravity='face' crop='fill'}}")
+                +textarea_edit key='description' direct=true
+            .five.wide.column
+                a.ui.large.fluid.green.button(href="/order/#{_id}/view")
+                    i.checkmark.icon   
+                    |save     
+                if can_delete
+                    .ui.red.button.delete_order
+                        i.remove.icon   
+                        |cancel and delete
+                else  
+                    .ui.red.disabled.button(title='existing reservations')
+                        i.remove.icon   
+                        | can't cancel  
+                .ui.header delivery method
+                +key_value_edit key='delivery_method' value='delivery' color_icon='deliver-food'
+                +key_value_edit key='delivery_method' value='pickup' color_icon='doormat'
+
+                if key_value_is 'delivery_method' 'delivery'
+                    +datetime_edit key='delivery_timedate' label='delivery timedate' direct=true
+                if key_value_is 'delivery_method' 'pickup'
+                    +datetime_edit key='pickup_timedate' label='pickup timedate' direct=true

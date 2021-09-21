@@ -1,11 +1,12 @@
 template(name='nav')
-    #topnav.topnav.ui.attached.borderless.menu
+    #topnav.topnav.ui.attached.borderless.inverted.large.menu
         if is_loading
             .icon.item
                 i.big.spinning.grey.yin.yang.icon.cancel
         else 
             a.item.zoomer(href='/' class="{{isActivePath '/'}}" title='food')
                 +i name='home' cl='ui inline mini image'
+                |gold run
             //- if is_admin
                 //- .mobile.hidden
                 //-     |&nbsp;
@@ -20,6 +21,11 @@ template(name='nav')
                 .mobile.hidden
                     |&nbsp;
                     | shop
+            a.item.zoomer(href='/posts' class="{{isActivePath '/posts'}}" title='shop')
+                +i name='blog' cl='ui inline mini image'
+                .mobile.hidden
+                    |&nbsp;
+                    | posts
             a.item.zoomer(href='/services' class="{{isActivePath '/services'}}" title='services')
                 +i name='wrench' cl='ui inline mini image'
                 .mobile.hidden

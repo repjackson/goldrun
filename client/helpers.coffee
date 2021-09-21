@@ -307,6 +307,11 @@ Template.registerHelper 'is_current_user', () ->
             true
         else
             false
+Template.registerHelper 'order_product', -> 
+    Docs.findOne 
+        _id:@product_id
+    
+    
 Template.registerHelper 'view_template', -> "#{@field_type}_view"
 Template.registerHelper 'edit_template', -> "#{@field_type}_edit"
 Template.registerHelper 'is_model', -> @model is 'model'

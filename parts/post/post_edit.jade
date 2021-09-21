@@ -5,10 +5,8 @@ template(name='post_edit')
                 .four.wide.column
                     .ui.header 
                         |edit post
-                    a.ui.big.fluid.button(href="/post/#{_id}/view" title='save')
-                        .ui.small.header
-                            i.checkmark.green.large.icon
-                            | save
+                    a.ui.big.icon.fluid.button(href="/post/#{_id}/view" title='save')
+                        i.checkmark.big.icon
                     +remove_button
                     +image_edit key='image' label='image' direct=true
                 .eight.wide.column 

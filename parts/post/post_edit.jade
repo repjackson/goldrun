@@ -1,0 +1,37 @@
+template(name='post_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    .ui.header 
+                        |edit post
+                    a.ui.big.fluid.button(href="/post/#{_id}/view" title='save')
+                        .ui.small.header
+                            i.checkmark.green.large.icon
+                            | save
+                    +remove_button
+                    +image_edit key='image' label='image' direct=true
+                .eight.wide.column 
+                    +text_edit key='title' direct=true
+                    +textarea_edit key='description' label='content' icon='content' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    +text_edit key='contact_info' label='contact info' icon='info' direct=true
+                .four.wide.column 
+                    //- +boolean_edit key='set_duration' label='set duration' direct=true
+                    //- if set_duration
+                    //-     +number_edit key='duration_hours' label='duration hours' direct=true
+            
+                    +single_user_edit key='_author_username' label='author username' direct=true
+                    +boolean_edit key='has_hourly' label='has hourly' direct=true
+                    if has_hourly
+                        +number_edit key='hourly_rate' label='hourly rate' icon='money' direct=true
+                    +boolean_edit key='has_daily' label='has daily' direct=true
+                    if has_daily
+                        +number_edit key='daily_rate' label='daily rate' icon='calendar' direct=true
+                    +boolean_edit key='has_weekly' label='has weekly' direct=true
+                    if has_weekly
+                        +number_edit key='weekly_rate' label='weekly rate' icon='calendar' direct=true
+                    +boolean_edit key='has_monthly' label='has monthly' direct=true
+                    if has_monthly
+                        +number_edit key='monthly_rate' label='monthly rate' icon='calendar' direct=true

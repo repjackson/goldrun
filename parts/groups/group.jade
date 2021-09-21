@@ -84,9 +84,9 @@ template(name='set_group_limit')
 
 template(name='group_card')
     .ui.card
-        if image_id
+        if image
             a(href="/group/#{_id}")
-                img.ui.image(src="{{c.url image_id}}")
+                img.ui.image(src="{{c.url image}}")
         .content
             a.ui.header(href="/group/#{_id}")
                 |#{title}
@@ -108,8 +108,8 @@ template(name='group_card')
 template(name='group_grid')
     .ui.fluid.segment.stackable.grid
         a.four.wide.column(href="/group/#{_id}")
-            if image_id
-                img.ui.fluid.image(src="{{c.url image_id}}")
+            if image
+                img.ui.fluid.image(src="{{c.url image}}")
         .twelve.wide.column
             a.ui.header(href="/group/#{_id}")
                 |#{title}
@@ -140,7 +140,7 @@ template(name='group_view')
                         a.ui.big.fluid.button(href="/group/#{_id}/edit")
                             i.pencil.icon
                             |edit
-                    +image_view key='image_id' label='image' direct=true
+                    +image_view key='image' label='image' direct=true
                     +voting_full
                     +viewing
                     // if in_dev 
@@ -270,7 +270,7 @@ template(name='group_layout')
 
             .row
                 .four.wide.column 
-                    +image_view key='image_id' icon='image' label='image'
+                    +image_view key='image' icon='image' label='image'
                     +array_view key='tags' icon='tags'
                     .spacer
                     if link
@@ -305,7 +305,7 @@ template(name='group_dashboard')
             .ui.large.selection.animated.list
                 each members 
                     a.item(href="/group/#{_id}/#{username}")
-                        img.ui.mini.image(src="{{c.url profile_image_id width=200 height=200}}")
+                        img.ui.mini.image(src="{{c.url profile_image width=200 height=200}}")
                         .content
                             .header
                                 |#{username}
@@ -321,7 +321,7 @@ template(name='group_dashboard')
                 .ui.selection.animated.list
                     each group_dishes
                         a.item(href="/dish/#{_id}/view")
-                            img.ui.mini.circular.image(src="{{c.url image_id width=100 height=100}}")
+                            img.ui.mini.circular.image(src="{{c.url image width=100 height=100}}")
                             .content
                                 .header 
                                     |#{title}

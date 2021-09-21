@@ -1,6 +1,7 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
 @Rental_tags = new Meteor.Collection 'rental_tags'
+@Results = new Meteor.Collection 'results'
 
 @Ingredients = new Meteor.Collection 'ingredients'
 

@@ -6,6 +6,19 @@ template(name='home')
                     +latest_activity
                 .column
                     .ui.segment
+                        .ui.center.aligned.header
+                            +i name='pencil' cl='ui avatar image'
+                            |public notes
+                        .ui.fluid.icon.input
+                            i.plus.icon
+                            input.add_note(type='input' placeholder='add note')
+                        .ui.list.smallscroll
+                            each public_note_docs
+                                .item
+                                    |#{body}
+                                    small #{when}
+                .column
+                    .ui.segment
                         a.ui.center.aligned.header(href="/food")
                             +i name='food' cl='ui avatar image'
                             |food
@@ -16,7 +29,7 @@ template(name='home')
                                     |#{title}
                 .column
                     .ui.segment
-                        a.ui.center.aligned.header(href="/food")
+                        a.ui.center.aligned.header(href="/inbox" title='go to inbox')
                             +i name='inbox' cl='ui avatar image'
                             |inbox
                         .ui.selection.animated.list.smallscroll

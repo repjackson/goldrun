@@ -8,6 +8,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'model_docs', 'rental'
         @autorun -> Meteor.subscribe 'model_docs', 'product'
         @autorun -> Meteor.subscribe 'model_docs', 'food'
+        @autorun -> Meteor.subscribe 'model_docs', 'public_note'
         @autorun -> Meteor.subscribe 'users'
 
     # Template.delta.onRendered ->
@@ -29,3 +30,20 @@ if Meteor.isClient
         top_products: ->
             Docs.find
                 model:'product'
+    
+        public_note_docs: ->
+            Docs.find 
+                model:'public_note'
+
+
+    Template.home.events
+        'keyup .add_note': (e,t)->
+            if e.which is 13
+                val = $('.add_note').val()
+                console.log 'val', val
+                Docs.insert 
+                    model:'public_note'
+                    body:val
+                $('.add_note').val('')
+                
+            

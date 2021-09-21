@@ -17,28 +17,28 @@ template(name='group_layout')
                             i.setting.large.icon
                 .twelve.wide.column
                     a.ui.basic.circular.compact.button(href="/group/#{_id}" class="{{isActiveRoute regex='group_dashboard'}}")
-                        +ismall name='dashboard' cl='ui inline image'
+                        +i name='dashboard' cl='ui inline image'
                         |dashboard
                     a.ui.basic.circular.compact.button(href="/group/#{_id}/members" class="{{isActiveRoute regex='group_members'}}")
-                        +ismall name='info' cl='ui inline image'
+                        +i name='info' cl='ui inline image'
                         |members
                     a.ui.basic.circular.compact.button(href="/group/#{_id}/credit" class="{{isActiveRoute regex='group_credit'}}")
-                        +ismall name='coins' cl='ui inline image'
+                        +i name='coins' cl='ui inline image'
                         |credit
                     a.ui.basic.circular.compact.button(href="/group/#{_id}/meals" class="{{isActiveRoute regex='group_meals'}}")
-                        +ismall name='meal' cl='ui inline image'
+                        +i name='meal' cl='ui inline image'
                         |meals
                     a.ui.basic.circular.compact.button(href="/group/#{_id}/dishes" class="{{isActiveRoute regex='group_dishes'}}")
-                        +ismall name='meal' cl='ui inline image'
+                        +i name='meal' cl='ui inline image'
                         |dishes
                     a.ui.basic.circular.compact.button(href="/group/#{_id}/voting" class="{{isActiveRoute regex='group_voting'}}")
-                        +ismall name='elections' cl='ui inline image'
+                        +i name='elections' cl='ui inline image'
                         |voting
                     a.ui.basic.circular.compact.button(href="/group/#{_id}/events" class="{{isActiveRoute regex='group_events'}}")
-                        +ismall name='calendar' cl='ui inline image'
+                        +i name='calendar' cl='ui inline image'
                         |events
                     a.ui.basic.circular.compact.button(href="/group/#{_id}/food" class="{{isActiveRoute regex='group_food'}}")
-                        +ismall name='food' cl='ui inline image'
+                        +i name='food' cl='ui inline image'
                         |food
                     //- a.ui.basic.circular.compact.button(href="/group/#{_id}/settings" class="{{isActiveRoute regex='group_settings'}}")
                     //-     +ismall name='settings' cl='ui inline image'
@@ -66,6 +66,8 @@ template(name='group_layout')
                         i.marker.icon
                         |#{address}
                     +viewing
+                    if in_dev 
+                        +print_this
                 .twelve.wide.column
                     div
                     +yield

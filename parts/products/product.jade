@@ -6,15 +6,12 @@ template(name='product_edit')
                     a.ui.big.green.button(href="/product/#{_id}/view")
                         i.green.checkmark.icon
                         |save
-                .eight.wide.center.aligned.column
+                    .ui.icon.basic.button.delete_product_item 
+                        i.trash.icon
                     .ui.header 
                         small editing
                         |'#{title}'
                         small product
-                .four.wide.center.aligned.column
-                    .ui.icon.basic.button.delete_product_item 
-                        i.trash.icon
-            .row
                 .twelve.wide.column
                     +text_edit key='title' icon='header' direct=true
                     +image_edit key='image' direct=true
@@ -53,13 +50,13 @@ template(name='product_view')
                     if can_edit
                         a.ui.icon.large.basic.circular.button(href="/product/#{_id}/edit")
                             i.pencil.large.blue.icon
-                    img.ui.centered.rounded.shadowed.image(src="{{c.url image width=1000 height=400 crop='fit'}}")
                     .ui.large.header #{title}
                     .ui.header added by #{_author_username}
                     |#{when}
                     with _author_id
                         +user_card
-                .seven.wide.column
+                .eight.wide.column
+                    img.ui.centered.rounded.shadowed.image(src="{{c.url image width=1000 height=400 crop='fit'}}")
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +text_view key='location' icon='marker' label='location description' direct=true
                     +number_view key='credit_price' icon='money' label='dollar price' direct=true

@@ -12,9 +12,9 @@ template(name='services')
                 i.search.icon.refresh_tags
                 input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
             if selected_tag_plural
-                .ui.icon.circular.black.compact.button.clear_selected_tags
+                .ui.icon.circular.black.compact.button.clear_picked_tags
                     i.remove.icon
-            each selected_tags
+            each picked_tags
                 button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}

@@ -43,10 +43,10 @@ template(name='food')
             //-     |tomorrow
 
                 
-            if selected_tags
+            if picked_tags
                 #clear_tags.ui.active.icon.button
                     i.remove.icon
-                each selected_tags
+                each picked_tags
                     .unselect_tag.ui.active.button
                         strong #{this}
             each all_tags

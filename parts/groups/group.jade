@@ -11,9 +11,9 @@ template(name='groups')
                 i.search.icon.refresh_tags
                 input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
             if selected_tag_plural
-                .ui.icon.circular.black.compact.button.clear_selected_tags
+                .ui.icon.circular.black.compact.button.clear_picked_tags
                     i.remove.icon
-            each selected_tags
+            each picked_tags
                 button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
@@ -23,40 +23,40 @@ template(name='groups')
             .spacer
             
         .twelve.wide.column
-            //- .sorting_row
-            //-     .ui.icon.input
-            //-         i.search.icon
-            //-         input.tag_search(type='text' placeholder='search...')
-            //-     |sort by
-            //-     .ui.compact.small.menu
-            //-         .ui.simple.dropdown.item
-            //-             strong #{current_group_sort_label}
-            //-             i.dropdown.icon
-            //-             .menu
-            //-                 +set_group_sort_key key='price_per_serving' label='$/serving' icon='money'
-            //-                 +set_group_sort_key key='datetime_available' label='available' icon='clock'
-            //-                 //- +set_group_sort_key key='_timestamp' label='added' icon='clock'
-            //-                 +set_group_sort_key key='comment_count' label='comment count' icon='chat'
-            //-     .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
-            //-         if sorting_up
-            //-             i.sort.amount.down.icon
-            //-         else
-            //-             i.sort.amount.up.icon
-            //-     |&nbsp;
-            //-     |&nbsp;
-            //-     //- .ui.inline.small.grey.header
-            //-     //-     |show
-            //-     //- .ui.compact.menu
-            //-     //-     .ui.simple.dropdown.item
-            //-     //-         strong #{group_limit}
-            //-     //-         i.dropdown.icon
-            //-     //-         .menu
-            //-     //-             +set_group_limit amount=1
-            //-     //-             +set_group_limit amount=5
-            //-     //-             +set_group_limit amount=10
-            //-     //-             +set_group_limit amount=20
-            //- .spacer 
-            .ui.stackable.four.cards
+            .sorting_row
+                .ui.icon.input
+                    i.search.icon
+                    input.tag_search(type='text' placeholder='search...')
+                |sort by
+                .ui.compact.small.menu
+                    .ui.simple.dropdown.item
+                        strong #{current_group_sort_label}
+                        i.dropdown.icon
+                        .menu
+                            +set_group_sort_key key='price_per_serving' label='$/serving' icon='money'
+                            +set_group_sort_key key='datetime_available' label='available' icon='clock'
+                            //+set_group_sort_key key='_timestamp' label='added' icon='clock'
+                            +set_group_sort_key key='comment_count' label='comment count' icon='chat'
+                .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
+                    if sorting_up
+                        i.sort.amount.down.icon
+                    else
+                        i.sort.amount.up.icon
+                |&nbsp;
+                |&nbsp;
+                //.ui.inline.small.grey.header
+                //    |show
+                //.ui.compact.menu
+                //    .ui.simple.dropdown.item
+                //        strong #{group_limit}
+                //        i.dropdown.icon
+                //        .menu
+                //            +set_group_limit amount=1
+                //            +set_group_limit amount=5
+                //            +set_group_limit amount=10
+                //            +set_group_limit amount=20
+            .spacer 
+            .ui.stackable.three.cards
                 each group_docs
                     +group_card
 
@@ -92,7 +92,7 @@ template(name='group_card')
                 |#{title}
             |#{member_ids.length} members
             |!{description}
-            //- +ismall name='tags' cl='ui inline image'
+            //+ismall name='tags' cl='ui inline image'
             each tags
                 .ui.basic.label #{this}
             div
@@ -115,7 +115,7 @@ template(name='group_grid')
                 |#{title}
             |#{member_ids.length} members
             |!{description}
-            //- +ismall name='tags' cl='ui inline image'
+            //+ismall name='tags' cl='ui inline image'
             each tags
                 .ui.basic.label #{this}
             div

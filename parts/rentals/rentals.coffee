@@ -14,7 +14,7 @@ if Meteor.isClient
 
     Template.rentals.onCreated ->
         @autorun => @subscribe 'rental_facets',
-            selected_tags.array()
+            picked_tags.array()
             Session.get('rental_limit')
             Session.get('rental_sort_key')
             Session.get('rental_sort_direction')
@@ -23,7 +23,7 @@ if Meteor.isClient
             Session.get('view_open')
 
         @autorun => @subscribe 'rental_results',
-            selected_tags.array()
+            picked_tags.array()
             Session.get('rental_limit')
             Session.get('rental_sort_key')
             Session.get('rental_sort_direction')
@@ -44,19 +44,19 @@ if Meteor.isClient
         'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
         'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
 
-        'click .tag_result': -> selected_tags.push @title
+        'click .tag_result': -> picked_tags.push @title
         'click .unselect_tag': ->
-            selected_tags.remove @valueOf()
-            # console.log selected_tags.array()
-            # if selected_tags.array().length is 1
+            picked_tags.remove @valueOf()
+            # console.log picked_tags.array()
+            # if picked_tags.array().length is 1
                 # Meteor.call 'call_wiki', search, ->
 
-            # if selected_tags.array().length > 0
-                # Meteor.call 'search_reddit', selected_tags.array(), ->
+            # if picked_tags.array().length > 0
+                # Meteor.call 'search_reddit', picked_tags.array(), ->
 
-        'click .clear_selected_tags': ->
+        'click .clear_picked_tags': ->
             Session.set('current_query',null)
-            selected_tags.clear()
+            picked_tags.clear()
 
         'keyup #search': _.throttle((e,t)->
             query = $('#search').val()
@@ -65,7 +65,7 @@ if Meteor.isClient
             if e.which is 13
                 search = $('#search').val().trim().toLowerCase()
                 if search.length > 0
-                    selected_tags.push search
+                    picked_tags.push search
                     console.log 'search', search
                     # Meteor.call 'log_term', search, ->
                     $('#search').val('')
@@ -84,11 +84,11 @@ if Meteor.isClient
         #     if e.which is 8
         #         search = $('#search').val()
         #         if search.length is 0
-        #             last_val = selected_tags.array().slice(-1)
+        #             last_val = picked_tags.array().slice(-1)
         #             console.log last_val
         #             $('#search').val(last_val)
-        #             selected_tags.pop()
-        #             Meteor.call 'search_reddit', selected_tags.array(), ->
+        #             picked_tags.pop()
+        #             Meteor.call 'search_reddit', picked_tags.array(), ->
         # , 1000)
 
         'click .reconnect': ->
@@ -138,14 +138,14 @@ if Meteor.isClient
             else
                 'disabled'
 
-        selected_tags: -> selected_tags.array()
-        selected_tags_plural: -> selected_tags.array().length > 1
+        picked_tags: -> picked_tags.array()
+        picked_tags_plural: -> picked_tags.array().length > 1
         searching: -> Session.get('searching')
 
         one_post: ->
             Docs.find().count() is 1
         rental: ->
-            # if selected_tags.array().length > 0
+            # if picked_tags.array().length > 0
             Docs.find {
                 model:'rental'
             },
@@ -155,7 +155,7 @@ if Meteor.isClient
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
         users: ->
-            # if selected_tags.array().length > 0
+            # if picked_tags.array().length > 0
             Meteor.users.find {
             },
                 sort: count:-1
@@ -163,7 +163,7 @@ if Meteor.isClient
 
 
         timestamp_tags: ->
-            # if selected_tags.array().length > 0
+            # if picked_tags.array().length > 0
             Timestamp_tags.find {
                 # model:'reddit'
             },
@@ -229,7 +229,7 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'rental_results', (
-        selected_tags
+        picked_tags
         doc_limit
         doc_sort_key
         doc_sort_direction
@@ -237,7 +237,7 @@ if Meteor.isServer
         view_pickup
         view_open
         )->
-        # console.log selected_tags
+        # console.log picked_tags
         if doc_limit
             limit = doc_limit
         else
@@ -254,8 +254,8 @@ if Meteor.isServer
             match.delivery = $ne:false
         if view_pickup
             match.pickup = $ne:false
-        if selected_tags.length > 0
-            match.tags = $all: selected_tags
+        if picked_tags.length > 0
+            match.tags = $all: picked_tags
             sort = 'price_per_serving'
         else
             # match.tags = $nin: ['wikipedia']
@@ -266,7 +266,7 @@ if Meteor.isServer
         # if view_videos
         #     match.is_video = $ne:false
 
-        # match.tags = $all: selected_tags
+        # match.tags = $all: picked_tags
         # if filter then match.model = filter
         # keys = _.keys(prematch)
         # for key in keys
@@ -284,7 +284,7 @@ if Meteor.isServer
             limit: limit
 
     Meteor.publish 'rental_facets', (
-        selected_tags
+        picked_tags
         selected_timestamp_tags
         query
         doc_limit
@@ -296,7 +296,7 @@ if Meteor.isServer
         )->
         # console.log 'dummy', dummy
         # console.log 'query', query
-        console.log 'selected tags', selected_tags
+        console.log 'selected tags', picked_tags
 
         self = @
         match = {}
@@ -308,7 +308,7 @@ if Meteor.isServer
             match.delivery = $ne:false
         if view_pickup
             match.pickup = $ne:false
-        if selected_tags.length > 0 then match.tags = $all: selected_tags
+        if picked_tags.length > 0 then match.tags = $all: picked_tags
             # match.$regex:"#{current_query}", $options: 'i'}
         # if query and query.length > 1
         # #     console.log 'searching query', query
@@ -326,7 +326,7 @@ if Meteor.isServer
             #     { $project: "tags": 1 }
             #     { $unwind: "$tags" }
             #     { $group: _id: "$tags", count: $sum: 1 }
-            #     { $match: _id: $nin: selected_tags }
+            #     { $match: _id: $nin: picked_tags }
             #     { $match: _id: {$regex:"#{query}", $options: 'i'} }
             #     { $sort: count: -1, _id: 1 }
             #     { $limit: 42 }
@@ -335,15 +335,15 @@ if Meteor.isServer
 
         # else
         # unless query and query.length > 2
-        # if selected_tags.length > 0 then match.tags = $all: selected_tags
-        # # match.tags = $all: selected_tags
+        # if picked_tags.length > 0 then match.tags = $all: picked_tags
+        # # match.tags = $all: picked_tags
         # # console.log 'match for tags', match
         # tag_cloud = Docs.aggregate [
         #     { $match: match }
         #     { $project: "tags": 1 }
         #     { $unwind: "$tags" }
         #     { $group: _id: "$tags", count: $sum: 1 }
-        #     { $match: _id: $nin: selected_tags }
+        #     { $match: _id: $nin: picked_tags }
         #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
         #     { $sort: count: -1, _id: 1 }
         #     { $limit: 20 }

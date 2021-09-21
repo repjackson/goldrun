@@ -1,5 +1,5 @@
 @selected_rental_tags = new ReactiveArray []
-@selected_tags = new ReactiveArray []
+@picked_tags = new ReactiveArray []
 @selected_ingredients = new ReactiveArray []
 
 

@@ -40,8 +40,8 @@ template(name='nav')
             //     a.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='delta')
             //         +i name='database' cl='ui inline mini image'
             if currentUser
-                //- a.icon.item(href="/alerts" class="{{isActivePath '/alerts'}}")
-                //-     i.bell.icon
+                a.icon.item(href="/alerts" class="{{isActivePath '/alerts'}}")
+                    i.bell.icon
                 a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
                     | {{fixed currentUser.credit}}c
                 a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)

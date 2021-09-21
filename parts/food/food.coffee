@@ -65,7 +65,7 @@ if Meteor.isClient
             if e.which is 13
                 search = $('#search').val().trim().toLowerCase()
                 if search.length > 0
-                    selected_tags.push search
+                    picked_tags.push search
                     console.log 'search', search
                     # Meteor.call 'log_term', search, ->
                     $('#search').val('')
@@ -84,11 +84,11 @@ if Meteor.isClient
         #     if e.which is 8
         #         search = $('#search').val()
         #         if search.length is 0
-        #             last_val = selected_tags.array().slice(-1)
+        #             last_val = picked_tags.array().slice(-1)
         #             console.log last_val
         #             $('#search').val(last_val)
-        #             selected_tags.pop()
-        #             Meteor.call 'search_reddit', selected_tags.array(), ->
+        #             picked_tags.pop()
+        #             Meteor.call 'search_reddit', picked_tags.array(), ->
         # , 1000)
 
         'click .reconnect': ->
@@ -166,7 +166,7 @@ if Meteor.isClient
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
         users: ->
-            # if selected_tags.array().length > 0
+            # if picked_tags.array().length > 0
             Meteor.users.find {
             },
                 sort: count:-1
@@ -174,7 +174,7 @@ if Meteor.isClient
 
 
         timestamp_tags: ->
-            # if selected_tags.array().length > 0
+            # if picked_tags.array().length > 0
             Timestamp_tags.find {
                 # model:'reddit'
             },

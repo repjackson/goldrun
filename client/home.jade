@@ -6,6 +6,13 @@ template(name='home')
                     +latest_activity
                 .column
                     .ui.segment
+                        a.ui.center.aligned.header(href="/food")
+                            +i name='poll' cl='ui avatar image'
+                            |polls
+                        with latest_poll
+                            +take_poll
+                .column
+                    .ui.segment
                         a.ui.center.aligned.header(href="/gym")
                             +i name='running' cl='ui avatar image'
                             |gym
@@ -94,6 +101,12 @@ template(name='home')
             
             
             
+template(name='take_poll')
+    with current_poll
+        .ui.header #{title}
+        each option
+            .ui.big.button 
+                |#{title}
 
 
 template(name='compose_message_icon')

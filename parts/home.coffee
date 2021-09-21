@@ -3,6 +3,8 @@ if Meteor.isClient
         @render 'home'
         ), name:'home'
 
+    Template.take_poll.onCreated ->
+        @autorun -> Meteor.subscribe 'current_poll', ->
     Template.home.onCreated ->
         @autorun -> Meteor.subscribe 'model_docs', 'service'
         @autorun -> Meteor.subscribe 'model_docs', 'rental'
@@ -35,6 +37,10 @@ if Meteor.isClient
             Docs.find 
                 model:'public_note'
 
+    Template.take_poll.helpers 
+        current_poll: ->
+            Docs.findOne 
+                model:'poll'
 
     Template.home.events
         'keyup .add_note': (e,t)->
@@ -47,3 +53,7 @@ if Meteor.isClient
                 $('.add_note').val('')
                 
             
+if Meteor.isServer 
+    Meteor.publish 'current_poll', ()->
+        Docs.find 
+            model:'poll'

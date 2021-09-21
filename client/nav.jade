@@ -17,49 +17,22 @@ template(name='nav')
                 +i name='calendar' cl='ui inline mini image'
             a.icon.item.zoomer(href='/buildings' class="{{isActivePath '/events'}}" title='events')
                 +i name='building' cl='ui inline mini image'
-                // .mobile.hidden
-                //     |&nbsp;
-                //     | food
             a.item.zoomer(href='/products' class="{{isActivePath '/products'}}" title='shop')
                 +i name='shop' cl='ui inline mini image'
-                // .mobile.hidden
-                //     |&nbsp;
-                //     | shop
             a.item.zoomer(href='/posts' class="{{isActivePath '/posts'}}" title='shop')
                 +i name='blog' cl='ui inline mini image'
-                // .mobile.hidden
-                //     |&nbsp;
-                //     | posts
             a.item.zoomer(href='/services' class="{{isActivePath '/services'}}" title='services')
                 +i name='wrench' cl='ui inline mini image'
-                // .mobile.hidden
-                //     |&nbsp;
-                //     | services
             a.item.zoomer(href='/rentals' class="{{isActivePath '/rentals'}}")
                 +i name='clock' cl='ui inline mini image'
-                // .mobile.hidden
-                //     |&nbsp;
-                //     | rentals
             a.item.zoomer(href='/groups' class="{{isActivePath '/groups'}}")
                 +i name='group' cl='ui inline mini image'
-                // .mobile.hidden
-                //     |&nbsp;
-                //     | groups
             a.item.zoomer(href='/gruber' class="{{isActivePath '/gruber'}}")
                 +i name='car' cl='ui inline mini image'
-                // .mobile.hidden
-                //     |&nbsp;
-                //     | groups
-            //- a.item(href='/events' class="{{isActivePath '/events'}}")
-            //-     +i name='calendar' cl='ui inline mini image'
-            //-     .mobile.hidden
-            //-         |&nbsp;
-            //-         | events
-            //- a.item(href='/users' class="{{isActivePath '/users'}}" title='users')
-            //-     +i name='groups' cl='ui inline mini image'
-            //-     .mobile.hidden
-            //-         |&nbsp;
-            //-         | users
+            a.item(href='/users' class="{{isActivePath '/users'}}" title='users')
+               +i name='groups' cl='ui inline mini image'
+            a.item(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks')
+               +i name='tasks' cl='ui inline mini image'
         .right.menu
             // if is_admin
             //     a.item(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks')

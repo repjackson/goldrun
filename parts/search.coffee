@@ -16,6 +16,7 @@ if Meteor.isClient
             Session.set('query',val)
             
     Template.search.helpers
+        current_query: -> Session.get('query')
         results: ->
             Docs.find 
                 title:{$regex:Session.get('query'), $options:'i'}

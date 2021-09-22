@@ -1,8 +1,24 @@
 template(name='search')
     .ui.stackable.padded.grid 
         .sixteen.wide.column
-            .ui.big.fluid.icon.input 
+            +i name='search' cl='ui inline image'
+            .ui.big.icon.input 
                 i.search.icon
-                input.global_search(type='text')
-            each results
-                .ui.header #{title}
+                input.global_search(type='text' value=current_query)
+            .ui.inline.header #{results.count} results
+            .scrolling
+                each results
+                    .ui.segment
+                        .ui.inline.header #{title}
+                        .ui.inline.small.grey.header #{when}
+                        .ui.inline.small.grey.header 
+                            img.ui.avatar.image(src="{{c.url author.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                            |#{_author_username}
+                        if tags 
+                            i.grey.tag.icon
+                            each tags 
+                                .ui.basic.label #{this}
+                        if model
+                            .ui.basic.label(title='model')
+                                i.grey.database.icon
+                                |#{model}

@@ -1,0 +1,436 @@
+template(name='doc_sentiment') 
+    //- .ui.header 
+    //-     |sentiment
+    //- .ui.tiny.disabled.progress(data-percent=sentiment_score_percent class=sentiment_bar_class)
+    //-     .bar
+    //-     .progress
+    //- .label
+    //-     |{{ to_percent doc_sentiment_score }}%
+    //-     if is_positive
+    //-         | positive
+    //-     else
+    //-         | negative
+    if key_value_is 'doc_sentiment_label' 'positive'
+        span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
+            |&nbsp;
+        div.rounde(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+    else if key_value_is 'doc_sentiment_label' 'negative'
+        span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
+            |&nbsp;
+        div.rounde(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+    else if key_value_is 'doc_sentiment_label' 'negative'
+        span.say.ui.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label} 
+            |&nbsp;
+        div.rounde(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:black" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+
+template(name='small_sentiment') 
+    .ui.tiny.disabled.progress(data-percent=sentiment_score_percent class=sentiment_bar_class)
+        .bar
+        .progress
+//- 
+template(name='doc_emotion') 
+    div
+    // +doc_sentiment
+    // .spacer
+    // .ui.dividing.header 
+    //     | emotion
+    //- with watson.emotion
+    div
+    //- if above_50 'joy_percent'
+        //- .spacer
+    span.say.ui.green.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }}% joy 
+        |&nbsp;
+    div.rounde(style="height:5px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
+    //- if above_50 'sadness_percent'
+        //- .spacer
+    span.say.ui.blue.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}}% sad 
+        |&nbsp;
+    div.rounde(style="height:5px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
+    //- if above_50 'fear_percent'
+        //- .spacer
+    span.say.ui.grey.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }}% fear 
+        |&nbsp;
+    div.rounde(style="height:5px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
+    //- if above_50 'disgust_percent'
+        //- .spacer
+    span.say.ui.orange.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }}% disgust 
+        |&nbsp;
+    div.rounde(style="height:5px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
+    //- if above_50 'anger_percent'
+        //- .spacer
+    span.say.ui.red.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }}% anger 
+        |&nbsp;
+    div.rounde(style="height:5px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
+    .ui.separator
+template(name='doc_emotion_small') 
+    if joy_percent
+        if key_value_is 'doc_sentiment_label' 'positive'
+            span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%
+            i.large.green.plus.icon
+                |&nbsp;
+        else if key_value_is 'doc_sentiment_label' 'negative'
+            span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%
+            i.large.minus.red.icon
+                |&nbsp;
+        //- if above_50 'joy_percent'
+            //- .spacer
+        span.say.ui.green.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }}
+            |&nbsp;
+        span.say.rounde(style="height:3px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
+        //- if above_50 'sadness_percent'
+            //- .spacer
+        span.say.ui.blue.text(class="{{calculated_size sadness_percent}}") {{ to_percent sadness_percent}} 
+            |&nbsp;
+        span.say.rounde(style="height:3px;width:{{to_percent sadness_percent}}%;background-color:blue" title="{{to_percent sadness_percent}}% sad")
+        //- if above_50 'fear_percent'
+            //- .spacer
+        span.say.ui.grey.text(class="{{calculated_size fear_percent}}") {{ to_percent fear_percent }} 
+            |&nbsp;
+        span.say.rounde(style="height:3px;width:{{to_percent fear_percent}}%;background-color:grey" title="{{to_percent fear_percent}}% fear")
+        //- if above_50 'disgust_percent'
+            //- .spacer
+        span.say.ui.orange.text(class="{{calculated_size disgust_percent}}") {{ to_percent disgust_percent }} 
+            |&nbsp;
+        span.say.rounde(style="height:3px;width:{{to_percent disgust_percent}}%;background-color:orange" title="{{to_percent disgust_percent}}% disgust")
+        //- if above_50 'anger_percent'
+            //- .spacer
+        span.ui.red.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }}
+            |&nbsp;
+        span.rounde(style="height:3px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
+        // .spacer
+template(name='call_watson')
+    button.ui.fluid.basic.button.autotag
+        i.dna.icon
+        if current_doc.watson 
+            i.checkmark.green.icon
+        |autotag url
+
+template(name='get_emotion')
+    button.ui.fluid.basic.button.get
+        i.smile.icon
+        if current_doc.max_emotion_name 
+            i.checkmark.green.icon
+        |get emotion
+
+template(name='autotag')
+    button.ui.large.button.autotag
+        i.dna.icon
+        |download and analyze
+        // |autotag
+        if watson 
+            i.checkmark.icon
+            
+            
+template(name='call_tone')
+    button#call_tone.ui.basic.circular.large.button
+        i.smile.icon
+        |call tone
+    if page_doc.tone 
+        i.checkmark.icon
+//- 
+template(name='call_visual')
+    #call_visual.ui.large.icon.button(title='analyze')
+        i.chess.knight.icon
+
+
+template(name='keywords')
+    .ui.small.grey.header 
+        |#{watson.keywords.length} keywords
+    .ui.three.column.stackable.grid
+        each watson.keywords
+            .ui.column
+                span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
+                .spacer
+                .meta
+                    .ui.list 
+                        .item {{ to_percent relevance }}% relevant
+                        .item {{ sentiment.label }} {{ to_percent sentiment.score }}%:
+                        .item #{count} count
+                .description
+                    if emotion
+                        with emotion
+                            span {{ to_percent sadness }}% sad
+                                .rounde(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" )
+                            span {{ to_percent joy }}% joy
+                                .rounde(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" )
+                            span {{ to_percent disgust }}% disgust
+                                .rounde(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" )
+                            span {{ to_percent fear }}% fear
+                                .rounde(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" )
+                            span {{ to_percent anger }}% anger
+                                .rounde(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" )
+
+
+
+
+template(name='entities')
+    .ui.grey.header 
+        |#{watson.entities.length} entities
+    .ui.four.column.stackable.grid
+        each watson.entities
+            .ui.column
+                .ui.small.grey.inline.header #{type}
+                span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
+                .spacer
+                .ui.list 
+                    .item {{ to_percent relevance }}% relevant
+                    .item {{ sentiment.label }} {{ to_percent sentiment.score }}%:
+                    .item #{count} count
+                    // .item {{ to_percent confidence}}% confident
+                .meta 
+                    with disambiguation
+                        // .ui.small.inline.header subtypes
+                        each subtype
+                            .ui.basic.label #{this}
+                        // a.ui.tiny.grey.header(href=dbpedia_resource target='_window')
+                        //     |!{name}
+                if emotion
+                    with emotion
+                        span {{ to_percent sadness }}% sad
+                            .rounded.invert(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" )
+                        span {{ to_percent joy }}% joy
+                            .rounded.invert(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" )
+                        span {{ to_percent disgust }}% disgust
+                            .rounded.invert(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" )
+                        span {{ to_percent fear }}% fear
+                            .rounded.invert(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" )
+                        span {{ to_percent anger }}% anger
+                            .rounded.invert(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" )
+
+
+
+template(name='keyword_list')
+    .ui.small.grey.header 
+        |#{watson_keywords.length} keywords
+    each watson_keywords
+        .ui.large.label #{this}
+        // span(class="{{calculated_size 'relevance'}}") #{this}
+
+
+
+template(name='concept_list')
+    .ui.small.grey.header 
+        |#{watson_concepts.length} concepts
+    each watson_concepts
+        .ui.large.label #{this}
+
+
+
+template(name='concepts')
+    .ui.small.grey.inline.header 
+        |#{watson.concepts.length} concepts
+    .inline
+        each watson.concepts
+            .ui.basic.label(class="{{calculated_size 'relevance'}}" title="{{to_percent relevance}}% relevant")
+                a(href=dbpedia_resource target='_blank') #{text}
+
+
+
+template(name='categories')
+    .ui.small.grey.header 
+        |#{watson.categories.length} categories
+    .ui.list
+        each watson.categories
+            .item
+                strong #{label}
+                |{{ to_percent score }}%
+
+
+//- 
+template(name='watson_view')
+    // +tone
+    +doc_sentiment
+    +doc_emotion
+    .ui.divider
+    +concepts
+    .ui.divider
+    +categories
+    +entities
+    // +semantic_roles
+    // +keyword_list
+    // +concept_list
+    +keywords
+    // .ui.hidden.divider
+    // +relations
+    //- if dev
+    //-     .ui.styled.accordion
+    //-         .title 
+    //-             i.code.icon
+    //-             i.dropdown.icon
+    //-         .content
+    //-             +jsonView(json=watson)
+    
+    // if view_detail
+    // .ui.tiny.grey.inline.header(title='reddit user') 
+    //     i.user.outline.icon 
+    //     |#{author}
+    // .ui.mini.inline.header domain: #{domain}
+    // .ui.mini.inline.header permalink: #{permalink}
+    div 
+    if categories
+        i.grey.cubes.icon(title='categories')
+        |categories
+        each categories
+            +flat_tag_picker
+            // +tag_picker
+            // .ui.small.pointer.add_stack_tag.tertiary.button #{this}    
+    div 
+    if Person 
+        i.grey.users.icon
+        .ui.inline.small.grey.header people
+        each Person 
+            +flat_tag_picker
+            // +tag_picker
+            // .ui.small.pointer.add_stack_tag.tertiary.button.pick_person #{this}
+    div 
+    if Company
+        i.grey.briefcase.icon(title='company')
+        .ui.inline.small.grey.header companies
+        each Company 
+            +flat_tag_picker
+            // +tag_picker
+            // .ui.small.pointer.add_stack_tag.tertiary.button.pick_company #{this}
+    div 
+    if TelevisionShow
+        i.grey.video.icon(title='television show')
+        // .ui.inline.small.grey.header television show
+        each TelevisionShow 
+            +flat_tag_picker
+            // .ui.small.pointer.add_stack_tag.tertiary.button #{this}
+    div 
+    if Broadcaster
+        i.grey.video.icon(title='broadcaster')
+        // .ui.inline.small.grey.header broadcaster
+        each Broadcaster 
+            +flat_tag_picker
+            // .ui.small.pointer.add_stack_tag.tertiary.button #{this}
+    div 
+    if Facility
+        i.grey.building.icon(title='facility')
+        // .ui.inline.small.grey.header facilities
+        each Facility 
+            +flat_tag_picker
+            // .ui.small.pointer.add_stack_tag.tertiary.button #{this}
+    div 
+    if HealthCondition
+        i.grey.heartbeat.icon(title='health condition')
+        .ui.inline.small.grey.header health condition
+        each HealthCondition 
+            +flat_tag_picker
+            // .ui.small.pointer.add_stack_tag.tertiary.button #{this}
+    div 
+    if Organization
+        i.grey.users.icon
+        // .ui.inline.small.grey.header organizations
+        each Organization 
+            +flat_tag_picker
+            // .ui.small.pointer.add_stack_tag.tertiary.button #{this}
+    div 
+    if Award
+        i.grey.trophy.icon
+        each Award 
+            +flat_tag_picker
+            // .ui.small.pointer.add_stack_tag.tertiary.button #{this}
+    div 
+    if Location
+        i.grey.marker.icon
+        // .ui.inline.small.grey.header locations
+        each Location 
+            +flat_tag_picker
+            // .ui.small.pointer.add_stack_tag.tertiary.button.pick_location #{this}
+    div 
+    if PrintMedia
+        i.grey.newspaper.icon(title='print media')
+        each PrintMedia 
+            +flat_tag_picker
+            // .ui.small.pointer.add_stack_tag.tertiary.button #{this}
+    div 
+    // each tone.result.sentences_tone 
+    //     |#{sentence_id}:
+    //     |#{text}
+    //     each tones 
+    //         .ui.pointer.add_stack_tag.tertiary.button #{tone_name}
+    //     div
+    //- .large-text    
+    //-     |!{body}
+    // .ui.inline.small.grey.header concepts
+    // each watson_concepts
+    //     .ui.tiny.pointer.add_stack_tag.tertiary.button #{this}
+    // .ui.inline.small.grey.header keywords
+    // each watson_keywords
+    //     .ui.tiny.pointer.add_stack_tag.tertiary.button #{this}
+    // |#{ups}
+    // i.thumbs.up.outline.icon
+    // |#{downs}
+    // i.thumbs.up.outline.icon
+    .ui.small.inline.header
+        // |sentiment
+        |#{doc_sentiment_label}
+        |#{doc_sentiment_score}
+    // span(title='comment_count')
+    //     i.comments.icon
+    //     |#{comment_count}
+    // span(title='subreddit')
+    //     i.reddit.icon
+    //     |#{subreddit}
+    a(href=url target='_window') #{url}
+    // if in_dev
+    //     i.reddit.link.icon.call_reddit_post
+    //     i.code.link.icon.print_this
+    //     i.brain.link.icon.calc_tone
+    //     +call_watson mode='url' key='url'
+    //     i.remove.link.icon
+    //-     +call_watson mode='html'
+    //- if in_dev 
+    //-     if watson 
+    //-         +jsonView json=watson
+    //- .ui.divider
+    
+    
+    
+template(name='tone')
+    // h3 tone
+    .ui.horizontal.list
+        each tone.result.document_tone.tones
+            .item #{tone_id} {{ to_percent score }}%
+    .ui.small.horizontal.list
+        each tone.result.sentences_tone
+            span.item
+                
+                //- span #{sentence_id}
+                span.tone_item(title="#{sentence_id}" class=tone_size) 
+                    |{{lowered text}}
+                    // .content
+                    // .header(title="#{sentence_id}") {{lowered text}}
+                    // |#{weight}
+                    i.chevron.up.link.grey.icon.upvote_sentence
+                    i.chevron.down.link.grey.icon.downvote_sentence
+                    each tones
+                        // .ui.basic.inverted.small.compact.circular.label(class="{{calculated_size 'score'}} #{tone_label_class}") 
+                        if key_value_is 'tone_id' 'joy'
+                            +emoji name='joy'
+                        else if key_value_is 'tone_id' 'analytical'
+                            +emoji name='thinking'
+                        else if key_value_is 'tone_id' 'sadness'
+                            +emoji name='sob'
+                        else if key_value_is 'tone_id' 'confident'
+                            +emoji name='smile'
+                        else if key_value_is 'tone_id' 'tentative'
+                            +emoji name='fearful'
+                        else
+                            .ui.basic.inverted.small.compact.circular.label(class="#{tone_label_class}") 
+                                span.ui.text
+                                    |#{tone_id} &nbsp;
+                                | {{ to_percent score }}% 
+                    .ui.mini.transparent.icon.inline.input
+                        i.grey.tag.icon
+                        input.tag_sentence(type='text')
+                    each tags 
+                        .ui.small.basic.circular.label #{this}
+    // unless tone                
+    //- #call_tone.ui.icon.button
+    //-     i.refresh.icon
+    
+    
+template(name='flat_tag_picker')
+    .ui.label #{this}

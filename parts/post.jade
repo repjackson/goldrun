@@ -115,6 +115,8 @@ template(name='post_view')
                             i.pencil.big.icon
                     +voting_full
                     +viewing
+                    if in_dev 
+                        +print_this
                 .eight.wide.column
                     h1.ui.header #{title} 
                     +image_view key='image_id' label='image' direct=true
@@ -124,6 +126,8 @@ template(name='post_view')
                     +array_view key='tags' label='tags' icon='tags' direct=true
                     div
                     +comments
+                    if watson 
+                        +watson_view
                 
 
 template(name='post_edit')

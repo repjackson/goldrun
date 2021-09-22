@@ -1,5 +1,5 @@
 if Meteor.isClient
-    Router.route '/reservation/:doc_id/view', (->
+    Router.route '/reservation/:doc_id/', (->
         @render 'reservation_view'
         ), name:'reservation_view'
     Template.reservation_view.onCreated ->

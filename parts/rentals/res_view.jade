@@ -4,7 +4,7 @@ template(name='reservation_view')
             .row
                 .four.wide.column 
                     with rental
-                        a.ui.fluid.large.button(href="/rental/#{_id}/view")
+                        a.ui.fluid.large.button(href="/rental/#{_id}/")
                             i.left.chevron.icon
                             |#{title}
                         +image_view key='image' label='image' direct=true
@@ -12,7 +12,7 @@ template(name='reservation_view')
                 .eight.wide.column 
                     .ui.header 
                         |viewing reservation
-                    a.ui.header.inline.lowercase(href="/reservation/#{_id}/view")
+                    a.ui.header.inline.lowercase(href="/reservation/#{_id}/")
                         small from 
                         |{{cal_time start_datetime}}
                         small to 
@@ -62,5 +62,11 @@ template(name='reservation_events')
     
     
 template(name='key_value_edit')
+    if key_value_is key 'sort_key'
+        if sorting_up
+            i.sort.amount.down.icon
+        else
+            i.sort.amount.up.icon
+    
     .ui.button.set_key_value(class=set_key_value_class)
         |#{label}

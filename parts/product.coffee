@@ -389,7 +389,7 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-    Router.route '/product/:doc_id/view', (->
+    Router.route '/product/:doc_id/', (->
         @layout 'layout'
         @render 'product_view'
         ), name:'product_view'

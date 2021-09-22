@@ -40,7 +40,7 @@ if Meteor.isClient
         'click .save_food': ->
             food_id = Router.current().params.doc_id
             Meteor.call 'calc_food_data', food_id, ->
-            Router.go "/food/#{food_id}/view"
+            Router.go "/food/#{food_id}/"
 
 
         'click .save_availability': ->

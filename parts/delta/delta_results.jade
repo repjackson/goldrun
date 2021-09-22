@@ -32,7 +32,7 @@ template(name='delta_result_card')
                                 a.ui.icon.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
                                     i.pencil.large.icon
                                     //- |edit
-                            //- a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
+                            //- a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/" title='view')
                             //-     i.right.chevron.yellow.large.icon
                         if _author_id
                             +author_info
@@ -85,7 +85,7 @@ template(name='delta_list_result')
                                 a.ui.icon.basic.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
                                     i.pencil.large.icon
                                     //- |edit
-                            //- a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
+                            //- a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/" title='view')
                             //-     i.right.chevron.yellow.large.icon
                         if _author_id
                             +author_info

@@ -75,7 +75,7 @@ if Meteor.isClient
             # console.log @
             found = Docs.findOne @_id
             console.log found
-            Router.go "/m/#{found.model}/#{found._id}/view"
+            Router.go "/m/#{found.model}/#{found._id}/"
 
         'click .result': (e,t)->
             # console.log @
@@ -100,7 +100,7 @@ if Meteor.isClient
             if @model is 'model'
                 Router.go "/m/#{@slug}"
             else
-                Router.go "/m/#{model_slug}/#{@_id}/view"
+                Router.go "/m/#{model_slug}/#{@_id}/"
 
         'click .set_model': ->
             Meteor.call 'set_delta_facets', @slug, Meteor.userId()

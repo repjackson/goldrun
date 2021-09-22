@@ -320,7 +320,7 @@ template(name='group_dashboard')
                 .ui.header #{dish_count} dishes
                 .ui.selection.animated.list
                     each group_dishes
-                        a.item(href="/dish/#{_id}/view")
+                        a.item(href="/dish/#{_id}/")
                             img.ui.mini.circular.image(src="{{c.url image width=100 height=100}}")
                             .content
                                 .header 

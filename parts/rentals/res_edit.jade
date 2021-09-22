@@ -6,7 +6,7 @@ template(name='reservation_edit')
                     h1.ui.header is paying
             .three.column.row
                 .column 
-                    a.ui.big.fluid.button(href="/reservation/#{_id}/view" title='save')
+                    a.ui.big.fluid.button(href="/reservation/#{_id}/" title='save')
                         i.save.icon
                         //- +i name='submit-progress--v1'        
                         .ui.inline.header save draft     
@@ -40,7 +40,7 @@ template(name='reservation_edit')
                                 | #{taxes_payout}c
                 
                 .column 
-                    a.ui.header(href="/rental/#{rental._id}/view") reserve #{rental.title}
+                    a.ui.header(href="/rental/#{rental._id}/") reserve #{rental.title}
                     .ui.fluid.button.reserve_now(class=now_button_class)
                         |reserve now
                     unless now

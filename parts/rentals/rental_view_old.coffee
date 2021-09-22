@@ -1,4 +1,4 @@
-# Router.route '/rental/:doc_id/view', (->
+# Router.route '/rental/:doc_id/', (->
 #     @render 'rental_view'
 #     ), name:'rental_view'
 # Router.route '/rental/:doc_id/edit', (->

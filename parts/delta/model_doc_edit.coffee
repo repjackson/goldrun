@@ -1,5 +1,5 @@
 if Meteor.isClient
-    Router.route '/m/:model_slug/:doc_id/view', (->
+    Router.route '/m/:model_slug/:doc_id/', (->
         @render 'model_doc_view'
         ), name:'doc_view'
 

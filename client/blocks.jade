@@ -115,7 +115,7 @@ template(name='toggle_edit')
         i.pencil.icon
 
 template(name='user_list_info')
-    a.ui.button.item(href="/user/#{user._id}/view")
+    a.ui.button.item(href="/user/#{user._id}/")
         img.ui.avatar.image(src=user.profile.profilePic title=name)
         |#{user.profile.name}
         +user_status user
@@ -127,7 +127,7 @@ template(name='user_list_info')
 //-         |call watson
 
 template(name='view_full_button')
-    a.ui.icon.button(href="/view/#{_id}" class=cl data-tooltip='View Full')
+    a.ui.icon.button(href="//#{_id}" class=cl data-tooltip='View Full')
         i.double.icon
         |view
 
@@ -302,7 +302,7 @@ template(name='voting_full')
 
 
 template(name='view_button')
-    a.ui.icon.compact.button.view(title='view' href="/m/#{model}/#{_id}/view")
+    a.ui.icon.compact.button.view(title='view' href="/m/#{model}/#{_id}/")
         //- i.right.chevron.large.icon
         +i name='chevron right' cl='ui mini inline image'
 
@@ -337,7 +337,7 @@ template(name='edit_button')
 
 
 template(name='save_button')
-    a.ui.button.large.icon.save(title='Save' href="/m/#{model}/#{_id}/view")
+    a.ui.button.large.icon.save(title='Save' href="/m/#{model}/#{_id}/")
         i.checkmark.icon
         |Save
 

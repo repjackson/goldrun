@@ -88,7 +88,7 @@ template(name='service_card')
         .image
             img.ui.zoom.pointer.goto_service.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
-            a.ui.header(href="/service/#{_id}/view") 
+            a.ui.header(href="/service/#{_id}/") 
                 //- |#{_author.name}'s
                 | #{title}
             //- if session_is 'view_tags' true
@@ -103,7 +103,7 @@ template(name='service_card')
             a(href="/user/#{cook.username}")
                 img.ui.avatar.image(src="{{c.url cook.image_id width=400 height=600 crop='fit'}}")
                 |#{cook.username}
-        //- a.image(href="/service/#{_id}/view")
+        //- a.image(href="/service/#{_id}/")
             
         .content    
             |#{hourly_rate}/hr
@@ -114,7 +114,7 @@ template(name='service_card')
             .ui.green.button.quickbuy
                 i.lightning.icon
                 |buy
-            a.ui.button(href="/service/#{_id}/view")
+            a.ui.button(href="/service/#{_id}/")
                 |view
                 i.right.chevron.icon
 
@@ -192,7 +192,7 @@ template(name='service_edit')
                 .four.wide.column
                     .ui.header 
                         |edit service
-                    a.ui.big.fluid.button(href="/service/#{_id}/view" title='save')
+                    a.ui.big.fluid.button(href="/service/#{_id}/" title='save')
                         .ui.small.header
                             i.checkmark.green.large.icon
                             | save

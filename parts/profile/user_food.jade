@@ -10,10 +10,10 @@ template(name='profile_food_item')
                 +image_view key='image_id' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
                 .ui.header #{title}
-                a.ui.small.header.inline.lowercase(href="/food/#{_id}/view")
+                a.ui.small.header.inline.lowercase(href="/food/#{_id}/")
                     |#{price_per_serving}c / #{serving_unit}
                 .ui.small.inline.header #{when}
-                a.ui.button(href="/food/#{_id}/view")
+                a.ui.button(href="/food/#{_id}/")
                     |view
                     i.right.chevron.icon
                 if is_admin

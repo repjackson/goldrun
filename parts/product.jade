@@ -88,7 +88,7 @@ template(name='product_edit')
         .ui.stackable.padded.grid
             .middle.aligned.row
                 .four.wide.center.aligned.column
-                    a.ui.big.green.button(href="/product/#{_id}/view")
+                    a.ui.big.green.button(href="/product/#{_id}/")
                         i.green.checkmark.icon
                         |save
                     .ui.icon.basic.button.delete_product_item 
@@ -173,7 +173,7 @@ template(name='product_view')
     
     
 template(name='product_header')
-    a(href="/product/#{_id}/view")
+    a(href="/product/#{_id}/")
         img.ui.avatar.rounded.image(src="{{c.url image width=400 height=400 gravity='face' crop='fill'}}")
         .ui.inline.small.header #{title}
 
@@ -199,10 +199,10 @@ template(name='product_location')
     
 template(name='product_card')
     .ui.card(class=product_card_class)
-        a.image(href="/product/#{_id}/view") 
+        a.image(href="/product/#{_id}/") 
             img.ui.zoom.pointer.goto_product.image(src="{{c.url image width=400 height=300 crop='pad'}}")
         .content
-            a.ui.header(href="/product/#{_id}/view") 
+            a.ui.header(href="/product/#{_id}/") 
                 //- |#{_author.name}'s
                 | #{title}
             +ismall name='tags'
@@ -236,7 +236,7 @@ template(name='product_card')
         //-     .ui.green.basic.button.quickbuy
         //-         i.lightning.icon
         //-         |buy
-        //-     a.ui.basic.button(href="/product/#{_id}/view")
+        //-     a.ui.basic.button(href="/product/#{_id}/")
         //-         |view
         //-         i.right.chevron.icon
 

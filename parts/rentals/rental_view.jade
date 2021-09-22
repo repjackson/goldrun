@@ -218,7 +218,7 @@ template(name='set_date_filter')
 
 template(name='reservation_segment')
     .ui.segment
-        a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/view")
+        a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/")
             small from 
             |{{cal_time start_datetime}}
             //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
@@ -231,7 +231,7 @@ template(name='reservation_segment')
         .ui.grey.inline.header(title='credits')
             | $#{cost}
         .ui.small.inline.header #{when} by #{_author_username}
-        a.ui.large.button(href="/reservation/#{_id}/view")
+        a.ui.large.button(href="/reservation/#{_id}/")
             |view
             i.right.chevron.icon
                 
@@ -241,7 +241,7 @@ template(name='reservation_segment')
 template(name='res_card')
     .ui.card
         .content
-            a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/view")
+            a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/")
                 small from 
                 |{{cal_time start_datetime}}
                 //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
@@ -254,6 +254,6 @@ template(name='res_card')
                 //- i.coins.icon
                 | #{cost}c
             .ui.small.header #{when} by #{_author_username}
-            a.ui.large.fluid.button(href="/reservation/#{_id}/view")
+            a.ui.large.fluid.button(href="/reservation/#{_id}/")
                 |view
                 i.right.chevron.icon

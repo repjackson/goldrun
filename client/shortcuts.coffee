@@ -57,7 +57,7 @@ globalHotkeys.add
         current_model = Docs.findOne
             model:'model'
             slug: Router.current().params.model_slug
-        Router.go "/m/#{current_model.slug}/#{Router.current().params.doc_id}/view"
+        Router.go "/m/#{current_model.slug}/#{Router.current().params.doc_id}/"
 globalHotkeys.add
 	combo: "g u"
 	callback: ->

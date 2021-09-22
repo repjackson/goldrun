@@ -194,7 +194,7 @@ if Meteor.isClient
                     Session.set 'paying', false
                     Meteor.call 'pay_for_reservation', @_id, =>
                         Session.set 'paying', true
-                        Router.go "/reservation/#{@_id}/view"
+                        Router.go "/reservation/#{@_id}/"
             }).modal('show')
 
         'click .unsubmit': ->
@@ -207,12 +207,12 @@ if Meteor.isClient
                 parent_id:Router.current().params.doc_id
                 log_type:'reservation_unsubmission'
                 text:"reservation unsubmitted by #{Meteor.user().username}"
-            # Router.go "/reservation/#{@_id}/view"
+            # Router.go "/reservation/#{@_id}/"
 
         'click .cancel_reservation': ->
             if confirm 'delete reservation?'
                 Docs.remove @_id
-                Router.go "/rental/#{@rental_id}/view"
+                Router.go "/rental/#{@rental_id}/"
 
 
         #     rental = Docs.findOne @rental_id
@@ -222,7 +222,7 @@ if Meteor.isClient
         #             submitted:true
         #             submitted_timestamp:Date.now()
         #     Meteor.call 'pay_for_reservation', @_id, =>
-        #         Router.go "/reservation/#{@_id}/view"
+        #         Router.go "/reservation/#{@_id}/"
 
 
 

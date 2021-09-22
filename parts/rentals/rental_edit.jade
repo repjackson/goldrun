@@ -6,7 +6,7 @@ template(name='rental_edit')
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}' rental
-                    a.ui.big.fluid.green.button(href="/rental/#{_id}/view" title='save')
+                    a.ui.big.fluid.green.button(href="/rental/#{_id}/" title='save')
                         i.checkmark.icon
                         |save
                     +remove_button

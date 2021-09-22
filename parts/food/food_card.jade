@@ -3,7 +3,7 @@ template(name='food_card')
         .image
             img.ui.zoom.pointer.goto_food.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
-            a.ui.header(href="/food/#{_id}/view") 
+            a.ui.header(href="/food/#{_id}/") 
                 //- |#{_author.name}'s
                 | #{title}
             //- if session_is 'view_ingredients' true
@@ -20,7 +20,7 @@ template(name='food_card')
                 |#{cook.username}
                 i.yellow.star.icon
                 |3.4
-        //- a.image(href="/food/#{_id}/view")
+        //- a.image(href="/food/#{_id}/")
             
         .content    
             .ui.inline.header

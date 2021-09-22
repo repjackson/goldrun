@@ -91,7 +91,7 @@ template(name='task_card')
         .image
             img.ui.zoom.pointer.goto_task.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
-            a.ui.header(href="/task/#{_id}/view") 
+            a.ui.header(href="/task/#{_id}/") 
                 //- |#{_author.name}'s
                 | #{title}
             //- if session_is 'view_tags' true
@@ -106,7 +106,7 @@ template(name='task_card')
             a(href="/user/#{author.username}")
                 img.ui.avatar.image(src="{{c.url author.image_id width=400 height=600 crop='fit'}}")
                 |#{author.username}
-        //- a.image(href="/task/#{_id}/view")
+        //- a.image(href="/task/#{_id}/")
             
         .content    
             if complete 
@@ -151,7 +151,7 @@ template(name='task_edit')
                 .four.wide.column
                     .ui.header 
                         |editing task
-                    a.ui.big.icon.green.button(href="/task/#{_id}/view" title='save')
+                    a.ui.big.icon.green.button(href="/task/#{_id}/" title='save')
                         i.checkmark.big.icon
                     +remove_button
                     +image_edit key='image' label='image' direct=true

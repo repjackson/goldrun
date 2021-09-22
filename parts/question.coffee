@@ -387,7 +387,7 @@ if Meteor.isServer
 
 
 
-Router.route '/question/:doc_id/view', (->
+Router.route '/question/:doc_id/', (->
     @render 'question_view'
     ), name:'question_view_long'
 Router.route '/question/:doc_id', (->

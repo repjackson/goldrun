@@ -92,7 +92,7 @@ template(name='food_view')
                             div
                             .ui.small.inline.header
                                 | #{when} ({{long_date _timestamp}})
-                            a.ui.compact.circular.button(href="/order/#{_id}/view")
+                            a.ui.compact.circular.button(href="/order/#{_id}/")
                                 |view details
                                 i.right.chevron.icon
                             if can_cancel

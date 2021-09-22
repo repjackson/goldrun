@@ -14,12 +14,12 @@ template(name='profile_rental_item')
                 +image_view key='image_id' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
                 .ui.header #{title}
-                a.ui.small.header(href="/rental/#{_id}/view")
+                a.ui.small.header(href="/rental/#{_id}/")
                     |#{hourly_rate}c / hr
-                a.ui.small.header(href="/rental/#{_id}/view")
+                a.ui.small.header(href="/rental/#{_id}/")
                     |#{daily_rate}c / day
                 .ui.small.inline.header #{when}
-                a.ui.button(href="/rental/#{_id}/view")
+                a.ui.button(href="/rental/#{_id}/")
                     |view
                     i.right.chevron.icon
                 if is_admin

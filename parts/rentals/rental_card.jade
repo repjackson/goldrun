@@ -1,9 +1,9 @@
 template(name='rental_card')
     .ui.card(class=rental_card_class)
-        a.image(href="/rental/#{_id}/view") 
+        a.image(href="/rental/#{_id}/") 
             img.ui.zoom.pointer.goto_rental.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
-            a.ui.header(href="/rental/#{_id}/view") 
+            a.ui.header(href="/rental/#{_id}/") 
                 //- |#{_author.name}'s
                 | #{title}
             //- if session_is 'view_tags' true
@@ -35,6 +35,6 @@ template(name='rental_card')
         //-     .ui.green.button.quickbuy
         //-         i.lightning.icon
         //-         |buy
-        //-     a.ui.button(href="/rental/#{_id}/view")
+        //-     a.ui.button(href="/rental/#{_id}/")
         //-         |view
         //-         i.right.chevron.icon

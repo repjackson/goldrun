@@ -386,7 +386,7 @@ if Meteor.isServer
         self.ready()
 
 
-Router.route '/service/:doc_id/view', (->
+Router.route '/service/:doc_id/', (->
     @render 'service_view'
     ), name:'service_view'
 Router.route '/service/:doc_id/edit', (->

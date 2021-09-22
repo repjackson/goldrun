@@ -47,7 +47,7 @@ template(name='home')
                             |food
                         .ui.selection.animated.list.smallscroll
                             each top_food
-                                a.item(href="/food/#{_id}/view")
+                                a.item(href="/food/#{_id}/")
                                     img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
 
@@ -69,7 +69,7 @@ template(name='home')
                             | rentals
                         .ui.selection.animated.list.smallscroll
                             each top_rentals
-                                a.item(href="/rental/#{_id}/view")
+                                a.item(href="/rental/#{_id}/")
                                     img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
                 .column
@@ -79,7 +79,7 @@ template(name='home')
                             | products
                         .ui.selection.animated.list.smallscroll
                             each top_products
-                                a.item(href="/product/#{_id}/view")
+                                a.item(href="/product/#{_id}/")
                                     img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
                 .column
@@ -89,7 +89,7 @@ template(name='home')
                             | services
                         .ui.selection.animated.list
                             each top_services
-                                a.item(href="/service/#{_id}/view")
+                                a.item(href="/service/#{_id}/")
                                     img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
                                     |#{title}
                 .column

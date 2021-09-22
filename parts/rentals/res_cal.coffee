@@ -316,7 +316,7 @@ if Meteor.isClient
             #         submitted_timestamp:Date.now()
             Meteor.call 'pay_for_reservation', @_id, =>
                 Session.set 'paying', false
-                Router.go "/reservation/#{@_id}/view"
+                Router.go "/reservation/#{@_id}/"
 
 
 

@@ -41,7 +41,7 @@ if Meteor.isClient
 
 
 if Meteor.isClient
-    Router.route '/order/:doc_id/view', (->
+    Router.route '/order/:doc_id/', (->
         @layout 'layout'
         @render 'order_view'
         ), name:'order_view'

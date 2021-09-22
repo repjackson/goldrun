@@ -5,107 +5,95 @@ template(name='home')
                 .column
                     +latest_activity
                 .column
-                    .ui.segment
-                        a.ui.center.aligned.header(href="/polls")
-                            +i name='poll' cl='ui avatar image'
-                            |polls
-                        with latest_poll
-                            +take_poll
+                    a.ui.center.aligned.header(href="/polls")
+                        +i name='poll' cl='ui avatar image'
+                        |polls
+                    with latest_poll
+                        +take_poll
                 .column
-                    .ui.segment
-                        a.ui.center.aligned.header(href="/questions")
-                            +i name='what' cl='ui avatar image'
-                            |questions
-                        with questions
-                            a(href="/question/#{_id}")
+                    a.ui.center.aligned.header(href="/gym")
+                        +i name='running' cl='ui avatar image'
+                        |gym
+                    .ui.header #{current_patrons} current exercisers
+                    .ui.big.disabled.button
+                        |checkin
+                .column
+                    // .ui.segment.zoomer
+                    a.ui.center.aligned.header(href="/chat")
+                        +i name='pencil' cl='ui avatar image'
+                        |public notes
+                    .ui.fluid.icon.input
+                        i.plus.icon
+                        input.add_note(type='input' placeholder='add note')
+                    .ui.list.smallscroll
+                        each public_note_docs
+                            .item
+                                |#{body}
+                                small #{when}
+                .column
+                    // .ui.segment
+                    a.ui.center.aligned.header.zoomer(href="/food")
+                        +i name='food' cl='ui avatar image'
+                        |food
+                    .ui.selection.animated.list.smallscroll
+                        each top_food
+                            a.item(href="/food/#{_id}/")
+                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
                                 |#{title}
                 .column
-                    .ui.segment
-                        a.ui.center.aligned.header(href="/gym")
-                            +i name='running' cl='ui avatar image'
-                            |gym
-                        .ui.header #{current_patrons} current exercisers
-                        .ui.big.disabled.button
-                            |checkin
+                    // .ui.segment
+                    a.ui.center.aligned.header.zoomer(href="/inbox" title='go to inbox')
+                        +i name='inbox' cl='ui avatar image'
+                        |inbox
+                    .ui.selection.animated.list.smallscroll
+                        each my_messages
+                            a.item(href="/message/#{_id}/")
+                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                                |!{body}
+                    +compose_message_icon
                 .column
-                    .ui.segment.zoomer
-                        .ui.center.aligned.header
-                            +i name='pencil' cl='ui avatar image'
-                            |public notes
-                        .ui.fluid.icon.input
-                            i.plus.icon
-                            input.add_note(type='input' placeholder='add note')
-                        .ui.list.smallscroll
-                            each public_note_docs
-                                .item
-                                    |#{body}
-                                    small #{when}
+                    // .ui.segment
+                    a.ui.center.aligned.header.zoomer(href="/rentals")
+                        +i name='clock' cl='ui avatar image'
+                        | rentals
+                    .ui.selection.animated.list.smallscroll
+                        each top_rentals
+                            a.item(href="/rental/#{_id}/")
+                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                                |#{title}
                 .column
-                    .ui.segment
-                        a.ui.center.aligned.header(href="/food")
-                            +i name='food' cl='ui avatar image'
-                            |food
-                        .ui.selection.animated.list.smallscroll
-                            each top_food
-                                a.item(href="/food/#{_id}/")
-                                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                                    |#{title}
-
+                    // .ui.segment
+                    a.ui.center.aligned.header.zoomer(href="/products")
+                        +i name='shop' cl='ui avatar image'
+                        | products
+                    .ui.selection.animated.list.smallscroll
+                        each top_products
+                            a.item(href="/product/#{_id}/")
+                                img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
+                                |#{title}
                 .column
-                    .ui.segment
-                        a.ui.center.aligned.header(href="/inbox" title='go to inbox')
-                            +i name='inbox' cl='ui avatar image'
-                            |inbox
-                        .ui.selection.animated.list.smallscroll
-                            each my_messages
-                                a.item(href="/message/#{_id}/")
-                                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                                    |!{body}
-                        +compose_message_icon
+                    // .ui.segment
+                    a.ui.center.aligned.header(href="/services")
+                        +i name='work' cl='ui avatar image'
+                        | services
+                    .ui.selection.animated.list
+                        each top_services
+                            a.item(href="/service/#{_id}/")
+                                img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
+                                |#{title}
                 .column
-                    .ui.segment
-                        a.ui.center.aligned.header(href="/rentals")
-                            +i name='clock' cl='ui avatar image'
-                            | rentals
-                        .ui.selection.animated.list.smallscroll
-                            each top_rentals
-                                a.item(href="/rental/#{_id}/")
-                                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                                    |#{title}
-                .column
-                    .ui.segment
-                        a.ui.center.aligned.header(href="/products")
-                            +i name='shop' cl='ui avatar image'
-                            | products
-                        .ui.selection.animated.list.smallscroll
-                            each top_products
-                                a.item(href="/product/#{_id}/")
-                                    img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
-                                    |#{title}
-                .column
-                    .ui.segment
-                        a.ui.center.aligned.header(href="/services")
-                            +i name='work' cl='ui avatar image'
-                            | services
-                        .ui.selection.animated.list
-                            each top_services
-                                a.item(href="/service/#{_id}/")
-                                    img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
-                                    |#{title}
-                .column
-                    .ui.segment
-                        a.ui.center.aligned.header(href="/users")
-                            +i name='groups' cl='ui avatar image'
-                            |users
-                        .ui.selection.animated.list
-                            each dashboard_users
-                                a.item(href="/user/#{username}") #{username}
-                                    img.ui.avatar.image(src=user.profile.profilePic title=name)
-                                    |#{title}
-
+                    // .ui.segment
+                    a.ui.center.aligned.header(href="/users")
+                        +i name='groups' cl='ui avatar image'
+                        |users
+                    .ui.selection.animated.list
+                        each dashboard_users
+                            a.item(href="/user/#{username}") #{username}
+                                img.ui.avatar.image(src=user.profile.profilePic title=name)
+                                |#{title}
         .four.wide.column
             .ui.grey.header 
-                |advertise here
+                |advertise
             
             
             

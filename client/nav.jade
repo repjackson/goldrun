@@ -7,12 +7,11 @@ template(name='nav')
             a.item.zoomer(href='/' class="{{isActivePath '/'}}" title='food')
                 +i name='home' cl='ui avatar image'
                 // |gold run
-            //- if is_admin
-                //- .mobile.hidden
-                //-     |&nbsp;
-                //-     | home
             a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
                 +i name='search' cl='ui inline mini image'
+            a.icon.item.zoomer(href='/stats' class="{{isActivePath '/stats'}}" title='stats')
+                +i name='line-chart' cl='ui inline mini image'
+            
         .right.menu
             // if is_admin
             //     a.item(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks')
@@ -20,8 +19,8 @@ template(name='nav')
             //     a.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='delta')
             //         +i name='database' cl='ui inline mini image'
             if currentUser
-                a.icon.item(href="/alerts" class="{{isActivePath '/alerts'}}")
-                    i.bell.icon
+                a.icon.disabled.item(href="/alerts" class="{{isActivePath '/alerts'}}")
+                    i.bell.outline.icon
                 a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
                     | {{fixed currentUser.credit}}c
                 a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)

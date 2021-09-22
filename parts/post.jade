@@ -5,7 +5,7 @@ template(name='posts')
                 +i name='wrench'
                 |posts
             if currentUser
-                a.ui.icon.basic.circular.button.add_post(title='cook')
+                a.ui.icon.basic.circular.button.add_post(title='add post')
                     i.plus.green.large.icon
             
             .ui.left.icon.search.small.input
@@ -87,36 +87,24 @@ template(name='set_post_limit')
 template(name='post_card')
     .ui.card(class=post_card_class)
         .image
-            img.ui.zoom.pointer.goto_post.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+            img.ui.zoom.pointer.goto_post.image(src="{{c.url image_id width=400 height=400}}")
         .content
             a.ui.header(href="/post/#{_id}/view") 
-                //- |#{_author.name}'s
                 | #{title}
-            //- if session_is 'view_tags' true
             +ismall name='tags'
             each tags
                 .ui.small.circular.label #{this}
-        //- .ui.inline.small.header tags
         .content
             .right.floated.meta
-                | {{from_now datetime_available}}
-            //- if session_is 'view_users' true
-            a(href="/user/#{cook.username}")
-                img.ui.avatar.image(src="{{c.url cook.image_id width=400 height=600 crop='fit'}}")
-                |#{cook.username}
-        //- a.image(href="/post/#{_id}/view")
-            
+                | {{from_now _timestamp}}
+            a(href="/user/#{author.username}")
+                img.ui.avatar.image(src="{{c.url author.image_id width=400 height=600 crop='fit'}}")
+                |#{author.username}
         .content    
-            |#{hourly_rate}/hr
-            |#{daily_rate}/day
             if can_edit
-                a.ui.large.icon.button(href="/post/#{_id}/edit")
+                a.ui.icon.button(href="/post/#{_id}/edit")
                     i.pencil.icon
-            .ui.green.button.quickbuy
-                i.lightning.icon
-                |buy
-            a.ui.button(href="/post/#{_id}/view")
-                |view
+            a.ui.basic.icon.button(href="/post/#{_id}")
                 i.right.chevron.icon
 
 

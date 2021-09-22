@@ -404,38 +404,38 @@ if Meteor.isClient
     Template.task_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
-    Template.task_history.onCreated ->
-        @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
-    Template.task_history.helpers
-        task_events: ->
-            Docs.find
-                model:'log_event'
-                parent_id:Router.current().params.doc_id
+    # Template.task_history.onCreated ->
+    #     @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
+    # Template.task_history.helpers
+    #     task_events: ->
+    #         Docs.find
+    #             model:'log_event'
+    #             parent_id:Router.current().params.doc_id
 
 
-    Template.task_subscription.onCreated ->
-        # @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
-    Template.task_subscription.events
-        'click .subscribe': ->
-            Docs.insert
-                model:'log_event'
-                log_type:'subscribe'
-                parent_id:Router.current().params.doc_id
-                text: "#{Meteor.user().username} subscribed to task order."
+    # Template.task_subscription.onCreated ->
+    #     # @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
+    # Template.task_subscription.events
+    #     'click .subscribe': ->
+    #         Docs.insert
+    #             model:'log_event'
+    #             log_type:'subscribe'
+    #             parent_id:Router.current().params.doc_id
+    #             text: "#{Meteor.user().username} subscribed to task order."
 
 
-    Template.task_reservations.onCreated ->
-        @autorun => Meteor.subscribe 'task_reservations', Router.current().params.doc_id
-    Template.task_reservations.helpers
-        reservations: ->
-            Docs.find
-                model:'reservation'
-                task_id: Router.current().params.doc_id
-    Template.task_reservations.events
-        'click .new_reservation': ->
-            Docs.insert
-                model:'reservation'
-                task_id: Router.current().params.doc_id
+    # Template.task_reservations.onCreated ->
+    #     @autorun => Meteor.subscribe 'task_reservations', Router.current().params.doc_id
+    # Template.task_reservations.helpers
+    #     reservations: ->
+    #         Docs.find
+    #             model:'reservation'
+    #             task_id: Router.current().params.doc_id
+    # Template.task_reservations.events
+    #     'click .new_reservation': ->
+    #         Docs.insert
+    #             model:'reservation'
+    #             task_id: Router.current().params.doc_id
 
 
 if Meteor.isServer

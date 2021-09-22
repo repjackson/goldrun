@@ -241,25 +241,25 @@ if Meteor.isServer
         if doc_limit
             limit = doc_limit
         else
-            limit = 10
+            limit = 20
         if doc_sort_key
             sort_key = doc_sort_key
         if doc_sort_direction
             sort_direction = parseInt(doc_sort_direction)
         self = @
         match = {model:'task'}
-        if view_open
-            match.open = $ne:false
-        if view_delivery
-            match.delivery = $ne:false
-        if view_pickup
-            match.pickup = $ne:false
-        if picked_tags.length > 0
-            match.tags = $all: picked_tags
-            sort = 'price_per_serving'
-        else
+        # if view_open
+        #     match.open = $ne:false
+        # if view_delivery
+        #     match.delivery = $ne:false
+        # if view_pickup
+        #     match.pickup = $ne:false
+        # if picked_tags.length > 0
+        #     match.tags = $all: picked_tags
+        #     sort = 'price_per_serving'
+        sort = '_timestamp'
+        # else
             # match.tags = $nin: ['wikipedia']
-            sort = '_timestamp'
             # match.source = $ne:'wikipedia'
         # if view_images
         #     match.is_image = $ne:false
@@ -279,9 +279,9 @@ if Meteor.isServer
         console.log 'sort key', sort_key
         console.log 'sort direction', sort_direction
         Docs.find match,
-            sort:"#{sort_key}":sort_direction
-            # sort:_timestamp:-1
-            limit: limit
+            # sort:"#{sort_key}":sort_direction
+            sort:_timestamp:-1
+            limit: 20
 
     Meteor.publish 'task_facets', (
         picked_tags

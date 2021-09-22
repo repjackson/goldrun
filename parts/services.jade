@@ -222,3 +222,25 @@ template(name='service_edit')
                     +boolean_edit key='has_monthly' label='has monthly' direct=true
                     if has_monthly
                         +number_edit key='monthly_rate' label='monthly rate' icon='calendar' direct=true
+
+
+template(name='user_services')
+    .scrolling
+        each services
+            +profile_service_item
+
+template(name='profile_service_item')
+    .ui.segment.grid
+        .row
+            .four.wide.column
+                +image_view key='image_id' direct=true cl='zoom ui tiny image'
+            .twelve.wide.column
+                .ui.header #{title}
+                a.ui.small.header.inline.lowercase(href="/service/#{_id}/")
+                    |#{price_per_serving}c / #{serving_unit}
+                .ui.small.inline.header #{when}
+                a.ui.button(href="/service/#{_id}/")
+                    |view
+                    i.right.chevron.icon
+                if is_admin
+                    +remove_button

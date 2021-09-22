@@ -6,11 +6,19 @@ template(name='home')
                     +latest_activity
                 .column
                     .ui.segment
-                        a.ui.center.aligned.header(href="/food")
+                        a.ui.center.aligned.header(href="/polls")
                             +i name='poll' cl='ui avatar image'
                             |polls
                         with latest_poll
                             +take_poll
+                .column
+                    .ui.segment
+                        a.ui.center.aligned.header(href="/questions")
+                            +i name='what' cl='ui avatar image'
+                            |questions
+                        with questions
+                            a(href="/question/#{_id}")
+                                |#{title}
                 .column
                     .ui.segment
                         a.ui.center.aligned.header(href="/gym")

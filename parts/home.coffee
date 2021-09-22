@@ -7,6 +7,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'current_poll', ->
     Template.home.onCreated ->
         @autorun -> Meteor.subscribe 'model_docs', 'service'
+        @autorun -> Meteor.subscribe 'model_docs', 'question'
         @autorun -> Meteor.subscribe 'model_docs', 'rental'
         @autorun -> Meteor.subscribe 'model_docs', 'product'
         @autorun -> Meteor.subscribe 'model_docs', 'food'

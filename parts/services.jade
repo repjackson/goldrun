@@ -1,11 +1,11 @@
-template(name='posts')
+template(name='services')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.inline.header 
                 +i name='wrench'
-                |posts
+                |services
             if currentUser
-                a.ui.icon.basic.circular.button.add_post(title='cook')
+                a.ui.icon.basic.circular.button.add_service(title='cook')
                     i.plus.green.large.icon
             
             .ui.left.icon.search.small.input
@@ -31,13 +31,13 @@ template(name='posts')
             //-     |sort by
             //-     .ui.compact.small.menu
             //-         .ui.simple.dropdown.item
-            //-             strong #{current_post_sort_label}
+            //-             strong #{current_service_sort_label}
             //-             i.dropdown.icon
             //-             .menu
-            //-                 +set_post_sort_key key='price_per_serving' label='$/serving' icon='money'
-            //-                 +set_post_sort_key key='datetime_available' label='available' icon='clock'
-            //-                 //- +set_post_sort_key key='_timestamp' label='added' icon='clock'
-            //-                 +set_post_sort_key key='comment_count' label='comment count' icon='chat'
+            //-                 +set_service_sort_key key='price_per_serving' label='$/serving' icon='money'
+            //-                 +set_service_sort_key key='datetime_available' label='available' icon='clock'
+            //-                 //- +set_service_sort_key key='_timestamp' label='added' icon='clock'
+            //-                 +set_service_sort_key key='comment_count' label='comment count' icon='chat'
             //-     .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
             //-         if sorting_up
             //-             i.sort.amount.down.icon
@@ -49,19 +49,19 @@ template(name='posts')
             //-     //-     |show
             //-     //- .ui.compact.menu
             //-     //-     .ui.simple.dropdown.item
-            //-     //-         strong #{post_limit}
+            //-     //-         strong #{service_limit}
             //-     //-         i.dropdown.icon
             //-     //-         .menu
-            //-     //-             +set_post_limit amount=1
-            //-     //-             +set_post_limit amount=5
-            //-     //-             +set_post_limit amount=10
-            //-     //-             +set_post_limit amount=20
+            //-     //-             +set_service_limit amount=1
+            //-     //-             +set_service_limit amount=5
+            //-     //-             +set_service_limit amount=10
+            //-     //-             +set_service_limit amount=20
             //- .spacer 
             .ui.stackable.four.cards
-                each post_docs
-                    +post_card
+                each service
+                    +service_card
 
-template(name='set_post_sort_key')
+template(name='set_service_sort_key')
     .item.set_sort
         if color
             .ui.label(class=color) #{label}
@@ -73,23 +73,22 @@ template(name='set_post_sort_key')
             |#{label}
         
 
-template(name='set_view_mode_post')
+template(name='set_view_mode_service')
     .item.set_view
         i.icon(class=icon)
         |#{title}
 
 
-template(name='set_post_limit')
+template(name='set_service_limit')
     .item.set_limit #{amount}
 
 
-
-template(name='post_card')
-    .ui.card(class=post_card_class)
+template(name='service_card')
+    .ui.card(class=service_card_class)
         .image
-            img.ui.zoom.pointer.goto_post.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+            img.ui.zoom.pointer.goto_service.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
-            a.ui.header(href="/post/#{_id}/view") 
+            a.ui.header(href="/service/#{_id}/view") 
                 //- |#{_author.name}'s
                 | #{title}
             //- if session_is 'view_tags' true
@@ -104,34 +103,34 @@ template(name='post_card')
             a(href="/user/#{cook.username}")
                 img.ui.avatar.image(src="{{c.url cook.image_id width=400 height=600 crop='fit'}}")
                 |#{cook.username}
-        //- a.image(href="/post/#{_id}/view")
+        //- a.image(href="/service/#{_id}/view")
             
         .content    
             |#{hourly_rate}/hr
             |#{daily_rate}/day
             if can_edit
-                a.ui.large.icon.button(href="/post/#{_id}/edit")
+                a.ui.large.icon.button(href="/service/#{_id}/edit")
                     i.pencil.icon
             .ui.green.button.quickbuy
                 i.lightning.icon
                 |buy
-            a.ui.button(href="/post/#{_id}/view")
+            a.ui.button(href="/service/#{_id}/view")
                 |view
                 i.right.chevron.icon
 
 
-template(name='post_view')
+template(name='service_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    a.ui.fluid.basic.button(href="/posts")
+                    a.ui.fluid.basic.button(href="/services")
                         i.left.chevron.icon
                         +i name='wrench' cl='ui inline avatar image'
-                        |posts
-                    .ui.header view post
+                        |services
+                    .ui.header view service
                     if can_edit
-                        a.ui.big.fluid.button(href="/post/#{_id}/edit")
+                        a.ui.big.fluid.button(href="/service/#{_id}/edit")
                             i.pencil.icon
                             |edit
                     +image_view key='image_id' label='image' direct=true
@@ -145,25 +144,25 @@ template(name='post_view')
                     +text_view key='contact_info' label='contact info' icon='info' direct=true
                     div
                     +comments
-                    +post_reservations
+                    +service_reservations
                 .four.wide.column 
                     +number_view key='hourly_rate' label='hourly rate' icon='money' direct=true
                     div
-                    +post_history
-                    //- +post_subscription
+                    +service_history
+                    //- +service_subscription
                     //- +multi_user_view key='associated_members' label='associated members' icon='groups' direct=true
 
                     
                 
-template(name='post_history')
+template(name='service_history')
     +ismall name='rss'
     .ui.inline.header
         |activity
     .ui.list
-        each post_events
+        each service_events
             .item #{text} #{when}
             
-template(name='post_subscription')
+template(name='service_subscription')
     //- +ismall name='renew-subscription'
     //- .ui.inline.header
     //-     |subscription settings
@@ -172,10 +171,10 @@ template(name='post_subscription')
         each subscribers
             .item #{text} #{when}
             
-template(name='post_reservations')
+template(name='service_reservations')
     .ui.header
         +ismall name='invoice'
-        |post reservations
+        |service reservations
     .ui.button.new_reservation
         |new reservation
     each reservations
@@ -186,20 +185,22 @@ template(name='post_reservations')
             +edit_button
 
 
-template(name='post_edit')
+template(name='service_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
                     .ui.header 
-                        |edit post
-                    a.ui.big.icon.fluid.button(href="/post/#{_id}/view" title='save')
-                        i.checkmark.big.icon
+                        |edit service
+                    a.ui.big.fluid.button(href="/service/#{_id}/view" title='save')
+                        .ui.small.header
+                            i.checkmark.green.large.icon
+                            | save
                     +remove_button
                     +image_edit key='image' label='image' direct=true
                 .eight.wide.column 
                     +text_edit key='title' direct=true
-                    +html_edit key='description' label='content' icon='content' direct=true
+                    +textarea_edit key='description' label='content' icon='content' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     +text_edit key='contact_info' label='contact info' icon='info' direct=true

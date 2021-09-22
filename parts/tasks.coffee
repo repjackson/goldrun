@@ -1,43 +1,43 @@
 if Meteor.isClient
-    Router.route '/services', (->
+    Router.route '/tasks', (->
         @layout 'layout'
-        @render 'services'
-        ), name:'services'
+        @render 'tasks'
+        ), name:'tasks'
 
 
-    Template.services.onCreated ->
+    Template.tasks.onCreated ->
         Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'service_sort_key', 'datetime_available'
-        Session.setDefault 'service_sort_label', 'available'
-        Session.setDefault 'service_limit', 5
+        Session.setDefault 'task_sort_key', 'datetime_available'
+        Session.setDefault 'task_sort_label', 'available'
+        Session.setDefault 'task_limit', 5
         Session.setDefault 'view_open', true
 
-    Template.services.onCreated ->
-        @autorun => @subscribe 'service_facets',
+    Template.tasks.onCreated ->
+        @autorun => @subscribe 'task_facets',
             picked_tags.array()
-            Session.get('service_limit')
-            Session.get('service_sort_key')
-            Session.get('service_sort_direction')
+            Session.get('task_limit')
+            Session.get('task_sort_key')
+            Session.get('task_sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
 
-        @autorun => @subscribe 'service_results',
+        @autorun => @subscribe 'task_results',
             picked_tags.array()
-            Session.get('service_limit')
-            Session.get('service_sort_key')
-            Session.get('service_sort_direction')
+            Session.get('task_limit')
+            Session.get('task_sort_key')
+            Session.get('task_sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
 
 
-    Template.services.events
-        'click .add_service': ->
+    Template.tasks.events
+        'click .add_task': ->
             new_id =
                 Docs.insert
-                    model:'service'
-            Router.go("/service/#{new_id}/edit")
+                    model:'task'
+            Router.go("/task/#{new_id}/edit")
 
 
         'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
@@ -77,8 +77,8 @@ if Meteor.isClient
                     # , 10000
         , 1000)
 
-        'click .calc_service_count': ->
-            Meteor.call 'calc_service_count', ->
+        'click .calc_task_count': ->
+            Meteor.call 'calc_task_count', ->
 
         # 'keydown #search': _.throttle((e,t)->
         #     if e.which is 8
@@ -96,18 +96,18 @@ if Meteor.isClient
 
 
         'click .set_sort_direction': ->
-            if Session.get('service_sort_direction') is -1
-                Session.set('service_sort_direction', 1)
+            if Session.get('task_sort_direction') is -1
+                Session.set('task_sort_direction', 1)
             else
-                Session.set('service_sort_direction', -1)
+                Session.set('task_sort_direction', -1)
 
 
-    Template.services.helpers
-        quickbuying_service: ->
+    Template.tasks.helpers
+        quickbuying_task: ->
             Docs.findOne Session.get('quickbuying_id')
 
         sorting_up: ->
-            parseInt(Session.get('service_sort_direction')) is 1
+            parseInt(Session.get('task_sort_direction')) is 1
 
         toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
         toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
@@ -125,10 +125,10 @@ if Meteor.isClient
             # if Session.get('current_query') and Session.get('current_query').length > 1
             #     Terms.find({}, sort:count:-1)
             # else
-            service_count = Docs.find().count()
-            # console.log 'service count', service_count
-            if service_count < 3
-                Tags.find({count: $lt: service_count})
+            task_count = Docs.find().count()
+            # console.log 'task count', task_count
+            if task_count < 3
+                Tags.find({count: $lt: task_count})
             else
                 Tags.find()
 
@@ -144,13 +144,13 @@ if Meteor.isClient
 
         one_post: ->
             Docs.find().count() is 1
-        service: ->
+        task: ->
             # if picked_tags.array().length > 0
             Docs.find {
-                model:'service'
+                model:'task'
             },
-                sort: "#{Session.get('service_sort_key')}":parseInt(Session.get('service_sort_direction'))
-                limit:Session.get('service_limit')
+                sort: "#{Session.get('task_sort_key')}":parseInt(Session.get('task_sort_direction'))
+                limit:Session.get('task_limit')
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
@@ -170,23 +170,23 @@ if Meteor.isClient
                 sort: count:-1
                 # limit:1
 
-        service_limit: ->
-            Session.get('service_limit')
+        task_limit: ->
+            Session.get('task_limit')
 
-        current_service_sort_label: ->
-            Session.get('service_sort_label')
+        current_task_sort_label: ->
+            Session.get('task_sort_label')
 
 
-    # Template.set_service_limit.events
+    # Template.set_task_limit.events
     #     'click .set_limit': ->
     #         console.log @
-    #         Session.set('service_limit', @amount)
+    #         Session.set('task_limit', @amount)
 
-    Template.set_service_sort_key.events
+    Template.set_task_sort_key.events
         'click .set_sort': ->
             console.log @
-            Session.set('service_sort_key', @key)
-            Session.set('service_sort_label', @label)
+            Session.set('task_sort_key', @key)
+            Session.set('task_sort_label', @label)
 
     Template.session_edit_value_button.events
         'click .set_session_value': ->
@@ -228,7 +228,7 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'service_results', (
+    Meteor.publish 'task_results', (
         picked_tags
         doc_limit
         doc_sort_key
@@ -247,7 +247,7 @@ if Meteor.isServer
         if doc_sort_direction
             sort_direction = parseInt(doc_sort_direction)
         self = @
-        match = {model:'service'}
+        match = {model:'task'}
         if view_open
             match.open = $ne:false
         if view_delivery
@@ -275,7 +275,7 @@ if Meteor.isServer
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
 
-        console.log 'service match', match
+        console.log 'task match', match
         console.log 'sort key', sort_key
         console.log 'sort direction', sort_direction
         Docs.find match,
@@ -283,7 +283,7 @@ if Meteor.isServer
             # sort:_timestamp:-1
             limit: limit
 
-    Meteor.publish 'service_facets', (
+    Meteor.publish 'task_facets', (
         picked_tags
         selected_timestamp_tags
         query
@@ -300,7 +300,7 @@ if Meteor.isServer
 
         self = @
         match = {}
-        match.model = 'service'
+        match.model = 'task'
         if view_open
             match.open = $ne:false
 
@@ -384,3 +384,81 @@ if Meteor.isServer
 
 
         self.ready()
+
+
+
+Router.route '/task/:doc_id/view', (->
+    @render 'task_view'
+    ), name:'task_view_long'
+Router.route '/task/:doc_id', (->
+    @render 'task_view'
+    ), name:'task_view'
+Router.route '/task/:doc_id/edit', (->
+    @render 'task_edit'
+    ), name:'task_edit'
+
+
+if Meteor.isClient
+    Template.task_view.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.task_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+
+    Template.task_history.onCreated ->
+        @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
+    Template.task_history.helpers
+        task_events: ->
+            Docs.find
+                model:'log_event'
+                parent_id:Router.current().params.doc_id
+
+
+    Template.task_subscription.onCreated ->
+        # @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
+    Template.task_subscription.events
+        'click .subscribe': ->
+            Docs.insert
+                model:'log_event'
+                log_type:'subscribe'
+                parent_id:Router.current().params.doc_id
+                text: "#{Meteor.user().username} subscribed to task order."
+
+
+    Template.task_reservations.onCreated ->
+        @autorun => Meteor.subscribe 'task_reservations', Router.current().params.doc_id
+    Template.task_reservations.helpers
+        reservations: ->
+            Docs.find
+                model:'reservation'
+                task_id: Router.current().params.doc_id
+    Template.task_reservations.events
+        'click .new_reservation': ->
+            Docs.insert
+                model:'reservation'
+                task_id: Router.current().params.doc_id
+
+
+if Meteor.isServer
+    Meteor.publish 'task_reservations', (task_id)->
+        Docs.find
+            model:'reservation'
+            task_id: task_id
+
+
+
+    Meteor.methods
+        calc_task_stats: ->
+            task_stat_doc = Docs.findOne(model:'task_stats')
+            unless task_stat_doc
+                new_id = Docs.insert
+                    model:'task_stats'
+                task_stat_doc = Docs.findOne(model:'task_stats')
+            console.log task_stat_doc
+            total_count = Docs.find(model:'task').count()
+            complete_count = Docs.find(model:'task', complete:true).count()
+            incomplete_count = Docs.find(model:'task', complete:$ne:true).count()
+            Docs.update task_stat_doc._id,
+                $set:
+                    total_count:total_count
+                    complete_count:complete_count
+                    incomplete_count:incomplete_count

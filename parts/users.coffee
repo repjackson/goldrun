@@ -2,7 +2,7 @@ if Meteor.isClient
     Router.route '/users', -> @render 'users'
 
     Template.users.onCreated ->
-        # @autorun -> Meteor.subscribe('users')
+        @autorun -> Meteor.subscribe('users')
         @autorun => Meteor.subscribe 'user_search', Session.get('username_query')
     Template.users.helpers
         user_docs: ->
@@ -11,10 +11,10 @@ if Meteor.isClient
                 Meteor.users.find({
                     username: {$regex:"#{username_query}", $options: 'i'}
                     # roles:$in:['resident','owner']
-                    },{ limit:20 }).fetch()
+                    },{ limit:20 })
             else
                 Meteor.users.find({
-                    },{ limit:20 }).fetch()
+                    },{ limit:20 })
 
     Template.users.events
         'click .add_user': ->
@@ -46,17 +46,6 @@ if Meteor.isServer
 
 
     Meteor.publish 'user_search', (username, role)->
-        if role
-            if username
-                Meteor.users.find({
-                    username: {$regex:"#{username}", $options: 'i'}
-                    roles:$in:[role]
-                },{ limit:20})
-            else
-                Meteor.users.find({
-                    roles:$in:[role]
-                },{ limit:20})
-        else
-            Meteor.users.find({
-                username: {$regex:"#{username}", $options: 'i'}
-            },{ limit:20})
+        match = {}
+        if username.length > 0 then match.username = {$regex:"#{username}", $options: 'i'}
+        Meteor.users.find(match,{limit:20})

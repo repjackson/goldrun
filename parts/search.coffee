@@ -10,10 +10,17 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'search_results', Session.get('query')
 
     Template.search.events
-        'keyup .global_search': (e,t)->
-            val = $('.global_search').val()
-            console.log val
-            Session.set('query',val)
+        'click .clear_query': (e,t)-> 
+            Session.set('query', null)
+        'keyup .global_search': _.throttle((e,t)->
+            if e.which is 27
+                Session.set('query', null)
+            else 
+                val = $('.global_search').val()
+                console.log val
+                Session.set('query',val)
+        , 500)    
+            
             
     Template.search.helpers
         current_query: -> Session.get('query')

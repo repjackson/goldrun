@@ -61,12 +61,3 @@ template(name='reservation_events')
 
     
     
-template(name='key_value_edit')
-    if key_value_is key 'sort_key'
-        if sorting_up
-            i.sort.amount.down.icon
-        else
-            i.sort.amount.up.icon
-    
-    .ui.button.set_key_value(class=set_key_value_class)
-        |#{label}

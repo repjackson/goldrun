@@ -11,6 +11,8 @@ Template.registerHelper 'rental', () ->
 
 Template.registerHelper 'active_path', (metric) ->
     false
+Template.registerHelper 'sorting_up', () ->
+    parseInt(Session.get('sort_direction')) is 1
 
 Template.registerHelper 'user_from_id', (id)->
     Meteor.users.findOne id

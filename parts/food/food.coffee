@@ -106,8 +106,6 @@ if Meteor.isClient
         quickbuying_food: ->
             Docs.findOne Session.get('quickbuying_id')
 
-        sorting_up: ->
-            parseInt(Session.get('food_sort_direction')) is 1
 
         toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
         toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''

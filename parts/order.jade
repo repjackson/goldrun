@@ -66,3 +66,41 @@ template(name='order_view')
                     .ui.header seller #{_author_username}
                     with _author
                         +user_card
+
+
+template(name='order_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .five.wide.column
+                .ui.header editing order
+                .ui.header #{title}
+                +array_edit key='tags' 
+                // +float_edit key='serving_purchase_price' label='serving purchase price' direct=true
+                // +float_edit key='cook_tip' label='cook tip' direct=true
+                .ui.header $#{order_total_transaction_amount} 
+                    small total transaction amount
+                .ui.header product 
+                with order_product
+                    .ui.small.header #{title}
+                    +image_edit key='image_id' direct=true
+                    +textarea_edit key='description' direct=true
+            .five.wide.column
+                a.ui.large.fluid.green.button(href="/order/#{_id}/view")
+                    i.checkmark.icon   
+                    |save     
+                if can_delete
+                    .ui.red.button.delete_order
+                        i.remove.icon   
+                        |cancel and delete
+                else  
+                    .ui.red.disabled.button(title='existing reservations')
+                        i.remove.icon   
+                        | can't cancel  
+                .ui.header delivery method
+                +key_value_edit key='delivery_method' value='delivery' color_icon='deliver-food'
+                +key_value_edit key='delivery_method' value='pickup' color_icon='doormat'
+
+                if key_value_is 'delivery_method' 'delivery'
+                    +datetime_edit key='delivery_timedate' label='delivery timedate' direct=true
+                if key_value_is 'delivery_method' 'pickup'
+                    +datetime_edit key='pickup_timedate' label='pickup timedate' direct=true

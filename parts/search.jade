@@ -1,0 +1,8 @@
+template(name='search')
+    .ui.stackable.padded.grid 
+        .sixteen.wide.column
+            .ui.big.fluid.icon.input 
+                i.search.icon
+                input.global_search(type='text')
+            each results
+                .ui.header #{title}

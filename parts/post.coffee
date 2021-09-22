@@ -6,27 +6,27 @@ if Meteor.isClient
 
 
     Template.posts.onCreated ->
-        Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'post_sort_key', 'datetime_available'
-        Session.setDefault 'post_sort_label', 'available'
-        Session.setDefault 'post_limit', 5
+        Session.setDefault 'view_mode', 'grid'
+        Session.setDefault 'sort_key', '_timestamp'
+        # Session.setDefault 'post_sort_label', 'complete'
+        Session.setDefault 'limit', 5
         Session.setDefault 'view_open', true
 
     Template.posts.onCreated ->
         @autorun => @subscribe 'post_facets',
             picked_tags.array()
-            Session.get('post_limit')
-            Session.get('post_sort_key')
-            Session.get('post_sort_direction')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
 
         @autorun => @subscribe 'post_results',
             picked_tags.array()
-            Session.get('post_limit')
-            Session.get('post_sort_key')
-            Session.get('post_sort_direction')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
@@ -96,10 +96,10 @@ if Meteor.isClient
 
 
         'click .set_sort_direction': ->
-            if Session.get('post_sort_direction') is -1
-                Session.set('post_sort_direction', 1)
+            if Session.get('sort_direction') is -1
+                Session.set('sort_direction', 1)
             else
-                Session.set('post_sort_direction', -1)
+                Session.set('sort_direction', -1)
 
 
     Template.posts.helpers
@@ -107,7 +107,7 @@ if Meteor.isClient
             Docs.findOne Session.get('quickbuying_id')
 
         sorting_up: ->
-            parseInt(Session.get('post_sort_direction')) is 1
+            parseInt(Session.get('sort_direction')) is 1
 
         toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
         toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
@@ -149,8 +149,8 @@ if Meteor.isClient
             Docs.find {
                 model:'post'
             },
-                sort: "#{Session.get('post_sort_key')}":parseInt(Session.get('post_sort_direction'))
-                limit:Session.get('post_limit')
+                sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+                limit:Session.get('limit')
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
@@ -170,61 +170,13 @@ if Meteor.isClient
                 sort: count:-1
                 # limit:1
 
-        post_limit: ->
-            Session.get('post_limit')
+        limit: ->
+            Session.get('limit')
 
         current_post_sort_label: ->
             Session.get('post_sort_label')
 
 
-    # Template.set_post_limit.events
-    #     'click .set_limit': ->
-    #         console.log @
-    #         Session.set('post_limit', @amount)
-
-    Template.set_post_sort_key.events
-        'click .set_sort': ->
-            console.log @
-            Session.set('post_sort_key', @key)
-            Session.set('post_sort_label', @label)
-
-    Template.session_edit_value_button.events
-        'click .set_session_value': ->
-            # console.log @key
-            # console.log @value
-            Session.set(@key, @value)
-
-    Template.session_edit_value_button.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.equals(@key,@value)
-                res += ' active'
-            # console.log res
-            res
-
-
-
-    Template.session_boolean_toggle.events
-        'click .toggle_session_key': ->
-            console.log @key
-            Session.set(@key, !Session.get(@key))
-
-    Template.session_boolean_toggle.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.get(@key)
-                res += ' blue'
-            else
-                res += ' basic'
-
-            # console.log res
-            res
 
 
 if Meteor.isServer
@@ -248,15 +200,11 @@ if Meteor.isServer
             sort_direction = parseInt(doc_sort_direction)
         self = @
         match = {model:'post'}
-        if view_open
-            match.open = $ne:false
-        if view_delivery
-            match.delivery = $ne:false
-        if view_pickup
-            match.pickup = $ne:false
+        # if view_pickup
+        #     match.pickup = $ne:false
         if picked_tags.length > 0
             match.tags = $all: picked_tags
-            sort = 'price_per_serving'
+            sort = '_timestamp'
         else
             # match.tags = $nin: ['wikipedia']
             sort = '_timestamp'
@@ -279,8 +227,8 @@ if Meteor.isServer
         console.log 'sort key', sort_key
         console.log 'sort direction', sort_direction
         Docs.find match,
-            # sort:"#{sort_key}":sort_direction
-            sort:_timestamp:-1
+            sort:"#{sort_key}":sort_direction
+            # sort:_timestamp:-1
             limit: limit
 
     Meteor.publish 'post_facets', (
@@ -401,45 +349,14 @@ if Meteor.isClient
     Template.post_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
-    Template.post_history.onCreated ->
-        @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
-    Template.post_history.helpers
-        post_events: ->
-            Docs.find
-                model:'log_event'
-                parent_id:Router.current().params.doc_id
 
-
-    Template.post_subscription.onCreated ->
-        # @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
-    Template.post_subscription.events
-        'click .subscribe': ->
-            Docs.insert
-                model:'log_event'
-                log_type:'subscribe'
-                parent_id:Router.current().params.doc_id
-                text: "#{Meteor.user().username} subscribed to post order."
-
-
-    Template.post_reservations.onCreated ->
-        @autorun => Meteor.subscribe 'post_reservations', Router.current().params.doc_id
-    Template.post_reservations.helpers
-        reservations: ->
-            Docs.find
-                model:'reservation'
-                post_id: Router.current().params.doc_id
-    Template.post_reservations.events
-        'click .new_reservation': ->
-            Docs.insert
-                model:'reservation'
-                post_id: Router.current().params.doc_id
 
 
 if Meteor.isServer
-    Meteor.publish 'post_reservations', (post_id)->
-        Docs.find
-            model:'reservation'
-            post_id: post_id
+    # Meteor.publish 'post_reservations', (post_id)->
+    #     Docs.find
+    #         model:'reservation'
+    #         post_id: post_id
 
 
 

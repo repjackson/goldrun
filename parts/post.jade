@@ -24,40 +24,38 @@ template(name='posts')
             .spacer
             
         .twelve.wide.column
-            //- .sorting_row
-            //-     .ui.icon.input
-            //-         i.search.icon
-            //-         input.tag_search(type='text' placeholder='search...')
-            //-     |sort by
-            //-     .ui.compact.small.menu
-            //-         .ui.simple.dropdown.item
-            //-             strong #{current_post_sort_label}
-            //-             i.dropdown.icon
-            //-             .menu
-            //-                 +set_post_sort_key key='price_per_serving' label='$/serving' icon='money'
-            //-                 +set_post_sort_key key='datetime_available' label='available' icon='clock'
-            //-                 //- +set_post_sort_key key='_timestamp' label='added' icon='clock'
-            //-                 +set_post_sort_key key='comment_count' label='comment count' icon='chat'
-            //-     .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
-            //-         if sorting_up
-            //-             i.sort.amount.down.icon
-            //-         else
-            //-             i.sort.amount.up.icon
-            //-     |&nbsp;
-            //-     |&nbsp;
-            //-     //- .ui.inline.small.grey.header
-            //-     //-     |show
-            //-     //- .ui.compact.menu
-            //-     //-     .ui.simple.dropdown.item
-            //-     //-         strong #{post_limit}
-            //-     //-         i.dropdown.icon
-            //-     //-         .menu
-            //-     //-             +set_post_limit amount=1
-            //-     //-             +set_post_limit amount=5
-            //-     //-             +set_post_limit amount=10
-            //-     //-             +set_post_limit amount=20
-            //- .spacer 
-            .ui.stackable.four.cards
+            .sorting_row
+                .ui.icon.input
+                    i.search.icon
+                    input.tag_search(type='text' placeholder='search...')
+                |sort by
+                // .ui.compact.small.menu
+                //     .ui.simple.dropdown.item
+                //         strong #{current_post_sort_label}
+                //         i.dropdown.icon
+                //         .menu
+                +key_value_edit key='sort_key' value='_timestamp' label='added' icon='clock'
+                +key_value_edit key='sort_key' value='comment_count' label='comment count' icon='chat'
+                .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
+                    if sorting_up
+                        i.sort.amount.down.icon
+                    else
+                        i.sort.amount.up.icon
+                |&nbsp;
+                |&nbsp;
+                //.ui.inline.small.grey.header
+                //    |show
+                //.ui.compact.menu
+                //    .ui.simple.dropdown.item
+                //        strong #{post_limit}
+                //        i.dropdown.icon
+                //        .menu
+                //            +set_post_limit amount=1
+                //            +set_post_limit amount=5
+                //            +set_post_limit amount=10
+                //            +set_post_limit amount=20
+            .spacer 
+            .ui.stackable.three.cards
                 each post_docs
                     +post_card
 
@@ -91,6 +89,7 @@ template(name='post_card')
         .content
             a.ui.header(href="/post/#{_id}/view") 
                 | #{title}
+            |!{body}
             +ismall name='tags'
             each tags
                 .ui.small.circular.label #{this}
@@ -113,99 +112,42 @@ template(name='post_view')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    a.ui.fluid.basic.button(href="/posts")
+                    a.ui.compact.basic.button(href="/posts")
                         i.left.chevron.icon
-                        +i name='wrench' cl='ui inline avatar image'
+                        +i name='blog' cl='ui inline avatar image'
                         |posts
-                    .ui.header view post
+                    .ui.header 
+                        small viewing post
+                        strong #{title}
                     if can_edit
-                        a.ui.big.fluid.button(href="/post/#{_id}/edit")
-                            i.pencil.icon
-                            |edit
+                        a.ui.big.icon.button(href="/post/#{_id}/edit")
+                            i.pencil.big.icon
                     +image_view key='image_id' label='image' direct=true
-                    //- +voting_full
-                    //- +viewing
+                    +voting_full
+                    +viewing
                 .eight.wide.column
                     h1.ui.header #{title} 
-                    +textarea_view key='description' icon='content' label='description' direct=true
+                    +html_view key='body' icon='content' label='body' direct=true
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +array_view key='tags' label='tags' icon='tags' direct=true
-                    +text_view key='contact_info' label='contact info' icon='info' direct=true
                     div
                     +comments
-                    +post_reservations
-                .four.wide.column 
-                    +number_view key='hourly_rate' label='hourly rate' icon='money' direct=true
-                    div
-                    +post_history
-                    //- +post_subscription
-                    //- +multi_user_view key='associated_members' label='associated members' icon='groups' direct=true
-
-                    
                 
-template(name='post_history')
-    +ismall name='rss'
-    .ui.inline.header
-        |activity
-    .ui.list
-        each post_events
-            .item #{text} #{when}
-            
-template(name='post_subscription')
-    //- +ismall name='renew-subscription'
-    //- .ui.inline.header
-    //-     |subscription settings
-    .ui.button.subscribe subscribe to updates
-    .ui.list
-        each subscribers
-            .item #{text} #{when}
-            
-template(name='post_reservations')
-    .ui.header
-        +ismall name='invoice'
-        |post reservations
-    .ui.button.new_reservation
-        |new reservation
-    each reservations
-        .ui.segment
-            .ui.header #{when}
-            .ui.header by #{_author_username}
-            +view_button
-            +edit_button
-
 
 template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
+                .six.wide.column
                     .ui.header 
-                        |edit post
-                    a.ui.big.icon.fluid.button(href="/post/#{_id}/view" title='save')
+                        small editing post
+                        strong #{title}
+                    a.ui.big.icon.green.button(href="/post/#{_id}" title='save')
                         i.checkmark.big.icon
                     +remove_button
                     +image_edit key='image' label='image' direct=true
-                .eight.wide.column 
+                .ten.wide.column 
                     +text_edit key='title' direct=true
-                    +html_edit key='description' label='content' icon='content' direct=true
+                    +html_edit key='body' label='body' icon='content' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    +text_edit key='contact_info' label='contact info' icon='info' direct=true
-                .four.wide.column 
-                    //- +boolean_edit key='set_duration' label='set duration' direct=true
-                    //- if set_duration
-                    //-     +number_edit key='duration_hours' label='duration hours' direct=true
-            
-                    +single_user_edit key='_author_username' label='author username' direct=true
-                    +boolean_edit key='has_hourly' label='has hourly' direct=true
-                    if has_hourly
-                        +number_edit key='hourly_rate' label='hourly rate' icon='money' direct=true
-                    +boolean_edit key='has_daily' label='has daily' direct=true
-                    if has_daily
-                        +number_edit key='daily_rate' label='daily rate' icon='calendar' direct=true
-                    +boolean_edit key='has_weekly' label='has weekly' direct=true
-                    if has_weekly
-                        +number_edit key='weekly_rate' label='weekly rate' icon='calendar' direct=true
-                    +boolean_edit key='has_monthly' label='has monthly' direct=true
-                    if has_monthly
-                        +number_edit key='monthly_rate' label='monthly rate' icon='calendar' direct=true

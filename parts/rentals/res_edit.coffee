@@ -13,15 +13,22 @@ if Meteor.isClient
 
     Template.key_value_edit.events
         'click .set_key_value': ->
-            parent = Template.parentData()
-            Docs.update parent._id,
-                $set: "#{@key}": @value
+            console.log 'hi'
+            # parent = Template.parentData()
+            # Docs.update parent._id,
+            #     $set: "#{@key}": @value
+            if Session.equals('sort_direction',-1)
+                Session.set('sort_direction',1)
+            else 
+                Session.set('sort_direction',-1)
+            Session.set("#{@key}",@value)
 
     Template.key_value_edit.helpers
         set_key_value_class: ->
             parent = Template.parentData()
             # console.log parent
-            if parent["#{@key}"] is @value then 'active' else ''
+            # if parent["#{@key}"] is @value then 'active' else ''
+            if Session.equals("#{@key}",@value) then 'active' else ''
 
 
     Template.reservation_edit.helpers

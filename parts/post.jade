@@ -77,12 +77,13 @@ template(name='post_card')
         a.image.zoomer(href="/post/#{_id}")
             img.ui.zoom.pointer.goto_post.image(src="{{c.url image_id width=400 height=400}}")
         .content
-            a.ui.header(href="/post/#{_id}/") 
+            a.ui.small.header.zoomer(href="/post/#{_id}/") 
                 | #{title}
-            |!{body}
+            a.zoomer(href="/post/#{_id}/") 
+                |!{body}
             +ismall name='tags'
             each tags
-                .ui.small.circular.label #{this}
+                .ui.small.basic.label #{this}
         .content
             .right.floated.meta
                 | {{from_now _timestamp}}
@@ -117,7 +118,7 @@ template(name='post_view')
                 .eight.wide.column
                     h1.ui.header #{title} 
                     +image_view key='image_id' label='image' direct=true
-                    .f8
+                    .f6
                         +html_view key='body' icon='content' label='body' direct=true
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +array_view key='tags' label='tags' icon='tags' direct=true

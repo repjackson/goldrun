@@ -28,22 +28,21 @@ template(name='posts')
                 .ui.icon.input
                     i.search.icon
                     input.tag_search(type='text' placeholder='search...')
-                i.large.sort.icon(title='sort by')
                 +key_value_edit key='sort_key' value='_timestamp' label='added' icon='clock'
                 +key_value_edit key='sort_key' value='comment_count' label='comment count' icon='chat'
                 |&nbsp;
                 |&nbsp;
-                //.ui.inline.small.grey.header
-                //    |show
-                //.ui.compact.menu
-                //    .ui.simple.dropdown.item
-                //        strong #{post_limit}
-                //        i.dropdown.icon
-                //        .menu
-                //            +set_post_limit amount=1
-                //            +set_post_limit amount=5
-                //            +set_post_limit amount=10
-                //            +set_post_limit amount=20
+                .ui.inline.small.grey.header
+                    |show
+                .ui.compact.menu
+                    .ui.simple.dropdown.item
+                        strong #{post_limit}
+                        i.dropdown.icon
+                        .menu
+                            +set_post_limit amount=1
+                            +set_post_limit amount=5
+                            +set_post_limit amount=10
+                            +set_post_limit amount=20
             .spacer 
             .ui.stackable.three.cards
                 each post_docs
@@ -102,7 +101,7 @@ template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column 
+                .six.wide.column 
                     a.ui.fluid.button(href="/posts")
                         i.left.chevron.icon
                         +i name='blog' cl='ui inline avatar image'
@@ -117,11 +116,12 @@ template(name='post_view')
                     +viewing
                     if in_dev 
                         +print_this
-                .eight.wide.column
+                .ten.wide.column
                     h1.ui.header #{title} 
                     +image_view key='image_id' label='image' direct=true
                     .f6
                         +html_view key='body' icon='content' label='body' direct=true
+                        +html_view key='content' icon='content' label='body' direct=true
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +array_view key='tags' label='tags' icon='tags' direct=true
                     div

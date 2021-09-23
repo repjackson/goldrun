@@ -21,6 +21,8 @@ template(name='posts')
             each tags
                 button.ui.circular.compact.button.tag_result(tabindex="0" class=result_class title=count) #{title}
                     //- small #{count}
+            +key_value_edit key='view_private' value=true  label='view private'
+            +key_value_edit key='view_private' value=false label='view all'
             .spacer
             
         .twelve.wide.column
@@ -74,11 +76,11 @@ template(name='set_post_limit')
 template(name='post_card')
     .ui.card(class=post_card_class)
         a.image.zoomer(href="/post/#{_id}")
-            img.ui.zoom.pointer.goto_post.image(src="{{c.url image_id width=400 height=400}}")
+            img.ui.zoomer.pointer.goto_post.image(src="{{c.url image width=400 height=400}}")
         .content
             a.ui.small.header.zoomer(href="/post/#{_id}/") 
                 | #{title}
-            a.zoomer(href="/post/#{_id}/") 
+            a.zoomer.pointer.zoomer(href="/post/#{_id}/") 
                 |!{body}
             +ismall name='tags'
             each tags
@@ -90,6 +92,8 @@ template(name='post_card')
                 img.ui.avatar.image(src="{{c.url author.image_id width=400 height=600 crop='fit'}}")
                 |#{author.username}
         .content    
+            if private 
+                i.big.lock.icon
             if can_edit
                 a.ui.icon.button(href="/post/#{_id}/edit")
                     i.pencil.icon
@@ -99,7 +103,7 @@ template(name='post_card')
 
 template(name='post_view')
     with current_doc
-        .ui.stackable.grid
+        .ui.stackable.padded.grid
             .row
                 .four.wide.column 
                     a.ui.fluid.button(href="/posts")
@@ -116,6 +120,10 @@ template(name='post_view')
                     +viewing
                     if in_dev 
                         +print_this
+                    if private 
+                        .ui.large.label 
+                            i.lock.icon
+                            |private
                 .twelve.wide.column
                     if title
                         h1.ui.header #{title} 
@@ -144,6 +152,9 @@ template(name='post_edit')
                         i.checkmark.big.icon
                     +remove_button
                     +image_edit key='image' label='image' direct=true
+                    +boolean_edit key='private' label='private' direct=true
+                    if in_dev 
+                        +text_edit key='model' label='model' direct=true
                 .ten.wide.column 
                     +text_edit key='title' direct=true
                     +html_edit key='body' label='body' icon='content' direct=true

@@ -8,9 +8,14 @@ template(name='home')
                     a.ui.center.aligned.header(href="/posts")
                         +i name='blog' cl='ui avatar image'
                         |latest posts
-                    .ui.selection.animated.list
+                    .ui.selection.animated.list.smallscroll
                         each latest_posts
-                            a.item(href="/post/#{_id}") #{title}
+                            a.item(href="/post/#{_id}") 
+                                .content
+                                    .header #{title}
+                                    .meta
+                                        |#{when}
+                                        |#{_author_username}
                 .column
                     a.ui.center.aligned.header(href="/polls")
                         +i name='poll' cl='ui avatar image'

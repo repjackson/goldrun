@@ -8,6 +8,7 @@ if Meteor.isClient
     Template.posts.onCreated ->
         Session.setDefault 'view_mode', 'grid'
         Session.setDefault 'sort_key', '_timestamp'
+        Session.setDefault 'sort_direction', -1
         # Session.setDefault 'post_sort_label', 'complete'
         Session.setDefault 'limit', 5
         Session.setDefault 'view_open', true

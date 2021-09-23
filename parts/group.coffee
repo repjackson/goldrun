@@ -2,58 +2,6 @@ Router.route '/group/:doc_id', (->
     @layout 'group_layout'
     @render 'group_dashboard'
     ), name:'group_dashboard'
-Router.route '/group/:doc_id/members', (->
-    @layout 'group_layout'
-    @render 'group_members'
-    ), name:'group_members'
-Router.route '/group/:doc_id/credit', (->
-    @layout 'group_layout'
-    @render 'group_credit'
-    ), name:'group_credit'
-Router.route '/group/:doc_id/meals', (->
-    @layout 'group_layout'
-    @render 'group_meals'
-    ), name:'group_meals'
-Router.route '/group/:doc_id/dishes', (->
-    @layout 'group_layout'
-    @render 'group_dishes'
-    ), name:'group_dishes'
-Router.route '/group/:doc_id/voting', (->
-    @layout 'group_layout'
-    @render 'group_voting'
-    ), name:'group_voting'
-Router.route '/group/:doc_id/events', (->
-    @layout 'group_layout'
-    @render 'group_events'
-    ), name:'group_events'
-Router.route '/group/:doc_id/food', (->
-    @layout 'group_layout'
-    @render 'group_food'
-    ), name:'group_food'
-Router.route '/group/:doc_id/products', (->
-    @layout 'group_layout'
-    @render 'group_products'
-    ), name:'group_products'
-Router.route '/group/:doc_id/services', (->
-    @layout 'group_layout'
-    @render 'group_services'
-    ), name:'group_services'
-Router.route '/group/:doc_id/stats', (->
-    @layout 'group_layout'
-    @render 'group_stats'
-    ), name:'group_stats'
-Router.route '/group/:doc_id/transactions', (->
-    @layout 'group_layout'
-    @render 'group_transactions'
-    ), name:'group_transactions'
-Router.route '/group/:doc_id/messages', (->
-    @layout 'group_layout'
-    @render 'group_messages'
-    ), name:'group_messages'
-Router.route '/group/:doc_id/posts', (->
-    @layout 'group_layout'
-    @render 'group_posts'
-    ), name:'group_posts'
 Router.route '/group/:doc_id/settings', (->
     @layout 'group_layout'
     @render 'group_settings'

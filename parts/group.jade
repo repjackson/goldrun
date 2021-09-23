@@ -222,51 +222,51 @@ template(name='group_layout')
         .ui.stackable.padded.grid
             .row
                 .four.wide.center.aligned.column
-                    a.ui.circular.basic.button(href="/groups")
-                        i.left.chevron.icon
-                        +i name='groups' cl='ui mini inline image'
-                        |groups
                     .ui.header 
                         if icon
                             +i name=icon
                         |#{title}
+                    a.ui.circular.basic.button(href="/groups")
+                        i.left.chevron.icon
+                        +i name='groups' cl='ui mini inline image'
+                        |groups
                     if can_edit
                         a.ui.circular.basic.icon.button(href="/group/#{_id}/edit")
                             i.setting.large.icon
                 .twelve.wide.column
-                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}" class="{{isActiveRoute regex='group_dashboard'}}")
-                        +i name='dashboard' cl='ui inline image'
-                        // |dashboard
-                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/members" class="{{isActiveRoute regex='group_members'}}")
-                        +i name='info' cl='ui inline image'
-                        // |members
-                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/credit" class="{{isActiveRoute regex='group_credit'}}")
-                        +i name='coins' cl='ui inline image'
-                        // |credit
-                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/meals" class="{{isActiveRoute regex='group_meals'}}")
-                        +i name='meal' cl='ui inline image'
-                        // |meals
-                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/dishes" class="{{isActiveRoute regex='group_dishes'}}")
-                        +i name='meal' cl='ui inline image'
-                        // |dishes
-                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/voting" class="{{isActiveRoute regex='group_voting'}}")
-                        +i name='elections' cl='ui inline image'
-                        // |voting
-                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/events" class="{{isActiveRoute regex='group_events'}}")
-                        +i name='calendar' cl='ui inline image'
-                        // |events
-                    a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/food" class="{{isActiveRoute regex='group_food'}}")
-                        +i name='food' cl='ui inline image'
-                        // |food
-                    //- a.ui.basic.circular.compact.button(href="/group/#{_id}/settings" class="{{isActiveRoute regex='group_settings'}}")
-                    //-     +ismall name='settings' cl='ui inline image'
-                    //-     |settings
-                    a.ui.basic.circular.icon.compact.button(href="/group/#{_id}/products" class="{{isActiveRoute regex='group_products'}}")
-                        +i name='shopping-cart' cl='ui inline image'
-                        // |products
-                    a.ui.basic.circular.icon.compact.button(href="/group/#{_id}/services" class="{{isActiveRoute regex='group_services'}}")
-                        +i name='service-bell' cl='ui inline image'
-                        // |services
+                    // a.ui.basic.icon.circular.compact.button(href="/group/#{_id}" class="{{isActiveRoute regex='group_dashboard'}}")
+                    //     +i name='dashboard' cl='ui inline image'
+                    //     // |dashboard
+                    // a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/members" class="{{isActiveRoute regex='group_members'}}")
+                    //     +i name='info' cl='ui inline image'
+                    //     // |members
+                    // a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/credit" class="{{isActiveRoute regex='group_credit'}}")
+                    //     +i name='coins' cl='ui inline image'
+                    //     // |credit
+                    // a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/meals" class="{{isActiveRoute regex='group_meals'}}")
+                    //     +i name='meal' cl='ui inline image'
+                    //     // |meals
+                    // a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/dishes" class="{{isActiveRoute regex='group_dishes'}}")
+                    //     +i name='meal' cl='ui inline image'
+                    //     // |dishes
+                    // a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/voting" class="{{isActiveRoute regex='group_voting'}}")
+                    //     +i name='elections' cl='ui inline image'
+                    //     // |voting
+                    // a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/events" class="{{isActiveRoute regex='group_events'}}")
+                    //     +i name='calendar' cl='ui inline image'
+                    //     // |events
+                    // a.ui.basic.icon.circular.compact.button(href="/group/#{_id}/food" class="{{isActiveRoute regex='group_food'}}")
+                    //     +i name='food' cl='ui inline image'
+                    //     // |food
+                    // //- a.ui.basic.circular.compact.button(href="/group/#{_id}/settings" class="{{isActiveRoute regex='group_settings'}}")
+                    // //-     +ismall name='settings' cl='ui inline image'
+                    // //-     |settings
+                    // a.ui.basic.circular.icon.compact.button(href="/group/#{_id}/products" class="{{isActiveRoute regex='group_products'}}")
+                    //     +i name='shopping-cart' cl='ui inline image'
+                    //     // |products
+                    // a.ui.basic.circular.icon.compact.button(href="/group/#{_id}/services" class="{{isActiveRoute regex='group_services'}}")
+                    //     +i name='service-bell' cl='ui inline image'
+                    //     // |services
 
             .row
                 .four.wide.column 
@@ -286,103 +286,57 @@ template(name='group_layout')
                     +viewing
                     if in_dev 
                         +print_this
-                .twelve.wide.column
-                    div
-                    +yield
-
-template(name='group_dashboard')
-    .ui.three.column.padded.grid
-        .column
-            +html_view key='description' icon='content' label='description'
-            .ui.inline.header 
-                +i name='crown'
-                |group leader: 
-            a.ui.basic.button(href="/group/#{_id}/#{leader}")
-                |#{leader}
-            .ui.header 
-                +i name='groups'
-                |#{members.count} members
-            .ui.large.selection.animated.list
-                each members 
-                    a.item(href="/group/#{_id}/#{username}")
-                        img.ui.mini.image(src="{{c.url profile_image width=200 height=200}}")
-                        .content
-                            .header
-                                |#{username}
-        .column
-            .ui.header #{meal_count} total meals
-            each group_meals
-                .ui.small.header #{dish.title}
-            .ui.header #{upcoming_meal_count} upcoming meals
-            each upcoming_group_meals
-                .ui.small.header #{dish.title}
-            .ui.segment
-                .ui.header #{dish_count} dishes
-                .ui.selection.animated.list
-                    each group_dishes
-                        a.item(href="/dish/#{_id}/")
-                            img.ui.mini.circular.image(src="{{c.url image width=100 height=100}}")
-                            .content
-                                .header 
-                                    |#{title}
-        .column
-            +doc_array_togggle key='member_ids' value=currentUser._id add_label='join' remove_label='joined'
-            .ui.header 
-                +i name='rss'
-                |activity
-            each log_items
-                +log_item
-            .ui.header 
-                +i name='line-chart'
-                |stats
-            i.refresh.link.icon.refresh_group_stats
-            .ui.large.list
-                .item #{member_count} members
-                .item #{meal_count} meals
-                .item #{dish_count} dishes
-                .item #{total_credit_exchanged} credits exchanged
-        .column
-            +comments
-template(name='group_members')
-    .ui.header members
-    
-template(name='group_voting')
-    .ui.header voting
-    
-template(name='group_meals')
-    .ui.header meals
-    
-template(name='group_dishes')
-    .ui.header dishes
-    
-template(name='group_food')
-    .ui.header food
-    
-template(name='group_products')
-    .ui.header products
-    
-template(name='group_services')
-    .ui.header services
-    
-template(name='group_stats')
-    .ui.header stats
-    
-template(name='group_forume')
-    .ui.header forum
-    
-template(name='group_posts')
-    .ui.header members
-    
-template(name='group_events')
-    .ui.header events
-    
-template(name='group_credit')
-    .ui.header credit
-    
-template(name='group_settings')
-    .ui.header settings
-    
-    
+                .four.wide.column
+                    +html_view key='description' icon='content' label='description'
+                    .ui.inline.header 
+                        +i name='crown'
+                        |group leader: 
+                    a.ui.basic.button(href="/group/#{_id}/#{leader}")
+                        |#{leader}
+                    .ui.header 
+                        +i name='groups'
+                        |#{members.count} members
+                    .ui.large.selection.animated.list
+                        each members 
+                            a.item(href="/group/#{_id}/#{username}")
+                                img.ui.mini.image(src="{{c.url profile_image width=200 height=200}}")
+                                .content
+                                    .header
+                                        |#{username}
+                .four.wide.column
+                    .ui.header #{meal_count} total meals
+                    each group_meals
+                        .ui.small.header #{dish.title}
+                    .ui.header #{upcoming_meal_count} upcoming meals
+                    each upcoming_group_meals
+                        .ui.small.header #{dish.title}
+                    .ui.segment
+                        .ui.header #{dish_count} dishes
+                        .ui.selection.animated.list
+                            each group_dishes
+                                a.item(href="/dish/#{_id}/")
+                                    img.ui.mini.circular.image(src="{{c.url image width=100 height=100}}")
+                                    .content
+                                        .header 
+                                            |#{title}
+                .four.wide.column
+                    +doc_array_togggle key='member_ids' value=currentUser._id add_label='join' remove_label='joined'
+                    .ui.header 
+                        +i name='rss'
+                        |activity
+                    each log_items
+                        +log_item
+                    .ui.header 
+                        +i name='line-chart'
+                        |stats
+                    i.refresh.link.icon.refresh_group_stats
+                    .ui.large.list
+                        .item #{member_count} members
+                        .item #{meal_count} meals
+                        .item #{dish_count} dishes
+                        .item #{total_credit_exchanged} credits exchanged
+                .four.wide.column
+                    +comments
     
 template(name='user_groups')
     .scrolling

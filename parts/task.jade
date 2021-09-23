@@ -134,19 +134,25 @@ template(name='task_view')
                     +image_view key='image_id' label='image' direct=true
                     +voting_full
                     +viewing
+                    if published 
+                        .ui.small.header 
+                            i.eye.icon
+                            |published on {{long_date publish_timestamp}}
                 .ten.wide.column
                     .ui.header #{title} 
                     +boolean_edit key='has_description' label='has decription' icon='content' direct=true
                     if has_description
                         +html_view key='description' label='content' icon='content' direct=true
-                    +boolean_view key='has_bounty' label='has bounty' icon='content' direct=true
+                    +boolean_view key='has_bounty' label='has bounty' icon='coins' direct=true
                     if has_bounty
                         +number_view key='bounty_amount' label='bounty amount' icon='coins' direct=true
                 .four.wide.column 
                     +boolean_view key='has_due_date' label='has due date' icon='clock' direct=true
                     if has_due_date
                        +datetime_view key='due_datetime' label='due date/time' icon='clock' direct=true
-                    
+                    +boolean_view key='has_target_user' label='has target user' icon='clock' direct=true
+                    if has_target_user
+                        +single_user_view key='target_user_id' label='target user' direct=true
                     +html_view key='description' icon='content' label='description' direct=true
                     if location_tags
                         +array_view key='location_tags' label='location tags' icon='marker' direct=true
@@ -182,6 +188,10 @@ template(name='task_edit')
                     +boolean_edit key='has_bounty' label='has bounty' icon='content' direct=true
                     if has_bounty
                         +number_edit key='bounty_amount' label='bounty amount' icon='coins' direct=true
+                    +boolean_edit key='has_target_user' label='has target user' icon='clock' direct=true
+                    if has_target_user
+                        +single_user_edit key='target_user_id' label='target user' direct=true
+                        
                 .four.wide.column 
                     +boolean_edit key='has_due_date' label='has due date' icon='clock' direct=true
                     if has_due_date

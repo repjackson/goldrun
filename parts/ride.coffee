@@ -1,112 +1,43 @@
-Router.route '/group/:doc_id', (->
-    @layout 'layout'
-    @render 'group_view'
-    ), name:'group_view'
-
-
-
 if Meteor.isClient
-    Template.group_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
-        # @autorun => Meteor.subscribe 'children', 'group_update', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'members', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'group_dishes', Router.current().params.doc_id
-    Template.group_view.helpers
-        current_group: ->
-            Docs.findOne
-                model:'group'
-                slug: Router.current().params.doc_id
-
-    Template.group_view.events
-        'click .refresh_group_stats': ->
-            Meteor.call 'calc_group_stats', Router.current().params.doc_id, ->
-        # 'click .join': ->
-        #     Docs.update
-        #         model:'group'
-        #         _author_id: Meteor.userId()
-        # 'click .group_leave': ->
-        #     my_group = Docs.findOne
-        #         model:'group'
-        #         _author_id: Meteor.userId()
-        #         ballot_id: Router.current().params.doc_id
-        #     if my_group
-        #         Docs.update my_group._id,
-        #             $set:value:'no'
-        #     else
-        #         Docs.insert
-        #             model:'group'
-        #             ballot_id: Router.current().params.doc_id
-        #             value:'no'
-
-
-if Meteor.isServer
-    Meteor.publish 'group_dishes', (doc_id)->
-        group = Docs.findOne
-            model:'group'
-            slug:doc_id
-        Docs.find
-            model:'dish'
-            _id: $in: group.dish_ids
-
-
-
-
-Router.route '/group/:doc_id/edit', -> @render 'group_edit'
-
-if Meteor.isClient
-    Template.group_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'group_options', Router.current().params.doc_id
-    Template.group_edit.events
-        'click .add_option': ->
-            Docs.insert
-                model:'group_option'
-                ballot_id: Router.current().params.doc_id
-    Template.group_edit.helpers
-        options: ->
-            Docs.find
-                model:'group_option'
-
-if Meteor.isClient
-    Router.route '/groups', (->
+    Router.route '/rides', (->
         @layout 'layout'
-        @render 'groups'
-        ), name:'groups'
+        @render 'rides'
+        ), name:'rides'
 
 
-    Template.groups.onCreated ->
+    Template.rides.onCreated ->
         Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'group_sort_key', 'datetime_available'
-        Session.setDefault 'group_sort_label', 'available'
-        Session.setDefault 'group_limit', 5
+        Session.setDefault 'ride_sort_key', 'datetime_available'
+        Session.setDefault 'ride_sort_label', 'available'
+        Session.setDefault 'ride_limit', 5
         Session.setDefault 'view_open', true
 
-    Template.groups.onCreated ->
-        @autorun => @subscribe 'group_facets',
+    Template.rides.onCreated ->
+        @autorun => @subscribe 'ride_facets',
             picked_tags.array()
-            Session.get('group_limit')
-            Session.get('group_sort_key')
-            Session.get('group_sort_direction')
+            Session.get('ride_limit')
+            Session.get('ride_sort_key')
+            Session.get('ride_sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
 
-        @autorun => @subscribe 'group_results',
+        @autorun => @subscribe 'ride_results',
             picked_tags.array()
-            Session.get('group_limit')
-            Session.get('group_sort_key')
-            Session.get('group_sort_direction')
+            Session.get('ride_limit')
+            Session.get('ride_sort_key')
+            Session.get('ride_sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
 
 
-    Template.groups.events
-        'click .add_group': ->
+    Template.rides.events
+        'click .add_ride': ->
             new_id =
                 Docs.insert
-                    model:'group'
-            Router.go("/group/#{new_id}/edit")
+                    model:'ride'
+            Router.go("/ride/#{new_id}/edit")
 
 
         'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
@@ -146,8 +77,8 @@ if Meteor.isClient
                     # , 10000
         , 1000)
 
-        'click .calc_group_count': ->
-            Meteor.call 'calc_group_count', ->
+        'click .calc_ride_count': ->
+            Meteor.call 'calc_ride_count', ->
 
         # 'keydown #search': _.throttle((e,t)->
         #     if e.which is 8
@@ -165,32 +96,41 @@ if Meteor.isClient
 
 
         'click .set_sort_direction': ->
-            if Session.get('group_sort_direction') is -1
-                Session.set('group_sort_direction', 1)
+            if Session.get('ride_sort_direction') is -1
+                Session.set('ride_sort_direction', 1)
             else
-                Session.set('group_sort_direction', -1)
+                Session.set('ride_sort_direction', -1)
 
 
-    Template.groups.helpers
+    Template.rides.helpers
+        quickbuying_ride: ->
+            Docs.findOne Session.get('quickbuying_id')
+
         sorting_up: ->
-            parseInt(Session.get('group_sort_direction')) is 1
+            parseInt(Session.get('ride_sort_direction')) is 1
 
-        # toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
+        toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
+        toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
+        toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
         connection: ->
             console.log Meteor.status()
             Meteor.status()
         connected: ->
             Meteor.status().connected
+        invert_class: ->
+            if Meteor.user()
+                if Meteor.user().dark_mode
+                    'invert'
         tags: ->
             # if Session.get('current_query') and Session.get('current_query').length > 1
             #     Terms.find({}, sort:count:-1)
             # else
-            group_count = Docs.find().count()
-            # console.log 'group count', group_count
-            if group_count < 3
-                Results.find({count: $lt: group_count})
+            ride_count = Docs.find().count()
+            # console.log 'ride count', ride_count
+            if ride_count < 3
+                Tags.find({count: $lt: ride_count})
             else
-                Results.find()
+                Tags.find()
 
         result_class: ->
             if Template.instance().subscriptionsReady()
@@ -204,13 +144,13 @@ if Meteor.isClient
 
         one_post: ->
             Docs.find().count() is 1
-        group_docs: ->
+        ride: ->
             # if picked_tags.array().length > 0
             Docs.find {
-                model:'group'
+                model:'ride'
             },
-                sort: "#{Session.get('group_sort_key')}":parseInt(Session.get('group_sort_direction'))
-                limit:Session.get('group_limit')
+                sort: "#{Session.get('ride_sort_key')}":parseInt(Session.get('ride_sort_direction'))
+                limit:Session.get('ride_limit')
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
@@ -230,23 +170,23 @@ if Meteor.isClient
                 sort: count:-1
                 # limit:1
 
-        group_limit: ->
-            Session.get('group_limit')
+        ride_limit: ->
+            Session.get('ride_limit')
 
-        current_group_sort_label: ->
-            Session.get('group_sort_label')
+        current_ride_sort_label: ->
+            Session.get('ride_sort_label')
 
 
-    # Template.set_group_limit.events
+    # Template.set_ride_limit.events
     #     'click .set_limit': ->
     #         console.log @
-    #         Session.set('group_limit', @amount)
+    #         Session.set('ride_limit', @amount)
 
-    Template.set_group_sort_key.events
+    Template.set_ride_sort_key.events
         'click .set_sort': ->
             console.log @
-            Session.set('group_sort_key', @key)
-            Session.set('group_sort_label', @label)
+            Session.set('ride_sort_key', @key)
+            Session.set('ride_sort_label', @label)
 
     Template.session_edit_value_button.events
         'click .set_session_value': ->
@@ -288,7 +228,7 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'group_results', (
+    Meteor.publish 'ride_results', (
         picked_tags
         doc_limit
         doc_sort_key
@@ -307,16 +247,16 @@ if Meteor.isServer
         if doc_sort_direction
             sort_direction = parseInt(doc_sort_direction)
         self = @
-        match = {model:'group'}
-        # if view_open
-        #     match.open = $ne:false
-        # if view_delivery
-        #     match.delivery = $ne:false
-        # if view_pickup
-        #     match.pickup = $ne:false
+        match = {model:'ride'}
+        if view_open
+            match.open = $ne:false
+        if view_delivery
+            match.delivery = $ne:false
+        if view_pickup
+            match.pickup = $ne:false
         if picked_tags.length > 0
             match.tags = $all: picked_tags
-            sort = 'member_count'
+            sort = 'price_per_serving'
         else
             # match.tags = $nin: ['wikipedia']
             sort = '_timestamp'
@@ -335,15 +275,15 @@ if Meteor.isServer
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
 
-        console.log 'group match', match
+        console.log 'ride match', match
         console.log 'sort key', sort_key
         console.log 'sort direction', sort_direction
         Docs.find match,
-            # sort:"#{sort_key}":sort_direction
-            sort:_timestamp:-1
+            sort:"#{sort_key}":sort_direction
+            # sort:_timestamp:-1
             limit: limit
 
-    Meteor.publish 'group_facets', (
+    Meteor.publish 'ride_facets', (
         picked_tags
         selected_timestamp_tags
         query
@@ -360,7 +300,7 @@ if Meteor.isServer
 
         self = @
         match = {}
-        match.model = 'group'
+        match.model = 'ride'
         if view_open
             match.open = $ne:false
 
@@ -446,74 +386,74 @@ if Meteor.isServer
         self.ready()
 
 
-# Router.route '/group/:doc_id/', (->
-#     @render 'group_view'
-#     ), name:'group_view'
-# Router.route '/group/:doc_id/edit', (->
-#     @render 'group_edit'
-#     ), name:'group_edit'
+Router.route '/ride/:doc_id/', (->
+    @render 'ride_view'
+    ), name:'ride_view'
+Router.route '/ride/:doc_id/edit', (->
+    @render 'ride_edit'
+    ), name:'ride_edit'
 
 
 if Meteor.isClient
-    Template.group_view.onCreated ->
+    Template.ride_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.group_edit.onCreated ->
+    Template.ride_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
-    Template.group_history.onCreated ->
+    Template.ride_history.onCreated ->
         @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
-    Template.group_history.helpers
-        group_events: ->
+    Template.ride_history.helpers
+        ride_events: ->
             Docs.find
                 model:'log_event'
                 parent_id:Router.current().params.doc_id
 
 
-    Template.group_subscription.onCreated ->
+    Template.ride_subscription.onCreated ->
         # @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
-    Template.group_subscription.events
+    Template.ride_subscription.events
         'click .subscribe': ->
             Docs.insert
                 model:'log_event'
                 log_type:'subscribe'
                 parent_id:Router.current().params.doc_id
-                text: "#{Meteor.user().username} subscribed to group order."
+                text: "#{Meteor.user().username} subscribed to ride order."
 
 
-    Template.group_reservations.onCreated ->
-        @autorun => Meteor.subscribe 'group_reservations', Router.current().params.doc_id
-    Template.group_reservations.helpers
+    Template.ride_reservations.onCreated ->
+        @autorun => Meteor.subscribe 'ride_reservations', Router.current().params.doc_id
+    Template.ride_reservations.helpers
         reservations: ->
             Docs.find
                 model:'reservation'
-                group_id: Router.current().params.doc_id
-    Template.group_reservations.events
+                ride_id: Router.current().params.doc_id
+    Template.ride_reservations.events
         'click .new_reservation': ->
             Docs.insert
                 model:'reservation'
-                group_id: Router.current().params.doc_id
+                ride_id: Router.current().params.doc_id
 
 
 if Meteor.isServer
-    Meteor.publish 'group_reservations', (group_id)->
+    Meteor.publish 'ride_reservations', (ride_id)->
         Docs.find
             model:'reservation'
-            group_id: group_id
+            ride_id: ride_id
 
 
 
     Meteor.methods
-        calc_group_stats: ->
-            group_stat_doc = Docs.findOne(model:'group_stats')
-            unless group_stat_doc
+        calc_ride_stats: ->
+            ride_stat_doc = Docs.findOne(model:'ride_stats')
+            unless ride_stat_doc
                 new_id = Docs.insert
-                    model:'group_stats'
-                group_stat_doc = Docs.findOne(model:'group_stats')
-            console.log group_stat_doc
-            total_count = Docs.find(model:'group').count()
-            complete_count = Docs.find(model:'group', complete:true).count()
-            incomplete_count = Docs.find(model:'group', complete:$ne:true).count()
-            Docs.update group_stat_doc._id,
+                    model:'ride_stats'
+                ride_stat_doc = Docs.findOne(model:'ride_stats')
+            console.log ride_stat_doc
+            total_count = Docs.find(model:'ride').count()
+            complete_count = Docs.find(model:'ride', complete:true).count()
+            incomplete_count = Docs.find(model:'ride', complete:$ne:true).count()
+            Docs.update ride_stat_doc._id,
                 $set:
                     total_count:total_count
                     complete_count:complete_count
@@ -521,99 +461,26 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-    Template.user_groups.onCreated ->
-        @autorun => Meteor.subscribe 'user_groups', Router.current().params.username
-    Template.user_groups.events
-        'click .add_group': ->
+    Template.user_rides.onCreated ->
+        @autorun => Meteor.subscribe 'user_rides', Router.current().params.username
+    Template.user_rides.events
+        'click .add_ride': ->
             new_id =
                 Docs.insert
-                    model:'group'
-            Router.go "/group/#{new_id}/edit"
+                    model:'ride'
+            Router.go "/ride/#{new_id}/edit"
 
-    Template.user_groups.helpers
-        groups: ->
+    Template.user_rides.helpers
+        rides: ->
             current_user = Meteor.users.findOne username:Router.current().params.username
             Docs.find {
-                model:'group'
+                model:'ride'
                 _author_id: current_user._id
             }, sort:_timestamp:-1
 
 if Meteor.isServer
-    Meteor.publish 'user_groups', (username)->
+    Meteor.publish 'user_rides', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
-            model:'group'
+            model:'ride'
             _author_id: user._id
-
-
-if Meteor.isServer
-    Meteor.publish 'members', (tribe_id)->
-        Meteor.users.find
-            _id:$in:@member_ids
-
-    Meteor.publish 'tribe_by_slug', (tribe_slug)->
-        Docs.find
-            model:'tribe'
-            slug:tribe_slug
-    Meteor.methods
-        calc_tribe_stats: (tribe_slug)->
-            tribe = Docs.findOne
-                model:'tribe'
-                slug: tribe_slug
-
-            member_count =
-                tribe.member_ids.length
-
-            tribe_members =
-                Meteor.users.find
-                    _id: $in: tribe.member_ids
-
-            dish_count = 0
-            dish_ids = []
-            for member in tribe_members.fetch()
-                member_dishes =
-                    Docs.find(
-                        model:'dish'
-                        _author_id:member._id
-                    ).fetch()
-                for dish in member_dishes
-                    console.log 'dish', dish.title
-                    dish_ids.push dish._id
-                    dish_count++
-            # dish_count =
-            #     Docs.find(
-            #         model:'dish'
-            #         tribe_id:tribe._id
-            #     ).count()
-            tribe_count =
-                Docs.find(
-                    model:'tribe'
-                    tribe_id:tribe._id
-                ).count()
-
-            order_cursor =
-                Docs.find(
-                    model:'order'
-                    tribe_id:tribe._id
-                )
-            order_count = order_cursor.count()
-            total_credit_exchanged = 0
-            for order in order_cursor.fetch()
-                if order.order_price
-                    total_credit_exchanged += order.order_price
-            tribe_tribes =
-                Docs.find(
-                    model:'tribe'
-                    tribe_id:tribe._id
-                ).fetch()
-
-            console.log 'total_credit_exchanged', total_credit_exchanged
-
-
-            Docs.update tribe._id,
-                $set:
-                    member_count:member_count
-                    tribe_count:tribe_count
-                    dish_count:dish_count
-                    total_credit_exchanged:total_credit_exchanged
-                    dish_ids:dish_ids

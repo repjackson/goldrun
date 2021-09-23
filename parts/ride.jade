@@ -1,0 +1,246 @@
+template(name='rides')
+    .ui.stackable.padded.grid
+        .four.wide.column
+            .ui.inline.header 
+                +i name='wrench'
+                |rides
+            if currentUser
+                a.ui.icon.basic.circular.button.add_ride(title='cook')
+                    i.plus.green.large.icon
+            
+            .ui.left.icon.search.small.input
+                i.search.icon.refresh_tags
+                input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
+            if selected_tag_plural
+                .ui.icon.circular.black.compact.button.clear_picked_tags
+                    i.remove.icon
+            each picked_tags
+                button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each tags
+                button.ui.circular.compact.small.basic.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+                    //- small #{count}
+            .spacer
+            
+        .twelve.wide.column
+            //- .sorting_row
+            //-     .ui.icon.input
+            //-         i.search.icon
+            //-         input.tag_search(type='text' placeholder='search...')
+            //-     |sort by
+            //-     .ui.compact.small.menu
+            //-         .ui.simple.dropdown.item
+            //-             strong #{current_ride_sort_label}
+            //-             i.dropdown.icon
+            //-             .menu
+            //-                 +set_ride_sort_key key='price_per_serving' label='$/serving' icon='money'
+            //-                 +set_ride_sort_key key='datetime_available' label='available' icon='clock'
+            //-                 //- +set_ride_sort_key key='_timestamp' label='added' icon='clock'
+            //-                 +set_ride_sort_key key='comment_count' label='comment count' icon='chat'
+            //-     .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
+            //-         if sorting_up
+            //-             i.sort.amount.down.icon
+            //-         else
+            //-             i.sort.amount.up.icon
+            //-     |&nbsp;
+            //-     |&nbsp;
+            //-     //- .ui.inline.small.grey.header
+            //-     //-     |show
+            //-     //- .ui.compact.menu
+            //-     //-     .ui.simple.dropdown.item
+            //-     //-         strong #{ride_limit}
+            //-     //-         i.dropdown.icon
+            //-     //-         .menu
+            //-     //-             +set_ride_limit amount=1
+            //-     //-             +set_ride_limit amount=5
+            //-     //-             +set_ride_limit amount=10
+            //-     //-             +set_ride_limit amount=20
+            //- .spacer 
+            .ui.stackable.four.cards
+                each ride
+                    +ride_card
+
+template(name='set_ride_sort_key')
+    .item.set_sort
+        if color
+            .ui.label(class=color) #{label}
+        else 
+            if emoji
+                em(data-emoji=emoji)
+            else if icon
+                i.icon(class=icon)
+            |#{label}
+        
+
+template(name='set_view_mode_ride')
+    .item.set_view
+        i.icon(class=icon)
+        |#{title}
+
+
+template(name='set_ride_limit')
+    .item.set_limit #{amount}
+
+
+template(name='ride_card')
+    .ui.card(class=ride_card_class)
+        .image
+            img.ui.zoom.pointer.goto_ride.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+        .content
+            a.ui.header(href="/ride/#{_id}/") 
+                //- |#{_author.name}'s
+                | #{title}
+            //- if session_is 'view_tags' true
+            +ismall name='tags'
+            each tags
+                .ui.small.circular.label #{this}
+        //- .ui.inline.small.header tags
+        .content
+            .right.floated.meta
+                | {{from_now datetime_available}}
+            //- if session_is 'view_users' true
+            a(href="/user/#{cook.username}")
+                img.ui.avatar.image(src="{{c.url cook.image_id width=400 height=600 crop='fit'}}")
+                |#{cook.username}
+        //- a.image(href="/ride/#{_id}/")
+            
+        .content    
+            |#{hourly_rate}/hr
+            |#{daily_rate}/day
+            if can_edit
+                a.ui.large.icon.button(href="/ride/#{_id}/edit")
+                    i.pencil.icon
+            .ui.green.button.quickbuy
+                i.lightning.icon
+                |buy
+            a.ui.button(href="/ride/#{_id}/")
+                |view
+                i.right.chevron.icon
+
+
+template(name='ride_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    a.ui.fluid.basic.button(href="/rides")
+                        i.left.chevron.icon
+                        +i name='wrench' cl='ui inline avatar image'
+                        |rides
+                    .ui.header view ride
+                    if can_edit
+                        a.ui.big.fluid.button(href="/ride/#{_id}/edit")
+                            i.pencil.icon
+                            |edit
+                    +image_view key='image_id' label='image' direct=true
+                    //- +voting_full
+                    //- +viewing
+                .eight.wide.column
+                    h1.ui.header #{title} 
+                    +textarea_view key='description' icon='content' label='description' direct=true
+                    +array_view key='location_tags' label='location tags' icon='marker' direct=true
+                    +array_view key='tags' label='tags' icon='tags' direct=true
+                    +text_view key='contact_info' label='contact info' icon='info' direct=true
+                    div
+                    +comments
+                    +ride_reservations
+                .four.wide.column 
+                    +number_view key='hourly_rate' label='hourly rate' icon='money' direct=true
+                    div
+                    +ride_history
+                    //- +ride_subscription
+                    //- +multi_user_view key='associated_members' label='associated members' icon='groups' direct=true
+
+                    
+                
+template(name='ride_history')
+    +ismall name='rss'
+    .ui.inline.header
+        |activity
+    .ui.list
+        each ride_events
+            .item #{text} #{when}
+            
+template(name='ride_subscription')
+    //- +ismall name='renew-subscription'
+    //- .ui.inline.header
+    //-     |subscription settings
+    .ui.button.subscribe subscribe to updates
+    .ui.list
+        each subscribers
+            .item #{text} #{when}
+            
+template(name='ride_reservations')
+    .ui.header
+        +ismall name='invoice'
+        |ride reservations
+    .ui.button.new_reservation
+        |new reservation
+    each reservations
+        .ui.segment
+            .ui.header #{when}
+            .ui.header by #{_author_username}
+            +view_button
+            +edit_button
+
+
+template(name='ride_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    .ui.header 
+                        |edit ride
+                    a.ui.big.fluid.button(href="/ride/#{_id}/" title='save')
+                        .ui.small.header
+                            i.checkmark.green.large.icon
+                            | save
+                    +remove_button
+                    +image_edit key='image' label='image' direct=true
+                .eight.wide.column 
+                    +text_edit key='title' direct=true
+                    +textarea_edit key='description' label='content' icon='content' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    +text_edit key='contact_info' label='contact info' icon='info' direct=true
+                .four.wide.column 
+                    //- +boolean_edit key='set_duration' label='set duration' direct=true
+                    //- if set_duration
+                    //-     +number_edit key='duration_hours' label='duration hours' direct=true
+            
+                    +single_user_edit key='_author_username' label='author username' direct=true
+                    +boolean_edit key='has_hourly' label='has hourly' direct=true
+                    if has_hourly
+                        +number_edit key='hourly_rate' label='hourly rate' icon='money' direct=true
+                    +boolean_edit key='has_daily' label='has daily' direct=true
+                    if has_daily
+                        +number_edit key='daily_rate' label='daily rate' icon='calendar' direct=true
+                    +boolean_edit key='has_weekly' label='has weekly' direct=true
+                    if has_weekly
+                        +number_edit key='weekly_rate' label='weekly rate' icon='calendar' direct=true
+                    +boolean_edit key='has_monthly' label='has monthly' direct=true
+                    if has_monthly
+                        +number_edit key='monthly_rate' label='monthly rate' icon='calendar' direct=true
+
+
+template(name='user_rides')
+    .scrolling
+        each rides
+            +profile_ride_item
+
+template(name='profile_ride_item')
+    .ui.segment.grid
+        .row
+            .four.wide.column
+                +image_view key='image_id' direct=true cl='zoom ui tiny image'
+            .twelve.wide.column
+                .ui.header #{title}
+                a.ui.small.header.inline.lowercase(href="/ride/#{_id}/")
+                    |#{price_per_serving}c / #{serving_unit}
+                .ui.small.inline.header #{when}
+                a.ui.button(href="/ride/#{_id}/")
+                    |view
+                    i.right.chevron.icon
+                if is_admin
+                    +remove_button

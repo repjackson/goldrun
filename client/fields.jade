@@ -370,6 +370,23 @@ template(name='text_edit')
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         
 
+template(name='location_edit')
+    div
+    if icon
+        //- i.grey.icon(class=icon)
+        +icon name=icon cl='ui avatar image'
+    .ui.inline.small.header
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else if key
+            |#{key}
+            //- +clear_value
+    .ui.icon.large.fluid.input
+        input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
+        
+
 
 
 
@@ -381,6 +398,25 @@ template(name='clear_value')
         i.remove.link.large.icon.clear_value
 
 template(name='text_view')
+    if field_value
+        //- unless header
+        //-     div
+        //-     if icon
+        //-         +icon name=icon                
+        .ui.inline.grey.small.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else if key
+                |#{key}
+            else
+                |#{this}
+        .ui.inline.header #{field_value}
+
+
+
+template(name='location_view')
     if field_value
         //- unless header
         //-     div

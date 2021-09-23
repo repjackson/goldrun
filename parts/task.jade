@@ -136,6 +136,17 @@ template(name='task_view')
                     +viewing
                 .ten.wide.column
                     .ui.header #{title} 
+                    +boolean_edit key='has_description' label='has decription' icon='content' direct=true
+                    if has_description
+                        +html_view key='description' label='content' icon='content' direct=true
+                    +boolean_view key='has_bounty' label='has bounty' icon='content' direct=true
+                    if has_bounty
+                        +number_view key='bounty_amount' label='bounty amount' icon='coins' direct=true
+                .four.wide.column 
+                    +boolean_view key='has_due_date' label='has due date' icon='clock' direct=true
+                    if has_due_date
+                       +datetime_view key='due_datetime' label='due date/time' icon='clock' direct=true
+                    
                     +html_view key='description' icon='content' label='description' direct=true
                     if location_tags
                         +array_view key='location_tags' label='location tags' icon='marker' direct=true
@@ -151,19 +162,27 @@ template(name='task_edit')
                 .four.wide.column
                     .ui.header 
                         |editing task
-                    a.ui.big.icon.green.button(href="/task/#{_id}/" title='save')
-                        i.checkmark.big.icon
+                    if published 
+                        a.ui.fluid.icon.green.button(href="/task/#{_id}/" title='save')
+                            i.checkmark.big.icon
+                    else 
+                        a.ui.fluid.icon.green.button.publish(href="/task/#{_id}/" title='save')
+                            i.checkmark.big.icon
+                            |save & publish
                     +remove_button
                     +image_edit key='image' label='image' direct=true
-                .eight.wide.column 
-                    +text_edit key='title' direct=true
-                    +html_edit key='description' label='content' icon='content' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    +text_edit key='contact_info' label='contact info' icon='info' direct=true
+                                        
+                .eight.wide.column 
+                    +text_edit key='title' direct=true
+                    +boolean_edit key='has_description' label='has decription' icon='content' direct=true
+                    if has_description
+                        +html_edit key='description' label='content' icon='content' direct=true
+                    +boolean_edit key='has_bounty' label='has bounty' icon='content' direct=true
+                    if has_bounty
+                        +number_edit key='bounty_amount' label='bounty amount' icon='coins' direct=true
                 .four.wide.column 
-                    //- +boolean_edit key='set_duration' label='set duration' direct=true
-                    //- if set_duration
-                    //-     +number_edit key='duration_hours' label='duration hours' direct=true
-            
-                    +single_user_edit key='_author_username' label='author username' direct=true
+                    +boolean_edit key='has_due_date' label='has due date' icon='clock' direct=true
+                    if has_due_date
+                       +datetime_edit key='due_datetime' label='due date/time' icon='clock' direct=true

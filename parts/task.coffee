@@ -389,9 +389,6 @@ if Meteor.isServer
 
 Router.route '/task/:doc_id/', (->
     @render 'task_view'
-    ), name:'task_view_long'
-Router.route '/task/:doc_id', (->
-    @render 'task_view'
     ), name:'task_view'
 Router.route '/task/:doc_id/edit', (->
     @render 'task_edit'
@@ -404,6 +401,12 @@ if Meteor.isClient
     Template.task_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
+    Template.task_edit.events
+        'click .publish': ->
+            Docs.update Router.current().params.doc_id, 
+                $set:
+                    published:true
+                    publish_timestamp:Date.now()
     # Template.task_history.onCreated ->
     #     @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
     # Template.task_history.helpers

@@ -6,12 +6,13 @@ if Meteor.isClient
     Template.take_poll.onCreated ->
         @autorun -> Meteor.subscribe 'current_poll', ->
     Template.home.onCreated ->
-        @autorun -> Meteor.subscribe 'model_docs', 'service'
-        @autorun -> Meteor.subscribe 'model_docs', 'question'
-        @autorun -> Meteor.subscribe 'model_docs', 'rental'
-        @autorun -> Meteor.subscribe 'model_docs', 'product'
-        @autorun -> Meteor.subscribe 'model_docs', 'food'
-        @autorun -> Meteor.subscribe 'model_docs', 'public_note'
+        @autorun -> Meteor.subscribe 'model_docs', 'service', ->
+        @autorun -> Meteor.subscribe 'model_docs', 'question', ->
+        @autorun -> Meteor.subscribe 'model_docs', 'rental', ->
+        @autorun -> Meteor.subscribe 'model_docs', 'product', ->
+        # @autorun -> Meteor.subscribe 'model_docs', 'food', ->
+        @autorun -> Meteor.subscribe 'model_docs', 'public_note', ->
+        @autorun -> Meteor.subscribe 'latest_posts', ->
         @autorun -> Meteor.subscribe 'users'
 
     # Template.delta.onRendered ->
@@ -37,6 +38,14 @@ if Meteor.isClient
         public_note_docs: ->
             Docs.find 
                 model:'public_note'
+                
+                
+        latest_posts: ->
+            Docs.find({ 
+                model:'post'
+            },{
+                sort:_timestamp:-1
+            })
 
     Template.take_poll.helpers 
         current_poll: ->

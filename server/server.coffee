@@ -80,6 +80,13 @@ Meteor.publish 'facet_doc', (tags)->
     Docs.find
         tags: split_array
 
+Meteor.publish 'latest_posts', (tags)->
+    Docs.find({
+        model:'post'
+    },{
+        sort:_timestamp:-1
+        limit:10
+    })    
 
 Meteor.publish 'inline_doc', (slug)->
     Docs.find

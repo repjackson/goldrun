@@ -5,6 +5,13 @@ template(name='home')
                 .column
                     +latest_activity
                 .column
+                    a.ui.center.aligned.header(href="/posts")
+                        +i name='blog' cl='ui avatar image'
+                        |latest posts
+                    .ui.selection.animated.list
+                        each latest_posts
+                            a.item(href="/post/#{_id}") #{title}
+                .column
                     a.ui.center.aligned.header(href="/polls")
                         +i name='poll' cl='ui avatar image'
                         |polls

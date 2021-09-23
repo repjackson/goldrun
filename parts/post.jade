@@ -99,9 +99,9 @@ template(name='post_card')
 
 template(name='post_view')
     with current_doc
-        .ui.stackable.padded.grid
+        .ui.stackable.grid
             .row
-                .six.wide.column 
+                .four.wide.column 
                     a.ui.fluid.button(href="/posts")
                         i.left.chevron.icon
                         +i name='blog' cl='ui inline avatar image'
@@ -116,9 +116,11 @@ template(name='post_view')
                     +viewing
                     if in_dev 
                         +print_this
-                .ten.wide.column
-                    h1.ui.header #{title} 
+                .twelve.wide.column
+                    if title
+                        h1.ui.header #{title} 
                     +image_view key='image_id' label='image' direct=true
+                    +image_view key='image' label='image' direct=true
                     .f6
                         +html_view key='body' icon='content' label='body' direct=true
                         +html_view key='content' icon='content' label='body' direct=true

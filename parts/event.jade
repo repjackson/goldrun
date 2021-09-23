@@ -2,11 +2,11 @@ template(name='events')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.inline.header 
-                +i name='wrench'
+                +i name='calendar'
                 |events
             if currentUser
-                a.ui.icon.basic.circular.button.add_event(title='cook')
-                    i.plus.green.large.icon
+                a.add_event(title='cook')
+                    i.plus.green.large.circular.link.icon
             
             .ui.left.icon.search.small.input
                 i.search.icon.refresh_tags
@@ -89,12 +89,11 @@ template(name='set_event_limit')
 template(name='event_card')
     .ui.card(class=event_card_class)
         .image
-            img.ui.zoom.pointer.goto_event.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+            img.ui.zoom.pointer.goto_event.image(src="{{c.url image width=400 height=300 crop='pad'}}")
         .content
             a.ui.header(href="/event/#{_id}/") 
                 //- |#{_author.name}'s
                 | #{title}
-            //- if session_is 'view_tags' true
             +ismall name='tags'
             each tags
                 .ui.small.circular.label #{this}
@@ -102,15 +101,10 @@ template(name='event_card')
         .content
             .right.floated.meta
                 | {{from_now _timestamp}}
-            //- if session_is 'view_users' true
             a(href="/user/#{author.username}")
                 img.ui.avatar.image(src="{{c.url author.image_id width=400 height=600 crop='fit'}}")
                 |#{author.username}
-        //- a.image(href="/event/#{_id}/")
-            
         .content    
-            if complete 
-                i.big.circular.green.checkmark.icon
             if can_edit
                 a.ui.large.icon.button(href="/event/#{_id}/edit")
                     i.pencil.icon
@@ -125,17 +119,19 @@ template(name='event_view')
                 .six.wide.column 
                     a.ui.fluid.basic.compact.button(href="/events")
                         i.left.chevron.icon
-                        +i name='events' cl='ui inline avatar image'
+                        +i name='calendar' cl='ui inline avatar image'
                         |events
                     .ui.header view event
                     if can_edit
                         a.ui.big.icon.button(href="/event/#{_id}/edit")
                             i.pencil.large.icon
-                    +image_view key='image_id' label='image' direct=true
                     +voting_full
                     +viewing
                 .ten.wide.column
                     .ui.header #{title} 
+                    if image
+                        img.ui.zoom.image(src="{{c.url image }}")
+                    
                     +html_view key='description' icon='content' label='description' direct=true
                     if location_tags
                         +array_view key='location_tags' label='location tags' icon='marker' direct=true
@@ -148,20 +144,18 @@ template(name='event_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
+                .six.wide.column
                     .ui.header 
                         |editing event
-                    a.ui.big.icon.green.button(href="/event/#{_id}/" title='save')
+                    a.ui.big.icon.green.fluid.button(href="/event/#{_id}/" title='save')
                         i.checkmark.big.icon
-                    +remove_button
                     +image_edit key='image' label='image' direct=true
-                .eight.wide.column 
+                    +remove_button
+                .ten.wide.column.scrolling
                     +text_edit key='title' direct=true
                     +html_edit key='description' label='content' icon='content' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    +text_edit key='contact_info' label='contact info' icon='info' direct=true
-                .four.wide.column 
                     //- +boolean_edit key='set_duration' label='set duration' direct=true
                     //- if set_duration
                     //-     +number_edit key='duration_hours' label='duration hours' direct=true

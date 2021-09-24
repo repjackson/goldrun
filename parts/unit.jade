@@ -2,7 +2,7 @@ template(name='units')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.inline.header 
-                +i name='unit'
+                +i name='room'
                 |units
             if currentUser
                 a.ui.icon.basic.circular.button.add_unit(title='cook')
@@ -114,7 +114,7 @@ template(name='unit_view')
                 .six.wide.column 
                     a.ui.basic.compact.icon.circular.button(href="/units")
                         i.left.chevron.icon
-                        +i name='unit' cl='ui inline avatar image'
+                        +i name='room' cl='ui inline avatar image'
                         // |units
                     .ui.inline.header unit: #{title}
                     if can_edit

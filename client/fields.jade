@@ -34,6 +34,9 @@ template(name='color_edit')
 
 
 
+template(name='map_view')
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1527.9512921275605!2d-105.2574264328702!3d40.010623501038225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876bedcf10549027%3A0xcd1fc3e5efb3631a!2s2877%20Shadow%20Creek%20Dr%2C%20Boulder%2C%20CO%2080303!5e0!3m2!1sen!2sus!4v1632510892598!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
 template(name='color_view')
     .ui.form
         .field
@@ -317,22 +320,23 @@ template(name='raw_edit')
             
             
 template(name='raw_view')
-    .ui.large.form
-        .ui.small.inline.header raw
-        .field
-            label 
-                if icon
-                    // i.icon(class=field_value)
-                    +icon name=icon cl='ui avatar image'
-                if title
-                    |#{title}
-                else if label
-                    |#{label}
-                //- else if key
-                //-     |#{key}
-                //- else
-                //-     |#{this}
-            textarea.edit_textarea(rows='7') !{field_value}
+    // .ui.large.form
+    //     .ui.small.inline.header raw
+    //     .field
+    //         label 
+    //             if icon
+    //                 // i.icon(class=field_value)
+    //                 +icon name=icon cl='ui avatar image'
+    //             if title
+    //                 |#{title}
+    //             else if label
+    //                 |#{label}
+    //             //- else if key
+    //             //-     |#{key}
+    //             //- else
+    //             //-     |#{this}
+    //         textarea.edit_textarea(rows='7') !{field_value}
+    |!{field_value}
 
         
 template(name='textarea_edit')

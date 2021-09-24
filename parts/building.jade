@@ -115,7 +115,6 @@ template(name='building_view')
                     a.ui.basic.compact.icon.circular.button(href="/buildings")
                         i.left.chevron.icon
                         +i name='building' cl='ui inline avatar image'
-                        // |buildings
                     .ui.inline.header building: #{title}
                     if can_edit
                         a.ui.basic.circular.icon.button(href="/building/#{_id}/edit")
@@ -141,6 +140,7 @@ template(name='building_view')
                         |shop
                     i.plus.icon.add_building_product
                     div
+                    +raw_view key='map_html' label='map html' direct=true
                     +comments
 
 
@@ -151,17 +151,16 @@ template(name='building_edit')
                 .four.wide.column
                     .ui.header 
                         |editing building
-                    if published 
-                        a.ui.fluid.icon.green.button(href="/building/#{_id}/" title='save')
-                            i.checkmark.big.icon
-                    else 
-                        a.ui.fluid.icon.green.button.publish(href="/building/#{_id}/" title='save')
-                            i.checkmark.big.icon
-                            |save & publish
+                    a.ui.fluid.icon.green.button(href="/building/#{_id}/" title='save')
+                        i.checkmark.big.icon
+                    +text_edit key='street' label='street' icon='marker' direct=true
+                    +number_edit key='address_number' label='address number' icon='marker' direct=true
+                    
                     +remove_button
+                .eight.wide.column 
+                    +text_edit key='title' direct=true
+                    +raw_edit key='map_html' label='map html' direct=true
                     +image_edit key='image' label='image' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                                         
-                .eight.wide.column 
-                    +text_edit key='title' direct=true

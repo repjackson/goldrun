@@ -53,6 +53,24 @@ if Meteor.isClient
         'click .unfollow': ->
             Docs.update @_id,
                 $pull:follower_ids:Meteor.userId()
+   
+   
+    Template.friend_button.helpers
+        is_current_user: -> Meteor.user().username is Router.current().params.username
+        is_friend: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            # Meteor.userId() in user.friend_ids
+            user._id in Meteor.user().friend_ids
+        following: -> @follower_ids and Meteor.userId() in @follower_ids
+    Template.friend_button.events
+        'click .add_friend': ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Meteor.users.update Meteor.userId(),
+                $addToSet:friend_ids:user._id
+        'click .remove_friend': ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Meteor.users.update Meteor.userId(),
+                $pull:friend_ids:user._id
 
     Template.voting.events
         'click .upvote': (e,t)->

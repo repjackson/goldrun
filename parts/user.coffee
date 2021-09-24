@@ -11,10 +11,10 @@ if Meteor.isClient
                 Meteor.users.find({
                     username: {$regex:"#{username_query}", $options: 'i'}
                     # roles:$in:['resident','owner']
-                    },{ limit:20 })
+                    },{ limit:200 })
             else
                 Meteor.users.find({
-                    },{ limit:20 })
+                    },{ limit:200 })
 
     Template.users.events
         'click .add_user': ->
@@ -48,4 +48,4 @@ if Meteor.isServer
     Meteor.publish 'user_search', (username, role)->
         match = {}
         if username.length > 0 then match.username = {$regex:"#{username}", $options: 'i'}
-        Meteor.users.find(match,{limit:20})
+        Meteor.users.find(match,{limit:200})

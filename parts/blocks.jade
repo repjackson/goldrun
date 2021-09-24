@@ -12,6 +12,18 @@ template(name='key_value_edit')
 
 
 
+template(name='friend_button')
+    unless is_current_user 
+        if is_friend
+            .ui.button.remove_friend
+                i.checkmark.icon
+                |friends
+        else 
+            .ui.button.add_friend
+                i.plus.icon
+                |add friend
+
+
 template(name='doc_array_togggle')
     if currentUser
         .ui.button.toggle(class=doc_array_toggle_class title=label)

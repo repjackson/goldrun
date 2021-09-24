@@ -59,7 +59,7 @@ template(name='user_cloud')
 template(name='user_item')
     .item
         a.zoom.pointer.blink(href="/user/#{username}")
-            img.ui.avatar.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+            img.ui.avatar.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}") 
 
             a.ui.inline.header.pointer(href="/user/#{username}" style="color:#{theme_color};")
                 |#{name}
@@ -76,14 +76,14 @@ template(name='user_item')
         
 template(name='user_card')
     .card.rounded.calc_points
-        img.ui.image.mobile.only(class=currentUser.invert_class src="{{c.url profile_image_id width=400 height=300 crop='fill'}}")    
+        img.ui.image.mobile.only(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         a.zoom.pointer.mobile.hidden.blink(href="/user/#{username}")
             unless avatar_image_id
-                img.ui.image(class=currentUser.invert_class src="{{c.url profile_image_id width=400 height=300 crop='fill'}}")    
+                img.ui.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill'}}")    
             if avatar_image_id
                 .ui.fade.reveal.image
                     .visible.content
-                        img(class=currentUser.invert_class src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+                        img(class=currentUser.invert_class src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}") 
                     .hidden.content
                         img(class=currentUser.invert_class src="{{c.url avatar_image_id height=500 width=500 gravity='face' crop='fill'}}") 
 
@@ -97,7 +97,7 @@ template(name='user_card')
             // .ui.basic.label(style="color:#{current_user.theme_color};" title='one ratio') {{to_percent one_ratio}}%
             // .ui.basic.label(style="color:#{current_user.theme_color};" title='flow volument') #{flow_volume}
             if tags 
-                each tags 
+                each five_tags
                     .ui.basic.label #{this}
             // if debit_tags
             //     div

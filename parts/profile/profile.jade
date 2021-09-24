@@ -36,6 +36,7 @@ template(name='user_layout')
                         a.ui.basic.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             +i name='settings' cl='ui avatar image'
                             |edit
+                    +friend_button
                     if is_current_user
                         .ui.basic.large.icon.button.logout(title='log out')
                             i.sign.out.alternate.icon

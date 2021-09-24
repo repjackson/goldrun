@@ -8,9 +8,8 @@ template(name='user_edit')
                         | #{user_from_username_param.first_name} #{user_from_username_param.last_name}
                     //- +i name='pencil'
                     .ui.small.inline.header @#{user_from_username_param.username}
-                    a.ui.button(href="/user/#{user_from_username_param.username}/") 
-                        i.checkmark.green.icon
-                        strong save
+                    a.ui.green.fluid.icon.button(href="/user/#{user_from_username_param.username}/") 
+                        i.checkmark.large.icon
                     .ui.hidden.divider
                     +image_edit key='image_id' icon='picture' title='profile image' direct=true
                     if is_current_user
@@ -27,6 +26,7 @@ template(name='user_edit')
                         +text_edit key='first_name' label='first name' direct=true
                         +text_edit key='last_name' label='last name' direct=true
                         +text_edit key='building_letter' label='building letter' direct=true
+                        +number_edit key='unit_number' label='unit number' direct=true
                         div
                         .ui.header 
                             i.envelope.outline.icon

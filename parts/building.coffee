@@ -144,7 +144,7 @@ if Meteor.isClient
 
         one_post: ->
             Docs.find().count() is 1
-        building: ->
+        building_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {
                 model:'building'
@@ -182,49 +182,8 @@ if Meteor.isClient
     #         console.log @
     #         Session.set('building_limit', @amount)
 
-    Template.set_building_sort_key.events
-        'click .set_sort': ->
-            console.log @
-            Session.set('building_sort_key', @key)
-            Session.set('building_sort_label', @label)
-
-    Template.session_edit_value_button.events
-        'click .set_session_value': ->
-            # console.log @key
-            # console.log @value
-            Session.set(@key, @value)
-
-    Template.session_edit_value_button.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.equals(@key,@value)
-                res += ' active'
-            # console.log res
-            res
 
 
-
-    Template.session_boolean_toggle.events
-        'click .toggle_session_key': ->
-            console.log @key
-            Session.set(@key, !Session.get(@key))
-
-    Template.session_boolean_toggle.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.get(@key)
-                res += ' blue'
-            else
-                res += ' basic'
-
-            # console.log res
-            res
 
 
 if Meteor.isServer
@@ -387,7 +346,7 @@ if Meteor.isServer
 
 
 
-Router.route '/building/:doc_id/', (->
+Router.route '/building/:identifier/', (->
     @render 'building_view'
     ), name:'building_view'
 Router.route '/building/:doc_id/edit', (->
@@ -397,10 +356,21 @@ Router.route '/building/:doc_id/edit', (->
 
 if Meteor.isClient
     Template.building_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'building', Router.current().params.identifier
     Template.building_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
+    Template.building_view.helpers
+        current_building: ->
+            doc_by_id = 
+                Docs.findOne Router.current().params.doc_id
+            if doc_by_id
+                doc_by_id
+            else 
+                Docs.findOne
+                    model:'building'
+                    building_code:Router.current().params.doc_id
+            
     Template.building_view.events
         'click .add_unit': ->
             new_id = 
@@ -465,6 +435,20 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'building', (identifier)->
+        found_by_id = Docs.findOne identifier
+        if found_by_id
+            Docs.find identifier
+        else 
+            found_by_code = 
+                Docs.findOne 
+                    model:'building'
+                    building_code:identifier
+            if found_by_code
+                Docs.find
+                    model:'building'
+                    building_code:identifier
+                
     Meteor.publish 'building_reservations', (building_id)->
         Docs.find
             model:'reservation'

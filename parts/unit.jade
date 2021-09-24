@@ -73,6 +73,7 @@ template(name='unit_view')
                         +i name='room' cl='ui inline avatar image'
                         // |units
                     .ui.inline.header unit: #{title}
+                    +image_view key='image' label='image' direct=true
                     if can_edit
                         a.ui.basic.circular.icon.button(href="/unit/#{_id}/edit")
                             i.pencil.large.icon
@@ -80,7 +81,6 @@ template(name='unit_view')
                     .ui.header #: #{unit_number}
                     if link
                         +link_view key='link' label='link' direct=true
-                    +image_view key='image' label='image' direct=true
                     +voting_full
                     +viewing
                 .ten.wide.column

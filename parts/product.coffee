@@ -5,6 +5,14 @@ if Meteor.isClient
         ), name:'products'
 
 
+    Template.product_orders.onCreated ->
+        @autorun => @subscribe 'product_orders',Router.current().params.doc_id, ->
+    Template.product_orders.helpers
+        product_order_docs: ->
+            Docs.find 
+                model:'order'
+                product_id:Router.current().params.doc_id
+
     Template.products.onCreated ->
         Session.setDefault 'view_mode', 'list'
         Session.setDefault 'product_sort_key', 'datetime_available'
@@ -443,4 +451,10 @@ if Meteor.isServer
         Docs.find
             model:'product'
             _author_id: user._id
+            
+    Meteor.publish 'product_orders', (doc_id)->
+        product = Docs.findOne doc_id
+        Docs.find
+            model:'order'
+            product_id:product._id
             

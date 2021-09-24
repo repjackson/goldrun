@@ -148,7 +148,19 @@ template(name='product_view')
                     +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
                     +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
                     +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
-    
+                    +product_orders
+                    
+                    
+        
+        
+template(name='product_orders')
+    .ui.header 
+        +i name='order-history'
+        |orders
+    .ui.selection.animated.link.list
+        each product_order_docs
+            a.item(href="/order/#{_id}")
+                | #{when} #{_author_username}
     
     
 template(name='add_to_tab')

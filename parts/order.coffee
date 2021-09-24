@@ -36,8 +36,8 @@ if Meteor.isClient
             if confirm 'cancel order?'
                 doc_id = Router.current().params.doc_id
                 $(e.currentTarget).closest('.grid').transition('fly right', 500)
-
                 Router.go "/product/#{@product_id}"
+
                 Docs.remove doc_id
 
 
@@ -107,7 +107,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.user_orders.onCreated ->
         @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
-        @autorun => Meteor.subscribe 'model_docs', 'food'
+        # @autorun => Meteor.subscribe 'model_docs', 'food'
     Template.user_orders.helpers
         orders: ->
             current_user = Meteor.users.findOne username:Router.current().params.username
@@ -118,6 +118,7 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'user_orders', (username)->
         user = Meteor.users.findOne username:username
-        Docs.find
+        Docs.find({
             model:'order'
             _author_id: user._id
+        }, limit:20)

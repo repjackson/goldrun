@@ -3,12 +3,16 @@ template(name='order_view')
         .ui.stackable.padded.grid
             .row
                 .four.wide.center.aligned.column
-                    a.ui.circular.compact.button(href="/food/#{food_id}/")
+                    // a.ui.circular.compact.button(href="/food/#{food_id}/")
+                    //     i.left.chevron.icon
+                    //     img.ui.avatar.image(src="{{c.url order_product.image_id width=200 height=200}}")    
+                    //     |#{order_product.title}
+                    a.ui.circular.compact.button(href="/product/#{product_id}/")
                         i.left.chevron.icon
-                        img.ui.avatar.image(src="{{c.url order_food.image_id width=200 height=200}}")    
-                        |#{order_food.title}
+                        img.ui.avatar.image(src="{{c.url order_product.image_id width=200 height=200}}")    
+                        |#{order_product.title} product
                 .eight.wide.center.aligned.column
-                    .ui.header view '#{order_food.title}' order
+                    .ui.header view '#{order_product.title}' order
                 .four.wide.center.aligned.column
                     if can_edit
                         a.ui.large.circular.button(href="/order/#{_id}/edit")
@@ -20,7 +24,7 @@ template(name='order_view')
                     .ui.header order price #{order_price}
                     
                     .ui.segment 
-                        with order_food
+                        with order_product
                             a(href="/food/#{_id}/")
                                 img.ui.rounded.image(src="{{c.url image_id width=400 height=400}}")
                             a(href="/food/#{_id}/")
@@ -38,7 +42,7 @@ template(name='order_view')
                     +textarea_view key='description'
                     .ui.small.inline.header {{long_date datetime_available}}
                     .ui.header ingredients
-                    each order_food.ingredients
+                    each order_product.ingredients
                         .ui.label #{this}
                     .ui.header
                         if pickup
@@ -116,11 +120,11 @@ template(name='profile_order_item')
     .ui.segment.grid
         .row
             .four.wide.column
-                with order_food
+                with order_product
                     //- img.ui.mini.image(src=image)
                     +image_view key='image_id' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
-                .ui.header #{order_food.title}
+                .ui.header #{order_product.title}
                 a.ui.small.header.inline.lowercase(href="/order/#{_id}/")
                     |#{order_amount}c
                 .ui.small.inline.header #{when} by #{_author_username}

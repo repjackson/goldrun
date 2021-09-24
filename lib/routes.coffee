@@ -79,6 +79,7 @@ Router.route('verify-email', {
 Router.route '/verification_confirmation', -> @render 'verification_confirmation'
 Router.route '*', -> @render 'not_found'
 
+Router.route '/map', -> @render 'map'
 # Router.route '/user/:username/m/:type', -> @render 'user_layout', 'user_section'
 Router.route '/add_resident', (->
     @layout 'layout'

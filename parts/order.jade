@@ -97,16 +97,20 @@ template(name='order_edit')
                 .ui.header 
                     |credit after purchase 
                     |#{user_points_after_purchase}p
-                .ui.header delivery method
+                .ui.header 
+                    +i name='delivery'
+                    |delivery method
                 +key_value_edit key='delivery_method' value='delivery' label='delivery' icon='deliver-food'
-                +key_value_edit key='delivery_method' value='pickup' label='pickup' icon='doormat'
+                +key_value_edit key='delivery_method' value='pickup' label='pickup' icon='contactless-delivery'
 
                 if key_value_is 'delivery_method' 'delivery'
                     +datetime_edit key='delivery_timedate' label='delivery timedate' direct=true
                 if key_value_is 'delivery_method' 'pickup'
                     +datetime_edit key='pickup_timedate' label='pickup timedate' direct=true
             .five.wide.column
-                a.ui.large.fluid.green.button.complete
+                +textarea_edit key='notes' label='notes' direct=true
+                .ui.hidden.divider
+                a.ui.large.fluid.green.button.complete_order
                     i.checkmark.large.icon   
                     |complete
                 .ui.hidden.divider

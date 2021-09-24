@@ -28,7 +28,7 @@ if Meteor.isClient
             parent = Template.parentData()
             # console.log parent
             # if parent["#{@key}"] is @value then 'active' else ''
-            if Session.equals("#{@key}",@value) then 'active' else ''
+            if Session.equals("#{@key}",@value) then 'active large' else 'basic'
 
 
     Template.reservation_edit.helpers

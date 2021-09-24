@@ -41,7 +41,39 @@ if Meteor.isClient
                 $set:
                     complete:true
                     completed_timestamp:Date.now()
-                    
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: 'order completed'
+                # showProgress: 'bottom'
+                class: 'success'
+                # displayTime: 'auto',
+                position: "bottom center"
+            )
+            product = Docs.findOne @product_id
+            Meteor.users.update product._author_id,
+                $inc:
+                    points:@product_point_price
+            $('body').toast(
+                showIcon: 'chevron up'
+                message: "points debited from #{@_author_username}"
+                # showProgress: 'bottom'
+                class: 'info'
+                # displayTime: 'auto',
+                position: "bottom center"
+            )
+            Meteor.users.update @_author_id,
+                $inc:
+                    points:-@product_point_price
+            $('body').toast(
+                showIcon: 'chevron down'
+                message: "points credited to #{product._author_username}"
+                # showProgress: 'bottom'
+                class: 'success'
+                # displayTime: 'auto',
+                position: "bottom center"
+            )
+            Router.go "/order/#{@_id}"
+
 
         'click .delete_order': (e,t)->
             if confirm 'cancel order?'

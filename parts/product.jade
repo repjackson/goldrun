@@ -85,7 +85,7 @@ template(name='product_edit')
                 .four.wide.column
                     +number_edit key='inventory' label='inventory' icon='warehouse' direct=true
                     +number_edit key='dollar_price' icon='money' label='dollar price/unit' direct=true
-                    +number_edit key='credit_price' icon='coins' label='point price/unit' direct=true
+                    +number_edit key='point_price' icon='coins' label='point price/unit' direct=true
                     .ui.inline.header
                         +i name='delivery'
                         |delivery
@@ -129,22 +129,27 @@ template(name='product_view')
                 .six.wide.column
                     div
                     unless sold_out
-                        .ui.big.green.fluid.button.buy_product 
-                            i.cart.icon
-                            |buy for $#{dollar_price}
+                        if point_price
+                            .ui.big.green.fluid.button.buy_product 
+                                i.cart.large.icon
+                                |buy for #{point_price}p
+                        if dollar_price
+                            .ui.big.green.fluid.button.buy_product 
+                                i.cart.large.icon
+                                |buy for $#{dollar_price}
                     else 
                         .ui.big.disabled.fluid.basic.button
                             |sold out
                     .ui.hidden.divider
-                    if delivery_instructions
-                        .ui.segment
-                            .ui.small.header
-                                |delivery instructions
-                            |#{delivery_instructions}      
                     +array_view key='tags' icon='tags' direct=true
                     .ui.inline.header
                         +i name='delivery'
                         |delivery
+                    div
+                    if delivery_instructions
+                        .ui.small.inline.header
+                            |delivery instructions:
+                        |#{delivery_instructions}      
                     +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
                     +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
                     +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true

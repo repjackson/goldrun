@@ -25,13 +25,23 @@ if Meteor.isClient
             else
                 true
 
+        user_points_after_purchase: ->
+            user_points = Meteor.user().points
+            current_order = Docs.findOne Router.current().params.doc_id
+            user_points - current_order.product_point_price
+
 
     Template.order_edit.events
         'click .select_dish': ->
             Docs.update Router.current().params.doc_id,
                 $set:
                     dish_id: @_id
-
+        'click .complete_order': (e,t)->
+            Docs.update Router.current().params.doc_id,
+                $set:
+                    complete:true
+                    completed_timestamp:Date.now()
+                    
 
         'click .delete_order': (e,t)->
             if confirm 'cancel order?'

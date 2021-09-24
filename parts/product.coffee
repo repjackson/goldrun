@@ -366,8 +366,7 @@ if Meteor.isClient
         ), name:'order_checkout'
 
 
-    Template.order_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    
     Template.product_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     Template.product_edit.onCreated ->
@@ -428,7 +427,8 @@ if Meteor.isClient
                     product_title:product.title
                     product_price:product.dollar_price
                     product_image_id:product.image_id
-                    
+                    product_point_price:product.point_price
+                    product_dollar_price:product.dollar_price
             Router.go "/order/#{new_order_id}/checkout"
             
             

@@ -8,7 +8,8 @@ if Meteor.isClient
 
     Template.order_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'dish'
+        @autorun => Meteor.subscribe 'product_from_order_id', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'model_docs', 'dish'
 
     Template.order_edit.helpers
         # all_dishes: ->
@@ -54,7 +55,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'dish'
         # @autorun => Meteor.subscribe 'model_docs', 'order'
-        @autorun => Meteor.subscribe 'food_by_order_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'product_from_order_id', Router.current().params.doc_id
 
 
     Template.order_view.events
@@ -83,10 +84,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'food_by_order_id', (order_id)->
+    Meteor.publish 'product_from_order_id', (order_id)->
         order = Docs.findOne order_id
         Docs.find
-            _id: order.food_id
+            _id: order.product_id
 
     # Meteor.methods
         # order_order: (order_id)->
@@ -107,7 +108,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.user_orders.onCreated ->
         @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
-        # @autorun => Meteor.subscribe 'model_docs', 'food'
+        # @autorun => Meteor.subscribe 'model_docs', 'product'
     Template.user_orders.helpers
         orders: ->
             current_user = Meteor.users.findOne username:Router.current().params.username

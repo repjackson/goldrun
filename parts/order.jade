@@ -5,31 +5,32 @@ template(name='order_view')
                 .four.wide.center.aligned.column
                     // a.ui.circular.compact.button(href="/food/#{food_id}/")
                     //     i.left.chevron.icon
-                    //     img.ui.avatar.image(src="{{c.url order_product.image_id width=200 height=200}}")    
+                    //     img.ui.avatar.image(src="{{c.url order_product.image width=200 height=200}}")    
                     //     |#{order_product.title}
                     a.ui.circular.compact.button(href="/product/#{product_id}/")
                         i.left.chevron.icon
-                        img.ui.avatar.image(src="{{c.url order_product.image_id width=200 height=200}}")    
+                        img.ui.avatar.image(src="{{c.url order_product.image width=200 height=200}}")    
                         |#{order_product.title} product
                 .eight.wide.center.aligned.column
                     .ui.header view '#{order_product.title}' order
                 .four.wide.center.aligned.column
                     if can_edit
-                        a.ui.large.circular.button(href="/order/#{_id}/edit")
-                            i.pencil.icon
-                            |edit
+                        a.ui.large.circular.icon.button(href="/order/#{_id}/edit")
+                            i.pencil.large.icon
             .three.column.row
                 .column
                     .ui.header ordered #{when}
                     .ui.header order price #{order_price}
                     
+                    .ui.header 
+                        +i name='shop'
+                        |product
                     .ui.segment 
                         with order_product
-                            a(href="/food/#{_id}/")
-                                img.ui.rounded.image(src="{{c.url image_id width=400 height=400}}")
-                            a(href="/food/#{_id}/")
+                            a(href="/product/#{_id}/")
+                                img.ui.rounded.image(src="{{c.url image width=400 height=400}}")
+                            a(href="/product/#{_id}/")
                                 .ui.header #{title}
-                            .ui.header food
                             .ui.header #{serving_purchase_price} serving perchase price
                             //- .ui.header #{cook_tip} cook tip
                             .ui.header $#{order_total_transaction_amount} 
@@ -41,9 +42,9 @@ template(name='order_view')
                         |{{from_now datetime_available}}:
                     +textarea_view key='description'
                     .ui.small.inline.header {{long_date datetime_available}}
-                    .ui.header ingredients
-                    each order_product.ingredients
-                        .ui.label #{this}
+                    // .ui.header ingredients
+                    // each order_product.ingredients
+                    //     .ui.label #{this}
                     .ui.header
                         if pickup
                             i.checkmark.icon
@@ -56,7 +57,7 @@ template(name='order_view')
                         else 
                             |no
                         |delivery
-                    .ui.header #{servings_left} servings left
+                    // .ui.header #{servings_left} servings left
                     if can_edit
                         .ui.small.compact.button.cancel_order
                             i.remove.icon
@@ -76,22 +77,22 @@ template(name='order_edit')
     with current_doc
         .ui.stackable.padded.grid
             .five.wide.column
-                .ui.header editing order
-                .ui.header #{title}
-                +array_edit key='tags' 
+                .ui.small.grey.inline.header editing order
+                .ui.inline.header #{product_title}
+                div
                 // +float_edit key='serving_purchase_price' label='serving purchase price' direct=true
                 // +float_edit key='cook_tip' label='cook tip' direct=true
                 .ui.header $#{order_total_transaction_amount} 
                     small total transaction amount
                 .ui.header product 
                 with order_product
-                    .ui.small.header #{title}
-                    +image_edit key='image_id' direct=true
-                    +textarea_edit key='description' direct=true
+                    a.ui.small.header(href="/product/#{product_id}") #{title}
+                    +image_view key='image' direct=true
+                    +html_view key='description' direct=true
             .five.wide.column
-                a.ui.large.fluid.green.button(href="/order/#{_id}/")
-                    i.checkmark.icon   
-                    |save     
+                a.ui.large.fluid.green.button.complete(href="/order/#{_id}/")
+                    i.checkmark.large.icon   
+                    |complete
                 if can_delete
                     .ui.red.button.delete_order
                         i.remove.icon   
@@ -101,8 +102,8 @@ template(name='order_edit')
                         i.remove.icon   
                         | can't cancel  
                 .ui.header delivery method
-                +key_value_edit key='delivery_method' value='delivery' color_icon='deliver-food'
-                +key_value_edit key='delivery_method' value='pickup' color_icon='doormat'
+                +key_value_edit key='delivery_method' value='delivery' label='delivery' icon='deliver-food'
+                +key_value_edit key='delivery_method' value='pickup' label='pickup' icon='doormat'
 
                 if key_value_is 'delivery_method' 'delivery'
                     +datetime_edit key='delivery_timedate' label='delivery timedate' direct=true
@@ -122,7 +123,7 @@ template(name='profile_order_item')
             .four.wide.column
                 with order_product
                     //- img.ui.mini.image(src=image)
-                    +image_view key='image_id' direct=true cl='zoom ui tiny image'
+                    +image_view key='image' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
                 .ui.header #{order_product.title}
                 a.ui.small.header.inline.lowercase(href="/order/#{_id}/")

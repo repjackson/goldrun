@@ -75,7 +75,7 @@ template(name='user_item')
                 i.blue.chat.pointer.message.big.disabled.icon
         
 template(name='user_card')
-    .card.rounded.calc_points
+    .ui.card.rounded.calc_points
         img.ui.image.mobile.only(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill'}}")    
         a.zoom.pointer.mobile.hidden.blink(href="/user/#{username}")
             unless avatar_image_id

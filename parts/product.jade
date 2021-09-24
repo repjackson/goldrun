@@ -92,7 +92,7 @@ template(name='product_edit')
                     +boolean_edit key='pickup_delivery' label='pickup' direct=true icon='holding-box'
                     +boolean_edit key='unit_dropoff_delivery' label='unit dropoff' icon='contactless-delivery' direct=true
                     +boolean_edit key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
-                        
+                    +textarea_edit key='delivery_instructions' label='delivery instructions' icon='note' direct=true
                 
 
 template(name='product_view')
@@ -105,19 +105,20 @@ template(name='product_view')
                         small viewing
                         |#{title}
                         small product
-                    a.ui.big.basic.button(href="/products")
+                    a.ui.big.basic.icon.button(href="/products" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline mini image'
-                        |shop
                     if can_edit
                         a.ui.icon.large.basic.circular.button(href="/product/#{_id}/edit")
                             i.pencil.large.blue.icon
                     .ui.large.header #{title}
                     .ui.header added by #{_author_username}
                     |#{when}
-                    with _author_id
+                    with author
                         +user_card
-                .eight.wide.column
+                    .ui.hidden.divider
+                    +voting_full     
+                .six.wide.column
                     img.ui.centered.rounded.shadowed.image(src="{{c.url image width=1000 height=400 crop='fit'}}")
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +text_view key='location' icon='marker' label='location description' direct=true
@@ -125,7 +126,7 @@ template(name='product_view')
                     +number_view key='dollar_price' icon='money' label='dollar price' direct=true
                     +html_view key='description' direct=true
                     +comments
-                .four.wide.column
+                .six.wide.column
                     div
                     unless sold_out
                         .ui.big.green.fluid.button.buy_product 
@@ -135,7 +136,6 @@ template(name='product_view')
                         .ui.big.disabled.fluid.basic.button
                             |sold out
                     .ui.hidden.divider
-                    +voting_full     
                     if delivery_instructions
                         .ui.segment
                             .ui.small.header
@@ -156,6 +156,7 @@ template(name='product_view')
 template(name='product_orders')
     .ui.header 
         +i name='order-history'
+        |#{product_order_docs.count}
         |orders
     .ui.selection.animated.link.list
         each product_order_docs

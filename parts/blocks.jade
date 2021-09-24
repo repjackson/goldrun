@@ -7,7 +7,8 @@ template(name='key_value_edit')
                 else
                     i.sort.amount.up.icon
         if icon 
-            i.icon(class=icon)
+            +i name=icon cl='ui avatar image'
+            // i.icon(class=icon)
         |#{label}
 
 

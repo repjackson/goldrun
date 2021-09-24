@@ -399,31 +399,36 @@ if Meteor.isClient
         #           hideDuration : 250
         #         })
 
-        'click .add_to_cart': ->
-            console.log @
-            Docs.insert
-                model:'order'
-                product_id:@_id
-            $('body').toast({
-                title: "#{@title} added to cart."
-                # message: 'Please see desk staff for key.'
-                class : 'green'
-                # position:'top center'
-                # className:
-                #     toast: 'ui massive message'
-                displayTime: 5000
-                transition:
-                  showMethod   : 'zoom',
-                  showDuration : 250,
-                  hideMethod   : 'fade',
-                  hideDuration : 250
-                })
+        # 'click .add_to_cart': ->
+        #     console.log @
+        #     Docs.insert
+        #         model:'order'
+        #         product_id:@_id
+        #     $('body').toast({
+        #         title: "#{@title} added to cart."
+        #         # message: 'Please see desk staff for key.'
+        #         class : 'green'
+        #         # position:'top center'
+        #         # className:
+        #         #     toast: 'ui massive message'
+        #         displayTime: 5000
+        #         transition:
+        #           showMethod   : 'zoom',
+        #           showDuration : 250,
+        #           hideMethod   : 'fade',
+        #           hideDuration : 250
+        #         })
 
-        'click .buy_product': ->
+        'click .buy_product': (e,t)->
+            product = Docs.findOne Router.current().params.doc_id
             new_order_id = 
                 Docs.insert 
                     model:'order'
-                    product_id:Router.current().params.doc_id
+                    product_id:product._id
+                    product_title:product.title
+                    product_price:product.dollar_price
+                    product_image_id:product.image_id
+                    
             Router.go "/order/#{new_order_id}/checkout"
             
             

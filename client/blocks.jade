@@ -36,8 +36,10 @@ template(name='viewing')
         +user_info
 
 template(name='user_info')
-    .ui.header #{this}
-
+    with user_doc
+        a.ui.image.basic.label(href="/user/#{username}")
+            img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+            |#{username}
 
 template(name='session_boolean_toggle')
     .ui.circular.compact.button.toggle_session_key(class=calculated_class)
@@ -249,12 +251,12 @@ template(name='user_list_toggle')
 template(name='voting')
     .ui.icon.button.upvote(title='upvote')
         i.thumbs.up.icon(class=upvote_class)
-    //- each upvoter_ids
-    //-     +user_info
+    each upvoter_ids
+        +user_info
     .ui.icon.button.downvote(title='downvote')
         i.thumbs.down.icon(class=downvote_class)
-    //- each downvoter_ids
-    //-     +user_info
+    each downvoter_ids
+        +user_info
     if points
         strong #{points} pts
     if anon_points

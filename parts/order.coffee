@@ -11,9 +11,9 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'dish'
 
     Template.order_edit.helpers
-        all_dishes: ->
-            Docs.find
-                model:'dish'
+        # all_dishes: ->
+        #     Docs.find
+        #         model:'dish'
         can_delete: ->
             order = Docs.findOne Router.current().params.doc_id
             if order.reservation_ids
@@ -32,10 +32,13 @@ if Meteor.isClient
                     dish_id: @_id
 
 
-        'click .delete_order': ->
-            if confirm 'refund orders and cancel order?'
-                Docs.remove Router.current().params.doc_id
-                Router.go "/"
+        'click .delete_order': (e,t)->
+            if confirm 'cancel order?'
+                doc_id = Router.current().params.doc_id
+                $(e.currentTarget).closest('.grid').transition('fly right', 500)
+
+                Router.go "/product/#{@product_id}"
+                Docs.remove doc_id
 
 
 

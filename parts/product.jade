@@ -65,13 +65,15 @@ template(name='product_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.center.aligned.column
+                .four.wide.column
                     a.ui.big.icon.green.button(href="/product/#{_id}/")
                         i.checkmark.big.icon
                     .ui.inline.header 
                         small editing
                         |'#{title}'
                         small product
+                    +array_edit key='tags' icon='tags' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     .ui.icon.basic.small.button.delete_product_item 
                         i.trash.red.icon
                 .eight.wide.column
@@ -81,17 +83,15 @@ template(name='product_edit')
                     if is_admin
                         +text_edit key='model' direct=true
                 .four.wide.column
-                    +number_edit key='inventory' label='inventory' direct=true
-                    +number_edit key='credit_price' icon='money' label='dollar price' direct=true
-                    +array_edit key='tags' icon='tags' direct=true
-                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    .ui.header
+                    +number_edit key='inventory' label='inventory' icon='warehouse' direct=true
+                    +number_edit key='dollar_price' icon='money' label='dollar price/unit' direct=true
+                    +number_edit key='credit_price' icon='coins' label='point price/unit' direct=true
+                    .ui.inline.header
                         +i name='delivery'
                         |delivery
-                    +boolean_edit key='pickup_delivery' label='pickup' direct=true
-                    +boolean_edit key='home_dropoff_delivery' label='home dropoff' direct=true
-                    +boolean_edit key='building_dropoff_delivery' label='building dropoff' direct=true
-                    +boolean_edit key='healthclub_drop_off_delivery' label='health club drop off' direct=true
+                    +boolean_edit key='pickup_delivery' label='pickup' direct=true icon='holding-box'
+                    +boolean_edit key='unit_dropoff_delivery' label='unit dropoff' icon='contactless-delivery' direct=true
+                    +boolean_edit key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
                         
                 
 
@@ -121,7 +121,8 @@ template(name='product_view')
                     img.ui.centered.rounded.shadowed.image(src="{{c.url image width=1000 height=400 crop='fit'}}")
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +text_view key='location' icon='marker' label='location description' direct=true
-                    +number_view key='credit_price' icon='money' label='dollar price' direct=true
+                    +number_view key='credit_price' icon='coins' label='credit price' direct=true
+                    +number_view key='dollar_price' icon='money' label='dollar price' direct=true
                     +html_view key='description' direct=true
                     +comments
                 .four.wide.column
@@ -129,23 +130,24 @@ template(name='product_view')
                     unless sold_out
                         .ui.big.green.fluid.button.buy_product 
                             i.cart.icon
-                            |buy
+                            |buy for $#{dollar_price}
                     else 
                         .ui.big.disabled.fluid.basic.button
                             |sold out
-                    div
+                    .ui.hidden.divider
                     +voting_full     
-                    .ui.segment
-                        .ui.small.header
-                            |delivery instructions
-                        |#{delivery_instructions}      
+                    if delivery_instructions
+                        .ui.segment
+                            .ui.small.header
+                                |delivery instructions
+                            |#{delivery_instructions}      
                     +array_view key='tags' icon='tags' direct=true
-                    .ui.header
+                    .ui.inline.header
+                        +i name='delivery'
                         |delivery
-                    +boolean_view key='pickup_delivery' label='pickup' direct=true
-                    +boolean_view key='home_dropoff_delivery' label='home dropoff' direct=true
-                    +boolean_view key='building_dropoff_delivery' label='building dropoff' direct=true
-                    +boolean_view key='healthclub_drop_off_delivery' label='health club drop off' direct=true
+                    +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
+                    +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
+                    +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
     
     
     

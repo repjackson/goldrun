@@ -182,51 +182,6 @@ if Meteor.isClient
     #         console.log @
     #         Session.set('product_limit', @amount)
 
-    Template.set_product_sort_key.events
-        'click .set_sort': ->
-            console.log @
-            Session.set('product_sort_key', @key)
-            Session.set('product_sort_label', @label)
-
-    Template.session_edit_value_button.events
-        'click .set_session_value': ->
-            # console.log @key
-            # console.log @value
-            Session.set(@key, @value)
-
-    Template.session_edit_value_button.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.equals(@key,@value)
-                res += ' active'
-            # console.log res
-            res
-
-
-
-    Template.session_boolean_toggle.events
-        'click .toggle_session_key': ->
-            console.log @key
-            Session.set(@key, !Session.get(@key))
-
-    Template.session_boolean_toggle.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.get(@key)
-                res += ' blue'
-            else
-                res += ' basic'
-
-            # console.log res
-            res
-
-
 if Meteor.isServer
     Meteor.publish 'product_results', (
         picked_tags

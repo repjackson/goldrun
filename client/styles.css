@@ -220,7 +220,7 @@ body {
 }
 
 #topnav {
-    border-radius: 0px 0px 0px 0px !important;
+    /*border-radius: 0px 0px 0px 0px !important;*/
 }
 .hour_selected {
     /* outline: lightgreen solid 2px !important; */
@@ -1002,12 +1002,12 @@ h1.ui.header{
 .menuscroll::-webkit-scrollbar {
     width: 5px;
 }
-/*
-.smallscroll::-webkit-scrollbar {
-    display: none;
-} */
+.hscroll::-webkit-scrollbar {
+    height: 1px;
+}
 
-.topnav{
+
+.hscroll{
 	overflow-y:hidden;
 	overflow-x:scroll;
 	/*max-height:1000px;*/

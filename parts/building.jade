@@ -58,7 +58,7 @@ template(name='buildings')
                             +set_building_limit amount=10
                             +set_building_limit amount=20
             .spacer 
-            .ui.stackable.four.cards
+            .ui.doubling.four.link.cards
                 each building
                     +building_card
 
@@ -87,30 +87,19 @@ template(name='set_building_limit')
 
 
 template(name='building_card')
-    .ui.card(class=building_card_class)
+    a.ui.card(class=building_card_class href="/building/#{_id}")
         .image
-            img.ui.zoom.pointer.goto_building.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+            img.ui.zoom.pointer.goto_building.image(src="{{c.url image width=400 height=300 crop='pad'}}")
         .content
             a.ui.header(href="/building/#{_id}/") 
                 //- |#{_author.name}'s
                 | #{title}
-            //- if session_is 'view_tags' true
-            +ismall name='tags'
-            each tags
-                .ui.small.circular.label #{this}
-        //- .ui.inline.small.header tags
-        .content
-            .right.floated.meta
-                | {{from_now _timestamp}}
-            //- if session_is 'view_users' true
-            a(href="/user/#{author.username}")
-                img.ui.avatar.image(src="{{c.url author.image_id width=400 height=600 crop='fit'}}")
-                |#{author.username}
-        //- a.image(href="/building/#{_id}/")
-            
+            .ui.list 
+                .item 
+                    |#{post.count} posts
+                .item
+                    |#{post.count} transactions
         .content    
-            if complete 
-                i.big.circular.green.checkmark.icon
             if can_edit
                 a.ui.large.icon.button(href="/building/#{_id}/edit")
                     i.pencil.icon
@@ -125,13 +114,13 @@ template(name='building_view')
                 .six.wide.column 
                     a.ui.fluid.basic.compact.button(href="/buildings")
                         i.left.chevron.icon
-                        +i name='buildings' cl='ui inline avatar image'
+                        +i name='building' cl='ui inline avatar image'
                         |buildings
                     .ui.header view building
                     if can_edit
                         a.ui.big.icon.button(href="/building/#{_id}/edit")
                             i.pencil.large.icon
-                    +image_view key='image_id' label='image' direct=true
+                    +image_view key='image' label='image' direct=true
                     +voting_full
                     +viewing
                     if published 
@@ -140,24 +129,7 @@ template(name='building_view')
                             |published on {{long_date publish_timestamp}}
                 .ten.wide.column
                     .ui.header #{title} 
-                    +boolean_edit key='has_description' label='has decription' icon='content' direct=true
-                    if has_description
-                        +html_view key='description' label='content' icon='content' direct=true
-                    +boolean_view key='has_bounty' label='has bounty' icon='coins' direct=true
-                    if has_bounty
-                        +number_view key='bounty_amount' label='bounty amount' icon='coins' direct=true
-                .four.wide.column 
-                    +boolean_view key='has_due_date' label='has due date' icon='clock' direct=true
-                    if has_due_date
-                       +datetime_view key='due_datetime' label='due date/time' icon='clock' direct=true
-                    +boolean_view key='has_target_user' label='has target user' icon='clock' direct=true
-                    if has_target_user
-                        +single_user_view key='target_user_id' label='target user' direct=true
-                    +html_view key='description' icon='content' label='description' direct=true
-                    if location_tags
-                        +array_view key='location_tags' label='location tags' icon='marker' direct=true
-                    +array_view key='tags' label='tags' icon='tags' direct=true
-                    div
+                    
                     +comments
 
 

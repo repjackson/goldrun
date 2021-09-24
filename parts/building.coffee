@@ -358,19 +358,11 @@ if Meteor.isClient
     Template.building_view.onCreated ->
         @autorun => Meteor.subscribe 'building', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'building_units', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'building_units_by_code', Router.current().params.doc_id
     Template.building_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
     Template.building_view.helpers
-        current_building: ->
-            doc_by_id = 
-                Docs.findOne Router.current().params.doc_id
-            # if doc_by_id
-            #     doc_by_id
-            # else 
-            #     Docs.findOne
-            #         model:'building'
-            #         building_code:Router.current().params.doc_id
             
     Template.building_view.events
         'click .add_unit': ->
@@ -450,11 +442,17 @@ if Meteor.isServer
                     model:'building'
                     building_code:doc_id
                 
-    Meteor.publish 'building_reservations', (building_id)->
+    Meteor.publish 'building_units', (building_id)->
         Docs.find
-            model:'reservation'
+            model:'unit'
             building_id: building_id
 
+
+    Meteor.publish 'building_units_by_code', (building_id)->
+        building = Docs.findOne building_id
+        Docs.find
+            model:'unit'
+            building_code:building.building_code
 
 
     Meteor.methods

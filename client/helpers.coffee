@@ -10,9 +10,12 @@ Template.registerHelper 'rental', () ->
     # Template.parentData()
 
 Template.registerHelper 'building_units', () ->
+    current_building = Docs.findOne Router.current().params.doc_id
     Docs.find 
         model:'unit'
-        building_id:Router.current().params.doc_id
+        building_code:current_building.building_code
+        # building_id:Router.current().params.doc_id
+        
     
     
     

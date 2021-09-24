@@ -45,14 +45,14 @@ template(name='units')
 template(name='unit_card')
     a.ui.card(class=unit_card_class href="/unit/#{_id}")
         .image
-            img.ui.zoom.pointer.goto_unit.image(src="{{c.url image width=400 height=300 crop='pad'}}")
+            img.ui.zoomer.pointer.image(src="{{c.url image width=400 height=300 crop='pad'}}")
         .content
             a.ui.header(href="/unit/#{_id}/") 
                 //- |#{_author.name}'s
                 | #{title}
             .ui.list 
                 .item 
-                    |building; #{building}
+                    |building; #{building_code}
                 .item
                     |##{unit_number}
         .content    
@@ -77,7 +77,7 @@ template(name='unit_view')
                     if can_edit
                         a.ui.basic.circular.icon.button(href="/unit/#{_id}/edit")
                             i.pencil.large.icon
-                    .ui.header building: #{building}
+                    .ui.header building code: #{building_code}
                     .ui.header #: #{unit_number}
                     if link
                         +link_view key='link' label='link' direct=true
@@ -116,7 +116,7 @@ template(name='unit_edit')
                 .six.wide.column 
                     +text_edit key='title' direct=true
                     +number_edit key='unit_number' label='unit number' direct=true
-                    +text_edit key='building' label='building' direct=true
+                    +text_edit key='building_code' label='building' direct=true
                     +html_edit key='description' label='content' icon='content' direct=true
                 .six.wide.column
                     +multi_user_edit key='resident_user_ids' label='current residents' direct=true

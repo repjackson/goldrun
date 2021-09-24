@@ -25,13 +25,13 @@ template(name='viewing')
     div
     if currentUser
         unless viewed_by
-            .ui.icon.button.mark_read
+            .ui.icon.basic.compact.button.mark_read
                 i.eye.icon
         else 
             if is_dev
-                .ui.icon.button.mark_unread
+                .ui.icon.basic.compact.button.mark_unread
                     i.cancel.icon
-    .ui.inline.header viewed by
+    .ui.inline.small.grey.header viewed by
     each read_ids
         +user_info
 

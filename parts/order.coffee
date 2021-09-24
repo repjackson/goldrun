@@ -93,6 +93,8 @@ if Meteor.isClient
         ), name:'order_view'
 
 
+    Template.profile_order_item.onCreated ->
+        @autorun => Meteor.subscribe 'product_from_order_id', @data._id
     Template.order_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'dish'

@@ -1,7 +1,7 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
         @layout 'user_layout'
-        @render 'user_food'
+        @render 'user_dashboard'
         ), name:'user_dashboard'
     Router.route '/user/:username/rentals', (->
         @layout 'user_layout'

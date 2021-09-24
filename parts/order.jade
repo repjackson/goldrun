@@ -126,6 +126,9 @@ template(name='order_edit')
 
 
 template(name='user_orders')
+    .ui.header 
+        +i name='order-history'
+        |user orders
     .scrolling
         each orders 
             +profile_order_item

@@ -1,0 +1,198 @@
+template(name='buildings')
+    .ui.stackable.padded.grid
+        .four.wide.column
+            .ui.inline.header 
+                +i name='wrench'
+                |buildings
+            if currentUser
+                a.ui.icon.basic.circular.button.add_building(title='cook')
+                    i.plus.green.large.icon
+            
+            .ui.left.icon.search.small.input
+                i.search.icon.refresh_tags
+                input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
+            if selected_tag_plural
+                .ui.icon.circular.black.compact.button.clear_picked_tags
+                    i.remove.icon
+            each picked_tags
+                button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each tags
+                button.ui.circular.compact.small.basic.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+                    //- small #{count}
+            .spacer
+            
+        .twelve.wide.column
+            .sorting_row
+                .ui.icon.input
+                    i.search.icon
+                    input.tag_search(type='text' placeholder='search...')
+                |sort by
+                .ui.compact.small.menu
+                    .ui.simple.dropdown.item
+                        strong #{current_building_sort_label}
+                        i.dropdown.icon
+                        .menu
+                            +set_building_sort_key key='complete' label='complete' icon='complete'
+                            // +set_building_sort_key key='datetime_available' label='available' icon='clock'
+                            +set_building_sort_key key='_timestamp' label='added' icon='clock'
+                            // +set_building_sort_key key='comment_count' label='comment count' icon='chat'
+                            +set_building_sort_key key='_author_username' label='author' icon='user'
+                .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
+                    if sorting_up
+                        i.sort.amount.down.icon
+                    else
+                        i.sort.amount.up.icon
+                |&nbsp;
+                |&nbsp;
+                .ui.inline.small.grey.header
+                    |show
+                .ui.compact.menu
+                    .ui.simple.dropdown.item
+                        strong #{building_limit}
+                        i.dropdown.icon
+                        .menu
+                            +set_building_limit amount=1
+                            +set_building_limit amount=5
+                            +set_building_limit amount=10
+                            +set_building_limit amount=20
+            .spacer 
+            .ui.stackable.four.cards
+                each building
+                    +building_card
+
+template(name='set_building_sort_key')
+    .item.set_sort
+        if color
+            .ui.label(class=color) #{label}
+        else 
+            if emoji
+                em(data-emoji=emoji)
+            else if icon
+                i.icon(class=icon)
+            |#{label}
+        
+
+template(name='set_view_mode_building')
+    .item.set_view
+        i.icon(class=icon)
+        |#{title}
+
+
+template(name='set_building_limit')
+    .item.set_limit #{amount}
+
+
+
+
+template(name='building_card')
+    .ui.card(class=building_card_class)
+        .image
+            img.ui.zoom.pointer.goto_building.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+        .content
+            a.ui.header(href="/building/#{_id}/") 
+                //- |#{_author.name}'s
+                | #{title}
+            //- if session_is 'view_tags' true
+            +ismall name='tags'
+            each tags
+                .ui.small.circular.label #{this}
+        //- .ui.inline.small.header tags
+        .content
+            .right.floated.meta
+                | {{from_now _timestamp}}
+            //- if session_is 'view_users' true
+            a(href="/user/#{author.username}")
+                img.ui.avatar.image(src="{{c.url author.image_id width=400 height=600 crop='fit'}}")
+                |#{author.username}
+        //- a.image(href="/building/#{_id}/")
+            
+        .content    
+            if complete 
+                i.big.circular.green.checkmark.icon
+            if can_edit
+                a.ui.large.icon.button(href="/building/#{_id}/edit")
+                    i.pencil.icon
+            a.ui.icon.button(href="/building/#{_id}/")
+                i.chevron.right.icon
+
+
+template(name='building_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .six.wide.column 
+                    a.ui.fluid.basic.compact.button(href="/buildings")
+                        i.left.chevron.icon
+                        +i name='buildings' cl='ui inline avatar image'
+                        |buildings
+                    .ui.header view building
+                    if can_edit
+                        a.ui.big.icon.button(href="/building/#{_id}/edit")
+                            i.pencil.large.icon
+                    +image_view key='image_id' label='image' direct=true
+                    +voting_full
+                    +viewing
+                    if published 
+                        .ui.small.header 
+                            i.eye.icon
+                            |published on {{long_date publish_timestamp}}
+                .ten.wide.column
+                    .ui.header #{title} 
+                    +boolean_edit key='has_description' label='has decription' icon='content' direct=true
+                    if has_description
+                        +html_view key='description' label='content' icon='content' direct=true
+                    +boolean_view key='has_bounty' label='has bounty' icon='coins' direct=true
+                    if has_bounty
+                        +number_view key='bounty_amount' label='bounty amount' icon='coins' direct=true
+                .four.wide.column 
+                    +boolean_view key='has_due_date' label='has due date' icon='clock' direct=true
+                    if has_due_date
+                       +datetime_view key='due_datetime' label='due date/time' icon='clock' direct=true
+                    +boolean_view key='has_target_user' label='has target user' icon='clock' direct=true
+                    if has_target_user
+                        +single_user_view key='target_user_id' label='target user' direct=true
+                    +html_view key='description' icon='content' label='description' direct=true
+                    if location_tags
+                        +array_view key='location_tags' label='location tags' icon='marker' direct=true
+                    +array_view key='tags' label='tags' icon='tags' direct=true
+                    div
+                    +comments
+
+
+template(name='building_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    .ui.header 
+                        |editing building
+                    if published 
+                        a.ui.fluid.icon.green.button(href="/building/#{_id}/" title='save')
+                            i.checkmark.big.icon
+                    else 
+                        a.ui.fluid.icon.green.button.publish(href="/building/#{_id}/" title='save')
+                            i.checkmark.big.icon
+                            |save & publish
+                    +remove_button
+                    +image_edit key='image' label='image' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                                        
+                .eight.wide.column 
+                    +text_edit key='title' direct=true
+                    +boolean_edit key='has_description' label='has decription' icon='content' direct=true
+                    if has_description
+                        +html_edit key='description' label='content' icon='content' direct=true
+                    +boolean_edit key='has_bounty' label='has bounty' icon='content' direct=true
+                    if has_bounty
+                        +number_edit key='bounty_amount' label='bounty amount' icon='coins' direct=true
+                    +boolean_edit key='has_target_user' label='has target user' icon='clock' direct=true
+                    if has_target_user
+                        +single_user_edit key='target_user_id' label='target user' direct=true
+                        
+                .four.wide.column 
+                    +boolean_edit key='has_due_date' label='has due date' icon='clock' direct=true
+                    if has_due_date
+                       +datetime_edit key='due_datetime' label='due date/time' icon='clock' direct=true

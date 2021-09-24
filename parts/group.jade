@@ -178,9 +178,8 @@ template(name='group_edit')
                 .four.wide.column
                     .ui.header 
                         |edit group
-                    a.ui.big.fluid.green.button(href="/group/#{_id}" title='save')
+                    a.ui.big.icon.fluid.green.button(href="/group/#{_id}" title='save')
                         i.checkmark.large.icon
-                        | save
                     +remove_button
                     +image_edit key='image' label='image' direct=true
                 .eight.wide.column 

@@ -24,6 +24,11 @@ if Meteor.isClient
             Meteor.call 'set_facets', @slug, ->
                 Session.set 'loading', false
 
+    Template.nav.onRendered ->
+        Meteor.setTimeout ->
+            $('.item').popup()
+        , 2000
+        
     Template.nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
         # @autorun -> Meteor.subscribe 'users'

@@ -76,6 +76,8 @@ template(name='set_post_limit')
 template(name='post_card')
     .ui.card(class=post_card_class)
         a.image.zoomer(href="/post/#{_id}")
+            img.ui.zoomer.pointer.goto_post.image(src="{{c.url image_id width=400 height=400}}")
+        a.image.zoomer(href="/post/#{_id}")
             img.ui.zoomer.pointer.goto_post.image(src="{{c.url image width=400 height=400}}")
         .content
             a.ui.small.header.zoomer(href="/post/#{_id}/") 

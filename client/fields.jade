@@ -1028,7 +1028,7 @@ template(name='multi_user_edit')
         else
             |#{this}
     .ui.input
-        input#multi_user_select_input(type='text' placeholder="lookup #{role_filter}.." autocomplete='off')
+        input.multi_user_select_input(type='text' placeholder="lookup #{role_filter}.." autocomplete='off')
     each selections
         a.ui.large.label(href="/u/#{username}")
             |#{name}
@@ -1044,11 +1044,12 @@ template(name='multi_user_edit')
     +clear_value                
     each field_value
         // |#{this}
+        div
+        +user_info
         with user_from_id this
-            div
-            .ui.inline.header
-                img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                |#{name}
+            // .ui.inline.header
+            //     img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            //     |#{name}
             i.pull_user.remove.link.circular.icon
 
 template(name='multi_doc_input')

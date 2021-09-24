@@ -28,17 +28,6 @@ template(name='units')
                 .ui.icon.input
                     i.search.icon
                     input.tag_search(type='text' placeholder='search...')
-                |sort by
-                .ui.compact.small.menu
-                    .ui.simple.dropdown.item
-                        strong #{current_unit_sort_label}
-                        i.dropdown.icon
-                        .menu
-                            +set_unit_sort_key key='complete' label='complete' icon='complete'
-                            // +set_unit_sort_key key='datetime_available' label='available' icon='clock'
-                            +set_unit_sort_key key='_timestamp' label='added' icon='clock'
-                            // +set_unit_sort_key key='comment_count' label='comment count' icon='chat'
-                            +set_unit_sort_key key='_author_username' label='author' icon='user'
                 .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
                     if sorting_up
                         i.sort.amount.down.icon
@@ -46,43 +35,10 @@ template(name='units')
                         i.sort.amount.up.icon
                 |&nbsp;
                 |&nbsp;
-                .ui.inline.small.grey.header
-                    |show
-                .ui.compact.menu
-                    .ui.simple.dropdown.item
-                        strong #{unit_limit}
-                        i.dropdown.icon
-                        .menu
-                            +set_unit_limit amount=1
-                            +set_unit_limit amount=5
-                            +set_unit_limit amount=10
-                            +set_unit_limit amount=20
             .spacer 
             .ui.doubling.four.link.cards
                 each unit
                     +unit_card
-
-template(name='set_unit_sort_key')
-    .item.set_sort
-        if color
-            .ui.label(class=color) #{label}
-        else 
-            if emoji
-                em(data-emoji=emoji)
-            else if icon
-                i.icon(class=icon)
-            |#{label}
-        
-
-template(name='set_view_mode_unit')
-    .item.set_view
-        i.icon(class=icon)
-        |#{title}
-
-
-template(name='set_unit_limit')
-    .item.set_limit #{amount}
-
 
 
 
@@ -155,10 +111,13 @@ template(name='unit_edit')
                     +image_edit key='image' label='image' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                                        
-                .eight.wide.column 
+                    if in_dev 
+                        +print_this
+                .six.wide.column 
                     +text_edit key='title' direct=true
                     +number_edit key='unit_number' label='unit number' direct=true
                     +text_edit key='building' label='building' direct=true
                     +html_edit key='description' label='content' icon='content' direct=true
+                .six.wide.column
+                    +multi_user_edit key='resident_user_ids' label='current residents' direct=true
                     +link_edit key='link' label='link' direct=true

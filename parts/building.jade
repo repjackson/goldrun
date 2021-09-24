@@ -86,7 +86,7 @@ template(name='building_card')
 
 
 template(name='building_view')
-    with current_building
+    with current_doc
         .ui.stackable.padded.grid
             .row
                 .six.wide.column 
@@ -109,6 +109,9 @@ template(name='building_view')
                         |units
                     if in_dev 
                         i.plus.icon.add_unit
+                    .ui.selection.list
+                        each building_units
+                            a.item(href="/unit/#{_id}") #{title} #{unit_number}
                     div
                     .ui.inline.header 
                         +i name='blog' cl='ui avatar image'

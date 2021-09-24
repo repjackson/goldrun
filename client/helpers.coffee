@@ -9,6 +9,13 @@ Template.registerHelper 'rental', () ->
     Docs.findOne @rental_id
     # Template.parentData()
 
+Template.registerHelper 'building_units', () ->
+    Docs.find 
+        model:'unit'
+        building_id:Router.current().params.doc_id
+    
+    
+    
 Template.registerHelper 'active_path', (metric) ->
     false
 Template.registerHelper 'sorting_up', () ->

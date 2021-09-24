@@ -346,7 +346,7 @@ if Meteor.isServer
 
 
 
-Router.route '/building/:identifier/', (->
+Router.route '/building/:doc_id/', (->
     @render 'building_view'
     ), name:'building_view'
 Router.route '/building/:doc_id/edit', (->
@@ -356,7 +356,8 @@ Router.route '/building/:doc_id/edit', (->
 
 if Meteor.isClient
     Template.building_view.onCreated ->
-        @autorun => Meteor.subscribe 'building', Router.current().params.identifier
+        @autorun => Meteor.subscribe 'building', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'building_units', Router.current().params.doc_id
     Template.building_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
@@ -364,12 +365,12 @@ if Meteor.isClient
         current_building: ->
             doc_by_id = 
                 Docs.findOne Router.current().params.doc_id
-            if doc_by_id
-                doc_by_id
-            else 
-                Docs.findOne
-                    model:'building'
-                    building_code:Router.current().params.doc_id
+            # if doc_by_id
+            #     doc_by_id
+            # else 
+            #     Docs.findOne
+            #         model:'building'
+            #         building_code:Router.current().params.doc_id
             
     Template.building_view.events
         'click .add_unit': ->
@@ -435,19 +436,19 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'building', (identifier)->
-        found_by_id = Docs.findOne identifier
+    Meteor.publish 'building', (doc_id)->
+        found_by_id = Docs.findOne doc_id
         if found_by_id
-            Docs.find identifier
+            Docs.find doc_id
         else 
             found_by_code = 
                 Docs.findOne 
                     model:'building'
-                    building_code:identifier
+                    building_code:doc_id
             if found_by_code
                 Docs.find
                     model:'building'
-                    building_code:identifier
+                    building_code:doc_id
                 
     Meteor.publish 'building_reservations', (building_id)->
         Docs.find

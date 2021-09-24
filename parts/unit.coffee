@@ -1,43 +1,43 @@
 if Meteor.isClient
-    Router.route '/buildings', (->
+    Router.route '/units', (->
         @layout 'layout'
-        @render 'buildings'
-        ), name:'buildings'
+        @render 'units'
+        ), name:'units'
 
 
-    Template.buildings.onCreated ->
+    Template.units.onCreated ->
         Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'building_sort_key', 'datetime_available'
-        Session.setDefault 'building_sort_label', 'available'
-        Session.setDefault 'building_limit', 5
+        Session.setDefault 'unit_sort_key', 'datetime_available'
+        Session.setDefault 'unit_sort_label', 'available'
+        Session.setDefault 'unit_limit', 5
         Session.setDefault 'view_open', true
 
-    Template.buildings.onCreated ->
-        @autorun => @subscribe 'building_facets',
+    Template.units.onCreated ->
+        @autorun => @subscribe 'unit_facets',
             picked_tags.array()
-            Session.get('building_limit')
-            Session.get('building_sort_key')
-            Session.get('building_sort_direction')
+            Session.get('unit_limit')
+            Session.get('unit_sort_key')
+            Session.get('unit_sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
 
-        @autorun => @subscribe 'building_results',
+        @autorun => @subscribe 'unit_results',
             picked_tags.array()
-            Session.get('building_limit')
-            Session.get('building_sort_key')
-            Session.get('building_sort_direction')
+            Session.get('unit_limit')
+            Session.get('unit_sort_key')
+            Session.get('unit_sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
 
 
-    Template.buildings.events
-        'click .add_building': ->
+    Template.units.events
+        'click .add_unit': ->
             new_id =
                 Docs.insert
-                    model:'building'
-            Router.go("/building/#{new_id}/edit")
+                    model:'unit'
+            Router.go("/unit/#{new_id}/edit")
 
 
         'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
@@ -77,8 +77,8 @@ if Meteor.isClient
                     # , 10000
         , 1000)
 
-        'click .calc_building_count': ->
-            Meteor.call 'calc_building_count', ->
+        'click .calc_unit_count': ->
+            Meteor.call 'calc_unit_count', ->
 
         # 'keydown #search': _.throttle((e,t)->
         #     if e.which is 8
@@ -96,18 +96,18 @@ if Meteor.isClient
 
 
         'click .set_sort_direction': ->
-            if Session.get('building_sort_direction') is -1
-                Session.set('building_sort_direction', 1)
+            if Session.get('unit_sort_direction') is -1
+                Session.set('unit_sort_direction', 1)
             else
-                Session.set('building_sort_direction', -1)
+                Session.set('unit_sort_direction', -1)
 
 
-    Template.buildings.helpers
-        quickbuying_building: ->
+    Template.units.helpers
+        quickbuying_unit: ->
             Docs.findOne Session.get('quickbuying_id')
 
         sorting_up: ->
-            parseInt(Session.get('building_sort_direction')) is 1
+            parseInt(Session.get('unit_sort_direction')) is 1
 
         toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
         toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
@@ -125,10 +125,10 @@ if Meteor.isClient
             # if Session.get('current_query') and Session.get('current_query').length > 1
             #     Terms.find({}, sort:count:-1)
             # else
-            building_count = Docs.find().count()
-            # console.log 'building count', building_count
-            if building_count < 3
-                Tags.find({count: $lt: building_count})
+            unit_count = Docs.find().count()
+            # console.log 'unit count', unit_count
+            if unit_count < 3
+                Tags.find({count: $lt: unit_count})
             else
                 Tags.find()
 
@@ -144,13 +144,13 @@ if Meteor.isClient
 
         one_post: ->
             Docs.find().count() is 1
-        building: ->
+        unit: ->
             # if picked_tags.array().length > 0
             Docs.find {
-                model:'building'
+                model:'unit'
             },
-                sort: "#{Session.get('building_sort_key')}":parseInt(Session.get('building_sort_direction'))
-                limit:Session.get('building_limit')
+                sort: "#{Session.get('unit_sort_key')}":parseInt(Session.get('unit_sort_direction'))
+                limit:Session.get('unit_limit')
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
@@ -170,23 +170,23 @@ if Meteor.isClient
                 sort: count:-1
                 # limit:1
 
-        building_limit: ->
-            Session.get('building_limit')
+        unit_limit: ->
+            Session.get('unit_limit')
 
-        current_building_sort_label: ->
-            Session.get('building_sort_label')
+        current_unit_sort_label: ->
+            Session.get('unit_sort_label')
 
 
-    # Template.set_building_limit.events
+    # Template.set_unit_limit.events
     #     'click .set_limit': ->
     #         console.log @
-    #         Session.set('building_limit', @amount)
+    #         Session.set('unit_limit', @amount)
 
-    Template.set_building_sort_key.events
+    Template.set_unit_sort_key.events
         'click .set_sort': ->
             console.log @
-            Session.set('building_sort_key', @key)
-            Session.set('building_sort_label', @label)
+            Session.set('unit_sort_key', @key)
+            Session.set('unit_sort_label', @label)
 
     Template.session_edit_value_button.events
         'click .set_session_value': ->
@@ -228,7 +228,7 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'building_results', (
+    Meteor.publish 'unit_results', (
         picked_tags
         doc_limit
         doc_sort_key
@@ -247,7 +247,7 @@ if Meteor.isServer
         if doc_sort_direction
             sort_direction = parseInt(doc_sort_direction)
         self = @
-        match = {model:'building'}
+        match = {model:'unit'}
         # if view_open
         #     match.open = $ne:false
         # if view_delivery
@@ -275,7 +275,7 @@ if Meteor.isServer
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
 
-        console.log 'building match', match
+        console.log 'unit match', match
         console.log 'sort key', sort_key
         console.log 'sort direction', sort_direction
         Docs.find match,
@@ -283,7 +283,7 @@ if Meteor.isServer
             sort:_timestamp:-1
             limit: 20
 
-    Meteor.publish 'building_facets', (
+    Meteor.publish 'unit_facets', (
         picked_tags
         selected_timestamp_tags
         query
@@ -300,7 +300,7 @@ if Meteor.isServer
 
         self = @
         match = {}
-        match.model = 'building'
+        match.model = 'unit'
         if view_open
             match.open = $ne:false
 
@@ -387,103 +387,103 @@ if Meteor.isServer
 
 
 
-Router.route '/building/:doc_id/', (->
-    @render 'building_view'
-    ), name:'building_view'
-Router.route '/building/:doc_id/edit', (->
-    @render 'building_edit'
-    ), name:'building_edit'
+Router.route '/unit/:doc_id/', (->
+    @render 'unit_view'
+    ), name:'unit_view'
+Router.route '/unit/:doc_id/edit', (->
+    @render 'unit_edit'
+    ), name:'unit_edit'
 
 
 if Meteor.isClient
-    Template.building_view.onCreated ->
+    Template.unit_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.building_edit.onCreated ->
+    Template.unit_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
-    Template.building_view.events
+    Template.unit_view.events
         'click .add_unit': ->
             new_id = 
                 Docs.insert
                     model:'unit'
-                    building_id: Router.current().params.doc_id
+                    unit_id: Router.current().params.doc_id
             Router.go "/unit/#{new_id}/edit"
             
-        'click .add_building_post': ->
+        'click .add_unit_post': ->
             new_id = 
                 Docs.insert
                     model:'post'
-                    building_id: Router.current().params.doc_id
+                    unit_id: Router.current().params.doc_id
             Router.go "/post/#{new_id}/edit"
             
-        'click .add_building_product': ->
+        'click .add_unit_product': ->
             new_id = 
                 Docs.insert
                     model:'product'
-                    building_id: Router.current().params.doc_id
+                    unit_id: Router.current().params.doc_id
             Router.go "/product/#{new_id}/edit"
             
             
-    Template.building_edit.events
+    Template.unit_edit.events
         # 'click .publish': ->
         #     Docs.update Router.current().params.doc_id, 
         #         $set:
         #             published:true
         #             publish_timestamp:Date.now()
-    # Template.building_history.onCreated ->
+    # Template.unit_history.onCreated ->
     #     @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
-    # Template.building_history.helpers
-    #     building_events: ->
+    # Template.unit_history.helpers
+    #     unit_events: ->
     #         Docs.find
     #             model:'log_event'
     #             parent_id:Router.current().params.doc_id
 
 
-    # Template.building_subscription.onCreated ->
+    # Template.unit_subscription.onCreated ->
     #     # @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
-    # Template.building_subscription.events
+    # Template.unit_subscription.events
     #     'click .subscribe': ->
     #         Docs.insert
     #             model:'log_event'
     #             log_type:'subscribe'
     #             parent_id:Router.current().params.doc_id
-    #             text: "#{Meteor.user().username} subscribed to building order."
+    #             text: "#{Meteor.user().username} subscribed to unit order."
 
 
-    # Template.building_reservations.onCreated ->
-    #     @autorun => Meteor.subscribe 'building_reservations', Router.current().params.doc_id
-    # Template.building_reservations.helpers
+    # Template.unit_reservations.onCreated ->
+    #     @autorun => Meteor.subscribe 'unit_reservations', Router.current().params.doc_id
+    # Template.unit_reservations.helpers
     #     reservations: ->
     #         Docs.find
     #             model:'reservation'
-    #             building_id: Router.current().params.doc_id
-    # Template.building_reservations.events
+    #             unit_id: Router.current().params.doc_id
+    # Template.unit_reservations.events
     #     'click .new_reservation': ->
     #         Docs.insert
     #             model:'reservation'
-    #             building_id: Router.current().params.doc_id
+    #             unit_id: Router.current().params.doc_id
 
 
 if Meteor.isServer
-    Meteor.publish 'building_reservations', (building_id)->
+    Meteor.publish 'unit_reservations', (unit_id)->
         Docs.find
             model:'reservation'
-            building_id: building_id
+            unit_id: unit_id
 
 
 
     Meteor.methods
-        calc_building_stats: ->
-            building_stat_doc = Docs.findOne(model:'building_stats')
-            unless building_stat_doc
+        calc_unit_stats: ->
+            unit_stat_doc = Docs.findOne(model:'unit_stats')
+            unless unit_stat_doc
                 new_id = Docs.insert
-                    model:'building_stats'
-                building_stat_doc = Docs.findOne(model:'building_stats')
-            console.log building_stat_doc
-            total_count = Docs.find(model:'building').count()
-            complete_count = Docs.find(model:'building', complete:true).count()
-            incomplete_count = Docs.find(model:'building', complete:$ne:true).count()
-            Docs.update building_stat_doc._id,
+                    model:'unit_stats'
+                unit_stat_doc = Docs.findOne(model:'unit_stats')
+            console.log unit_stat_doc
+            total_count = Docs.find(model:'unit').count()
+            complete_count = Docs.find(model:'unit', complete:true).count()
+            incomplete_count = Docs.find(model:'unit', complete:$ne:true).count()
+            Docs.update unit_stat_doc._id,
                 $set:
                     total_count:total_count
                     complete_count:complete_count

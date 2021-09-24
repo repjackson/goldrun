@@ -1,11 +1,11 @@
-template(name='buildings')
+template(name='units')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.inline.header 
-                +i name='building'
-                |buildings
+                +i name='unit'
+                |units
             if currentUser
-                a.ui.icon.basic.circular.button.add_building(title='cook')
+                a.ui.icon.basic.circular.button.add_unit(title='cook')
                     i.plus.green.large.icon
             
             .ui.left.icon.search.small.input
@@ -31,14 +31,14 @@ template(name='buildings')
                 |sort by
                 .ui.compact.small.menu
                     .ui.simple.dropdown.item
-                        strong #{current_building_sort_label}
+                        strong #{current_unit_sort_label}
                         i.dropdown.icon
                         .menu
-                            +set_building_sort_key key='complete' label='complete' icon='complete'
-                            // +set_building_sort_key key='datetime_available' label='available' icon='clock'
-                            +set_building_sort_key key='_timestamp' label='added' icon='clock'
-                            // +set_building_sort_key key='comment_count' label='comment count' icon='chat'
-                            +set_building_sort_key key='_author_username' label='author' icon='user'
+                            +set_unit_sort_key key='complete' label='complete' icon='complete'
+                            // +set_unit_sort_key key='datetime_available' label='available' icon='clock'
+                            +set_unit_sort_key key='_timestamp' label='added' icon='clock'
+                            // +set_unit_sort_key key='comment_count' label='comment count' icon='chat'
+                            +set_unit_sort_key key='_author_username' label='author' icon='user'
                 .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
                     if sorting_up
                         i.sort.amount.down.icon
@@ -50,19 +50,19 @@ template(name='buildings')
                     |show
                 .ui.compact.menu
                     .ui.simple.dropdown.item
-                        strong #{building_limit}
+                        strong #{unit_limit}
                         i.dropdown.icon
                         .menu
-                            +set_building_limit amount=1
-                            +set_building_limit amount=5
-                            +set_building_limit amount=10
-                            +set_building_limit amount=20
+                            +set_unit_limit amount=1
+                            +set_unit_limit amount=5
+                            +set_unit_limit amount=10
+                            +set_unit_limit amount=20
             .spacer 
             .ui.doubling.four.link.cards
-                each building
-                    +building_card
+                each unit
+                    +unit_card
 
-template(name='set_building_sort_key')
+template(name='set_unit_sort_key')
     .item.set_sort
         if color
             .ui.label(class=color) #{label}
@@ -74,90 +74,83 @@ template(name='set_building_sort_key')
             |#{label}
         
 
-template(name='set_view_mode_building')
+template(name='set_view_mode_unit')
     .item.set_view
         i.icon(class=icon)
         |#{title}
 
 
-template(name='set_building_limit')
+template(name='set_unit_limit')
     .item.set_limit #{amount}
 
 
 
 
-template(name='building_card')
-    a.ui.card(class=building_card_class href="/building/#{_id}")
+template(name='unit_card')
+    a.ui.card(class=unit_card_class href="/unit/#{_id}")
         .image
-            img.ui.zoom.pointer.goto_building.image(src="{{c.url image width=400 height=300 crop='pad'}}")
+            img.ui.zoom.pointer.goto_unit.image(src="{{c.url image width=400 height=300 crop='pad'}}")
         .content
-            a.ui.header(href="/building/#{_id}/") 
+            a.ui.header(href="/unit/#{_id}/") 
                 //- |#{_author.name}'s
                 | #{title}
             .ui.list 
                 .item 
-                    |#{post.count} posts
+                    |building; #{building}
                 .item
-                    |#{post.count} transactions
+                    |##{unit_number}
         .content    
             if can_edit
-                a.ui.large.icon.button(href="/building/#{_id}/edit")
+                a.ui.large.icon.button(href="/unit/#{_id}/edit")
                     i.pencil.icon
-            a.ui.icon.button(href="/building/#{_id}/")
+            a.ui.icon.button(href="/unit/#{_id}/")
                 i.chevron.right.icon
 
 
-template(name='building_view')
+template(name='unit_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .six.wide.column 
-                    a.ui.basic.compact.icon.circular.button(href="/buildings")
+                    a.ui.basic.compact.icon.circular.button(href="/units")
                         i.left.chevron.icon
-                        +i name='building' cl='ui inline avatar image'
-                        // |buildings
-                    .ui.inline.header building: #{title}
+                        +i name='unit' cl='ui inline avatar image'
+                        // |units
+                    .ui.inline.header unit: #{title}
                     if can_edit
-                        a.ui.basic.circular.icon.button(href="/building/#{_id}/edit")
+                        a.ui.basic.circular.icon.button(href="/unit/#{_id}/edit")
                             i.pencil.large.icon
+                    .ui.header building: #{building}
+                    .ui.header #: #{unit_number}
+                    if link
+                        +link_view key='link' label='link' direct=true
                     +image_view key='image' label='image' direct=true
                     +voting_full
                     +viewing
                 .ten.wide.column
                     .ui.header #{title} 
                     .ui.inline.header 
-                        +i name='room' cl='ui avatar image'
-                        |units
-                    if in_dev 
-                        i.plus.icon.add_unit
-                    div
-                    .ui.inline.header 
                         +i name='blog' cl='ui avatar image'
                         |posts
-                    i.plus.icon.add_building_post
+                    i.plus.icon.add_unit_post
                     div
                     .ui.inline.header 
                         +i name='shop' cl='ui avatar image'
                         |shop
-                    i.plus.icon.add_building_product
+                    i.plus.icon.add_unit_product
                     div
                     +comments
 
 
-template(name='building_edit')
+template(name='unit_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
                     .ui.header 
-                        |editing building
-                    if published 
-                        a.ui.fluid.icon.green.button(href="/building/#{_id}/" title='save')
-                            i.checkmark.big.icon
-                    else 
-                        a.ui.fluid.icon.green.button.publish(href="/building/#{_id}/" title='save')
-                            i.checkmark.big.icon
-                            |save & publish
+                        |editing unit
+                    a.ui.fluid.icon.green.button(href="/unit/#{_id}/" title='save')
+                        i.checkmark.big.icon
                     +remove_button
                     +image_edit key='image' label='image' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
@@ -165,3 +158,7 @@ template(name='building_edit')
                                         
                 .eight.wide.column 
                     +text_edit key='title' direct=true
+                    +number_edit key='unit_number' label='unit number' direct=true
+                    +text_edit key='building' label='building' direct=true
+                    +html_edit key='description' label='content' icon='content' direct=true
+                    +link_edit key='link' label='link' direct=true

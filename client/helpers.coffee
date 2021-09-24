@@ -14,6 +14,12 @@ Template.registerHelper 'active_path', (metric) ->
 Template.registerHelper 'sorting_up', () ->
     parseInt(Session.get('sort_direction')) is 1
 
+Template.registerHelper 'friended_by_users', ()->
+    Meteor.users.find 
+        friend_ids:$in:[@_id]
+Template.registerHelper 'friended_users', ()->
+    Meteor.users.find 
+        _id:$in:@friend_ids
 Template.registerHelper 'user_from_id', (id)->
     Meteor.users.findOne id
 Template.registerHelper 'skv_is', (key,value)->
@@ -187,9 +193,6 @@ Template.registerHelper 'sortable_fields', () ->
             sortable:true
         }, sort:rank:1
 
-Template.registerHelper 'current_user', (input) ->
-    Meteor.user() and Meteor.user().username is Router.current().params.username
-
 
 
 Template.registerHelper 'nl2br', (text)->
@@ -304,11 +307,11 @@ Template.registerHelper 'current_user', () ->  Meteor.users.findOne username:Rou
 Template.registerHelper 'is_current_user', () ->
     if Meteor.user().username is Router.current().params.username
         true
-    else
-        if Meteor.user().roles and 'dev' in Meteor.user().roles
-            true
-        else
-            false
+    # else
+    #     if Meteor.user().roles and 'dev' in Meteor.user().roles
+    #         true
+    #     else
+    #         false
 Template.registerHelper 'order_product', -> 
     Docs.findOne 
         _id:@product_id

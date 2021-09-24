@@ -17,10 +17,24 @@ template(name='user_reservations')
 
 
 template(name='user_friends')
-    .scrolling
-        .ui.segments
-            each friends 
-                .ui.header #{username}
+    .ui.two.column.grid 
+        .column
+            .ui.header 
+                |friended by
+            .scrolling
+                .ui.large.selection.link.animated.list
+                    each friended_by_users
+                        a.item(href="/user/#{username}") #{username}
+                    each current_user.friend_ids
+                        // .ui.header #{this}
+                        +user_info
+        .column
+            .ui.header 
+                |friended
+            .scrolling
+                .ui.large.selection.link.animated.list
+                    each friended
+                        a.item(href="/user/#{username}") #{username}
 
 
 template(name='profile_reservation_item')

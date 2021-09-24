@@ -67,10 +67,40 @@ if Meteor.isClient
             user = Meteor.users.findOne username:Router.current().params.username
             Meteor.users.update Meteor.userId(),
                 $addToSet:friend_ids:user._id
+                
+            $('body').toast({
+                title: "#{Router.current().params.username} added to friend list"
+                # message: 'Please see desk staff for key.'
+                class : 'success'
+                # position:'top center'
+                # className:
+                #     toast: 'ui massive message'
+                displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+                
         'click .remove_friend': ->
             user = Meteor.users.findOne username:Router.current().params.username
             Meteor.users.update Meteor.userId(),
                 $pull:friend_ids:user._id
+            $('body').toast({
+                title: "#{Router.current().params.username} removed from friend list"
+                # message: 'Please see desk staff for key.'
+                class : 'info'
+                # position:'top center'
+                # className:
+                #     toast: 'ui massive message'
+                displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
 
     Template.voting.events
         'click .upvote': (e,t)->

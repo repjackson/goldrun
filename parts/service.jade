@@ -31,28 +31,18 @@ template(name='services')
                 |sort by
                 .ui.compact.small.menu
                     .ui.simple.dropdown.item
-                        strong #{sort_label}
                         +i name=sort_icon cl='ui avatar image'
+                        strong #{sort_label}
                         i.dropdown.icon
                         .menu
-                            +set_sort_key key='price_per_serving' label='$/serving' icon='money'
-                            +set_sort_key key='datetime_available' label='available' icon='clock'
-                            //+set_sort_key key='_timestamp' label='added' icon='clock'
+                            // +set_sort_key key='price_per_serving' label='$/serving' icon='money'
+                            // +set_sort_key key='datetime_available' label='available' icon='clock'
+                            +set_sort_key key='_timestamp' label='added' icon='clock'
                             +set_sort_key key='comment_count' label='comment count' icon='chat'
                 +set_sort_direction
                 |&nbsp;
                 |&nbsp;
-                .ui.inline.small.grey.header
-                    |limit
-                .ui.compact.menu
-                    .ui.simple.dropdown.item
-                        strong #{current_limit}
-                        i.dropdown.icon
-                        .menu
-                            +set_limit amount=1
-                            +set_limit amount=5
-                            +set_limit amount=10
-                            +set_limit amount=20
+                +limit_menu
             .spacer 
             .ui.stackable.four.cards
                 each service
@@ -173,29 +163,34 @@ template(name='service_edit')
                             i.checkmark.green.large.icon
                             | save
                     +remove_button
-                    +image_edit key='image' label='image' direct=true
-                .eight.wide.column 
-                    +text_edit key='title' direct=true
-                    +textarea_edit key='description' label='content' icon='content' direct=true
+                    +image_edit key='image_id' label='image' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    +text_edit key='contact_info' label='contact info' icon='info' direct=true
+                .eight.wide.column 
+                    +text_edit key='title' direct=true
+                    +html_edit key='description' label='content' icon='content' direct=true
                 .four.wide.column 
                     //- +boolean_edit key='set_duration' label='set duration' direct=true
                     //- if set_duration
                     //-     +number_edit key='duration_hours' label='duration hours' direct=true
             
-                    +single_user_edit key='_author_username' label='author username' direct=true
-                    +boolean_edit key='has_hourly' label='has hourly' direct=true
+                    +text_edit key='contact_info' label='contact info' icon='info' direct=true
+                    if in_dev
+                        i.shield.icon
+                        +single_user_edit key='_author_username' label='author username' direct=true
+                    .ui.header 
+                        +i name='coins' cl='ui avatar image'
+                        |rates
+                    +boolean_edit key='has_hourly' label='hourly' icon='clock' direct=true
                     if has_hourly
-                        +number_edit key='hourly_rate' label='hourly rate' icon='money' direct=true
-                    +boolean_edit key='has_daily' label='has daily' direct=true
+                        +number_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
+                    +boolean_edit key='has_daily' label='has daily' direct=true icon='sun'
                     if has_daily
-                        +number_edit key='daily_rate' label='daily rate' icon='calendar' direct=true
-                    +boolean_edit key='has_weekly' label='has weekly' direct=true
+                        +number_edit key='daily_rate' label='daily rate' icon='sun' direct=true
+                    +boolean_edit key='has_weekly' label='has weekly' direct=true icon='calendar'
                     if has_weekly
                         +number_edit key='weekly_rate' label='weekly rate' icon='calendar' direct=true
-                    +boolean_edit key='has_monthly' label='has monthly' direct=true
+                    +boolean_edit key='has_monthly' label='has monthly' direct=true icon='calendar'
                     if has_monthly
                         +number_edit key='monthly_rate' label='monthly rate' icon='calendar' direct=true
 

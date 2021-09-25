@@ -47,17 +47,7 @@ template(name='tasks')
                 +set_sort_direction
                 |&nbsp;
                 |&nbsp;
-                .ui.inline.small.grey.header
-                    |show
-                .ui.compact.menu
-                    .ui.simple.dropdown.item
-                        strong #{current_limit}
-                        i.dropdown.icon
-                        .menu
-                            +set_limit amount=1
-                            +set_limit amount=5
-                            +set_limit amount=10
-                            +set_limit amount=20
+                +limit_menu
             .spacer 
             .ui.stackable.three.cards.scrolling
                 each task_docs

@@ -123,37 +123,25 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'service_results', (
         picked_tags
-        doc_limit
-        doc_sort_key
-        doc_sort_direction
+        doc_limit=20
+        doc_sort_key='_timestamp'
+        doc_sort_direction=-1
         view_delivery
         view_pickup
         view_open
         )->
         # console.log picked_tags
-        if doc_limit
-            limit = doc_limit
-        else
-            limit = 10
-        if doc_sort_key
-            sort_key = doc_sort_key
-        if doc_sort_direction
-            sort_direction = parseInt(doc_sort_direction)
         self = @
         match = {model:'service'}
-        if view_open
-            match.open = $ne:false
-        if view_delivery
-            match.delivery = $ne:false
-        if view_pickup
-            match.pickup = $ne:false
+        # if view_open
+        #     match.open = $ne:false
+        # if view_delivery
+        #     match.delivery = $ne:false
+        # if view_pickup
+        #     match.pickup = $ne:false
         if picked_tags.length > 0
             match.tags = $all: picked_tags
-            sort = 'price_per_serving'
-        else
-            # match.tags = $nin: ['wikipedia']
-            sort = '_timestamp'
-            # match.source = $ne:'wikipedia'
+            # sort = 'price_per_serving'
         # if view_images
         #     match.is_image = $ne:false
         # if view_videos
@@ -168,17 +156,17 @@ if Meteor.isServer
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
 
-        console.log 'service match', match
-        console.log 'sort key', sort_key
-        console.log 'sort direction', sort_direction
+        # console.log 'service match', match
+        # console.log 'sort key', sort_key
+        # console.log 'sort direction', sort_direction
         Docs.find match,
-            sort:"#{sort_key}":sort_direction
+            sort:"#{doc_sort_key}":doc_sort_direction
             # sort:_timestamp:-1
-            limit: limit
+            limit: doc_limit
 
     Meteor.publish 'service_facets', (
         picked_tags
-        selected_timestamp_tags
+        picked_timestamp_tags
         query
         doc_limit
         doc_sort_key
@@ -189,7 +177,7 @@ if Meteor.isServer
         )->
         # console.log 'dummy', dummy
         # console.log 'query', query
-        console.log 'selected tags', picked_tags
+        # console.log 'selected tags', picked_tags
 
         self = @
         match = {}
@@ -197,10 +185,10 @@ if Meteor.isServer
         if view_open
             match.open = $ne:false
 
-        if view_delivery
-            match.delivery = $ne:false
-        if view_pickup
-            match.pickup = $ne:false
+        # if view_delivery
+        #     match.delivery = $ne:false
+        # if view_pickup
+        #     match.pickup = $ne:false
         if picked_tags.length > 0 then match.tags = $all: picked_tags
             # match.$regex:"#{current_query}", $options: 'i'}
         # if query and query.length > 1
@@ -261,7 +249,7 @@ if Meteor.isServer
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 15 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ], {
             allowDiskUse: true

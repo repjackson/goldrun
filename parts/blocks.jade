@@ -12,6 +12,20 @@ template(name='key_value_edit')
         |#{label}
 
 
+template(name='limit_menu')
+    .ui.inline.small.grey.header
+        |limit
+    .ui.compact.menu
+        .ui.simple.dropdown.item
+            strong #{current_limit}
+            i.dropdown.icon
+            .menu
+                +set_limit amount=1
+                +set_limit amount=5
+                +set_limit amount=10
+                +set_limit amount=20
+
+
 
 template(name='friend_button')
     unless is_current_user 

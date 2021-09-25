@@ -30,6 +30,7 @@ if Meteor.isClient
         , 2000
         
     Template.nav.onCreated ->
+        Session.setDefault 'limit', 20
         @autorun -> Meteor.subscribe 'me'
         # @autorun -> Meteor.subscribe 'users'
         # @autorun -> Meteor.subscribe 'users_by_role','staff'

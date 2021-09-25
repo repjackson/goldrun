@@ -117,7 +117,7 @@ if Meteor.isClient
             Meteor.call 'fum', delta._id, ->
                 Session.set 'loading', false
 
-        'click .set_sort_key': ->
+        'click .set_delta_sort_key': ->
             # console.log @
             delta = Docs.findOne model:'delta'
             Docs.update delta._id,
@@ -290,15 +290,25 @@ if Meteor.isClient
             delta = Docs.findOne model:'delta'
             @_id in delta.viewable_fields
 
+    # Template.delta_set_limit.events
+    #     'click .set_limit': ->
+    #         # console.log @
+    #         delta = Docs.findOne model:'delta'
+    #         Docs.update delta._id,
+    #             $set:limit:@amount
+    #         Session.set 'loading', true
+    #         Meteor.call 'fum', delta._id, ->
+    #             Session.set 'loading', false
     Template.set_limit.events
         'click .set_limit': ->
-            # console.log @
-            delta = Docs.findOne model:'delta'
-            Docs.update delta._id,
-                $set:limit:@amount
-            Session.set 'loading', true
-            Meteor.call 'fum', delta._id, ->
-                Session.set 'loading', false
+            console.log @
+            Session.set('limit')
+            # delta = Docs.findOne model:'delta'
+            # Docs.update delta._id,
+            #     $set:limit:@amount
+            # Session.set 'loading', true
+            # Meteor.call 'fum', delta._id, ->
+            #     Session.set 'loading', false
 
     Template.set_view_mode.events
         'click .set_view_mode': ->

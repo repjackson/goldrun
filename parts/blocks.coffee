@@ -319,6 +319,13 @@ if Meteor.isClient
                 model: @model
             Router.go "/m/#{@model}/#{new_id}/edit"
 
+    Template.set_sort_key.events
+        'click .set_key': (e,t)->
+            console.log @
+            Session.set('sort_key', @key)
+            Session.set('sort_label', @label)
+            Session.set('sort_icon', @icon)
+
 
     Template.remove_button.events
         'click .remove_doc': (e,t)->

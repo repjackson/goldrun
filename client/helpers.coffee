@@ -5,6 +5,10 @@ Template.registerHelper 'parent', () -> Template.parentData()
 Template.registerHelper 'parent_doc', () ->
     Docs.findOne @parent_id
     # Template.parentData()
+Template.registerHelper 'sort_label', () -> Session.get('sort_label')
+Template.registerHelper 'sort_icon', () -> Session.get('sort_icon')
+
+
 Template.registerHelper 'rental', () ->
     Docs.findOne @rental_id
     # Template.parentData()

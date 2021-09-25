@@ -22,6 +22,19 @@ Template.youtube_edit.events
                 $set:"#{@key}":val
 
 
+Template.datetime_edit.events
+    'blur .edit_datetime': (e,t)->
+        if @direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+        val = t.$('.edit_datetime').val()
+        doc = Docs.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":val
+
+
 
 Template.color_edit.events
     'blur .edit_color': (e,t)->

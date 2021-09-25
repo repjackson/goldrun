@@ -299,16 +299,6 @@ if Meteor.isClient
     #         Session.set 'loading', true
     #         Meteor.call 'fum', delta._id, ->
     #             Session.set 'loading', false
-    Template.set_limit.events
-        'click .set_limit': ->
-            console.log @
-            Session.set('limit')
-            # delta = Docs.findOne model:'delta'
-            # Docs.update delta._id,
-            #     $set:limit:@amount
-            # Session.set 'loading', true
-            # Meteor.call 'fum', delta._id, ->
-            #     Session.set 'loading', false
 
     Template.set_view_mode.events
         'click .set_view_mode': ->

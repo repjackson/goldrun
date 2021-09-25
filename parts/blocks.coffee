@@ -162,12 +162,25 @@ if Meteor.isClient
         user: -> Meteor.users.findOne @valueOf()
 
 
+    Template.set_limit.events
+        'click .set_limit': ->
+            Session.set('limit',parseInt(@amount))
+
 
 
     Template.big_user_card.onCreated ->
         @autorun => Meteor.subscribe 'user_from_username', @data
     Template.big_user_card.helpers
         user: -> Meteor.users.findOne username:@valueOf()
+
+
+
+    Template.set_sort_direction.events
+        'click .set_sort_direction': ->
+            if Session.get('sort_direction') is -1
+                Session.set('sort_direction', 1)
+            else
+                Session.set('sort_direction', -1)
 
 
 
@@ -472,5 +485,8 @@ Meteor.methods
             $pull:
                 read_ids: Meteor.userId()
             $inc:views:-1
+
+
+
 
 

@@ -7,6 +7,7 @@ Template.registerHelper 'parent_doc', () ->
     # Template.parentData()
 Template.registerHelper 'sort_label', () -> Session.get('sort_label')
 Template.registerHelper 'sort_icon', () -> Session.get('sort_icon')
+Template.registerHelper 'current_limit', () -> parseInt(Session.get('limit'))
 
 
 Template.registerHelper 'rental', () ->

@@ -95,52 +95,17 @@ if Meteor.isClient
             Meteor.reconnect()
 
 
-        'click .set_sort_direction': ->
-            if Session.get('event_sort_direction') is -1
-                Session.set('event_sort_direction', 1)
-            else
-                Session.set('event_sort_direction', -1)
-
 
     Template.events.helpers
-        quickbuying_event: ->
-            Docs.findOne Session.get('quickbuying_id')
-
-        sorting_up: ->
-            parseInt(Session.get('event_sort_direction')) is 1
-
-        toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
-        toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
-        toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
-        connection: ->
-            console.log Meteor.status()
-            Meteor.status()
-        connected: ->
-            Meteor.status().connected
-        invert_class: ->
-            if Meteor.user()
-                if Meteor.user().dark_mode
-                    'invert'
-        tags: ->
-            # if Session.get('current_query') and Session.get('current_query').length > 1
-            #     Terms.find({}, sort:count:-1)
-            # else
-            event_count = Docs.find().count()
-            # console.log 'event count', event_count
-            if event_count < 3
-                Tags.find({count: $lt: event_count})
-            else
-                Tags.find()
-
         result_class: ->
             if Template.instance().subscriptionsReady()
                 ''
             else
                 'disabled'
 
-        picked_tags: -> picked_tags.array()
-        picked_tags_plural: -> picked_tags.array().length > 1
-        searching: -> Session.get('searching')
+        # picked_tags: -> picked_tags.array()
+        # picked_tags_plural: -> picked_tags.array().length > 1
+        # searching: -> Session.get('searching')
 
         one_post: ->
             Docs.find().count() is 1
@@ -149,39 +114,11 @@ if Meteor.isClient
             Docs.find {
                 model:'event'
             },
-                sort: "#{Session.get('event_sort_key')}":parseInt(Session.get('event_sort_direction'))
-                limit:Session.get('event_limit')
+                sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+                limit:Session.get('limit')
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
-        users: ->
-            # if picked_tags.array().length > 0
-            Meteor.users.find {
-            },
-                sort: count:-1
-                # limit:1
-
-
-        timestamp_tags: ->
-            # if picked_tags.array().length > 0
-            Timestamp_tags.find {
-                # model:'reddit'
-            },
-                sort: count:-1
-                # limit:1
-
-        event_limit: ->
-            Session.get('event_limit')
-
-        current_event_sort_label: ->
-            Session.get('event_sort_label')
-
-
-    # Template.set_event_limit.events
-    #     'click .set_limit': ->
-    #         console.log @
-    #         Session.set('event_limit', @amount)
-
 
 
 if Meteor.isServer

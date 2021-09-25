@@ -1,6 +1,6 @@
 template(name='comments')
     .ui.inline.header
-        i.chat.blue.outline.icon
+        i.chat.outline.icon
         |comments
     // div
     if currentUser
@@ -13,13 +13,21 @@ template(name='comments')
                 .content
                     .ui.inline.small.grey.header #{body}
                     span #{when}
-                        |by 
+                        // |by 
                         a(href="/user/#{author.username}") #{author.username}
                         if currentUser
                             +voting_small
                             if can_edit
                                 +remove_button
 
+
+
+template(name='set_sort_direction')
+    .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
+        if sorting_up
+            i.sort.amount.down.large.icon
+        else
+            i.sort.amount.up.large.icon
 
 template(name='viewing')
     div

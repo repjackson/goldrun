@@ -90,47 +90,9 @@ if Meteor.isClient
         #             Meteor.call 'search_reddit', picked_tags.array(), ->
         # , 1000)
 
-        'click .reconnect': ->
-            Meteor.reconnect()
-
-
-        'click .set_sort_direction': ->
-            if Session.get('task_sort_direction') is -1
-                Session.set('task_sort_direction', 1)
-            else
-                Session.set('task_sort_direction', -1)
 
 
     Template.tasks.helpers
-        quickbuying_task: ->
-            Docs.findOne Session.get('quickbuying_id')
-
-        sorting_up: ->
-            parseInt(Session.get('task_sort_direction')) is 1
-
-        toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
-        toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
-        toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
-        connection: ->
-            console.log Meteor.status()
-            Meteor.status()
-        connected: ->
-            Meteor.status().connected
-        invert_class: ->
-            if Meteor.user()
-                if Meteor.user().dark_mode
-                    'invert'
-        tags: ->
-            # if Session.get('current_query') and Session.get('current_query').length > 1
-            #     Terms.find({}, sort:count:-1)
-            # else
-            task_count = Docs.find().count()
-            # console.log 'task count', task_count
-            if task_count < 3
-                Tags.find({count: $lt: task_count})
-            else
-                Tags.find()
-
         result_class: ->
             if Template.instance().subscriptionsReady()
                 ''
@@ -148,8 +110,8 @@ if Meteor.isClient
             Docs.find {
                 model:'task'
             },
-                sort: "#{Session.get('task_sort_key')}":parseInt(Session.get('task_sort_direction'))
-                limit:Session.get('task_limit')
+                sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+                limit:Session.get('limit')
 
         # home_subs_ready: ->
         #     Template.instance().subscriptionsReady()

@@ -304,7 +304,7 @@ if Meteor.isServer
 
     Meteor.publish 'group_facets', (
         picked_tags
-        selected_timestamp_tags
+        picked_timestamp_tags
         query
         doc_limit
         doc_sort_key

@@ -608,7 +608,8 @@ template(name='array_view')
     if field_value
         // div
         if icon
-            i.icon(class=icon)
+            // i.icon(class=icon)
+            +i name=icon cl='ui avatar image'
         if label
             .ui.inline.small.grey.header.say_body(title=title)
                 |#{label}

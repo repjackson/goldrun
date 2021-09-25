@@ -7,7 +7,7 @@ Meteor.publish 'facet', (
     selected_location_tags
     selected_building_tags
     selected_unit_tags
-    selected_timestamp_tags
+    picked_timestamp_tags
     model
     author_id
     parent_id
@@ -37,7 +37,7 @@ Meteor.publish 'facet', (
             match.published = 1
         if selected_location_tags.length > 0 then match.location_tags = $all: selected_location_tags
         if selected_building_tags.length > 0 then match.building_tags = $all: selected_building_tags
-        if selected_timestamp_tags.length > 0 then match.timestamp_tags = $all: selected_timestamp_tags
+        if picked_timestamp_tags.length > 0 then match.timestamp_tags = $all: picked_timestamp_tags
 
         if tag_limit then limit=tag_limit else limit=50
         if author_id then match.author_id = author_id
@@ -130,7 +130,7 @@ Meteor.publish 'facet', (
         #     { $project: timestamp_tags: 1 }
         #     { $unwind: "$_timestamp_tags" }
         #     { $group: _id: '$_timestamp_tags', count: $sum: 1 }
-        #     { $match: _id: $nin: selected_timestamp_tags }
+        #     { $match: _id: $nin: picked_timestamp_tags }
         #     { $sort: count: -1, _id: 1 }
         #     { $limit: 10 }
         #     { $project: _id: 0, name: '$_id', count: 1 }

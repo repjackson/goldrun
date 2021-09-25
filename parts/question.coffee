@@ -103,15 +103,6 @@ if Meteor.isClient
 
 
     Template.questions.helpers
-        quickbuying_question: ->
-            Docs.findOne Session.get('quickbuying_id')
-
-        sorting_up: ->
-            parseInt(Session.get('question_sort_direction')) is 1
-
-        toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
-        toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
-        toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
         tags: ->
             # if Session.get('current_query') and Session.get('current_query').length > 1
             #     Terms.find({}, sort:count:-1)
@@ -135,22 +126,13 @@ if Meteor.isClient
 
         one_post: ->
             Docs.find().count() is 1
-        question: ->
+        question_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {
                 model:'question'
             },
-                sort: "#{Session.get('question_sort_key')}":parseInt(Session.get('question_sort_direction'))
-                limit:Session.get('question_limit')
-
-        home_subs_ready: ->
-            Template.instance().subscriptionsReady()
-        users: ->
-            # if picked_tags.array().length > 0
-            Meteor.users.find {
-            },
-                sort: count:-1
-                # limit:1
+                sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+                limit:Session.get('limit')
 
 
 
@@ -158,37 +140,29 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'question_results', (
         picked_tags
-        doc_limit
-        doc_sort_key
-        doc_sort_direction
+        doc_limit=20
+        doc_sort_key='_timestamp'
+        doc_sort_direction=-1
         view_delivery
         view_pickup
         view_open
         )->
         # console.log picked_tags
-        if doc_limit
-            limit = doc_limit
-        else
-            limit = 10
-        if doc_sort_key
-            sort_key = doc_sort_key
-        if doc_sort_direction
-            sort_direction = parseInt(doc_sort_direction)
         self = @
         match = {model:'question'}
-        if view_open
-            match.open = $ne:false
-        if view_delivery
-            match.delivery = $ne:false
-        if view_pickup
-            match.pickup = $ne:false
+        # if view_open
+        #     match.open = $ne:false
+        # if view_delivery
+        #     match.delivery = $ne:false
+        # if view_pickup
+        #     match.pickup = $ne:false
         if picked_tags.length > 0
             match.tags = $all: picked_tags
             sort = 'price_per_serving'
-        else
-            # match.tags = $nin: ['wikipedia']
-            sort = '_timestamp'
-            # match.source = $ne:'wikipedia'
+        # else
+        #     # match.tags = $nin: ['wikipedia']
+        #     sort = '_timestamp'
+        #     # match.source = $ne:'wikipedia'
         # if view_images
         #     match.is_image = $ne:false
         # if view_videos
@@ -203,17 +177,17 @@ if Meteor.isServer
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
 
-        console.log 'question match', match
-        console.log 'sort key', sort_key
-        console.log 'sort direction', sort_direction
+        # console.log 'question match', match
+        # console.log 'sort key', sort_key
+        # console.log 'sort direction', sort_direction
         Docs.find match,
-            sort:"#{sort_key}":sort_direction
+            sort:"#{doc_sort_key}":doc_sort_direction
             # sort:_timestamp:-1
-            limit: limit
+            limit: doc_limit
 
     Meteor.publish 'question_facets', (
-        picked_tags
-        selected_timestamp_tags
+        picked_tags=[]
+        picked_timestamp_tags
         query
         doc_limit
         doc_sort_key

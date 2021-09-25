@@ -5,8 +5,8 @@ template(name='services')
                 +i name='wrench'
                 |services
             if currentUser
-                a.ui.icon.basic.circular.button.add_service(title='cook')
-                    i.plus.green.large.icon
+                a.ui.icon.circular.button.add_service(title='cook')
+                    i.plus.large.icon
             
             .ui.left.icon.search.small.input
                 i.search.icon.refresh_tags
@@ -90,15 +90,14 @@ template(name='service_view')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    a.ui.fluid.basic.button(href="/services")
+                    a.ui.circular.compact.button(href="/services" title='services')
                         i.left.chevron.icon
-                        +i name='wrench' cl='ui inline avatar image'
-                        |services
-                    .ui.header view service
+                        +i name='wrench' cl='ui inline image'
+                        // |services
+                    .ui.inline.grey.header viewing service
                     if can_edit
-                        a.ui.big.fluid.button(href="/service/#{_id}/edit")
-                            i.pencil.icon
-                            |edit
+                        a.ui.big.icon.circular.button(href="/service/#{_id}/edit")
+                            i.pencil.large.icon
                     +image_view key='image_id' label='image' direct=true
                     //- +voting_full
                     //- +viewing
@@ -106,6 +105,7 @@ template(name='service_view')
                     h1.ui.header #{title} 
                     +textarea_view key='description' icon='content' label='description' direct=true
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
+                    div
                     +array_view key='tags' label='tags' icon='tags' direct=true
                     +text_view key='contact_info' label='contact info' icon='info' direct=true
                     div
@@ -121,8 +121,8 @@ template(name='service_view')
                     
                 
 template(name='service_history')
-    +ismall name='rss'
     .ui.inline.header
+        +i name='rss'
         |activity
     .ui.list
         each service_events
@@ -158,10 +158,8 @@ template(name='service_edit')
                 .four.wide.column
                     .ui.header 
                         |edit service
-                    a.ui.big.fluid.button(href="/service/#{_id}/" title='save')
-                        .ui.small.header
-                            i.checkmark.green.large.icon
-                            | save
+                    a.ui.big.fluid.icon.green.button(href="/service/#{_id}/" title='save')
+                        i.checkmark.large.icon
                     +remove_button
                     +image_edit key='image_id' label='image' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true

@@ -246,19 +246,6 @@ if Meteor.isClient
             Session.get('group_sort_label')
 
 
-    # Template.set_group_limit.events
-    #     'click .set_limit': ->
-    #         console.log @
-    #         Session.set('group_limit', @amount)
-
-    Template.set_group_sort_key.events
-        'click .set_sort': ->
-            console.log @
-            Session.set('group_sort_key', @key)
-            Session.set('group_sort_label', @label)
-
-
-
 if Meteor.isServer
     Meteor.publish 'group_results', (
         picked_tags

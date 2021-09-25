@@ -1,12 +1,13 @@
 template(name='products')
     .ui.stackable.padded.grid
-        .sixteen.wide.column
+        .four.wide.column
             .ui.inline.header 
                 +i name='shop'
-                |shop
+                |#{product_docs.count}
+                |products
             if currentUser
-                a.ui.icon.basic.compact.circular.button.add_product(title='add product')
-                    i.plus.green.large.icon
+                a.ui.icon.compact.circular.button.add_product(title='add product')
+                    i.plus.large.icon
             // .div
             .ui.left.icon.search.small.input
                 i.search.icon.refresh_tags
@@ -19,10 +20,10 @@ template(name='products')
                     //- i.remove.icon
                     | #{this}
             each tags
-                button.ui.circular.compact.small.basic.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+                button.ui.circular.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
                     //- small #{count}
             // .spacer
-        .sixteen.wide.column
+        .twelve.wide.column
             .sorting_row
                 .ui.icon.input
                     i.search.icon
@@ -43,10 +44,13 @@ template(name='products')
                 |&nbsp;
                 +limit_menu
             .spacer 
-            .ui.stackable.four.centered.cards.scrolling
-                each products
-                    +product_card
-
+            if subs_ready     
+                .ui.stackable.three.centered.cards.scrolling
+                    each product_docs
+                        +product_card
+            else 
+                .ui.basic.center.aligned.segment
+                    i.massive.grey.yin.yang.loading.icon
 
 template(name='product_edit')
     with current_doc
@@ -86,14 +90,14 @@ template(name='product_view')
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             .row
-                .four.wide.column
+                .five.wide.column
                     .ui.header 
                         small viewing
                         |#{title}
                         small product
-                    a.ui.big.basic.icon.button(href="/products" title='shop')
+                    a.ui.big.button.fly_left(href="/products" title='shop')
                         i.left.chevron.icon
-                        +i name='shop' cl='ui inline mini image'
+                        +i name='shop' cl='ui inline image'
                     if can_edit
                         a.ui.icon.large.basic.circular.button(href="/product/#{_id}/edit")
                             i.pencil.large.blue.icon
@@ -104,7 +108,7 @@ template(name='product_view')
                         +user_card
                     .ui.hidden.divider
                     +voting_full     
-                .six.wide.column
+                .seven.wide.column
                     img.ui.centered.rounded.shadowed.image(src="{{c.url image width=1000 height=400 crop='fit'}}")
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +text_view key='location' icon='marker' label='location description' direct=true
@@ -112,7 +116,7 @@ template(name='product_view')
                     // +number_view key='dollar_price' icon='money' label='dollar price' direct=true
                     +html_view key='description' direct=true
                     +comments
-                .six.wide.column
+                .four.wide.column
                     div
                     unless sold_out
                         if point_price
@@ -128,6 +132,7 @@ template(name='product_view')
                             |sold out
                     .ui.hidden.divider
                     +array_view key='tags' icon='tags' direct=true
+                    div
                     .ui.inline.header
                         +i name='delivery'
                         |delivery
@@ -176,25 +181,22 @@ template(name='product_location')
     
 template(name='product_card')
     .ui.card(class=product_card_class)
-        a.image(href="/product/#{_id}/") 
-            img.ui.zoom.pointer.goto_product.image(src="{{c.url image width=400 height=300 crop='pad'}}")
+        a.image.fly_right(href="/product/#{_id}/") 
+            img.ui.zoomer.pointer.goto_product.image(src="{{c.url image width=400 height=300 crop='pad'}}")
         .content
-            a.ui.header(href="/product/#{_id}/") 
-                //- |#{_author.name}'s
+            a.ui.inline.header.zoomer.fly_right(href="/product/#{_id}/") 
                 | #{title}
-            +ismall name='tags'
             each tags
-                .ui.small.circular.basic.label #{this}
+                .ui.label.spaced #{this}
         .content
             .right.floated.meta
                 | #{when}
-            //- if session_is 'view_users' true
-            a(href="/user/#{_author.username}")
+            a(href="/user/#{_author_username}")
                 img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
-                |#{_author.username}
+                |#{_author_username}
         .content    
-            if credit_price
-                .ui.inline.header #{credit_price}c
+            if point_price
+                .ui.inline.header #{point_price}p
             // div
             if delivery
                 +i name='deliver-product' cl='ui avatar image'

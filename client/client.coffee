@@ -16,6 +16,13 @@ $.cloudinary.config
     # action: 'not_found'
 
 Template.body.events
+    'click .fly_left': (e,t)->
+        # console.log 'hi'
+        $(e.currentTarget).closest('.grid').transition('slide left', 500)
+    'click .fly_right': (e,t)->
+        # console.log 'hi'
+        $(e.currentTarget).closest('.grid').transition('slide right', 500)
+        
     'click a': ->
         $('.global_container')
         .transition('fade out', 200)

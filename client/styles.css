@@ -113,6 +113,11 @@ body {
     height: 100% !important;
 }
 
+.spaced {
+    margin: 2px !important;
+}
+
+
 .vertical-text span {
   text-orientation: upright;
 }

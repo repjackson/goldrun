@@ -48,9 +48,9 @@ if Meteor.isClient
             Router.go("/product/#{new_id}/edit")
 
 
-        'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
-        'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
-        'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
+        # 'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
+        # 'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
+        # 'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
 
         'click .tag_result': -> picked_tags.push @title
         'click .unselect_tag': ->
@@ -99,36 +99,7 @@ if Meteor.isClient
         #             Meteor.call 'search_reddit', picked_tags.array(), ->
         # , 1000)
 
-        'click .reconnect': ->
-            Meteor.reconnect()
-
-
-        'click .set_sort_direction': ->
-            if Session.get('product_sort_direction') is -1
-                Session.set('product_sort_direction', 1)
-            else
-                Session.set('product_sort_direction', -1)
-
-
     Template.products.helpers
-        quickbuying_product: ->
-            Docs.findOne Session.get('quickbuying_id')
-
-        sorting_up: ->
-            parseInt(Session.get('product_sort_direction')) is 1
-
-        toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
-        toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
-        toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
-        connection: ->
-            console.log Meteor.status()
-            Meteor.status()
-        connected: ->
-            Meteor.status().connected
-        invert_class: ->
-            if Meteor.user()
-                if Meteor.user().dark_mode
-                    'invert'
         tags: ->
             # if Session.get('current_query') and Session.get('current_query').length > 1
             #     Terms.find({}, sort:count:-1)
@@ -152,78 +123,39 @@ if Meteor.isClient
 
         one_post: ->
             Docs.find().count() is 1
-        products: ->
+        product_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {
                 model:'product'
             },
-                sort: "#{Session.get('product_sort_key')}":parseInt(Session.get('product_sort_direction'))
-                limit:Session.get('product_limit')
+                sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+                limit:Session.get('limit')
 
-        home_subs_ready: ->
+        subs_ready: ->
             Template.instance().subscriptionsReady()
-        users: ->
-            # if picked_tags.array().length > 0
-            Meteor.users.find {
-            },
-                sort: count:-1
-                # limit:1
-
-
-        timestamp_tags: ->
-            # if picked_tags.array().length > 0
-            Timestamp_tags.find {
-                # model:'reddit'
-            },
-                sort: count:-1
-                # limit:1
-
-        product_limit: ->
-            Session.get('product_limit')
-
-        current_product_sort_label: ->
-            Session.get('product_sort_label')
-
-
-    # Template.set_product_limit.events
-    #     'click .set_limit': ->
-    #         console.log @
-    #         Session.set('product_limit', @amount)
 
 if Meteor.isServer
     Meteor.publish 'product_results', (
         picked_tags
-        doc_limit
-        doc_sort_key
-        doc_sort_direction
+        limit=20
+        sort_key='_timestamp'
+        sort_direction=-1
         view_delivery
         view_pickup
         view_open
         )->
         # console.log picked_tags
-        if doc_limit
-            limit = doc_limit
-        else
-            limit = 10
-        if doc_sort_key
-            sort_key = doc_sort_key
-        if doc_sort_direction
-            sort_direction = parseInt(doc_sort_direction)
         self = @
         match = {model:'product'}
-        if view_open
-            match.open = $ne:false
-        if view_delivery
-            match.delivery = $ne:false
-        if view_pickup
-            match.pickup = $ne:false
+        # if view_open
+        #     match.open = $ne:false
+        # if view_delivery
+        #     match.delivery = $ne:false
+        # if view_pickup
+        #     match.pickup = $ne:false
         if picked_tags.length > 0
             match.tags = $all: picked_tags
-            sort = 'price_per_serving'
-        else
-            # match.tags = $nin: ['wikipedia']
-            sort = '_timestamp'
-            # match.source = $ne:'wikipedia'
+            # sort = 'price_per_serving'
         # if view_images
         #     match.is_image = $ne:false
         # if view_videos
@@ -238,9 +170,9 @@ if Meteor.isServer
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
 
-        console.log 'product match', match
-        console.log 'sort key', sort_key
-        console.log 'sort direction', sort_direction
+        # console.log 'product match', match
+        # console.log 'sort key', sort_key
+        # console.log 'sort direction', sort_direction
         Docs.find match,
             sort:"#{sort_key}":sort_direction
             # sort:_timestamp:-1

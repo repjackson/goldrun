@@ -6,11 +6,20 @@ Router.route '/group/:doc_id', (->
 
 
 if Meteor.isClient
+    Template.groups_small.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'group', 
+    Template.groups_small.helpers
+        group_docs: ->
+            Docs.find   
+                model:'group'
+                
+                
+                
     Template.group_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
         # @autorun => Meteor.subscribe 'children', 'group_update', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'members', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'group_dishes', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'members', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'group_dishes', Router.current().params.doc_id, ->
     Template.group_view.helpers
         current_group: ->
             Docs.findOne

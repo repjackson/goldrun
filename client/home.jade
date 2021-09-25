@@ -1,7 +1,7 @@
 template(name='home')
     .ui.stackable.padded.grid
         .sixteen.wide.column.scrolling
-            .ui.stackable.three.column.grid 
+            .ui.stackable.four.column.grid 
                 .column
                     +latest_activity
                 .column
@@ -16,6 +16,8 @@ template(name='home')
                                     .meta
                                         |#{when}
                                         |#{_author_username}
+                .column
+                    +groups_small
                 .column
                     a.ui.center.aligned.header(href="/polls")
                         +i name='poll' cl='ui avatar image'

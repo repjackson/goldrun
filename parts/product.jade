@@ -84,7 +84,6 @@ template(name='product_edit')
                         +text_edit key='model' direct=true
                 .four.wide.column
                     +number_edit key='inventory' label='inventory' icon='warehouse' direct=true
-                    +number_edit key='dollar_price' icon='money' label='dollar price/unit' direct=true
                     +number_edit key='point_price' icon='coins' label='point price/unit' direct=true
                     .ui.inline.header
                         +i name='delivery'
@@ -122,8 +121,8 @@ template(name='product_view')
                     img.ui.centered.rounded.shadowed.image(src="{{c.url image width=1000 height=400 crop='fit'}}")
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +text_view key='location' icon='marker' label='location description' direct=true
-                    +number_view key='credit_price' icon='coins' label='credit price' direct=true
-                    +number_view key='dollar_price' icon='money' label='dollar price' direct=true
+                    +number_view key='point_price' icon='coins' label='point price' direct=true
+                    // +number_view key='dollar_price' icon='money' label='dollar price' direct=true
                     +html_view key='description' direct=true
                     +comments
                 .six.wide.column

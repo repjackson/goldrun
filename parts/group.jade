@@ -341,3 +341,14 @@ template(name='profile_group_item')
                 if is_admin
                     +remove_button
     
+    
+    
+template(name='groups_small')
+    .ui.header
+        +i name='groups'
+        |groups
+    .ui.selection.animated.list.smallscroll
+        each group_docs
+            a.item(href="/group/#{_id}")
+                img.ui.avatar.image(src="{{c.url image width=200 height=200}}")
+                |#{title}

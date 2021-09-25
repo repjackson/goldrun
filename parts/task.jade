@@ -59,7 +59,7 @@ template(name='tasks')
                             +set_limit amount=10
                             +set_limit amount=20
             .spacer 
-            .ui.stackable.four.cards.scrolling
+            .ui.stackable.three.cards.scrolling
                 each task_docs
                     +task_card
 
@@ -72,7 +72,7 @@ template(name='task_card')
             a.ui.header(href="/task/#{_id}/") 
                 | #{title}
             each tags
-                .ui.small.circular.label #{this}
+                .ui.label #{this}
         .content
             .right.floated.meta
                 | {{from_now _timestamp}}

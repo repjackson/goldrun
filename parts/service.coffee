@@ -15,18 +15,18 @@ if Meteor.isClient
     Template.services.onCreated ->
         @autorun => @subscribe 'service_facets',
             picked_tags.array()
-            Session.get('service_limit')
-            Session.get('service_sort_key')
-            Session.get('service_sort_direction')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
 
         @autorun => @subscribe 'service_results',
             picked_tags.array()
-            Session.get('service_limit')
-            Session.get('service_sort_key')
-            Session.get('service_sort_direction')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
@@ -91,55 +91,19 @@ if Meteor.isClient
         #             Meteor.call 'search_reddit', picked_tags.array(), ->
         # , 1000)
 
-        'click .reconnect': ->
-            Meteor.reconnect()
-
-
-        'click .set_sort_direction': ->
-            if Session.get('service_sort_direction') is -1
-                Session.set('service_sort_direction', 1)
-            else
-                Session.set('service_sort_direction', -1)
-
 
     Template.services.helpers
-        quickbuying_service: ->
-            Docs.findOne Session.get('quickbuying_id')
+        # toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
+        # toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
+        # toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
+        # result_class: ->
+        #     if Template.instance().subscriptionsReady()
+        #         ''
+        #     else
+        #         'disabled'
 
-        sorting_up: ->
-            parseInt(Session.get('service_sort_direction')) is 1
-
-        toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
-        toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
-        toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
-        connection: ->
-            console.log Meteor.status()
-            Meteor.status()
-        connected: ->
-            Meteor.status().connected
-        invert_class: ->
-            if Meteor.user()
-                if Meteor.user().dark_mode
-                    'invert'
-        tags: ->
-            # if Session.get('current_query') and Session.get('current_query').length > 1
-            #     Terms.find({}, sort:count:-1)
-            # else
-            service_count = Docs.find().count()
-            # console.log 'service count', service_count
-            if service_count < 3
-                Tags.find({count: $lt: service_count})
-            else
-                Tags.find()
-
-        result_class: ->
-            if Template.instance().subscriptionsReady()
-                ''
-            else
-                'disabled'
-
-        picked_tags: -> picked_tags.array()
-        picked_tags_plural: -> picked_tags.array().length > 1
+        # picked_tags: -> picked_tags.array()
+        # picked_tags_plural: -> picked_tags.array().length > 1
         searching: -> Session.get('searching')
 
         one_post: ->
@@ -149,27 +113,11 @@ if Meteor.isClient
             Docs.find {
                 model:'service'
             },
-                sort: "#{Session.get('service_sort_key')}":parseInt(Session.get('service_sort_direction'))
-                limit:Session.get('service_limit')
+                sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+                limit:Session.get('limit')
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
-        users: ->
-            # if picked_tags.array().length > 0
-            Meteor.users.find {
-            },
-                sort: count:-1
-                # limit:1
-
-
-        timestamp_tags: ->
-            # if picked_tags.array().length > 0
-            Timestamp_tags.find {
-                # model:'reddit'
-            },
-                sort: count:-1
-                # limit:1
-
 
 
 if Meteor.isServer

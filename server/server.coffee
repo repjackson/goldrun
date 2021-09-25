@@ -4,6 +4,21 @@ Meteor.users.allow
         # if userId and doc._id == userId
         #     true
 
+Docs.allow
+    insert: (userId, doc) -> doc._author_id is userId
+    update: (userId, doc) ->
+        userId
+        # if doc.model in ['calculator_doc','simulated_rental_item','healthclub_session']
+        #     true
+        # else if Meteor.user() and Meteor.user().roles and 'admin' in Meteor.user().roles
+        #     true
+        # else
+        #     doc._author_id is userId
+    # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
+    remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
+
+
+
 Cloudinary.config
     cloud_name: 'facet'
     api_key: Meteor.settings.private.cloudinary_key

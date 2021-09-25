@@ -432,6 +432,8 @@ if Meteor.isClient
     Template.doc_array_togggle.events
         'click .toggle': (e,t)->
             parent = Template.parentData()
+            console.log 'key', @key, @value
+            console.log 'parent', parent
             if parent["#{@key}"]
                 if @value in parent["#{@key}"]
                     Docs.update parent._id,

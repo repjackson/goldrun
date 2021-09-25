@@ -19,12 +19,12 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
         # @autorun => Meteor.subscribe 'children', 'group_update', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'members', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'group_dishes', Router.current().params.doc_id, ->
+        # @autorun => Meteor.subscribe 'group_dishes', Router.current().params.doc_id, ->
     Template.group_view.helpers
-        current_group: ->
-            Docs.findOne
-                model:'group'
-                slug: Router.current().params.doc_id
+        # current_group: ->
+        #     Docs.findOne
+        #         model:'group'
+        #         slug: Router.current().params.doc_id
 
     Template.group_view.events
         'click .refresh_group_stats': ->
@@ -65,7 +65,7 @@ Router.route '/group/:doc_id/edit', -> @render 'group_edit'
 if Meteor.isClient
     Template.group_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'group_options', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'group_options', Router.current().params.doc_id
     Template.group_edit.events
         'click .add_option': ->
             Docs.insert
@@ -85,26 +85,26 @@ if Meteor.isClient
 
     Template.groups.onCreated ->
         Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'group_sort_key', 'datetime_available'
-        Session.setDefault 'group_sort_label', 'available'
-        Session.setDefault 'group_limit', 5
+        Session.setDefault 'sort_key', 'member_count'
+        Session.setDefault 'sort_label', 'available'
+        Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
 
     Template.groups.onCreated ->
         @autorun => @subscribe 'group_facets',
             picked_tags.array()
-            Session.get('group_limit')
-            Session.get('group_sort_key')
-            Session.get('group_sort_direction')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
 
         @autorun => @subscribe 'group_results',
             picked_tags.array()
-            Session.get('group_limit')
-            Session.get('group_sort_key')
-            Session.get('group_sort_direction')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
@@ -185,11 +185,11 @@ if Meteor.isClient
             parseInt(Session.get('group_sort_direction')) is 1
 
         # toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
-        connection: ->
-            console.log Meteor.status()
-            Meteor.status()
-        connected: ->
-            Meteor.status().connected
+        # connection: ->
+        #     console.log Meteor.status()
+        #     Meteor.status()
+        # connected: ->
+        #     Meteor.status().connected
         tags: ->
             # if Session.get('current_query') and Session.get('current_query').length > 1
             #     Terms.find({}, sort:count:-1)
@@ -219,7 +219,7 @@ if Meteor.isClient
                 model:'group'
             },
                 sort: "#{Session.get('group_sort_key')}":parseInt(Session.get('group_sort_direction'))
-                limit:Session.get('group_limit')
+                # limit:Session.get('group_limit')
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
@@ -231,13 +231,13 @@ if Meteor.isClient
                 # limit:1
 
 
-        timestamp_tags: ->
-            # if picked_tags.array().length > 0
-            Timestamp_tags.find {
-                # model:'reddit'
-            },
-                sort: count:-1
-                # limit:1
+        # timestamp_tags: ->
+        #     # if picked_tags.array().length > 0
+        #     Timestamp_tags.find {
+        #         # model:'reddit'
+        #     },
+        #         sort: count:-1
+        #         # limit:1
 
         group_limit: ->
             Session.get('group_limit')
@@ -257,43 +257,6 @@ if Meteor.isClient
             Session.set('group_sort_key', @key)
             Session.set('group_sort_label', @label)
 
-    Template.session_edit_value_button.events
-        'click .set_session_value': ->
-            # console.log @key
-            # console.log @value
-            Session.set(@key, @value)
-
-    Template.session_edit_value_button.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.equals(@key,@value)
-                res += ' active'
-            # console.log res
-            res
-
-
-
-    Template.session_boolean_toggle.events
-        'click .toggle_session_key': ->
-            console.log @key
-            Session.set(@key, !Session.get(@key))
-
-    Template.session_boolean_toggle.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.get(@key)
-                res += ' blue'
-            else
-                res += ' basic'
-
-            # console.log res
-            res
 
 
 if Meteor.isServer
@@ -310,7 +273,7 @@ if Meteor.isServer
         if doc_limit
             limit = doc_limit
         else
-            limit = 10
+            limit = 42
         if doc_sort_key
             sort_key = doc_sort_key
         if doc_sort_direction

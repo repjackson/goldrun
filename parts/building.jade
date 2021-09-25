@@ -67,7 +67,7 @@ template(name='buildings')
 template(name='building_card')
     a.ui.card(class=building_card_class href="/building/#{_id}")
         .image
-            img.ui.zoom.pointer.goto_building.image(src="{{c.url image width=400 height=300 crop='pad'}}")
+            img.ui.zoom.pointer.goto_building.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
             a.ui.header(href="/building/#{_id}/") 
                 //- |#{_author.name}'s
@@ -144,7 +144,7 @@ template(name='building_edit')
                     +text_edit key='title' direct=true
                     +text_edit key='building_code' label='building code (letter)' icon='letter' direct=true
                     +raw_edit key='map_html' label='map html' direct=true
-                    +image_edit key='image' label='image' direct=true
+                    +image_edit key='image_id' label='image' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                                         

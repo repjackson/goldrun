@@ -7,29 +7,28 @@ if Meteor.isClient
 
     Template.tasks.onCreated ->
         Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'task_sort_key', 'datetime_available'
-        Session.setDefault 'task_sort_label', 'available'
-        Session.setDefault 'task_limit', 5
+        Session.setDefault 'sort_key', '_timestamp'
+        Session.setDefault 'sort_label', 'available'
+        Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
 
-    Template.tasks.onCreated ->
         @autorun => @subscribe 'task_facets',
             picked_tags.array()
-            Session.get('task_limit')
-            Session.get('task_sort_key')
-            Session.get('task_sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('view_my_tasks')
+            Session.get('view_complete_tasks')
             Session.get('view_open')
 
         @autorun => @subscribe 'task_results',
             picked_tags.array()
-            Session.get('task_limit')
-            Session.get('task_sort_key')
-            Session.get('task_sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('view_my_tasks')
+            Session.get('view_complete_tasks')
+            Session.get('view_my_assignments')
 
 
     Template.tasks.events
@@ -158,35 +157,31 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'task_results', (
-        picked_tags
-        doc_limit
-        doc_sort_key
-        doc_sort_direction
-        view_delivery
-        view_pickup
-        view_open
+        picked_tags=[]
+        doc_limit=20
+        doc_sort_key='_timestamp'
+        doc_sort_direction=-1
+        view_my_tasks=false
+        view_complete=false
+        view_my_assignments=false
         )->
         # console.log picked_tags
-        if doc_limit
-            limit = doc_limit
-        else
-            limit = 20
-        if doc_sort_key
-            sort_key = doc_sort_key
-        if doc_sort_direction
-            sort_direction = parseInt(doc_sort_direction)
+        # if doc_sort_key
+        #     sort_key = doc_sort_key
+        # if doc_sort_direction
+        #     sort_direction = parseInt(doc_sort_direction)
         self = @
         match = {model:'task'}
-        # if view_open
-        #     match.open = $ne:false
-        # if view_delivery
-        #     match.delivery = $ne:false
-        # if view_pickup
-        #     match.pickup = $ne:false
+        if view_my_tasks
+            match._author_id = Meteor.userId()
+        if view_complete
+            match.complete = true
+        if view_my_assignments
+            match.target_user_id = Meteor.userId()
         # if picked_tags.length > 0
         #     match.tags = $all: picked_tags
         #     sort = 'price_per_serving'
-        sort = '_timestamp'
+        # sort = '_timestamp'
         # else
             # match.tags = $nin: ['wikipedia']
             # match.source = $ne:'wikipedia'
@@ -205,12 +200,12 @@ if Meteor.isServer
             # console.log 'current facet filter array', current_facet_filter_array
 
         console.log 'task match', match
-        console.log 'sort key', sort_key
-        console.log 'sort direction', sort_direction
+        console.log 'sort key', doc_sort_key
+        console.log 'sort direction', doc_sort_direction
         Docs.find match,
-            # sort:"#{sort_key}":sort_direction
-            sort:_timestamp:-1
-            limit: 20
+            sort:"#{doc_sort_key}":doc_sort_direction
+            # sort:_timestamp:-1
+            limit: doc_limit
 
     Meteor.publish 'task_facets', (
         picked_tags

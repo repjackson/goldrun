@@ -5,7 +5,7 @@ template(name='tasks')
                 +i name='tasks'
                 |tasks
             if currentUser
-                a.ui.icon.circular.button.add_task(title='cook')
+                a.ui.icon.circular.button.add_task(title='add task')
                     i.plus.green.large.icon
             .ui.left.icon.search.small.input
                 i.search.icon.refresh_tags
@@ -25,6 +25,8 @@ template(name='tasks')
         .twelve.wide.column
             .sorting_row
                 +session_boolean_toggle key='view_my_tasks' label='my tasks' icon='user-male'
+                +session_boolean_toggle key='view_complete_tasks' label='complete' icon='checkmark'
+                +session_boolean_toggle key='view_my_assignments' label='my assignments' icon='user-folder'
                 .ui.icon.input
                     i.search.icon
                     input.tag_search(type='text' placeholder='search...')

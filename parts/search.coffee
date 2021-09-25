@@ -39,6 +39,7 @@ if Meteor.isServer
         if query.length > 0
             Docs.find({
                 title:{$regex:query, $options:'i'}
+                model:$nin:['wikipedia','reddit']
             }, {
                 limit:20
                 sort:

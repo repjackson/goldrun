@@ -76,10 +76,10 @@ template(name='post_view')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    a.ui.fluid.button(href="/posts")
+                    a.ui.icon.compact.button(href="/posts")
                         i.left.chevron.icon
-                        +i name='blog' cl='ui inline avatar image'
-                        |posts
+                        +i name='blog' cl='ui inline image'
+                        // |posts
                     .ui.header 
                         small viewing post
                         strong #{title}
@@ -118,7 +118,7 @@ template(name='post_edit')
                     .ui.header 
                         small editing post
                         strong #{title}
-                    a.ui.big.icon.green.button(href="/post/#{_id}" title='save')
+                    a.ui.big.icon.green.button(href="/#{model}/#{_id}" title='save')
                         i.checkmark.big.icon
                     +remove_button
                     +image_edit key='image' label='image' direct=true

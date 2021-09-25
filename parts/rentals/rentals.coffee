@@ -150,81 +150,13 @@ if Meteor.isClient
                 model:'rental'
             },
                 sort: "#{Session.get('rental_sort_key')}":parseInt(Session.get('rental_sort_direction'))
-                limit:Session.get('rental_limit')
+                limit:Session.get('limit')
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
-        users: ->
-            # if picked_tags.array().length > 0
-            Meteor.users.find {
-            },
-                sort: count:-1
-                # limit:1
-
-
-        timestamp_tags: ->
-            # if picked_tags.array().length > 0
-            Timestamp_tags.find {
-                # model:'reddit'
-            },
-                sort: count:-1
-                # limit:1
-
-        rental_limit: ->
-            Session.get('rental_limit')
-
-        current_rental_sort_label: ->
-            Session.get('rental_sort_label')
-
-
-    # Template.set_rental_limit.events
-    #     'click .set_limit': ->
-    #         console.log @
-    #         Session.set('rental_limit', @amount)
-
-    Template.set_rental_sort_key.events
-        'click .set_sort': ->
-            console.log @
-            Session.set('rental_sort_key', @key)
-            Session.set('rental_sort_label', @label)
-
-    Template.session_edit_value_button.events
-        'click .set_session_value': ->
-            # console.log @key
-            # console.log @value
-            Session.set(@key, @value)
-
-    Template.session_edit_value_button.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.equals(@key,@value)
-                res += ' active'
-            # console.log res
-            res
 
 
 
-    Template.session_boolean_toggle.events
-        'click .toggle_session_key': ->
-            console.log @key
-            Session.set(@key, !Session.get(@key))
-
-    Template.session_boolean_toggle.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.get(@key)
-                res += ' blue'
-            else
-                res += ' basic'
-
-            # console.log res
-            res
 
 
 if Meteor.isServer

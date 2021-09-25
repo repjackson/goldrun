@@ -144,7 +144,7 @@ if Meteor.isClient
 
         one_post: ->
             Docs.find().count() is 1
-        task: ->
+        task_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {
                 model:'task'
@@ -152,79 +152,8 @@ if Meteor.isClient
                 sort: "#{Session.get('task_sort_key')}":parseInt(Session.get('task_sort_direction'))
                 limit:Session.get('task_limit')
 
-        home_subs_ready: ->
-            Template.instance().subscriptionsReady()
-        users: ->
-            # if picked_tags.array().length > 0
-            Meteor.users.find {
-            },
-                sort: count:-1
-                # limit:1
-
-
-        timestamp_tags: ->
-            # if picked_tags.array().length > 0
-            Timestamp_tags.find {
-                # model:'reddit'
-            },
-                sort: count:-1
-                # limit:1
-
-        task_limit: ->
-            Session.get('task_limit')
-
-        current_task_sort_label: ->
-            Session.get('task_sort_label')
-
-
-    # Template.set_task_limit.events
-    #     'click .set_limit': ->
-    #         console.log @
-    #         Session.set('task_limit', @amount)
-
-    Template.set_task_sort_key.events
-        'click .set_sort': ->
-            console.log @
-            Session.set('task_sort_key', @key)
-            Session.set('task_sort_label', @label)
-
-    Template.session_edit_value_button.events
-        'click .set_session_value': ->
-            # console.log @key
-            # console.log @value
-            Session.set(@key, @value)
-
-    Template.session_edit_value_button.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.equals(@key,@value)
-                res += ' active'
-            # console.log res
-            res
-
-
-
-    Template.session_boolean_toggle.events
-        'click .toggle_session_key': ->
-            console.log @key
-            Session.set(@key, !Session.get(@key))
-
-    Template.session_boolean_toggle.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.get(@key)
-                res += ' blue'
-            else
-                res += ' basic'
-
-            # console.log res
-            res
+        # home_subs_ready: ->
+        #     Template.instance().subscriptionsReady()
 
 
 if Meteor.isServer

@@ -170,61 +170,6 @@ if Meteor.isClient
                 sort: count:-1
                 # limit:1
 
-        service_limit: ->
-            Session.get('service_limit')
-
-        current_service_sort_label: ->
-            Session.get('service_sort_label')
-
-
-    # Template.set_service_limit.events
-    #     'click .set_limit': ->
-    #         console.log @
-    #         Session.set('service_limit', @amount)
-
-    Template.set_service_sort_key.events
-        'click .set_sort': ->
-            console.log @
-            Session.set('service_sort_key', @key)
-            Session.set('service_sort_label', @label)
-
-    Template.session_edit_value_button.events
-        'click .set_session_value': ->
-            # console.log @key
-            # console.log @value
-            Session.set(@key, @value)
-
-    Template.session_edit_value_button.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.equals(@key,@value)
-                res += ' active'
-            # console.log res
-            res
-
-
-
-    Template.session_boolean_toggle.events
-        'click .toggle_session_key': ->
-            console.log @key
-            Session.set(@key, !Session.get(@key))
-
-    Template.session_boolean_toggle.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.get(@key)
-                res += ' blue'
-            else
-                res += ' basic'
-
-            # console.log res
-            res
 
 
 if Meteor.isServer

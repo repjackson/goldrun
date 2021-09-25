@@ -41,10 +41,6 @@ if Meteor.isClient
             Router.go("/post/#{new_id}/edit")
 
 
-        'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
-        'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
-        'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
-
         'click .tag_result': -> picked_tags.push @title
         'click .unselect_tag': ->
             picked_tags.remove @valueOf()
@@ -92,46 +88,12 @@ if Meteor.isClient
         #             Meteor.call 'search_reddit', picked_tags.array(), ->
         # , 1000)
 
-        'click .reconnect': ->
-            Meteor.reconnect()
 
-
-        'click .set_sort_direction': ->
-            if Session.get('sort_direction') is -1
-                Session.set('sort_direction', 1)
-            else
-                Session.set('sort_direction', -1)
 
 
     Template.posts.helpers
         quickbuying_post: ->
             Docs.findOne Session.get('quickbuying_id')
-
-        sorting_up: ->
-            parseInt(Session.get('sort_direction')) is 1
-
-        toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
-        toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
-        toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
-        connection: ->
-            console.log Meteor.status()
-            Meteor.status()
-        connected: ->
-            Meteor.status().connected
-        invert_class: ->
-            if Meteor.user()
-                if Meteor.user().dark_mode
-                    'invert'
-        tags: ->
-            # if Session.get('current_query') and Session.get('current_query').length > 1
-            #     Terms.find({}, sort:count:-1)
-            # else
-            post_count = Docs.find().count()
-            # console.log 'post count', post_count
-            if post_count < 3
-                Tags.find({count: $lt: post_count})
-            else
-                Tags.find()
 
         result_class: ->
             if Template.instance().subscriptionsReady()
@@ -155,60 +117,28 @@ if Meteor.isClient
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
-        users: ->
-            # if picked_tags.array().length > 0
-            Meteor.users.find {
-            },
-                sort: count:-1
-                # limit:1
-
-
-        timestamp_tags: ->
-            # if picked_tags.array().length > 0
-            Timestamp_tags.find {
-                # model:'reddit'
-            },
-                sort: count:-1
-                # limit:1
-
-        limit: ->
-            Session.get('limit')
-
-        current_post_sort_label: ->
-            Session.get('post_sort_label')
 
 
 
 
 if Meteor.isServer
     Meteor.publish 'post_results', (
-        picked_tags
-        doc_limit
-        doc_sort_key
-        doc_sort_direction
+        picked_tags=[]
+        limit=20
+        sort_key='_timestamp'
+        sort_direction=-1
         view_delivery
         view_pickup
         view_open
         )->
         # console.log picked_tags
-        if doc_limit
-            limit = doc_limit
-        else
-            limit = 10
-        if doc_sort_key
-            sort_key = doc_sort_key
-        if doc_sort_direction
-            sort_direction = parseInt(doc_sort_direction)
         self = @
         match = {model:'post'}
         # if view_pickup
         #     match.pickup = $ne:false
         if picked_tags.length > 0
             match.tags = $all: picked_tags
-            sort = '_timestamp'
-        else
-            # match.tags = $nin: ['wikipedia']
-            sort = '_timestamp'
+            # sort = '_timestamp'
             # match.source = $ne:'wikipedia'
         # if view_images
         #     match.is_image = $ne:false
@@ -224,9 +154,6 @@ if Meteor.isServer
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
 
-        console.log 'post match', match
-        console.log 'sort key', sort_key
-        console.log 'sort direction', sort_direction
         Docs.find match,
             sort:"#{sort_key}":sort_direction
             # sort:_timestamp:-1
@@ -346,27 +273,27 @@ Router.route '/post/:doc_id/edit', (->
 
 if Meteor.isClient
     Template.post_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
     Template.post_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
 
 
-    # Template.post_edit.events 
-    #     'keyup body': (e,t)->
-    #         if e.ctrlKey or e.metaKey
-    #             switch String.fromCharCode(e.which).toLowerCase()
-    #                 when 's'
-    #                     e.preventDefault()
-    #                     alert('ctrl-s')
-    #                     break
-    #                 when 'f'
-    #                     e.preventDefault()
-    #                     alert('ctrl-f')
-    #                     break
-    #                 when 'g'
-    #                     e.preventDefault()
-    #                     alert('ctrl-g')
-    #                     break
+    Template.post_edit.events 
+        'keyup body': (e,t)->
+            if e.ctrlKey or e.metaKey
+                switch String.fromCharCode(e.which).toLowerCase()
+                    when 's'
+                        e.preventDefault()
+                        alert('ctrl-s')
+                        break
+                    when 'f'
+                        e.preventDefault()
+                        alert('ctrl-f')
+                        break
+                    when 'g'
+                        e.preventDefault()
+                        alert('ctrl-g')
+                        break
 
 
 

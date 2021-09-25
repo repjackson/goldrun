@@ -27,7 +27,7 @@ template(name='user_layout')
                             a.ui.inline.header(href="/user/#{user_from_username_param.username}/credit" title='credit')
                                 //- +i name='coins'
                                 //- i.coins.icon
-                                |{{fixed user.credit}}c
+                                |{{fixed user.points}}pts
                     if is_current_user
                         a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             i.cog.icon
@@ -47,6 +47,8 @@ template(name='user_layout')
                             |roles
                         each roles
                             .ui.label #{this}
+                    if in_dev 
+                        +print_this
                 .twelve.wide.column
                     a.ui.compact.button(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}")
                         +i name='dashboard' cl='ui avatar image'

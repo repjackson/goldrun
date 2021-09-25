@@ -7,26 +7,26 @@ if Meteor.isClient
 
     Template.buildings.onCreated ->
         Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'building_sort_key', 'datetime_available'
-        Session.setDefault 'building_sort_label', 'available'
-        Session.setDefault 'building_limit', 5
+        Session.setDefault 'sort_key', 'datetime_available'
+        Session.setDefault 'sort_label', 'available'
+        Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
 
     Template.buildings.onCreated ->
         @autorun => @subscribe 'building_facets',
             picked_tags.array()
-            Session.get('building_limit')
-            Session.get('building_sort_key')
-            Session.get('building_sort_direction')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
 
         @autorun => @subscribe 'building_results',
             picked_tags.array()
-            Session.get('building_limit')
-            Session.get('building_sort_key')
-            Session.get('building_sort_direction')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
@@ -39,10 +39,6 @@ if Meteor.isClient
                     model:'building'
             Router.go("/building/#{new_id}/edit")
 
-
-        'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
-        'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
-        'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
 
         'click .tag_result': -> picked_tags.push @title
         'click .unselect_tag': ->
@@ -189,18 +185,14 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'building_results', (
         picked_tags
-        doc_limit
-        doc_sort_key
-        doc_sort_direction
+        limit=20
+        sort_key
+        sort_direction
         view_delivery
         view_pickup
         view_open
         )->
         # console.log picked_tags
-        if doc_limit
-            limit = doc_limit
-        else
-            limit = 20
         if doc_sort_key
             sort_key = doc_sort_key
         if doc_sort_direction
@@ -238,9 +230,9 @@ if Meteor.isServer
         console.log 'sort key', sort_key
         console.log 'sort direction', sort_direction
         Docs.find match,
-            # sort:"#{sort_key}":sort_direction
-            sort:_timestamp:-1
-            limit: 20
+            sort:"#{sort_key}":sort_direction
+            # sort:_timestamp:-1
+            limit: limit
 
     Meteor.publish 'building_facets', (
         picked_tags

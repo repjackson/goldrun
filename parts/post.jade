@@ -34,43 +34,11 @@ template(name='posts')
                 +key_value_edit key='sort_key' value='comment_count' label='comment count' icon='chat'
                 |&nbsp;
                 |&nbsp;
-                .ui.inline.small.grey.header
-                    |show
-                .ui.compact.menu
-                    .ui.simple.dropdown.item
-                        strong #{post_limit}
-                        i.dropdown.icon
-                        .menu
-                            +set_post_limit amount=1
-                            +set_post_limit amount=5
-                            +set_post_limit amount=10
-                            +set_post_limit amount=20
+                +limit_menu
             .spacer 
             .ui.stackable.three.cards.scrolling
                 each post_docs
                     +post_card
-
-template(name='set_post_sort_key')
-    .item.set_sort
-        if color
-            .ui.label(class=color) #{label}
-        else 
-            if emoji
-                em(data-emoji=emoji)
-            else if icon
-                i.icon(class=icon)
-            |#{label}
-        
-
-template(name='set_view_mode_post')
-    .item.set_view
-        i.icon(class=icon)
-        |#{title}
-
-
-template(name='set_post_limit')
-    .item.set_limit #{amount}
-
 
 
 template(name='post_card')

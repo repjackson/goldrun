@@ -6,27 +6,27 @@ if Meteor.isClient
 
 
     Template.rides.onCreated ->
-        Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'ride_sort_key', 'datetime_available'
-        Session.setDefault 'ride_sort_label', 'available'
-        Session.setDefault 'ride_limit', 5
-        Session.setDefault 'view_open', true
+        Session.set 'view_mode', 'list'
+        Session.set 'sort_key', 'datetime_available'
+        Session.set 'sort_label', 'available'
+        Session.set 'limit', 20
+        Session.set 'view_open', true
 
     Template.rides.onCreated ->
         @autorun => @subscribe 'ride_facets',
             picked_tags.array()
-            Session.get('ride_limit')
-            Session.get('ride_sort_key')
-            Session.get('ride_sort_direction')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
 
         @autorun => @subscribe 'ride_results',
             picked_tags.array()
-            Session.get('ride_limit')
-            Session.get('ride_sort_key')
-            Session.get('ride_sort_direction')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
@@ -38,11 +38,6 @@ if Meteor.isClient
                 Docs.insert
                     model:'ride'
             Router.go("/ride/#{new_id}/edit")
-
-
-        'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
-        'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
-        'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
 
         'click .tag_result': -> picked_tags.push @title
         'click .unselect_tag': ->
@@ -91,27 +86,9 @@ if Meteor.isClient
         #             Meteor.call 'search_reddit', picked_tags.array(), ->
         # , 1000)
 
-        'click .reconnect': ->
-            Meteor.reconnect()
-
-
-        'click .set_sort_direction': ->
-            if Session.get('ride_sort_direction') is -1
-                Session.set('ride_sort_direction', 1)
-            else
-                Session.set('ride_sort_direction', -1)
 
 
     Template.rides.helpers
-        quickbuying_ride: ->
-            Docs.findOne Session.get('quickbuying_id')
-
-        sorting_up: ->
-            parseInt(Session.get('ride_sort_direction')) is 1
-
-        toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
-        toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
-        toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
         connection: ->
             console.log Meteor.status()
             Meteor.status()
@@ -149,17 +126,11 @@ if Meteor.isClient
             Docs.find {
                 model:'ride'
             },
-                sort: "#{Session.get('ride_sort_key')}":parseInt(Session.get('ride_sort_direction'))
-                limit:Session.get('ride_limit')
+                sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+                limit:Session.get('limit')
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
-        users: ->
-            # if picked_tags.array().length > 0
-            Meteor.users.find {
-            },
-                sort: count:-1
-                # limit:1
 
 
 

@@ -54,13 +54,12 @@ template(name='doc_array_togggle')
         //- each list_users
         //-     +user_info
 template(name='bookmark_button')
-    if currentUser
-        .ui.icon.compact.button.toggle(class=bookmark_button_class title=label)
-            if bookmarked
-                |bookmarked
-                //- i.large.icon(class=remove_icon)
-            else
-                |bookmark
-                //- i.large.icon(class=add_icon)
-        //- each list_users
-        //-     +user_info
+    // if currentUser
+    if bookmarked
+        .ui.icon.compact.button.unbookmark(class=bookmark_button_class title='bookmark')
+            +i name='bookmark'
+    else
+        .ui.icon.compact.button.bookmark(class=bookmark_button_class title='unbookmark')
+            +ios name='bookmark'
+    //- each list_users
+    //-     +user_info

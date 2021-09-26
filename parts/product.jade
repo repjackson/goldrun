@@ -57,7 +57,7 @@ template(name='product_edit')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    a.ui.big.icon.green.button(href="/#{model}/#{_id}/")
+                    a.ui.big.icon.green.circular.button(href="/#{model}/#{_id}/")
                         i.checkmark.big.icon
                     .ui.inline.header 
                         small editing
@@ -71,20 +71,30 @@ template(name='product_edit')
                         +print_this
                     if is_admin
                         +text_edit key='model' direct=true
+                        +key_value_edit key='model' value='post' icon='blog' label='make post' direct=true
+                        +key_value_edit key='model' value='food' icon='food' label='make food' direct=true
                 .eight.wide.column
                     +text_edit key='title' icon='header' direct=true
                     +image_edit key='image_id' direct=true
                     +html_edit key='description' direct=true
                 .four.wide.column
                     +number_edit key='inventory' label='inventory' icon='warehouse' direct=true
-                    +number_edit key='point_price' icon='coins' label='point price/unit' direct=true
+                    +boolean_edit key='has_point_price' label='point price' direct=true icon='coins'
+                    if has_point_price
+                        +number_edit key='point_price' icon='coins' label='point price/unit' direct=true
+                    +boolean_edit key='has_dollar_price' label='has dollar price' direct=true icon='money'
+                    if has_dollar_price
+                        +number_edit key='dollar_price' icon='money' label='dollar price/unit' direct=true
                     .ui.inline.header
                         +i name='delivery'
                         |delivery
-                    +boolean_edit key='pickup_delivery' label='pickup' direct=true icon='holding-box'
+                    +boolean_edit key='pickup_delivery' label='pickup' direct=true icon='truck'
                     +boolean_edit key='unit_dropoff_delivery' label='unit dropoff' icon='contactless-delivery' direct=true
                     +boolean_edit key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
                     +textarea_edit key='delivery_instructions' label='delivery instructions' icon='note' direct=true
+                    +link_edit key='link' label='link' icon='globe' direct=true
+                    +key_value_edit key='source' label='nextdoor' value='nextdoor' icon='apartment' direct=true
+                    +text_edit key='source' label='source' icon='globe' direct=true
                 
 
 template(name='product_view')
@@ -97,7 +107,7 @@ template(name='product_view')
                         small viewing
                         |#{title}
                         small product
-                    a.ui.big.button.fly_left(href="/products" title='shop')
+                    a.ui.big.compact.circular.button.fly_left(href="/products" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
                     if can_edit
@@ -105,6 +115,7 @@ template(name='product_view')
                             i.pencil.large.blue.icon
                     .ui.large.header #{title}
                     .ui.header added by #{_author_username}
+                    +bookmark_button
                     |#{when}
                     with author
                         +user_card
@@ -120,6 +131,8 @@ template(name='product_view')
                     +comments
                 .four.wide.column
                     div
+                    if link 
+                        +link_view key='link' label='link' direct=true
                     unless sold_out
                         if point_price
                             .ui.big.green.fluid.button.buy_product 

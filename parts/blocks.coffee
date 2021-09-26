@@ -105,21 +105,74 @@ if Meteor.isClient
     Template.voting.events
         'click .upvote': (e,t)->
             $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'upvote', @
+            Meteor.call 'upvote', @, ->
         'click .downvote': (e,t)->
             $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'downvote', @
+            Meteor.call 'downvote', @, ->
 
 
     Template.voting_small.events
         'click .upvote': (e,t)->
             $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'upvote', @
+            Meteor.call 'upvote', @, ->
         'click .downvote': (e,t)->
             $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'downvote', @
+            Meteor.call 'downvote', @, ->
 
 
+    Template.bookmark_button.events
+        'click .bookmark': (e,t)->
+            $(e.currentTarget).closest('.button').transition('pulse',200)
+            Docs.update @_id, 
+                $addToSet: 
+                    bookmarker_ids: Meteor.userId()
+            Meteor.users.update Meteor.userId(), 
+                $addToSet:
+                    bookmark_ids:@_id
+            $('body').toast({
+                title: "bookmarked"
+                # message: 'Please see desk staff for key.'
+                class : 'success'
+                # position:'top center'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+
+
+
+        'click .unbookmark': (e,t)->
+            $(e.currentTarget).closest('.button').transition('pulse',200)
+            Docs.update @_id, 
+                $pull:
+                    bookmarker_ids: Meteor.userId()
+            Meteor.users.update Meteor.userId(), 
+                $pull:
+                    bookmark_ids:@_id
+            $('body').toast({
+                title: "unbookmarked"
+                # message: 'Please see desk staff for key.'
+                class : 'info'
+                # position:'top center'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+                    
+                    
+    Template.bookmark_button.helpers
+        bookmarked: ->
+            @bookmarker_ids and Meteor.userId() in @bookmarker_ids
 
     # Template.doc_card.onCreated ->
     #     @autorun => Meteor.subscribe 'doc', Template.currentData().doc_id

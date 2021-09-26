@@ -89,15 +89,17 @@ template(name='user_layout')
 template(name='user_dashboard')
     .ui.stackable.grid
         .three.column.row
-            .column
+            .column.smallscroll
+                +user_bookmarks
+            .column.smallscroll
                 +user_orders
-            .column
+            .column.smallscroll
                 +user_reservations
-            .column
+            .column.smallscroll
                 +user_friends
-            .column
+            .column.smallscroll
                 +user_products
-            .column
+            .column.smallscroll
                 +user_services
             
 
@@ -105,11 +107,21 @@ template(name='user_dashboard')
         
 
 template(name='user_reservations')
+    .ui.header 
+        +i name='clock'
+        |reservations
     .scrolling
         .ui.segments
             each reservations 
                 +profile_reservation_item
 
+template(name='user_bookmarks')
+    .ui.header 
+        +i name='bookmark'
+        |bookmarks
+    .ui.selection.animated.list
+        each bookmarked_docs 
+            a(href="/#{model}/#{_id}") #{title}
 
 template(name='user_friends')
     .ui.two.column.grid 

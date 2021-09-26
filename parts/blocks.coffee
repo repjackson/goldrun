@@ -133,7 +133,7 @@ if Meteor.isClient
                 title: "bookmarked"
                 # message: 'Please see desk staff for key.'
                 class : 'success'
-                # position:'top center'
+                position:'bottom right'
                 # className:
                 #     toast: 'ui massive message'
                 # displayTime: 5000
@@ -158,7 +158,7 @@ if Meteor.isClient
                 title: "unbookmarked"
                 # message: 'Please see desk staff for key.'
                 class : 'info'
-                # position:'top center'
+                position:'bottom right'
                 # className:
                 #     toast: 'ui massive message'
                 # displayTime: 5000

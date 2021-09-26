@@ -46,10 +46,22 @@ if Meteor.isClient
 
 
 
+    Template.user_bookmarks.onCreated ->
+        @autorun -> Meteor.subscribe 'user_bookmarked_docs', Router.current().params.username
 
 
-
-
+    Template.user_bookmarks.helpers
+        bookmarked_docs: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                _id: $in: user.bookmark_ids
+if Meteor.isServer
+    Meteor.publish 'user_bookmarked_docs', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find 
+            _id: $in: user.bookmark_ids
+        
+if Meteor.isClient
     Template.user_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username

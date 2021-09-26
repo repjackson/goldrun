@@ -11,25 +11,6 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'user_by_username', 'deb_sclar'
 
 
-    Template.key_value_edit.events
-        'click .set_key_value': ->
-            console.log 'hi'
-            # parent = Template.parentData()
-            # Docs.update parent._id,
-            #     $set: "#{@key}": @value
-            if Session.equals('sort_direction',-1)
-                Session.set('sort_direction',1)
-            else 
-                Session.set('sort_direction',-1)
-            Session.set("#{@key}",@value)
-
-    Template.key_value_edit.helpers
-        set_key_value_class: ->
-            parent = Template.parentData()
-            # console.log parent
-            # if parent["#{@key}"] is @value then 'active' else ''
-            if Session.equals("#{@key}",@value) then 'active large' else 'basic'
-
 
     Template.reservation_edit.helpers
         rental: -> Docs.findOne model:'rental'

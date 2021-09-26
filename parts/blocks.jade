@@ -1,5 +1,13 @@
 template(name='key_value_edit')
     .ui.button.set_key_value(class=set_key_value_class)
+        if icon 
+            +i name=icon cl='ui avatar image'
+            // i.icon(class=icon)
+        |#{label}
+
+
+template(name='session_key_value_edit')
+    .ui.button.set_key_value(class=set_key_value_class)
         if key_value_is 'key' 'sort_key'
             if session_is 'sort_key' value
                 if sorting_up

@@ -121,7 +121,9 @@ template(name='user_bookmarks')
         |bookmarks
     .ui.selection.animated.list
         each bookmarked_docs 
-            a(href="/#{model}/#{_id}") #{title}
+            a.fly_right(href="/#{model}/#{_id}") 
+                img.ui.centered.image(src="{{c.url image height=200 width=200 background='white' crop='pad'}}")
+                |#{title}
 
 template(name='user_friends')
     .ui.two.column.grid 

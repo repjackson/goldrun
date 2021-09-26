@@ -48,7 +48,7 @@ template(name='post_card')
         a.image.zoomer(href="/post/#{_id}")
             img.ui.zoomer.pointer.goto_post.image(src="{{c.url image width=400 height=400}}")
         .content
-            a.ui.small.header.zoomer(href="/post/#{_id}/") 
+            a.ui.header.zoomer(href="/post/#{_id}/") 
                 | #{title}
             a.zoomer.pointer.zoomer(href="/post/#{_id}/") 
                 |!{body}
@@ -76,16 +76,16 @@ template(name='post_view')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    a.ui.icon.compact.button(href="/posts")
+                    a.ui.compact.circular.button.fly_left(href="/posts")
                         i.left.chevron.icon
                         +i name='blog' cl='ui inline image'
                         // |posts
-                    .ui.header 
+                    .ui.small.grey.header 
                         small viewing post
-                        strong #{title}
+                        // strong #{title}
                     if can_edit
-                        a.ui.big.icon.button(href="/post/#{_id}/edit")
-                            i.pencil.big.icon
+                        a.ui.icon.circular.button(href="/post/#{_id}/edit")
+                            i.pencil.large.icon
                     +voting_full
                     +viewing
                     if in_dev 
@@ -115,7 +115,7 @@ template(name='post_view')
                 
 template(name='view_visibility')
     .ui.header 
-        +i name='eye'
+        +i name='eye' cl='ui avatar image'
         |visibility
     if key_value_is 'visibility' 'private'
         +i name='private' cl='ui inline image'

@@ -90,15 +90,18 @@ template(name='post_view')
                     +viewing
                     if in_dev 
                         +print_this
-                    if private 
-                        .ui.large.label 
-                            i.lock.icon
-                            |private
+                    +view_visibility
+                    // if private 
+                    //     .ui.large.label 
+                    //         i.lock.icon
+                    //         |private
                 .twelve.wide.column
                     if title
                         h1.ui.header #{title} 
                     +image_view key='image_id' label='image' direct=true
-                    +image_view key='image' label='image' direct=true
+                    if in_dev 
+                        if image
+                            +image_view key='image' label='image' direct=true
                     .f6
                         +html_view key='body' icon='content' label='body' direct=true
                         +html_view key='content' icon='content' label='body' direct=true
@@ -108,6 +111,26 @@ template(name='post_view')
                     +comments
                     if watson 
                         +watson_view
+                
+                
+template(name='view_visibility')
+    .ui.header 
+        +i name='eye'
+        |visibility
+    if key_value_is 'visibility' 'private'
+        +i name='private' cl='ui inline image'
+        |private
+    if key_value_is 'visibility' 'anyone'
+        +i name='groups' cl='ui inline image'
+        |anyone
+    if key_value_is 'visibility' 'friends'
+        +i name='friends' cl='ui inline image'
+        |friends
+    if key_value_is 'visibility' 'building'
+        +i name='building' cl='ui inline image'
+        |building 
+        
+        
                 
 
 template(name='post_edit')
@@ -121,8 +144,15 @@ template(name='post_edit')
                     a.ui.big.icon.green.button(href="/#{model}/#{_id}" title='save')
                         i.checkmark.big.icon
                     +remove_button
-                    +image_edit key='image' label='image' direct=true
-                    +boolean_edit key='private' label='private' direct=true
+                    +image_edit key='image_id' label='image' direct=true
+                    .ui.header 
+                        +i name='eye'
+                        |visibility
+                    +key_value_edit key='visibility' value='anyone' label='anyone' icon='groups'
+                    +key_value_edit key='visibility' value='building' label='building' icon='building'
+                    +key_value_edit key='visibility' value='friends' label='friends' icon='smile'
+                    +key_value_edit key='visibility' value='private' label='private' icon='private'
+                    // +boolean_edit key='private' label='private' direct=true
                     if in_dev 
                         +text_edit key='model' label='model' direct=true
                 .ten.wide.column 

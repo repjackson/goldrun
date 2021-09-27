@@ -27,6 +27,7 @@ template(name='rental_view')
                     img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
                     +rental_stats
                     .ui.header added by #{_author_username}
+                    +last_viewed
                     |#{when}
                     with _author_id
                         +user_card
@@ -143,6 +144,11 @@ template(name='rental_view')
                         +boolean_view key='notify_on_cancelation' label='on reservation cancelation' icon='cancel-2--v1' direct=true
 
                     
+                    
+template(name='last_viewed')
+    i.large.grey.eye.icon
+    .ui.inline.small.header last viewed {{long_date last_viewed_timestamp}}
+    .ui.inline.small.header {{from_now last_viewed_timestamp}}
                     
                     
 

@@ -1,3 +1,68 @@
+template(name='reservation_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    with rental
+                        a.ui.fluid.large.button(href="/rental/#{_id}/")
+                            i.left.chevron.icon
+                            |#{title}
+                        +image_view key='image' label='image' direct=true
+                        +comments
+                .eight.wide.column 
+                    .ui.header 
+                        |viewing reservation
+                    a.ui.header.inline.lowercase(href="/reservation/#{_id}/")
+                        small from 
+                        |{{cal_time start_datetime}}
+                        small to 
+                        |{{cal_time end_datetime}}
+                    if complete 
+                        .ui.large.green.label complete 
+                    else 
+                        .ui.large.label ongoing (incomplete)
+                    .ui.small.header #{when} by #{_author_username}
+                    .ui.header 
+                        | #{hour_duration}
+                        small hrs * $
+                        |#{rental.hourly_dollars}
+                        small /hr = $
+                        |#{cost}
+                    .ui.header by #{_author_username}
+                    +reservation_events
+                .four.wide.column
+                    if can_edit
+                        a.ui.big.fluid.button(href="/reservation/#{_id}/edit" title='edit reservation')
+                            i.pencil.icon
+                            |edit
+                    .ui.header 
+                        |payouts
+                    .ui.big.list
+                        .item 
+                            |#{hour_duration}hr * #{rental.hourly_dollars}c/hr = #{cost}c
+                        .item 
+                            small 50% owner
+                            |=#{owner_payout}c to #{rental.owner_username}
+                        .item.handler
+                            small 45% handler
+                            |=#{handler_payout}c to #{rental.handler_username}
+                        .item 
+                            small 5% taxes
+                            |=#{taxes_payout}c
+
+
+template(name='reservation_events')
+    .ui.header
+        i.rss.icon
+        |reservation events
+    .ui.bulleted.list
+        each log_events
+            .item #{text} #{when}
+
+    
+    
+    
+    
 template(name='reservation_edit')
     with current_doc
         .ui.stackable.padded.grid
@@ -180,3 +245,4 @@ template(name='reservation_edit')
                 .ui.green.positive.large.button
                     i.checkmark.icon
                     |confirm
+

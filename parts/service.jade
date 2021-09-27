@@ -23,7 +23,7 @@ template(name='services')
                     //- small #{count}
             .spacer
             
-        .twelve.wide.column
+        .twelve.wide.column.scrolling
             .sorting_row
                 .ui.icon.input
                     i.search.icon
@@ -51,17 +51,16 @@ template(name='services')
 
 template(name='service_card')
     .ui.card(class=service_card_class)
-        .image
-            img.ui.zoom.pointer.goto_service.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+        a.image.zoomer(href="/service/#{_id}")
+            img.ui.zoom.pointer.goto_service.image(src="{{c.url image_id width=400 height=400 crop='pad'}}")
         .content
             a.ui.header(href="/service/#{_id}/") 
                 //- |#{_author.name}'s
                 | #{title}
-            //- if session_is 'view_tags' true
-            +ismall name='tags'
+            // +ismall name='tags'
+            i.tag.icon
             each tags
-                .ui.small.circular.label #{this}
-        //- .ui.inline.small.header tags
+                .ui.basic.label #{this}
         .content
             .right.floated.meta
                 | {{from_now datetime_available}}
@@ -99,8 +98,8 @@ template(name='service_view')
                         a.ui.big.icon.circular.button(href="/service/#{_id}/edit")
                             i.pencil.large.icon
                     +image_view key='image_id' label='image' direct=true
-                    //- +voting_full
-                    //- +viewing
+                    +voting_full
+                    +viewing
                 .seven.wide.column
                     h1.ui.header #{title} 
                     +textarea_view key='description' icon='content' label='description' direct=true

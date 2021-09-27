@@ -1,7 +1,10 @@
 Meteor.methods
     increment_view: (doc_id)->
         Docs.update doc_id,
-            $inc:views:1
+            $inc:
+                views:1
+            $set:
+                last_viewed_timestamp:Date.now()
 
 
     insert_log: (type, user_id)->

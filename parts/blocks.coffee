@@ -387,6 +387,21 @@ if Meteor.isClient
             Meteor.users.find _id:$in:parent["#{@key}"]
 
 
+    Template.doc_array_togggle.helpers
+        user_list_toggle_class: ->
+            if Meteor.user()
+                parent = Template.parentData()
+                if parent["#{@key}"] and Meteor.userId() in parent["#{@key}"] then '' else 'basic'
+            else
+                'disabled'
+        in_list: ->
+            parent = Template.parentData()
+            if parent["#{@key}"] and Meteor.userId() in parent["#{@key}"] then true else false
+        list_users: ->
+            parent = Template.parentData()
+            Meteor.users.find _id:$in:parent["#{@key}"]
+
+
 
 
     Template.viewing.events

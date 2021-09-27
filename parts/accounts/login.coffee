@@ -35,8 +35,25 @@ if Meteor.isClient
                     })
                 else
                     # console.log res
-                    Router.go "/"
                     # Router.go "/user/#{username}"
+                    $(e.currentTarget).closest('.grid').transition('slide left', 500)
+                    $('body').toast({
+                        title: "logged in"
+                        # message: 'Please see desk staff for key.'
+                        class : 'success'
+                        # position:'top center'
+                        # className:
+                        #     toast: 'ui massive message'
+                        # displayTime: 5000
+                        transition:
+                          showMethod   : 'zoom',
+                          showDuration : 250,
+                          hideMethod   : 'fade',
+                          hideDuration : 250
+                        })
+                    Router.go "/"
+
+
 
         'keyup .password, keyup .username': (e,t)->
             if e.which is 13

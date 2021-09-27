@@ -6,7 +6,7 @@ template(name='user_layout')
             .row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .four.wide.column
-                    a.item.mobile.hidden(href="/user/#{user_from_username_param.username}/food")
+                    a.item(href="/user/#{user_from_username_param.username}/food")
                         img.ui.centered.rounded.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     .spacer
                     a(href="/user/#{user.username}")
@@ -16,7 +16,7 @@ template(name='user_layout')
                             //- strong #{user.first_name} #{user.last_name}
                             //- small @#{user.username}        
                         .ui.inline.header
-                            strong #{user.name}
+                            strong #{user.username}
                             //- small @#{user.username}        
                         a.ui.inline.header(href="/user/#{user_from_username_param.username}/credit" title='credit')
                             //- +i name='coins'
@@ -32,9 +32,7 @@ template(name='user_layout')
                     +subscribe_user_button
                     if is_current_user
                         +logout_button
-                        a.ui.small.compact.button.logout_other_clients(href="#" title='logout other clients')
-                            i.globe.icon
-                            |log out other clients
+                        +logout_other_clients_button
                     // if is_admin
                     +role_viewer
                     if in_dev 
@@ -76,6 +74,13 @@ template(name='profile_nav_button')
     a.ui.compact.circular.button(href="/user/#{current_username}/#{key}" class="{{isActiveRoute regex=key}}")
         +i name=icon cl='ui avatar image'
         |#{label}
+
+
+
+template(name='logout_other_clients_button')
+    a.ui.small.compact.button.logout_other_clients(href="#" title='logout other clients')
+        i.globe.icon
+        |log out other clients
 
 
 

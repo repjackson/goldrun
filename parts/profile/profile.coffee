@@ -87,13 +87,30 @@ if Meteor.isClient
         user: ->
             Meteor.users.findOne username:Router.current().params.username
 
-    Template.user_layout.events
+    Template.logout_other_clients_button.events
         'click .logout_other_clients': ->
             Meteor.logoutOtherClients()
 
     Template.logout_button.events
-        'click .logout': ->
+        'click .logout': (e,t)->
             Meteor.call 'insert_log', 'logout', Meteor.userId(), ->
                 
             Router.go '/login'
+            $(e.currentTarget).closest('.grid').transition('slide left', 500)
+            
             Meteor.logout()
+            $('body').toast({
+                title: "logged out"
+                # message: 'Please see desk staff for key.'
+                class : 'success'
+                # position:'top center'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+            

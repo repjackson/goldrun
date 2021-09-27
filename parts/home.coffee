@@ -40,7 +40,7 @@ if Meteor.isClient
                 model:'public_note'
                 
                 
-        latest_posts: ->
+        latest_post_docs: ->
             Docs.find({ 
                 model:'post'
             },{

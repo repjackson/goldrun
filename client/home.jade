@@ -5,55 +5,17 @@ template(name='home')
                 .column
                     +latest_activity
                 .column
-                    a.ui.center.aligned.header(href="/posts")
-                        +i name='blog' cl='ui avatar image'
-                        |latest posts
-                    .ui.selection.animated.list.smallscroll
-                        each latest_posts
-                            a.item(href="/post/#{_id}") 
-                                .content
-                                    .header #{title}
-                                    .meta
-                                        |#{when}
-                                        |#{_author_username}
+                    +latest_posts
                 .column
                     +groups_small
                 .column
-                    a.ui.center.aligned.header(href="/polls")
-                        +i name='poll' cl='ui avatar image'
-                        |polls
-                    with latest_poll
-                        +take_poll
+                    +poll_widget
                 .column
-                    a.ui.center.aligned.header(href="/gym")
-                        +i name='running' cl='ui avatar image'
-                        |gym
-                    .ui.header #{current_patrons} current exercisers
-                    .ui.big.disabled.button
-                        |checkin
+                    +checkin_widget
                 .column
-                    // .ui.segment.zoomer
-                    a.ui.center.aligned.header(href="/chat")
-                        +i name='pencil' cl='ui avatar image'
-                        |public notes
-                    .ui.fluid.icon.input
-                        i.plus.icon
-                        input.add_note(type='input' placeholder='add note')
-                    .ui.list.smallscroll
-                        each public_note_docs
-                            .item
-                                |#{body}
-                                small #{when}
+                    +public_notes_widget
                 .column
-                    // .ui.segment
-                    a.ui.center.aligned.header.zoomer(href="/food")
-                        +i name='food' cl='ui avatar image'
-                        |food
-                    .ui.selection.animated.list.smallscroll
-                        each top_food
-                            a.item(href="/food/#{_id}/")
-                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                                |#{title}
+                    +food_widget
                 .column
                     // .ui.segment
                     a.ui.center.aligned.header.zoomer(href="/inbox" title='go to inbox')
@@ -76,25 +38,9 @@ template(name='home')
                                 img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
                                 |#{title}
                 .column
-                    // .ui.segment
-                    a.ui.center.aligned.header.zoomer(href="/products")
-                        +i name='shop' cl='ui avatar image'
-                        | products
-                    .ui.selection.animated.list.smallscroll
-                        each top_products
-                            a.item(href="/product/#{_id}/")
-                                img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
-                                |#{title}
+                    +product_widget
                 .column
-                    // .ui.segment
-                    a.ui.center.aligned.header(href="/services")
-                        +i name='work' cl='ui avatar image'
-                        | services
-                    .ui.selection.animated.list
-                        each top_services
-                            a.item(href="/service/#{_id}/")
-                                img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
-                                |#{title}
+                    +services_widget
                 .column
                     // .ui.segment
                     a.ui.center.aligned.header(href="/users")
@@ -105,10 +51,103 @@ template(name='home')
                             a.item(href="/user/#{username}") #{username}
                                 img.ui.avatar.image(src=user.profile.profilePic title=name)
                                 |#{title}
-        .four.wide.column
-            .ui.grey.header 
-                |advertise
+        .sixteen.wide.column
+            +ad_block
             
+            
+template(name='food_widget')
+    a.ui.center.aligned.header.zoomer(href="/food")
+        +i name='food' cl='ui avatar image'
+        |food
+    .ui.selection.animated.list.smallscroll
+        each top_food
+            a.item(href="/food/#{_id}/")
+                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                |#{title}
+
+
+
+template(name='public_notes_widget')
+    // .ui.segment.zoomer
+    a.ui.center.aligned.header(href="/chat")
+        +i name='pencil' cl='ui avatar image'
+        |public notes
+    .ui.fluid.icon.input
+        i.plus.icon
+        input.add_note(type='input' placeholder='add note')
+    .ui.list.smallscroll
+        each public_note_docs
+            .item
+                |#{body}
+                small #{when}
+
+
+
+template(name='ad_block')
+    with ad_doc 
+        .ui.header #{title}
+    .ui.grey.header 
+        |advertise
+            
+            
+            
+template(name='product_widget')
+    // .ui.segment
+    a.ui.center.aligned.header.zoomer(href="/products")
+        +i name='shop' cl='ui avatar image'
+        | products
+    .ui.selection.animated.list.smallscroll
+        each top_products
+            a.item(href="/product/#{_id}/")
+                img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
+                |#{title}
+
+
+
+template(name='services_widget')
+    a.ui.center.aligned.header(href="/services")
+        +i name='work' cl='ui avatar image'
+        | services
+    .ui.selection.animated.list
+        each top_services
+            a.item(href="/service/#{_id}/")
+                img.ui.avatar.image(src="{{c.url image width=200 height=200 gravity='face' crop='fill'}}")
+                |#{title}
+
+template(name='checkin_widget')            
+    a.ui.center.aligned.header(href="/checkins")
+        +i name='checkin' cl='ui avatar image'
+        |checkins
+    .ui.header #{current_checkins_count} currently checked in
+    if checked_in
+        .ui.inline.header checked in
+        .ui.button.checkout
+            |checkout
+    else 
+        .ui.button.checkin
+            |checkin
+
+            
+            
+template(name='poll_widget')
+    a.ui.center.aligned.header(href="/polls")
+        +i name='poll' cl='ui avatar image'
+        |polls
+    with latest_poll
+        +take_poll
+
+template(name='latest_posts')            
+    a.ui.center.aligned.header(href="/posts")
+        +i name='blog' cl='ui avatar image'
+        |latest posts
+    .ui.selection.animated.list.smallscroll
+        each latest_post_docs
+            a.item(href="/post/#{_id}") 
+                .content
+                    .header #{title}
+                    .meta
+                        |#{when}
+                        |#{_author_username}
             
             
 template(name='take_poll')

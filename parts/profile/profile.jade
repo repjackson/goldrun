@@ -7,46 +7,37 @@ template(name='user_layout')
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .four.wide.column
                     a.item.mobile.hidden(href="/user/#{user_from_username_param.username}/food")
-                        img.ui.centered.rounded.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                        img.ui.centered.rounded.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     .spacer
                     a(href="/user/#{user.username}")
                         .ui.center.aligned.header
-                            strong #{user.name}
+                            strong #{user.username}
                             //- 
                             //- strong #{user.first_name} #{user.last_name}
                             //- small @#{user.username}        
-                    a.ui.center.aligned.inline.header.mobile.hidden(href="/user/#{user_from_username_param.username}/credit" title='credit')
-                        |{{fixed user.credit}}c
-                    .ui.two.column.middle.aligned.grid.mobile.only
-                        .column
-                            img.ui.small.inline.image.mobile.only(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
-                        .column
-                            .ui.inline.header
-                                strong #{user.name}
-                                //- small @#{user.username}        
-                            a.ui.inline.header(href="/user/#{user_from_username_param.username}/credit" title='credit')
-                                //- +i name='coins'
-                                //- i.coins.icon
-                                |{{fixed user.points}}pts
+                        .ui.inline.header
+                            strong #{user.name}
+                            //- small @#{user.username}        
+                        a.ui.inline.header(href="/user/#{user_from_username_param.username}/credit" title='credit')
+                            //- +i name='coins'
+                            //- i.coins.icon
+                            |{{fixed user.points}}pts
                     if is_current_user
-                        a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                        a.ui.icon.large.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             i.cog.icon
                     else if is_admin
                         a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             +i name='settings' cl='ui avatar image'
                     +friend_button
+                    +subscribe_user_button
                     if is_current_user
                         .ui.large.icon.button.logout(title='log out')
                             i.sign.out.alternate.icon
                         a.ui.small.compact.button.logout_other_clients(href="#" title='logout other clients')
                             i.globe.icon
                             |log out other clients
-                    if is_admin
-                        .ui.inline.header 
-                            +i name='shield'
-                            |roles
-                        each roles
-                            .ui.label #{this}
+                    // if is_admin
+                    +role_viewer
                     if in_dev 
                         +print_this
                     +send_points_button
@@ -87,6 +78,19 @@ template(name='user_layout')
                         .spacer
                         +yield
 
+template(name='role_viewer')
+    .ui.inline.header 
+        +i name='shield'
+        |roles
+    each roles
+        .ui.label #{this}
+
+
+
+template(name='subscribe_user_button')
+    .ui.button.subscribe_user
+        +i name='subscription'
+        |subscribe
 
 template(name='user_dashboard')
     .ui.stackable.grid
@@ -94,19 +98,24 @@ template(name='user_dashboard')
             .column.smallscroll
                 +user_bookmarks
             .column.smallscroll
-                +user_orders
+                +user_orders_small
             .column.smallscroll
-                +user_reservations
+                +user_reservations_small
             .column.smallscroll
                 +user_friends
             .column.smallscroll
-                +user_products
+                +user_products_small
             .column.smallscroll
                 +user_services
             
 
 
-        
+template(name='user_orders_small')
+    .ui.header user orders small
+template(name='user_reservations_small')
+    .ui.header user reservations small
+template(name='user_products_small')
+    .ui.header user productss small
 
 template(name='user_reservations')
     .ui.header 
@@ -128,9 +137,10 @@ template(name='user_bookmarks')
                 |#{title}
 
 template(name='user_friends')
-    .ui.two.column.grid 
+    .ui.one.column.grid 
         .column
             .ui.header 
+                +i name='chevron up'
                 |friended by
             .scrolling
                 .ui.large.selection.link.animated.list
@@ -141,6 +151,7 @@ template(name='user_friends')
                         +user_info
         .column
             .ui.header 
+                +i name='chevron down'
                 |friended
             .scrolling
                 .ui.large.selection.link.animated.list

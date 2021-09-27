@@ -323,10 +323,10 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'post_orders', (post_id)->
-        Docs.find
+        Docs.find({
             model:'order'
             post_id: post_id
-
+        }, limit:10)
 
 
     Meteor.methods

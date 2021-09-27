@@ -91,6 +91,7 @@ if Meteor.isClient
         'click .logout_other_clients': ->
             Meteor.logoutOtherClients()
 
+    Template.logout_button.events
         'click .logout': ->
             Meteor.call 'insert_log', 'logout', Meteor.userId(), ->
                 

@@ -6,6 +6,10 @@ template(name='key_value_edit')
         |#{label}
 
 
+template(name='send_points_button')
+    .ui.button.send_points
+        |send points
+
 template(name='session_key_value_edit')
     .ui.button.set_key_value(class=set_key_value_class)
         if key_value_is 'key' 'sort_key'

@@ -41,6 +41,12 @@ if Meteor.isClient
             if confirm 'Confirm remove comment'
                 Docs.remove @_id
 
+
+
+
+
+
+
     Template.follow.helpers
         followers: ->
             Meteor.users.find
@@ -55,6 +61,58 @@ if Meteor.isClient
                 $pull:follower_ids:Meteor.userId()
    
    
+    Template.send_points.helpers
+        is_current_user: -> Meteor.user().username is Router.current().params.username
+        is_friend: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            # Meteor.userId() in user.friend_ids
+            user._id in Meteor.user().friend_ids
+        following: -> @follower_ids and Meteor.userId() in @follower_ids
+    Template.send_points.events
+        'click .send_points': ->
+            console.log @
+            user = Meteor.users.findOne username:Router.current().params.username
+            Meteor.users.update Meteor.userId(),
+                $addToSet:friend_ids:user._id
+                
+            $('body').toast({
+                title: "#{Router.current().params.username} added to friend list"
+                # message: 'Please see desk staff for key.'
+                class : 'success'
+                # position:'top center'
+                # className:
+                #     toast: 'ui massive message'
+                displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+                
+        'click .remove_friend': ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Meteor.users.update Meteor.userId(),
+                $pull:friend_ids:user._id
+            $('body').toast({
+                title: "#{Router.current().params.username} removed from friend list"
+                # message: 'Please see desk staff for key.'
+                class : 'info'
+                # position:'top center'
+                # className:
+                #     toast: 'ui massive message'
+                displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+                
+                
+                
+                
+                
     Template.friend_button.helpers
         is_current_user: -> Meteor.user().username is Router.current().params.username
         is_friend: ->

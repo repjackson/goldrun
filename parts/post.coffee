@@ -280,14 +280,26 @@ if Meteor.isClient
     Template.post_orders.onCreated ->
         @autorun => Meteor.subscribe 'post_orders', Router.current().params.doc_id, ->
 
+    Template.purchase_post_button.helpers
+        has_purchased: ->
+            Docs.findOne 
+                model:'order'
+                post_id:Router.current().params.doc_id
+                _author_id:Meteor.userId()
     Template.purchase_post_button.events 
-        'purchase_post': ->
+        'click .purchase_post': ->
             new_id = 
                 Docs.insert 
                     model:'order'
                     order_type:'post'
                     post_id:Router.current().params.doc_id 
             # Router.go "/order/#{new_id}/edit"
+
+    Template.post_orders.helpers
+        post_order_docs: ->
+            Docs.find 
+                model:'order'
+                post_id:Router.current().params.doc_id
 
     Template.post_edit.events 
         'keyup body': (e,t)->

@@ -132,7 +132,7 @@ template(name='post_orders')
         +i name='order-history'
         |post orders 
     .ui.selection.link.animated.list
-        each post_orders 
+        each post_order_docs 
             a.item.fly_right(href="/order/#{_id}")
                 |#{when}
                 |#{_author_username}
@@ -169,7 +169,7 @@ template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .six.wide.column
+                .four.wide.column
                     .ui.header 
                         small editing post
                         strong #{title}
@@ -177,13 +177,7 @@ template(name='post_edit')
                         i.checkmark.big.icon
                     +remove_button
                     +image_edit key='image_id' label='image' direct=true
-                    .ui.header 
-                        +i name='eye'
-                        |visibility
-                    +key_value_edit key='visibility' value='anyone' label='anyone' icon='groups'
-                    +key_value_edit key='visibility' value='building' label='building' icon='building'
-                    +key_value_edit key='visibility' value='friends' label='friends' icon='smile'
-                    +key_value_edit key='visibility' value='private' label='private' icon='private'
+                    +visibility_settings
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     // +boolean_edit key='private' label='private' direct=true
@@ -192,7 +186,17 @@ template(name='post_edit')
                 .eight.wide.column 
                     +text_edit key='title' direct=true
                     +html_edit key='body' label='body' icon='content' direct=true
+                .three.wide.column
                     +boolean_edit key='can_purchase' label='charge for access' direct=true icon='coins'
                     if can_purchase 
                         +number_edit key='purchase_price' label='purchase price' direct=true icon='coins'
-                    
+
+
+template(name='visibility_settings')                    
+    .ui.header 
+        +i name='eye'
+        |visibility
+    +key_value_edit key='visibility' value='anyone' label='anyone' icon='groups'
+    +key_value_edit key='visibility' value='building' label='building' icon='building'
+    +key_value_edit key='visibility' value='friends' label='friends' icon='smile'
+    +key_value_edit key='visibility' value='private' label='private' icon='private'

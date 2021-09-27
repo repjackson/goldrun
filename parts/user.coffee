@@ -11,10 +11,10 @@ if Meteor.isClient
                 Meteor.users.find({
                     username: {$regex:"#{username_query}", $options: 'i'}
                     # roles:$in:['resident','owner']
-                    },{ limit:100 })
+                    },{ limit:parseInt(Session.get('limit')) })
             else
                 Meteor.users.find({
-                    },{ limit:100 })
+                    },{ limit:parseInt(Session.get('limit')) })
 
     Template.users.events
         'click .add_user': ->

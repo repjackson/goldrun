@@ -22,6 +22,10 @@ template(name='comments')
                                 +remove_button
 
 
+template(name='creation_info')
+    .ui.header added by #{_author_username}
+    |#{when}
+
 
 template(name='set_sort_direction')
     .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
@@ -241,8 +245,6 @@ template(name='author_info')
                 img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
             |by #{first_name} #{last_name}
 
-template(name='creation_info')
-    .ui.small.inline.header #{when}
 
 
 template(name='user_list_toggle')

@@ -113,19 +113,36 @@ template(name='post_view')
                         .ui.header 
                             +i name='coins' cl='ui avatar image'
                             |purchase price: #{purchase_price}pt
+                        +purchase_post_button
                         +post_orders
+                
+                
+                
+template(name='purchase_post_button')                
+    unless has_purchased
+        .ui.button.purchase_post
+            |purchase post for #{purchase_price}
+    else 
+        .ui.header 
+            |purchased on {{medium_date purchase_timestamp}}
                 
                 
 template(name='post_orders')
     .ui.header
         +i name='order-history'
         |post orders 
+    .ui.selection.link.animated.list
+        each post_orders 
+            a.item.fly_right(href="/order/#{_id}")
+                |#{when}
+                |#{_author_username}
     
                 
 template(name='author_card')    
     .ui.card 
         .content
-            a.ui.header.fly_right(href="/user/#{_author_username}") author: #{_author_username}    
+            a.ui.header.fly_right(href="/user/#{_author_username}")
+                |author: #{_author_username}    
         
                 
 template(name='view_visibility')

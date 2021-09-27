@@ -48,8 +48,8 @@ template(name='map')
 template(name='not_found')
     .ui.center.aligned.padded.basic.segment
         .ui.center.aligned.header 
-            +i name='navigation'
+            +i name='marker'
             |page not found
-        a.ui.basic.button(href="/") 
+        a.ui.button.fly_up(href="/") 
           +i name='home' cl='ui avatar image' 
           |home

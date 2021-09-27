@@ -17,44 +17,49 @@ template(name='home')
                 .column
                     +food_widget
                 .column
-                    // .ui.segment
-                    a.ui.center.aligned.header.zoomer(href="/inbox" title='go to inbox')
-                        +i name='inbox' cl='ui avatar image'
-                        |inbox
-                    .ui.selection.animated.list.smallscroll
-                        each my_messages
-                            a.item(href="/message/#{_id}/")
-                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                                |!{body}
-                    +compose_message_icon
+                    +inbox_widget
                 .column
-                    // .ui.segment
-                    a.ui.center.aligned.header.zoomer(href="/rentals")
-                        +i name='clock' cl='ui avatar image'
-                        | rentals
-                    .ui.selection.animated.list.smallscroll
-                        each top_rentals
-                            a.item(href="/rental/#{_id}/")
-                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                                |#{title}
+                    +rental_widget
                 .column
                     +product_widget
                 .column
                     +services_widget
                 .column
-                    // .ui.segment
-                    a.ui.center.aligned.header(href="/users")
-                        +i name='groups' cl='ui avatar image'
-                        |users
-                    .ui.selection.animated.list
-                        each dashboard_users
-                            a.item(href="/user/#{username}") #{username}
-                                img.ui.avatar.image(src=user.profile.profilePic title=name)
-                                |#{title}
+                    +recent_users
         .sixteen.wide.column
             +ad_block
             
+template(name='recent_users')
+    a.ui.center.aligned.header(href="/users")
+        +i name='groups' cl='ui avatar image'
+        |users
+    .ui.selection.animated.list
+        each dashboard_users
+            a.item(href="/user/#{username}") #{username}
+                img.ui.avatar.image(src=user.profile.profilePic title=name)
+                |#{title}
             
+template(name='rental_widget')
+    a.ui.center.aligned.header.zoomer(href="/rentals")
+        +i name='clock' cl='ui avatar image'
+        | rentals
+    .ui.selection.animated.list.smallscroll
+        each top_rentals
+            a.item(href="/rental/#{_id}/")
+                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                |#{title}
+
+template(name='inbox_widget')
+    a.ui.center.aligned.header.zoomer(href="/inbox" title='go to inbox')
+        +i name='inbox' cl='ui avatar image'
+        |inbox
+    .ui.selection.animated.list.smallscroll
+        each my_messages
+            a.item(href="/message/#{_id}/")
+                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                |!{body}
+    +compose_message_icon
+
 template(name='food_widget')
     a.ui.center.aligned.header.zoomer(href="/food")
         +i name='food' cl='ui avatar image'

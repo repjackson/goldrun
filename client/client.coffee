@@ -16,6 +16,9 @@ $.cloudinary.config
     # action: 'not_found'
 
 Template.body.events
+    'click .fly_up': (e,t)->
+        # console.log 'hi'
+        $(e.currentTarget).closest('.grid').transition('slide up', 500)
     'click .fly_left': (e,t)->
         # console.log 'hi'
         $(e.currentTarget).closest('.grid').transition('slide left', 500)

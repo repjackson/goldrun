@@ -61,14 +61,14 @@ if Meteor.isClient
                 $pull:follower_ids:Meteor.userId()
    
    
-    Template.send_points.helpers
+    Template.send_points_button.helpers
         is_current_user: -> Meteor.user().username is Router.current().params.username
         is_friend: ->
             user = Meteor.users.findOne username:Router.current().params.username
             # Meteor.userId() in user.friend_ids
             user._id in Meteor.user().friend_ids
         following: -> @follower_ids and Meteor.userId() in @follower_ids
-    Template.send_points.events
+    Template.send_points_button.events
         'click .send_points': ->
             console.log @
             user = Meteor.users.findOne username:Router.current().params.username

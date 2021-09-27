@@ -50,6 +50,7 @@ template(name='user_layout')
                     if in_dev 
                         +print_this
                     +send_points_button
+                    +request_button
                 .twelve.wide.column
                     a.ui.compact.button(href="/user/#{username}/" class="{{isActiveRoute 'user_dashboard'}}")
                         +i name='dashboard' cl='ui avatar image'

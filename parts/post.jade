@@ -91,11 +91,8 @@ template(name='post_view')
                     if in_dev 
                         +print_this
                     +view_visibility
-                    // if private 
-                    //     .ui.large.label 
-                    //         i.lock.icon
-                    //         |private
-                .twelve.wide.column
+                    +author_card
+                .eight.wide.column
                     if title
                         h1.ui.header #{title} 
                     +image_view key='image_id' label='image' direct=true
@@ -111,7 +108,25 @@ template(name='post_view')
                     +comments
                     if watson 
                         +watson_view
+                .four.wide.column
+                    if can_purchase
+                        .ui.header 
+                            +i name='coins' cl='ui avatar image'
+                            |purchase price: #{purchase_price}pt
+                        +post_orders
                 
+                
+template(name='post_orders')
+    .ui.header
+        +i name='order-history'
+        |post orders 
+    
+                
+template(name='author_card')    
+    .ui.card 
+        .content
+            a.ui.header.fly_right(href="/user/#{_author_username}") author: #{_author_username}    
+        
                 
 template(name='view_visibility')
     .ui.header 
@@ -152,11 +167,15 @@ template(name='post_edit')
                     +key_value_edit key='visibility' value='building' label='building' icon='building'
                     +key_value_edit key='visibility' value='friends' label='friends' icon='smile'
                     +key_value_edit key='visibility' value='private' label='private' icon='private'
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     // +boolean_edit key='private' label='private' direct=true
                     if in_dev 
                         +text_edit key='model' label='model' direct=true
-                .ten.wide.column 
+                .eight.wide.column 
                     +text_edit key='title' direct=true
                     +html_edit key='body' label='body' icon='content' direct=true
-                    +array_edit key='tags' label='tags' icon='tags' direct=true
-                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    +boolean_edit key='can_purchase' label='charge for access' direct=true icon='coins'
+                    if can_purchase 
+                        +number_edit key='purchase_price' label='purchase price' direct=true icon='coins'
+                    

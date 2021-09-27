@@ -1,5 +1,5 @@
 template(name='key_value_edit')
-    .ui.button.set_key_value(class=set_key_value_class)
+    .ui.compact.button.set_key_value(class=set_key_value_class)
         if icon 
             +i name=icon cl='ui avatar image'
             // i.icon(class=icon)
@@ -9,6 +9,12 @@ template(name='key_value_edit')
 template(name='send_points_button')
     .ui.button.send_points
         |send points
+template(name='request_button')
+    .ui.button.request
+        |request
+template(name='message_button')
+    .ui.button.message
+        i.chat.icon
 
 template(name='session_key_value_edit')
     .ui.button.set_key_value(class=set_key_value_class)

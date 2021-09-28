@@ -159,24 +159,28 @@ template(name='recipe_view')
                     +array_view key='tags' label='tags' icon='tags' direct=true
                     div
                     .ui.header 
-                        +i name='ingredient'
-                        |ingredient
-                    .ui.list 
+                        +i name='ingredients'
+                        |ingredients
+                    .ui.ordered.list 
                         each ingredients
-                            .ui.list 
-                                .item uuid: String #{uuid}
-                                .item amount: Number #{amount}
-                                .item measurement: String #{measurement}
-                                .item name: String #{name}
+                            .ui.list
+                                .item(title='String') 
+                                    .content
+                                        .header #{name}
+                                        |#{amount} #{measurement}
+                                // .item(title='String') uuid: #{uuid}
+                                // .item(title='Number') amount: #{amount}
+                                // .item measurement: String #{measurement}
                     .ui.header 
                         +i name='list'
                         |directions
-                    .ui.list 
+                    .ui.ordered.list
                         each directions
-                            .ui.list
-                                .item 
-                                .item instructions: String #{instructions}
-                                .item optional: Boolean #{optional}
+                            .item #{instructions}
+                                if optional 
+                                    | (optional)
+                            // // .item instructions: String #{instructions}
+                            // .item optional: Boolean #{optional}
 
                     +comments
                     if watson 
@@ -188,46 +192,46 @@ template(name='recipe_view')
                             |purchase price: #{purchase_price}pt
                         +purchase_recipe_button
                         +recipe_orders
-                    .item   Recipe {
+                    // .item   Recipe {
                     +text_view key='uuid' label='uuid' direct=true
-                    +text_view key='title' label='title' direct=true
-                    .item     description: String
+                    // +text_view key='title' label='title' direct=true
+                    // .item     description: String
                     img(src=images.full)
                     img(src=images.medium)
                     img(src=images.small)
-                    .item     images: {
-                    .item       full: String
-                    .item       medium: String,
-                    .item       small: String
-                    .item     }
-                    +image_view key='images.full' label='full' icon='image' direct=true
-                    +image_view key='medium' label='medium' icon='image' direct=true
-                    +image_view key='small' label='small' icon='image' direct=true
+                    // .item     images: {
+                    // .item       full: String
+                    // .item       medium: String,
+                    // .item       small: String
+                    // .item     }
+                    // +image_view key='images.full' label='full' icon='image' direct=true
+                    // +image_view key='medium' label='medium' icon='image' direct=true
+                    // +image_view key='small' label='small' icon='image' direct=true
 
-                    .item     servings: Number
+                    // .item     servings: Number
                     +number_view key='servings' label='servings'
-                    .item     prepTime: Number
+                    // .item     prepTime: Number
                     +number_view key='prepTime' label='prep time' icon='clock' direct=true
-                    .item     cookTime: Number
-                    +number_view key='prepTime' label='cook time' icon='oven' direct=true
-                    .item     postDate: Date
+                    // .item     cookTime: Number
+                    +number_view key='cookTime' label='cook time' icon='oven' direct=true
+                    // .item     postDate: Date
                     +date_view key='postDate' label='post date' icon='pencil' direct=true
-                    .item     editDate: Date
-                    +date_view key='postDate' label='post date' icon='pencil' direct=true
-                    .item     ingredients: [
-                    .item       Ingredient {
-                    .item         uuid: String
-                    .item         amount: Number
-                    .item         measurement: String
-                    .item         name: String
-                    .item       }
-                    .item     ]
-                    .item     directions: [
-                    .item       Direction {
-                    .item         instructions: String
-                    .item         optional: Boolean
-                    .item       }
-                    .item     ]
+                    // .item     editDate: Date
+                    +date_view key='editDate' label='edit date' icon='pencil' direct=true
+                    // .item     ingredients: [
+                    // .item       Ingredient {
+                    // .item         uuid: String
+                    // .item         amount: Number
+                    // .item         measurement: String
+                    // .item         name: String
+                    // .item       }
+                    // .item     ]
+                    // .item     directions: [
+                    // .item       Direction {
+                    // .item         instructions: String
+                    // .item         optional: Boolean
+                    // .item       }
+                    // .item     ]
                         
                 
                 
@@ -272,33 +276,34 @@ template(name='recipe_edit')
                     // +boolean_edit key='private' label='private' direct=true
                     if in_dev 
                         +text_edit key='model' label='model' direct=true
-                .seven.wide.column 
+                .seven.wide.column.scrolling
                     +text_edit key='title' direct=true
                     +html_edit key='body' label='body' icon='content' direct=true
-                .four.wide.column
-                    .item   Recipe {
+                .four.wide.column.scrolling
                     +text_edit key='uuid' label='uuid'
                     +text_edit key='title' label='title'
-                    .item     description: String
-                    .item     images: {
-                    .item       full: String
-                    .item       medium: String,
-                    .item       small: String
-                    .item     }
+                    // .item     description: String
+                    // .item     images: {
+                    // .item       full: String
+                    // .item       medium: String,
+                    // .item       small: String
+                    // .item     }
                     +image_edit key='full' label='full' icon='image' direct=true
                     +image_edit key='medium' label='medium' icon='image' direct=true
                     +image_edit key='small' label='small' icon='image' direct=true
 
-                    .item     servings: Number
+                    // .item     servings: Number
                     +number_edit key='servings' label='servings'
-                    .item     prepTime: Number
+                    // .item     prepTime: Number
                     +number_edit key='prepTime' label='prep time' icon='clock' direct=true
-                    .item     cookTime: Number
+                    // .item     cookTime: Number
                     +number_edit key='prepTime' label='cook time' icon='oven' direct=true
-                    .item     postDate: Date
+                    // .item     postDate: Date
                     +date_edit key='postDate' label='post date' icon='pencil' direct=true
-                    .item     editDate: Date
-                    +date_edit key='postDate' label='post date' icon='pencil' direct=true
+                    // .item     editDate: Date
+                    +date_edit key='editDate' label='post date' icon='pencil' direct=true
+                    each ingredients
+                        +text_edit key='uuid' label='uuid' direct=true
                     .item     ingredients: [
                     .item       Ingredient {
                     .item         uuid: String

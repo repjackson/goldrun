@@ -142,6 +142,28 @@ if Meteor.isServer
                     recipe.source = 'demo'
                     console.log 'inserting new doc', recipe
                     Docs.insert recipe
+                    
+            for special in file.specials 
+                found_special = 
+                    Docs.findOne 
+                        model:'special'
+                        uuid:special.uuid
+                if found_special 
+                    console.log 'found special, skipping', special.uuid
+                else
+                    console.log 'not found for uuid', special.uuid
+                    special.model = 'special'
+                    special.source = 'demo'
+                    console.log 'inserting new doc', special
+                    Docs.insert special
+
+                    #   "uuid": "8f730f08-5ea5-48fb-bfd7-6a28337efc28",
+                    #   "ingredientId": "aa1ff525-4190-4a66-8d12-3f383a752b55",
+                    #   "type": "promocode",
+                    #   "code": "GETMILK",
+                    #   "title": "$1 off Milk",
+                    #   "text": "Use the promocode GETMILK on Peapod and receive $1 off your next gallon!"
+                            
     
     Meteor.publish 'recipe_results', (
         picked_tags=[]

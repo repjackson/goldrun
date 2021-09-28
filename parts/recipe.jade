@@ -79,7 +79,7 @@ template(name='recipes')
 
 
 template(name='recipe_card')
-    .ui.card(class=recipe_card_class)
+    .ui.card.fly_right(class=recipe_card_class)
         a.image.zoomer(href="/recipe/#{_id}")
             if image_id
                 img.ui.zoomer.pointer.goto_recipe.image(src="{{c.url image_id width=400 height=400}}")
@@ -158,6 +158,26 @@ template(name='recipe_view')
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +array_view key='tags' label='tags' icon='tags' direct=true
                     div
+                    .ui.header 
+                        +i name='ingredient'
+                        |ingredient
+                    .ui.list 
+                        each ingredients
+                            .ui.list 
+                                .item uuid: String #{uuid}
+                                .item amount: Number #{amount}
+                                .item measurement: String #{measurement}
+                                .item name: String #{name}
+                    .ui.header 
+                        +i name='list'
+                        |directions
+                    .ui.list 
+                        each directions
+                            .ui.list
+                                .item 
+                                .item instructions: String #{instructions}
+                                .item optional: Boolean #{optional}
+
                     +comments
                     if watson 
                         +watson_view

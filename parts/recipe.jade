@@ -101,12 +101,26 @@ template(name='recipe_card')
                 img.ui.avatar.image(src="{{c.url author.image_id width=400 height=600 crop='fit'}}")
                 |#{author.username}
         .content    
+            +number_view key='servings' label='servings'
+            // .item     prepTime: Number
+            +number_view key='prepTime' label='prep time' icon='clock' direct=true
+            // .item     cookTime: Number
+            +number_view key='prepTime' label='cook time' icon='oven' direct=true
+            // .item     postDate: Date
+            +date_view key='postDate' label='post date' icon='pencil' direct=true
+            // .item     editDate: Date
+            +date_view key='postDate' label='post date' icon='pencil' direct=true
+        
+            if ingredients 
+                |#{ingredients.length} ingredients
+            if directions 
+                |#{directions.length} directions
             if private 
                 i.big.lock.icon
-            if can_edit
-                a.ui.icon.button(href="/recipe/#{_id}/edit")
-                    i.pencil.icon
-            a.ui.icon.button(href="/recipe/#{_id}")
+            // if can_edit
+            a.ui.icon.circular.basic.button.zoomer(href="/recipe/#{_id}/edit")
+                i.pencil.icon
+            a.ui.icon.circular.basic.button.zoomer(href="/recipe/#{_id}")
                 i.right.chevron.icon
 
 

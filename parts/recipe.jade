@@ -57,14 +57,12 @@ template(name='recipes')
                 .item     ]
                 .item   }
                 .item ]
+            .ui.button.get_data
+                +i name='refresh'
+                |refresh CC demo data
             
         .twelve.wide.column
-            .ui.header CC demo data 
-            .ui.button.get_data
-                |refresh data
-                
-                
-            .ui.divider
+            // .ui.inline.header CC demo data 
             .sorting_row
                 .ui.icon.input
                     i.search.icon
@@ -83,9 +81,10 @@ template(name='recipes')
 template(name='recipe_card')
     .ui.card(class=recipe_card_class)
         a.image.zoomer(href="/recipe/#{_id}")
-            img.ui.zoomer.pointer.goto_recipe.image(src="{{c.url image_id width=400 height=400}}")
-        a.image.zoomer(href="/recipe/#{_id}")
-            img.ui.zoomer.pointer.goto_recipe.image(src="{{c.url image width=400 height=400}}")
+            if image_id
+                img.ui.zoomer.pointer.goto_recipe.image(src="{{c.url image_id width=400 height=400}}")
+            else if images.full
+                img(src=images.full)
         .content
             a.ui.header.zoomer(href="/recipe/#{_id}/") 
                 | #{title}
@@ -118,7 +117,7 @@ template(name='recipe_view')
                 .four.wide.column 
                     a.ui.compact.circular.button.fly_left(href="/recipes")
                         i.left.chevron.icon
-                        +i name='blog' cl='ui inline image'
+                        +i name='food' cl='ui inline image'
                         // |recipes
                     .ui.small.grey.header 
                         small viewing recipe
@@ -137,8 +136,8 @@ template(name='recipe_view')
                     if title
                         h1.ui.header #{title} 
                     +image_view key='image_id' label='image' direct=true
-                    +image_view key='full' label='image' direct=true
-                    +image_view key='medium' label='image' direct=true
+                    +image_view key='images.full' label='image' direct=true
+                    +image_view key='images.medium' label='image' direct=true
                     +image_view key='small' label='image' direct=true
                     .f6
                         +html_view key='description' icon='content' label='body' direct=true
@@ -156,15 +155,18 @@ template(name='recipe_view')
                         +purchase_recipe_button
                         +recipe_orders
                     .item   Recipe {
-                    +text_view key='uuid' label='uuid'
-                    +text_view key='title' label='title'
+                    +text_view key='uuid' label='uuid' direct=true
+                    +text_view key='title' label='title' direct=true
                     .item     description: String
+                    img(src=images.full)
+                    img(src=images.medium)
+                    img(src=images.small)
                     .item     images: {
                     .item       full: String
                     .item       medium: String,
                     .item       small: String
                     .item     }
-                    +image_view key='full' label='full' icon='image' direct=true
+                    +image_view key='images.full' label='full' icon='image' direct=true
                     +image_view key='medium' label='medium' icon='image' direct=true
                     +image_view key='small' label='small' icon='image' direct=true
 

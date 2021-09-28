@@ -128,8 +128,17 @@ if Meteor.isServer
     Meteor.methods 
         get_recipes: ->
             file = JSON.parse(Assets.getText("data.json"));
-            console.log file
-    
+            # console.log file.recipes
+            for recipe in file.recipes
+                found_recipe = 
+                    Docs.findOne 
+                        model:'recipe'
+                        uuid:recipe.uuid
+                if found_recipe 
+                    console.log 'found recipe, skipping', 
+                else 
+                    console.log 'not found for uuid', uuid
+            
     
     Meteor.publish 'recipe_results', (
         picked_tags=[]

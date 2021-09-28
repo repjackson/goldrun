@@ -63,6 +63,19 @@ template(name='recipes')
             
         .twelve.wide.column
             // .ui.inline.header CC demo data 
+            .ui.header 
+                +i name='discount'
+                |specials
+            .ui.four.stackable.cards
+                each special_docs
+                    .card 
+                        .content 
+                            .header #{title}
+                            .description 
+                                |#{text}
+                                .ui.label type: #{type}
+                                if code
+                                    .ui.large.basic.label #{code}
             .sorting_row
                 .ui.icon.input
                     i.search.icon
@@ -72,13 +85,6 @@ template(name='recipes')
                 |&nbsp;
                 |&nbsp;
                 +limit_menu
-            .ui.header 
-                +i name='discount'
-                |specials
-            .ui.cards.hscroll
-                each special_docs
-                    .ui.card 
-                        .header #{title}
             .spacer 
             .ui.stackable.three.cards.scrolling
                 each recipe_docs
@@ -168,13 +174,13 @@ template(name='recipe_view')
                     .ui.header 
                         +i name='ingredients'
                         |ingredients
-                    .ui.ordered.list 
+                    .ui.cards 
                         each ingredients
-                            .ui.list
-                                .item(title='String') 
-                                    .content
-                                        .header #{name}
-                                        |#{amount} #{measurement}
+                            .card
+                                .content
+                                    .header #{name}
+                                    |#{amount} #{measurement}
+                                // .item(title='String') 
                                 // .item(title='String') uuid: #{uuid}
                                 // .item(title='Number') amount: #{amount}
                                 // .item measurement: String #{measurement}

@@ -137,8 +137,11 @@ if Meteor.isServer
                 if found_recipe 
                     console.log 'found recipe, skipping', 
                 else 
-                    console.log 'not found for uuid', uuid
-            
+                    console.log 'not found for uuid', recipe.uuid
+                    recipe.model = 'recipe'
+                    recipe.source = 'demo'
+                    console.log 'inserting new doc', recipe
+                    Docs.insert recipe
     
     Meteor.publish 'recipe_results', (
         picked_tags=[]

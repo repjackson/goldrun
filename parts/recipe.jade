@@ -1,11 +1,11 @@
-template(name='posts')
+template(name='recipes')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.inline.header 
                 +i name='blog'
-                |posts
+                |recipes
             if currentUser
-                a.ui.icon.circular.button.add_post(title='add post')
+                a.ui.icon.circular.button.add_recipe(title='add recipe')
                     i.plus.green.large.icon
             
             .ui.left.icon.search.small.input
@@ -37,20 +37,20 @@ template(name='posts')
                 +limit_menu
             .spacer 
             .ui.stackable.three.cards.scrolling
-                each post_docs
-                    +post_card
+                each recipe_docs
+                    +recipe_card
 
 
-template(name='post_card')
-    .ui.card(class=post_card_class)
-        a.image.zoomer(href="/post/#{_id}")
-            img.ui.zoomer.pointer.goto_post.image(src="{{c.url image_id width=400 height=400}}")
-        a.image.zoomer(href="/post/#{_id}")
-            img.ui.zoomer.pointer.goto_post.image(src="{{c.url image width=400 height=400}}")
+template(name='recipe_card')
+    .ui.card(class=recipe_card_class)
+        a.image.zoomer(href="/recipe/#{_id}")
+            img.ui.zoomer.pointer.goto_recipe.image(src="{{c.url image_id width=400 height=400}}")
+        a.image.zoomer(href="/recipe/#{_id}")
+            img.ui.zoomer.pointer.goto_recipe.image(src="{{c.url image width=400 height=400}}")
         .content
-            a.ui.header.zoomer(href="/post/#{_id}/") 
+            a.ui.header.zoomer(href="/recipe/#{_id}/") 
                 | #{title}
-            a.zoomer.pointer.zoomer(href="/post/#{_id}/") 
+            a.zoomer.pointer.zoomer(href="/recipe/#{_id}/") 
                 |!{body}
             +ismall name='tags'
             each tags
@@ -65,26 +65,26 @@ template(name='post_card')
             if private 
                 i.big.lock.icon
             if can_edit
-                a.ui.icon.button(href="/post/#{_id}/edit")
+                a.ui.icon.button(href="/recipe/#{_id}/edit")
                     i.pencil.icon
-            a.ui.icon.button(href="/post/#{_id}")
+            a.ui.icon.button(href="/recipe/#{_id}")
                 i.right.chevron.icon
 
 
-template(name='post_view')
+template(name='recipe_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    a.ui.compact.circular.button.fly_left(href="/posts")
+                    a.ui.compact.circular.button.fly_left(href="/recipes")
                         i.left.chevron.icon
                         +i name='blog' cl='ui inline image'
-                        // |posts
+                        // |recipes
                     .ui.small.grey.header 
-                        small viewing post
+                        small viewing recipe
                         // strong #{title}
                     if can_edit
-                        a.ui.icon.circular.button(href="/post/#{_id}/edit")
+                        a.ui.icon.circular.button(href="/recipe/#{_id}/edit")
                             i.pencil.large.icon
                     +voting_full
                     +viewing
@@ -113,39 +113,40 @@ template(name='post_view')
                         .ui.header 
                             +i name='coins' cl='ui avatar image'
                             |purchase price: #{purchase_price}pt
-                        +purchase_post_button
-                        +post_orders
+                        +purchase_recipe_button
+                        +recipe_orders
                 
                 
                 
-template(name='purchase_post_button')                
+template(name='purchase_recipe_button')                
     unless has_purchased
-        .ui.button.purchase_post
-            |purchase post for #{purchase_price}
+        .ui.button.purchase_recipe
+            |purchase recipe for #{purchase_price}
     else 
         .ui.header 
             |purchased on {{medium_date purchase_timestamp}}
                 
                 
-template(name='post_orders')
+template(name='recipe_orders')
     .ui.header
         +i name='order-history'
-        |post orders 
+        |recipe orders 
     .ui.selection.link.animated.list
-        each post_order_docs 
+        each recipe_order_docs 
             a.item.fly_right(href="/order/#{_id}")
                 |#{when}
                 |#{_author_username}
     
+        
                 
 
-template(name='post_edit')
+template(name='recipe_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
                     .ui.header 
-                        small editing post
+                        small editing recipe
                         strong #{title}
                     a.ui.big.icon.green.button(href="/#{model}/#{_id}" title='save')
                         i.checkmark.big.icon
@@ -164,13 +165,3 @@ template(name='post_edit')
                     +boolean_edit key='can_purchase' label='charge for access' direct=true icon='coins'
                     if can_purchase 
                         +number_edit key='purchase_price' label='purchase price' direct=true icon='coins'
-
-
-template(name='visibility_settings')                    
-    .ui.header 
-        +i name='eye'
-        |visibility
-    +key_value_edit key='visibility' value='anyone' label='anyone' icon='groups'
-    +key_value_edit key='visibility' value='building' label='building' icon='building'
-    +key_value_edit key='visibility' value='friends' label='friends' icon='smile'
-    +key_value_edit key='visibility' value='private' label='private' icon='private'

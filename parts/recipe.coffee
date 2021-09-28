@@ -135,8 +135,8 @@ if Meteor.isServer
                         model:'recipe'
                         uuid:recipe.uuid
                 if found_recipe 
-                    console.log 'found recipe, skipping', 
-                else 
+                    console.log 'found recipe, skipping', recipe.uuid
+                else
                     console.log 'not found for uuid', recipe.uuid
                     recipe.model = 'recipe'
                     recipe.source = 'demo'

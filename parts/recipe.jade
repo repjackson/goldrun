@@ -90,10 +90,11 @@ template(name='recipe_card')
             a.ui.header.zoomer(href="/recipe/#{_id}/") 
                 | #{title}
             a.zoomer.pointer.zoomer(href="/recipe/#{_id}/") 
-                |!{body}
-            +ismall name='tags'
-            each tags
-                .ui.small.basic.label #{this}
+                |!{description}
+            if tags
+                +ismall name='tags'
+                each tags
+                    .ui.small.basic.label #{this}
         .content
             .right.floated.meta
                 | {{from_now _timestamp}}
@@ -122,9 +123,10 @@ template(name='recipe_view')
                     .ui.small.grey.header 
                         small viewing recipe
                         // strong #{title}
-                    if can_edit
-                        a.ui.icon.circular.button(href="/recipe/#{_id}/edit")
-                            i.pencil.large.icon
+                    // if can_edit
+                    a.ui.icon.circular.button(href="/recipe/#{_id}/edit")
+                        i.pencil.large.icon
+                    .ui.header source: #{source}
                     +voting_full
                     +viewing
                     if in_dev 
@@ -135,12 +137,11 @@ template(name='recipe_view')
                     if title
                         h1.ui.header #{title} 
                     +image_view key='image_id' label='image' direct=true
-                    if in_dev 
-                        if image
-                            +image_view key='image' label='image' direct=true
+                    +image_view key='full' label='image' direct=true
+                    +image_view key='medium' label='image' direct=true
+                    +image_view key='small' label='image' direct=true
                     .f6
-                        +html_view key='body' icon='content' label='body' direct=true
-                        +html_view key='content' icon='content' label='body' direct=true
+                        +html_view key='description' icon='content' label='body' direct=true
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +array_view key='tags' label='tags' icon='tags' direct=true
                     div
@@ -154,6 +155,44 @@ template(name='recipe_view')
                             |purchase price: #{purchase_price}pt
                         +purchase_recipe_button
                         +recipe_orders
+                    .item   Recipe {
+                    +text_view key='uuid' label='uuid'
+                    +text_view key='title' label='title'
+                    .item     description: String
+                    .item     images: {
+                    .item       full: String
+                    .item       medium: String,
+                    .item       small: String
+                    .item     }
+                    +image_view key='full' label='full' icon='image' direct=true
+                    +image_view key='medium' label='medium' icon='image' direct=true
+                    +image_view key='small' label='small' icon='image' direct=true
+
+                    .item     servings: Number
+                    +number_view key='servings' label='servings'
+                    .item     prepTime: Number
+                    +number_view key='prepTime' label='prep time' icon='clock' direct=true
+                    .item     cookTime: Number
+                    +number_view key='prepTime' label='cook time' icon='oven' direct=true
+                    .item     postDate: Date
+                    +date_view key='postDate' label='post date' icon='pencil' direct=true
+                    .item     editDate: Date
+                    +date_view key='postDate' label='post date' icon='pencil' direct=true
+                    .item     ingredients: [
+                    .item       Ingredient {
+                    .item         uuid: String
+                    .item         amount: Number
+                    .item         measurement: String
+                    .item         name: String
+                    .item       }
+                    .item     ]
+                    .item     directions: [
+                    .item       Direction {
+                    .item         instructions: String
+                    .item         optional: Boolean
+                    .item       }
+                    .item     ]
+                        
                 
                 
                 

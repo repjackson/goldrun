@@ -4,9 +4,9 @@ template(name='recipes')
             .ui.inline.header 
                 +i name='blog'
                 |recipes
-            if currentUser
-                a.ui.icon.circular.button.add_recipe(title='add recipe')
-                    i.plus.green.large.icon
+            // if currentUser
+            a.ui.icon.circular.button.add_recipe(title='add recipe')
+                i.plus.green.large.icon
             
             .ui.left.icon.search.small.input
                 i.search.icon.refresh_tags
@@ -196,10 +196,40 @@ template(name='recipe_edit')
                     // +boolean_edit key='private' label='private' direct=true
                     if in_dev 
                         +text_edit key='model' label='model' direct=true
-                .eight.wide.column 
+                .seven.wide.column 
                     +text_edit key='title' direct=true
                     +html_edit key='body' label='body' icon='content' direct=true
-                .three.wide.column
+                .four.wide.column
+                    .item   Recipe {
+                    +text_edit key='uuid' label='uuid'
+                    +text_edit key='title' label='title'
+                    .item     description: String
+                    .item     images: {
+                    .item       full: String
+                    .item       medium: String,
+                    .item       small: String
+                    .item     }
+                    +number_edit key='servings' label='servings'
+                    .item     servings: Number
+                    .item     prepTime: Number
+                    .item     cookTime: Number
+                    .item     postDate: Date
+                    .item     editDate: Date
+                    .item     ingredients: [
+                    .item       Ingredient {
+                    .item         uuid: String
+                    .item         amount: Number
+                    .item         measurement: String
+                    .item         name: String
+                    .item       }
+                    .item     ]
+                    .item     directions: [
+                    .item       Direction {
+                    .item         instructions: String
+                    .item         optional: Boolean
+                    .item       }
+                    .item     ]
+                
                     +boolean_edit key='can_purchase' label='charge for access' direct=true icon='coins'
                     if can_purchase 
                         +number_edit key='purchase_price' label='purchase price' direct=true icon='coins'

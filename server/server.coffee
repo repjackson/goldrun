@@ -52,10 +52,6 @@ Cloudinary.config
 #     }
 # )
 
-Meteor.methods 
-    get_recipes: ->
-        file = JSON.parse(Assets.getText("data.json"));
-        console.log file
 
 
 # if Meteor.isProduction

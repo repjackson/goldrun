@@ -26,19 +26,22 @@ template(name='recipes')
             .spacer
             
         .twelve.wide.column
-            .sorting_row
-                .ui.icon.input
-                    i.search.icon
-                    input.tag_search(type='text' placeholder='search...')
-                +key_value_edit key='sort_key' value='_timestamp' label='added' icon='clock'
-                +key_value_edit key='sort_key' value='comment_count' label='comment count' icon='chat'
-                |&nbsp;
-                |&nbsp;
-                +limit_menu
-            .spacer 
-            .ui.stackable.three.cards.scrolling
-                each recipe_docs
-                    +recipe_card
+            .ui.header demo data 
+            .ui.button.get_data
+                |refresh data
+            // .sorting_row
+            //     .ui.icon.input
+            //         i.search.icon
+            //         input.tag_search(type='text' placeholder='search...')
+            //     +key_value_edit key='sort_key' value='_timestamp' label='added' icon='clock'
+            //     +key_value_edit key='sort_key' value='comment_count' label='comment count' icon='chat'
+            //     |&nbsp;
+            //     |&nbsp;
+            //     +limit_menu
+            // .spacer 
+            // .ui.stackable.three.cards.scrolling
+            //     each recipe_docs
+            //         +recipe_card
 
 
 template(name='recipe_card')

@@ -40,6 +40,9 @@ if Meteor.isClient
                     model:'recipe'
             Router.go("/recipe/#{new_id}/edit")
 
+        'click .get_data': ->
+            Meteor.call 'get_recipes', ->
+                
 
         'click .tag_result': -> picked_tags.push @title
         'click .unselect_tag': ->
@@ -122,6 +125,12 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.methods 
+        get_recipes: ->
+            file = JSON.parse(Assets.getText("data.json"));
+            console.log file
+    
+    
     Meteor.publish 'recipe_results', (
         picked_tags=[]
         limit=20

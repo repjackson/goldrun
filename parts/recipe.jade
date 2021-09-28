@@ -3,6 +3,7 @@ template(name='recipes')
         .four.wide.column
             .ui.inline.header 
                 +i name='blog'
+                |#{recipe_docs.count}
                 |recipes
             // if currentUser
             a.ui.icon.circular.button.add_recipe(title='add recipe')
@@ -209,12 +210,20 @@ template(name='recipe_edit')
                     .item       medium: String,
                     .item       small: String
                     .item     }
-                    +number_edit key='servings' label='servings'
+                    +image_edit key='full' label='full' icon='image' direct=true
+                    +image_edit key='medium' label='medium' icon='image' direct=true
+                    +image_edit key='small' label='small' icon='image' direct=true
+
                     .item     servings: Number
+                    +number_edit key='servings' label='servings'
                     .item     prepTime: Number
+                    +number_edit key='prepTime' label='prep time' icon='clock' direct=true
                     .item     cookTime: Number
+                    +number_edit key='prepTime' label='cook time' icon='oven' direct=true
                     .item     postDate: Date
+                    +date_edit key='postDate' label='post date' icon='pencil' direct=true
                     .item     editDate: Date
+                    +date_edit key='postDate' label='post date' icon='pencil' direct=true
                     .item     ingredients: [
                     .item       Ingredient {
                     .item         uuid: String

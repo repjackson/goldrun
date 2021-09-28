@@ -24,24 +24,59 @@ template(name='recipes')
             +key_value_edit key='view_private' value=true  label='view private'
             +key_value_edit key='view_private' value=false label='view all'
             .spacer
+            .ui.list 
+                .item [
+                .item   Recipe {
+                .item     uuid: String
+                .item     title: String
+                .item     description: String
+                .item     images: {
+                .item       full: String
+                .item       medium: String,
+                .item       small: String
+                .item     }
+                .item     servings: Number
+                .item     prepTime: Number
+                .item     cookTime: Number
+                .item     postDate: Date
+                .item     editDate: Date
+                .item     ingredients: [
+                .item       Ingredient {
+                .item         uuid: String
+                .item         amount: Number
+                .item         measurement: String
+                .item         name: String
+                .item       }
+                .item     ]
+                .item     directions: [
+                .item       Direction {
+                .item         instructions: String
+                .item         optional: Boolean
+                .item       }
+                .item     ]
+                .item   }
+                .item ]
             
         .twelve.wide.column
-            .ui.header demo data 
+            .ui.header CC demo data 
             .ui.button.get_data
                 |refresh data
-            // .sorting_row
-            //     .ui.icon.input
-            //         i.search.icon
-            //         input.tag_search(type='text' placeholder='search...')
-            //     +key_value_edit key='sort_key' value='_timestamp' label='added' icon='clock'
-            //     +key_value_edit key='sort_key' value='comment_count' label='comment count' icon='chat'
-            //     |&nbsp;
-            //     |&nbsp;
-            //     +limit_menu
-            // .spacer 
-            // .ui.stackable.three.cards.scrolling
-            //     each recipe_docs
-            //         +recipe_card
+                
+                
+            .ui.divider
+            .sorting_row
+                .ui.icon.input
+                    i.search.icon
+                    input.tag_search(type='text' placeholder='search...')
+                +key_value_edit key='sort_key' value='_timestamp' label='added' icon='clock'
+                +key_value_edit key='sort_key' value='comment_count' label='comment count' icon='chat'
+                |&nbsp;
+                |&nbsp;
+                +limit_menu
+            .spacer 
+            .ui.stackable.three.cards.scrolling
+                each recipe_docs
+                    +recipe_card
 
 
 template(name='recipe_card')

@@ -25,38 +25,38 @@ template(name='recipes')
             // +key_value_edit key='view_private' value=true  label='view private'
             // +key_value_edit key='view_private' value=false label='view all'
             .spacer
-            .ui.list 
-                .item [
-                .item   Recipe {
-                .item     uuid: String
-                .item     title: String
-                .item     description: String
-                .item     images: {
-                .item       full: String
-                .item       medium: String,
-                .item       small: String
-                .item     }
-                .item     servings: Number
-                .item     prepTime: Number
-                .item     cookTime: Number
-                .item     postDate: Date
-                .item     editDate: Date
-                .item     ingredients: [
-                .item       Ingredient {
-                .item         uuid: String
-                .item         amount: Number
-                .item         measurement: String
-                .item         name: String
-                .item       }
-                .item     ]
-                .item     directions: [
-                .item       Direction {
-                .item         instructions: String
-                .item         optional: Boolean
-                .item       }
-                .item     ]
-                .item   }
-                .item ]
+            // .ui.list 
+            //     .item [
+            //     .item   Recipe {
+            //     .item     uuid: String
+            //     .item     title: String
+            //     .item     description: String
+            //     .item     images: {
+            //     .item       full: String
+            //     .item       medium: String,
+            //     .item       small: String
+            //     .item     }
+            //     .item     servings: Number
+            //     .item     prepTime: Number
+            //     .item     cookTime: Number
+            //     .item     postDate: Date
+            //     .item     editDate: Date
+            //     .item     ingredients: [
+            //     .item       Ingredient {
+            //     .item         uuid: String
+            //     .item         amount: Number
+            //     .item         measurement: String
+            //     .item         name: String
+            //     .item       }
+            //     .item     ]
+            //     .item     directions: [
+            //     .item       Direction {
+            //     .item         instructions: String
+            //     .item         optional: Boolean
+            //     .item       }
+            //     .item     ]
+            //     .item   }
+            //     .item ]
             .ui.button.get_data
                 +i name='refresh'
                 |refresh CC demo data
@@ -72,6 +72,13 @@ template(name='recipes')
                 |&nbsp;
                 |&nbsp;
                 +limit_menu
+            .ui.header 
+                +i name='discount'
+                |specials
+            .ui.cards.hscroll
+                each special_docs
+                    .ui.card 
+                        .header #{title}
             .spacer 
             .ui.stackable.three.cards.scrolling
                 each recipe_docs

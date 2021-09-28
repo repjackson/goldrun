@@ -14,6 +14,7 @@ if Meteor.isClient
         Session.setDefault 'view_open', true
 
     Template.recipes.onCreated ->
+        @autorun => @subscribe 'model_docs', 'special', ->
         @autorun => @subscribe 'recipe_facets',
             picked_tags.array()
             Session.get('limit')
@@ -95,6 +96,9 @@ if Meteor.isClient
 
 
     Template.recipes.helpers
+        special_docs: ->
+            Docs.find 
+                model:'special'
         quickbuying_recipe: ->
             Docs.findOne Session.get('quickbuying_id')
 

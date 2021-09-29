@@ -1,12 +1,12 @@
-template(name='recipes')
+template(name='ingredients')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.inline.header 
-                +i name='blog'
-                |#{recipe_docs.count}
-                |recipes
+                +i name='ingredients'
+                |#{ingredient_docs.count}
+                |ingredients
             // if currentUser
-            a.ui.icon.circular.button.add_recipe(title='add recipe')
+            a.ui.icon.circular.button.add_ingredient(title='add ingredient')
                 i.plus.green.large.icon
             
             .ui.left.icon.search.small.input
@@ -27,7 +27,7 @@ template(name='recipes')
             .spacer
             // .ui.list 
             //     .item [
-            //     .item   Recipe {
+            //     .item   ingredient {
             //     .item     uuid: String
             //     .item     title: String
             //     .item     description: String
@@ -57,37 +57,9 @@ template(name='recipes')
             //     .item     ]
             //     .item   }
             //     .item ]
-            .ui.button.get_data
-                +i name='refresh'
-                |refresh CC demo data
-            .ui.disabled.button.delete_data
-                +i name='remove'
-                |clear CC demo data
             
         .twelve.wide.column
             // .ui.inline.header CC demo data 
-            .ui.header 
-                +i name='discount'
-                |specials
-            .ui.four.stackable.cards
-                each special_docs
-                    .card 
-                        .content 
-                            .header 
-                                if key_value_is 'type' 'event'
-                                    +i name='event' title="type: #{type}"
-                                if key_value_is 'type' 'promocode'
-                                    +i name='code' title="type: #{type}"
-                                if key_value_is 'type' 'local'
-                                    +i name='marker' title="type: #{type}"
-                                if key_value_is 'type' 'sale'
-                                    +i name='discount' title="type: #{type}"
-                                |#{title}
-                            .description 
-                                |#{text}
-                                // .ui.label type: #{type}
-                                if code
-                                    .ui.large.basic.label #{code}
             .spacer 
             .sorting_row
                 .ui.icon.input
@@ -99,21 +71,21 @@ template(name='recipes')
                 |&nbsp;
                 +limit_menu
             .ui.stackable.three.cards.scrolling
-                each recipe_docs
-                    +recipe_card
+                each ingredient_docs
+                    +ingredient_card
 
 
-template(name='recipe_card')
-    .ui.card.card_fly_right(class=recipe_card_class)
-        a.image.zoomer(href="/recipe/#{_id}")
+template(name='ingredient_card')
+    .ui.card.card_fly_right(class=ingredient_card_class)
+        a.image.zoomer(href="/ingredient/#{_id}")
             if image_id
-                img.ui.zoomer.pointer.goto_recipe.image(src="{{c.url image_id width=400 height=400}}")
+                img.ui.zoomer.pointer.goto_ingredient.image(src="{{c.url image_id width=400 height=400}}")
             else if images.full
                 img(src=images.full)
         .content
-            a.ui.header.zoomer(href="/recipe/#{_id}/") 
+            a.ui.header.zoomer(href="/ingredient/#{_id}/") 
                 | #{title}
-            a.zoomer.pointer.zoomer(href="/recipe/#{_id}/") 
+            a.zoomer.pointer.zoomer(href="/ingredient/#{_id}/") 
                 |!{description}
             if tags
                 +ismall name='tags'
@@ -153,27 +125,27 @@ template(name='recipe_card')
             // if private 
             //     i.big.lock.icon
             // if can_edit
-            a.ui.icon.circular.basic.button.zoomer(href="/recipe/#{_id}/edit")
+            a.ui.icon.circular.basic.button.zoomer(href="/ingredient/#{_id}/edit")
                 i.pencil.icon
-            a.ui.icon.circular.basic.button.zoomer(href="/recipe/#{_id}")
+            a.ui.icon.circular.basic.button.zoomer(href="/ingredient/#{_id}")
                 i.right.chevron.icon
 
 
-template(name='recipe_view')
+template(name='ingredient_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    a.ui.compact.circular.basic.button.fly_left(href="/recipes")
+                    a.ui.compact.circular.basic.button.fly_left(href="/ingredients")
                         i.left.chevron.icon
                         +i name='food' cl='ui inline image'
-                        // |recipes
+                        // |ingredients
                     img.ui.fluid.rounded.image(src=images.full)
                     .ui.small.grey.inline.header 
-                        small viewing recipe
+                        small viewing ingredient
                         // strong #{title}
                     // if can_edit
-                    a.ui.icon.circular.button(href="/recipe/#{_id}/edit")
+                    a.ui.icon.circular.button(href="/ingredient/#{_id}/edit")
                         i.pencil.large.icon
                     .ui.header source: #{source}
                     +voting_full
@@ -234,9 +206,9 @@ template(name='recipe_view')
                         .ui.header 
                             +i name='coins' cl='ui avatar image'
                             |purchase price: #{purchase_price}pt
-                        +purchase_recipe_button
-                        +recipe_orders
-                    // .item   Recipe {
+                        +purchase_ingredient_button
+                        +ingredient_orders
+                    // .item   ingredient {
                     // +text_view key='uuid' label='uuid' direct=true
                     // +text_view key='title' label='title' direct=true
                     // .item     description: String
@@ -279,21 +251,21 @@ template(name='recipe_view')
                 
                 
                 
-template(name='purchase_recipe_button')                
+template(name='purchase_ingredient_button')                
     unless has_purchased
-        .ui.button.purchase_recipe
-            |purchase recipe for #{purchase_price}
+        .ui.button.purchase_ingredient
+            |purchase ingredient for #{purchase_price}
     else 
         .ui.header 
             |purchased on {{medium_date purchase_timestamp}}
                 
                 
-template(name='recipe_orders')
+template(name='ingredient_orders')
     .ui.header
         +i name='order-history'
-        |recipe orders 
+        |ingredient orders 
     .ui.selection.link.animated.list
-        each recipe_order_docs 
+        each ingredient_order_docs 
             a.item.fly_right(href="/order/#{_id}")
                 |#{when}
                 |#{_author_username}
@@ -301,13 +273,13 @@ template(name='recipe_orders')
         
                 
 
-template(name='recipe_edit')
+template(name='ingredient_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
                     .ui.header 
-                        small editing recipe
+                        small editing ingredient
                         strong #{title}
                     a.ui.big.icon.green.button(href="/#{model}/#{_id}" title='save')
                         i.checkmark.big.icon

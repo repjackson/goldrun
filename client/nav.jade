@@ -44,6 +44,8 @@ template(name='nav')
     .ui.attached.small.borderless.inverted.menu.hscroll
         a.icon.item.zoomer(href='/recipes' class="{{isActivePath regex='recipe'}}" title='recipes')
             +i name='beer-recipe' cl='ui avatar image'
+        a.icon.item.zoomer(href='/ingredients' class="{{isActivePath regex='ingredient'}}" title='ingredients')
+            +i name='ingredients' cl='ui avatar image'
         a.icon.item.zoomer(href='/food' class="{{isActivePath '/food'}}" title='food')
             +i name='food' cl='ui avatar image'
         a.icon.item.zoomer(href='/events' class="{{isActivePath '/events'}}" title='events')

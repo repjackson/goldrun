@@ -60,6 +60,9 @@ template(name='recipes')
             .ui.button.get_data
                 +i name='refresh'
                 |refresh CC demo data
+            .ui.disabled.button.delete_data
+                +i name='remove'
+                |clear CC demo data
             
         .twelve.wide.column
             // .ui.inline.header CC demo data 
@@ -72,19 +75,20 @@ template(name='recipes')
                         .content 
                             .header 
                                 if key_value_is 'type' 'event'
-                                    +i name='event'
+                                    +i name='event' title="type: #{type}"
                                 if key_value_is 'type' 'promocode'
-                                    +i name='code'
+                                    +i name='code' title="type: #{type}"
                                 if key_value_is 'type' 'local'
-                                    +i name='marker'
+                                    +i name='marker' title="type: #{type}"
                                 if key_value_is 'type' 'sale'
-                                    +i name='discount'
+                                    +i name='discount' title="type: #{type}"
                                 |#{title}
                             .description 
                                 |#{text}
-                                .ui.label type: #{type}
+                                // .ui.label type: #{type}
                                 if code
                                     .ui.large.basic.label #{code}
+            .spacer 
             .sorting_row
                 .ui.icon.input
                     i.search.icon
@@ -94,7 +98,6 @@ template(name='recipes')
                 |&nbsp;
                 |&nbsp;
                 +limit_menu
-            .spacer 
             .ui.stackable.three.cards.scrolling
                 each recipe_docs
                     +recipe_card
@@ -118,7 +121,9 @@ template(name='recipe_card')
                     .ui.small.basic.label #{this}
         .content
             if ingredients
-                +i name='ingredients'
+                span(title='ingredients')
+                    |#{ingredients.count}
+                    +i name='ingredients'
                 each ingredients 
                     .ui.basic.label #{name}
             // .right.floated.meta
@@ -128,17 +133,13 @@ template(name='recipe_card')
             //     |#{author.username}
         .content    
             +number_view key='servings' label='servings'
-            // .item     prepTime: Number
             +number_view key='prepTime' label='prep time' icon='clock' direct=true
-            // .item     cookTime: Number
             +number_view key='prepTime' label='cook time' icon='oven' direct=true
-            // .item     postDate: Date
             +date_view key='postDate' label='post date' icon='pencil' direct=true
-            // .item     editDate: Date
             +date_view key='postDate' label='post date' icon='pencil' direct=true
         
-            if ingredients 
-                |#{ingredients.length} ingredients
+            // if ingredients 
+            //     |#{ingredients.length} ingredients
             if directions 
                 |#{directions.length} directions
             if private 

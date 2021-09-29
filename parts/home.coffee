@@ -11,18 +11,19 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'model_docs', 'rental', ->
         # @autorun -> Meteor.subscribe 'model_docs', 'product', ->
         # # @autorun -> Meteor.subscribe 'model_docs', 'food', ->
-        # @autorun -> Meteor.subscribe 'model_docs', 'public_note', ->
+        @autorun -> Meteor.subscribe 'model_docs', 'public_note', ->
         @autorun -> Meteor.subscribe 'latest_posts', ->
         @autorun -> Meteor.subscribe 'users'
 
     # Template.delta.onRendered ->
     #     Meteor.call 'log_view', @_id, ->
 
-    Template.home.helpers
+    Template.food_widget.helpers
         top_food: ->
             Docs.find
                 model:'food'
 
+    Template.home.helpers
         top_rentals: ->
             Docs.find
                 model:'rental'
@@ -35,11 +36,13 @@ if Meteor.isClient
             Docs.find
                 model:'product'
     
+    Template.public_notes_widget.helpers
         public_note_docs: ->
             Docs.find 
                 model:'public_note'
                 
                 
+    Template.home.helpers
         latest_post_docs: ->
             Docs.find({ 
                 model:'post'

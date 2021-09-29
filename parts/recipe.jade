@@ -110,9 +110,9 @@ template(name='specials_header')
     .ui.inline.header 
         +i name='discount'
         |specials
-    .ui.four.stackable.cards
+    .ui.four.stackable.link.cards
         each special_docs
-            .card 
+            a.card.zoomer.fly_left(href="/special/#{_id}")
                 .content 
                     .header 
                         if key_value_is 'type' 'event'

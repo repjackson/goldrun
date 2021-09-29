@@ -25,6 +25,9 @@ Template.body.events
     'click .fly_right': (e,t)->
         # console.log 'hi'
         $(e.currentTarget).closest('.grid').transition('slide right', 500)
+    'click .card_fly_right': (e,t)->
+        # console.log 'hi'
+        $(e.currentTarget).closest('.card').transition('slide right', 500)
         
     'click a': ->
         $('.global_container')

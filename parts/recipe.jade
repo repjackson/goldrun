@@ -104,7 +104,7 @@ template(name='recipes')
 
 
 template(name='recipe_card')
-    .ui.card.fly_right(class=recipe_card_class)
+    .ui.card.card_fly_right(class=recipe_card_class)
         a.image.zoomer(href="/recipe/#{_id}")
             if image_id
                 img.ui.zoomer.pointer.goto_recipe.image(src="{{c.url image_id width=400 height=400}}")
@@ -132,18 +132,26 @@ template(name='recipe_card')
             //     img.ui.avatar.image(src="{{c.url author.image_id width=400 height=600 crop='fit'}}")
             //     |#{author.username}
         .content    
-            +number_view key='servings' label='servings'
-            +number_view key='prepTime' label='prep time' icon='clock' direct=true
-            +number_view key='prepTime' label='cook time' icon='oven' direct=true
-            +date_view key='postDate' label='post date' icon='pencil' direct=true
-            +date_view key='postDate' label='post date' icon='pencil' direct=true
+            .ui.inline.header
+                |serves #{servings}
+            // +number_view key='servings' label='servings'
+            span 
+                +i name='clock'
+                |#{prepTime}
+            span 
+                +i name='kitchen'
+                |#{cookTime}
+            // +number_view key='prepTime' label='prep time' icon='clock' direct=true
+            // +number_view key='prepTime' label='cook time' icon='oven' direct=true
+            // +date_view key='postDate' label='post date' icon='pencil' direct=true
+            // +date_view key='postDate' label='post date' icon='pencil' direct=true
         
             // if ingredients 
             //     |#{ingredients.length} ingredients
-            if directions 
-                |#{directions.length} directions
-            if private 
-                i.big.lock.icon
+            // if directions 
+            //     |#{directions.length} directions
+            // if private 
+            //     i.big.lock.icon
             // if can_edit
             a.ui.icon.circular.basic.button.zoomer(href="/recipe/#{_id}/edit")
                 i.pencil.icon
@@ -156,11 +164,12 @@ template(name='recipe_view')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    a.ui.compact.circular.button.fly_left(href="/recipes")
+                    a.ui.compact.circular.basic.button.fly_left(href="/recipes")
                         i.left.chevron.icon
                         +i name='food' cl='ui inline image'
                         // |recipes
-                    .ui.small.grey.header 
+                    img.ui.fluid.rounded.image(src=images.full)
+                    .ui.small.grey.inline.header 
                         small viewing recipe
                         // strong #{title}
                     // if can_edit
@@ -187,8 +196,9 @@ template(name='recipe_view')
                     div
                     .ui.header 
                         +i name='ingredients'
+                        |#{ingredients.length}
                         |ingredients
-                    .ui.cards 
+                    .ui.three.doubling.cards 
                         each ingredients
                             .card
                                 .content
@@ -200,8 +210,9 @@ template(name='recipe_view')
                                 // .item measurement: String #{measurement}
                     .ui.header 
                         +i name='list'
+                        |#{directions.length}
                         |directions
-                    .ui.ordered.list
+                    .ui.ordered.large.list
                         each directions
                             .item #{instructions}
                                 if optional 
@@ -220,12 +231,11 @@ template(name='recipe_view')
                         +purchase_recipe_button
                         +recipe_orders
                     // .item   Recipe {
-                    +text_view key='uuid' label='uuid' direct=true
+                    // +text_view key='uuid' label='uuid' direct=true
                     // +text_view key='title' label='title' direct=true
                     // .item     description: String
-                    img(src=images.full)
-                    img(src=images.medium)
-                    img(src=images.small)
+                    // img(src=images.medium)
+                    // img(src=images.small)
                     // .item     images: {
                     // .item       full: String
                     // .item       medium: String,
@@ -240,7 +250,7 @@ template(name='recipe_view')
                     // .item     prepTime: Number
                     +number_view key='prepTime' label='prep time' icon='clock' direct=true
                     // .item     cookTime: Number
-                    +number_view key='cookTime' label='cook time' icon='oven' direct=true
+                    +number_view key='cookTime' label='cook time' icon='kitchen' direct=true
                     // .item     postDate: Date
                     +date_view key='postDate' label='post date' icon='pencil' direct=true
                     // .item     editDate: Date

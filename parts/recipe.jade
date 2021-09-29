@@ -1,93 +1,40 @@
 template(name='recipes')
     .ui.stackable.padded.grid
-        .four.wide.column
+        .sixteen.wide.column
+            +specials_header
+            .spacer 
             .ui.inline.header 
-                +i name='blog'
+                +i name='beer-recipe'
                 |#{recipe_docs.count}
                 |recipes
             // if currentUser
             a.ui.icon.circular.button.add_recipe(title='add recipe')
                 i.plus.green.large.icon
             
-            .ui.left.icon.search.small.input
-                i.search.icon.refresh_tags
-                input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
-            if selected_tag_plural
-                .ui.icon.circular.black.compact.button.clear_picked_tags
-                    i.remove.icon
-            each picked_tags
-                button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
-            each tags
-                button.ui.circular.compact.button.tag_result(tabindex="0" class=result_class title=count) #{title}
-                    //- small #{count}
+            // .ui.left.icon.search.small.input
+            //     i.search.icon.refresh_tags
+            // //     input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
+            // if selected_tag_plural
+            //     .ui.icon.circular.black.compact.button.clear_picked_tags
+            //         i.remove.icon
+            // each picked_tags
+            //     button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
+            //         //- i.remove.icon
+            //         | #{this}
+            // each tags
+            //     button.ui.circular.compact.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+            //         //- small #{count}
             // +key_value_edit key='view_private' value=true  label='view private'
             // +key_value_edit key='view_private' value=false label='view all'
-            .spacer
-            // .ui.list 
-            //     .item [
-            //     .item   Recipe {
-            //     .item     uuid: String
-            //     .item     title: String
-            //     .item     description: String
-            //     .item     images: {
-            //     .item       full: String
-            //     .item       medium: String,
-            //     .item       small: String
-            //     .item     }
-            //     .item     servings: Number
-            //     .item     prepTime: Number
-            //     .item     cookTime: Number
-            //     .item     postDate: Date
-            //     .item     editDate: Date
-            //     .item     ingredients: [
-            //     .item       Ingredient {
-            //     .item         uuid: String
-            //     .item         amount: Number
-            //     .item         measurement: String
-            //     .item         name: String
-            //     .item       }
-            //     .item     ]
-            //     .item     directions: [
-            //     .item       Direction {
-            //     .item         instructions: String
-            //     .item         optional: Boolean
-            //     .item       }
-            //     .item     ]
-            //     .item   }
-            //     .item ]
-            .ui.button.get_data
-                +i name='refresh'
-                |refresh CC demo data
-            .ui.disabled.button.delete_data
-                +i name='remove'
-                |clear CC demo data
+            // .spacer
+            // .ui.button.get_data
+            //     +i name='refresh'
+            //     |refresh CC demo data
+            // .ui.disabled.button.delete_data
+            //     +i name='remove'
+            //     |clear CC demo data
             
-        .twelve.wide.column
             // .ui.inline.header CC demo data 
-            .ui.header 
-                +i name='discount'
-                |specials
-            .ui.four.stackable.cards
-                each special_docs
-                    .card 
-                        .content 
-                            .header 
-                                if key_value_is 'type' 'event'
-                                    +i name='event' title="type: #{type}"
-                                if key_value_is 'type' 'promocode'
-                                    +i name='code' title="type: #{type}"
-                                if key_value_is 'type' 'local'
-                                    +i name='marker' title="type: #{type}"
-                                if key_value_is 'type' 'sale'
-                                    +i name='discount' title="type: #{type}"
-                                |#{title}
-                            .description 
-                                |#{text}
-                                // .ui.label type: #{type}
-                                if code
-                                    .ui.large.basic.label #{code}
             .spacer 
             .sorting_row
                 .ui.icon.input
@@ -98,7 +45,7 @@ template(name='recipes')
                 |&nbsp;
                 |&nbsp;
                 +limit_menu
-            .ui.stackable.three.cards.scrolling
+            .ui.stackable.four.cards.scrollin
                 each recipe_docs
                     +recipe_card
 
@@ -157,6 +104,31 @@ template(name='recipe_card')
                 i.pencil.icon
             a.ui.icon.circular.basic.button.zoomer(href="/recipe/#{_id}")
                 i.right.chevron.icon
+
+
+template(name='specials_header')
+    .ui.inline.header 
+        +i name='discount'
+        |specials
+    .ui.four.stackable.cards
+        each special_docs
+            .card 
+                .content 
+                    .header 
+                        if key_value_is 'type' 'event'
+                            +i name='event' title="type: #{type}"
+                        if key_value_is 'type' 'promocode'
+                            +i name='code' title="type: #{type}"
+                        if key_value_is 'type' 'local'
+                            +i name='marker' title="type: #{type}"
+                        if key_value_is 'type' 'sale'
+                            +i name='discount' title="type: #{type}"
+                        |#{title}
+                    .description 
+                        |#{text}
+                        // .ui.label type: #{type}
+                        if code
+                            .ui.large.basic.label #{code}
 
 
 template(name='recipe_view')

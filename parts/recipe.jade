@@ -212,9 +212,13 @@ template(name='recipe_view')
                         +i name='list'
                         |#{directions.length}
                         |directions
-                    .ui.ordered.large.list
+                    .ui.ordered.big.spaced.list
                         each directions
-                            .item #{instructions}
+                            .item
+                                |#{instructions}
+                                a(href="https://www.google.com/search?q=#{instructions}" target='_window' title='search instructions')
+                                    i.search.icon
+
                                 if optional 
                                     | (optional)
                             // // .item instructions: String #{instructions}

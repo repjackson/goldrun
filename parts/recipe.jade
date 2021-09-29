@@ -70,7 +70,16 @@ template(name='recipes')
                 each special_docs
                     .card 
                         .content 
-                            .header #{title}
+                            .header 
+                                if key_value_is 'type' 'event'
+                                    +i name='event'
+                                if key_value_is 'type' 'promocode'
+                                    +i name='code'
+                                if key_value_is 'type' 'local'
+                                    +i name='marker'
+                                if key_value_is 'type' 'sale'
+                                    +i name='discount'
+                                |#{title}
                             .description 
                                 |#{text}
                                 .ui.label type: #{type}
@@ -80,8 +89,8 @@ template(name='recipes')
                 .ui.icon.input
                     i.search.icon
                     input.tag_search(type='text' placeholder='search...')
-                +key_value_edit key='sort_key' value='_timestamp' label='added' icon='clock'
-                +key_value_edit key='sort_key' value='comment_count' label='comment count' icon='chat'
+                +key_value_edit key='sort_key' value='cookTime' label='cook time' icon='kitchen'
+                +key_value_edit key='sort_key' value='prepTime' label='prep time' icon='clock'
                 |&nbsp;
                 |&nbsp;
                 +limit_menu
@@ -108,11 +117,15 @@ template(name='recipe_card')
                 each tags
                     .ui.small.basic.label #{this}
         .content
-            .right.floated.meta
-                | {{from_now _timestamp}}
-            a(href="/user/#{author.username}")
-                img.ui.avatar.image(src="{{c.url author.image_id width=400 height=600 crop='fit'}}")
-                |#{author.username}
+            if ingredients
+                +i name='ingredients'
+                each ingredients 
+                    .ui.basic.label #{name}
+            // .right.floated.meta
+            //     | {{from_now _timestamp}}
+            // a(href="/user/#{author.username}")
+            //     img.ui.avatar.image(src="{{c.url author.image_id width=400 height=600 crop='fit'}}")
+            //     |#{author.username}
         .content    
             +number_view key='servings' label='servings'
             // .item     prepTime: Number

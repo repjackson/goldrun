@@ -1,5 +1,5 @@
 template(name='nav')
-    #topnav.topnav.ui.attached.borderless.large.inverted.menu.hscroll
+    #topnav.topnav.ui.attached.borderless.large.menu.hscroll
         if is_loading
             .icon.item
                 i.big.spinning.grey.yin.yang.icon.cancel
@@ -41,7 +41,7 @@ template(name='nav')
                         //- i.sign.in.icon
                         +i name='internal'
                         //- |login
-    .ui.attached.small.borderless.inverted.menu.hscroll
+    .ui.attached.borderless.menu.hscroll
         a.icon.item.zoomer(href='/recipes' class="{{isActivePath regex='recipe'}}" title='recipes')
             +i name='beer-recipe' cl='ui avatar image'
         a.icon.item.zoomer(href='/ingredients' class="{{isActivePath regex='ingredient'}}" title='ingredients')

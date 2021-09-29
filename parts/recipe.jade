@@ -183,12 +183,14 @@ template(name='recipe_view')
                     +view_visibility
                     +author_card
                 .eight.wide.column
-                    if title
-                        h1.ui.header #{title} 
-                    +image_view key='image_id' label='image' direct=true
-                    +image_view key='images.full' label='image' direct=true
-                    +image_view key='images.medium' label='image' direct=true
-                    +image_view key='small' label='image' direct=true
+                    .ui.big.inline.header #{title} 
+                    a.zoomer(href="https://www.google.com/search?q=#{title}" target='_window' title='search instructions')
+                        i.search.large.link.icon
+                    a.zoomer(href="https://www.google.com/search?tbm=isch&q=#{title}" target='_window' title='image search instructions')
+                        i.image.large.link.icon
+                    a.zoomer(href="https://www.amazon.com/s?k=#{title}&ref=nb_sb_noss_2" target='_window' title='amazon search instructions')
+                        i.amazon.large.link.icon
+                    
                     .f6
                         +html_view key='description' icon='content' label='body' direct=true
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true

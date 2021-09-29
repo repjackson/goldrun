@@ -8,7 +8,6 @@ template(name='ingredients')
             // if currentUser
             a.ui.icon.circular.button.add_ingredient(title='add ingredient')
                 i.plus.green.large.icon
-            
             .ui.left.icon.search.small.input
                 i.search.icon.refresh_tags
                 input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
@@ -155,8 +154,13 @@ template(name='ingredient_view')
                     +view_visibility
                     +author_card
                 .eight.wide.column
-                    if title
-                        h1.ui.header #{title} 
+                    h1.ui.header #{title} 
+                    a(href="https://www.google.com/search?q=#{instructions}" target='_window' title='search instructions')
+                        i.search.icon
+                    a(href="https://www.google.com/search?tbm=isch&q=#{instructions}" target='_window' title='image search instructions')
+                        i.image.icon
+                    a(href="https://www.amazon.com/s?k=#{title}&ref=nb_sb_noss_2" target='_window' title='amazon search instructions')
+                        i.amazon.icon
                     +image_view key='image_id' label='image' direct=true
                     +image_view key='images.full' label='image' direct=true
                     +image_view key='images.medium' label='image' direct=true

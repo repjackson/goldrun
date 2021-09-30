@@ -322,6 +322,7 @@ Router.route '/recipe/:doc_id/edit', (->
 
 if Meteor.isClient
     Template.recipe_view.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'ingredient', ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
     Template.recipe_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
@@ -335,6 +336,9 @@ if Meteor.isClient
                 model:'order'
                 recipe_id:Router.current().params.doc_id
                 _author_id:Meteor.userId()
+                
+                
+                
     Template.purchase_recipe_button.events 
         'click .purchase_recipe': ->
             new_id = 
@@ -350,6 +354,26 @@ if Meteor.isClient
                 model:'order'
                 recipe_id:Router.current().params.doc_id
 
+    Template.recipe_view.events
+        'click .goto_ingredient': ->
+            console.log @
+            found_ingredient = 
+                Docs.findOne 
+                    model:'ingredient'
+                    name:@name
+            if found_ingredient
+                Router.go "/ingredient/#{found_ingredient._id}"
+            else
+                new_id = 
+                    Docs.insert 
+                        model:'ingredient'
+                        name: @name
+                Router.go "/ingredient/#{new_id}/edit"
+                
+
+            
+            
+            
     Template.recipe_edit.events 
         'keyup body': (e,t)->
             if e.ctrlKey or e.metaKey

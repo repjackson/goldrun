@@ -341,3 +341,28 @@ template(name='special_edit')
                     +boolean_edit key='can_purchase' label='charge for access' direct=true icon='coins'
                     if can_purchase 
                         +number_edit key='purchase_price' label='purchase price' direct=true icon='coins'
+
+
+template(name='specials_header')
+    .ui.inline.header 
+        +i name='discount'
+        |specials
+    .ui.four.stackable.link.cards
+        each special_docs
+            a.card.zoomer.fly_left(href="/special/#{_id}")
+                .content 
+                    .header 
+                        if key_value_is 'type' 'event'
+                            +i name='event' title="type: #{type}"
+                        if key_value_is 'type' 'promocode'
+                            +i name='code' title="type: #{type}"
+                        if key_value_is 'type' 'local'
+                            +i name='marker' title="type: #{type}"
+                        if key_value_is 'type' 'sale'
+                            +i name='discount' title="type: #{type}"
+                        |#{title}
+                    .description 
+                        |#{text}
+                        // .ui.label type: #{type}
+                        if code
+                            .ui.large.basic.label #{code}

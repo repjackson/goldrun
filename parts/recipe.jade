@@ -51,7 +51,7 @@ template(name='recipes')
 
 
 template(name='recipe_card')
-    .ui.card.card_fly_right(class=recipe_card_class)
+    .ui.card.card_fly_right.fly_left(class=recipe_card_class)
         a.image.zoomer(href="/recipe/#{_id}")
             if image_id
                 img.ui.zoomer.pointer.goto_recipe.image(src="{{c.url image_id width=400 height=400}}")
@@ -106,31 +106,6 @@ template(name='recipe_card')
                 i.right.chevron.icon
 
 
-template(name='specials_header')
-    .ui.inline.header 
-        +i name='discount'
-        |specials
-    .ui.four.stackable.link.cards
-        each special_docs
-            a.card.zoomer.fly_left(href="/special/#{_id}")
-                .content 
-                    .header 
-                        if key_value_is 'type' 'event'
-                            +i name='event' title="type: #{type}"
-                        if key_value_is 'type' 'promocode'
-                            +i name='code' title="type: #{type}"
-                        if key_value_is 'type' 'local'
-                            +i name='marker' title="type: #{type}"
-                        if key_value_is 'type' 'sale'
-                            +i name='discount' title="type: #{type}"
-                        |#{title}
-                    .description 
-                        |#{text}
-                        // .ui.label type: #{type}
-                        if code
-                            .ui.large.basic.label #{code}
-
-
 template(name='recipe_view')
     with current_doc
         .ui.stackable.padded.grid
@@ -139,12 +114,10 @@ template(name='recipe_view')
                     a.ui.compact.circular.basic.button.fly_left(href="/recipes")
                         i.left.chevron.icon
                         +i name='food' cl='ui inline image'
-                        // |recipes
                     img.ui.fluid.rounded.image(src=images.full)
                     .ui.small.grey.inline.header 
                         small viewing recipe
                         // strong #{title}
-                    // if can_edit
                     a.ui.icon.circular.button(href="/recipe/#{_id}/edit")
                         i.pencil.large.icon
                     .ui.header source: #{source}
@@ -176,7 +149,7 @@ template(name='recipe_view')
                         each ingredients
                             .card
                                 .content
-                                    .header #{name}
+                                    .header.goto_ingredient #{name}
                                     |#{amount} #{measurement}
                                 // .item(title='String') 
                                 // .item(title='String') uuid: #{uuid}

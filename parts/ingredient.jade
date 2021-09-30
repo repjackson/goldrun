@@ -24,39 +24,6 @@ template(name='ingredients')
             // +key_value_edit key='view_private' value=true  label='view private'
             // +key_value_edit key='view_private' value=false label='view all'
             .spacer
-            // .ui.list 
-            //     .item [
-            //     .item   ingredient {
-            //     .item     uuid: String
-            //     .item     title: String
-            //     .item     description: String
-            //     .item     images: {
-            //     .item       full: String
-            //     .item       medium: String,
-            //     .item       small: String
-            //     .item     }
-            //     .item     servings: Number
-            //     .item     prepTime: Number
-            //     .item     cookTime: Number
-            //     .item     postDate: Date
-            //     .item     editDate: Date
-            //     .item     ingredients: [
-            //     .item       Ingredient {
-            //     .item         uuid: String
-            //     .item         amount: Number
-            //     .item         measurement: String
-            //     .item         name: String
-            //     .item       }
-            //     .item     ]
-            //     .item     directions: [
-            //     .item       Direction {
-            //     .item         instructions: String
-            //     .item         optional: Boolean
-            //     .item       }
-            //     .item     ]
-            //     .item   }
-            //     .item ]
-            
         .twelve.wide.column
             // .ui.inline.header CC demo data 
             .spacer 
@@ -212,22 +179,6 @@ template(name='ingredient_view')
                             |purchase price: #{purchase_price}pt
                         +purchase_ingredient_button
                         +ingredient_orders
-                    // .item   ingredient {
-                    // +text_view key='uuid' label='uuid' direct=true
-                    // +text_view key='title' label='title' direct=true
-                    // .item     description: String
-                    // img(src=images.medium)
-                    // img(src=images.small)
-                    // .item     images: {
-                    // .item       full: String
-                    // .item       medium: String,
-                    // .item       small: String
-                    // .item     }
-                    // +image_view key='images.full' label='full' icon='image' direct=true
-                    // +image_view key='medium' label='medium' icon='image' direct=true
-                    // +image_view key='small' label='small' icon='image' direct=true
-
-                    // .item     servings: Number
                     +number_view key='servings' label='servings'
                     // .item     prepTime: Number
                     +number_view key='prepTime' label='prep time' icon='clock' direct=true
@@ -237,21 +188,6 @@ template(name='ingredient_view')
                     +date_view key='postDate' label='post date' icon='pencil' direct=true
                     // .item     editDate: Date
                     +date_view key='editDate' label='edit date' icon='pencil' direct=true
-                    // .item     ingredients: [
-                    // .item       Ingredient {
-                    // .item         uuid: String
-                    // .item         amount: Number
-                    // .item         measurement: String
-                    // .item         name: String
-                    // .item       }
-                    // .item     ]
-                    // .item     directions: [
-                    // .item       Direction {
-                    // .item         instructions: String
-                    // .item         optional: Boolean
-                    // .item       }
-                    // .item     ]
-                        
                 
                 
                 
@@ -297,21 +233,11 @@ template(name='ingredient_edit')
                         +text_edit key='model' label='model' direct=true
                 .seven.wide.column.scrolling
                     +text_edit key='title' direct=true
+                    +text_edit key='name' direct=true
                     +html_edit key='body' label='body' icon='content' direct=true
                 .four.wide.column.scrolling
                     +text_edit key='uuid' label='uuid'
                     +text_edit key='title' label='title'
-                    // .item     description: String
-                    // .item     images: {
-                    // .item       full: String
-                    // .item       medium: String,
-                    // .item       small: String
-                    // .item     }
-                    +image_edit key='full' label='full' icon='image' direct=true
-                    +image_edit key='medium' label='medium' icon='image' direct=true
-                    +image_edit key='small' label='small' icon='image' direct=true
-
-                    // .item     servings: Number
                     +number_edit key='servings' label='servings'
                     // .item     prepTime: Number
                     +number_edit key='prepTime' label='prep time' icon='clock' direct=true
@@ -323,20 +249,6 @@ template(name='ingredient_edit')
                     +date_edit key='editDate' label='post date' icon='pencil' direct=true
                     each ingredients
                         +text_edit key='uuid' label='uuid' direct=true
-                    .item     ingredients: [
-                    .item       Ingredient {
-                    .item         uuid: String
-                    .item         amount: Number
-                    .item         measurement: String
-                    .item         name: String
-                    .item       }
-                    .item     ]
-                    .item     directions: [
-                    .item       Direction {
-                    .item         instructions: String
-                    .item         optional: Boolean
-                    .item       }
-                    .item     ]
                 
                     +boolean_edit key='can_purchase' label='charge for access' direct=true icon='coins'
                     if can_purchase 

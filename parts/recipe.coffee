@@ -15,6 +15,7 @@ if Meteor.isClient
 
     Template.specials_header.onCreated ->
         @autorun => @subscribe 'model_docs', 'special', ->
+        @autorun => @subscribe 'model_docs', 'ingredient', ->
     Template.recipes.onCreated ->
         @autorun => @subscribe 'recipe_facets',
             picked_tags.array()
@@ -96,10 +97,6 @@ if Meteor.isClient
 
 
 
-    Template.specials_header.helpers
-        special_docs: ->
-            Docs.find 
-                model:'special'
     Template.recipes.helpers
         quickbuying_recipe: ->
             Docs.findOne Session.get('quickbuying_id')

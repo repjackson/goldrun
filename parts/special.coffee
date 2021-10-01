@@ -392,3 +392,20 @@ if Meteor.isServer
                     total_count:total_count
                     complete_count:complete_count
                     incomplete_count:incomplete_count
+
+
+if Meteor.isClient
+    Template.specials_header.helpers
+        special_docs: ->
+            Docs.find 
+                model:'special'
+        special_ingredient: ->
+            console.log @
+            found = 
+                Docs.findOne
+                    model:'ingredient'
+                    uuid:@ingredientId
+            if found 
+                console.log 'found', found
+            else
+                console.log 'not found'

@@ -11,14 +11,15 @@ template(name='nav')
                 +i name='search' cl='ui inline mini image'
             a.icon.disabled.item.zoomer(href='/stats' class="{{isActivePath '/stats'}}" title='stats')
                 +i name='line-chart' cl='ui inline mini image'
-        a.icon.item.zoomer(href='/recipes' class="{{isActivePath regex='recipe'}}" title='recipes')
-            +i name='beer-recipe' cl='ui avatar image'
-        a.icon.item.zoomer(href='/ingredients' class="{{isActivePath regex='ingredient'}}" title='ingredients')
-            +i name='ingredients' cl='ui avatar image'
         a.icon.item.zoomer(href='/food' class="{{isActivePath '/food'}}" title='food')
             +i name='food' cl='ui avatar image'
-        a.icon.item.zoomer(href='/events' class="{{isActivePath '/events'}}" title='events')
-            +i name='calendar' cl='ui avatar image'
+        // .ui.simple.dropdown.menu
+        //     a.icon.item.zoomer(href='/recipes' class="{{isActivePath regex='recipe'}}" title='recipes')
+        //         +i name='beer-recipe' cl='ui avatar image'
+        //     a.icon.item.zoomer(href='/ingredients' class="{{isActivePath regex='ingredient'}}" title='ingredients')
+        //         +i name='ingredients' cl='ui avatar image'
+        // a.icon.item.zoomer(href='/events' class="{{isActivePath '/events'}}" title='events')
+        //     +i name='calendar' cl='ui avatar image'
         // a.icon.item.zoomer(href='/chat' class="{{isActivePath '/chat'}}" title='chat')
         //     +i name='chat' cl='ui avatar image'
         a.item.zoomer(href='/products' class="{{isActivePath '/products'}}" title='shop')
@@ -29,16 +30,12 @@ template(name='nav')
             +i name='wrench' cl='ui avatar image'
         a.item.zoomer(href='/rentals' class="{{isActivePath '/rentals'}}" title='rentals')
             +i name='clock' cl='ui avatar image'
-        a.item.zoomer(href='/groups' class="{{isActivePath '/groups'}}" title='groups')
-            +i name='group' cl='ui avatar image'
-        a.item.zoomer(href='/rides' class="{{isActivePath '/rides'}}" title='rideshare')
-            +i name='car' cl='ui avatar image'
+        // a.item.zoomer(href='/groups' class="{{isActivePath '/groups'}}" title='groups')
+        //     +i name='group' cl='ui avatar image'
+        // a.item.zoomer(href='/rides' class="{{isActivePath '/rides'}}" title='rideshare')
+        //     +i name='car' cl='ui avatar image'
         a.item(href='/users' class="{{isActivePath '/users'}}" title='users')
            +i name='groups' cl='ui avatar image'
-        a.item(href="https://goo.gl/maps/hBoG7MXvPC9hbTRg6" title='google map' target='_window')
-           +i name='map' cl='ui avatar image'
-        a.item(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks')
-           +i name='tasks' cl='ui avatar image'
             
         .right.menu
             // if is_admin

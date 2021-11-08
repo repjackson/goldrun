@@ -51,9 +51,6 @@ template(name='rental_view')
         .ui.stackable.padded.grid
             img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             .row
-                .sixteen.wide.column
-                    +rental_calendar
-            .row
                 .four.wide.column.scrolling
                     a.ui.icon.button(href='/' title='rentals')
                         i.left.chevron.icon
@@ -86,6 +83,7 @@ template(name='rental_view')
                     +single_user_view key='handler_username' direct=true
                 .eight.wide.column.scrolling
                     .ui.large.center.aligned.inline.header #{title}
+                    +rental_calendar
                     if description
                         .ui.segment.f4
                             +textarea_view key='description' label='description' icon='content' direct=true

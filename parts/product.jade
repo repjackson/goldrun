@@ -3,82 +3,85 @@ template(name='product_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column.scrolling
+                .five.wide.column.scrolling
                     a.ui.big.icon.green.circular.button(href="/#{model}/#{_id}/")
                         i.checkmark.big.icon
                     .ui.inline.header 
                         small editing
                         |'#{title}'
                         small product
+                    +text_edit key='title' icon='header' direct=true
+                    +image_edit key='image_id' direct=true
                     +array_edit key='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     .ui.icon.small.red.button.delete_product_item 
                         i.trash.icon
                     if in_dev
                         +print_this
-                    if is_admin
-                        +text_edit key='model' direct=true
-                        +key_value_edit key='model' value='post' icon='blog' label='make post' direct=true
-                        +key_value_edit key='model' value='food' icon='food' label='make food' direct=true
-                        +text_edit key='app' label='app' icon='code' direct=true
-                    +boolean_edit key='is_rentable' label='is rentable' direct=true icon='clock'
-                    if is_rentable 
-                        +boolean_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
-                        if hourly_rate
-                            +float_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
-                        div
-                        +boolean_edit key='daily_rate' label='daily rate' icon='sun' direct=true
-                        if daily_rate
-                            +float_edit key='daily_credit' label='daily rate' icon='exchange' direct=true
-                        div
-                        +boolean_edit key='weekly_rate' label='weekly rate' icon='sun' direct=true
-                        if weekly_rate
-                            +float_edit key='weekly_credit' label='weekly rate' icon='exchange' direct=true
-                        div
-                        +boolean_edit key='monthly_rate' label='monthly rate' icon='sun' direct=true
-                        if monthly_rate
-                            +float_edit key='monthly_credit' label='monthly rate' icon='exchange' direct=true
-                        div
-                        +boolean_edit key='auction' label='auction' icon='podium-with-audience--v2' direct=true
-                        if auction
-                            +number_edit key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
-                            +float_edit key='minimum_bid' label='hour minimum bid ($)' icon='refund' direct=true
-                        div
-                        +boolean_edit key='security_deposit_required' label='security deposit required' icon='lock' direct=true
-                        if security_deposit_required
-                            +number_edit key='security_deposit_amount' label='security deposit amount (c)' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
-                            div
-                            +boolean_edit key='friends_exempt' label='friends exempt' icon='users' direct=true
-
-                .eight.wide.column.scrolling
-                    +text_edit key='title' icon='header' direct=true
-                    +image_edit key='image_id' direct=true
+                    // if is_admin
+                    //     +text_edit key='model' direct=true
+                    //     // +key_value_edit key='model' value='post' icon='blog' label='make post' direct=true
+                    //     // +key_value_edit key='model' value='food' icon='food' label='make food' direct=true
+                    //     +text_edit key='app' label='app' icon='code' direct=true
                     +html_edit key='description' direct=true
-                .four.wide.column.scrolling
-                    +number_edit key='inventory' label='inventory' icon='warehouse' direct=true
-                    +boolean_edit key='has_point_price' label='point price' direct=true icon='coins'
-                    if has_point_price
-                        +number_edit key='point_price' icon='coins' label='point price/unit' direct=true
-                    // +boolean_edit key='has_dollar_price' label='has dollar price' direct=true icon='money'
-                    // if has_dollar_price
-                    //     +number_edit key='dollar_price' icon='money' label='dollar price/unit' direct=true
-                    .ui.inline.header
-                        +i name='delivery'
-                        |delivery
-                    +boolean_edit key='pickup_delivery' label='pickup' direct=true icon='truck'
-                    +boolean_edit key='unit_dropoff_delivery' label='unit dropoff' icon='contactless-delivery' direct=true
-                    if unit_dropoff_delivery 
-                        +number_edit key='unit_dropoff_delivery_price' label='dropoff price' icon='contactless-delivery' direct=true
-                        
-                    +boolean_edit key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
-                    if building_dropoff_delivery 
-                        +number_edit key='building_dropoff_delivery_price' label='building dropoff price' icon='contactless-delivery' direct=true
-                    +textarea_edit key='delivery_instructions' label='delivery instructions' icon='note' direct=true
-                    +link_edit key='link' label='link' icon='globe' direct=true
-                    +key_value_edit key='source' label='nextdoor' value='nextdoor' icon='home' direct=true
-                    +key_value_edit key='source' label='goldrun' value='goldrun' icon='apartment' direct=true
-                    +text_edit key='source' label='source' icon='globe' direct=true
-                
+                .ten.wide.column.scrolling
+                    +boolean_edit key='is_service' label='is service' direct=true icon='clock'
+                    .ui.segment
+                        +boolean_edit key='is_rentable' label='is rentable' direct=true icon='clock'
+                        if is_rentable 
+                            +boolean_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
+                            if hourly_rate
+                                +float_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
+                            div
+                            +boolean_edit key='daily_rate' label='daily rate' icon='sun' direct=true
+                            if daily_rate
+                                +float_edit key='daily_credit' label='daily rate' icon='exchange' direct=true
+                            div
+                            +boolean_edit key='weekly_rate' label='weekly rate' icon='sun' direct=true
+                            if weekly_rate
+                                +float_edit key='weekly_credit' label='weekly rate' icon='exchange' direct=true
+                            div
+                            +boolean_edit key='monthly_rate' label='monthly rate' icon='sun' direct=true
+                            if monthly_rate
+                                +float_edit key='monthly_credit' label='monthly rate' icon='exchange' direct=true
+                            div
+                            +boolean_edit key='auction' label='auction' icon='podium-with-audience--v2' direct=true
+                            if auction
+                                +number_edit key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
+                                +float_edit key='minimum_bid' label='hour minimum bid ($)' icon='refund' direct=true
+                            div
+                            +boolean_edit key='security_deposit_required' label='security deposit required' icon='lock' direct=true
+                            if security_deposit_required
+                                +number_edit key='security_deposit_amount' label='security deposit amount (c)' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
+                                div
+                                +boolean_edit key='friends_exempt' label='friends exempt' icon='users' direct=true
+                    .ui.segment
+                        +boolean_edit key='is_forsale' label='is for sale' direct=true icon='clock'
+                        if is_forsale
+                            +number_edit key='point_price' icon='coins' label='point price/unit' direct=true
+                            +number_edit key='inventory' label='inventory' icon='warehouse' direct=true
+                            // +boolean_edit key='has_point_price' label='point price' direct=true icon='coins'
+                            // if has_point_price
+                            // +boolean_edit key='has_dollar_price' label='has dollar price' direct=true icon='money'
+                            // if has_dollar_price
+                            //     +number_edit key='dollar_price' icon='money' label='dollar price/unit' direct=true
+                            .ui.inline.header
+                                +i name='delivery'
+                                |delivery
+                            +boolean_edit key='pickup_delivery' label='pickup' direct=true icon='truck'
+                            +boolean_edit key='unit_dropoff_delivery' label='unit dropoff' icon='contactless-delivery' direct=true
+                            if unit_dropoff_delivery 
+                                +number_edit key='unit_dropoff_delivery_price' label='dropoff price' icon='contactless-delivery' direct=true
+                                
+                            +boolean_edit key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
+                            if building_dropoff_delivery 
+                                +number_edit key='building_dropoff_delivery_price' label='building dropoff price' icon='contactless-delivery' direct=true
+                            +textarea_edit key='delivery_instructions' label='delivery instructions' icon='note' direct=true
+                            +link_edit key='link' label='link' icon='globe' direct=true
+                            // +key_value_edit key='source' label='nextdoor' value='nextdoor' icon='home' direct=true
+                            // +key_value_edit key='source' label='goldrun' value='goldrun' icon='apartment' direct=true
+                            // +text_edit key='source' label='source' icon='globe' direct=true
+                    
 
 template(name='product_view')
     with current_doc

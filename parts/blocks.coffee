@@ -273,9 +273,9 @@ if Meteor.isClient
         user: -> Meteor.users.findOne @valueOf()
 
 
-    Template.set_limit.events
-        'click .set_limit': ->
-            Session.set('limit',parseInt(@amount))
+    # Template.set_limit.events
+    #     'click .set_limit': ->
+    #         Session.set('limit',parseInt(@amount))
 
 
 

@@ -45,7 +45,8 @@ template(name='limit_menu')
                 +set_limit amount=20
 
 
-
+template(name='set_limit')
+    .ui.button.set_limit #{amount}
 template(name='friend_button')
     unless is_current_user 
         if is_friend
@@ -78,10 +79,11 @@ template(name='doc_array_togggle')
 template(name='bookmark_button')
     // if currentUser
     if bookmarked
-        .ui.icon.compact.button.unbookmark(class=bookmark_button_class title='bookmark')
-            +i name='bookmark'
+        .ui.icon.compact.blue.circular.button.unbookmark(class=bookmark_button_class title='unbookmark')
+            +i name='bookmark' cl='ui avatar image'
     else
-        .ui.icon.compact.button.bookmark(class=bookmark_button_class title='unbookmark')
-            +ios name='bookmark'
+        .ui.icon.compact.small.basic.circular.button.bookmark(class=bookmark_button_class title='bookmark')
+            +ioffice name='bookmark' cl='ui avatar image'
+            // +ios name='bookmark'
     //- each list_users
     //-     +user_info

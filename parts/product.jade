@@ -140,20 +140,21 @@ template(name='product_view')
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             .row
                 .five.wide.column
-                    .ui.header 
-                        small viewing
-                        |#{title}
-                        small product
+                    // .ui.header 
+                    //     small viewing
+                    //     |#{title}
+                    //     small product
+                    .ui.big.header #{title}
                     a.ui.big.compact.circular.button.fly_left(href="/products" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
                     if can_edit
                         a.ui.icon.large.basic.circular.button(href="/product/#{_id}/edit")
                             i.pencil.large.blue.icon
-                    .ui.large.header #{title}
-                    .ui.header added by #{_author_username}
                     +bookmark_button
-                    |#{when}
+                    .ui.small.inline.header
+                        |added by #{_author_username}
+                        |#{when}
                     with author
                         +user_card
                     .ui.hidden.divider

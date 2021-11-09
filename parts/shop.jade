@@ -49,7 +49,7 @@ template(name='shop')
             .sorting_row
                 .ui.icon.input
                     i.search.icon
-                    input.tag_search(type='text' placeholder='search...')
+                    input.query(type='text' placeholder='search...')
                 |sort by
                 +set_sort_key key='views' label='views' icon='eye'
                 // +set_sort_key key='datetime_available' label='available' icon='clock'

@@ -8,6 +8,7 @@ if Meteor.isClient
 
     Template.shop.onCreated ->
         @autorun => @subscribe 'product_facets',
+            Session.get('current_query')
             picked_tags.array()
             Session.get('product_limit')
             Session.get('product_sort_key')
@@ -17,6 +18,7 @@ if Meteor.isClient
             Session.get('view_open')
 
         @autorun => @subscribe 'product_results',
+            Session.get('current_query')
             picked_tags.array()
             Session.get('product_limit')
             Session.get('product_sort_key')
@@ -24,7 +26,6 @@ if Meteor.isClient
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
-
 
     Template.shop.events
         'click .add_product': ->
@@ -52,17 +53,17 @@ if Meteor.isClient
             Session.set('current_query',null)
             picked_tags.clear()
 
-        'keyup #search': _.throttle((e,t)->
-            query = $('#search').val()
+        'keyup .query': _.throttle((e,t)->
+            query = $('.query').val()
             Session.set('current_query', query)
             # console.log Session.get('current_query')
             if e.which is 13
-                search = $('#search').val().trim().toLowerCase()
+                search = $('.query').val().trim().toLowerCase()
                 if search.length > 0
                     picked_tags.push search
                     console.log 'search', search
                     # Meteor.call 'log_term', search, ->
-                    $('#search').val('')
+                    $('.query').val('')
                     Session.set('current_query', null)
                     # # $('#search').val('').blur()
                     # # $( "p" ).blur();
@@ -114,6 +115,7 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'product_results', (
+        query
         picked_tags
         limit=20
         sort_key='_timestamp'
@@ -134,6 +136,9 @@ if Meteor.isServer
         #     match.delivery = $ne:false
         # if view_pickup
         #     match.pickup = $ne:false
+        if query
+            match.title = {$regex:"#{query}", $options: 'i'}
+        
         if picked_tags.length > 0
             match.tags = $all: picked_tags
             # sort = 'price_per_serving'
@@ -160,9 +165,9 @@ if Meteor.isServer
             limit: limit
 
     Meteor.publish 'product_facets', (
+        query
         picked_tags
         picked_timestamp_tags
-        query
         doc_limit
         doc_sort_key
         doc_sort_direction
@@ -188,6 +193,8 @@ if Meteor.isServer
             match.pickup = $ne:false
         if picked_tags.length > 0 then match.tags = $all: picked_tags
             # match.$regex:"#{current_query}", $options: 'i'}
+        if query
+            match.title = {$regex:"#{query}", $options: 'i'}
         # if query and query.length > 1
         # #     console.log 'searching query', query
         # #     # match.tags = {$regex:"#{query}", $options: 'i'}

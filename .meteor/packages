@@ -14,7 +14,6 @@ tracker@1.2.0                 # Meteor's client-side reactive programming librar
 random@1.2.0
 manuel:reactivearray
 meteorhacks:aggregate
-babrahams:constellation
 mobile-experience@1.1.0
 
 
@@ -33,7 +32,4 @@ mquandalle:jade
 underscore@1.0.10
 coffeescript
 ecmascript@0.15.1
-reywood:publish-composite
-flowkey:hotkeys
 modules@0.16.0
-kevohagan:sweetalert

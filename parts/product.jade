@@ -9,9 +9,15 @@ template(name='products')
                 a.ui.icon.compact.circular.button.add_product(title='add product')
                     i.plus.large.icon
             // .div
-            .ui.left.icon.search.small.input
-                i.search.icon.refresh_tags
-                input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
+            .ui.button
+                i.big.clock.icon
+                |rentals
+            .ui.button
+                i.big.wrench.icon
+                |services
+            // .ui.left.icon.search.small.input
+            //     i.search.icon.refresh_tags
+            //     input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
             if selected_tag_plural
                 .ui.icon.circular.black.compact.button.clear_picked_tags
                     i.remove.icon

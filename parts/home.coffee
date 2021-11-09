@@ -1,6 +1,6 @@
 if Meteor.isClient
     Router.route '/', (->
-        @render 'home'
+        @render 'products'
         ), name:'home'
 
     Template.take_poll.onCreated ->

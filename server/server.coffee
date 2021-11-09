@@ -17,6 +17,10 @@ Docs.allow
     # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
     remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
 
+Meteor.publish 'product_count', ->
+  Counts.publish this, 'product_counter', Docs.find({model:'product'})
+  return undefined    # otherwise coffeescript returns a Counts.publish
+                      # handle when Meteor expects a Mongo.Cursor object.
 
 
 Cloudinary.config

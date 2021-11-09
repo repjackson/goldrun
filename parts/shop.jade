@@ -3,7 +3,7 @@ template(name='shop')
         .four.wide.column
             .ui.inline.header 
                 +i name='shop'
-                |#{product_docs.count}
+                |#{counter}
                 |results
             if currentUser
                 a.ui.icon.compact.circular.button.add_product(title='add product')

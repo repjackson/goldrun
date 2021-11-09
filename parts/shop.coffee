@@ -7,6 +7,7 @@ if Meteor.isClient
         Session.setDefault 'view_open', true
 
     Template.shop.onCreated ->
+        @autorun => @subscribe 'product_count', ->
         @autorun => @subscribe 'product_facets',
             Session.get('current_query')
             picked_tags.array()
@@ -87,6 +88,7 @@ if Meteor.isClient
         # , 1000)
 
     Template.shop.helpers
+        counter: -> Counts.get('product_counter')
         tags: -> Results.find({model:'tag'})
         authors: -> Results.find({model:'author'})
 

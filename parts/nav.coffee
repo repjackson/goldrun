@@ -13,16 +13,9 @@ if Meteor.isClient
                 Session.set 'logging_out', false
                 Router.go '/'
 
-        'click .set_models': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'model', ->
-                Session.set 'loading', false
-
-        'click .set_model': ->
-            Session.set 'loading', true
-            # Meteor.call 'increment_view', @_id, ->
-            Meteor.call 'set_facets', @slug, ->
-                Session.set 'loading', false
+        'click .clear': ->
+            picked_tags.clear()
+                
 
     Template.nav.onRendered ->
         Meteor.setTimeout ->

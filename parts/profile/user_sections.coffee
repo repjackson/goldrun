@@ -88,7 +88,7 @@ if Meteor.isClient
                 model:'payment'
                 _author_username: Router.current().params.username
             }, sort:_timestamp:-1
-        deposits: ->
+        deposit_docs: ->
             Docs.find {
                 model:'deposit'
                 _author_username: Router.current().params.username

@@ -147,6 +147,7 @@ if Meteor.isServer
         # console.log picked_tags
         self = @
         match = {model:'product'}
+        match.app = 'goldrun'
         # if view_open
         #     match.open = $ne:false
         # if view_delivery
@@ -196,6 +197,7 @@ if Meteor.isServer
         self = @
         match = {}
         match.model = 'product'
+        match.app = 'goldrun'
         if view_open
             match.open = $ne:false
 
@@ -309,6 +311,8 @@ if Meteor.isClient
                 Docs.remove @_id
                 Router.go "/products"
 
+    Template.product_view.helpers
+        sold_out: -> @inventory < 1
     Template.product_view.events
         # 'click .add_to_cart': ->
         #     console.log @

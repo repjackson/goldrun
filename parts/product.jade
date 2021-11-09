@@ -56,7 +56,7 @@ template(name='product_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
+                .four.wide.column.scrolling
                     a.ui.big.icon.green.circular.button(href="/#{model}/#{_id}/")
                         i.checkmark.big.icon
                     .ui.inline.header 
@@ -73,11 +73,13 @@ template(name='product_edit')
                         +text_edit key='model' direct=true
                         +key_value_edit key='model' value='post' icon='blog' label='make post' direct=true
                         +key_value_edit key='model' value='food' icon='food' label='make food' direct=true
-                .eight.wide.column
+                        +text_edit key='app' label='app' icon='code' direct=true
+                        
+                .eight.wide.column.scrolling
                     +text_edit key='title' icon='header' direct=true
                     +image_edit key='image_id' direct=true
                     +html_edit key='description' direct=true
-                .four.wide.column
+                .four.wide.column.scrolling
                     +number_edit key='inventory' label='inventory' icon='warehouse' direct=true
                     +boolean_edit key='has_point_price' label='point price' direct=true icon='coins'
                     if has_point_price
@@ -122,7 +124,7 @@ template(name='product_view')
                         +user_card
                     .ui.hidden.divider
                     +voting_full     
-                .seven.wide.column
+                .seven.wide.column.scrolling
                     img.ui.centered.rounded.shadowed.image(src="{{c.url image_id width=1000 height=400 crop='fit'}}")
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +text_view key='location' icon='marker' label='location description' direct=true
@@ -130,19 +132,23 @@ template(name='product_view')
                     // +number_view key='dollar_price' icon='money' label='dollar price' direct=true
                     +html_view key='description' direct=true
                     +comments
-                .four.wide.column
+                .four.wide.column.scrolling
+                    .ui.header inventory #{inventory} units available
+                    .ui.header inventory #{order_total} total orders
+                
                     div
                     if link 
                         +link_view key='link' label='link' direct=true
                     unless sold_out
                         if point_price
-                            .ui.big.green.fluid.button.buy_product 
+                            .ui.big.green.fluid.button.buy_product.fly_right 
                                 i.cart.large.icon
                                 |buy for #{point_price}p
-                        if dollar_price
-                            .ui.big.green.fluid.button.buy_product 
-                                i.cart.large.icon
-                                |buy for $#{dollar_price}
+                        // .ui.horizontal.divider or
+                        // if dollar_price
+                        //     .ui.big.green.fluid.button.buy_product 
+                        //         i.cart.large.icon
+                        //         |buy for $#{dollar_price}
                     else 
                         .ui.big.disabled.fluid.basic.button
                             |sold out
@@ -214,6 +220,8 @@ template(name='product_card')
             if point_price
                 .ui.inline.header #{point_price}p
             // div
+            .ui.label #{current_inventory} units available
+            .ui.label #{order_total} total orders
             if delivery
                 +i name='deliver-product' cl='ui avatar image'
                 if delivery_fee

@@ -7,7 +7,7 @@ template(name='order_view')
                     //     i.left.chevron.icon
                     //     img.ui.avatar.image(src="{{c.url order_product.image width=200 height=200}}")    
                     //     |#{order_product.title}
-                    a.ui.circular.compact.button(href="/product/#{product_id}/")
+                    a.ui.circular.compact.button.fly_left(href="/product/#{product_id}/")
                         i.left.chevron.icon
                         img.ui.avatar.image(src="{{c.url order_product.image width=200 height=200}}")    
                         |#{order_product.title} product
@@ -91,7 +91,7 @@ template(name='order_edit')
                     +html_view key='description' direct=true
             .five.wide.column
                 .ui.header product point price: #{product_point_price} points
-                .ui.header product dollar price: $#{product_dollar_price}
+                // .ui.header product dollar price: $#{product_dollar_price}
                 .ui.header 
                     |your credit: #{author.points}pts
                 .ui.header 
@@ -113,12 +113,12 @@ template(name='order_edit')
                 if can_complete
                     a.ui.large.fluid.green.button.complete_order
                         i.checkmark.large.icon   
-                        |complete
+                        |complete order
                 else 
                     .ui.header not enough points
                     a.ui.large.fluid.green.disabled.button
                         i.checkmark.large.icon   
-                        |complete
+                        |complete order
                 .ui.hidden.divider
                 if can_delete
                     .ui.red.compact.button.delete_order

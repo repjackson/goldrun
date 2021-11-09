@@ -26,7 +26,7 @@ if Meteor.isClient
                 true
         can_complete: ->
             order = Docs.findOne Router.current().params.doc_id
-            product_point_price < Meteor.user().points
+            order.product_point_price < Meteor.user().points
             
             
         user_points_after_purchase: ->
@@ -45,6 +45,7 @@ if Meteor.isClient
                 $set:
                     complete:true
                     completed_timestamp:Date.now()
+                    
             $('body').toast(
                 showIcon: 'checkmark'
                 message: 'order completed'
@@ -53,7 +54,19 @@ if Meteor.isClient
                 # displayTime: 'auto',
                 position: "bottom center"
             )
+            
+            Docs.update @product_id,
+                $inc: inventory:-1
+            
             product = Docs.findOne @product_id
+            $('body').toast(
+                message: "product #{product.title} inventory updated to #{product.inventory}"
+                icon: 'hashtag'
+                # showProgress: 'bottom'
+                class: 'info'
+                # displayTime: 'auto',
+                position: "bottom right"
+            )
             Meteor.users.update product._author_id,
                 $inc:
                     points:@product_point_price

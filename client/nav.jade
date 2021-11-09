@@ -7,22 +7,22 @@ template(name='nav')
             a.item.zoomer(href='/' class="{{isActivePath '/'}}" title='food')
                 +i name='apartment' cl='ui avatar image'
                 |gold run
-            a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
-                +i name='search' cl='ui inline mini image'
-            a.icon.disabled.item.zoomer(href='/stats' class="{{isActivePath '/stats'}}" title='stats')
-                +i name='line-chart' cl='ui inline mini image'
+            // a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
+            //     +i name='search' cl='ui inline mini image'
+            // a.icon.disabled.item.zoomer(href='/stats' class="{{isActivePath '/stats'}}" title='stats')
+            //     +i name='line-chart' cl='ui inline mini image'
         // a.icon.item.zoomer(href='/food' class="{{isActivePath '/food'}}" title='food')
         //     +i name='food' cl='ui avatar image'
         a.item.zoomer(href='/products' class="{{isActivePath '/products'}}" title='shop')
             +i name='shop' cl='ui avatar image'
-        a.item.zoomer(href='/posts' class="{{isActivePath '/posts'}}" title='posts')
-            +i name='blog' cl='ui avatar image'
-        a.item.zoomer(href='/services' class="{{isActivePath '/services'}}" title='services')
-            +i name='wrench' cl='ui avatar image'
-        a.item.zoomer(href='/rentals' class="{{isActivePath '/rentals'}}" title='rentals')
-            +i name='clock' cl='ui avatar image'
-        a.item(href='/users' class="{{isActivePath '/users'}}" title='users')
-           +i name='groups' cl='ui avatar image'
+        // a.item.zoomer(href='/posts' class="{{isActivePath '/posts'}}" title='posts')
+        //     +i name='blog' cl='ui avatar image'
+        // a.item.zoomer(href='/services' class="{{isActivePath '/services'}}" title='services')
+        //     +i name='wrench' cl='ui avatar image'
+        // a.item.zoomer(href='/rentals' class="{{isActivePath '/rentals'}}" title='rentals')
+        //     +i name='clock' cl='ui avatar image'
+        // a.item(href='/users' class="{{isActivePath '/users'}}" title='users')
+        //   +i name='groups' cl='ui avatar image'
             
         .right.menu
             // if is_admin
@@ -31,10 +31,10 @@ template(name='nav')
             //     a.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='delta')
             //         +i name='database' cl='ui inline mini image'
             if currentUser
-                a.icon.disabled.item(href="/mail" class="{{isActivePath '/mail'}}")
-                    i.mail.icon
-                a.icon.disabled.item(href="/alerts" class="{{isActivePath '/alerts'}}")
-                    i.bell.outline.icon
+                // a.icon.disabled.item(href="/mail" class="{{isActivePath '/mail'}}")
+                //     i.mail.icon
+                // a.icon.disabled.item(href="/alerts" class="{{isActivePath '/alerts'}}")
+                //     i.bell.outline.icon
                 a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
                     // | {{fixed currentUser.points}}p
                     | {{currentUser.points}}p

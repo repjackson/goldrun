@@ -77,7 +77,7 @@ template(name='session_edit_value_button')
 
 
 template(name='set_sort_key')
-    .item.set_key
+    .ui.small.compact.circular.button.set_key(class=sort_key_class)
         if color
             .ui.label(class=color) #{label}
         else 

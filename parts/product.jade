@@ -1,62 +1,3 @@
-template(name='products')
-    .ui.stackable.padded.grid
-        .four.wide.column
-            .ui.inline.header 
-                +i name='shop'
-                |#{product_docs.count}
-                |products
-            if currentUser
-                a.ui.icon.compact.circular.button.add_product(title='add product')
-                    i.plus.large.icon
-            // .div
-            .ui.button
-                i.big.clock.icon
-                |rentals
-            .ui.button
-                i.big.wrench.icon
-                |services
-            // .ui.left.icon.search.small.input
-            //     i.search.icon.refresh_tags
-            //     input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
-            if selected_tag_plural
-                .ui.icon.circular.black.compact.button.clear_picked_tags
-                    i.remove.icon
-            each picked_tags
-                button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
-            each tags
-                button.ui.circular.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
-                    //- small #{count}
-            // .spacer
-        .twelve.wide.column
-            .sorting_row
-                .ui.icon.input
-                    i.search.icon
-                    input.tag_search(type='text' placeholder='search...')
-                |sort by
-                .ui.compact.small.menu
-                    .ui.simple.dropdown.item
-                        +i name=sort_icon cl='ui avatar image'
-                        strong #{sort_label}
-                        i.dropdown.icon
-                        .menu
-                            +set_sort_key key='views' label='views' icon='eye'
-                            // +set_sort_key key='datetime_available' label='available' icon='clock'
-                            +set_sort_key key='_timestamp' label='added' icon='clock'
-                            +set_sort_key key='comment_count' label='comment count' icon='chat'
-                +set_sort_direction
-                |&nbsp;
-                |&nbsp;
-                +limit_menu
-            .spacer 
-            if subs_ready     
-                .ui.stackable.three.centered.cards.scrolling
-                    each product_docs
-                        +product_card
-            else 
-                .ui.basic.center.aligned.segment
-                    i.massive.grey.yin.yang.loading.icon
 
 template(name='product_edit')
     with current_doc
@@ -264,6 +205,7 @@ template(name='product_card')
         .content
             a.ui.inline.header.zoomer.fly_right(href="/product/#{_id}/") 
                 | #{title}
+            .ui.inline.header #{point_price}p
             each tags
                 .ui.label.spaced #{this}
         .content
@@ -273,9 +215,6 @@ template(name='product_card')
                 img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
                 |#{_author_username}
         .content    
-            if point_price
-                .ui.inline.header #{point_price}p
-            // div
             .ui.label #{current_inventory} units available
             .ui.label #{order_total} total orders
             if delivery

@@ -74,7 +74,35 @@ template(name='product_edit')
                         +key_value_edit key='model' value='post' icon='blog' label='make post' direct=true
                         +key_value_edit key='model' value='food' icon='food' label='make food' direct=true
                         +text_edit key='app' label='app' icon='code' direct=true
-                        
+                    +boolean_edit key='is_rentable' label='is rentable' direct=true icon='clock'
+                    if is_rentable 
+                        +boolean_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
+                        if hourly_rate
+                            +float_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
+                        div
+                        +boolean_edit key='daily_rate' label='daily rate' icon='sun' direct=true
+                        if daily_rate
+                            +float_edit key='daily_credit' label='daily rate' icon='exchange' direct=true
+                        div
+                        +boolean_edit key='weekly_rate' label='weekly rate' icon='sun' direct=true
+                        if weekly_rate
+                            +float_edit key='weekly_credit' label='weekly rate' icon='exchange' direct=true
+                        div
+                        +boolean_edit key='monthly_rate' label='monthly rate' icon='sun' direct=true
+                        if monthly_rate
+                            +float_edit key='monthly_credit' label='monthly rate' icon='exchange' direct=true
+                        div
+                        +boolean_edit key='auction' label='auction' icon='podium-with-audience--v2' direct=true
+                        if auction
+                            +number_edit key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
+                            +float_edit key='minimum_bid' label='hour minimum bid ($)' icon='refund' direct=true
+                        div
+                        +boolean_edit key='security_deposit_required' label='security deposit required' icon='lock' direct=true
+                        if security_deposit_required
+                            +number_edit key='security_deposit_amount' label='security deposit amount (c)' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
+                            div
+                            +boolean_edit key='friends_exempt' label='friends exempt' icon='users' direct=true
+
                 .eight.wide.column.scrolling
                     +text_edit key='title' icon='header' direct=true
                     +image_edit key='image_id' direct=true
@@ -127,15 +155,20 @@ template(name='product_view')
                 .seven.wide.column.scrolling
                     img.ui.centered.rounded.shadowed.image(src="{{c.url image_id width=1000 height=400 crop='fit'}}")
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
+                    +array_view key='tags' label='tags' icon='tags' direct=true
                     +text_view key='location' icon='marker' label='location description' direct=true
-                    +number_view key='point_price' icon='coins' label='point price' direct=true
                     // +number_view key='dollar_price' icon='money' label='dollar price' direct=true
                     +html_view key='description' direct=true
                     +comments
                 .four.wide.column.scrolling
+                    +number_view key='point_price' icon='coins' label='point price' direct=true
                     .ui.header inventory #{inventory} units available
                     .ui.header inventory #{order_total} total orders
-                
+                    if is_rentable
+                        .ui.fluid.teal.large.button.rent
+                            i.large.clock.icon
+                            |rent for #{hourly_rate}p/hr, #{daily_rate}p/day
+                        .ui.horizontal.divider or
                     div
                     if link 
                         +link_view key='link' label='link' direct=true
@@ -167,10 +200,21 @@ template(name='product_view')
                     +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
                     +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
                     +product_orders
-                    
+                    +related_products
                     
         
         
+template(name='related_products')
+    .ui.header 
+        +i name='code-fork'
+        |#{related_products.count}
+        |related products
+    .ui.selection.animated.link.list
+        each related_product_docs
+            a.item(href="/product/#{_id}")
+                | #{title}
+                |#{price}p
+    
 template(name='product_orders')
     .ui.header 
         +i name='order-history'

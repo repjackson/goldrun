@@ -79,6 +79,8 @@ template(name='order_edit')
             .five.wide.column
                 .ui.small.grey.inline.header editing order
                 .ui.inline.header #{product_title}
+                img.ui.image(src="{{c.url order_product.image_id width=200 height=200}}")    
+                
                 div
                 // +float_edit key='serving_purchase_price' label='serving purchase price' direct=true
                 // +float_edit key='cook_tip' label='cook tip' direct=true
@@ -93,10 +95,11 @@ template(name='order_edit')
                 .ui.header product point price: #{product_point_price} points
                 // .ui.header product dollar price: $#{product_dollar_price}
                 .ui.header 
-                    |your credit: #{author.points}pts
+                    small your credit: 
+                    strong #{author.points}pts
                 .ui.header 
-                    |credit after purchase 
-                    |#{user_points_after_purchase}p
+                    small credit after purchase 
+                    strong #{user_points_after_purchase}p
                 .ui.header 
                     +i name='delivery'
                     |delivery method

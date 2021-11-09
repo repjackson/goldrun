@@ -340,32 +340,6 @@ template(name='rental_edit')
                             i.money.icon
                             |finance
                         .content
-                            +boolean_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
-                            if hourly_rate
-                                +float_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
-                            div
-                            +boolean_edit key='daily_rate' label='daily rate' icon='sun' direct=true
-                            if daily_rate
-                                +float_edit key='daily_credit' label='daily rate' icon='exchange' direct=true
-                            div
-                            +boolean_edit key='weekly_rate' label='weekly rate' icon='sun' direct=true
-                            if weekly_rate
-                                +float_edit key='weekly_credit' label='weekly rate' icon='exchange' direct=true
-                            div
-                            +boolean_edit key='monthly_rate' label='monthly rate' icon='sun' direct=true
-                            if monthly_rate
-                                +float_edit key='monthly_credit' label='monthly rate' icon='exchange' direct=true
-                            div
-                            +boolean_edit key='auction' label='auction' icon='podium-with-audience--v2' direct=true
-                            if auction
-                                +number_edit key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
-                                +float_edit key='minimum_bid' label='hour minimum bid ($)' icon='refund' direct=true
-                            div
-                            +boolean_edit key='security_deposit_required' label='security deposit required' icon='lock' direct=true
-                            if security_deposit_required
-                                +number_edit key='security_deposit_amount' label='security deposit amount (c)' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
-                                div
-                                +boolean_edit key='friends_exempt' label='friends exempt' icon='users' direct=true
                 .four.wide.column
                     .ui.segment
                         .ui.header

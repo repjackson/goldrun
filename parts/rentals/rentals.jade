@@ -1,18 +1,3 @@
-template(name='gruber')
-    .ui.stackable.padded.grid
-        .four.wide.column
-            .ui.inline.header 
-                +i name='car'
-                |gruber
-            if currentUser
-                a.ui.icon.basic.circular.button.add_gruber(title='cook')
-                    i.plus.green.large.icon
-            .div
-            .ui.left.icon.search.small.input
-                i.search.icon.refresh_tags
-                input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
-                
-                
 template(name='rentals')
     .ui.stackable.padded.grid
         .four.wide.column

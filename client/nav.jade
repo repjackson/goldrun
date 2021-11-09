@@ -5,14 +5,14 @@ template(name='nav')
                 i.big.spinning.grey.yin.yang.icon.cancel
         else 
             a.item.zoomer(href='/' class="{{isActivePath '/'}}" title='food')
-                +i name='home' cl='ui avatar image'
+                +i name='apartment' cl='ui avatar image'
                 |gold run
             a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
                 +i name='search' cl='ui inline mini image'
             a.icon.disabled.item.zoomer(href='/stats' class="{{isActivePath '/stats'}}" title='stats')
                 +i name='line-chart' cl='ui inline mini image'
-        a.icon.item.zoomer(href='/food' class="{{isActivePath '/food'}}" title='food')
-            +i name='food' cl='ui avatar image'
+        // a.icon.item.zoomer(href='/food' class="{{isActivePath '/food'}}" title='food')
+        //     +i name='food' cl='ui avatar image'
         // .ui.simple.dropdown.menu
         //     a.icon.item.zoomer(href='/recipes' class="{{isActivePath regex='recipe'}}" title='recipes')
         //         +i name='beer-recipe' cl='ui avatar image'
@@ -24,8 +24,8 @@ template(name='nav')
         //     +i name='chat' cl='ui avatar image'
         a.item.zoomer(href='/products' class="{{isActivePath '/products'}}" title='shop')
             +i name='shop' cl='ui avatar image'
-        // a.item.zoomer(href='/posts' class="{{isActivePath '/posts'}}" title='posts')
-        //     +i name='blog' cl='ui avatar image'
+        a.item.zoomer(href='/posts' class="{{isActivePath '/posts'}}" title='posts')
+            +i name='blog' cl='ui avatar image'
         a.item.zoomer(href='/services' class="{{isActivePath '/services'}}" title='services')
             +i name='wrench' cl='ui avatar image'
         a.item.zoomer(href='/rentals' class="{{isActivePath '/rentals'}}" title='rentals')

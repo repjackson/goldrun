@@ -20,7 +20,7 @@ template(name='login')
                 //- if username
                 //- if logging_in
                 .ui.hidden.divider
-                .ui.fluid.big.button.enter(title="login #{username}" class=enter_class)
+                .ui.fluid.big.green.button.enter(title="login #{username}" class=enter_class)
                     +i name='internal' cl='ui mini inline image'
                     |login
                     strong #{username}
@@ -40,7 +40,7 @@ template(name='register')
         .centered.middle.aligned.row
             .ten.wide.column
                 h1.ui.center.aligned.header
-                    +i name='user-add'
+                    +i name='apartment'
                     | gold run register
                 .ui.inline.small.header 
                     +i name='user-male'
@@ -62,8 +62,8 @@ template(name='register')
                 .ui.hidden.divider
                 if can_register
                     //- if registering
-                    .ui.fluid.big.button.register(class=enter_class)
-                        i.user.plus.icon
+                    .ui.fluid.big.basic.green.button.register(class=enter_class)
+                        i.user.plus.big.icon
                         |register
                 else
                     .ui.fluid.big.disabled.button(class=enter_class)

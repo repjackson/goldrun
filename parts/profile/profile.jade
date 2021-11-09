@@ -55,9 +55,9 @@ template(name='user_layout')
                     a.ui.compact.circular.button(href="/user/#{username}/orders" class="{{isActiveRoute 'user_orders'}}")
                         +i name='invoice' cl='ui avatar image'
                         |orders
-                    a.ui.compact.circular.button(href="/user/#{username}/groups" class="{{isActiveRoute 'user_groups'}}")
-                        +i name='groups' cl='ui avatar image'
-                        |groups
+                    // a.ui.compact.circular.button(href="/user/#{username}/groups" class="{{isActiveRoute 'user_groups'}}")
+                    //     +i name='groups' cl='ui avatar image'
+                    //     |groups
                     a.ui.compact.circular.button(href="/user/#{username}/friends" class="{{isActiveRoute 'user_friends'}}")
                         +i name='meeting' cl='ui avatar image'
                         |friends

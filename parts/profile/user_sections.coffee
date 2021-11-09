@@ -41,39 +41,39 @@ if Meteor.isClient
     	# )
 
 
-    Template.user_credit.events
-        'click .add_credits': ->
-            amount = parseInt $('.deposit_amount').val()
-            amount_times_100 = parseInt amount*100
-            calculated_amount = amount_times_100*1.02+20
-            # Template.instance().checkout.open
-            #     name: 'credit deposit'
-            #     # email:Meteor.user().emails[0].address
-            #     description: 'gold run'
-            #     amount: calculated_amount
-            Docs.insert
-                model:'deposit'
-                amount: amount
-            Meteor.users.update Meteor.userId(),
-                $inc: credit: amount_times_100
+    # Template.user_credit.events
+    #     'click .add_credits': ->
+    #         amount = parseInt $('.deposit_amount').val()
+    #         amount_times_100 = parseInt amount*100
+    #         calculated_amount = amount_times_100*1.02+20
+    #         # Template.instance().checkout.open
+    #         #     name: 'credit deposit'
+    #         #     # email:Meteor.user().emails[0].address
+    #         #     description: 'gold run'
+    #         #     amount: calculated_amount
+    #         Docs.insert
+    #             model:'deposit'
+    #             amount: amount
+    #         Meteor.users.update Meteor.userId(),
+    #             $inc: credit: amount_times_100
 
 
-        'click .initial_withdrawal': ->
-            withdrawal_amount = parseInt $('.withdrawal_amount').val()
-            if confirm "initiate withdrawal for #{withdrawal_amount}?"
-                Docs.insert
-                    model:'withdrawal'
-                    amount: withdrawal_amount
-                    status: 'started'
-                    complete: false
-                Meteor.users.update Meteor.userId(),
-                    $inc: credit: -withdrawal_amount
+    #     'click .initial_withdrawal': ->
+    #         withdrawal_amount = parseInt $('.withdrawal_amount').val()
+    #         if confirm "initiate withdrawal for #{withdrawal_amount}?"
+    #             Docs.insert
+    #                 model:'withdrawal'
+    #                 amount: withdrawal_amount
+    #                 status: 'started'
+    #                 complete: false
+    #             Meteor.users.update Meteor.userId(),
+    #                 $inc: credit: -withdrawal_amount
 
-        'click .cancel_withdrawal': ->
-            if confirm "cancel withdrawal for #{@amount}?"
-                Docs.remove @_id
-                Meteor.users.update Meteor.userId(),
-                    $inc: credit: @amount
+    #     'click .cancel_withdrawal': ->
+    #         if confirm "cancel withdrawal for #{@amount}?"
+    #             Docs.remove @_id
+    #             Meteor.users.update Meteor.userId(),
+    #                 $inc: credit: @amount
 
 
 
@@ -133,8 +133,27 @@ if Meteor.isClient
 
     Template.user_credit.events
         'click .add_credits': ->
-            deposit_amount = parseInt $('.deposit_amount').val()*100
+            # deposit_amount = parseInt $('.deposit_amount').val()*100
+            deposit_amount = parseInt $('.deposit_amount').val()
             calculated_amount = deposit_amount*1.02+20
+            note = prompt 'notes?' 
+            new_id = 
+                Docs.insert 
+                    model:'deposit'
+                    amount:deposit_amount
+                    note:note
+            
+            # is_number = typeof(Meteor.user().points) is 'number'
+            is_number = isNaN(Meteor.user().points)
+            console.log typeof(Meteor.user().points)
+            unless is_number
+                Meteor.users.update Meteor.userId(),
+                    $inc:
+                        points:deposit_amount
+            else                    
+                Meteor.users.update Meteor.userId(),
+                    $set: points: deposit_amount
+            $('.deposit_amount').val('')
 
         'click .initial_withdrawal': ->
             withdrawal_amount = parseInt $('.withdrawal_amount').val()

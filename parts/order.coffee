@@ -24,7 +24,11 @@ if Meteor.isClient
                     true
             else
                 true
-
+        can_complete: ->
+            order = Docs.findOne Router.current().params.doc_id
+            product_point_price < Meteor.user().points
+            
+            
         user_points_after_purchase: ->
             user_points = Meteor.user().points
             current_order = Docs.findOne Router.current().params.doc_id

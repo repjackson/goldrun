@@ -13,15 +13,6 @@ template(name='nav')
                 +i name='line-chart' cl='ui inline mini image'
         // a.icon.item.zoomer(href='/food' class="{{isActivePath '/food'}}" title='food')
         //     +i name='food' cl='ui avatar image'
-        // .ui.simple.dropdown.menu
-        //     a.icon.item.zoomer(href='/recipes' class="{{isActivePath regex='recipe'}}" title='recipes')
-        //         +i name='beer-recipe' cl='ui avatar image'
-        //     a.icon.item.zoomer(href='/ingredients' class="{{isActivePath regex='ingredient'}}" title='ingredients')
-        //         +i name='ingredients' cl='ui avatar image'
-        // a.icon.item.zoomer(href='/events' class="{{isActivePath '/events'}}" title='events')
-        //     +i name='calendar' cl='ui avatar image'
-        // a.icon.item.zoomer(href='/chat' class="{{isActivePath '/chat'}}" title='chat')
-        //     +i name='chat' cl='ui avatar image'
         a.item.zoomer(href='/products' class="{{isActivePath '/products'}}" title='shop')
             +i name='shop' cl='ui avatar image'
         a.item.zoomer(href='/posts' class="{{isActivePath '/posts'}}" title='posts')
@@ -30,10 +21,6 @@ template(name='nav')
             +i name='wrench' cl='ui avatar image'
         a.item.zoomer(href='/rentals' class="{{isActivePath '/rentals'}}" title='rentals')
             +i name='clock' cl='ui avatar image'
-        // a.item.zoomer(href='/groups' class="{{isActivePath '/groups'}}" title='groups')
-        //     +i name='group' cl='ui avatar image'
-        // a.item.zoomer(href='/rides' class="{{isActivePath '/rides'}}" title='rideshare')
-        //     +i name='car' cl='ui avatar image'
         a.item(href='/users' class="{{isActivePath '/users'}}" title='users')
            +i name='groups' cl='ui avatar image'
             

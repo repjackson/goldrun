@@ -4,10 +4,14 @@ template(name='home')
             .ui.stackable.four.column.grid 
                 .column
                     +latest_activity
-                // .column
-                //     +latest_posts
-                // .column
-                //     +groups_small
+                .column
+                    +latest_posts
+                .column
+                    +rental_widget
+                .column
+                    +product_widget
+                .column
+                    +services_widget
                 .column
                     +poll_widget
                 .column
@@ -18,12 +22,6 @@ template(name='home')
                     +food_widget
                 .column
                     +inbox_widget
-                .column
-                    +rental_widget
-                .column
-                    +product_widget
-                .column
-                    +services_widget
                 .column
                     +recent_users
         .sixteen.wide.column
@@ -100,7 +98,7 @@ template(name='product_widget')
     // .ui.segment
     a.ui.center.aligned.header.zoomer(href="/products")
         +i name='shop' cl='ui avatar image'
-        | products
+        | top products
     .ui.selection.animated.list.smallscroll
         each top_products
             a.item(href="/product/#{_id}/")

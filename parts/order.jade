@@ -110,9 +110,15 @@ template(name='order_edit')
             .five.wide.column
                 +textarea_edit key='notes' label='notes' direct=true
                 .ui.hidden.divider
-                a.ui.large.fluid.green.button.complete_order
-                    i.checkmark.large.icon   
-                    |complete
+                if can_complete
+                    a.ui.large.fluid.green.button.complete_order
+                        i.checkmark.large.icon   
+                        |complete
+                else 
+                    .ui.header not enough points
+                    a.ui.large.fluid.green.disabled.button
+                        i.checkmark.large.icon   
+                        |complete
                 .ui.hidden.divider
                 if can_delete
                     .ui.red.compact.button.delete_order

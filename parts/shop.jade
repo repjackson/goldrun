@@ -53,19 +53,19 @@ template(name='shop')
                 button.ui.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
                     //- small #{count}
             // .spacer
-                .ui.icon.input
-                    i.search.icon
-                    input.query(type='text' placeholder='search...')
-                |sort by
-                +set_sort_key key='views' label='views' icon='eye'
-                // +set_sort_key key='datetime_available' label='available' icon='clock'
-                +set_sort_key key='price' label='price' icon='money'
-                +set_sort_key key='_timestamp' label='added' icon='clock'
-                +set_sort_key key='comment_count' label='comment count' icon='chat'
-                +set_sort_direction
-                |&nbsp;
-                |&nbsp;
-                +limit_menu
+            .ui.icon.input
+                i.search.icon
+                input.query(type='text' placeholder='search...')
+            |sort by
+            +set_sort_key key='views' label='views' icon='eye'
+            // +set_sort_key key='datetime_available' label='available' icon='clock'
+            +set_sort_key key='price' label='price' icon='money'
+            +set_sort_key key='_timestamp' label='added' icon='clock'
+            +set_sort_key key='comment_count' label='comment count' icon='chat'
+            +set_sort_direction
+            |&nbsp;
+            |&nbsp;
+            +limit_menu
         .twelve.wide.column
             .sorting_row
                 if selected_tag_plural

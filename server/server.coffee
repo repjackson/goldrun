@@ -221,7 +221,7 @@ Meteor.publish 'results', (
 Meteor.publish 'facets', (
     query=''
     picked_tags=[]
-    picked_timestamp_tags=[]
+    # picked_timestamp_tags=[]
     limit=20
     sort_key='_timestamp'
     sort_direction=-1
@@ -229,6 +229,7 @@ Meteor.publish 'facets', (
     view_pickup
     view_open
     )->
+        
     # console.log 'dummy', dummy
     # console.log 'query', query
     console.log 'selected tags', picked_tags

@@ -28,7 +28,7 @@ template(name='creation_info')
 
 
 template(name='set_sort_direction')
-    .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
+    .ui.compact.icon.button.set_sort_direction(title='toggle sort direction')
         if sorting_up
             i.sort.amount.down.large.icon
         else
@@ -38,11 +38,11 @@ template(name='viewing')
     div
     if currentUser
         unless viewed_by
-            .ui.icon.basic.compact.button.mark_read
+            .ui.icon.compact.button.mark_read
                 i.eye.icon
         else 
             if is_dev
-                .ui.icon.basic.compact.button.mark_unread
+                .ui.icon.compact.button.mark_unread
                     i.cancel.icon
     .ui.inline.small.grey.header viewed by
     each read_ids
@@ -50,12 +50,12 @@ template(name='viewing')
 
 template(name='user_info')
     with user_doc
-        a.ui.image.basic.big.label.spaced(href="/user/#{username}")
+        a.ui.image.big.label.spaced(href="/user/#{username}")
             img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
             |#{username}
 
 template(name='session_boolean_toggle')
-    .ui.circular.compact.button.toggle_session_key(class=calculated_class)
+    .ui.compact.button.toggle_session_key(class=calculated_class)
         +i name=icon cl='ui avatar image'
         |#{label}
         //- if icon_view 
@@ -77,7 +77,7 @@ template(name='session_edit_value_button')
 
 
 template(name='set_sort_key')
-    .ui.small.compact.circular.button.set_key(class=sort_key_class)
+    .ui.small.compact.button.set_key(class=sort_key_class)
         if color
             .ui.label(class=color) #{label}
         else 
@@ -291,10 +291,10 @@ template(name='voting_full')
     // +ismall name='elections'
     // .ui.inline.header 
     //     |voting
-    .ui.large.icon.compact.circular.basic.button.upvote(title='upvote')
+    .ui.large.icon.compact.button.upvote(title='upvote')
         i.thumbs.up.icon(class=upvote_class)
         //- |like
-    .ui.large.icon.compact.circular.basic.button.downvote(title='downvote')
+    .ui.large.icon.compact.button.downvote(title='downvote')
         i.thumbs.down.icon(class=downvote_class)
         //- |dislike
     if points
@@ -322,12 +322,12 @@ template(name='view_button')
 
 
 template(name='remove_button')
-    .ui.icon.circular.basic.button.remove_doc(title='delete')
+    .ui.icon.button.remove_doc(title='delete')
         i.remove.red.icon
         //- |Delete
 
 template(name='remove_icon')
-    i.remove.circular.icon.remove_doc(title='delete')
+    i.remove.icon.remove_doc(title='delete')
     //- |Delete
 
 template(name='add_button')
@@ -395,7 +395,7 @@ template(name='email_validation_check')
         
 
 template(name='print_this')
-    .ui.icon.circular.basic.button.print_this
+    .ui.icon.button.print_this
         i.large.code.icon
 
 

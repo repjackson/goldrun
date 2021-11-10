@@ -1,5 +1,5 @@
 template(name='user_credit')
-    .ui.stackable.one.column.grid
+    .ui.stackable.two.column.grid
         if is_current_user
             // .column
             //     .ui.header 
@@ -19,9 +19,14 @@ template(name='user_credit')
             //                     i.ban.icon
             //                     |cancel
             .column
+                .ui.header stats
+                .ui.large.list 
+                    .item #{product_purchases}
+                    .item #{rental_total} rental total
+            .column
                 .ui.header 
                     |deposits
-                |includes 2% credit card processing fee
+                // |includes 2% credit card processing fee
                 .ui.action.fluid.input
                     input.deposit_amount(type='number' min='1' placeholder='deposit')
                     .ui.icon.button.add_credits   

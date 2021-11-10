@@ -6,22 +6,22 @@ template(name='shop')
                 |#{counter}
                 |results
             if currentUser
-                a.ui.icon.compact.circular.button.add_product(title='add product')
+                a.ui.icon.compact.button.add_product(title='add product')
                     i.plus.large.icon
             // .div
-            .ui.circular.basic.button
+            .ui.button
                 i.money.icon
                 |affordable
-            .ui.circular.basic.button
+            .ui.button
                 i.checkmark.icon
                 |available
-            .ui.circular.basic.button
+            .ui.button
                 i.user.icon
                 |by me
-            .ui.circular.basic.button
+            .ui.button
                 i.large.shopping.cart.icon
                 |for sale
-            .ui.circular.basic.button
+            .ui.button
                 i.large.clock.icon
                 |rentals
             .ui.button
@@ -35,24 +35,24 @@ template(name='shop')
                 i.user.icon 
                 |authors
             each picked_authors
-                button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
+                button.ui.blue.compact.small.button.unselect_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
             each unpicked_authors
-                button.ui.circular.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+                button.ui.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
                     //- small #{count}
             // .spacer
         .twelve.wide.column
             .sorting_row
                 if selected_tag_plural
-                    .ui.icon.circular.black.compact.button.clear_picked_tags
+                    .ui.icon.black.compact.button.clear_picked_tags
                         i.remove.icon
                 each picked_tags
-                    button.ui.blue.compact.circular.large.button.unselect_tag(tabindex='0')
+                    button.ui.blue.compact.large.button.unselect_tag(tabindex='0')
                         //- i.remove.icon
                         | #{this}
                 each tags
-                    button.ui.circular.compact.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+                    button.ui.compact.button.tag_result(tabindex="0" class=result_class title=count) #{title}
                         //- small #{count}
                 .ui.icon.input
                     i.search.icon
@@ -78,7 +78,7 @@ template(name='shop')
                         each requests
                             .ui.header #{when}
             else 
-                .ui.basic.center.aligned.segment
+                .ui.center.aligned.segment
                     i.massive.grey.yin.yang.loading.icon
 
 
@@ -92,7 +92,7 @@ template(name='product_card')
             .ui.inline.header #{point_price}p
             
             each tags
-                a.ui.basic.small.link.label.flat_pick_tag.spaced #{this}
+                a.ui.small.link.label.flat_pick_tag.spaced #{this}
         .content
             .right.floated.meta
                 | #{when}
@@ -119,16 +119,16 @@ template(name='product_card')
                 if pickup
                     +i name='doormat' cl='ui avatar image'
             if can_edit
-                a.ui.large.icon.basic.button(href="/product/#{_id}/edit")
+                a.ui.large.icon.button(href="/product/#{_id}/edit")
                     i.pencil.icon
             if currentUser 
-                i.circular.thumbs.up.link.grey.icon.upvote
-                i.circular.thumbs.down.link.grey.icon.downvote
-        //- .ui.bottom.attached.basic.buttons        
-        //-     .ui.green.basic.button.quickbuy
+                i.thumbs.up.link.grey.icon.upvote
+                i.thumbs.down.link.grey.icon.downvote
+        //- .ui.bottom.attached.buttons        
+        //-     .ui.green.button.quickbuy
         //-         i.lightning.icon
         //-         |buy
-        //-     a.ui.basic.button(href="/product/#{_id}/")
+        //-     a.ui.button(href="/product/#{_id}/")
         //-         |view
         //-         i.right.chevron.icon
 

@@ -49,6 +49,8 @@ if Meteor.isClient
 
     Template.product_view.helpers
         sold_out: -> @inventory < 1
+    Template.product_card.events
+        'click .flat_pick_tag': -> picked_tags.push @valueOf()
     Template.product_view.events
         # 'click .add_to_cart': ->
         #     console.log @
@@ -89,6 +91,10 @@ if Meteor.isClient
         #           hideMethod   : 'fade',
         #           hideDuration : 250
         #         })
+
+        'click .goto_tag': ->
+            picked_tags.push @valueOf()
+            Router.go '/'
 
         'click .buy_product': (e,t)->
             product = Docs.findOne Router.current().params.doc_id

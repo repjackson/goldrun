@@ -8,7 +8,7 @@ if Meteor.isClient
 
     Template.order_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'product_from_order_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'product_from_order_id', Router.current().params.doc_id, ->
         # @autorun => Meteor.subscribe 'model_docs', 'dish'
 
     Template.order_edit.helpers
@@ -26,7 +26,10 @@ if Meteor.isClient
                 true
         can_complete: ->
             order = Docs.findOne Router.current().params.doc_id
-            order.product_point_price < Meteor.user().points
+            if order.order_type is 'product'
+                order.product_point_price < Meteor.user().points
+            else if order.order_type is 'rental'
+                order.reservation_type
             
             
         user_points_after_purchase: ->

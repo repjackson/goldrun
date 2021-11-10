@@ -2,9 +2,9 @@ template(name='shop')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.inline.header 
-                +i name='shop'
+                // +i name='shop'
                 |#{counter}
-                |results
+                // |results
             if currentUser
                 a.ui.icon.compact.button.add_product(title='add product')
                     i.plus.large.icon
@@ -39,6 +39,17 @@ template(name='shop')
                     //- i.remove.icon
                     | #{this}
             each unpicked_authors
+                button.ui.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+                    //- small #{count}
+            div
+            .ui.inline.header
+                i.marker.icon 
+                |location tags
+            each picked_location_tags
+                button.ui.blue.compact.small.button.unselect_tag(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each unpicked_location_tags
                 button.ui.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
                     //- small #{count}
             // .spacer

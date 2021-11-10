@@ -9,11 +9,11 @@ template(name='product_view')
                     //     |#{title}
                     //     small product
                     .ui.big.header #{title}
-                    a.ui.big.compact.circular.button.fly_left(href="/" title='shop')
+                    a.ui.big.compact.button.fly_left(href="/" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
                     if can_edit
-                        a.ui.icon.large.basic.circular.button(href="/product/#{_id}/edit")
+                        a.ui.icon.large.basic.button(href="/product/#{_id}/edit")
                             i.pencil.large.blue.icon
                     +bookmark_button
                     .ui.small.inline.header

@@ -459,7 +459,7 @@ if Meteor.isClient
             Router.go "/m/#{@model}/#{new_id}/edit"
 
     Template.set_sort_key.helpers
-        sort_key_class: -> if Session.equals('sort_key',@key) then 'blue' else 'basic'
+        sort_key_class: -> if Session.equals('sort_key',@key) then 'blue' else ''
     Template.set_sort_key.events
         'click .set_key': (e,t)->
             console.log @

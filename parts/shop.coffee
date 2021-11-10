@@ -164,9 +164,9 @@ if Meteor.isServer
         # console.log picked_tags
         self = @
         match = {}
-        match.model = $in:['product','service','rental']
+        match.model = $in:['product','service','rental','post']
         
-        match.app = 'goldrun'
+        # match.app = 'goldrun'
         # if view_open
         #     match.open = $ne:false
         # if view_delivery
@@ -221,9 +221,9 @@ if Meteor.isServer
 
         self = @
         match = {}
-        match.model = $in:['product','service','rental']
+        match.model = $in:['product','service','rental','post']
         # match.model = 'product'
-        match.app = 'goldrun'
+        # match.app = 'goldrun'
         if view_open
             match.open = $ne:false
 

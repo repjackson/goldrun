@@ -24,7 +24,7 @@ template(name='product_edit')
                     //     // +key_value_edit key='model' value='food' icon='food' label='make food' direct=true
                     //     +text_edit key='app' label='app' icon='code' direct=true
                     +html_edit key='description' direct=true
-                .nine.wide.column.scrolling
+                .six.wide.column.scrolling
                     .ui.segment
                         +boolean_edit key='is_service' label='is service' direct=true icon='wrench'
                         if is_service
@@ -39,23 +39,28 @@ template(name='product_edit')
                             div
                             +boolean_edit key='has_daily_rate' label='daily rate' icon='sun' direct=true
                             if has_daily_rate
+                                div
                                 +float_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
                             div
                             +boolean_edit key='weekly_rate' label='weekly rate' icon='sun' direct=true
                             if weekly_rate
+                                div
                                 +float_edit key='weekly_credit' label='weekly rate' icon='exchange' direct=true
                             div
                             +boolean_edit key='monthly_rate' label='monthly rate' icon='sun' direct=true
                             if has_monthly_rate
+                                div
                                 +float_edit key='monthly_rate' label='monthly rate' icon='exchange' direct=true
                             div
                             +boolean_edit key='auction' label='auction' icon='podium-with-audience--v2' direct=true
                             if auction
+                                div
                                 +number_edit key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
                                 +float_edit key='minimum_bid' label='hour minimum bid ($)' icon='refund' direct=true
                             div
                             +boolean_edit key='security_deposit_required' label='security deposit required' icon='lock' direct=true
                             if security_deposit_required
+                                div
                                 +number_edit key='security_deposit_amount' label='security deposit amount (c)' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
                                 div
                                 +boolean_edit key='friends_exempt' label='friends exempt' icon='users' direct=true
@@ -76,7 +81,8 @@ template(name='product_edit')
                             // +key_value_edit key='source' label='nextdoor' value='nextdoor' icon='home' direct=true
                             // +key_value_edit key='source' label='goldrun' value='goldrun' icon='apartment' direct=true
                             // +text_edit key='source' label='source' icon='globe' direct=true
-                    
+                .three.wide.column.scrolling
+                    +boolean_edit key='published' label='published'
 
 template(name='product_view')
     with current_doc

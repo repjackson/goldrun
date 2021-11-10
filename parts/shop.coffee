@@ -121,6 +121,7 @@ if Meteor.isClient
             Docs.find
                 model:'request'
                 title:Session.get('current_query')
+            
         counter: -> Counts.get('product_counter')
         tags: -> Results.find({model:'tag'})
         authors: -> Results.find({model:'author'})

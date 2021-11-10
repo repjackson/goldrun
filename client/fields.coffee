@@ -11,10 +11,7 @@ Template.youtube_view.onRendered ->
 
 Template.youtube_edit.events
     'blur .youtube_id': (e,t)->
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         val = t.$('.youtube_id').val()
         doc = Docs.findOne parent._id
         if doc
@@ -24,10 +21,7 @@ Template.youtube_edit.events
 
 Template.datetime_edit.events
     'blur .edit_datetime': (e,t)->
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         val = t.$('.edit_datetime').val()
         doc = Docs.findOne parent._id
         if doc
@@ -39,10 +33,7 @@ Template.datetime_edit.events
 Template.color_edit.events
     'blur .edit_color': (e,t)->
         val = t.$('.edit_color').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
@@ -98,10 +89,7 @@ Template.html_edit.events
     'blur .testsun': (e,t)->
         html = t.editor.getContents(onlyContents: Boolean);
 
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
@@ -115,10 +103,7 @@ Template.html_edit.helpers
 Template.color_icon_edit.events
     'blur .color_icon': (e,t)->
         val = t.$('.color_icon').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
@@ -143,10 +128,7 @@ Template.clear_value.events
 Template.link_edit.events
     'blur .edit_url': (e,t)->
         val = t.$('.edit_url').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
@@ -156,10 +138,7 @@ Template.link_edit.events
 Template.icon_edit.events
     'blur .icon_val': (e,t)->
         val = t.$('.icon_val').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
@@ -168,10 +147,7 @@ Template.icon_edit.events
 Template.image_link_edit.events
     'blur .image_link_val': (e,t)->
         val = t.$('.image_link_val').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
@@ -181,10 +157,7 @@ Template.image_link_edit.events
 Template.image_edit.events
     "change input[name='upload_image']": (e) ->
         files = e.currentTarget.files
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         Cloudinary.upload files[0],
             # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload
             # model:"private" # optional: makes the image accessible only via a signed url. The signed url is available publicly for 1 hour.
@@ -211,19 +184,13 @@ Template.image_edit.events
 
     'blur .cloudinary_id': (e,t)->
         cloudinary_id = t.$('.cloudinary_id').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         Docs.update parent._id,
             $set:"#{@key}":cloudinary_id
 
 
     'click #remove_photo': ->
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
 
         if confirm 'Remove Photo?'
             # Docs.update parent._id,
@@ -304,10 +271,7 @@ Template.textarea_edit.events
 
     'blur .edit_textarea': (e,t)->
         textarea_val = t.$('.edit_textarea').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         if doc
@@ -321,10 +285,7 @@ Template.raw_edit.events
 
     'blur .edit_textarea': (e,t)->
         textarea_val = t.$('.edit_textarea').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         if doc
@@ -336,10 +297,7 @@ Template.raw_edit.events
 Template.text_edit.events
     'blur .edit_text': (e,t)->
         val = t.$('.edit_text').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
@@ -355,10 +313,7 @@ Template.text_edit.events
 Template.location_edit.events
     'blur .edit_text': (e,t)->
         val = t.$('.edit_text').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
@@ -382,10 +337,7 @@ Template.textarea_view.onRendered ->
 Template.number_edit.events
     'blur .edit_number': (e,t)->
         # console.log @
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         val = parseInt t.$('.edit_number').val()
         doc = Docs.findOne parent._id
         if doc
@@ -395,10 +347,7 @@ Template.number_edit.events
 
 Template.float_edit.events
     'blur .edit_float': (e,t)->
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         val = parseFloat t.$('.edit_float').val()
         doc = Docs.findOne parent._id
         if doc
@@ -409,10 +358,7 @@ Template.float_edit.events
 Template.slug_edit.events
     'blur .edit_text': (e,t)->
         val = t.$('.edit_text').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         if doc
@@ -423,10 +369,7 @@ Template.slug_edit.events
     'click .slugify_title': (e,t)->
         page_doc = Docs.findOne Router.current().params.doc_id
         # val = t.$('.edit_text').val()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         Meteor.call 'slugify', page_doc._id, (err,res)=>
             Docs.update page_doc._id,
@@ -435,19 +378,13 @@ Template.slug_edit.events
 
 Template.boolean_edit.helpers
     boolean_toggle_class: ->
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         if parent["#{@key}"] then 'active' else 'basic'
 
 
 Template.boolean_edit.events
     'click .toggle_boolean': (e,t)->
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         # $(e.currentTarget).closest('.button').transition('pulse', 100)
 
         doc = Docs.findOne parent._id
@@ -554,10 +491,7 @@ Template.multi_doc_edit.helpers
     choice_class: ->
         selection = @
         current = Template.currentData()
-        if @direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         ref_field = Template.parentData(1)
         target = Template.parentData(2)
 

@@ -141,7 +141,7 @@ if Meteor.isClient
         product_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {
-                model: $in:['product','service','rental']
+                model: $in:['product','service','rental','post']
                 downvoter_ids:$nin:[Meteor.userId()]
             },
                 sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))

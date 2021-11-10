@@ -89,7 +89,7 @@ template(name='shop')
                         each requests
                             .ui.header #{when}
             else 
-                .ui.center.aligned.segment
+                .ui.center.aligned.basic.segment
                     i.massive.grey.yin.yang.loading.icon
 
 
@@ -104,21 +104,19 @@ template(name='product_card')
             
             each tags
                 a.ui.small.link.label.flat_pick_tag.spaced #{this}
-        .content
             .right.floated.meta
                 | #{when}
             a(href="/user/#{_author_username}")
                 img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
                 |#{_author_username}
-        .content    
             if is_rentable
                 i.clock.large.icon
             if is_service
                 i.wrench.large.icon
             if is_forsale
                 i.cart.icon
-                .ui.label #{inventory} units available
-                .ui.label #{order_total} total orders
+                // .ui.label #{inventory} units available
+                // .ui.label #{order_total} total orders
                 if delivery
                     +i name='deliver-product' cl='ui avatar image'
                     if delivery_fee

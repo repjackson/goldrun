@@ -52,6 +52,12 @@ if Meteor.isClient
                 
 
     Template.shop.events
+        'click .request_product': ->
+            title = prompt "different title than #{Session.get('current_query')}"
+            new_id = 
+                Docs.insert 
+                    model:'request'
+                    title:Session.get('current_query')
         'click .add_product': ->
             new_id =
                 Docs.insert
@@ -111,6 +117,10 @@ if Meteor.isClient
         # , 1000)
 
     Template.shop.helpers
+        query_requests: ->
+            Docs.find
+                model:'request'
+                title:Session.get('current_query')
         counter: -> Counts.get('product_counter')
         tags: -> Results.find({model:'tag'})
         authors: -> Results.find({model:'author'})

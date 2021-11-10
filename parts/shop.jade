@@ -13,8 +13,14 @@ template(name='shop')
                 i.money.icon
                 |affordable
             .ui.circular.basic.button
+                i.checkmark.icon
+                |available
+            .ui.circular.basic.button
                 i.user.icon
                 |by me
+            .ui.circular.basic.button
+                i.large.shopping.cart.icon
+                |for sale
             .ui.circular.basic.button
                 i.large.clock.icon
                 |rentals
@@ -65,6 +71,11 @@ template(name='shop')
                 .ui.stackable.three.centered.cards.scrolling
                     each product_docs
                         +product_card
+                    unless product_docs.count
+                        .ui.button.request_product
+                            |request
+                        each requests
+                            .ui.header #{when}
             else 
                 .ui.basic.center.aligned.segment
                     i.massive.grey.yin.yang.loading.icon

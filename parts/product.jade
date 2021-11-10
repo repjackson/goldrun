@@ -3,7 +3,7 @@ template(name='product_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .five.wide.column.scrolling
+                .six.wide.column.scrolling
                     a.ui.big.icon.green.circular.button(href="/#{model}/#{_id}/")
                         i.checkmark.big.icon
                     .ui.inline.header 
@@ -24,7 +24,7 @@ template(name='product_edit')
                     //     // +key_value_edit key='model' value='food' icon='food' label='make food' direct=true
                     //     +text_edit key='app' label='app' icon='code' direct=true
                     +html_edit key='description' direct=true
-                .ten.wide.column.scrolling
+                .nine.wide.column.scrolling
                     .ui.segment
                         +boolean_edit key='is_service' label='is service' direct=true icon='wrench'
                         if is_service
@@ -105,13 +105,12 @@ template(name='product_view')
                     +voting_full     
                 .seven.wide.column.scrolling
                     img.ui.centered.rounded.shadowed.image(src="{{c.url image_id width=1000 height=400 crop='fit'}}")
-                    +array_view key='location_tags' label='location tags' icon='marker' direct=true
-                    +array_view key='tags' label='tags' icon='tags' direct=true
                     i.large.tag.icon        
                     each tags 
                         a.ui.compact.button.goto_tag
                             |#{this}
                     +text_view key='location' icon='marker' label='location description' direct=true
+                    +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     // +number_view key='dollar_price' icon='money' label='dollar price' direct=true
                     +html_view key='description' direct=true
                     +comments
@@ -146,20 +145,21 @@ template(name='product_view')
                             |sold out
                     .ui.hidden.divider
                     +array_view key='tags' icon='tags' direct=true
-                    div
-                    .ui.inline.header
-                        +i name='delivery'
-                        |delivery
-                    div
-                    if delivery_instructions
-                        .ui.small.inline.header
-                            |delivery instructions:
-                        |#{delivery_instructions}      
-                    +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
-                    +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
-                    +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
-                    +product_orders
-                    +related_products
+                    if is_forsale
+                        div
+                        .ui.inline.header
+                            +i name='delivery'
+                            |delivery
+                        div
+                        if delivery_instructions
+                            .ui.small.inline.header
+                                |delivery instructions:
+                            |#{delivery_instructions}      
+                        +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
+                        +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
+                        +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
+                        +product_orders
+                        +related_products
                     
         
         

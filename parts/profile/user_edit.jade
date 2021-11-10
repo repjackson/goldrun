@@ -25,8 +25,7 @@ template(name='user_edit')
                     .ui.form
                         +text_edit key='first_name' label='first name' direct=true
                         +text_edit key='last_name' label='last name' direct=true
-                        +text_edit key='building_letter' label='building letter' direct=true
-                        +number_edit key='unit_number' label='unit number' direct=true
+                        +array_edit key='location_tags' label='location tags' direct=true
                         div
                         .ui.header 
                             i.envelope.outline.icon
@@ -34,9 +33,12 @@ template(name='user_edit')
                         +emails_edit
                         +phone_edit key='phone' label='phone' icon='phone' direct=true
                 .four.wide.column
-                    +array_edit key='allergens' label='allergens' direct=true
-                    +array_edit key='food_dislikes' label='food dislikes' direct=true
-                    
+                    +array_edit key='allergens' label='allergens' icon='food' direct=true
+                    .ui.header 
+                        i.thumbs.down.icon
+                        |disliked posts
+                    each disliked_posts
+                        .ui.item #{title}
 template(name='user_settings')
     .ui.segment
         .ui.header 

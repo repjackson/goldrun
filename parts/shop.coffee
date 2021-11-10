@@ -28,6 +28,29 @@ if Meteor.isClient
             Session.get('view_pickup')
             Session.get('view_open')
 
+    
+    Template.product_card.events
+        'click .downvote':->
+            Meteor.users.update Meteor.userId(),
+                $addToSet:downvoted_ids:@_id
+            Docs.update @_id, 
+                $addToSet:downvoter_ids:Meteor.userId()
+            $('body').toast({
+                title: "#{@title} downvoted and hidden"
+                # message: 'Please see desk staff for key.'
+                class : 'success'
+                # position:'top center'
+                # className:
+                #     toast: 'ui massive message'
+                displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+                
+
     Template.shop.events
         'click .add_product': ->
             new_id =
@@ -108,6 +131,7 @@ if Meteor.isClient
             # if picked_tags.array().length > 0
             Docs.find {
                 model: $in:['product','service','rental']
+                downvoter_ids:$nin:[Meteor.userId()]
             },
                 sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
                 limit:Session.get('limit')
@@ -138,6 +162,9 @@ if Meteor.isServer
         #     match.delivery = $ne:false
         # if view_pickup
         #     match.pickup = $ne:false
+        if Meteor.userId()
+            if Meteor.user().downvoted_ids
+                match._id = $nin:Meteor.user().downvoted_ids
         if query
             match.title = {$regex:"#{query}", $options: 'i'}
         

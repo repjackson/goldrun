@@ -68,3 +68,56 @@ template(name='shop')
             else 
                 .ui.basic.center.aligned.segment
                     i.massive.grey.yin.yang.loading.icon
+
+
+template(name='product_card')
+    .ui.card(class=product_card_class)
+        a.image.fly_right(href="/product/#{_id}/") 
+            img.ui.zoomer.pointer.goto_product.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+        .content
+            a.ui.inline.header.zoomer.fly_right(href="/product/#{_id}/") 
+                | #{title}
+            .ui.inline.header #{point_price}p
+            
+            each tags
+                a.ui.basic.small.link.label.flat_pick_tag.spaced #{this}
+        .content
+            .right.floated.meta
+                | #{when}
+            a(href="/user/#{_author_username}")
+                img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
+                |#{_author_username}
+        .content    
+            if is_rentable
+                i.clock.large.icon
+            if is_service
+                i.wrench.large.icon
+            if is_forsale
+                i.cart.icon
+                .ui.label #{inventory} units available
+                .ui.label #{order_total} total orders
+                if delivery
+                    +i name='deliver-product' cl='ui avatar image'
+                    if delivery_fee
+                        .ui.inline.header(title='delivery fee') $#{delivery_fee}
+                if open
+                    +i name='checkmark' cl='ui avatar image'
+                else 
+                    i.ban.icon(title='not open to new orders')
+                if pickup
+                    +i name='doormat' cl='ui avatar image'
+            if can_edit
+                a.ui.large.icon.basic.button(href="/product/#{_id}/edit")
+                    i.pencil.icon
+            if currentUser 
+                i.circular.thumbs.up.link.grey.icon.upvote
+                i.circular.thumbs.down.link.grey.icon.downvote
+        //- .ui.bottom.attached.basic.buttons        
+        //-     .ui.green.basic.button.quickbuy
+        //-         i.lightning.icon
+        //-         |buy
+        //-     a.ui.basic.button(href="/product/#{_id}/")
+        //-         |view
+        //-         i.right.chevron.icon
+
+

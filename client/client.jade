@@ -38,14 +38,14 @@ template(name='layout')
         +yield
 
 template(name='nav')
-    #topnav.topnav.ui.attached.borderless.large.menu.hscroll.clear
+    #topnav.topnav.ui.attached.borderless.menu.hscroll.clear
         if is_loading
             .icon.item
                 i.big.spinning.grey.yin.yang.icon.cancel
         else 
             a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" title='food')
                 +i name='apartment' cl='ui avatar image'
-                |gold run market
+                strong gold run
             // a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
             //     +i name='search' cl='ui inline mini image'
             // a.icon.disabled.item.zoomer(href='/stats' class="{{isActivePath '/stats'}}" title='stats')

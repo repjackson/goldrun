@@ -1,0 +1,104 @@
+template(name='product_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+            .row
+                .five.wide.column
+                    // .ui.header 
+                    //     small viewing
+                    //     |#{title}
+                    //     small product
+                    .ui.big.header #{title}
+                    a.ui.big.compact.circular.button.fly_left(href="/" title='shop')
+                        i.left.chevron.icon
+                        +i name='shop' cl='ui inline image'
+                    if can_edit
+                        a.ui.icon.large.basic.circular.button(href="/product/#{_id}/edit")
+                            i.pencil.large.blue.icon
+                    +bookmark_button
+                    .ui.small.inline.header
+                        |added by #{_author_username}
+                        |#{when}
+                    with author
+                        +user_card
+                    .ui.hidden.divider
+                    +voting_full     
+                .seven.wide.column.scrolling
+                    img.ui.centered.rounded.shadowed.image(src="{{c.url image_id width=1000 height=400 crop='fit'}}")
+                    i.large.tag.icon        
+                    each tags 
+                        a.ui.compact.button.goto_tag
+                            |#{this}
+                    +text_view key='location' icon='marker' label='location description' direct=true
+                    +array_view key='location_tags' label='location tags' icon='marker' direct=true
+                    +html_view key='description' direct=true
+                    +comments
+                .four.wide.column.scrolling
+                    +number_view key='point_price' icon='coins' label='point price' direct=true
+                    .ui.header inventory #{inventory} units available
+                    .ui.header inventory #{order_total} total orders
+                    if is_rentable
+                        .ui.fluid.teal.large.button.rent_product
+                            i.large.clock.icon
+                            |rent for
+                            if hourly_rate
+                                strong #{hourly_rate}p/hr
+                            if daily_rate    
+                                strong #{daily_rate}p/day
+                        .ui.horizontal.divider or
+                    div
+                    if link 
+                        +link_view key='link' label='link' direct=true
+                    unless sold_out
+                        if point_price
+                            .ui.big.green.fluid.button.buy_product.fly_right 
+                                i.cart.large.icon
+                                |buy for #{point_price}p
+                        // .ui.horizontal.divider or
+                        // if dollar_price
+                        //     .ui.big.green.fluid.button.buy_product 
+                        //         i.cart.large.icon
+                        //         |buy for $#{dollar_price}
+                    else 
+                        .ui.big.disabled.fluid.basic.button
+                            |sold out
+                    .ui.hidden.divider
+                    if is_forsale
+                        div
+                        .ui.inline.header
+                            +i name='delivery'
+                            |delivery
+                        div
+                        if delivery_instructions
+                            .ui.small.inline.header
+                                |delivery instructions:
+                            |#{delivery_instructions}      
+                        +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
+                        +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
+                        +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
+                        +product_orders
+                        +related_products
+                    
+        
+        
+template(name='related_products')
+    .ui.header 
+        +i name='code-fork'
+        |#{related_products.count}
+        |related products
+    .ui.selection.animated.link.list
+        each related_product_docs
+            a.item(href="/product/#{_id}")
+                | #{title}
+                |#{price}p
+    
+template(name='product_orders')
+    .ui.header 
+        +i name='order-history'
+        |#{product_order_docs.count}
+        |orders
+    .ui.selection.animated.link.list
+        each product_order_docs
+            a.item(href="/order/#{_id}")
+                | #{when} #{_author_username}
+    

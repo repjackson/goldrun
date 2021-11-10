@@ -92,6 +92,12 @@ template(name='order_edit')
                     +image_view key='image' direct=true
                     +html_view key='description' direct=true
             .five.wide.column
+                .ui.big.label 
+                    #{order_type}: order type
+                if key_value_is 'order_type' 'rental'
+                    .ui.header
+                        i.big.clock.icon
+                        |rental
                 .ui.header product point price: #{product_point_price} points
                 // .ui.header product dollar price: $#{product_dollar_price}
                 .ui.header 
@@ -131,6 +137,8 @@ template(name='order_edit')
                     .ui.red.disabled.button(title='existing reservations')
                         i.remove.icon   
                         | can't cancel  
+                if in_dev 
+                    +print_this
 
 
 

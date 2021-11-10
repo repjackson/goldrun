@@ -101,12 +101,27 @@ if Meteor.isClient
             new_order_id = 
                 Docs.insert 
                     model:'order'
+                    order_type:'product'
                     product_id:product._id
                     product_title:product.title
                     product_price:product.dollar_price
                     product_image_id:product.image_id
                     product_point_price:product.point_price
                     product_dollar_price:product.dollar_price
+            Router.go "/order/#{new_order_id}/checkout"
+            
+        'click .rent_product': (e,t)->
+            product = Docs.findOne Router.current().params.doc_id
+            new_order_id = 
+                Docs.insert 
+                    model:'order'
+                    order_type:'rental'
+                    product_id:product._id
+                    product_title:product.title
+                    product_image_id:product.image_id
+                    product_daily_rate:product.daily_rate
+                    product_hourly_rate:product.hourly_rate
+                    
             Router.go "/order/#{new_order_id}/checkout"
             
             

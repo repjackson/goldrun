@@ -30,16 +30,7 @@ template(name='shop')
             // .ui.left.icon.search.small.input
             //     i.search.icon.refresh_tags
             //     input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
-            if selected_tag_plural
-                .ui.icon.circular.black.compact.button.clear_picked_tags
-                    i.remove.icon
-            each picked_tags
-                button.ui.blue.compact.circular.large.button.unselect_tag(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
-            each tags
-                button.ui.circular.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
-                    //- small #{count}
+            div
             .ui.inline.header
                 i.user.icon 
                 |authors
@@ -53,6 +44,16 @@ template(name='shop')
             // .spacer
         .twelve.wide.column
             .sorting_row
+                if selected_tag_plural
+                    .ui.icon.circular.black.compact.button.clear_picked_tags
+                        i.remove.icon
+                each picked_tags
+                    button.ui.blue.compact.circular.large.button.unselect_tag(tabindex='0')
+                        //- i.remove.icon
+                        | #{this}
+                each tags
+                    button.ui.circular.compact.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+                        //- small #{count}
                 .ui.icon.input
                     i.search.icon
                     input.query(type='text' placeholder='search...')

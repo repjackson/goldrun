@@ -131,6 +131,8 @@ template(name='order_edit')
                 +textarea_edit key='notes' label='notes' direct=true
                 .ui.hidden.divider
                 if can_complete
+                    if key_value_is 'order_type' 'rental'
+                        .ui.header res type: #{reservation_type}
                     a.ui.large.fluid.green.button.complete_order
                         i.checkmark.large.icon   
                         |complete order

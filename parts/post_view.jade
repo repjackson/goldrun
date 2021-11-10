@@ -34,9 +34,10 @@ template(name='product_view')
                     +html_view key='description' direct=true
                     +comments
                 .four.wide.column.scrolling
-                    +number_view key='point_price' icon='coins' label='point price' direct=true
-                    .ui.header inventory #{inventory} units available
-                    .ui.header inventory #{order_total} total orders
+                    if is_forsale
+                        +number_view key='point_price' icon='coins' label='point price' direct=true
+                        .ui.header inventory #{inventory} units available
+                        .ui.header inventory #{order_total} total orders
                     if is_rentable
                         .ui.fluid.teal.large.button.rent_product
                             i.large.clock.icon

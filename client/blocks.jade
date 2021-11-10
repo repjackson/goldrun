@@ -50,7 +50,7 @@ template(name='viewing')
 
 template(name='user_info')
     with user_doc
-        a.ui.image.basic.label(href="/user/#{username}")
+        a.ui.image.basic.big.label.spaced(href="/user/#{username}")
             img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
             |#{username}
 

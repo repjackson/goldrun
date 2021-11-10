@@ -3,7 +3,7 @@ template(name='product_view')
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             .row
-                .four.wide.column
+                .three.wide.column
                     // .ui.header 
                     //     small viewing
                     //     |#{title}
@@ -23,7 +23,7 @@ template(name='product_view')
                         +user_card
                     .ui.hidden.divider
                     +voting_full     
-                .twelve.wide.column.scrolling
+                .thirteen.wide.column.scrolling
                     img.ui.centered.rounded.shadowed.fluid.image(src="{{c.url image_id crop='fit'}}")
                     i.large.tag.icon        
                     each tags 

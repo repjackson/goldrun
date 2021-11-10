@@ -1,29 +1,29 @@
 if Meteor.isClient
     Template.shop.onCreated ->
         Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'product_sort_key', 'datetime_available'
-        Session.setDefault 'product_sort_label', 'available'
-        Session.setDefault 'product_limit', 20
+        Session.setDefault 'sort_key', 'datetime_available'
+        Session.setDefault 'sort_label', 'available'
+        Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
 
     Template.shop.onCreated ->
-        @autorun => @subscribe 'product_count', ->
-        @autorun => @subscribe 'product_facets',
-            Session.get('current_query')
+        @autorun => @subscribe 'count', ->
+        @autorun => @subscribe 'facets',
+            Session.get('query')
             picked_tags.array()
-            Session.get('product_limit')
-            Session.get('product_sort_key')
-            Session.get('product_sort_direction')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
 
-        @autorun => @subscribe 'product_results',
-            Session.get('current_query')
+        @autorun => @subscribe 'results',
+            Session.get('query')
             picked_tags.array()
-            Session.get('product_limit')
-            Session.get('product_sort_key')
-            Session.get('product_sort_direction')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')
@@ -53,11 +53,11 @@ if Meteor.isClient
 
     Template.shop.events
         'click .request_product': ->
-            title = prompt "different title than #{Session.get('current_query')}"
+            title = prompt "different title than #{Session.get('query')}"
             new_id = 
                 Docs.insert 
                     model:'request'
-                    title:Session.get('current_query')
+                    title:Session.get('query')
         'click .add_product': ->
             new_id =
                 Docs.insert
@@ -80,13 +80,13 @@ if Meteor.isClient
                 # Meteor.call 'search_reddit', picked_tags.array(), ->
 
         'click .clear_picked_tags': ->
-            Session.set('current_query',null)
+            Session.set('query',null)
             picked_tags.clear()
 
         'keyup .query': _.throttle((e,t)->
             query = $('.query').val()
-            Session.set('current_query', query)
-            # console.log Session.get('current_query')
+            Session.set('query', query)
+            # console.log Session.get('query')
             if e.which is 13
                 search = $('.query').val().trim().toLowerCase()
                 if search.length > 0
@@ -94,7 +94,7 @@ if Meteor.isClient
                     console.log 'search', search
                     # Meteor.call 'log_term', search, ->
                     $('.query').val('')
-                    Session.set('current_query', null)
+                    Session.set('query', null)
                     # # $('#search').val('').blur()
                     # # $( "p" ).blur();
                     # Meteor.setTimeout ->
@@ -120,7 +120,7 @@ if Meteor.isClient
         query_requests: ->
             Docs.find
                 model:'request'
-                title:Session.get('current_query')
+                title:Session.get('query')
             
         counter: -> Counts.get('product_counter')
         tags: -> Results.find({model:'tag'})
@@ -142,172 +142,11 @@ if Meteor.isClient
             # if picked_tags.array().length > 0
             Docs.find {
                 model: $in:['product','service','rental','post']
-                downvoter_ids:$nin:[Meteor.userId()]
+                # downvoter_ids:$nin:[Meteor.userId()]
             },
                 sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
                 limit:Session.get('limit')
 
         subs_ready: ->
             Template.instance().subscriptionsReady()
-
-if Meteor.isServer
-    Meteor.publish 'product_results', (
-        query
-        picked_tags
-        limit=20
-        sort_key='_timestamp'
-        sort_direction=-1
-        view_delivery
-        view_pickup
-        view_open
-        )->
-        # console.log picked_tags
-        self = @
-        match = {}
-        match.model = $in:['product','service','rental','post']
-        
-        # match.app = 'goldrun'
-        # if view_open
-        #     match.open = $ne:false
-        # if view_delivery
-        #     match.delivery = $ne:false
-        # if view_pickup
-        #     match.pickup = $ne:false
-        if Meteor.userId()
-            if Meteor.user().downvoted_ids
-                match._id = $nin:Meteor.user().downvoted_ids
-        if query
-            match.title = {$regex:"#{query}", $options: 'i'}
-        
-        if picked_tags.length > 0
-            match.tags = $all: picked_tags
-            # sort = 'price_per_serving'
-        # if view_images
-        #     match.is_image = $ne:false
-        # if view_videos
-        #     match.is_video = $ne:false
-
-        # match.tags = $all: picked_tags
-        # if filter then match.model = filter
-        # keys = _.keys(prematch)
-        # for key in keys
-        #     key_array = prematch["#{key}"]
-        #     if key_array and key_array.length > 0
-        #         match["#{key}"] = $all: key_array
-            # console.log 'current facet filter array', current_facet_filter_array
-
-        # console.log 'product match', match
-        # console.log 'sort key', sort_key
-        # console.log 'sort direction', sort_direction
-        Docs.find match,
-            sort:"#{sort_key}":sort_direction
-            # sort:_timestamp:-1
-            limit: limit
-
-    Meteor.publish 'product_facets', (
-        query
-        picked_tags
-        picked_timestamp_tags
-        doc_limit
-        doc_sort_key
-        doc_sort_direction
-        view_delivery
-        view_pickup
-        view_open
-        )->
-        # console.log 'dummy', dummy
-        # console.log 'query', query
-        console.log 'selected tags', picked_tags
-
-        self = @
-        match = {}
-        match.model = $in:['product','service','rental','post']
-        # match.model = 'product'
-        # match.app = 'goldrun'
-        if view_open
-            match.open = $ne:false
-
-        if view_delivery
-            match.delivery = $ne:false
-        if view_pickup
-            match.pickup = $ne:false
-        if picked_tags.length > 0 then match.tags = $all: picked_tags
-            # match.$regex:"#{current_query}", $options: 'i'}
-        if query
-            match.title = {$regex:"#{query}", $options: 'i'}
-        # if query and query.length > 1
-        # #     console.log 'searching query', query
-        # #     # match.tags = {$regex:"#{query}", $options: 'i'}
-        # #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
-        # #
-        #     Terms.find {
-        #         title: {$regex:"#{query}", $options: 'i'}
-        #     },
-        #         sort:
-        #             count: -1
-        #         limit: 20
-            # tag_cloud = Docs.aggregate [
-            #     { $match: match }
-            #     { $project: "tags": 1 }
-            #     { $unwind: "$tags" }
-            #     { $group: _id: "$tags", count: $sum: 1 }
-            #     { $match: _id: $nin: picked_tags }
-            #     { $match: _id: {$regex:"#{query}", $options: 'i'} }
-            #     { $sort: count: -1, _id: 1 }
-            #     { $limit: 42 }
-            #     { $project: _id: 0, name: '$_id', count: 1 }
-            #     ]
-
-        # else
-        # unless query and query.length > 2
-        # if picked_tags.length > 0 then match.tags = $all: picked_tags
-        # # match.tags = $all: picked_tags
-        # # console.log 'match for tags', match
-        # tag_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "tags": 1 }
-        #     { $unwind: "$tags" }
-        #     { $group: _id: "$tags", count: $sum: 1 }
-        #     { $match: _id: $nin: picked_tags }
-        #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $limit: 20 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ], {
-        #     allowDiskUse: true
-        # }
-        #
-        # tag_cloud.forEach (tag, i) =>
-        #     # console.log 'queried tag ', tag
-        #     # console.log 'key', key
-        #     self.added 'tags', Random.id(),
-        #         title: tag.name
-        #         count: tag.count
-        #         # category:key
-        #         # index: i
-
-
-        tag_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "tags": 1 }
-            { $unwind: "$tags" }
-            { $group: _id: "$tags", count: $sum: 1 }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
-            { $project: _id: 0, title: '$_id', count: 1 }
-        ], {
-            allowDiskUse: true
-        }
-
-        tag_cloud.forEach (tag, i) =>
-            # console.log 'tag result ', tag
-            self.added 'results', Random.id(),
-                title: tag.title
-                count: tag.count
-                model:'tag'
-                # category:key
-                # index: i
-
-
-        self.ready()
 

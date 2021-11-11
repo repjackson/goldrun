@@ -1,4 +1,4 @@
-template(name='shop')
+template(name='posts')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.inline.header 
@@ -6,7 +6,7 @@ template(name='shop')
                 |#{counter}
                 // |results
             if currentUser
-                a.ui.icon.compact.button.add_product(title='add product')
+                a.ui.icon.compact.button.add_post(title='add post')
                     i.plus.large.icon
             // .div
             // .ui.button
@@ -49,7 +49,7 @@ template(name='shop')
                 button.ui.blue.compact.small.button.unselect_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
-            each unpicked_location_tags
+            each ocation_tags
                 button.ui.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
                     //- small #{count}
             // .spacer
@@ -81,10 +81,10 @@ template(name='shop')
             .spacer 
             if subs_ready     
                 .ui.stackable.three.centered.cards.scrolling
-                    each product_docs
-                        +product_card
-                    unless product_docs.count
-                        .ui.button.request_product
+                    each post_docs
+                        +post_card
+                    unless post_docs.count
+                        .ui.button.request_post
                             |request
                         each requests
                             .ui.header #{when}
@@ -93,12 +93,12 @@ template(name='shop')
                     i.massive.grey.yin.yang.loading.icon
 
 
-template(name='product_card')
-    .ui.card(class=product_card_class)
-        a.image.fly_right(href="/product/#{_id}/") 
-            img.ui.zoomer.pointer.goto_product.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+template(name='post_card')
+    .ui.card(class=post_card_class)
+        a.image.fly_right(href="/post/#{_id}/") 
+            img.ui.zoomer.pointer.goto_post.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
-            a.ui.inline.header.zoomer.fly_right(href="/product/#{_id}/") 
+            a.ui.inline.header.zoomer.fly_right(href="/post/#{_id}/") 
                 | #{title}
             .ui.inline.header #{point_price}p
             
@@ -118,7 +118,7 @@ template(name='product_card')
                 // .ui.label #{inventory} units available
                 // .ui.label #{order_total} total orders
                 if delivery
-                    +i name='deliver-product' cl='ui avatar image'
+                    +i name='deliver-post' cl='ui avatar image'
                     if delivery_fee
                         .ui.inline.header(title='delivery fee') $#{delivery_fee}
                 if open
@@ -128,16 +128,20 @@ template(name='product_card')
                 if pickup
                     +i name='doormat' cl='ui avatar image'
             if can_edit
-                a.ui.large.icon.button(href="/product/#{_id}/edit")
+                a.ui.large.icon.button(href="/post/#{_id}/edit")
                     i.pencil.icon
             if currentUser 
                 i.thumbs.up.link.grey.icon.upvote
                 i.thumbs.down.link.grey.icon.downvote
+            if location_tags
+                i.marker.icon
+                each location_tags  
+                    .ui.label #{this}
         //- .ui.bottom.attached.buttons        
         //-     .ui.green.button.quickbuy
         //-         i.lightning.icon
         //-         |buy
-        //-     a.ui.button(href="/product/#{_id}/")
+        //-     a.ui.button(href="/post/#{_id}/")
         //-         |view
         //-         i.right.chevron.icon
 

@@ -1,4 +1,4 @@
-template(name='product_view')
+template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
@@ -7,13 +7,13 @@ template(name='product_view')
                     // .ui.header 
                     //     small viewing
                     //     |#{title}
-                    //     small product
+                    //     small post
                     .ui.big.header #{title}
                     a.ui.big.compact.button.fly_left(href="/" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
                     if can_edit
-                        a.ui.icon.large.basic.button(href="/product/#{_id}/edit")
+                        a.ui.icon.large.basic.button(href="/post/#{_id}/edit")
                             i.pencil.large.blue.icon
                     +bookmark_button
                     .ui.small.inline.header
@@ -38,7 +38,7 @@ template(name='product_view')
                         .ui.header inventory #{inventory} units available
                         .ui.header inventory #{order_total} total orders
                     if is_rentable
-                        .ui.fluid.teal.large.button.rent_product
+                        .ui.fluid.teal.large.button.rent_post
                             i.large.clock.icon
                             |rent for
                             if hourly_rate
@@ -51,12 +51,12 @@ template(name='product_view')
                         +link_view key='link' label='link' direct=true
                     unless sold_out
                         if point_price
-                            .ui.big.green.fluid.button.buy_product.fly_right 
+                            .ui.big.green.fluid.button.buy_post.fly_right 
                                 i.cart.large.icon
                                 |buy for #{point_price}p
                         // .ui.horizontal.divider or
                         // if dollar_price
-                        //     .ui.big.green.fluid.button.buy_product 
+                        //     .ui.big.green.fluid.button.buy_post 
                         //         i.cart.large.icon
                         //         |buy for $#{dollar_price}
                     else 
@@ -76,29 +76,29 @@ template(name='product_view')
                         +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
                         +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
                         +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
-                        +product_orders
-                        +related_products
+                        +post_orders
+                        +related_posts
                     
         
         
-template(name='related_products')
+template(name='related_posts')
     .ui.header 
         +i name='code-fork'
-        |#{related_products.count}
-        |related products
+        |#{related_posts.count}
+        |related posts
     .ui.selection.animated.link.list
-        each related_product_docs
-            a.item(href="/product/#{_id}")
+        each related_post_docs
+            a.item(href="/post/#{_id}")
                 | #{title}
                 |#{price}p
     
-template(name='product_orders')
+template(name='post_orders')
     .ui.header 
         +i name='order-history'
-        |#{product_order_docs.count}
+        |#{post_order_docs.count}
         |orders
     .ui.selection.animated.link.list
-        each product_order_docs
+        each post_order_docs
             a.item(href="/order/#{_id}")
                 | #{when} #{_author_username}
     

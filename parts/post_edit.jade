@@ -1,5 +1,5 @@
 
-template(name='product_edit')
+template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
@@ -9,12 +9,12 @@ template(name='product_edit')
                     .ui.inline.header 
                         small editing
                         |'#{title}'
-                        small product
+                        small post
                     +text_edit key='title' icon='header' direct=true
                     +image_edit key='image_id' direct=true
                     +array_edit key='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    .ui.icon.small.red.button.delete_product_item 
+                    .ui.icon.small.red.button.delete_post_item 
                         i.trash.icon
                     if in_dev
                         +print_this
@@ -99,7 +99,7 @@ template(name='add_to_tab')
                         //- i.remove.link.icon.remove_tab_item
             
     
-template(name='product_location')
+template(name='post_location')
     .ui.inline.header current location
     |#{current_location}
     
@@ -107,26 +107,26 @@ template(name='product_location')
 
 
 
-template(name='user_products')
+template(name='user_posts')
     .scrolling
         if is_current_user
-            .ui.circular.button.add_product
+            .ui.circular.button.add_post
                 i.plus.icon
-                |product
-        each products
-            +profile_product_item
+                |post
+        each posts
+            +profile_post_item
 
-template(name='profile_product_item')
+template(name='profile_post_item')
     .ui.segment.grid
         .row
             .four.wide.column
                 +image_view key='image' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
                 .ui.header #{title}
-                a.ui.small.header.inline.lowercase(href="/product/#{_id}/")
+                a.ui.small.header.inline.lowercase(href="/post/#{_id}/")
                     |#{price_per_serving}c / #{serving_unit}
                 .ui.small.inline.header #{when}
-                a.ui.button(href="/product/#{_id}/")
+                a.ui.button(href="/post/#{_id}/")
                     |view
                     i.right.chevron.icon
                 if is_admin

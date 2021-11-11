@@ -175,7 +175,7 @@ Meteor.publish 'results', (
     view_pickup
     view_open
     )->
-    # console.log picked_tags
+    console.log picked_tags
     self = @
     match = {}
     match.model = $in:['product','service','rental','post']
@@ -187,9 +187,9 @@ Meteor.publish 'results', (
     #     match.delivery = $ne:false
     # if view_pickup
     #     match.pickup = $ne:false
-    if Meteor.userId()
-        if Meteor.user().downvoted_ids
-            match._id = $nin:Meteor.user().downvoted_ids
+    # if Meteor.userId()
+    #     if Meteor.user().downvoted_ids
+    #         match._id = $nin:Meteor.user().downvoted_ids
     if query
         match.title = {$regex:"#{query}", $options: 'i'}
     

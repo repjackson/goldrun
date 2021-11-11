@@ -1,12 +1,10 @@
 if Meteor.isClient
-    Template.shop.onCreated ->
+    Template.posts.onCreated ->
         Session.setDefault 'view_mode', 'list'
         Session.setDefault 'sort_key', 'datetime_available'
         Session.setDefault 'sort_label', 'available'
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
-
-    Template.shop.onCreated ->
         @autorun => @subscribe 'count', ->
         @autorun => @subscribe 'facets',
             Session.get('query')
@@ -29,40 +27,40 @@ if Meteor.isClient
             Session.get('view_open')
 
     
-    Template.product_card.events
-        'click .downvote':->
-            Meteor.users.update Meteor.userId(),
-                $addToSet:downvoted_ids:@_id
-            Docs.update @_id, 
-                $addToSet:downvoter_ids:Meteor.userId()
-            $('body').toast({
-                title: "#{@title} downvoted and hidden"
-                # message: 'Please see desk staff for key.'
-                class : 'success'
-                # position:'top center'
-                # className:
-                #     toast: 'ui massive message'
-                displayTime: 5000
-                transition:
-                  showMethod   : 'zoom',
-                  showDuration : 250,
-                  hideMethod   : 'fade',
-                  hideDuration : 250
-                })
+    # Template.post_card.events
+    #     'click .downvote':->
+    #         Meteor.users.update Meteor.userId(),
+    #             $addToSet:downvoted_ids:@_id
+    #         Docs.update @_id, 
+    #             $addToSet:downvoter_ids:Meteor.userId()
+    #         $('body').toast({
+    #             title: "#{@title} downvoted and hidden"
+    #             # message: 'Please see desk staff for key.'
+    #             class : 'success'
+    #             # position:'top center'
+    #             # className:
+    #             #     toast: 'ui massive message'
+    #             displayTime: 5000
+    #             transition:
+    #               showMethod   : 'zoom',
+    #               showDuration : 250,
+    #               hideMethod   : 'fade',
+    #               hideDuration : 250
+    #             })
                 
 
-    Template.shop.events
-        'click .request_product': ->
+    Template.posts.events
+        'click .request_post': ->
             title = prompt "different title than #{Session.get('query')}"
             new_id = 
                 Docs.insert 
                     model:'request'
                     title:Session.get('query')
-        'click .add_product': ->
+        'click .add_post': ->
             new_id =
                 Docs.insert
-                    model:'product'
-            Router.go("/product/#{new_id}/edit")
+                    model:'post'
+            Router.go("/post/#{new_id}/edit")
 
 
         # 'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
@@ -102,8 +100,8 @@ if Meteor.isClient
                     # , 10000
         , 1000)
 
-        'click .calc_product_count': ->
-            Meteor.call 'calc_product_count', ->
+        'click .calc_post_count': ->
+            Meteor.call 'calc_post_count', ->
 
         # 'keydown #search': _.throttle((e,t)->
         #     if e.which is 8
@@ -116,14 +114,15 @@ if Meteor.isClient
         #             Meteor.call 'search_reddit', picked_tags.array(), ->
         # , 1000)
 
-    Template.shop.helpers
+    Template.posts.helpers
         query_requests: ->
             Docs.find
                 model:'request'
                 title:Session.get('query')
             
-        counter: -> Counts.get('product_counter')
+        counter: -> Counts.get('post_counter')
         tags: -> Results.find({model:'tag'})
+        location_tags: -> Results.find({model:'location_tag'})
         authors: -> Results.find({model:'author'})
 
         result_class: ->
@@ -138,10 +137,10 @@ if Meteor.isClient
 
         one_post: ->
             Docs.find().count() is 1
-        product_docs: ->
+        post_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {
-                model: $in:['product','service','rental','post']
+                model: $in:['post','service','rental','post']
                 # downvoter_ids:$nin:[Meteor.userId()]
             },
                 sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))

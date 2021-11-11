@@ -1,35 +1,35 @@
 if Meteor.isClient
-    Router.route '/products', (->
+    Router.route '/posts', (->
         @layout 'layout'
         @render 'shop'
         ), name:'shop'
 
     Router.route '/', (->
         @layout 'layout'
-        @render 'shop'
+        @render 'posts'
         ), name:'home'
 
 
-    Template.product_orders.onCreated ->
-        @autorun => @subscribe 'product_orders',Router.current().params.doc_id, ->
-    Template.product_orders.helpers
-        product_order_docs: ->
+    Template.post_orders.onCreated ->
+        @autorun => @subscribe 'post_orders',Router.current().params.doc_id, ->
+    Template.post_orders.helpers
+        post_order_docs: ->
             Docs.find 
                 model:'order'
-                product_id:Router.current().params.doc_id
+                post_id:Router.current().params.doc_id
 
 
 
 
 if Meteor.isClient
-    Router.route '/product/:doc_id/', (->
+    Router.route '/post/:doc_id/', (->
         @layout 'layout'
-        @render 'product_view'
-        ), name:'product_view'
-    Router.route '/product/:doc_id/edit', (->
+        @render 'post_view'
+        ), name:'post_view'
+    Router.route '/post/:doc_id/edit', (->
         @layout 'layout'
-        @render 'product_edit'
-        ), name:'product_edit'
+        @render 'post_edit'
+        ), name:'post_edit'
     Router.route '/order/:doc_id/checkout', (->
         @layout 'layout'
         @render 'order_edit'
@@ -37,26 +37,26 @@ if Meteor.isClient
 
 
     
-    Template.product_view.onCreated ->
+    Template.post_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.product_edit.onCreated ->
+    Template.post_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.product_edit.events
-        'click .delete_product_item': ->
-            if confirm 'delete product?'
+    Template.post_edit.events
+        'click .delete_post_item': ->
+            if confirm 'delete post?'
                 Docs.remove @_id
-                Router.go "/products"
+                Router.go "/posts"
 
-    Template.product_view.helpers
+    Template.post_view.helpers
         sold_out: -> @inventory < 1
-    Template.product_card.events
+    Template.post_card.events
         'click .flat_pick_tag': -> picked_tags.push @valueOf()
-    Template.product_view.events
+    Template.post_view.events
         # 'click .add_to_cart': ->
         #     console.log @
         #     Docs.insert
         #         model:'cart_item'
-        #         product_id:@_id
+        #         post_id:@_id
         #     $('body').toast({
         #         title: "#{@title} added to cart."
         #         # message: 'Please see desk staff for key.'
@@ -76,7 +76,7 @@ if Meteor.isClient
         #     console.log @
         #     Docs.insert
         #         model:'order'
-        #         product_id:@_id
+        #         post_id:@_id
         #     $('body').toast({
         #         title: "#{@title} added to cart."
         #         # message: 'Please see desk staff for key.'
@@ -96,63 +96,63 @@ if Meteor.isClient
             picked_tags.push @valueOf()
             Router.go '/'
 
-        'click .buy_product': (e,t)->
-            product = Docs.findOne Router.current().params.doc_id
+        'click .buy_post': (e,t)->
+            post = Docs.findOne Router.current().params.doc_id
             new_order_id = 
                 Docs.insert 
                     model:'order'
-                    order_type:'product'
-                    product_id:product._id
-                    product_title:product.title
-                    product_price:product.dollar_price
-                    product_image_id:product.image_id
-                    product_point_price:product.point_price
-                    product_dollar_price:product.dollar_price
+                    order_type:'post'
+                    post_id:post._id
+                    post_title:post.title
+                    post_price:post.dollar_price
+                    post_image_id:post.image_id
+                    post_point_price:post.point_price
+                    post_dollar_price:post.dollar_price
             Router.go "/order/#{new_order_id}/checkout"
             
-        'click .rent_product': (e,t)->
-            product = Docs.findOne Router.current().params.doc_id
+        'click .rent_post': (e,t)->
+            post = Docs.findOne Router.current().params.doc_id
             new_order_id = 
                 Docs.insert 
                     model:'order'
                     order_type:'rental'
-                    product_id:product._id
-                    product_title:product.title
-                    product_image_id:product.image_id
-                    product_daily_rate:product.daily_rate
-                    product_hourly_rate:product.hourly_rate
+                    post_id:post._id
+                    post_title:post.title
+                    post_image_id:post.image_id
+                    post_daily_rate:post.daily_rate
+                    post_hourly_rate:post.hourly_rate
                     
             Router.go "/order/#{new_order_id}/checkout"
             
             
 if Meteor.isClient
-    Template.user_products.onCreated ->
-        @autorun => Meteor.subscribe 'user_products', Router.current().params.username
-    Template.user_products.events
-        'click .add_product': ->
+    Template.user_posts.onCreated ->
+        @autorun => Meteor.subscribe 'user_posts', Router.current().params.username
+    Template.user_posts.events
+        'click .add_post': ->
             new_id =
                 Docs.insert
-                    model:'product'
-            Router.go "/product/#{new_id}/edit"
+                    model:'post'
+            Router.go "/post/#{new_id}/edit"
 
-    Template.user_products.helpers
-        products: ->
+    Template.user_posts.helpers
+        posts: ->
             current_user = Meteor.users.findOne username:Router.current().params.username
             Docs.find {
-                model:'product'
+                model:'post'
                 _author_id: current_user._id
             }, sort:_timestamp:-1
 
 if Meteor.isServer
-    Meteor.publish 'user_products', (username)->
+    Meteor.publish 'user_posts', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
-            model:'product'
+            model:'post'
             _author_id: user._id
             
-    Meteor.publish 'product_orders', (doc_id)->
-        product = Docs.findOne doc_id
+    Meteor.publish 'post_orders', (doc_id)->
+        post = Docs.findOne doc_id
         Docs.find
             model:'order'
-            product_id:product._id
+            post_id:post._id
             

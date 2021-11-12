@@ -3,7 +3,7 @@ template(name='post_view')
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             .row
-                .three.wide.column
+                .four.wide.column
                     // .ui.header 
                     //     small viewing
                     //     |#{title}
@@ -23,7 +23,7 @@ template(name='post_view')
                         +user_card
                     .ui.hidden.divider
                     +voting_full     
-                .thirteen.wide.column.scrolling
+                .eight.wide.column.scrolling
                     img.ui.centered.rounded.shadowed.fluid.image(src="{{c.url image_id crop='fit'}}")
                     i.large.tag.icon        
                     each tags 
@@ -37,6 +37,7 @@ template(name='post_view')
                         +number_view key='point_price' icon='coins' label='point price' direct=true
                         .ui.header inventory #{inventory} units available
                         .ui.header inventory #{order_total} total orders
+                .four.wide.column.scrolling
                     if is_rentable
                         .ui.fluid.teal.large.button.rent_post
                             i.large.clock.icon

@@ -4,10 +4,7 @@ template(name='posts')
             .ui.inline.header 
                 +i name='shop'
                 |#{counter}
-                // |results
-            if currentUser
-                a.ui.icon.compact.button.add_post(title='add post')
-                    i.plus.large.icon
+                |rentals
             // .div
             // .ui.button
             //     i.money.icon
@@ -30,19 +27,19 @@ template(name='posts')
             // .ui.left.icon.search.small.input
             //     i.search.icon.refresh_tags
             //     input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
-            div
-            .ui.inline.header
-                i.user.icon 
-                |authors
-            each picked_authors
-                button.ui.blue.compact.small.button.unselect_tag(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
-            each unpicked_authors
-                button.ui.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
-                    //- small #{count}
-            div
-            .ui.inline.header
+            // div
+            // .ui.inline.small.header
+            //     i.user.icon 
+            //     |authors
+            // each picked_authors
+            //     button.ui.blue.compact.small.button.unselect_tag(tabindex='0')
+            //         //- i.remove.icon
+            //         | #{this}
+            // each unpicked_authors
+            //     button.ui.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+            //         //- small #{count}
+            // div
+            .ui.inline.small.header
                 i.marker.icon 
                 |location tags
             each picked_location_tags
@@ -100,36 +97,31 @@ template(name='post_card')
         .content
             a.ui.inline.header.zoomer.fly_right(href="/post/#{_id}/") 
                 | #{title}
-            .ui.inline.header #{point_price}p
+            .ui.inline.header #{daily_rate}p/day
             
             each tags
                 a.ui.small.link.label.flat_pick_tag.spaced #{this}
             .right.floated.meta
                 | #{when}
-            a(href="/user/#{_author_username}")
-                img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
-                |#{_author_username}
-            if is_rentable
-                i.clock.large.icon
-            if is_service
-                i.wrench.large.icon
-            if is_forsale
-                i.cart.icon
-                // .ui.label #{inventory} units available
-                // .ui.label #{order_total} total orders
-                if delivery
-                    +i name='deliver-post' cl='ui avatar image'
-                    if delivery_fee
-                        .ui.inline.header(title='delivery fee') $#{delivery_fee}
-                if open
-                    +i name='checkmark' cl='ui avatar image'
-                else 
-                    i.ban.icon(title='not open to new orders')
-                if pickup
-                    +i name='doormat' cl='ui avatar image'
-            if can_edit
-                a.ui.large.icon.button(href="/post/#{_id}/edit")
-                    i.pencil.icon
+            unless anonymous
+                a(href="/user/#{_author_username}")
+                    img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
+                    |#{_author_username}
+            // .ui.label #{inventory} units available
+            // .ui.label #{order_total} total orders
+            if delivery
+                +i name='deliver-post' cl='ui avatar image'
+                if delivery_fee
+                    .ui.inline.header(title='delivery fee') $#{delivery_fee}
+            if open
+                +i name='checkmark' cl='ui avatar image'
+            else 
+                i.ban.icon(title='not open to new orders')
+            if pickup
+                +i name='doormat' cl='ui avatar image'
+            // if can_edit
+            //     a.ui.large.icon.button(href="/post/#{_id}/edit")
+            //         i.pencil.icon
             if currentUser 
                 i.thumbs.up.link.grey.icon.upvote
                 i.thumbs.down.link.grey.icon.downvote

@@ -46,16 +46,15 @@ template(name='nav')
             a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" title='food')
                 +i name='apartment' cl='ui avatar image'
                 strong gold run
-            // a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
-            //     +i name='search' cl='ui inline mini image'
-            // a.icon.disabled.item.zoomer(href='/stats' class="{{isActivePath '/stats'}}" title='stats')
-            //     +i name='line-chart' cl='ui inline mini image'
+            a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
+                +i name='search' cl='ui inline mini image'
+            a.icon.disabled.item.zoomer(href='/stats' class="{{isActivePath '/stats'}}" title='stats')
+                +i name='line-chart' cl='ui inline mini image'
+            if currentUser
+                a.ui.icon.item.add_post(title='add post')
+                    i.plus.large.icon
+                
         .right.menu
-            // if is_admin
-            //     a.item(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks')
-            //         +i name='tasks' cl='ui inline mini image'
-            //     a.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='delta')
-            //         +i name='database' cl='ui inline mini image'
             if currentUser
                 a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
                     // | {{fixed currentUser.points}}p

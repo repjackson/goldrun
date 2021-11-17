@@ -94,39 +94,31 @@ template(name='order_edit')
             .five.wide.column
                 .ui.big.label 
                     #{order_type}: order type
-                if key_value_is 'order_type' 'rental'
-                    .ui.header
-                        i.big.clock.icon
-                        |rental
-                .ui.header product point price: #{product_point_price} points
+                .ui.header
+                    i.big.clock.icon
+                    |rental
+                .ui.header product point price: #{daily_rate} points/day
                 // .ui.header product dollar price: $#{product_dollar_price}
                 .ui.header 
                     small your credit: 
                     strong #{author.points}pts
-                if order_product.has_daily_rate
-                    .ui.big.button.pick_daily_rate 
-                        i.sun.icon
-                        |daily rate: #{order_product.daily_rate}
-                    +key_value_edit key='reservation_type' value='daily'
-                if order_product.has_hourly_rate
-                    .ui.big.button.pick_hourly_rate 
-                        i.clock.icon
-                        |hourly rate #{order_product.hourly_rate}
-                    +key_value_edit key='reservation_type' value='hourly'
-                if key_value_is 'order_type' 'product'
-                    .ui.header 
-                        small credit after purchase 
-                        strong #{user_points_after_purchase}p
-                    .ui.header 
-                        +i name='delivery'
-                        |delivery method
-                    +key_value_edit key='delivery_method' value='delivery' label='delivery' icon='deliver-food'
-                    +key_value_edit key='delivery_method' value='pickup' label='pickup' icon='contactless-delivery'
+                .ui.big.label
+                    i.sun.icon
+                    |daily rate: #{order_product.daily_rate}p/day
+                +key_value_edit key='reservation_type' value='daily'
+                .ui.header 
+                    small credit after purchase 
+                    strong #{user_points_after_purchase}p
+                .ui.header 
+                    +i name='delivery'
+                    |delivery method
+                +key_value_edit key='delivery_method' value='delivery' label='delivery' icon='deliver-food'
+                +key_value_edit key='delivery_method' value='pickup' label='pickup' icon='contactless-delivery'
 
-                    if key_value_is 'delivery_method' 'delivery'
-                        +datetime_edit key='delivery_timedate' label='delivery timedate' direct=true
-                    if key_value_is 'delivery_method' 'pickup'
-                        +datetime_edit key='pickup_timedate' label='pickup timedate' direct=true
+                if key_value_is 'delivery_method' 'delivery'
+                    +datetime_edit key='delivery_timedate' label='delivery timedate' direct=true
+                if key_value_is 'delivery_method' 'pickup'
+                    +datetime_edit key='pickup_timedate' label='pickup timedate' direct=true
             .five.wide.column
                 +textarea_edit key='notes' label='notes' direct=true
                 .ui.hidden.divider

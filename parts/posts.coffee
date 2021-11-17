@@ -148,4 +148,3 @@ if Meteor.isClient
 
         subs_ready: ->
             Template.instance().subscriptionsReady()
-

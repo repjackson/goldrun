@@ -13,7 +13,7 @@ template(name='post_view')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
                     if can_edit
-                        a.ui.icon.large.basic.button(href="/post/#{_id}/edit")
+                        a.ui.icon.large.button(href="/post/#{_id}/edit")
                             i.pencil.large.blue.icon
                     +bookmark_button
                     .ui.small.inline.header
@@ -38,15 +38,11 @@ template(name='post_view')
                         .ui.header inventory #{inventory} units available
                         .ui.header inventory #{order_total} total orders
                 .four.wide.column.scrolling
-                    if is_rentable
-                        .ui.fluid.teal.large.button.rent_post
-                            i.large.clock.icon
-                            |rent for
-                            if hourly_rate
-                                strong #{hourly_rate}p/hr
-                            if daily_rate    
-                                strong #{daily_rate}p/day
-                        .ui.horizontal.divider or
+                    .ui.fluid.teal.large.button.rent_post
+                        i.large.clock.icon
+                        |rent for
+                        if daily_rate    
+                            strong #{daily_rate}p/day
                     div
                     if link 
                         +link_view key='link' label='link' direct=true
@@ -61,24 +57,23 @@ template(name='post_view')
                         //         i.cart.large.icon
                         //         |buy for $#{dollar_price}
                     else 
-                        .ui.big.disabled.fluid.basic.button
+                        .ui.big.disabled.fluid.button
                             |sold out
                     .ui.hidden.divider
-                    if is_forsale
-                        div
-                        .ui.inline.header
-                            +i name='delivery'
-                            |delivery
-                        div
-                        if delivery_instructions
-                            .ui.small.inline.header
-                                |delivery instructions:
-                            |#{delivery_instructions}      
-                        +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
-                        +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
-                        +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
-                        +post_orders
-                        +related_posts
+                    div
+                    .ui.inline.header
+                        +i name='delivery'
+                        |delivery
+                    div
+                    if delivery_instructions
+                        .ui.small.inline.header
+                            |delivery instructions:
+                        |#{delivery_instructions}      
+                    +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
+                    +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
+                    +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
+                    +post_orders
+                    +related_posts
                     
         
         

@@ -1,9 +1,4 @@
 if Meteor.isClient
-    Router.route '/posts', (->
-        @layout 'layout'
-        @render 'shop'
-        ), name:'shop'
-
     Router.route '/', (->
         @layout 'layout'
         @render 'posts'

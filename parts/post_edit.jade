@@ -4,7 +4,7 @@ template(name='post_edit')
         .ui.stackable.padded.grid
             .row
                 .six.wide.column.scrolling
-                    a.ui.big.icon.green.circular.button(href="/#{model}/#{_id}/")
+                    a.ui.big.icon.green.circular.button(href="/post/#{_id}/")
                         i.checkmark.big.icon
                     .ui.inline.header 
                         small editing
@@ -18,37 +18,10 @@ template(name='post_edit')
                         i.trash.icon
                     if in_dev
                         +print_this
-                    // if is_admin
-                    //     +text_edit key='model' direct=true
-                    //     // +key_value_edit key='model' value='post' icon='blog' label='make post' direct=true
-                    //     // +key_value_edit key='model' value='food' icon='food' label='make food' direct=true
-                    //     +text_edit key='app' label='app' icon='code' direct=true
                     +html_edit key='description' direct=true
                 .six.wide.column.scrolling
-                    +boolean_edit key='has_hourly_rate' label='hourly rate' icon='clock' direct=true
-                    if has_hourly_rate
-                        +float_edit key='hourly_rate' label='hourly rate' icon='clock' direct=true
                     div
-                    +boolean_edit key='has_daily_rate' label='daily rate' icon='sun' direct=true
-                    if has_daily_rate
-                        div
-                        +float_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
-                    div
-                    +boolean_edit key='weekly_rate' label='weekly rate' icon='sun' direct=true
-                    if weekly_rate
-                        div
-                        +float_edit key='weekly_credit' label='weekly rate' icon='exchange' direct=true
-                    div
-                    +boolean_edit key='monthly_rate' label='monthly rate' icon='sun' direct=true
-                    if has_monthly_rate
-                        div
-                        +float_edit key='monthly_rate' label='monthly rate' icon='exchange' direct=true
-                    div
-                    +boolean_edit key='auction' label='auction' icon='podium-with-audience--v2' direct=true
-                    if auction
-                        div
-                        +number_edit key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
-                        +float_edit key='minimum_bid' label='hour minimum bid ($)' icon='refund' direct=true
+                    +float_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
                     div
                     +boolean_edit key='security_deposit_required' label='security deposit required' icon='lock' direct=true
                     if security_deposit_required

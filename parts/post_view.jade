@@ -17,10 +17,12 @@ template(name='post_view')
                             i.pencil.large.blue.icon
                     +bookmark_button
                     .ui.small.inline.header
-                        |added by #{_author_username}
+                        |added
+                        // |added by #{_author_username}
                         |#{when}
-                    with author
-                        +user_card
+                    unless anonymous
+                        with author
+                            +user_card
                     .ui.hidden.divider
                     +voting_full     
                 .eight.wide.column.scrolling
@@ -29,36 +31,18 @@ template(name='post_view')
                     each tags 
                         a.ui.compact.button.goto_tag
                             |#{this}
-                    +text_view key='location' icon='marker' label='location description' direct=true
+                    // +text_view key='location' icon='marker' label='location description' direct=true
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +html_view key='description' direct=true
                     +comments
-                    if is_forsale
-                        +number_view key='point_price' icon='coins' label='point price' direct=true
-                        .ui.header inventory #{inventory} units available
-                        .ui.header inventory #{order_total} total orders
                 .four.wide.column.scrolling
                     .ui.fluid.teal.large.button.rent_post
                         i.large.clock.icon
                         |rent for
-                        if daily_rate    
-                            strong #{daily_rate}p/day
+                        strong #{daily_rate}p/day
                     div
                     if link 
                         +link_view key='link' label='link' direct=true
-                    unless sold_out
-                        if point_price
-                            .ui.big.green.fluid.button.buy_post.fly_right 
-                                i.cart.large.icon
-                                |buy for #{point_price}p
-                        // .ui.horizontal.divider or
-                        // if dollar_price
-                        //     .ui.big.green.fluid.button.buy_post 
-                        //         i.cart.large.icon
-                        //         |buy for $#{dollar_price}
-                    else 
-                        .ui.big.disabled.fluid.button
-                            |sold out
                     .ui.hidden.divider
                     div
                     .ui.inline.header

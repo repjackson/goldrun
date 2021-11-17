@@ -3,7 +3,7 @@ template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .six.wide.column.scrolling
+                .six.wide.column
                     a.ui.big.icon.green.circular.button(href="/post/#{_id}/")
                         i.checkmark.big.icon
                     .ui.inline.header 
@@ -18,7 +18,6 @@ template(name='post_edit')
                         i.trash.icon
                     if in_dev
                         +print_this
-                    +html_edit key='description' direct=true
                 .six.wide.column.scrolling
                     div
                     +float_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
@@ -29,8 +28,14 @@ template(name='post_edit')
                         +number_edit key='security_deposit_amount' label='security deposit amount (c)' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
                         div
                         +boolean_edit key='friends_exempt' label='friends exempt' icon='users' direct=true
-                .three.wide.column.scrolling
+                    +html_edit key='description' direct=true
+                .four.wide.column.scrolling
+                    +boolean_edit key='delivery_available' label='delivery available' icon='truck'
+                    +boolean_edit key='pickup_available' label='pickup available' icon='doormat'
+                    if delivery_available
+                        +array_edit key='delivery_location_tags' label='delivery location tags' icon='marker'
                     +boolean_edit key='published' label='published'
+                    +boolean_edit key='anonymous' label='anonymous'
 
     
 template(name='post_location')

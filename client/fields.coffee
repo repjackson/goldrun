@@ -219,10 +219,7 @@ Template.array_edit.events
         if e.which is 13
             element_val = t.$('.new_element').val().trim().toLowerCase()
             if element_val.length>0
-                if @direct
-                    parent = Template.parentData()
-                else
-                    parent = Template.parentData(5)
+                parent = Template.parentData()
                 doc = Docs.findOne parent._id
 
                 user = Meteor.users.findOne parent._id

@@ -570,7 +570,7 @@ template(name='array_edit')
     if field_value
         each field_value
             if in_dev
-                .ui.basic.large.label.touch_element
+                .ui.big.label.touch_element
                     i.delete.icon.remove_element
                     |#{this}
                 // .ui.compact.circular.button.pick_tag
@@ -695,7 +695,7 @@ template(name='child_view')
         //     .ui.divider
 template(name='boolean_edit')
     //- div
-    .ui.compact.button.toggle_boolean(class="#{boolean_toggle_class} #{cl}" title=tooltip)
+    .ui.big.button.toggle_boolean(class="#{boolean_toggle_class} #{cl}" title=tooltip)
         if field_value
             i.green.checkmark.icon
         else
@@ -703,7 +703,7 @@ template(name='boolean_edit')
         //- .ui.compact.button.toggle_boolean(class=boolean_toggle_class)
         if icon
             +i name=icon cl='ui avatar image'
-        .inline.f12
+        .inline
             //- if field_value
             //-     i.checkmark.icon
             if label

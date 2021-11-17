@@ -92,8 +92,6 @@ template(name='order_edit')
                     +image_view key='image' direct=true
                     +html_view key='description' direct=true
             .five.wide.column
-                .ui.big.label 
-                    #{order_type}: order type
                 .ui.header
                     i.big.clock.icon
                     |rental
@@ -101,14 +99,13 @@ template(name='order_edit')
                 // .ui.header product dollar price: $#{product_dollar_price}
                 .ui.header 
                     small your credit: 
-                    strong #{author.points}pts
+                    strong #{currentUser.points}pts
                 .ui.big.label
                     i.sun.icon
                     |daily rate: #{order_product.daily_rate}p/day
-                +key_value_edit key='reservation_type' value='daily'
                 .ui.header 
                     small credit after purchase 
-                    strong #{user_points_after_purchase}p
+                    strong #{points_after_purchase}p
                 .ui.header 
                     +i name='delivery'
                     |delivery method
@@ -123,8 +120,6 @@ template(name='order_edit')
                 +textarea_edit key='notes' label='notes' direct=true
                 .ui.hidden.divider
                 if can_complete
-                    if key_value_is 'order_type' 'rental'
-                        .ui.header res type: #{reservation_type}
                     a.ui.large.fluid.green.button.complete_order
                         i.checkmark.large.icon   
                         |complete order

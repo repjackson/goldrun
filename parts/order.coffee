@@ -8,7 +8,7 @@ if Meteor.isClient
 
     Template.order_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'product_from_order_id', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'post_from_order_id', Router.current().params.doc_id, ->
         # @autorun => Meteor.subscribe 'model_docs', 'dish'
 
     Template.order_edit.helpers
@@ -26,23 +26,16 @@ if Meteor.isClient
                 true
         can_complete: ->
             order = Docs.findOne Router.current().params.doc_id
-            if order.order_type is 'product'
-                order.product_point_price < Meteor.user().points
-            else if order.order_type is 'rental'
-                order.reservation_type
+            order.reservation_cost < Meteor.user().points
             
             
-        user_points_after_purchase: ->
+        points_after_purchase: ->
             user_points = Meteor.user().points
             current_order = Docs.findOne Router.current().params.doc_id
-            user_points - current_order.product_point_price
+            user_points - current_order.post_point_price
 
 
     Template.order_edit.events
-        'click .select_dish': ->
-            Docs.update Router.current().params.doc_id,
-                $set:
-                    dish_id: @_id
         'click .complete_order': (e,t)->
             Docs.update Router.current().params.doc_id,
                 $set:
@@ -58,21 +51,21 @@ if Meteor.isClient
                 position: "bottom center"
             )
             
-            Docs.update @product_id,
+            Docs.update @post_id,
                 $inc: inventory:-1
             
-            product = Docs.findOne @product_id
+            post = Docs.findOne @post_id
             $('body').toast(
-                message: "product #{product.title} inventory updated to #{product.inventory}"
+                message: "post #{post.title} inventory updated to #{post.inventory}"
                 icon: 'hashtag'
                 # showProgress: 'bottom'
                 class: 'info'
                 # displayTime: 'auto',
                 position: "bottom right"
             )
-            Meteor.users.update product._author_id,
+            Meteor.users.update post._author_id,
                 $inc:
-                    points:@product_point_price
+                    points:@post_point_price
             $('body').toast(
                 showIcon: 'chevron up'
                 message: "points debited from #{@_author_username}"
@@ -83,10 +76,10 @@ if Meteor.isClient
             )
             Meteor.users.update @_author_id,
                 $inc:
-                    points:-@product_point_price
+                    points:-@post_point_price
             $('body').toast(
                 showIcon: 'chevron down'
-                message: "points credited to #{product._author_username}"
+                message: "points credited to #{post._author_username}"
                 # showProgress: 'bottom'
                 class: 'success'
                 # displayTime: 'auto',
@@ -99,7 +92,7 @@ if Meteor.isClient
             if confirm 'cancel order?'
                 doc_id = Router.current().params.doc_id
                 $(e.currentTarget).closest('.grid').transition('fly right', 500)
-                Router.go "/product/#{@product_id}"
+                Router.go "/post/#{@post_id}"
 
                 Docs.remove doc_id
 
@@ -114,12 +107,12 @@ if Meteor.isClient
 
 
     Template.profile_order_item.onCreated ->
-        @autorun => Meteor.subscribe 'product_from_order_id', @data._id
+        @autorun => Meteor.subscribe 'post_from_order_id', @data._id
     Template.order_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'dish'
         # @autorun => Meteor.subscribe 'model_docs', 'order'
-        @autorun => Meteor.subscribe 'product_from_order_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'post_from_order_id', Router.current().params.doc_id
 
 
     Template.order_view.events
@@ -148,10 +141,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'product_from_order_id', (order_id)->
+    Meteor.publish 'post_from_order_id', (order_id)->
         order = Docs.findOne order_id
         Docs.find
-            _id: order.product_id
+            _id: order.post_id
 
     # Meteor.methods
         # order_order: (order_id)->
@@ -172,7 +165,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.user_orders.onCreated ->
         @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
-        # @autorun => Meteor.subscribe 'model_docs', 'product'
+        # @autorun => Meteor.subscribe 'model_docs', 'post'
     Template.user_orders.helpers
         orders: ->
             current_user = Meteor.users.findOne username:Router.current().params.username

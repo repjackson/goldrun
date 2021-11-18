@@ -5,24 +5,24 @@ template(name='order_view')
                 .column
                     // a.ui.circular.compact.button(href="/food/#{food_id}/")
                     //     i.left.chevron.icon
-                    //     img.ui.avatar.image(src="{{c.url order_product.image width=200 height=200}}")    
-                    //     |#{order_product.title}
-                    a.ui.circular.compact.button.fly_left(href="/product/#{product_id}/")
+                    //     img.ui.avatar.image(src="{{c.url order_post.image width=200 height=200}}")    
+                    //     |#{order_post.title}
+                    a.ui.circular.compact.button.fly_left(href="/post/#{post_id}/")
                         i.left.chevron.icon
-                        img.ui.avatar.image(src="{{c.url order_product.image width=200 height=200}}")    
-                        |#{order_product.title} product
-                    .ui.header view '#{order_product.title}' order
+                        img.ui.avatar.image(src="{{c.url order_post.image width=200 height=200}}")    
+                        |#{order_post.title} product
+                    .ui.header view '#{order_post.title}' order
                     if can_edit
                         a.ui.large.circular.icon.button(href="/order/#{_id}/edit")
                             i.pencil.large.icon
-                    .ui.header ordered #{when}
-                    .ui.header order price #{order_price}
-                    
+                    .ui.header
+                        i.clock.icon
+                        |#{when}
                     .ui.header 
                         +i name='shop'
                         |item
                     .ui.segment 
-                        with order_product
+                        with order_post
                             a(href="/post/#{_id}/")
                                 img.ui.rounded.image(src="{{c.url image width=400 height=400}}")
                             a(href="/product/#{_id}/")
@@ -39,7 +39,7 @@ template(name='order_view')
                     +textarea_view key='description'
                     .ui.small.inline.header {{long_date datetime_available}}
                     // .ui.header ingredients
-                    // each order_product.ingredients
+                    // each order_post.ingredients
                     //     .ui.label #{this}
                     .ui.header
                         if pickup
@@ -79,7 +79,7 @@ template(name='order_edit')
             .five.wide.column
                 .ui.small.grey.inline.header editing order
                 .ui.inline.header #{product_title}
-                img.ui.image(src="{{c.url order_product.image_id width=200 height=200}}")    
+                img.ui.image(src="{{c.url order_post.image_id width=200 height=200}}")    
                 
                 div
                 // +float_edit key='serving_purchase_price' label='serving purchase price' direct=true
@@ -87,7 +87,7 @@ template(name='order_edit')
                 .ui.header $#{order_total_transaction_amount} 
                     small total transaction amount
                 .ui.header product 
-                with order_product
+                with order_post
                     a.ui.small.header(href="/product/#{product_id}") #{title}
                     +image_view key='image' direct=true
                     +html_view key='description' direct=true
@@ -153,11 +153,11 @@ template(name='profile_order_item')
     .ui.segment.grid
         .row
             .four.wide.column
-                with order_product
+                with order_post
                     //- img.ui.mini.image(src=image)
                     +image_view key='image' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
-                .ui.header #{order_product.title}
+                .ui.header #{order_post.title}
                 a.ui.small.header.inline.lowercase(href="/order/#{_id}/")
                     |#{order_amount}c
                 .ui.small.inline.header #{when} by #{_author_username}

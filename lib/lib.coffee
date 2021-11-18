@@ -90,7 +90,7 @@ Docs.helpers
         Docs.findOne
             model:'food'
             _id:@food_id
-    order_product: ->
+    order_post: ->
         Docs.findOne
             model:'post'
             _id:@post_id

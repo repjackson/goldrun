@@ -67,7 +67,7 @@ template(name='nav')
                     | {{currentUser.points}}p
                     &nbsp;
                     if currentUser.image_id
-                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200}}")
                     else
                         i.user.icon
                     span.mobile.hidden #{currentUser.username}

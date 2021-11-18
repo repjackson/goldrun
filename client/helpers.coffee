@@ -331,7 +331,7 @@ Template.registerHelper 'is_current_user', () ->
     #         true
     #     else
     #         false
-Template.registerHelper 'order_product', -> 
+Template.registerHelper 'order_post', -> 
     Docs.findOne 
         _id:@post_id
     

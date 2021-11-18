@@ -3,18 +3,18 @@ template(name='post_view')
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             .row
-                .four.wide.column
+                .ten.wide.column
                     // .ui.header 
                     //     small viewing
                     //     |#{title}
                     //     small post
-                    .ui.big.header #{title}
-                    a.ui.big.compact.button.fly_left(href="/" title='shop')
+                    h1.ui.big.inline.header #{title}
+                    a.ui.big.compact.circular.basic.button.fly_left(href="/" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
                     if can_edit
-                        a.ui.icon.large.button(href="/post/#{_id}/edit")
-                            i.pencil.large.blue.icon
+                        a.zoomer(href="/post/#{_id}/edit")
+                            i.pencil.big.circular.icon
                     +bookmark_button
                     .ui.small.inline.header
                         |added
@@ -23,9 +23,7 @@ template(name='post_view')
                     unless anonymous
                         with author
                             +user_card
-                    .ui.hidden.divider
-                    +voting_full     
-                .eight.wide.column.scrolling
+                    // .ui.hidden.divider
                     img.ui.centered.rounded.shadowed.fluid.image(src="{{c.url image_id crop='fit'}}")
                     i.large.tag.icon        
                     each tags 
@@ -35,10 +33,10 @@ template(name='post_view')
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +html_view key='description' direct=true
                     +comments
-                .four.wide.column.scrolling
-                    .ui.fluid.teal.large.button.rent_post
+                .six.wide.column
+                    .ui.fluid.green.big.button.rent_post
                         i.large.clock.icon
-                        |rent for
+                        small rent for
                         strong #{daily_rate}p/day
                     div
                     if link 
@@ -58,6 +56,7 @@ template(name='post_view')
                     +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
                     +post_orders
                     +related_posts
+                    +voting_full     
                     
         
         
@@ -77,7 +76,7 @@ template(name='post_orders')
         +i name='order-history'
         |#{post_order_docs.count}
         |orders
-    .ui.selection.animated.link.list
+    .ui.selection.animated.link.large.list
         each post_order_docs
             a.item(href="/order/#{_id}")
                 | #{when} #{_author_username}

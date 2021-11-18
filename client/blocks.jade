@@ -291,11 +291,11 @@ template(name='voting_full')
     // +ismall name='elections'
     // .ui.inline.header 
     //     |voting
-    .ui.large.icon.compact.button.upvote(title='upvote')
-        i.thumbs.up.icon(class=upvote_class)
+    // ..upvote(title='upvote')
+    i.thumbs.up.big.circular.link.icon.upvote(class=upvote_class)
         //- |like
-    .ui.large.icon.compact.button.downvote(title='downvote')
-        i.thumbs.down.icon(class=downvote_class)
+    // .ui.large.icon.circular.button.downvote(title='downvote')
+    i.thumbs.down.big.circular.link.icon.downvote(class=downvote_class)
         //- |dislike
     if points
         .ui.large.label(title='points') #{points} pts

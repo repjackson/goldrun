@@ -2,7 +2,7 @@ template(name='profile')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     with user_from_username_param
         .ui.stackable.padded.grid
-            .three.column.row
+            .four.column.row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .column
                     a.item(href="/user/#{user_from_username_param.username}/food")
@@ -22,7 +22,7 @@ template(name='profile')
                             //- i.coins.icon
                             |{{fixed user.points}}pts
                     if is_current_user
-                        a.ui.large.circular.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                        a.ui.large.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             i.cog.icon
                             |account
                     // else if is_admin
@@ -38,7 +38,7 @@ template(name='profile')
                     // +request_button
                 .column
                     +user_credit
-                .column
+                .column.smallscroll
                     .ui.header 
                         +i name='shopping-cart'
                         |#{user_post_docs.count} posts
@@ -107,21 +107,21 @@ template(name='profile')
                             
 
 // template(name='profile_nav_button')                        
-//     a.ui.compact.circular.button(href="/user/#{current_username}/#{key}" class="{{isActiveRoute regex=key}}")
+//     a.ui.compact.button(href="/user/#{current_username}/#{key}" class="{{isActiveRoute regex=key}}")
 //         +i name=icon cl='ui avatar image'
 //         |#{label}
 
 
 
 template(name='logout_other_clients_button')
-    .ui.black.compact.button.logout_other_clients(title='logout other clients')
+    .ui.compact.button.logout_other_clients(title='logout other clients')
         +i name='globe'
         |log out other clients
 
 
 
 template(name='logout_button')
-    .ui.large.black.button.logout(title='log out')
+    .ui.large.button.logout(title='log out')
         // i.sign.out.alternate.icon
         +i name='exit'
         |log out
@@ -201,7 +201,7 @@ template(name='user_post_card')
 
 template(name='user_credit')
     .ui.inline.header #{current_user.points}p
-    // i.refresh.circular.link.icon.calc_user_points
+    // i.refresh.link.icon.calc_user_points
     .ui.stackable.one.column.grid
         if is_current_user
             .column

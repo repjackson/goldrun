@@ -3,7 +3,7 @@ if Meteor.isClient
         Session.setDefault 'view_mode', 'list'
         Session.setDefault 'sort_key', 'daily_rate'
         Session.setDefault 'sort_label', 'available'
-        Session.setDefault 'limit', 20
+        Session.setDefault 'limit',10
         Session.setDefault 'view_open', true
         @autorun => @subscribe 'count', ->
         @autorun => @subscribe 'facets',

@@ -2,7 +2,7 @@ template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
-            .three.column.row
+            .four.column.row
                 .column
                     // .ui.header 
                     //     small viewing
@@ -25,6 +25,7 @@ template(name='post_view')
                     div
                     +text_view key='location' icon='marker' label='location' direct=true
                     // img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+                .column
                     img.ui.centered.rounded.shadowed.fluid.image(src="{{c.url image_id crop='fit'}}")
                     i.large.tag.icon        
                     each tags 
@@ -366,7 +367,7 @@ template(name='user_posts')
 template(name='profile_post_item')
     .ui.segment.grid
         .row
-            .three.column
+            .four.column
                 +image_view key='image' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
                 .ui.header #{title}

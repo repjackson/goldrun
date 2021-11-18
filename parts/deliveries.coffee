@@ -9,10 +9,10 @@ if Meteor.isClient
         Session.setDefault 'view_mode', 'list'
         Session.setDefault 'sort_key', 'daily_rate'
         Session.setDefault 'sort_label', 'available'
-        Session.setDefault 'limit', 20
+        Session.setDefault 'limit', 10
         Session.setDefault 'view_open', true
         @autorun => @subscribe 'count', ->
-        @autorun => @subscribe 'facets',
+        @autorun => @subscribe 'delivery_facets',
             Session.get('query')
             picked_tags.array()
             picked_location_tags.array()
@@ -23,7 +23,7 @@ if Meteor.isClient
             Session.get('view_pickup')
             Session.get('view_open')
 
-        @autorun => @subscribe 'results',
+        @autorun => @subscribe 'delivery_results',
             Session.get('query')
             picked_tags.array()
             picked_location_tags.array()

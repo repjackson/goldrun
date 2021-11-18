@@ -1,11 +1,11 @@
 template(name='posts')
     .ui.stackable.padded.grid
         .three.wide.column
-            .ui.inline.header 
-                +i name='shop'
-                |#{counter}
-                |items for rent
-            div
+            // .ui.inline.header 
+            //     +i name='shop'
+            //     |#{counter}
+            //     |items for rent
+            // div
             // .spacer
             .ui.icon.input
                 i.search.icon
@@ -66,9 +66,10 @@ template(name='post_card')
             a.ui.inline.header.zoomer.fly_right(href="/post/#{_id}/") 
                 | #{title}
             .ui.inline.header #{daily_rate}p/day
-            
+            if tags
+                i.tag.icon
             each tags
-                a.ui.small.link.label.flat_pick_tag.spaced #{this}
+                a.ui.small.link.black.label.flat_pick_tag.spaced #{this}
             .right.floated.meta
                 | #{when}
             unless anonymous
@@ -90,13 +91,13 @@ template(name='post_card')
             // if can_edit
             //     a.ui.large.icon.button(href="/post/#{_id}/edit")
             //         i.pencil.icon
-            if currentUser 
-                i.thumbs.up.link.grey.icon.upvote
-                i.thumbs.down.link.grey.icon.downvote
+            // if currentUser 
+            //     i.thumbs.up.link.grey.icon.upvote
+            //     i.thumbs.down.link.grey.icon.downvote
             if location_tags
-                i.marker.icon
+                i.marker.icon.invert
                 each location_tags  
-                    .ui.label #{this}
+                    .ui.black.label #{this}
         //- .ui.bottom.attached.buttons        
         //-     .ui.green.button.quickbuy
         //-         i.lightning.icon

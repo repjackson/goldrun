@@ -58,7 +58,7 @@ Template.html_edit.onRendered ->
             [
                 'undo' 
                 'redo'
-                'font' 
+                # 'font' 
                 'fontSize' 
                 # 'formatBlock' 
                 # 'paragraphStyle' 

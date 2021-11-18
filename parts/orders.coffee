@@ -12,7 +12,7 @@ if Meteor.isClient
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
         @autorun => @subscribe 'count', ->
-        @autorun => @subscribe 'facets',
+        @autorun => @subscribe 'order_facets',
             Session.get('query')
             picked_tags.array()
             picked_location_tags.array()

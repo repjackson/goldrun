@@ -342,11 +342,11 @@ body {
     margin: 0px !important;
 }
 
-/* .invert {
-    filter: invert(90%) !important; */
-    /* background-color:white; */
-    /* height: 100%; */
-/* } */
+ .invert {
+    filter: invert(100%) !important; 
+     /*background-color:white; */
+     /*height: 100%; */
+ } 
 
 .red_flagged {
   border: 5px solid red !important;
@@ -622,7 +622,7 @@ input.username_search{
 
 
 .button, .selector, .card, body, .item{
-    animation: fadein .5s;
+    animation: fadein 1s;
     /* -webkit-transition: opacity 2s ease-out; */
     /* animation: fadeout 1s; */
 }
@@ -698,14 +698,14 @@ h1.ui.header{
 } */
 
 .label {
-  animation: fadein .25s;
+  animation: fadein 1s;
 }
 .segment{
-  animation: fadein .5s;
+  animation: fadein 1s;
 }
 
 .icon.item {
-  animation: fadein .25s;
+  animation: fadein 1s;
 }
 
 @keyframes fadein {
@@ -714,10 +714,10 @@ h1.ui.header{
 }
 
 #main {
-  animation: fadein .5s;
+  animation: fadein 1s;
 }
 .result_column {
-  animation: fadein .5s;
+  animation: fadein 1s;
 }
 
 @media screen and (max-width: 1100px) {

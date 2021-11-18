@@ -108,41 +108,11 @@ Meteor.publish 'page', (slug)->
         slug:slug
 
 
-Meteor.publish 'doc_tags', (picked_tags)->
-
-    user = Meteor.users.findOne @userId
-    # current_herd = user.profile.current_herd
-
-    self = @
-    match = {}
-
-    # picked_tags.push current_herd
-    match.tags = $all: picked_tags
-
-    cloud = Docs.aggregate [
-        { $match: match }
-        { $project: tags: 1 }
-        { $unwind: "$tags" }
-        { $group: _id: '$tags', count: $sum: 1 }
-        { $match: _id: $nin: picked_tags }
-        { $sort: count: -1, _id: 1 }
-        { $limit: 50 }
-        { $project: _id: 0, name: '$_id', count: 1 }
-        ]
-    cloud.forEach (tag, i) ->
-
-        self.added 'tags', Random.id(),
-            name: tag.name
-            count: tag.count
-            index: i
-
-    self.ready()
-
 Meteor.publish 'results', (
     query=''
     picked_tags=[]
     picked_location_tags=[]
-    limit=20
+    limit=42
     sort_key='_timestamp'
     sort_direction=-1
     view_delivery
@@ -197,7 +167,7 @@ Meteor.publish 'facets', (
     picked_tags=[]
     picked_location_tags=[]
     # picked_timestamp_tags=[]
-    limit=20
+    limit=10
     sort_key='_timestamp'
     sort_direction=-1
     view_delivery

@@ -48,21 +48,73 @@ template(name='profile')
                         .spacer
                         .ui.stackable.grid
                             .two.column.row
-                                .column.smallscroll
-                                    +user_bookmarks
-                                .column.smallscroll
-                                    +user_orders_small
-                                .column.smallscroll
-                                    +user_reservations_small
-                                .column.smallscroll
-                                    +user_friends
+                                .column.medscroll
+                                    .ui.header 
+                                        +i name='shopping-cart'
+                                        |posts
+                                .column.medscroll
+                                    .ui.header 
+                                        +i name='money'
+                                        |total sales
+                                .column.medscroll
+                                    .ui.header 
+                                        +i name='truck'
+                                        |deliveries
+                                    if is_current_user
+                                        +key_value_edit key='delivery_availability' value='available' 
+                                        +key_value_edit key='delivery_availability' value='unavailable' 
+                                    .ui.small.header past
+                                    .ui.small.header future
+                                .column.medscroll
+                                    .ui.header 
+                                        +i name='bookmark'
+                                        |bookmarks
+                                    .ui.selection.link.animated.list
+                                        each bookmarked_docs 
+                                            a.item.fly_right(href="/product/#{_id}") 
+                                                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                                                |#{title}
+                                .column.medscroll
+                                    .ui.header
+                                        +i name='order-history'
+                                        |orders
+                                .column.medscroll
+                                    .ui.header 
+                                        +i name='clock'
+                                        |reservations
+                                    .scrolling
+                                        .ui.segments
+                                            each reservations 
+                                                +profile_reservation_item
+                                        
+                                .column.medscroll
+                                    .ui.one.column.grid 
+                                        .column
+                                            .ui.header 
+                                                +i name='friends'
+                                                |friended by
+                                            .scrolling
+                                                .ui.large.selection.link.animated.list
+                                                    each friended_by_users
+                                                        a.item(href="/user/#{username}") #{username}
+                                                    each current_user.friend_ids
+                                                        // .ui.header #{this}
+                                                        +user_info
+                                        .column
+                                            .ui.header 
+                                                +i name='chevron-down'
+                                                |friended
+                                            .scrolling
+                                                .ui.large.selection.link.animated.list
+                                                    each friended
+                                                        a.item(href="/user/#{username}") #{username}
             
                         
 
-template(name='profile_nav_button')                        
-    a.ui.compact.circular.button(href="/user/#{current_username}/#{key}" class="{{isActiveRoute regex=key}}")
-        +i name=icon cl='ui avatar image'
-        |#{label}
+// template(name='profile_nav_button')                        
+//     a.ui.compact.circular.button(href="/user/#{current_username}/#{key}" class="{{isActiveRoute regex=key}}")
+//         +i name=icon cl='ui avatar image'
+//         |#{label}
 
 
 
@@ -77,14 +129,7 @@ template(name='logout_button')
     .ui.large.icon.button.logout(title='log out')
         // i.sign.out.alternate.icon
         +i name='exit'
-
-template(name='role_viewer')
-    .ui.inline.header 
-        +i name='shield'
-        |roles
-    each roles
-        .ui.label #{this}
-
+        |log out
 
 
 template(name='subscribe_user_button')
@@ -94,60 +139,15 @@ template(name='subscribe_user_button')
 
 
 
-template(name='user_orders_small')
-    .ui.header
-        +i name='order-history'
-        |orders
 
-template(name='user_reservations_small')
-    .ui.header
-        +i name='clock'
-        | reservations
 template(name='user_products_small')
     .ui.header  
         +i name='shop'
         |products
 
-template(name='user_reservations')
-    .ui.header 
-        +i name='clock'
-        |reservations
-    .scrolling
-        .ui.segments
-            each reservations 
-                +profile_reservation_item
 
 template(name='user_bookmarks')
-    .ui.header 
-        +i name='bookmark'
-        |bookmarks
-    .ui.selection.link.animated.list
-        each bookmarked_docs 
-            a.item.fly_right(href="/product/#{_id}") 
-                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                |#{title}
 
-template(name='user_friends')
-    .ui.one.column.grid 
-        .column
-            .ui.header 
-                +i name='friends'
-                |friended by
-            .scrolling
-                .ui.large.selection.link.animated.list
-                    each friended_by_users
-                        a.item(href="/user/#{username}") #{username}
-                    each current_user.friend_ids
-                        // .ui.header #{this}
-                        +user_info
-        .column
-            .ui.header 
-                +i name='chevron-down'
-                |friended
-            .scrolling
-                .ui.large.selection.link.animated.list
-                    each friended
-                        a.item(href="/user/#{username}") #{username}
 
 
 template(name='profile_reservation_item')
@@ -185,11 +185,11 @@ template(name='user_handling')
     .ui.small.header rentals that member is facilitating
     .ui.three.cards
         each handling_rentals 
-            +user_rental_card
+            +user_post_card
         
         
         
-template(name='user_rental_card')
+template(name='user_post_card')
     .ui.small.card
         a.zoom(href="/rental/#{_id}/")
             img.ui.centered.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")

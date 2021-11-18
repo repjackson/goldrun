@@ -3,42 +3,14 @@ if Meteor.isClient
         @layout 'layout'
         @render 'profile'
         ), name:'profile'
-    # Router.route '/user/:username/dashboard', (->
-    #     @layout 'profile'
-    #     @render 'user_dashboard'
-    #     ), name:'user_dashboard'
-    # Router.route '/user/:username/rentals', (->
-    #     @layout 'profile'
-    #     @render 'user_rentals'
-    #     ), name:'user_rentals'
-    # Router.route '/user/:username/credit', (->
-    #     @layout 'profile'
-    #     @render 'user_credit'
-    #     ), name:'user_credit'
-    # Router.route '/user/:username/orders', (->
-    #     @layout 'profile'
-    #     @render 'user_orders'
-    #     ), name:'user_orders'
-    # Router.route '/user/:username/messages', (->
-    #     @layout 'profile'
-    #     @render 'user_messages'
-    #     ), name:'user_messages'
-    # Router.route '/user/:username/notifications', (->
-    #     @layout 'profile'
-    #     @render 'user_notifications'
-    #     ), name:'user_notifications'
-    # Router.route '/user/:username/friends', (->
-    #     @layout 'profile'
-    #     @render 'user_friends'
-    #     ), name:'user_friends'
 
 
 
-    Template.user_bookmarks.onCreated ->
+    Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_bookmarked_docs', Router.current().params.username
 
 
-    Template.user_bookmarks.helpers
+    Template.profile.helpers
         bookmarked_docs: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find 

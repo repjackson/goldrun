@@ -652,9 +652,13 @@ if Meteor.isClient
     
     Template.key_value_edit.events
         'click .set_key_value': ->
-            console.log 'hi'
+            # console.log 'hi'
             parent = Template.parentData()
-            console.log parent, @key, @value
-            Docs.update parent._id,
-                $set: "#{@key}": @value
+            # console.log parent, @key, @value
+            if Docs.findOne parent._id
+                Docs.update parent._id,
+                    $set: "#{@key}": @value
+            else 
+                Meteor.users.update parent._id,
+                    $set: "#{@key}": @value
 

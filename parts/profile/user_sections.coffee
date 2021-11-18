@@ -77,7 +77,7 @@ if Meteor.isClient
 
 
 
-    Template.user_credit.helpers
+    Template.profile.helpers
         owner_earnings: ->
             Docs.find
                 model:'reservation'
@@ -113,10 +113,10 @@ if Meteor.isClient
 
 
 
-    Template.user_reservations.onCreated ->
+    Template.profile.onCreated ->
         @autorun => Meteor.subscribe 'user_reservations', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'rental'
-    Template.user_reservations.helpers
+    Template.profile.helpers
         reservations: ->
             current_user = Meteor.users.findOne username:Router.current().params.username
             Docs.find {
@@ -124,14 +124,14 @@ if Meteor.isClient
             }, sort:_timestamp:-1
 
 
-    Template.user_credit.onCreated ->
+    Template.profile.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'deposit'
         # @autorun => Meteor.subscribe 'model_docs', 'reservation'
         @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
 
 
-    Template.user_credit.events
+    Template.profile.events
         'click .add_credits': ->
             # deposit_amount = parseInt $('.deposit_amount').val()*100
             deposit_amount = parseInt $('.deposit_amount').val()
@@ -174,7 +174,7 @@ if Meteor.isClient
 
 
 
-    Template.user_credit.helpers
+    Template.profile.helpers
         owner_earnings: ->
             Docs.find
                 model:'reservation'

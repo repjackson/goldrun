@@ -77,7 +77,7 @@ template(name='html_edit')
         .field
             label 
                 if icon
-                    i.icon(class=icon)
+                    +i name=icon
                 if title
                     |#{title}
                 else if label
@@ -551,17 +551,16 @@ template(name='datetime_view')
 template(name='array_edit')
     .spacer
     .spacer
-    // if icon
-    //     i.grey.icon(class=i)
-    //     // +i name=icon cl='ui avatar image'
-    // .ui.inline.header
-    //     |#{field_value.length}
-    //     if title
-    //         |#{title}
-    //     else if label
-    //         |#{label}
-    //     else if key
-    //         |#{key}
+    if icon
+        +i name=icon cl='ui avatar image'
+    .ui.inline.header
+        |#{field_value.length}
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else if key
+            |#{key}
     .ui.icon.large.input
         i.icon
             +i name=icon cl='ui inline image'

@@ -9,12 +9,12 @@ template(name='post_view')
                     //     |#{title}
                     //     small post
                     h1.ui.big.inline.header #{title}
-                    a.ui.big.compact.circular.basic.button.fly_left(href="/" title='shop')
+                    a.ui.big.compact.basic.button.fly_left(href="/" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
                     if can_edit
                         a.zoomer(href="/post/#{_id}/edit")
-                            i.pencil.big.circular.icon
+                            i.pencil.big.icon
                     +bookmark_button
                     .ui.small.inline.header
                         |added
@@ -210,27 +210,29 @@ template(name='post_orders')
 template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .three.column.row
+            .four.column.row
                 .column
                     .ui.inline.header 
                         small editing
                         |'#{title}'
                         small post
-                    a.ui.big.icon.green.circular.fluid.button(href="/post/#{_id}/")
+                    a.ui.big.icon.green.fluid.button(href="/post/#{_id}/")
                         i.checkmark.big.icon
                     +text_edit key='title' icon='header' direct=true
-                    +array_edit key='tags' icon='tags' label='tags' direct=true
-                    +array_edit key='location_tags' label='public location tags' icon='marker' direct=true
-                    +array_edit key='private_location_tags' label='private location tags' icon='marker' direct=true tooltip='for handlers and buyers who are picking up'
                     .ui.icon.small.red.button.delete_post_item 
                         i.trash.icon
                     if in_dev
                         +print_this
-                    +remove_button
-                    if is_dev
-                        +single_user_edit key='_author_username' label='author username' direct=true
-                        +link_edit key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
-                    // +text_edit key='contact_info' label='contact info' icon='info' direct=true
+                    +boolean_edit key='published' label='published' icon='checkmark'
+                    +boolean_edit key='anonymous' label='anonymous' icon='visible'
+                    // if is_dev
+                    //     +single_user_edit key='_author_username' label='author username' direct=true
+                    //     +link_edit key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
+                    // // +text_edit key='contact_info' label='contact info' icon='info' direct=true
+                .column
+                    +array_edit key='tags' icon='tags' label='tags' direct=true
+                    +array_edit key='location_tags' label='public location tags' icon='marker' direct=true
+                    +array_edit key='private_location_tags' label='private location tags' icon='marker' direct=true tooltip='for handlers and buyers who are picking up'
                 .column
                     +image_edit key='image_id' label='image' direct=true
                 .column
@@ -251,8 +253,6 @@ template(name='post_edit')
                     +boolean_edit key='pickup_available' label='pickup available' icon='doormat'
                     if pickup_available
                         +textarea_edit key='pickup_instructions' label='pickup instructions' icon='marker'
-                    +boolean_edit key='published' label='published' icon='checkmark'
-                    +boolean_edit key='anonymous' label='anonymous' icon='visible'
                     .ui.header
                         +i name='truck'
                         |delivery
@@ -275,56 +275,54 @@ template(name='post_edit')
                 .column
                     +html_edit key='description' label='description' icon='content' direct=true
                 .column
-                    .ui.segment
-                        .ui.header
-                            +i name='shield'
-                            | policies
-                        .content
-                            +boolean_edit key='approval_required' label='approval required' icon='checkmark' direct=true
-                            if approval_required
-                                div
-                                |you will receive a notification when reservations are requested
-                            .ui.small.header
-                                +i name='refund'
-                                | refunds
-                            +boolean_edit key='allow_refunds' label='allow refunds' icon='refund' direct=true
-                            if allow_refunds
-                                +number_edit key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
-                                +number_edit key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
-                    .ui.segment
-                        .ui.header
-                            +i name='pie-chart'
-                            |ownership
-                        .content
-                            +single_user_edit key='owner_username' label='owner' direct=true
-                            +single_user_edit key='handler_username' label='handler' direct=true
-                    .ui.segment
-                        .ui.header
-                            +i name='clock'
-                            |availability
-                        .content
-                            +array_edit key='availability_tags' label='availability tags' icon='clock' direct=true
-                            +boolean_edit key='available' label='currently available' direct=true
-                            +multi_doc_edit key='available_days' label='available days' ref_model='day_of_week' direct=true
+                    .ui.header
+                        +i name='shield'
+                        | policies
+                    .content
+                        +boolean_edit key='approval_required' label='approval required' icon='checkmark' direct=true
+                        if approval_required
+                            div
+                            |you will receive a notification when reservations are requested
+                        .ui.small.header
+                            +i name='refund'
+                            | refunds
+                        +boolean_edit key='allow_refunds' label='allow refunds' icon='refund' direct=true
+                        if allow_refunds
+                            +number_edit key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
+                            +number_edit key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
                 .column
-                    .ui.segment    
-                        .ui.header
-                            +i name='groups'
-                            |audience
-                        .content
-                            +boolean_edit key='transaction_number_restriction' label='transaction number restriction' icon='hashtag' direct=true
-                            if transaction_number_restriction
-                                +number_edit key='transaction_number_restriction_threshold' label='transaction number restriction threshold' direct=true
-                            +boolean_edit key='transaction_amount_restriction' label='transaction amount restriction' icon='money' direct=true
-                            if transaction_amount_restriction
-                                +number_edit key='transaction_amount_restriction_threshold' label='transaction amount restriction threshold' direct=true
-                            +boolean_edit key='visible_to_public' label='visible to public' direct=true
-                            unless visible_to_public
-                                +boolean_edit key='visible_to_friends' label='visible to friends' direct=true
-                            unless visible_to_public
-                                +boolean_edit key='visible_to_specific_people' label='visible to specific people' direct=true
-                                if visible_to_specific_people
-                                    +multi_user_edit key='visible_to_member_ids' label='visible to members:' direct=true
+                    .ui.header
+                        +i name='pie-chart'
+                        |ownership
+                    .content
+                        +single_user_edit key='owner_username' label='owner' direct=true
+                        +single_user_edit key='handler_username' label='handler' direct=true
+                .column
+                    .ui.header
+                        +i name='clock'
+                        |availability
+                    .content
+                        +array_edit key='availability_tags' label='availability tags' icon='clock' direct=true
+                        +boolean_edit key='available' label='currently available' direct=true
+                        +multi_doc_edit key='available_days' label='available days' ref_model='day_of_week' direct=true
+                .column
+                    .ui.header
+                        +i name='groups'
+                        |audience
+                    .content
+                        +boolean_edit key='transaction_number_restriction' label='transaction number restriction' icon='hashtag' direct=true
+                        if transaction_number_restriction
+                            +number_edit key='transaction_number_restriction_threshold' label='transaction number restriction threshold' direct=true
+                        +boolean_edit key='transaction_amount_restriction' label='transaction amount restriction' icon='money' direct=true
+                        if transaction_amount_restriction
+                            +number_edit key='transaction_amount_restriction_threshold' label='transaction amount restriction threshold' direct=true
+                        +boolean_edit key='visible_to_public' label='visible to public' direct=true
+                        unless visible_to_public
+                            +boolean_edit key='visible_to_friends' label='visible to friends' direct=true
+                        unless visible_to_public
+                            +boolean_edit key='visible_to_specific_people' label='visible to specific people' direct=true
+                            if visible_to_specific_people
+                                +multi_user_edit key='visible_to_member_ids' label='visible to members:' direct=true
                 .column
                     .header
                         +i name='bell'
@@ -352,7 +350,7 @@ template(name='post_location')
 template(name='user_posts')
     .scrolling
         if is_current_user
-            .ui.circular.button.add_post
+            .ui.button.add_post
                 i.plus.icon
                 |post
         each posts

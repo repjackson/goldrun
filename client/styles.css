@@ -488,6 +488,7 @@ input.username_search{
 .segment, .label:not(.no_format){
     /* -webkit-border-radius: 5px !important; */
     /* -moz-border-radius: 5px !important; */
+    margin:2px !important;
     opacity:.9 !important;
     font-family: 'Ubuntu', sans-serif !important;
     /* border-radius: 8px !important; */

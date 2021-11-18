@@ -44,20 +44,24 @@ template(name='nav')
                 i.big.spinning.grey.yin.yang.icon.cancel
         else 
             a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" title='peer to peer rentals')
-                +i name='gold-hallmark' cl='ui avatar image'
+                // +i name='gold-hallmark' cl='ui avatar image'
+                i.circle.icon
                 strong.mobile.hidden gold run
             // a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
             //     +i name='search' cl='ui inline mini image'
             // a.icon.item.zoomer(href='/stats' class="{{isActivePath '/stats'}}" title='stats')
             //     +i name='line-chart' cl='ui inline mini image'
             a.item.zoomer(href='/users' class="{{isActivePath '/users'}}" title='users')
-                +i name='groups' cl='ui inline mini image'
+                // +i name='groups' cl='ui inline mini image'
+                i.users.icon
                 strong.mobile.hidden users
             a.item.zoomer(href='/orders' class="{{isActivePath '/orders'}}" title='orders')
-                +i name='order-history' cl='ui inline mini image'
+                // +i name='order-history' cl='ui inline mini image'
+                i.list.icon
                 strong.mobile.hidden orders
             a.item.zoomer(href='/deliveries' class="{{isActivePath '/deliveries'}}" title='deliveries')
-                +i name='bicycle' cl='ui inline mini image'
+                // +i name='bicycle' cl='ui inline mini image'
+                i.bicycle.icon
                 strong.mobile.hidden deliveries
         .right.menu
             if currentUser

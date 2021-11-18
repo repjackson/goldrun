@@ -84,8 +84,8 @@ template(name='set_sort_key')
             if emoji
                 em(data-emoji=emoji)
             else if icon
-                +i name=icon cl='ui avatar image'
-                // i.icon(class=icon)
+                // +i name=icon cl='ui avatar image'
+                i.large.icon(class=icon)
             |#{label}
 
 template(name='goto_model')

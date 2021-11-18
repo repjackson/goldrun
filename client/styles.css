@@ -11,7 +11,7 @@ body {
     /* background: #0e0e44 !important; */
 }
 
- img, .label, .button {
+ img, .label, .icon {
     filter: invert(1) !important;
 } 
 ::-webkit-scrollbar {

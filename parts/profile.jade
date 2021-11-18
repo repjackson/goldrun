@@ -120,14 +120,14 @@ template(name='profile')
 
 
 template(name='logout_other_clients_button')
-    a.ui.small.compact.button.logout_other_clients(href="#" title='logout other clients')
-        i.globe.icon
+    .ui.black.compact.button.logout_other_clients(title='logout other clients')
+        +i name='globe'
         |log out other clients
 
 
 
 template(name='logout_button')
-    .ui.large.icon.button.logout(title='log out')
+    .ui.large.black.button.logout(title='log out')
         // i.sign.out.alternate.icon
         +i name='exit'
         |log out

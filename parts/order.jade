@@ -77,7 +77,9 @@ template(name='order_edit')
     with current_doc
         .ui.stackable.padded.grid
             .five.wide.column
-                .ui.small.grey.inline.header editing order
+                .ui.inline.header
+                    +i name='order-history'
+                    |editing order
                 .ui.inline.header #{product_title}
                 img.ui.image(src="{{c.url order_post.image_id width=200 height=200}}")    
                 
@@ -92,9 +94,6 @@ template(name='order_edit')
                     +image_view key='image' direct=true
                     +html_view key='description' direct=true
             .five.wide.column
-                .ui.header
-                    i.big.clock.icon
-                    |rental
                 .ui.header 
                     small your credit: 
                     strong #{currentUser.points}pts

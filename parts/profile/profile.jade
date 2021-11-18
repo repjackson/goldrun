@@ -22,101 +22,95 @@ template(name='profile')
                             //- i.coins.icon
                             |{{fixed user.points}}pts
                     if is_current_user
-                        a.ui.icon.large.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                        a.ui.large.circular.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             i.cog.icon
-                    else if is_admin
-                        a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
-                            +i name='settings' cl='ui avatar image'
+                            |account
+                    // else if is_admin
+                    //     a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                    //         +i name='settings' cl='ui avatar image'
                     +friend_button
                     if is_current_user
                         +logout_button
                         +logout_other_clients_button
-                    // if is_admin
-                    // +role_viewer
                     if in_dev 
                         +print_this
                     +send_points_button
                     +request_button
                 .twelve.wide.column
-                    // +profile_nav_button label='dashboard' icon='dashboard' key='dashboard'
-                    // +profile_nav_button label='rentals' icon='clock' key='rentals'
-                    // +profile_nav_button label='credit' icon='money' key='credit'
-                    // +profile_nav_button label='orders' icon='invoice' key='orders'
-                    // +profile_nav_button label='friends' icon='meeting' key='friends'
-                    // +profile_nav_button label='reservations' icon='clock' key='reservations'
-                    div.global_container
-                        .spacer
-                        .ui.stackable.grid
-                            .two.column.row
-                                .column.medscroll
+                    .ui.stackable.grid
+                        .two.column.row
+                            .column.medscroll
+                                .ui.header 
+                                    +i name='shopping-cart'
+                                    |posts
+                                .ui.selection.animated.list
+                                    each user_post_docs 
+                                        a.item(href="/post/#{_id}") #{title}
+                            .column.medscroll
+                                .ui.header 
+                                    +i name='money'
+                                    |total sales
+                            .column.medscroll
+                                .ui.segment
                                     .ui.header 
-                                        +i name='shopping-cart'
-                                        |posts
-                                .column.medscroll
-                                    .ui.header 
-                                        +i name='money'
-                                        |total sales
-                                .column.medscroll
-                                    .ui.segment
+                                        +i name='truck'
+                                        |deliveries
+                                    if is_current_user
+                                        +key_value_edit key='delivery_availability' value='available' 
+                                        +key_value_edit key='delivery_availability' value='unavailable' 
+                                    .ui.small.header past
+                                    .ui.list 
+                                        each past_deliveries
+                                            .item #{when} #{post_title}
+                                    .ui.small.header future
+                                    .ui.list 
+                                        each past_deliveries
+                                            .item #{when} #{post_title}
+                            .column.medscroll
+                                .ui.header 
+                                    +i name='bookmark'
+                                    |bookmarks
+                                .ui.selection.link.animated.list
+                                    each bookmarked_docs 
+                                        a.item.fly_right(href="/product/#{_id}") 
+                                            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                                            |#{title}
+                            .column.medscroll
+                                .ui.header
+                                    +i name='order-history'
+                                    |orders
+                            .column.medscroll
+                                .ui.header 
+                                    +i name='clock'
+                                    |reservations
+                                .scrolling
+                                    .ui.segments
+                                        each reservations 
+                                            +profile_reservation_item
+                                    
+                            .column.medscroll
+                                .ui.one.column.grid 
+                                    .column
                                         .ui.header 
-                                            +i name='truck'
-                                            |deliveries
-                                        if is_current_user
-                                            +key_value_edit key='delivery_availability' value='available' 
-                                            +key_value_edit key='delivery_availability' value='unavailable' 
-                                        .ui.small.header past
-                                        .ui.list 
-                                            each past_deliveries
-                                                .item #{when} #{post_title}
-                                        .ui.small.header future
-                                        .ui.list 
-                                            each past_deliveries
-                                                .item #{when} #{post_title}
-                                .column.medscroll
-                                    .ui.header 
-                                        +i name='bookmark'
-                                        |bookmarks
-                                    .ui.selection.link.animated.list
-                                        each bookmarked_docs 
-                                            a.item.fly_right(href="/product/#{_id}") 
-                                                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                                                |#{title}
-                                .column.medscroll
-                                    .ui.header
-                                        +i name='order-history'
-                                        |orders
-                                .column.medscroll
-                                    .ui.header 
-                                        +i name='clock'
-                                        |reservations
-                                    .scrolling
-                                        .ui.segments
-                                            each reservations 
-                                                +profile_reservation_item
-                                        
-                                .column.medscroll
-                                    .ui.one.column.grid 
-                                        .column
-                                            .ui.header 
-                                                +i name='friends'
-                                                |friended by
-                                            .scrolling
-                                                .ui.large.selection.link.animated.list
-                                                    each friended_by_users
-                                                        a.item(href="/user/#{username}") #{username}
-                                                    each current_user.friend_ids
-                                                        // .ui.header #{this}
-                                                        +user_info
-                                        .column
-                                            .ui.header 
-                                                +i name='chevron-down'
-                                                |friended
-                                            .scrolling
-                                                .ui.large.selection.link.animated.list
-                                                    each friended
-                                                        a.item(href="/user/#{username}") #{username}
-            
-                        
+                                            +i name='friends'
+                                            |friended by
+                                        .scrolling
+                                            .ui.large.selection.link.animated.list
+                                                each current_user.friend_ids
+                                                    // .ui.header #{this}
+                                                    +user_info
+                                    .column
+                                        .ui.header 
+                                            +i name='chevron-down'
+                                            |friended
+                                        .scrolling
+                                            .ui.large.selection.link.animated.list
+                                                each friended_by_users
+                                                    a.item(href="/user/#{username}") #{username}
+                                                // each friended
+                                                //     a.item(href="/user/#{username}") #{username}
+                
+                            
 
 // template(name='profile_nav_button')                        
 //     a.ui.compact.circular.button(href="/user/#{current_username}/#{key}" class="{{isActiveRoute regex=key}}")

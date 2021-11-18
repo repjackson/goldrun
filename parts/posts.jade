@@ -4,55 +4,23 @@ template(name='posts')
             .ui.inline.header 
                 +i name='shop'
                 |#{counter}
-                |rentals
-            // .div
-            // .ui.button
-            //     i.money.icon
-            //     |affordable
-            // .ui.button
-            //     i.checkmark.icon
-            //     |available
-            // .ui.button
-            //     i.user.icon
-            //     |by me
-            // .ui.button
-            //     i.large.shopping.cart.icon
-            //     |for sale
-            // .ui.button
-            //     i.large.clock.icon
-            //     |rentals
-            // .ui.button
-            //     i.large.wrench.icon
-            //     |services
-            // .ui.left.icon.search.small.input
-            //     i.search.icon.refresh_tags
-            //     input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
-            // div
-            // .ui.inline.small.header
-            //     i.user.icon 
-            //     |authors
-            // each picked_authors
-            //     button.ui.blue.compact.small.button.unselect_tag(tabindex='0')
-            //         //- i.remove.icon
-            //         | #{this}
-            // each unpicked_authors
-            //     button.ui.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
-            //         //- small #{count}
-            // div
-            .ui.inline.small.header
-                i.marker.icon 
-                |location tags
-            each picked_location_tags
-                button.ui.blue.compact.small.button.unselect_tag(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
-            each ocation_tags
-                button.ui.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
-                    //- small #{count}
+                |item for rent
+            div
             // .spacer
             .ui.icon.input
                 i.search.icon
                 input.query(type='text' placeholder='search...')
+            .ui.inline.small.header
+                i.marker.icon 
+                |location tags
+            each picked_location_tags
+                button.ui.blue.compact.small.button.unpick_location_tag(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each location_tags
+                button.ui.compact.small.button.pick_location_tag(tabindex="0" class=result_class title=count) #{title}
+                    //- small #{count}
+            div
             |sort by
             +set_sort_key key='views' label='views' icon='eye'
             // +set_sort_key key='datetime_available' label='available' icon='clock'

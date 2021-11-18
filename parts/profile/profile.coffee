@@ -25,6 +25,7 @@ if Meteor.isClient
     Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username, ->
 
     Template.profile.onRendered ->
         Meteor.setTimeout ->
@@ -33,7 +34,7 @@ if Meteor.isClient
 
     Template.profile.events
         'click .recalc_wage_stats': (e,t)->
-            Meteor.call 'recalc_wage_stats', Router.current().params.username
+            Meteor.call 'recalc_wage_stats', Router.current().params.username, ->
 
 
     # Template.user_section.helpers
@@ -41,6 +42,10 @@ if Meteor.isClient
     #         "user_#{Router.current().params.group}"
 
     Template.profile.helpers
+        user_post_docs: ->
+            Docs.find
+                model:'post'
+                _author_username:Router.current().params.username
         user_from_username_param: ->
             Meteor.users.findOne username:Router.current().params.username
 
@@ -74,3 +79,8 @@ if Meteor.isClient
                   hideDuration : 250
                 })
             
+if Meteor.isServer
+    Meteor.publish 'user_posts', (username)->
+        Docs.find
+            model:'post'
+            _author_username:username

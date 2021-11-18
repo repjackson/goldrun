@@ -1,7 +1,7 @@
 if Meteor.isClient
     Template.posts.onCreated ->
         Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'sort_key', 'datetime_available'
+        Session.setDefault 'sort_key', 'daily_rate'
         Session.setDefault 'sort_label', 'available'
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
@@ -9,6 +9,7 @@ if Meteor.isClient
         @autorun => @subscribe 'facets',
             Session.get('query')
             picked_tags.array()
+            picked_location_tags.array()
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
@@ -19,6 +20,7 @@ if Meteor.isClient
         @autorun => @subscribe 'results',
             Session.get('query')
             picked_tags.array()
+            picked_location_tags.array()
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
@@ -116,8 +118,8 @@ if Meteor.isClient
                 title:Session.get('query')
             
         counter: -> Counts.get('post_counter')
-        tags: -> Results.find({model:'tag'})
-        location_tags: -> Results.find({model:'location_tag'})
+        tags: -> Results.find({model:'tag', title:$nin:picked_tags.array()})
+        location_tags: -> Results.find({model:'location_tag',title:$nin:picked_location_tags.array()})
         authors: -> Results.find({model:'author'})
 
         result_class: ->

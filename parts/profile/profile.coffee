@@ -23,8 +23,8 @@ if Meteor.isServer
         
 if Meteor.isClient
     Template.profile.onCreated ->
-        @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username, ->
 
     Template.profile.onRendered ->
         Meteor.setTimeout ->

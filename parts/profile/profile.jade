@@ -57,14 +57,21 @@ template(name='profile')
                                         +i name='money'
                                         |total sales
                                 .column.medscroll
-                                    .ui.header 
-                                        +i name='truck'
-                                        |deliveries
-                                    if is_current_user
-                                        +key_value_edit key='delivery_availability' value='available' 
-                                        +key_value_edit key='delivery_availability' value='unavailable' 
-                                    .ui.small.header past
-                                    .ui.small.header future
+                                    .ui.segment
+                                        .ui.header 
+                                            +i name='truck'
+                                            |deliveries
+                                        if is_current_user
+                                            +key_value_edit key='delivery_availability' value='available' 
+                                            +key_value_edit key='delivery_availability' value='unavailable' 
+                                        .ui.small.header past
+                                        .ui.list 
+                                            each past_deliveries
+                                                .item #{when} #{post_title}
+                                        .ui.small.header future
+                                        .ui.list 
+                                            each past_deliveries
+                                                .item #{when} #{post_title}
                                 .column.medscroll
                                     .ui.header 
                                         +i name='bookmark'

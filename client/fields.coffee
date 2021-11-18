@@ -28,6 +28,15 @@ Template.datetime_edit.events
             Docs.update parent._id,
                 $set:"#{@key}":val
 
+Template.date_edit.events
+    'blur .edit_date': (e,t)->
+        parent = Template.parentData()
+        val = t.$('.edit_date').val()
+        doc = Docs.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":val
+
 
 
 Template.color_edit.events

@@ -91,31 +91,30 @@ if Meteor.isClient
             picked_tags.push @valueOf()
             Router.go '/'
 
-        'click .buy_post': (e,t)->
-            post = Docs.findOne Router.current().params.doc_id
-            new_order_id = 
-                Docs.insert 
-                    model:'order'
-                    order_type:'post'
-                    post_id:post._id
-                    post_title:post.title
-                    post_price:post.dollar_price
-                    post_image_id:post.image_id
-                    post_point_price:post.point_price
-                    post_dollar_price:post.dollar_price
-            Router.go "/order/#{new_order_id}/checkout"
+        # 'click .buy_post': (e,t)->
+        #     post = Docs.findOne Router.current().params.doc_id
+        #     new_order_id = 
+        #         Docs.insert 
+        #             model:'order'
+        #             order_type:'post'
+        #             post_id:post._id
+        #             post_title:post.title
+        #             post_price:post.dollar_price
+        #             post_image_id:post.image_id
+        #             post_point_price:post.point_price
+        #             post_dollar_price:post.dollar_price
+        #     Router.go "/order/#{new_order_id}/checkout"
             
         'click .rent_post': (e,t)->
             post = Docs.findOne Router.current().params.doc_id
             new_order_id = 
                 Docs.insert 
                     model:'order'
-                    order_type:'rental'
+                    # order_type:'rental'
                     post_id:post._id
                     post_title:post.title
                     post_image_id:post.image_id
                     post_daily_rate:post.daily_rate
-                    post_hourly_rate:post.hourly_rate
                     
             Router.go "/order/#{new_order_id}/checkout"
             

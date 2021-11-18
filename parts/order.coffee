@@ -26,13 +26,13 @@ if Meteor.isClient
                 true
         can_complete: ->
             order = Docs.findOne Router.current().params.doc_id
-            order.reservation_cost < Meteor.user().points
+            order.post_daily_rate < Meteor.user().points and order.reservation_date
             
             
         points_after_purchase: ->
             user_points = Meteor.user().points
             current_order = Docs.findOne Router.current().params.doc_id
-            user_points - current_order.post_point_price
+            Meteor.user().points - current_order.post_daily_rate
 
 
     Template.order_edit.events

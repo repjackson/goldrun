@@ -44,13 +44,7 @@ template(name='user_layout')
                     +profile_nav_button label='credit' icon='money' key='credit'
                     +profile_nav_button label='orders' icon='invoice' key='orders'
                     +profile_nav_button label='friends' icon='meeting' key='friends'
-                    a.ui.compact.circular.large.button(href="/user/#{username}/friends" class="{{isActiveRoute 'user_friends'}}")
-                        +i name='meeting' cl='ui avatar image'
-                        |friends
-                    a.ui.compact.circular.large.button(href="/user/#{username}/reservations" class="{{isActiveRoute 'user_reservations'}}")
-                        +i name='clock' cl='ui avatar image'
-                        |reservations
-        
+                    +profile_nav_button label='reservations' icon='clock' key='reservations'
                     div.global_container
                         .spacer
                         +yield

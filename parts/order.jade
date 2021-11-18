@@ -95,14 +95,12 @@ template(name='order_edit')
                 .ui.header
                     i.big.clock.icon
                     |rental
-                .ui.header product point price: #{daily_rate} points/day
-                // .ui.header product dollar price: $#{product_dollar_price}
                 .ui.header 
                     small your credit: 
                     strong #{currentUser.points}pts
                 .ui.big.label
                     i.sun.icon
-                    |daily rate: #{order_product.daily_rate}p/day
+                    |daily rate: #{post_daily_rate}p/day
                 .ui.header 
                     small credit after purchase 
                     strong #{points_after_purchase}p
@@ -111,6 +109,7 @@ template(name='order_edit')
                     |delivery method
                 +key_value_edit key='delivery_method' value='delivery' label='delivery' icon='deliver-food'
                 +key_value_edit key='delivery_method' value='pickup' label='pickup' icon='contactless-delivery'
+                +date_edit key='reservation_date' label='reservation date' icon='calendar'
 
                 if key_value_is 'delivery_method' 'delivery'
                     +datetime_edit key='delivery_timedate' label='delivery timedate' direct=true

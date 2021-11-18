@@ -202,7 +202,7 @@ template(name='iflat')
 template(name='link_edit')
     div
     if icon
-        i.icon(class=icon)
+        +i name=icon
     .ui.inline.header
         |#{title} #{label}
     .ui.fluid.input

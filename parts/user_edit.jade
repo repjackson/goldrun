@@ -2,8 +2,8 @@ template(name='user_edit')
     with user_from_username_param          
         //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
         .ui.stackable.padded.grid
-            .row
-                .four.wide.column
+            .three.column.row
+                .column
                     .ui.center.aligned.large.inline.grey.header
                         | #{user_from_username_param.first_name} #{user_from_username_param.last_name}
                     //- +i name='pencil'
@@ -21,18 +21,19 @@ template(name='user_edit')
                             .ui.orange.button.remove_user 
                                 i.remove.icon
                                 |delete user
-                .eight.wide.column
+                .column
                     .ui.form
                         +text_edit key='first_name' label='first name' direct=true
                         +text_edit key='last_name' label='last name' direct=true
                         +array_edit key='location_tags' label='location tags' direct=true
                         div
+                .column
                         .ui.header 
                             i.envelope.outline.icon
                             |emails
                         +emails_edit
                         +phone_edit key='phone' label='phone' icon='phone' direct=true
-                .four.wide.column
+                .column
                     +array_edit key='allergens' label='allergens' icon='food' direct=true
                     .ui.header 
                         i.thumbs.down.icon

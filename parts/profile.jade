@@ -2,7 +2,7 @@ template(name='profile')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     with user_from_username_param
         .ui.stackable.padded.grid
-            .four.column.row
+            .three.column.row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .column
                     a.item(href="/user/#{user_from_username_param.username}/food")
@@ -86,26 +86,24 @@ template(name='profile')
                                 +profile_reservation_item
                         
                 .column
-                    .ui.one.column.grid 
-                        .column
-                            .ui.header 
-                                +i name='friends'
-                                |friended by
-                            .scrolling
-                                .ui.large.selection.link.animated.list
-                                    each current_user.friend_ids
-                                        // .ui.header #{this}
-                                        +user_info
-                        .column
-                            .ui.header 
-                                +i name='chevron-down'
-                                |friended
-                            .scrolling
-                                .ui.large.selection.link.animated.list
-                                    each friended_by_users
-                                        a.item(href="/user/#{username}") #{username}
-                                    // each friended
-                                    //     a.item(href="/user/#{username}") #{username}
+                    .ui.header 
+                        +i name='friends'
+                        |friended by
+                    .scrolling
+                        .ui.large.selection.link.animated.list
+                            each current_user.friend_ids
+                                // .ui.header #{this}
+                                +user_info
+                .column
+                    .ui.header 
+                        +i name='chevron-down'
+                        |friended
+                    .scrolling
+                        .ui.large.selection.link.animated.list
+                            each friended_by_users
+                                a.item(href="/user/#{username}") #{username}
+                            // each friended
+                            //     a.item(href="/user/#{username}") #{username}
                 
                             
 

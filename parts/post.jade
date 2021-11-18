@@ -247,7 +247,6 @@ template(name='post_edit')
                             +number_edit key='security_deposit_amount' label='security deposit amount (c)' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
                             div
                             +boolean_edit key='friends_exempt' label='friends exempt' icon='teamwork' direct=true
-                    +html_edit key='description' direct=true
                 .four.wide.column
                     +boolean_edit key='delivery_available' label='delivery available' icon='truck'
                     if delivery_available
@@ -257,16 +256,8 @@ template(name='post_edit')
                         +textarea_edit key='pickup_instructions' label='pickup instructions' icon='marker'
                     +boolean_edit key='published' label='published' icon='checkmark'
                     +boolean_edit key='anonymous' label='anonymous' icon='visible'
-    with current_doc
-        .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    .ui.header 
-                        i.pencil.icon
-                        | edit '#{title}' rental
-                    a.ui.big.fluid.green.button(href="/rental/#{_id}/" title='save')
-                        i.checkmark.icon
-                        |save
                     +remove_button
                     if is_dev
                         +single_user_edit key='_author_username' label='author username' direct=true
@@ -322,6 +313,7 @@ template(name='post_edit')
                             +array_edit key='availability_tags' label='availability tags' icon='clock' direct=true
                             +boolean_edit key='available' label='currently available' direct=true
                             +multi_doc_edit key='available_days' label='available days' ref_model='day_of_week' direct=true
+                .four.wide.column
                     .ui.segment    
                         .ui.header
                             i.users.icon
@@ -340,6 +332,7 @@ template(name='post_edit')
                                 +boolean_edit key='visible_to_specific_people' label='visible to specific people' direct=true
                                 if visible_to_specific_people
                                     +multi_user_edit key='visible_to_member_ids' label='visible to members:' direct=true
+                .four.wide.column
                     .ui.segment
                         .ui.header
                             i.people.carry.icon
@@ -359,6 +352,7 @@ template(name='post_edit')
                             +boolean_edit key='res_end_pickup' label='pickup' icon='truck' direct=true
                             if res_end_pickup
                                 +number_edit key='res_end_pickup_fee' label='reservation end pickup fee' icon='low-price' direct=true
+                .four.wide.column
                     .ui.segment
                         .title.header
                             i.bell.icon

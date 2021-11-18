@@ -141,14 +141,6 @@ template(name='subscribe_user_button')
 
 
 
-template(name='user_products_small')
-    .ui.header  
-        +i name='shop'
-        |products
-
-
-template(name='user_bookmarks')
-
 
 
 template(name='profile_reservation_item')
@@ -182,32 +174,14 @@ template(name='profile_reservation_item')
 
 
 
-template(name='user_handling')
-    .ui.small.header rentals that member is facilitating
-    .ui.three.cards
-        each handling_rentals 
-            +user_post_card
-        
-        
         
 template(name='user_post_card')
     .ui.small.card
-        a.zoom(href="/rental/#{_id}/")
+        a.zoom(href="/post/#{_id}/")
             img.ui.centered.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
         .content
-            a.ui.inline.header(href="/rental/#{_id}/") #{title} 
-                if variable_price
-                    |~
-                if hourly_dollars
-                    .ui.label #{hourly_dollars}c/hr
-                if daily_dollars
-                    .ui.label #{daily_dollars}c/day
-            //- if hourly_karma
-            //-     +ismall name='yin-yang'
-            //-     |#{hourly_karma}/hr
-            //- if daily_karma
-            //-     +ismall name='yin-yang'
-            //-     | #{daily_karma}/day
+            a.ui.inline.header(href="/post/#{_id}/") #{title} 
+                .ui.label #{daily_rate}p/day
             +rental_status
         .content
             span(title='views')
@@ -233,32 +207,30 @@ template(name='user_post_card')
 
 
 template(name='user_credit')
-    .ui.stackable.two.column.grid
+    .ui.header #{current_user.points}p
+    i.refresh.circular.link.icon.calc_user_points
+    .ui.stackable.one.column.grid
         if is_current_user
-            // .column
-            //     .ui.header 
-            //         |withdraw
-            //     |$10 minimum, takes one business day 
-            //     .ui.action.fluid.input
-            //         input.withdrawal_amount(type='number' min='1' max=currentUser.credit placeholder='amount')
-            //         .ui.icon.button.initial_withdrawal 
-            //             i.right.chevron.icon
-            //     .ui.small.header withdrawals
-            //     .ui.bulleted.list
-            //         each withdrawals
-            //             .item
-            //                 .ui.header #{when} for #{amount} credit
-            //                 |status: #{status}
-            //                 .ui.button.cancel_withdrawal
-            //                     i.ban.icon
-            //                     |cancel
-            .column
-                .ui.header stats
-                .ui.large.list 
-                    .item #{product_purchases}
-                    .item #{rental_total} rental total
             .column
                 .ui.header 
+                    |withdraw
+                |$10 minimum, takes one business day 
+                .ui.action.fluid.input
+                    input.withdrawal_amount(type='number' min='1' max=currentUser.credit placeholder='amount')
+                    .ui.icon.button.initial_withdrawal 
+                        i.right.chevron.icon
+                .ui.small.header withdrawals
+                .ui.bulleted.list
+                    each withdrawals
+                        .item
+                            .ui.header #{when} for #{amount} credit
+                            |status: #{status}
+                            .ui.button.cancel_withdrawal
+                                i.ban.icon
+                                |cancel
+            .column
+                .ui.header 
+                    +i name='donate'
                     |deposits
                 // |includes 2% credit card processing fee
                 .ui.action.fluid.input
@@ -271,7 +243,7 @@ template(name='user_credit')
                         .item 
                             .content
                                 .header 
-                                    |$#{amount} + #{bonus}c
+                                    |$#{amount}
                                 .description #{when} {{long_date _timestamp}}
                                 //- if is_dev
                                 +remove_button

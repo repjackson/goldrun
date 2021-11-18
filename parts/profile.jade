@@ -52,28 +52,27 @@ template(name='profile')
                         +i name='order-history'
                         |rented to
                 .column
-                    .ui.segment
-                        .ui.header 
-                            +i name='truck'
-                            |deliveries
-                        if is_current_user
-                            +key_value_edit key='delivery_availability' value='available' 
-                            +key_value_edit key='delivery_availability' value='unavailable' 
-                        .ui.small.header past
-                        .ui.list 
-                            each past_deliveries
-                                .item #{when} #{post_title}
-                        .ui.small.header future
-                        .ui.list 
-                            each past_deliveries
-                                .item #{when} #{post_title}
+                    .ui.header 
+                        +i name='truck'
+                        |deliveries
+                    if is_current_user
+                        +key_value_edit key='delivery_availability' value='available' 
+                        +key_value_edit key='delivery_availability' value='unavailable' 
+                    .ui.small.header past
+                    .ui.list 
+                        each past_deliveries
+                            .item #{when} #{post_title}
+                    .ui.small.header future
+                    .ui.list 
+                        each past_deliveries
+                            .item #{when} #{post_title}
                 .column
                     .ui.header 
                         +i name='bookmark'
                         |bookmarks
                     .ui.selection.link.animated.list
                         each bookmarked_docs 
-                            a.item.fly_right(href="/product/#{_id}") 
+                            a.item.fly_right(href="/post/#{_id}") 
                                 img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
                                 |#{title}
                 .column

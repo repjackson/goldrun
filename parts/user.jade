@@ -1,19 +1,19 @@
 template(name='users')
     .ui.padded.stackable.grid
-        .four.wide.column
-            +user_cloud
-        .twelve.wide.column
-            +session_set key='view_users' value='grid' icon='th' 
-            +session_set key='view_users' value='list' icon='list'
-            +session_set key='sort_users_direction' value='-1' icon='chevron down'
-            +session_set key='sort_users_direction' value='1' icon='chevron up'
-            +session_set key='sort_users_key' value='points' icon='coins'
-            +session_set key='sort_users_key' value='created_date' icon='clock'
-            // +session_set key='view_limit' value=1
-            +session_set key='view_limit' value=10
-            +session_set key='view_limit' value=20
-            +session_set key='view_limit' value=50
-            .scrolling
+        .four.column.row
+            .column
+                +user_cloud
+            .column
+                +session_set key='view_users' value='grid' icon='th' 
+                +session_set key='view_users' value='list' icon='list'
+                +session_set key='sort_users_direction' value='-1' icon='chevron down'
+                +session_set key='sort_users_direction' value='1' icon='chevron up'
+                +session_set key='sort_users_key' value='points' icon='coins'
+                +session_set key='sort_users_key' value='created_date' icon='clock'
+                // +session_set key='view_limit' value=1
+                +session_set key='view_limit' value=10
+                +session_set key='view_limit' value=20
+                +session_set key='view_limit' value=50
                 // if skv_is 'view_users' 'grid'
                 //     .ui.stackable.three.cards
                 //         each users
@@ -21,9 +21,10 @@ template(name='users')
                 //     // else if session_is 'view_users' 'list'
                 // else
                 // .ui.large.list
-                .ui.stackable.four.cards
-                    each user_docs
-                        +user_card
+                // .ui.stackable.four.cards
+            each user_docs
+                .column
+                    +user_card
 
 template(name='session_set')
     .ui.icon.button.set_value(class=session_set_class)

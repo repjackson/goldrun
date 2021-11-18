@@ -32,12 +32,6 @@ if Meteor.isClient
             Meteor.call 'refresh_rental_stats', @_id
 
 
-    Template.reserve_button.events
-        'click .new_reservation': (e,t)->
-            new_reservation_id = Docs.insert
-                model:'reservation'
-                rental_id: @_id
-            Router.go "/reservation/#{new_reservation_id}/edit"
 
 
     Template.reservation_segment.events

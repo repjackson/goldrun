@@ -94,14 +94,6 @@ template(name='rental_status')
         
         
         
-template(name='reserve_button')
-    unless approval_required
-        .ui.big.green.fluid.button.new_reservation 
-            |reserve
-    else 
-        .ui.big.blue.fluid.button.new_reservation 
-            |request
-
 
 
 template(name='rental_view_reservations')

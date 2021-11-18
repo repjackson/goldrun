@@ -1,10 +1,10 @@
 template(name='posts')
     .ui.stackable.padded.grid
-        .four.wide.column
+        .three.wide.column
             .ui.inline.header 
                 +i name='shop'
                 |#{counter}
-                |item for rent
+                |items for rent
             div
             // .spacer
             .ui.icon.input
@@ -31,7 +31,7 @@ template(name='posts')
             |&nbsp;
             |&nbsp;
             +limit_menu
-        .twelve.wide.column
+        .thirteen.wide.column
             .sorting_row
                 if selected_tag_plural
                     .ui.icon.black.compact.button.clear_picked_tags
@@ -45,7 +45,7 @@ template(name='posts')
                         //- small #{count}
             .spacer 
             if subs_ready     
-                .ui.stackable.three.centered.cards.scrolling
+                .ui.stackable.four.centered.cards.scrolling
                     each post_docs
                         +post_card
                     unless post_docs.count

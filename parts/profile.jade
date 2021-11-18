@@ -194,7 +194,6 @@ template(name='user_post_card')
             a.ui.button(href="/rental/#{_id}/")
                 |view
                 i.right.chevron.icon
-            +reserve_button
 
 
 
@@ -202,7 +201,7 @@ template(name='user_post_card')
 
 template(name='user_credit')
     .ui.inline.header #{current_user.points}p
-    i.refresh.circular.link.icon.calc_user_points
+    // i.refresh.circular.link.icon.calc_user_points
     .ui.stackable.one.column.grid
         if is_current_user
             .column

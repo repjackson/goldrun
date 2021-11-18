@@ -86,6 +86,25 @@ if Meteor.isClient
         #           hideMethod   : 'fade',
         #           hideDuration : 250
         #         })
+        'click .new_reservation': (e,t)->
+            new_reservation_id = Docs.insert
+                model:'reservation'
+                rental_id: @_id
+            Router.go "/reservation/#{new_reservation_id}/edit"
+        'click .rent_post': (e,t)->
+            post = Docs.findOne Router.current().params.doc_id
+            new_order_id = 
+                Docs.insert 
+                    model:'order'
+                    # order_type:'rental'
+                    post_id:post._id
+                    post_title:post.title
+                    post_image_id:post.image_id
+                    post_daily_rate:post.daily_rate
+                    
+            Router.go "/order/#{new_order_id}/checkout"
+            
+            
 
         'click .goto_tag': ->
             picked_tags.push @valueOf()
@@ -104,20 +123,6 @@ if Meteor.isClient
         #             post_point_price:post.point_price
         #             post_dollar_price:post.dollar_price
         #     Router.go "/order/#{new_order_id}/checkout"
-            
-        'click .rent_post': (e,t)->
-            post = Docs.findOne Router.current().params.doc_id
-            new_order_id = 
-                Docs.insert 
-                    model:'order'
-                    # order_type:'rental'
-                    post_id:post._id
-                    post_title:post.title
-                    post_image_id:post.image_id
-                    post_daily_rate:post.daily_rate
-                    
-            Router.go "/order/#{new_order_id}/checkout"
-            
             
 if Meteor.isClient
     Template.user_posts.onCreated ->

@@ -8,7 +8,7 @@ template(name='post_view')
                     //     small viewing
                     //     |#{title}
                     //     small post
-                    h1.ui.big.inline.header #{title}
+                    .ui.big.inline.header #{title}
                     a.ui.big.compact.basic.button.fly_left(href="/" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
@@ -32,18 +32,21 @@ template(name='post_view')
                             |#{this}
                     // +text_view key='location' icon='marker' label='location description' direct=true
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
-                    +html_view key='description' direct=true
                 unless anonymous
                     .column
                         with author
                             +user_card
                     // .ui.hidden.divider
                 .column
-                    +reserve_button
-                    .ui.fluid.green.big.button.rent_post
-                        i.large.clock.icon
-                        small rent for
-                        strong #{daily_rate}p/day
+                    unless approval_required
+                        .ui.big.green.fluid.button.new_reservation 
+                            i.large.clock.icon
+                            small reserve for 
+                            strong #{daily_rate}p/day
+                    else 
+                        .ui.big.blue.fluid.button.new_reservation 
+                            |request
+                        // small rent for
                     div
                     +boolean_view key='auction' label='auction' icon='podium-with-audience--v2' direct=true
                     if auction
@@ -64,15 +67,15 @@ template(name='post_view')
                             |delivery instructions:
                         |#{delivery_instructions}   
                     +rental_calendar
+                .column
                     if description
-                        .ui.segment.f4
-                            +textarea_view key='description' label='description' icon='content' direct=true
+                        +textarea_view key='description' label='description' icon='content' direct=true
                     div
                     if security_deposit_required
                         .ui.header 
                         |$#{security_deposit_amount}
                         small security deposit
-                    +text_view key='contact_info' label='contact info' icon='info' direct=true
+                    // +text_view key='contact_info' label='contact info' icon='info' direct=true
                     div
                     +link_view key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
                     +rental_calendar
@@ -86,9 +89,6 @@ template(name='post_view')
                     +related_posts
                     +voting_full    
                 .column
-                    a.ui.icon.button(href='/' title='rentals')
-                        i.left.chevron.icon
-                        +i name='clock' cl='ui avatar image'
                     +rental_status
                     // if can_edit
                     //     a.ui.icon.button(href="/rental/#{_id}/edit" title='edit')
@@ -217,7 +217,7 @@ template(name='post_orders')
 template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .three.column.row
+            .four.column.row
                 .column
                     .ui.inline.header 
                         small editing

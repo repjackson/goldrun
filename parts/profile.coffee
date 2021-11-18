@@ -8,6 +8,7 @@ if Meteor.isClient
 
     Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_bookmarked_docs', Router.current().params.username
+        Meteor.call 'calc_user_points', Router.current().params.username, ->
 
 
     Template.profile.helpers
@@ -35,8 +36,6 @@ if Meteor.isClient
     Template.profile.events
         'click .recalc_wage_stats': (e,t)->
             Meteor.call 'recalc_wage_stats', Router.current().params.username, ->
-        'click .calc_user_points': (e,t)->
-            Meteor.call 'calc_user_points', Router.current().params.username, ->
 
 
     # Template.user_section.helpers

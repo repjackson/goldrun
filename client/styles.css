@@ -2,7 +2,7 @@ body {
     /* font-family: 'Raleway', sans-serif !important; */
     /* font-family: 'Roboto', sans-serif !important; */
     /* font-family: 'Ubuntu+Mono', sans-serif !important; */
-    font-family: 'Ubuntu', sans-serif !important;
+    /*font-family: 'Ubuntu', sans-serif !important;*/
     /* font-size: 110% !important; */
     /*line-height: 200% !important;*/
      filter: invert(.9) !important;
@@ -198,10 +198,10 @@ body {
     /* border-radius:10px !important; */
 }
 .ui.segment {
-    border-radius:10px !important;
+    /*border-radius:10px !important;*/
 }
 .ui.card {
-    border-radius:10px !important;
+    /*border-radius:10px !important;*/
 }
 /* .menu > .item:hover { */
     /* filter: drop-shadow(0px 0px 5px rgba(100,100,100,.9)) !important; */
@@ -432,7 +432,7 @@ body {
     border-radius: 10px !important;
 }
 input:not(.no_format){
-    border-radius: 10px !important;
+    /*border-radius: 10px !important;*/
     margin-bottom: 3px !important;
     margin-top: 3px !important;
     /* font-size: 120% !important; */
@@ -519,7 +519,7 @@ input.username_search{
     font-size: 110% !important;
 
     /* background-color: rgba(250,250,250,1) !important; */
-    border-radius: 10px !important;
+    /*border-radius: 10px !important;*/
     /*border: solid !important;*/
     /*border-width: 1px !important;*/
     border-color: lightgrey !important;

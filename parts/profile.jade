@@ -2,9 +2,9 @@ template(name='profile')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     with user_from_username_param
         .ui.stackable.padded.grid
-            .row
+            .four.column.row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
-                .four.wide.column
+                .column
                     a.item(href="/user/#{user_from_username_param.username}/food")
                         img.ui.centered.rounded.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     .spacer
@@ -36,79 +36,76 @@ template(name='profile')
                         +print_this
                     +send_points_button
                     // +request_button
-                .twelve.wide.column
-                    .ui.stackable.grid
-                        .three.column.row
-                            .column.medscroll
-                                +user_credit
-                            .column.medscroll
-                                .ui.header 
-                                    +i name='shopping-cart'
-                                    |#{user_post_docs.count} posts
-                                .ui.selection.animated.list
-                                    each user_post_docs 
-                                        a.item(href="/post/#{_id}") 
-                                            img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                                            |#{title}
-                            .column.medscroll
-                                .ui.header 
-                                    +i name='order-history'
-                                    |rented to
-                            .column.medscroll
-                                .ui.segment
-                                    .ui.header 
-                                        +i name='truck'
-                                        |deliveries
-                                    if is_current_user
-                                        +key_value_edit key='delivery_availability' value='available' 
-                                        +key_value_edit key='delivery_availability' value='unavailable' 
-                                    .ui.small.header past
-                                    .ui.list 
-                                        each past_deliveries
-                                            .item #{when} #{post_title}
-                                    .ui.small.header future
-                                    .ui.list 
-                                        each past_deliveries
-                                            .item #{when} #{post_title}
-                            .column.medscroll
-                                .ui.header 
-                                    +i name='bookmark'
-                                    |bookmarks
-                                .ui.selection.link.animated.list
-                                    each bookmarked_docs 
-                                        a.item.fly_right(href="/product/#{_id}") 
-                                            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                                            |#{title}
-                            .column.medscroll
-                                .ui.header 
-                                    +i name='clock'
-                                    |reservations
-                                .scrolling
-                                    .ui.segments
-                                        each reservations 
-                                            +profile_reservation_item
-                                    
-                            .column.medscroll
-                                .ui.one.column.grid 
-                                    .column
-                                        .ui.header 
-                                            +i name='friends'
-                                            |friended by
-                                        .scrolling
-                                            .ui.large.selection.link.animated.list
-                                                each current_user.friend_ids
-                                                    // .ui.header #{this}
-                                                    +user_info
-                                    .column
-                                        .ui.header 
-                                            +i name='chevron-down'
-                                            |friended
-                                        .scrolling
-                                            .ui.large.selection.link.animated.list
-                                                each friended_by_users
-                                                    a.item(href="/user/#{username}") #{username}
-                                                // each friended
-                                                //     a.item(href="/user/#{username}") #{username}
+                .column
+                    +user_credit
+                .column
+                    .ui.header 
+                        +i name='shopping-cart'
+                        |#{user_post_docs.count} posts
+                    .ui.selection.animated.list
+                        each user_post_docs 
+                            a.item(href="/post/#{_id}") 
+                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                                |#{title}
+                .column
+                    .ui.header 
+                        +i name='order-history'
+                        |rented to
+                .column
+                    .ui.segment
+                        .ui.header 
+                            +i name='truck'
+                            |deliveries
+                        if is_current_user
+                            +key_value_edit key='delivery_availability' value='available' 
+                            +key_value_edit key='delivery_availability' value='unavailable' 
+                        .ui.small.header past
+                        .ui.list 
+                            each past_deliveries
+                                .item #{when} #{post_title}
+                        .ui.small.header future
+                        .ui.list 
+                            each past_deliveries
+                                .item #{when} #{post_title}
+                .column
+                    .ui.header 
+                        +i name='bookmark'
+                        |bookmarks
+                    .ui.selection.link.animated.list
+                        each bookmarked_docs 
+                            a.item.fly_right(href="/product/#{_id}") 
+                                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                                |#{title}
+                .column
+                    .ui.header 
+                        +i name='clock'
+                        |reservations
+                    .scrolling
+                        .ui.segments
+                            each reservations 
+                                +profile_reservation_item
+                        
+                .column
+                    .ui.one.column.grid 
+                        .column
+                            .ui.header 
+                                +i name='friends'
+                                |friended by
+                            .scrolling
+                                .ui.large.selection.link.animated.list
+                                    each current_user.friend_ids
+                                        // .ui.header #{this}
+                                        +user_info
+                        .column
+                            .ui.header 
+                                +i name='chevron-down'
+                                |friended
+                            .scrolling
+                                .ui.large.selection.link.animated.list
+                                    each friended_by_users
+                                        a.item(href="/user/#{username}") #{username}
+                                    // each friended
+                                    //     a.item(href="/user/#{username}") #{username}
                 
                             
 
@@ -146,14 +143,14 @@ template(name='subscribe_user_button')
 template(name='profile_reservation_item')
     .ui.segment.grid
         .row
-            .twelve.wide.column
+            .column
                 .ui.header #{rental.title}
         .row
-            .four.wide.column
+            .column
                 with rental
                     //- img.ui.mini.image(src=image)
                     +image_view key='image_id' direct=true cl='zoom ui tiny image'
-            .twelve.wide.column
+            .column
                 a.ui.header.inline.lowercase(href="/reservation/#{_id}/")
                     small from 
                     |{{cal_time start_datetime}}

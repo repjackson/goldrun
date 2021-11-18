@@ -2,8 +2,8 @@ template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
-            .row
-                .ten.wide.column
+            .four.column.row
+                .column
                     // .ui.header 
                     //     small viewing
                     //     |#{title}
@@ -24,6 +24,11 @@ template(name='post_view')
                         with author
                             +user_card
                     // .ui.hidden.divider
+                    div
+                    +array_view key='location_tags' icon='marker' direct=true title='location tags'
+                    div
+                    +text_view key='location' icon='marker' label='location' direct=true
+                    // img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
                     img.ui.centered.rounded.shadowed.fluid.image(src="{{c.url image_id crop='fit'}}")
                     i.large.tag.icon        
                     each tags 
@@ -32,13 +37,19 @@ template(name='post_view')
                     // +text_view key='location' icon='marker' label='location description' direct=true
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +html_view key='description' direct=true
-                    +comments
-                .six.wide.column
+                .column
+                    +reserve_button
                     .ui.fluid.green.big.button.rent_post
                         i.large.clock.icon
                         small rent for
                         strong #{daily_rate}p/day
                     div
+                    +boolean_view key='auction' label='auction' icon='podium-with-audience--v2' direct=true
+                    if auction
+                        +number_view key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
+                        +float_view key='minimum_bid' label='hour minimum bid' icon='refund' direct=true
+                    div
+                
                     if link 
                         +link_view key='link' label='link' direct=true
                     .ui.hidden.divider
@@ -51,38 +62,26 @@ template(name='post_view')
                         .ui.small.inline.header
                             |delivery instructions:
                         |#{delivery_instructions}      
+                .column
                     +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
                     +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
                     +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
                     +post_orders
                     +related_posts
                     +voting_full    
-    with current_doc
-        .ui.stackable.padded.grid
-            img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
-            .row
-                .four.wide.column.scrolling
+                .column
                     a.ui.icon.button(href='/' title='rentals')
                         i.left.chevron.icon
                         +i name='clock' cl='ui avatar image'
                     +rental_status
-                    .ui.header 
-                        |$#{hourly_dollars}
-                        small /hr standard rate
-                    if can_edit
-                        a.ui.icon.button(href="/rental/#{_id}/edit" title='edit')
-                            i.pencil.large.icon
-                    img.ui.centered.rounded.image(src="{{c.url image_id width=500 height=500 crop='fit'}}")
+                    // if can_edit
+                    //     a.ui.icon.button(href="/rental/#{_id}/edit" title='edit')
+                    //         i.pencil.large.icon
                     +rental_stats
                     +last_viewed
                     +creation_info
                     with _author_id
                         +user_card
-                    +array_view key='tags' icon='tags' direct=true title='tags'
-                    div
-                    +array_view key='location_tags' icon='marker' direct=true title='location tags'
-                    div
-                    +text_view key='location' icon='marker' label='location' direct=true
                     .ui.grey.header 
                         i.user.shield.icon
                         | owner
@@ -91,8 +90,7 @@ template(name='post_view')
                         i.user.clock.icon
                         | handler
                     +single_user_view key='handler_username' direct=true
-                .eight.wide.column.scrolling
-                    .ui.large.center.aligned.inline.header #{title}
+                .column
                     +rental_calendar
                     if description
                         .ui.segment.f4
@@ -108,17 +106,7 @@ template(name='post_view')
                     +rental_calendar
                     +rental_view_reservations
                     +comments
-                .four.wide.column.scrolling
-                    +reserve_button
-                    +boolean_view key='daily_rate' label='daily rate' icon='sun' direct=true
-                    if daily_rate
-                        +float_view key='daily_dollars' label='daily rate' icon='exchange' direct=true
-                    div
-                    +boolean_view key='auction' label='auction' icon='podium-with-audience--v2' direct=true
-                    if auction
-                        +number_view key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
-                        +float_view key='minimum_bid' label='hour minimum bid' icon='refund' direct=true
-                    div
+                .column
                     +boolean_view key='security_deposit_required' label='security deposit required' icon='lock' direct=true
                     if security_deposit_required
                         +number_view key='security_deposit_amount' label='security deposit amount' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
@@ -137,6 +125,7 @@ template(name='post_view')
                         +number_view key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
                         +number_view key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
 
+                .column
                     .ui.small.header
                         i.pie.chart.icon 
                         |ownership
@@ -150,6 +139,7 @@ template(name='post_view')
                         +array_view key='availability_tags' label='availability tags' icon='clock' direct=true
                         +boolean_view key='available' label='currently available' direct=true
                         +multi_doc_view key='available_days' label='available days' ref_model='day_of_week' direct=true
+                .column
                     .ui.small.header
                         i.users.icon
                         |audience
@@ -371,7 +361,7 @@ template(name='user_posts')
 template(name='profile_post_item')
     .ui.segment.grid
         .row
-            .four.wide.column
+            .four.column
                 +image_view key='image' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
                 .ui.header #{title}

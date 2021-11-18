@@ -1,9 +1,9 @@
 if Meteor.isClient
-    Template.user_credit.onCreated ->
+    Template.profile.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
-        @autorun => Meteor.subscribe 'model_docs', 'deposit'
+        # @autorun => Meteor.subscribe 'model_docs', 'deposit'
         # @autorun => Meteor.subscribe 'model_docs', 'reservation'
-        @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
+        # @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
         # if Meteor.isDevelopment
         #     pub_key = Meteor.settings.public.stripe_test_publishable
         # else if Meteor.isProduction

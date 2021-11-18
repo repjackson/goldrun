@@ -207,14 +207,14 @@ template(name='user_post_card')
 
 
 template(name='user_credit')
-    .ui.header #{current_user.points}p
+    .ui.inline.header #{current_user.points}p
     i.refresh.circular.link.icon.calc_user_points
     .ui.stackable.one.column.grid
         if is_current_user
             .column
                 .ui.header 
-                    |withdraw
-                |$10 minimum, takes one business day 
+                    |withdraw for nudefoods gift card
+                // |$10 minimum, takes one business day 
                 .ui.action.fluid.input
                     input.withdrawal_amount(type='number' min='1' max=currentUser.credit placeholder='amount')
                     .ui.icon.button.initial_withdrawal 

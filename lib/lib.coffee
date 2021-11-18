@@ -92,8 +92,8 @@ Docs.helpers
             _id:@food_id
     order_product: ->
         Docs.findOne
-            model:'product'
-            _id:@product_id
+            model:'post'
+            _id:@post_id
 
     order_total_transaction_amount: ->
         @serving_purchase_price+@cook_tip

@@ -333,7 +333,7 @@ Template.registerHelper 'is_current_user', () ->
     #         false
 Template.registerHelper 'order_product', -> 
     Docs.findOne 
-        _id:@product_id
+        _id:@post_id
     
     
 Template.registerHelper 'view_template', -> "#{@field_type}_view"

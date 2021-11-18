@@ -1,8 +1,8 @@
 template(name='order_view')
     with current_doc
         .ui.stackable.padded.grid
-            .row
-                .four.wide.center.aligned.column
+            .three.column.row
+                .column
                     // a.ui.circular.compact.button(href="/food/#{food_id}/")
                     //     i.left.chevron.icon
                     //     img.ui.avatar.image(src="{{c.url order_product.image width=200 height=200}}")    
@@ -11,23 +11,19 @@ template(name='order_view')
                         i.left.chevron.icon
                         img.ui.avatar.image(src="{{c.url order_product.image width=200 height=200}}")    
                         |#{order_product.title} product
-                .eight.wide.center.aligned.column
                     .ui.header view '#{order_product.title}' order
-                .four.wide.center.aligned.column
                     if can_edit
                         a.ui.large.circular.icon.button(href="/order/#{_id}/edit")
                             i.pencil.large.icon
-            .three.column.row
-                .column
                     .ui.header ordered #{when}
                     .ui.header order price #{order_price}
                     
                     .ui.header 
                         +i name='shop'
-                        |product
+                        |item
                     .ui.segment 
                         with order_product
-                            a(href="/product/#{_id}/")
+                            a(href="/post/#{_id}/")
                                 img.ui.rounded.image(src="{{c.url image width=400 height=400}}")
                             a(href="/product/#{_id}/")
                                 .ui.header #{title}
@@ -65,10 +61,14 @@ template(name='order_view')
                     .ui.hidden.divider
                     +comments
                 .column
-                    .ui.header buyer #{_author_username}
+                    .ui.header 
+                        small buyer
+                        strong #{_author_username}
                     with _author
                         +user_card
-                    .ui.header seller #{_author_username}
+                    .ui.header 
+                        small seller
+                        strong #{_author_username}
                     with _author
                         +user_card
 

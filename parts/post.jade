@@ -20,10 +20,6 @@ template(name='post_view')
                         |added
                         // |added by #{_author_username}
                         |#{when}
-                    unless anonymous
-                        with author
-                            +user_card
-                    // .ui.hidden.divider
                     div
                     +array_view key='location_tags' icon='marker' direct=true title='location tags'
                     div
@@ -37,6 +33,11 @@ template(name='post_view')
                     // +text_view key='location' icon='marker' label='location description' direct=true
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +html_view key='description' direct=true
+                unless anonymous
+                    .column
+                        with author
+                            +user_card
+                    // .ui.hidden.divider
                 .column
                     +reserve_button
                     .ui.fluid.green.big.button.rent_post

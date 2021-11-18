@@ -2,7 +2,7 @@ template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
-            .four.column.row
+            .three.column.row
                 .column
                     // .ui.header 
                     //     small viewing
@@ -62,7 +62,22 @@ template(name='post_view')
                     if delivery_instructions
                         .ui.small.inline.header
                             |delivery instructions:
-                        |#{delivery_instructions}      
+                        |#{delivery_instructions}   
+                    +rental_calendar
+                    if description
+                        .ui.segment.f4
+                            +textarea_view key='description' label='description' icon='content' direct=true
+                    div
+                    if security_deposit_required
+                        .ui.header 
+                        |$#{security_deposit_amount}
+                        small security deposit
+                    +text_view key='contact_info' label='contact info' icon='info' direct=true
+                    div
+                    +link_view key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
+                    +rental_calendar
+                    +rental_view_reservations
+                        
                 .column
                     +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
                     +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
@@ -83,6 +98,7 @@ template(name='post_view')
                     +creation_info
                     with _author_id
                         +user_card
+                .column
                     .ui.grey.header 
                         i.user.shield.icon
                         | owner
@@ -92,20 +108,6 @@ template(name='post_view')
                         | handler
                     +single_user_view key='handler_username' direct=true
                 .column
-                    +rental_calendar
-                    if description
-                        .ui.segment.f4
-                            +textarea_view key='description' label='description' icon='content' direct=true
-                    div
-                    if security_deposit_required
-                        .ui.header 
-                        |$#{security_deposit_amount}
-                        small security deposit
-                    +text_view key='contact_info' label='contact info' icon='info' direct=true
-                    div
-                    +link_view key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
-                    +rental_calendar
-                    +rental_view_reservations
                     +comments
                 .column
                     +boolean_view key='security_deposit_required' label='security deposit required' icon='lock' direct=true
@@ -118,7 +120,7 @@ template(name='post_view')
                     if approval_required
                         div
                         |you will receive a notification when reservations are requested
-                    .ui.small.header
+                    .ui.header
                         +i name='refund'
                         | refunds
                     +boolean_view key='allow_refunds' label='allow refunds' icon='refund' direct=true
@@ -127,22 +129,23 @@ template(name='post_view')
                         +number_view key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
 
                 .column
-                    .ui.small.header
-                        i.pie.chart.icon 
+                    .ui.header
+                        +i name='pie-chart'
                         |ownership
                     .content
                         +single_user_view key='owner_username' label='owner' direct=true
                         +single_user_view key='handler_username' label='handler' direct=true
-                    .ui.small.header
-                        i.clock.icon
+                .column
+                    .ui.header
+                        +i name='clock'
                         |availability
                     .content
                         +array_view key='availability_tags' label='availability tags' icon='clock' direct=true
                         +boolean_view key='available' label='currently available' direct=true
                         +multi_doc_view key='available_days' label='available days' ref_model='day_of_week' direct=true
                 .column
-                    .ui.small.header
-                        i.users.icon
+                    .ui.header
+                        +i name='groups'
                         |audience
                     .content
                         +boolean_view key='transaction_number_restriction' label='transaction number restriction' icon='hashtag' direct=true
@@ -158,26 +161,29 @@ template(name='post_view')
                             +boolean_view key='visible_to_specific_people' label='visible to specific people' direct=true
                             if visible_to_specific_people
                                 +multi_user_view key='visible_to_member_ids' label='visible to members:' direct=true
-                    .ui.small.header
-                        i.people.carry.icon
+                .column
+                    .ui.header
+                        +i name='bicycle'
                         |delivery
                     .content
-                        .ui.small.header
+                        .ui.header
                             +i name='clock' cl='ui inline tiny image'
                             |reservation start
                         +boolean_view key='res_start_pickup' label='pickup' icon='truck' direct=true
                         +boolean_view key='res_start_dropoff' label='dropoff' icon='dolly' direct=true
                         if res_start_dropoff
                             +number_view key='res_start_dropoff_fee' label='reservation start dropoff fee' icon='low-price' direct=true
-                        .ui.small.header
-                            i.clock.icon
-                            |reservation end
-                        +boolean_view key='res_end_dropoff' label='dropoff' icon='dolly' direct=true
-                        +boolean_view key='res_end_pickup' label='pickup' icon='truck' direct=true
-                        if res_end_pickup
-                            +number_view key='res_end_pickup_fee' label='reservation end pickup fee' icon='low-price' direct=true
-                    .ui.small.header
-                        i.bell.icon
+                .column
+                    .ui.header
+                        +i name='clock'
+                        |reservation end
+                    +boolean_view key='res_end_dropoff' label='dropoff' icon='dolly' direct=true
+                    +boolean_view key='res_end_pickup' label='pickup' icon='truck' direct=true
+                    if res_end_pickup
+                        +number_view key='res_end_pickup_fee' label='reservation end pickup fee' icon='low-price' direct=true
+                .column
+                    .ui.header
+                        +i name='bell'
                         |notifications
                     .content
                         +boolean_view key='notify_on_reservation' label='on new reservation' icon='plus' direct=true
@@ -211,7 +217,7 @@ template(name='post_orders')
 template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .four.column.row
+            .three.column.row
                 .column
                     .ui.inline.header 
                         small editing
@@ -258,14 +264,14 @@ template(name='post_edit')
                         +i name='truck'
                         |delivery
                     .content
-                        .ui.small.header
+                        .ui.header
                             +i name='clock' cl='ui inline tiny image'
                             |reservation start
                         +boolean_edit key='res_start_pickup' label='pickup' icon='truck' direct=true
                         +boolean_edit key='res_start_dropoff' label='dropoff' icon='dolly' direct=true
                         if res_start_dropoff
                             +number_edit key='res_start_dropoff_fee' label='reservation start dropoff fee' icon='low-price' direct=true
-                        .ui.small.header
+                        .ui.header
                             i.clock.icon
                             |reservation end
                         +boolean_edit key='res_end_dropoff' label='dropoff' icon='dolly' direct=true
@@ -284,7 +290,7 @@ template(name='post_edit')
                         if approval_required
                             div
                             |you will receive a notification when reservations are requested
-                        .ui.small.header
+                        .ui.header
                             +i name='refund'
                             | refunds
                         +boolean_edit key='allow_refunds' label='allow refunds' icon='refund' direct=true
@@ -360,11 +366,11 @@ template(name='user_posts')
 template(name='profile_post_item')
     .ui.segment.grid
         .row
-            .four.column
+            .three.column
                 +image_view key='image' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
                 .ui.header #{title}
-                a.ui.small.header.inline.lowercase(href="/post/#{_id}/")
+                a.ui.header.inline.lowercase(href="/post/#{_id}/")
                     |#{daily_rate}p/day
                 .ui.small.inline.header #{when}
                 a.ui.button(href="/post/#{_id}/")

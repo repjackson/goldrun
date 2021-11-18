@@ -56,11 +56,6 @@ if Meteor.isClient
                 Docs.insert 
                     model:'request'
                     title:Session.get('query')
-        'click .add_post': ->
-            new_id =
-                Docs.insert
-                    model:'post'
-            Router.go("/post/#{new_id}/edit")
 
 
         # 'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))

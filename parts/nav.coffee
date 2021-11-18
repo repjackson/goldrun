@@ -6,6 +6,14 @@ if Meteor.isClient
             # $('.menu_dropdown').dropdown(
                 # on:'hover'
             # )
+        'click .add_post': ->
+            new_id =
+                Docs.insert
+                    model:'post'
+                    published:false
+                    daily_rate:1
+            Router.go "/post/#{new_id}/edit"
+            
 
         'click #logout': ->
             Session.set 'logging_out', true
@@ -33,27 +41,6 @@ if Meteor.isClient
         notifications: ->
             Docs.find
                 model:'notification'
-        role_models: ->
-            if Meteor.user()
-                if Meteor.user() and Meteor.user().roles
-                    if 'dev' in Meteor.user().roles
-                        Docs.find {
-                            model:'model'
-                        }, sort:title:1
-                    else
-                        Docs.find {
-                            model:'model'
-                            view_roles:$in:Meteor.user().roles
-                        }, sort:title:1
-            else
-                Docs.find {
-                    model:'model'
-                    view_roles: $in:['public']
-                }, sort:title:1
-
-        models: ->
-            Docs.find
-                model:'model'
 
         unread_count: ->
             unread_count = Docs.find({
@@ -76,12 +63,6 @@ if Meteor.isClient
             }).count()
             if unread_count then 'red' else ''
 
-
-        bookmarked_models: ->
-            if Meteor.userId()
-                Docs.find
-                    model:'model'
-                    bookmark_ids:$in:[Meteor.userId()]
 
 
     Template.my_latest_activity.onCreated ->
@@ -126,12 +107,6 @@ if Meteor.isServer
         },
             limit:5
             sort:_timestamp:-1
-
-    Meteor.publish 'bookmarked_models', ->
-        if Meteor.userId()
-            Docs.find
-                model:'model'
-                bookmark_ids:$in:[Meteor.userId()]
 
 
     Meteor.publish 'unread_messages', (username)->

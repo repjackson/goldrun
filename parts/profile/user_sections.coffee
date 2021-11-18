@@ -205,11 +205,11 @@ if Meteor.isClient
 
 
 
-    Template.user_dashboard.onCreated ->
+    Template.profile.onCreated ->
         @autorun => Meteor.subscribe 'user_upcoming_reservations', Router.current().params.username
         @autorun => Meteor.subscribe 'user_handling', Router.current().params.username
         @autorun => Meteor.subscribe 'user_current_reservations', Router.current().params.username
-    Template.user_dashboard.helpers
+    Template.profile.helpers
         current_reservations: ->
             Docs.find
                 model:'reservation'
@@ -236,6 +236,3 @@ if Meteor.isClient
             interest_rate.toFixed(2)
 
 
-    Template.user_dashboard.events
-        'click .recalc_wage_stats': (e,t)->
-            Meteor.call 'recalc_wage_stats', Router.current().params.username

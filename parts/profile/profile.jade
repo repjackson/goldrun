@@ -1,6 +1,5 @@
-template(name='user_layout')
+template(name='profile')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
-    +nav
     with user_from_username_param
         .ui.stackable.padded.grid
             .row
@@ -39,15 +38,25 @@ template(name='user_layout')
                     +send_points_button
                     +request_button
                 .twelve.wide.column
-                    +profile_nav_button label='dashboard' icon='dashboard' key='dashboard'
-                    +profile_nav_button label='rentals' icon='clock' key='rentals'
-                    +profile_nav_button label='credit' icon='money' key='credit'
-                    +profile_nav_button label='orders' icon='invoice' key='orders'
-                    +profile_nav_button label='friends' icon='meeting' key='friends'
-                    +profile_nav_button label='reservations' icon='clock' key='reservations'
+                    // +profile_nav_button label='dashboard' icon='dashboard' key='dashboard'
+                    // +profile_nav_button label='rentals' icon='clock' key='rentals'
+                    // +profile_nav_button label='credit' icon='money' key='credit'
+                    // +profile_nav_button label='orders' icon='invoice' key='orders'
+                    // +profile_nav_button label='friends' icon='meeting' key='friends'
+                    // +profile_nav_button label='reservations' icon='clock' key='reservations'
                     div.global_container
                         .spacer
-                        +yield
+                        .ui.stackable.grid
+                            .two.column.row
+                                .column.smallscroll
+                                    +user_bookmarks
+                                .column.smallscroll
+                                    +user_orders_small
+                                .column.smallscroll
+                                    +user_reservations_small
+                                .column.smallscroll
+                                    +user_friends
+            
                         
 
 template(name='profile_nav_button')                        
@@ -83,18 +92,6 @@ template(name='subscribe_user_button')
         +i name='subscription'
         |subscribe
 
-template(name='user_dashboard')
-    .ui.stackable.grid
-        .two.column.row
-            .column.smallscroll
-                +user_bookmarks
-            .column.smallscroll
-                +user_orders_small
-            .column.smallscroll
-                +user_reservations_small
-            .column.smallscroll
-                +user_friends
-            
 
 
 template(name='user_orders_small')

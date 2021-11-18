@@ -1,36 +1,36 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
-        @layout 'user_layout'
-        @render 'user_dashboard'
+        @layout 'layout'
+        @render 'profile'
         ), name:'profile'
-    Router.route '/user/:username/dashboard', (->
-        @layout 'user_layout'
-        @render 'user_dashboard'
-        ), name:'user_dashboard'
-    Router.route '/user/:username/rentals', (->
-        @layout 'user_layout'
-        @render 'user_rentals'
-        ), name:'user_rentals'
-    Router.route '/user/:username/credit', (->
-        @layout 'user_layout'
-        @render 'user_credit'
-        ), name:'user_credit'
-    Router.route '/user/:username/orders', (->
-        @layout 'user_layout'
-        @render 'user_orders'
-        ), name:'user_orders'
-    Router.route '/user/:username/messages', (->
-        @layout 'user_layout'
-        @render 'user_messages'
-        ), name:'user_messages'
-    Router.route '/user/:username/notifications', (->
-        @layout 'user_layout'
-        @render 'user_notifications'
-        ), name:'user_notifications'
-    Router.route '/user/:username/friends', (->
-        @layout 'user_layout'
-        @render 'user_friends'
-        ), name:'user_friends'
+    # Router.route '/user/:username/dashboard', (->
+    #     @layout 'profile'
+    #     @render 'user_dashboard'
+    #     ), name:'user_dashboard'
+    # Router.route '/user/:username/rentals', (->
+    #     @layout 'profile'
+    #     @render 'user_rentals'
+    #     ), name:'user_rentals'
+    # Router.route '/user/:username/credit', (->
+    #     @layout 'profile'
+    #     @render 'user_credit'
+    #     ), name:'user_credit'
+    # Router.route '/user/:username/orders', (->
+    #     @layout 'profile'
+    #     @render 'user_orders'
+    #     ), name:'user_orders'
+    # Router.route '/user/:username/messages', (->
+    #     @layout 'profile'
+    #     @render 'user_messages'
+    #     ), name:'user_messages'
+    # Router.route '/user/:username/notifications', (->
+    #     @layout 'profile'
+    #     @render 'user_notifications'
+    #     ), name:'user_notifications'
+    # Router.route '/user/:username/friends', (->
+    #     @layout 'profile'
+    #     @render 'user_friends'
+    #     ), name:'user_friends'
 
 
 
@@ -50,21 +50,25 @@ if Meteor.isServer
             _id: $in: user.bookmark_ids
         
 if Meteor.isClient
-    Template.user_layout.onCreated ->
+    Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username
 
-    Template.user_layout.onRendered ->
+    Template.profile.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
         , 2000
+
+    Template.profile.events
+        'click .recalc_wage_stats': (e,t)->
+            Meteor.call 'recalc_wage_stats', Router.current().params.username
 
 
     # Template.user_section.helpers
     #     user_section_template: ->
     #         "user_#{Router.current().params.group}"
 
-    Template.user_layout.helpers
+    Template.profile.helpers
         user_from_username_param: ->
             Meteor.users.findOne username:Router.current().params.username
 

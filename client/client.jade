@@ -56,10 +56,11 @@ template(name='nav')
                 
         .right.menu
             if currentUser
-                a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
+                // a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
+                a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
                     // | {{fixed currentUser.points}}p
                     | {{currentUser.points}}p
-                a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
+                    &nbsp;
                     if currentUser.image_id
                         img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
                     else

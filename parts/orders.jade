@@ -1,0 +1,111 @@
+template(name='orders')
+    .ui.stackable.padded.grid
+        .four.wide.column
+            .ui.inline.header 
+                +i name='order-history'
+                |#{counter}
+                |orders
+            div
+            // .spacer
+            .ui.icon.input
+                i.search.icon
+                input.query(type='text' placeholder='search...')
+            .ui.inline.small.header
+                i.marker.icon 
+                |location tags
+            each picked_location_tags
+                button.ui.blue.compact.small.button.unpick_location_tag(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each location_tags
+                button.ui.compact.small.button.pick_location_tag(tabindex="0" class=result_class title=count) #{title}
+                    //- small #{count}
+            div
+            |sort by
+            // +set_sort_key key='views' label='views' icon='eye'
+            // // +set_sort_key key='datetime_available' label='available' icon='clock'
+            // +set_sort_key key='price' label='price' icon='money'
+            // +set_sort_key key='_timestamp' label='added' icon='clock'
+            // +set_sort_key key='comment_count' label='comment count' icon='chat'
+            // +set_sort_direction
+            // |&nbsp;
+            // |&nbsp;
+            // +limit_menu
+        .twelve.wide.column
+            .sorting_row
+                .ui.button today
+                .ui.button tomorrow
+                .ui.button this week
+                .ui.button next week
+                if selected_tag_plural
+                    .ui.icon.black.compact.button.clear_picked_tags
+                        i.remove.icon
+                each picked_tags
+                    button.ui.blue.compact.large.button.unselect_tag(tabindex='0')
+                        //- i.remove.icon
+                        | #{this}
+                each tags
+                    button.ui.compact.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+                        //- small #{count}
+            .spacer 
+            if subs_ready     
+                .ui.stackable.three.centered.cards.scrolling
+                    each order_docs
+                        +order_card
+                    unless order_docs.count
+                        .ui.button.request_order
+                            |request
+                        each requests
+                            .ui.header #{when}
+            else 
+                .ui.center.aligned.basic.segment
+                    i.massive.yellow.notched.circle.loading.icon
+
+
+template(name='order_card')
+    .ui.card(class=order_card_class)
+        a.image.fly_right(href="/order/#{_id}/") 
+            img.ui.zoomer.pointer.goto_order.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+        .content
+            a.ui.inline.header.zoomer.fly_right(href="/order/#{_id}/") 
+                | #{title}
+            .ui.inline.header #{daily_rate}p/day
+            
+            each tags
+                a.ui.small.link.label.flat_pick_tag.spaced #{this}
+            .right.floated.meta
+                | #{when}
+            unless anonymous
+                a(href="/user/#{_author_username}")
+                    img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
+                    |#{_author_username}
+            // .ui.label #{inventory} units available
+            // .ui.label #{order_total} total orders
+            if order
+                +i name='deliver-order' cl='ui avatar image'
+                if order_fee
+                    .ui.inline.header(title='order fee') $#{order_fee}
+            if open
+                +i name='checkmark' cl='ui avatar image'
+            else 
+                i.ban.icon(title='not open to new orders')
+            if pickup
+                +i name='doormat' cl='ui avatar image'
+            // if can_edit
+            //     a.ui.large.icon.button(href="/order/#{_id}/edit")
+            //         i.pencil.icon
+            if currentUser 
+                i.thumbs.up.link.grey.icon.upvote
+                i.thumbs.down.link.grey.icon.downvote
+            if location_tags
+                i.marker.icon
+                each location_tags  
+                    .ui.label #{this}
+        //- .ui.bottom.attached.buttons        
+        //-     .ui.green.button.quickbuy
+        //-         i.lightning.icon
+        //-         |buy
+        //-     a.ui.button(href="/order/#{_id}/")
+        //-         |view
+        //-         i.right.chevron.icon
+

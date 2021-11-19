@@ -194,11 +194,11 @@ template(name='post_view')
 
 template(name='map')
     .ui.segment
-        #mapid
-        // unless pos
-        .ui.large.fluid.button.refresh
+        .ui.fluid.button.refresh
             i.marker.icon
             |reload location data
+        #mapid
+        // unless pos
         // .ui.one.column.padded.grid
         //     .column
         //         .ui.center.aligned.header People Near You: #{my_longform} (#{my_category})

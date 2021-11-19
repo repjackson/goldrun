@@ -46,7 +46,7 @@ template(name='layout')
         +yield
 
 template(name='nav')
-    #topnav.topnav.ui.attached.borderless.large.five.item.menu.hscroll.clear
+    #topnav.topnav.ui.attached.borderless.large.six.item.menu.hscroll.clear
         if is_loading
             .icon.item
                 i.big.spinning.grey.yin.yang.icon.cancel
@@ -57,8 +57,8 @@ template(name='nav')
                 // strong.mobile.hidden gold run
             // a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
             //     +i name='search' cl='ui inline mini image'
-            // a.icon.item.zoomer(href='/stats' class="{{isActivePath '/stats'}}" title='stats')
-            //     +i name='line-chart' cl='ui inline mini image'
+            a.icon.item.zoomer(href='/map' class="{{isActivePath '/map'}}" title='map')
+                i.marker.large.icon
             // a.item.zoomer(href='/users' class="{{isActivePath '/users'}}" title='users')
             //     // +i name='groups' cl='ui inline mini image'
             //     i.users.icon

@@ -1,6 +1,7 @@
 # # @selected_tags = new ReactiveArray []
 
 Router.route '/map2', -> @render 'map2'
+@current_markers = new ReactiveArray []
 
 # # @onpush = (event)->
 # #   console.log(event.data);
@@ -217,8 +218,8 @@ Router.route '/map2', -> @render 'map2'
 #             light_mode:true
     # 'click .init': (e,t)->
 Template.map2.onRendered ->
-    console.log 'hi'
-    console.log @
+    # console.log 'hi'
+    # console.log @
     L.mapbox.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
     @map = L.mapbox.map 'map'
 
@@ -228,7 +229,17 @@ Template.map2.onRendered ->
     #     .setView([40, -74.50], 9)
     #     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
             
+Template.map2.helpers
+    current_markers: -> current_markers.array()
 Template.map2.events
+    'keyup .add_place': (e,t)->
+        val = $('.add_place').val()
+        if e.which is 13
+            current_markers.push val
+            t.geocoder.query val, (error, result) ->
+                console.log 'found result', result
+                L.marker(result.latlng).addTo(t.map)
+            val = $('.add_place').val('')
     'click .draw': (e,t)->
         t.map.setView [40, -74.50], 3
         t.map.addLayer L.mapbox.styleLayer 'mapbox://styles/mapbox/streets-v11'

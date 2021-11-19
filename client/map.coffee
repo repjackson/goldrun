@@ -1,6 +1,7 @@
 # # @selected_tags = new ReactiveArray []
 
 Router.route '/map2', -> @render 'map2'
+Router.route '/mapgl', -> @render 'mapgl'
 @current_markers = new ReactiveArray []
 
 # # @onpush = (event)->
@@ -13,7 +14,7 @@ Router.route '/map2', -> @render 'map2'
 
 
 
-# Template.map.helpers
+# Template.map2.helpers
 #     pos:-> 
 #         # console.log Geolocation.currentLocation()
 #         Geolocation.currentLocation()
@@ -62,12 +63,12 @@ Router.route '/map2', -> @render 'map2'
 #     #         .transition('fade in', 250)
 
 
-# Template.map.onCreated ->
+# Template.map2.onCreated ->
 #     # @autorun => Meteor.subscribe 'markers'
 #     # if Meteor.user()
 #     # @autorun => Meteor.subscribe 'nearby_people', Session.get('current_user')
 
-# Template.map.onRendered =>
+# Template.map2.onRendered =>
 #     # navigator.geolocation.getCurrentPosition (position) =>
 #     #     console.log 'navigator position', position
 #     #     Session.set('current_lat', position.coords.latitude)
@@ -212,7 +213,7 @@ Router.route '/map2', -> @render 'map2'
 # #         console.log("person added")
 
 
-# Template.map.helpers
+# Template.map2.helpers
 #     nearby_people: ->
 #         Docs.find
 #             light_mode:true
@@ -222,26 +223,26 @@ Template.map2.onCreated ->
 Template.map2.onRendered ->
     # console.log 'hi'
     # console.log @
-    # L.mapbox.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
-    # @map = L.mapbox.map 'map'
+    L.mapbox.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
+    @map = L.mapbox.map 'map'
 
-    # @geocoder = L.mapbox.geocoder 'mapbox.places'
-    # # @map = L.mapbox.map('map')
-    # #     .setView([40, -74.50], 9)
-    # #     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
-    # @map.on('click', (e)->
-    #     # 	alert(e.latlng);
-    #     $('body').toast(
-    #         showIcon: 'marker'
-    #         message: "lat long: #{e.latlng}"
-    #         # showProgress: 'bottom'
-    #         class: 'success'
-    #         displayTime: 'auto',
-    #         position: "bottom right"
-    #     )
+    @geocoder = L.mapbox.geocoder 'mapbox.places'
+    # @map = L.mapbox.map('map')
+    #     .setView([40, -74.50], 9)
+    #     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
+    @map.on('click', (e)->
+        # 	alert(e.latlng);
+        $('body').toast(
+            showIcon: 'marker'
+            message: "lat long: #{e.latlng}"
+            # showProgress: 'bottom'
+            class: 'success'
+            displayTime: 'auto',
+            position: "bottom right"
+        )
     	
     	
-    # )
+    )
             
 Template.map2.helpers
     current_markers: -> current_markers.array()
@@ -328,25 +329,25 @@ Template.map2.events
                 t.map.setView result.latlng, 10
             val = $('.add_place').val('')
     'click .draw': (e,t)->
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
-        mapgl = new mapboxgl.Map({
-            container: 'mapgl', # container ID
-            style: 'mapbox://styles/mapbox/streets-v11', # style URL
-            center: [-74.5, 40], # starting position [lng, lat]
-            zoom: 9 # starting zoom
-        });
+        # mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
+        # mapgl = new mapboxgl.Map({
+        #     container: 'mapgl', # container ID
+        #     style: 'mapbox://styles/mapbox/streets-v11', # style URL
+        #     center: [-74.5, 40], # starting position [lng, lat]
+        #     zoom: 9 # starting zoom
+        # });
         
-        # t.map.setView [40, -74.50], 3
-        # t.map.addLayer L.mapbox.styleLayer 'mapbox://styles/mapbox/streets-v11'
-        # # myFeatureLayer.on('click', (e)=>
-        # #     t.map.panTo(e.layer.getLatLng());
-        # # )
+        t.map.setView [40, -74.50], 3
+        t.map.addLayer L.mapbox.styleLayer 'mapbox://styles/mapbox/streets-v11'
+        # myFeatureLayer.on('click', (e)=>
+        #     t.map.panTo(e.layer.getLatLng());
+        # )
 
-        # add = (placename) ->
-        #     t.geocoder.query placename, (error, result) ->
-        #         L.marker(result.latlng).addTo(t.map)
+        add = (placename) ->
+            t.geocoder.query placename, (error, result) ->
+                L.marker(result.latlng).addTo(t.map)
 
-        # add place for place in ['Washington, DC', 'San Francisco', 'Detroit, MI']
+        add place for place in ['Washington, DC', 'San Francisco', 'Detroit, MI']
 
         
     'click .find_me': (e,t)->

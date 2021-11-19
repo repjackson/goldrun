@@ -59,12 +59,11 @@ template(name='map2')
                     i.remove.icon
                     |#{this}
             #map
-            #mapgl
             .ui.header rentals
             .ui.four.cards.list
                 each rental_docs
                     .card
-                        img.ui.image(src="{{c.url image_id width=400 height=400}}")
+                        img.ui.image.pick_rental.pointer.zoomer(src="{{c.url image_id width=400 height=400}}")
                         .content
                             a.header.pick_rental.zoomer #{title},
                             .description
@@ -73,3 +72,9 @@ template(name='map2')
                                     .ui.label #{this}
                                 a.ui.compact.button(href="/post/#{_id}")
                                     |view
+        
+template(name='mapgl')
+    #mapgl
+        
+        
+            

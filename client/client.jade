@@ -5,7 +5,7 @@ head
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
     meta(name="msapplication-TileColor" content="#000000")
     meta(name="theme-color" content="#000000")
-    link(rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css')
+    link(rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css')
     link(href="https://fonts.googleapis.com/css?family=Ubuntu:300,400&display=swap" rel="stylesheet")
     link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
     link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
@@ -15,11 +15,19 @@ head
     // link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
 
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
-    script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.js')
+    script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js')
     
     script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
     // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
     // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
+    link(rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="")
+
+    script(src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin="")
+    
 
     //- script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-140259454-1')
     script.
@@ -120,8 +128,8 @@ template(name='verification_confirmation')
         h1.ui.header your email has been verified
 
 
-template(name='map')
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1527.9701169651082!2d-105.25585774191387!3d40.0097825492517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876bedc5f7dbe969%3A0x1315eee779732075!2sShadow%20Creek%20Dr%2C%20Boulder%2C%20CO%2080303!5e0!3m2!1sen!2sus!4v1632511679104!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+// template(name='map')
+//     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1527.9701169651082!2d-105.25585774191387!3d40.0097825492517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876bedc5f7dbe969%3A0x1315eee779732075!2sShadow%20Creek%20Dr%2C%20Boulder%2C%20CO%2080303!5e0!3m2!1sen!2sus!4v1632511679104!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 
 template(name='not_found')
     .ui.center.aligned.padded.basic.segment

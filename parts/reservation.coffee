@@ -81,7 +81,7 @@ if Meteor.isServer
                 model:'rental'
                 _id: reservation.rental_id
 
-        Meteor.users.find
+        Docs.find
             _id: rental.owner_username
 
     Meteor.publish 'handler_by_res_id', (res_id)->
@@ -91,7 +91,7 @@ if Meteor.isServer
                 model:'rental'
                 _id: reservation.rental_id
 
-        Meteor.users.find
+        Docs.find
             _id: rental.handler_username
 
     Meteor.methods
@@ -377,8 +377,8 @@ if Meteor.isServer
         send_payment: (from_username, to_username, amount, reason, reservation_id)->
             console.log 'sending payment from', from_username, 'to', to_username, 'for', amount, reason, reservation_id
             res = reservation_id
-            sender = Meteor.users.findOne username:from_username
-            recipient = Meteor.users.findOne username:to_username
+            sender = Docs.findOne username:from_username
+            recipient = Docs.findOne username:to_username
 
 
             console.log 'sender', sender._id
@@ -387,10 +387,10 @@ if Meteor.isServer
             #
             amount  = parseFloat amount
 
-            Meteor.users.update sender._id,
+            Docs.update sender._id,
                 $inc: credit: -amount
 
-            Meteor.users.update recipient._id,
+            Docs.update recipient._id,
                 $inc: credit: amount
 
             Docs.insert

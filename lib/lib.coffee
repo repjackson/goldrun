@@ -1,6 +1,7 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
 @Results = new Meteor.Collection 'results'
+@Markers = new Meteor.Collection 'markers'
 
 
 Docs.before.insert (userId, doc)->
@@ -60,8 +61,8 @@ if Meteor.isServer
 
 
 Docs.helpers
-    # author: -> Meteor.users.findOne @_author_id
-    # cook: -> Meteor.users.findOne @cook_user_id
+    # author: -> Docs.findOne @_author_id
+    # cook: -> Docs.findOne @cook_user_id
 
     when: -> moment(@_timestamp).fromNow()
     ten_tags: -> if @tags then @tags[..10]
@@ -73,10 +74,10 @@ Docs.helpers
     is_private: -> @published is -1
     # from_user: ->
     #     if @from_user_id
-    #         Meteor.users.findOne @from_user_id
+    #         Docs.findOne @from_user_id
     # to_user: ->
     #     if @to_user_id
-    #         Meteor.users.findOne @to_user_id
+    #         Docs.findOne @to_user_id
 
 
     food_orders: ->
@@ -110,14 +111,14 @@ Docs.helpers
         if @upvoter_ids
             upvoters = []
             for upvoter_id in @upvoter_ids
-                upvoter = Meteor.users.findOne upvoter_id
+                upvoter = Docs.findOne upvoter_id
                 upvoters.push upvoter
             upvoters
     downvoters: ->
         if @downvoter_ids
             downvoters = []
             for downvoter_id in @downvoter_ids
-                downvoter = Meteor.users.findOne downvoter_id
+                downvoter = Docs.findOne downvoter_id
                 downvoters.push downvoter
             downvoters
 
@@ -156,14 +157,14 @@ Meteor.methods
                     $inc:
                         upvotes:1
                         points:1
-            Meteor.users.update doc._author_id,
+            Docs.update doc._author_id,
                 $inc:karma:1
         else
             Docs.update doc._id,
                 $inc:
                     anon_points:1
                     anon_upvotes:1
-            Meteor.users.update doc._author_id,
+            Docs.update doc._author_id,
                 $inc:anon_karma:1
 
     downvote: (doc)->
@@ -188,14 +189,14 @@ Meteor.methods
                     $inc:
                         points:-1
                         downvotes:1
-            Meteor.users.update doc._author_id,
+            Docs.update doc._author_id,
                 $inc:karma:-1
         else
             Docs.update doc._id,
                 $inc:
                     anon_points:-1
                     anon_downvotes:1
-            Meteor.users.update doc._author_id,
+            Docs.update doc._author_id,
                 $inc:anon_karma:-1
 
 
@@ -203,13 +204,13 @@ Meteor.methods
 if Meteor.isServer
     # Meteor.publish 'doc', (id)->
     #     doc = Docs.findOne id
-    #     user = Meteor.users.findOne id
+    #     user = Docs.findOne id
     #     if doc
     #         Docs.find id
     #     else if user
-    #         Meteor.users.find id
+    #         Docs.find id
     Meteor.publish 'docs', (picked_tags, filter)->
-        # user = Meteor.users.findOne @userId
+        # user = Docs.findOne @userId
         # console.log picked_tags
         # console.log filter
         self = @

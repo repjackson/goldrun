@@ -33,12 +33,6 @@ Template.registerHelper 'active_path', (metric) ->
 Template.registerHelper 'sorting_up', () ->
     parseInt(Session.get('sort_direction')) is 1
 
-Template.registerHelper 'friended_by_users', ()->
-    Meteor.users.find 
-        friend_ids:$in:[@_id]
-Template.registerHelper 'friended_users', ()->
-    Meteor.users.find 
-        _id:$in:@friend_ids
 Template.registerHelper 'user_from_id', (id)->
     Docs.findOne id
 Template.registerHelper 'skv_is', (key,value)->
@@ -345,9 +339,6 @@ Template.registerHelper 'building_leader', () ->
     Docs.findOne @leader_id
 
 
-Template.registerHelper 'building_users', () ->
-    Meteor.users.find
-        _id: $in: @building_user_ids
 
 
 Template.registerHelper 'delta_key_value_is', (key, value)->

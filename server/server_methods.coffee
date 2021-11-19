@@ -37,7 +37,7 @@ Meteor.methods
 
 
     change_username:  (user_id, new_username) ->
-        user = Meteor.users.findOne user_id
+        user = Docs.findOne user_id
         Accounts.setUsername(user._id, new_username)
         return "updated username to #{new_username}."
 
@@ -48,12 +48,12 @@ Meteor.methods
         return "updated email to #{new_email}"
 
     remove_email: (user_id, email)->
-        # user = Meteor.users.findOne username:username
+        # user = Docs.findOne username:username
         Accounts.removeEmail user_id, email
 
 
     verify_email: (user_id, email)->
-        user = Meteor.users.findOne user_id
+        user = Docs.findOne user_id
         console.log 'sending verification', user.username
         Accounts.sendVerificationEmail(user_id, email)
 
@@ -65,7 +65,7 @@ Meteor.methods
     notify_message: (message_id)->
         message = Docs.findOne message_id
         if message
-            to_user = Meteor.users.findOne message.to_user_id
+            to_user = Docs.findOne message.to_user_id
 
             message_link = "https://www.goldrun.online/user/#{to_user.username}/messages"
 
@@ -84,9 +84,9 @@ Meteor.methods
             food_id: food._id
             order_price: food.price_per_serving
             buyer_id: Meteor.userId()
-        Meteor.users.update Meteor.userId(),
+        Docs.update Meteor.userId(),
             $inc:credit:-food.price_per_serving
-        Meteor.users.update food.cook_user_id,
+        Docs.update food.cook_user_id,
             $inc:credit:food.price_per_serving
         Meteor.call 'calc_food_data', food_id, ->
 
@@ -129,12 +129,12 @@ Meteor.methods
 
     lookup_user: (username_query, role_filter)->
         if role_filter
-            Meteor.users.find({
+            Docs.find({
                 username: {$regex:"#{username_query}", $options: 'i'}
                 roles:$in:[role_filter]
                 },{limit:10}).fetch()
         else
-            Meteor.users.find({
+            Docs.find({
                 username: {$regex:"#{username_query}", $options: 'i'}
                 },{limit:10}).fetch()
 
@@ -215,6 +215,6 @@ Meteor.methods
             Meteor.call 'key', doc._id
 
     send_enrollment_email: (user_id, email)->
-        user = Meteor.users.findOne(user_id)
+        user = Docs.findOne(user_id)
         console.log 'sending enrollment email to username', user.username
         Accounts.sendEnrollmentEmail(user_id)

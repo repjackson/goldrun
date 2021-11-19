@@ -8,12 +8,12 @@ if Meteor.isClient
         user_docs: ->
             username_query = Session.get('username_query')
             if username_query
-                Meteor.users.find({
+                Docs.find({
                     username: {$regex:"#{username_query}", $options: 'i'}
                     # roles:$in:['resident','owner']
                     },{ limit:parseInt(Session.get('limit')) })
             else
-                Meteor.users.find({
+                Docs.find({
                     },{ limit:parseInt(Session.get('limit')) })
 
     Template.users.events
@@ -21,7 +21,7 @@ if Meteor.isClient
             new_username = prompt('username')
             Meteor.call 'add_user', new_username, (err,res)->
                 console.log res
-                new_user = Meteor.users.findOne res
+                new_user = Docs.findOne res
                 Router.go "/user/#{new_user.username}/dashboard"
         'keyup .username_search': (e,t)->
             username_query = $('.username_search').val()
@@ -40,12 +40,12 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'users', (limit)->
         if limit
-            Meteor.users.find({},limit:limit)
+            Docs.find({},limit:limit)
         else
-            Meteor.users.find()
+            Docs.find()
 
 
     Meteor.publish 'user_search', (username, role)->
         match = {}
         if username.length > 0 then match.username = {$regex:"#{username}", $options: 'i'}
-        Meteor.users.find(match,{limit:200})
+        Docs.find(match,{limit:200})

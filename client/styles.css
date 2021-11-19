@@ -11,6 +11,11 @@ body {
     /* background: #0e0e44 !important; */
 }
 
+#mapid { 
+  height: 500px !important;
+  filter: drop-shadow(0px 0px 8px grey);    
+  
+}
  img, .label, input, .input {
     filter: invert(1) !important;
 } 

@@ -49,7 +49,7 @@ if Meteor.isClient
 
     Template.follow.helpers
         followers: ->
-            Meteor.users.find
+            Docs.find
                 _id: $in: @follower_ids
         following: -> @follower_ids and Meteor.userId() in @follower_ids
     Template.follow.events
@@ -72,7 +72,7 @@ if Meteor.isClient
         'click .send_points': ->
             console.log @
             user = Docs.findOne username:Router.current().params.username
-            Meteor.users.update Meteor.userId(),
+            Docs.update Meteor.userId(),
                 $addToSet:friend_ids:user._id
                 
             $('body').toast({
@@ -92,7 +92,7 @@ if Meteor.isClient
                 
         'click .remove_friend': ->
             user = Docs.findOne username:Router.current().params.username
-            Meteor.users.update Meteor.userId(),
+            Docs.update Meteor.userId(),
                 $pull:friend_ids:user._id
             $('body').toast({
                 title: "#{Router.current().params.username} removed from friend list"
@@ -123,7 +123,7 @@ if Meteor.isClient
     Template.friend_button.events
         'click .add_friend': ->
             user = Docs.findOne username:Router.current().params.username
-            Meteor.users.update Meteor.userId(),
+            Docs.update Meteor.userId(),
                 $addToSet:friend_ids:user._id
                 
             $('body').toast({
@@ -143,7 +143,7 @@ if Meteor.isClient
                 
         'click .remove_friend': ->
             user = Docs.findOne username:Router.current().params.username
-            Meteor.users.update Meteor.userId(),
+            Docs.update Meteor.userId(),
                 $pull:friend_ids:user._id
             $('body').toast({
                 title: "#{Router.current().params.username} removed from friend list"
@@ -184,7 +184,7 @@ if Meteor.isClient
             Docs.update @_id, 
                 $addToSet: 
                     bookmarker_ids: Meteor.userId()
-            Meteor.users.update Meteor.userId(), 
+            Docs.update Meteor.userId(), 
                 $addToSet:
                     bookmark_ids:@_id
             $('body').toast({
@@ -209,7 +209,7 @@ if Meteor.isClient
             Docs.update @_id, 
                 $pull:
                     bookmarker_ids: Meteor.userId()
-            Meteor.users.update Meteor.userId(), 
+            Docs.update Meteor.userId(), 
                 $pull:
                     bookmark_ids:@_id
             $('body').toast({
@@ -348,7 +348,7 @@ if Meteor.isClient
     Template.user_field.events
         'blur .user_field': (e,t)->
             value = t.$('.user_field').val()
-            Meteor.users.update Router.current().params.doc_id,
+            Docs.update Router.current().params.doc_id,
                 $set:"#{@key}":value
 
 
@@ -384,7 +384,7 @@ if Meteor.isClient
             if parent["#{@key}"] and Meteor.userId() in parent["#{@key}"] then true else false
         list_users: ->
             parent = Template.parentData()
-            Meteor.users.find _id:$in:parent["#{@key}"]
+            Docs.find _id:$in:parent["#{@key}"]
 
 
     Template.doc_array_togggle.helpers
@@ -399,7 +399,7 @@ if Meteor.isClient
             if parent["#{@key}"] and Meteor.userId() in parent["#{@key}"] then true else false
         list_users: ->
             parent = Template.parentData()
-            Meteor.users.find _id:$in:parent["#{@key}"]
+            Docs.find _id:$in:parent["#{@key}"]
 
 
 
@@ -439,7 +439,7 @@ if Meteor.isClient
         'click .toggle_email_verified': ->
             console.log @emails[0].verified
             if @emails[0]
-                Meteor.users.update @_id,
+                Docs.update @_id,
                     $set:"emails.0.verified":true
 
 
@@ -659,6 +659,6 @@ if Meteor.isClient
                 Docs.update parent._id,
                     $set: "#{@key}": @value
             else 
-                Meteor.users.update parent._id,
+                Docs.update parent._id,
                     $set: "#{@key}": @value
 

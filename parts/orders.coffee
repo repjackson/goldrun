@@ -37,7 +37,7 @@ if Meteor.isClient
     
     # Template.order_card.events
     #     'click .downvote':->
-    #         Meteor.users.update Meteor.userId(),
+    #         Docs.update Meteor.userId(),
     #             $addToSet:downvoted_ids:@_id
     #         Docs.update @_id, 
     #             $addToSet:downvoter_ids:Meteor.userId()

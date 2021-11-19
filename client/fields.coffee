@@ -231,12 +231,8 @@ Template.array_edit.events
                 parent = Template.parentData()
                 doc = Docs.findOne parent._id
 
-                user = Meteor.users.findOne parent._id
                 if doc
                     Docs.update parent._id,
-                        $addToSet:"#{@key}":element_val
-                else if user
-                    Meteor.users.update parent._id,
                         $addToSet:"#{@key}":element_val
                         
                 # window.speechSynthesis.speak new SpeechSynthesisUtterance element_val
@@ -253,12 +249,8 @@ Template.array_edit.events
             parent = Template.parentData(5)
 
         doc = Docs.findOne parent._id
-        user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
-                $pull:"#{field.key}":element
-        else if user
-            Meteor.users.update parent._id,
                 $pull:"#{field.key}":element
 
         t.$('.new_element').focus()
@@ -306,12 +298,8 @@ Template.text_edit.events
         parent = Template.parentData()
 
         doc = Docs.findOne parent._id
-        user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
-                $set:"#{@key}":val
-        else if user
-            Meteor.users.update parent._id,
                 $set:"#{@key}":val
 
 
@@ -322,12 +310,8 @@ Template.location_edit.events
         parent = Template.parentData()
 
         doc = Docs.findOne parent._id
-        user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
-                $set:"#{@key}":val
-        else if user
-            Meteor.users.update parent._id,
                 $set:"#{@key}":val
 
 
@@ -577,11 +561,6 @@ Template.single_user_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{field.key}":@_id
-        else
-            Meteor.users.update parent._id,
-                $set:"#{field.key}":@_id
-            
-        t.user_results.set null
         $('.single_user_select_input').val ''
         # Docs.update page_doc._id,
         #     $set: assignment_timestamp:Date.now()
@@ -593,9 +572,6 @@ Template.single_user_edit.events
             doc = Docs.findOne parent._id
             if doc
                 Docs.update parent._id,
-                    $unset:"#{field.key}":1
-            else
-                Meteor.users.update parent._id,
                     $unset:"#{field.key}":1
 
         #     page_doc = Docs.findOne Router.current().params.doc_id
@@ -646,11 +622,6 @@ Template.multi_user_edit.events
                 $addToSet:
                     "#{field.key}":@_id
                     "#{field.key}_usernames":@username
-        else
-            Meteor.users.update parent._id,
-                $addToSet:
-                    "#{field.key}":@_id
-                    "#{field.key}_usernames":@username
             
         t.user_results.set null
         $('.single_user_select_input').val ''
@@ -664,11 +635,6 @@ Template.multi_user_edit.events
             doc = Docs.findOne parent._id
             if doc
                 Docs.update parent._id,
-                    $pull:
-                        "#{field.key}":@_id
-                        "#{field.key}_usernames":@username
-            else
-                Meteor.users.update parent._id,
                     $pull:
                         "#{field.key}":@_id
                         "#{field.key}_usernames":@username

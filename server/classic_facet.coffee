@@ -196,7 +196,7 @@ Meteor.publish 'facet', (
         # # console.log author_tag_cloud
         #
         # # author_objects = []
-        # # Meteor.users.find _id: $in: author_tag_cloud.
+        # # Docs.find _id: $in: author_tag_cloud.
         #
         # author_tag_cloud.forEach (author_id) ->
         #     self.added 'author_ids', Random.id(),
@@ -227,7 +227,7 @@ Meteor.publish 'facet', (
 
         # for doc_result in doc_results
 
-        # user_results = Meteor.users.find(_id:$in:doc_results).observeChanges(
+        # user_results = Docs.find(_id:$in:doc_results).observeChanges(
         #     added: (id, fields) ->
         #         # console.log 'added doc', id, fields
         #         self.added 'docs', id, fields
@@ -262,7 +262,7 @@ Meteor.publish 'facet', (
 #         # doc = Docs.findOne doc_id
 #         match._id = doc_id
 #     if username
-#         user = Meteor.users.findOne username:username
+#         user = Docs.findOne username:username
 #         match.author_id = user._id
 
 #     match.ancestor_array = $exists:true

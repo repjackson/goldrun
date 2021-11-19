@@ -8,7 +8,7 @@ template(name='post_view')
                     //     small viewing
                     //     |#{title}
                     //     small post
-                    .ui.big.inline.header #{title}
+                    .ui.inline.header #{title}
                     a.ui.big.compact.basic.button.fly_left(href="/" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
@@ -189,8 +189,36 @@ template(name='post_view')
                     .content
                         +boolean_view key='notify_on_reservation' label='on new reservation' icon='plus' direct=true
                         +boolean_view key='notify_on_cancelation' label='on reservation cancelation' icon='cancel-2--v1' direct=true
+    +map
 
-                    
+
+template(name='map')
+    .ui.segment
+        #mapid
+        // unless pos
+        .ui.large.fluid.button.refresh
+            i.marker.icon
+            |reload location data
+        // .ui.one.column.padded.grid
+        //     .column
+        //         .ui.center.aligned.header People Near You: #{my_longform} (#{my_category})
+        //         .ui.four.column.stackable.padded.centered.grid
+        //             each nearby_people
+        //                 +nearby_person
+template(name='nearby_person')                    
+    .column
+        .ui.segment.rounded.zoomer.pointer.goto_user
+            img.ui.tiny.circular.inline.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+            a.ui.header(href="/user/#{username}") #{username}
+                if age
+                    |#{age}
+            |!{about} #{formatted}
+            each tags
+                .ui.basic.small.label #{this}
+            |#{light_mode}
+            
+
+
         
         
 template(name='related_posts')

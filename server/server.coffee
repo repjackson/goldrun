@@ -201,7 +201,7 @@ Meteor.publish 'facets', (
         { $group: _id: "$tags", count: $sum: 1 }
         # { $nin: _id: picked_tags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 20 }
+        { $limit: 10 }
         { $project: _id: 0, title: '$_id', count: 1 }
     ], {
         allowDiskUse: true
@@ -223,7 +223,7 @@ Meteor.publish 'facets', (
         { $group: _id: "$location_tags", count: $sum: 1 }
         # { $nin: _id: picked_location_tags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 20 }
+        { $limit: 10 }
         { $project: _id: 0, title: '$_id', count: 1 }
     ], {
         allowDiskUse: true

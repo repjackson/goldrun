@@ -63,7 +63,7 @@ if Meteor.isClient
                 # displayTime: 'auto',
                 position: "bottom right"
             )
-            Meteor.users.update post._author_id,
+            Docs.update post._author_id,
                 $inc:
                     points:@post_point_price
             $('body').toast(
@@ -74,7 +74,7 @@ if Meteor.isClient
                 # displayTime: 'auto',
                 position: "bottom center"
             )
-            Meteor.users.update @_author_id,
+            Docs.update @_author_id,
                 $inc:
                     points:-@post_point_price
             $('body').toast(
@@ -154,9 +154,9 @@ if Meteor.isServer
         #         order_id: order._id
         #         order_price: order.price_per_serving
         #         buyer_id: Meteor.userId()
-        #     Meteor.users.update Meteor.userId(),
+        #     Docs.update Meteor.userId(),
         #         $inc:credit:-order.price_per_serving
-        #     Meteor.users.update order._author_id,
+        #     Docs.update order._author_id,
         #         $inc:credit:order.price_per_serving
         #     Meteor.call 'calc_order_data', order_id, ->
 
@@ -168,14 +168,14 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'model_docs', 'post'
     Template.user_orders.helpers
         orders: ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
+            current_user = Docs.findOne username:Router.current().params.username
             Docs.find {
                 model:'order'
             }, sort:_timestamp:-1
 
 if Meteor.isServer
     Meteor.publish 'user_orders', (username)->
-        user = Meteor.users.findOne username:username
+        user = Docs.findOne username:username
         Docs.find({
             model:'order'
             _author_id: user._id

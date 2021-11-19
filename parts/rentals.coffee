@@ -330,7 +330,7 @@ if Meteor.isClient
 
     Template.user_rentals.helpers
         rentals: ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
+            current_user = Docs.findOne username:Router.current().params.username
             Docs.find {
                 model:'rental'
                 _author_id: current_user._id
@@ -338,7 +338,7 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'user_rentals', (username)->
-        user = Meteor.users.findOne username:username
+        user = Docs.findOne username:username
         Docs.find
             model:'rental'
             _author_id: user._id

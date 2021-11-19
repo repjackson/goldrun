@@ -158,7 +158,7 @@ if Meteor.isClient
             e.preventDefault()
             username = $('.username').val().trim()
             console.log 'submitting username', username
-            user = Meteor.users.findOne username:username
+            user = Docs.findOne username:username
             email = user.emails[0].address
             if not email
                 alert "no email found for user.  email admin@dao.af."
@@ -240,7 +240,7 @@ if Meteor.isClient
             e.preventDefault()
             username = $('.username').val().trim()
             console.log 'submitting username', username
-            user = Meteor.users.findOne username:username
+            user = Docs.findOne username:username
             email = user.emails[0].address
             if not email
                 alert "no email found for user.  email admin@dao.af."
@@ -333,7 +333,7 @@ if Meteor.isClient
                     unless username
                         username = "#{Session.get('first_name').toLowerCase()}_#{Session.get('last_name').toLowerCase()}"
                     console.log username
-                    Meteor.users.update res,
+                    Docs.update res,
                         $addToSet: 
                             roles: 'explorer'
                             levels: 'explorer'
@@ -419,7 +419,7 @@ if Meteor.isServer
                     return res
 
         new_demo_user: ->
-            current_user_count = Meteor.users.find().count()
+            current_user_count = Docs.find().count()
 
             options = {
                 username:"user#{current_user_count}"
@@ -427,5 +427,5 @@ if Meteor.isServer
                 }
 
             create = Accounts.createUser options
-            new_user = Meteor.users.findOne create
+            new_user = Docs.findOne create
             return new_user

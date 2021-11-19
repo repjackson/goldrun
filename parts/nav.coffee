@@ -120,6 +120,3 @@ if Meteor.isServer
                 read_ids:$nin:[Meteor.userId()]
             }, sort:_timestamp:-1
 
-
-    Meteor.publish 'me', ->
-        Meteor.users.find @userId

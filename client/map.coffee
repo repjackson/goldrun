@@ -224,16 +224,35 @@ Template.map2.onRendered ->
     @map = L.mapbox.map 'map'
 
     @geocoder = L.mapbox.geocoder 'mapbox.places'
-    
     # @map = L.mapbox.map('map')
     #     .setView([40, -74.50], 9)
     #     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
+    @map.on('click', (e)->
+        # 	alert(e.latlng);
+        $('body').toast(
+            showIcon: 'marker'
+            message: "lat long: #{e.latlng}"
+            # showProgress: 'bottom'
+            class: 'success'
+            displayTime: 'auto',
+            position: "bottom right"
+        )
+    	
+    	
+    )
             
 Template.map2.helpers
     current_markers: -> current_markers.array()
     can_move: -> Session.get 'can_move'
     current_zoom_level: -> Session.get 'zoom_level'
 Template.map2.events
+    'click .click_markers': (e,t)->
+        myFeatureLayer = L.mapbox.featureLayer('/mapbox.js/assets/data/sf_locations.geojson').addTo(t.map);
+
+        myFeatureLayer.on('click', (e)=>
+            t.map.panTo(e.layer.getLatLng());
+        )
+
     'click .add_legend': (e,t)->
         t.map.addControl(L.mapbox.legendControl());
     'click .add_circle': (e,t)->
@@ -263,6 +282,15 @@ Template.map2.events
         Session.set('zoom_level', val)
         t.map.setZoom val
             
+    'click .add_marker': (e,t)-> 
+        console.log 'adding marker'
+        options = {
+            draggable:true
+            
+            }
+        L.marker([50.5, 30.5], options).addTo(t.map);
+        t.map.setView [50.5, 30.5], 14
+
     'click .zoomin': (e,t)-> 
         t.map.zoomIn 1
         Session.set('zoom_level', Session.get('zoom_level')+1)
@@ -281,6 +309,9 @@ Template.map2.events
     'click .draw': (e,t)->
         t.map.setView [40, -74.50], 3
         t.map.addLayer L.mapbox.styleLayer 'mapbox://styles/mapbox/streets-v11'
+        # myFeatureLayer.on('click', (e)=>
+        #     t.map.panTo(e.layer.getLatLng());
+        # )
 
         add = (placename) ->
             t.geocoder.query placename, (error, result) ->

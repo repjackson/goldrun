@@ -25,12 +25,18 @@ template(name='map2')
             i.minus.circular.link.icon.zoomout(title='zoom out')
             .ui.labeled.input
                 .label zoom
-                input.zoom_level(type='number' value=current_zoom_level)
+                input.zoom_level(type='number' value=current_zoom_level min='0' max='25')
             i.plus.circular.link.icon.zoomin(title='zoom in')
                 
             .ui.button.draw  
                 i.pencil.icon
                 |draw map
+            .ui.button.click_markers  
+                i.marker.icon
+                |clickable markers
+            .ui.button.add_marker  
+                i.plus.icon
+                |add marker
             .ui.button.find_me  
                 i.marker.icon
                 |find me

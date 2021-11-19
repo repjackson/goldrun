@@ -192,19 +192,6 @@ template(name='post_view')
     +map
 
 
-template(name='map')
-    .ui.segment
-        .ui.fluid.button.refresh
-            i.marker.icon
-            |reload location data
-        #mapid
-        // unless pos
-        // .ui.one.column.padded.grid
-        //     .column
-        //         .ui.center.aligned.header People Near You: #{my_longform} (#{my_category})
-        //         .ui.four.column.stackable.padded.centered.grid
-        //             each nearby_people
-        //                 +nearby_person
 template(name='nearby_person')                    
     .column
         .ui.segment.rounded.zoomer.pointer.goto_user

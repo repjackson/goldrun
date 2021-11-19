@@ -43,10 +43,10 @@ template(name='nav')
             .icon.item
                 i.big.spinning.grey.yin.yang.icon.cancel
         else 
-            a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" title='peer to peer rentals')
+            a.header.icon.item.zoomer(href='/' class="{{isActivePath '/'}}" title='peer to peer rentals')
                 // +i name='gold-hallmark' cl='ui avatar image'
-                i.circle.icon
-                strong.mobile.hidden gold run
+                i.shop.large.icon
+                // strong.mobile.hidden gold run
             // a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
             //     +i name='search' cl='ui inline mini image'
             // a.icon.item.zoomer(href='/stats' class="{{isActivePath '/stats'}}" title='stats')
@@ -55,17 +55,17 @@ template(name='nav')
             //     // +i name='groups' cl='ui inline mini image'
             //     i.users.icon
             //     strong.mobile.hidden users
-            a.item.zoomer(href='/orders' class="{{isActivePath '/orders'}}" title='orders')
+            a.icon.item.zoomer(href='/orders' class="{{isActivePath '/orders'}}" title='orders')
                 // +i name='order-history' cl='ui inline mini image'
-                i.list.icon
-                strong.mobile.hidden orders
-            a.item.zoomer(href='/deliveries' class="{{isActivePath '/deliveries'}}" title='deliveries')
+                i.list.large.icon
+                // strong.mobile.hidden orders
+            a.icon.item.zoomer(href='/deliveries' class="{{isActivePath '/deliveries'}}" title='deliveries')
                 // +i name='bicycle' cl='ui inline mini image'
-                i.bicycle.icon
-                strong.mobile.hidden deliveries
+                i.bicycle.large.icon
+                // strong.mobile.hidden deliveries
+            a.ui.icon.item.add_post(title='add post')
+                i.plus.large.icon
         // if currentUser
-        //     a.ui.icon.item.add_post(title='add post')
-        //         i.plus.icon
         //     // a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
         //     a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
         //         // | {{fixed currentUser.points}}p

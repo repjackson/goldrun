@@ -2,7 +2,7 @@ template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
-            .four.column.row
+            .three.column.row
                 .column
                     // .ui.header 
                     //     small viewing
@@ -218,7 +218,7 @@ template(name='post_orders')
 template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .three.colum.row
+            .three.column.row
                 .column
                     .ui.inline.header 
                         small editing
@@ -367,7 +367,7 @@ template(name='user_posts')
 template(name='profile_post_item')
     .ui.segment.grid
         .row
-            .four.column
+            .three.column
                 +image_view key='image' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
                 .ui.header #{title}

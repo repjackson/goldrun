@@ -220,6 +220,16 @@ Router.route '/mapgl', -> @render 'mapgl'
     # 'click .init': (e,t)->
 Template.map2.onCreated ->
     @autorun => @subscribe 'some_rentals', ->
+Template.mapgl.onRendered ->
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
+    mapgl = new mapboxgl.Map({
+        container: 'mapgl', # container ID
+        style: 'mapbox://styles/mapbox/streets-v11', # style URL
+        center: [-74.5, 40], # starting position [lng, lat]
+        zoom: 9 # starting zoom
+    });
+    
+    
 Template.map2.onRendered ->
     # console.log 'hi'
     # console.log @
@@ -329,14 +339,6 @@ Template.map2.events
                 t.map.setView result.latlng, 10
             val = $('.add_place').val('')
     'click .draw': (e,t)->
-        # mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
-        # mapgl = new mapboxgl.Map({
-        #     container: 'mapgl', # container ID
-        #     style: 'mapbox://styles/mapbox/streets-v11', # style URL
-        #     center: [-74.5, 40], # starting position [lng, lat]
-        #     zoom: 9 # starting zoom
-        # });
-        
         t.map.setView [40, -74.50], 3
         t.map.addLayer L.mapbox.styleLayer 'mapbox://styles/mapbox/streets-v11'
         # myFeatureLayer.on('click', (e)=>

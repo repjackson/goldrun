@@ -22,6 +22,12 @@ template(name='map2')
             .ui.big.disabled.button.init 
                 i.checkmark.icon
                 |init
+            i.minus.circular.link.icon.zoomout(title='zoom out')
+            .ui.labeled.input
+                .label zoom
+                input.zoom_level(type='number' value=current_zoom_level)
+            i.plus.circular.link.icon.zoomin(title='zoom in')
+                
             .ui.button.draw  
                 i.pencil.icon
                 |draw map

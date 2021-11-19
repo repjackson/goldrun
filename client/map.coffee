@@ -232,6 +232,7 @@ Template.map2.onRendered ->
 Template.map2.helpers
     current_markers: -> current_markers.array()
     can_move: -> Session.get 'can_move'
+    current_zoom_level: -> Session.get 'zoom_level'
 Template.map2.events
     'click .add_legend': (e,t)->
         t.map.addControl(L.mapbox.legendControl());
@@ -257,6 +258,18 @@ Template.map2.events
             Session.set('can_move',true)
             
 
+    'change .zoom_level': (e,t)->
+        val = parseInt $('.zoom_level').val()
+        Session.set('zoom_level', val)
+        t.map.setZoom val
+            
+    'click .zoomin': (e,t)-> 
+        t.map.zoomIn 1
+        Session.set('zoom_level', Session.get('zoom_level')+1)
+    'click .zoomout': (e,t)-> 
+        t.map.zoomOut 1
+        Session.set('zoom_level', Session.get('zoom_level')-1)
+            
     'keyup .add_place': (e,t)->
         val = $('.add_place').val()
         if e.which is 13

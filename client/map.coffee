@@ -215,7 +215,13 @@ Router.route '/map2', -> @render 'map2'
 #     nearby_people: ->
 #         Docs.find
 #             light_mode:true
-# Template.map.events
+Template.map2.events
+    'click .init': ->
+        console.log 'hi'
+        L.mapbox.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
+        map = L.mapbox.map('map')
+            .setView([40, -74.50], 9)
+            .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 #     'click .goto_user': ->
 #         $('.main_content')
 #             .transition('fade out', 250)
@@ -223,11 +229,6 @@ Router.route '/map2', -> @render 'map2'
         
 #         Router.go "/user/#{@username}"
     
-#     'click .mapbox': ->
-#         L.mapbox.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
-#         map = L.mapbox.map('map')
-#             .setView([40, -74.50], 9)
-#             .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
     
 #     # 'click .refresh': ->

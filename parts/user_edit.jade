@@ -2,7 +2,7 @@ template(name='user_edit')
     with user_from_username_param          
         //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
         .ui.stackable.padded.grid
-            .three.column.row
+            .four.column.row
                 .column
                     .ui.center.aligned.large.inline.grey.header
                         | #{user_from_username_param.first_name} #{user_from_username_param.last_name}

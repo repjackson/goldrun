@@ -28,6 +28,11 @@ template(name='map2')
             .ui.button.find_me  
                 i.marker.icon
                 |find me
+            .ui.button.add_legend
+                |legend
+            .ui.button.add_circle
+                i.circle.icon
+                |circle
             .ui.button.toggle_moving
                 if can_move
                     i.chevron.right.icon

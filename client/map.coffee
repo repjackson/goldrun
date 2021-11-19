@@ -233,6 +233,13 @@ Template.map2.helpers
     current_markers: -> current_markers.array()
     can_move: -> Session.get 'can_move'
 Template.map2.events
+    'click .add_legend': (e,t)->
+        t.map.addControl(L.mapbox.legendControl());
+    'click .add_circle': (e,t)->
+        t.map.setView [50.5, 30.5], 15
+        circle = L.circle([50.5, 30.5], 200).addTo(t.map);
+        console.log circle.getLatLng()
+        console.log circle.getRadius()
     'click .toggle_moving': (e,t)->
         if Session.get 'can_move'
             t.map.dragging.disable() 

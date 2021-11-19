@@ -18,15 +18,11 @@
 template(name='map2')
     .ui.padded.grid
         .sixteen.wide.column
-            .ui.segment
-                .ui.header map 2
-                .ui.big.button.init 
-                    i.checkmark.icon
-                    |map
-            .ui.divider
-            .ui.divider
-            .ui.divider
-            .ui.divider
-            .ui.divider
-            .ui.segment
+            .ui.inline.header map
+            .ui.big.disabled.button.init 
+                i.checkmark.icon
+                |init
+            .ui.button.find_me  
+                i.marker.icon
+                |find me
             #map

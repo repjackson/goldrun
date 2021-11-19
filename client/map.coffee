@@ -218,17 +218,49 @@ Router.route '/map2', -> @render 'map2'
     # 'click .init': (e,t)->
 Template.map2.onRendered ->
     console.log 'hi'
+    console.log @
     L.mapbox.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
-    map = L.mapbox.map('map')
-        .setView([40, -74.50], 9)
-        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
+    @map = L.mapbox.map 'map'
+
+    @geocoder = L.mapbox.geocoder 'mapbox.places'
+    
+    # @map = L.mapbox.map('map')
+    #     .setView([40, -74.50], 9)
+    #     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
             
 Template.map2.events
+    'click .draw': (e,t)->
+        t.map.setView [40, -74.50], 3
+        t.map.addLayer L.mapbox.styleLayer 'mapbox://styles/mapbox/streets-v11'
+
+        add = (placename) ->
+            t.geocoder.query placename, (error, result) ->
+                L.marker(result.latlng).addTo(t.map)
+
+        add place for place in ['Washington, DC', 'San Francisco', 'Detroit, MI']
+
+        
     'click .find_me': (e,t)->
-        console.log Template.currentData()
-        console.log Template.instance()
-        console.log t
-        Template.instance().data.map.locate();
+        # console.log Template.currentData()
+        console.log t.map
+        t.map.locate()
+        t.map.on('locationfound', (e)->
+            map.fitBounds(e.bounds);
+        
+            myLayer.setGeoJSON
+                type: 'Feature',
+                geometry:
+                    type: 'Point',
+                    coordinates: [e.latlng.lng, e.latlng.lat]
+                properties:
+                    'title': 'Here I am!',
+                    'marker-color': '#ff8888',
+                    'marker-symbol': 'star'
+        )
+            # // And hide the geolocation button
+            # geolocate.parentNode.removeChild(geolocate);
+        
+        # Template.instance().data.map.locate();
 
 #     'click .goto_user': ->
 #         $('.main_content')

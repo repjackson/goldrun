@@ -40,7 +40,7 @@ if Meteor.isClient
         'click .delete_post_item': ->
             if confirm 'delete post?'
                 Docs.remove @_id
-                Router.go "/posts"
+                Router.go "/"
 
     Template.post_view.helpers
         sold_out: -> @inventory < 1

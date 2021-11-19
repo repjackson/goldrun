@@ -7,15 +7,15 @@ if Meteor.isClient
                 # on:'hover'
             # )
         'click .add_post': ->
-            passcode = prompt 'set passcode'
-            if passcode
-                new_id =
-                    Docs.insert
-                        model:'post'
-                        passcode:passcode
-                        published:false
-                        daily_rate:1
-                Router.go "/post/#{new_id}/edit"
+            # passcode = prompt 'set passcode'
+            # if passcode
+            new_id =
+                Docs.insert
+                    model:'post'
+                    passcode:passcode
+                    published:false
+                    daily_rate:1
+            Router.go "/post/#{new_id}/edit"
             
 
         'click #logout': ->

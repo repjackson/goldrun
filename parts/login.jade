@@ -11,12 +11,12 @@ template(name='login')
                     |username
                 .ui.fluid.large.input(class=login_class)
                     input.username(type='text')
-                .spacer
-                .ui.inline.small.header 
-                    +i name='password'
-                    | password
-                .ui.fluid.large.input(class=login_class)
-                    input.password(type='password')
+                // .spacer
+                // .ui.inline.small.header 
+                //     +i name='pin'
+                //     | pin
+                // .ui.fluid.large.input(class=login_class)
+                //     input.pin(type='number')
                 //- if username
                 //- if logging_in
                 .ui.hidden.divider
@@ -25,14 +25,14 @@ template(name='login')
                     |login
                     strong #{username}
                     //- i.right.chevron.icon
-                .ui.center.aligned.basic.segment    
-                    a.ui.compact.small.button(href='/forgot_password' class=enter_class)
-                        +i name='forgot-password' cl='ui mini inline image'                    
-                        |forgot password
+                // .ui.center.aligned.basic.segment    
+                //     a.ui.compact.small.button(href='/forgot_password' class=enter_class)
+                //         +i name='forgot-password' cl='ui mini inline image'                    
+                //         |forgot password
 
-                    a.ui.button(href='/register' class=enter_class)
-                        i.plus.icon
-                        |register
+                //     a.ui.button(href='/register' class=enter_class)
+                //         i.plus.icon
+                //         |register
 
 template(name='register')
     //- img.ui.fluid.image.bg_overlay(src="{{c.url 'forest-bg2' width=1000 crop='fit'}}")    
@@ -48,12 +48,6 @@ template(name='register')
                 .ui.fluid.large.input(class=login_class)
                     input.username(type='text')
                 .spacer
-                .ui.inline.small.header 
-                    +i name='password'
-                    | password
-                .ui.fluid.large.input(class=login_class)
-                    input.password(type='password')
-
                 //- .ui.fluid.labeled.input(class=login_class)
                 //-     .ui.small.inline.header 
                 //-         i.lock.grey.icon
@@ -102,15 +96,15 @@ template(name='forgot_password')
                     .ui.labeled.large.input
                         input.email(type='email')
                     .ui.submit.button.submit_email submit
-                if username
-                    if logging_in
-                        .ui.fluid.large.button.enter(title="login #{username}" class=enter_class)
-                            |login '#{username}'
-                            i.right.arrow.icon
-                    else
-                        .ui.center.aligned.secondary.segment
-                            .ui.small.grey.header username "#{username}" not found
-                            a(href='/choose_persona') register
+                // if username
+                    // if logging_in
+                    //     .ui.fluid.large.button.enter(title="login #{username}" class=enter_class)
+                    //         |login '#{username}'
+                    //         i.right.arrow.icon
+                    // else
+                        // .ui.center.aligned.secondary.segment
+                        //     .ui.small.grey.header username "#{username}" not found
+                        //     a(href='/choose_persona') register
                 .ui.center.aligned.basic.segment    
                     a.ui.big.basic.button(href='/login') 
                         i.sign.in.icon

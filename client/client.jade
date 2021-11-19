@@ -5,21 +5,21 @@ head
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
     meta(name="msapplication-TileColor" content="#000000")
     meta(name="theme-color" content="#000000")
-    link(rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.4/dist/semantic.min.css')
+    link(rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css')
     link(href="https://fonts.googleapis.com/css?family=Ubuntu:300,400&display=swap" rel="stylesheet")
     link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
     link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
     link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
     link(rel="manifest" href="/site.webmanifest")
     link(rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000")
-    link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
+    // link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
 
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
-    script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.4/dist/semantic.min.js')
+    script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.js')
     
     script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
-    script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
+    // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
+    // script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
 
     //- script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-140259454-1')
     script.
@@ -38,7 +38,7 @@ template(name='layout')
         +yield
 
 template(name='nav')
-    #topnav.topnav.ui.attached.borderless.four.item.large.menu.hscroll.clear
+    #topnav.topnav.ui.attached.borderless.large.menu.hscroll.clear
         if is_loading
             .icon.item
                 i.big.spinning.grey.yin.yang.icon.cancel
@@ -51,10 +51,10 @@ template(name='nav')
             //     +i name='search' cl='ui inline mini image'
             // a.icon.item.zoomer(href='/stats' class="{{isActivePath '/stats'}}" title='stats')
             //     +i name='line-chart' cl='ui inline mini image'
-            // a.item.zoomer(href='/users' class="{{isActivePath '/users'}}" title='users')
-            //     // +i name='groups' cl='ui inline mini image'
-            //     i.users.icon
-            //     strong.mobile.hidden users
+            a.item.zoomer(href='/users' class="{{isActivePath '/users'}}" title='users')
+                // +i name='groups' cl='ui inline mini image'
+                i.users.icon
+                // strong.mobile.hidden users
             a.icon.item.zoomer(href='/orders' class="{{isActivePath '/orders'}}" title='orders')
                 // +i name='order-history' cl='ui inline mini image'
                 i.list.large.icon
@@ -65,27 +65,28 @@ template(name='nav')
                 // strong.mobile.hidden deliveries
             a.ui.icon.item.add_post(title='add post')
                 i.plus.large.icon
-        // if currentUser
-        //     // a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
-        //     a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
-        //         // | {{fixed currentUser.points}}p
-        //         | {{currentUser.points}}p
-        //         &nbsp;
-        //         if currentUser.image_id
-        //             img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200}}")
-        //         else
-        //             i.user.icon
-        //         span.mobile.hidden #{currentUser.username}
-        //             //- |${{int currentUser.credit}}
-        //     //- else
-        //     //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='log out')
-        //     //-         i.sign.out.icon
-        // else
-        //     unless currentUser
-        //         a.item(href='/login' title='enter') 
-        //             i.sign.in.icon
-        //             // +i name='internal'
-        //             //- |login
+        .right.menu
+            if current_username
+                // a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
+                a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
+                    // | {{fixed currentUser.points}}p
+                    | {{currentUser.points}}p
+                    &nbsp;
+                    if currentUser.image_id
+                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200}}")
+                    else
+                        i.user.icon
+                    span.mobile.hidden #{current_username}
+                        //- |${{int currentUser.credit}}
+                //- else
+                //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='log out')
+                //-         i.sign.out.icon
+            else
+                unless currentUser
+                    a.item(href='/login' title='enter') 
+                        i.sign.in.icon
+                        // +i name='internal'
+                        //- |login
 
 
 template(name='my_latest_activity')

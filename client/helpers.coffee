@@ -9,9 +9,10 @@ Template.registerHelper 'sort_label', () -> Session.get('sort_label')
 Template.registerHelper 'sort_icon', () -> Session.get('sort_icon')
 Template.registerHelper 'current_limit', () -> parseInt(Session.get('limit'))
 
-
 Template.registerHelper 'current_username', () ->
-    Router.current().params.username
+    Session.get('current_username')
+# Template.registerHelper 'current_username', () ->
+#     Router.current().params.username
 
 Template.registerHelper 'rental', () ->
     Docs.findOne @rental_id
@@ -49,12 +50,12 @@ Template.registerHelper 'gs', () ->
 Template.registerHelper 'display_mode', () -> Session.get('display_mode',true)
 Template.registerHelper 'is_loading', () -> Session.get 'loading'
 Template.registerHelper 'dev', () -> Meteor.isDevelopment
-Template.registerHelper 'is_author', ()-> @_author_id is Meteor.userId()
-Template.registerHelper 'is_handler', ()-> @handler_username is Meteor.user().username
-Template.registerHelper 'is_owner', ()-> @owner_username is Meteor.user().username
-Template.registerHelper 'is_grandparent_author', () ->
-    grandparent = Template.parentData(2)
-    grandparent._author_id is Meteor.userId()
+# Template.registerHelper 'is_author', ()-> @_author_id is Meteor.userId()
+# Template.registerHelper 'is_handler', ()-> @handler_username is Meteor.user().username
+# Template.registerHelper 'is_owner', ()-> @owner_username is Meteor.user().username
+# Template.registerHelper 'is_grandparent_author', () ->
+#     grandparent = Template.parentData(2)
+#     grandparent._author_id is Meteor.userId()
 Template.registerHelper 'to_percent', (number) -> (number*100).toFixed()
 Template.registerHelper 'long_time', (input) -> moment(input).format("h:mm a")
 Template.registerHelper 'long_date', (input) -> moment(input).format("dddd, MMMM Do h:mm a")
@@ -77,19 +78,19 @@ Template.registerHelper 'first_letter', (user) ->
 Template.registerHelper 'first_initial', (user) ->
     @first_name[..2]+'.'
     # moment(input).fromNow()
-Template.registerHelper 'logging_out', () -> Session.get 'logging_out'
+# Template.registerHelper 'logging_out', () -> Session.get 'logging_out'
 # Template.registerHelper 'is_event', () -> @shop_type is 'event'
 # Template.registerHelper 'is_rental', () -> @model is 'rental'
 # Template.registerHelper 'is_service', () -> @model is 'service'
 # Template.registerHelper 'is_product', () -> @model is 'product'
-Template.registerHelper 'upvote_class', () ->
-    if Meteor.userId()
-        if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'
-    else ''
-Template.registerHelper 'downvote_class', () ->
-    if Meteor.userId()
-        if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline'
-    else ''
+# Template.registerHelper 'upvote_class', () ->
+#     if Meteor.userId()
+#         if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'
+#     else ''
+# Template.registerHelper 'downvote_class', () ->
+#     if Meteor.userId()
+#         if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline'
+#     else ''
 
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
@@ -349,17 +350,18 @@ Template.registerHelper 'editing_doc', () ->
     Docs.findOne Session.get('editing_id')
 
 Template.registerHelper 'can_edit', () ->
-    if Meteor.user()
-        Meteor.userId() is @_author_id or 'admin' in Meteor.user().roles
+    Session.equals('current_username',@_author_username)
+    # if Meteor.user()
+    #     Meteor.userId() is @_author_id or 'admin' in Meteor.user().roles
 
 Template.registerHelper 'publish_when', () -> moment(@publish_date).fromNow()
 
 Template.registerHelper 'current_doc', ->
     doc = Docs.findOne Router.current().params.doc_id
-    user = Meteor.users.findOne Router.current().params.doc_id
+    # user = Meteor.users.findOne Router.current().params.doc_id
     # console.log doc
     # console.log user
-    if doc then doc else if user then user
+    if doc then doc
 
 
 Template.registerHelper 'user_from_username_param', () ->

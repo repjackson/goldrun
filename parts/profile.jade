@@ -21,10 +21,10 @@ template(name='profile')
                             //- +i name='coins'
                             //- i.coins.icon
                             |{{fixed user.points}}pts
-                    if is_current_user
-                        a.ui.large.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
-                            i.cog.icon
-                            |account
+                    // if is_current_user
+                    a.ui.large.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                        i.cog.icon
+                        |account
                     // else if is_admin
                     //     a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                     //         +i name='settings' cl='ui avatar image'

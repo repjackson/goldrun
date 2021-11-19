@@ -1,6 +1,6 @@
 if Meteor.isClient
     Template.login.onCreated ->
-        Session.set 'username', null
+        Session.set 'username', ''
 
     Template.login.events
         'keyup .username': ->
@@ -19,41 +19,42 @@ if Meteor.isClient
                     Session.set('enter_mode', 'login')
 
         'click .enter': (e,t)->
-            e.preventDefault()
-            username = $('.username').val()
-            password = $('.password').val()
-            options = {
-                username:username
-                password:password
-                }
-            # console.log options
-            Meteor.loginWithPassword username, password, (err,res)=>
-                if err
-                    console.log err
-                    $('body').toast({
-                        message: err.reason
-                    })
-                else
-                    # console.log res
-                    # Router.go "/user/#{username}"
-                    $(e.currentTarget).closest('.grid').transition('fly right', 500)
-                    Meteor.setTimeout ->
-                        Router.go "/"
-                    , 500
-                    $('body').toast({
-                        title: "logged in"
-                        # message: 'Please see desk staff for key.'
-                        class : 'success'
-                        # position:'top center'
-                        # className:
-                        #     toast: 'ui massive message'
-                        # displayTime: 5000
-                        transition:
-                          showMethod   : 'zoom',
-                          showDuration : 250,
-                          hideMethod   : 'fade',
-                          hideDuration : 250
-                        })
+            Session.set('current_username', $('.username').val())
+            # e.preventDefault()
+            # username = $('.username').val()
+            # password = $('.password').val()
+            # options = {
+            #     username:username
+            #     password:password
+            #     }
+            # # console.log options
+            # Meteor.loginWithPassword username, password, (err,res)=>
+            #     if err
+            #         console.log err
+            #         $('body').toast({
+            #             message: err.reason
+            #         })
+            #     else
+            #         # console.log res
+            #         # Router.go "/user/#{username}"
+            #         $(e.currentTarget).closest('.grid').transition('fly right', 500)
+            #         Meteor.setTimeout ->
+            #             Router.go "/"
+            #         , 500
+            #         $('body').toast({
+            #             title: "logged in"
+            #             # message: 'Please see desk staff for key.'
+            #             class : 'success'
+            #             # position:'top center'
+            #             # className:
+            #             #     toast: 'ui massive message'
+            #             # displayTime: 5000
+            #             transition:
+            #               showMethod   : 'zoom',
+            #               showDuration : 250,
+            #               hideMethod   : 'fade',
+            #               hideDuration : 250
+            #             })
 
 
 
@@ -82,12 +83,12 @@ if Meteor.isClient
     Template.login.helpers
         username: -> Session.get 'username'
         logging_in: -> Session.equals 'enter_mode', 'login'
-        enter_class: ->
-            if Session.get('username').length
-                if Meteor.loggingIn() then 'loading disabled' else ''
-            else
-                'disabled'
-        is_logging_in: -> Meteor.loggingIn()
+        # enter_class: ->
+        #     if Session.get('username').length
+        #         if Meteor.loggingIn() then 'loading disabled' else ''
+        #     else
+        #         'disabled'
+        # is_logging_in: -> Meteor.loggingIn()
 
 
 
@@ -301,14 +302,15 @@ if Meteor.isClient
                 else
                     Session.set 'enter_mode', 'register'
         
-        'blur .password': ->
-            password = $('.password').val()
-            Session.set 'password', password
+        'keyup .pin': ->
+            pin = $('.pin').val()
+            console.log pin
+            Session.set 'pin', pin
 
         'click .register': (e,t)->
             username = $('.username').val()
-            email = $('.email_field').val()
-            password = $('.password').val()
+            # email = $('.email_field').val()
+            # password = $('.password').val()
             # if Session.equals 'enter_mode', 'register'
             # if confirm "register #{username}?"
             # Meteor.call 'validate_email', email, (err,res)->
@@ -317,6 +319,7 @@ if Meteor.isClient
             #     username:username
             #     password:password
             # }
+            
             options = {
                 email:email
                 username:username
@@ -362,8 +365,11 @@ if Meteor.isClient
 
     Template.register.helpers
         can_register: ->
+            console.log Session.get('username')
+            console.log Session.get('password')
             # Session.get('first_name') and Session.get('last_name') and Session.get('email_status', 'valid') and Session.get('password').length>3
             Session.get('username') and Session.get('password').length>3
+            # true
 
             # Session.get('username')
 
@@ -372,7 +378,7 @@ if Meteor.isClient
         # first_name: -> Session.get 'first_name'
         # last_name: -> Session.get 'last_name'
         registering: -> Session.equals 'enter_mode', 'register'
-        enter_class: -> if Meteor.loggingIn() then 'loading disabled' else ''
+        # enter_class: -> if Meteor.loggingIn() then 'loading disabled' else ''
         # email_valid: ->
         #     Session.equals 'email_status', 'valid'
         # email_invalid: ->

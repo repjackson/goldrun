@@ -103,7 +103,10 @@ template(name='profile')
                                 a.item(href="/user/#{username}") #{username}
                             // each friended
                             //     a.item(href="/user/#{username}") #{username}
-                
+    else 
+        .ui.basic.segment
+            .ui.big.button.create_profile
+                |create
                             
 
 // template(name='profile_nav_button')                        

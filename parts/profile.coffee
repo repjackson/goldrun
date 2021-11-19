@@ -13,12 +13,12 @@ if Meteor.isClient
 
     Template.profile.helpers
         bookmarked_docs: ->
-            user = Meteor.users.findOne username:Router.current().params.username
+            user = Docs.findOne username:Router.current().params.username
             Docs.find 
                 _id: $in: user.bookmark_ids
 if Meteor.isServer
     Meteor.publish 'user_bookmarked_docs', (username)->
-        user = Meteor.users.findOne username:username
+        user = Docs.findOne username:username
         Docs.find 
             _id: $in: user.bookmark_ids
         
@@ -37,7 +37,10 @@ if Meteor.isClient
         'click .recalc_wage_stats': (e,t)->
             Meteor.call 'recalc_wage_stats', Router.current().params.username, ->
 
-
+        'click .create_profile': ->
+            Docs.insert 
+                model:'user'
+                username:Router.current().params.username
     # Template.user_section.helpers
     #     user_section_template: ->
     #         "user_#{Router.current().params.group}"
@@ -48,10 +51,10 @@ if Meteor.isClient
                 model:'post'
                 _author_username:Router.current().params.username
         user_from_username_param: ->
-            Meteor.users.findOne username:Router.current().params.username
+            Docs.findOne username:Router.current().params.username
 
         user: ->
-            Meteor.users.findOne username:Router.current().params.username
+            Docs.findOne username:Router.current().params.username
 
     Template.logout_other_clients_button.events
         'click .logout_other_clients': ->
@@ -59,7 +62,7 @@ if Meteor.isClient
 
     Template.logout_button.events
         'click .logout': (e,t)->
-            Meteor.call 'insert_log', 'logout', Meteor.userId(), ->
+            Meteor.call 'insert_log', 'logout', Session.get('current_userid'), ->
                 
             Router.go '/login'
             $(e.currentTarget).closest('.grid').transition('slide left', 500)
@@ -88,25 +91,26 @@ if Meteor.isServer
     
     Meteor.methods
         calc_user_points: (username)->
-            user = Meteor.users.findOne username:username
+            user = Docs.findOne username:username
             point_total = 10
-            deposits = 
-                Docs.find 
-                    model:'deposit'
-                    _author_id:user._id
-            for deposit in deposits.fetch()
-                if deposit.amount
-                    point_total += deposit.amount
-            orders = 
-                Docs.find
-                    model:'order'
-                    _author_id:user._id
-            for order in orders.fetch()
-                if order.total_amount
-                    point_total += order.total_amount
-            console.log 'calc user points', username, point_total
-            Meteor.users.update user._id,   
-                $set:points:point_total
+            if user
+                deposits = 
+                    Docs.find 
+                        model:'deposit'
+                        _author_id:user._id
+                for deposit in deposits.fetch()
+                    if deposit.amount
+                        point_total += deposit.amount
+                orders = 
+                    Docs.find
+                        model:'order'
+                        _author_id:user._id
+                for order in orders.fetch()
+                    if order.total_amount
+                        point_total += order.total_amount
+                console.log 'calc user points', username, point_total
+                Docs.update user._id,   
+                    $set:points:point_total
     
             
 if Meteor.isClient
@@ -126,7 +130,7 @@ if Meteor.isClient
         #     # zipCode: true
         #     token: (token) ->
         #         # product = Docs.findOne Router.current().params.doc_id
-        #         user = Meteor.users.findOne username:Router.current().params.username
+        #         user = Docs.findOne username:Router.current().params.username
         #         deposit_amount = parseInt $('.deposit_amount').val()*100
         #         stripe_charge = deposit_amount*100*1.02+20
         #         # calculated_amount = deposit_amount*100
@@ -147,7 +151,7 @@ if Meteor.isClient
         #                     stripe_charge:stripe_charge
         #                     amount_with_bonus:deposit_amount*1.05/100
         #                     bonus:deposit_amount*.05/100
-        #                 Meteor.users.update user._id,
+        #                 Docs.update user._id,
         #                     $inc: credit: deposit_amount*1.05/100
     	# )
 
@@ -165,7 +169,7 @@ if Meteor.isClient
     #         Docs.insert
     #             model:'deposit'
     #             amount: amount
-    #         Meteor.users.update Meteor.userId(),
+    #         Docs.update Session.get('current_userid'),
     #             $inc: credit: amount_times_100
 
 
@@ -177,13 +181,13 @@ if Meteor.isClient
     #                 amount: withdrawal_amount
     #                 status: 'started'
     #                 complete: false
-    #             Meteor.users.update Meteor.userId(),
+    #             Docs.update Session.get('current_userid'),
     #                 $inc: credit: -withdrawal_amount
 
     #     'click .cancel_withdrawal': ->
     #         if confirm "cancel withdrawal for #{@amount}?"
     #             Docs.remove @_id
-    #             Meteor.users.update Meteor.userId(),
+    #             Docs.update Session.get('current_userid'),
     #                 $inc: credit: @amount
 
 
@@ -229,7 +233,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'rental'
     Template.profile.helpers
         reservations: ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
+            current_user = Docs.findOne username:Router.current().params.username
             Docs.find {
                 model:'reservation'
             }, sort:_timestamp:-1
@@ -258,11 +262,11 @@ if Meteor.isClient
             is_number = isNaN(Meteor.user().points)
             console.log typeof(Meteor.user().points)
             unless is_number
-                Meteor.users.update Meteor.userId(),
+                Docs.update Session.get('current_userid'),
                     $inc:
                         points:deposit_amount
             else                    
-                Meteor.users.update Meteor.userId(),
+                Docs.update Session.get('current_userid'),
                     $set: points: deposit_amount
             $('.deposit_amount').val('')
 
@@ -274,13 +278,13 @@ if Meteor.isClient
                     amount: withdrawal_amount
                     status: 'started'
                     complete: false
-                Meteor.users.update Meteor.userId(),
+                Docs.update Session.get('current_userid'),
                     $inc: credit: -withdrawal_amount
 
         'click .cancel_withdrawal': ->
             if confirm "cancel withdrawal for #{@amount}?"
                 Docs.remove @_id
-                Meteor.users.update Meteor.userId(),
+                Docs.update Session.get('current_userid'),
                     $inc: credit: @amount
 
 
@@ -330,14 +334,14 @@ if Meteor.isClient
                 model:'reservation'
                 user_username:Router.current().params.username
         current_handling_rentals: ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
+            current_user = Docs.findOne username:Router.current().params.username
             Docs.find
                 model:'rental'
                 handler_username:current_user.username
         current_interest_rate: ->
             interest_rate = 0
             if Meteor.user().handling_active
-                current_user = Meteor.users.findOne username:Router.current().params.username
+                current_user = Docs.findOne username:Router.current().params.username
                 handling_rentals = Docs.find(
                     model:'rental'
                     handler_username:current_user.username

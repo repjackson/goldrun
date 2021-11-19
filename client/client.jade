@@ -67,24 +67,24 @@ template(name='nav')
                 i.plus.large.icon
         // .right.menu
         if current_username
-            // a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
-            a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
-                // | {{fixed currentUser.points}}p
-                | {{currentUser.points}}p
+            // a.item(href="/user/#{current_user.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
+            a.item(href="/user/#{current_username}" class=user_nav_button_class title=user_nav_button_title)
+                // | {{fixed current_user.points}}p
+                | {{current_user.points}}p
                 &nbsp;
-                if currentUser.image_id
-                    img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200}}")
+                if current_user.image_id
+                    img.ui.avatar.image(src="{{c.url current_user.image_id width=200 height=200}}")
                 else
                     i.user.icon
                 span.mobile.hidden #{current_username}
-                    //- |${{int currentUser.credit}}
+                    //- |${{int current_user.credit}}
             //- else
             //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='log out')
             //-         i.sign.out.icon
         else
-            unless currentUser
+            unless current_user
                 a.item(href='/login' title='enter') 
-                    i.sign.in.icon
+                    i.sign.in.large.icon
                     // +i name='internal'
                     //- |login
 

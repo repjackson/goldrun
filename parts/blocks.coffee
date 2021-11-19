@@ -62,16 +62,16 @@ if Meteor.isClient
    
    
     Template.send_points_button.helpers
-        is_current_user: -> Meteor.user().username is Router.current().params.username
-        is_friend: ->
-            user = Meteor.users.findOne username:Router.current().params.username
-            # Meteor.userId() in user.friend_ids
-            user._id in Meteor.user().friend_ids
+        is_current_user: -> Session.get('current_username') is Router.current().params.username
+        # is_friend: ->
+        #     user = Docs.findOne username:Router.current().params.username
+        #     # Meteor.userId() in user.friend_ids
+        #     user._id in Session.get('current_user').friend_ids
         following: -> @follower_ids and Meteor.userId() in @follower_ids
     Template.send_points_button.events
         'click .send_points': ->
             console.log @
-            user = Meteor.users.findOne username:Router.current().params.username
+            user = Docs.findOne username:Router.current().params.username
             Meteor.users.update Meteor.userId(),
                 $addToSet:friend_ids:user._id
                 
@@ -91,7 +91,7 @@ if Meteor.isClient
                 })
                 
         'click .remove_friend': ->
-            user = Meteor.users.findOne username:Router.current().params.username
+            user = Docs.findOne username:Router.current().params.username
             Meteor.users.update Meteor.userId(),
                 $pull:friend_ids:user._id
             $('body').toast({
@@ -114,15 +114,15 @@ if Meteor.isClient
                 
                 
     Template.friend_button.helpers
-        is_current_user: -> Meteor.user().username is Router.current().params.username
+        is_current_user: -> Session.get('current_username') is Router.current().params.username
         is_friend: ->
-            user = Meteor.users.findOne username:Router.current().params.username
+            user = Docs.findOne username:Router.current().params.username
             # Meteor.userId() in user.friend_ids
-            user._id in Meteor.user().friend_ids
+            user._id in Session.get('current_user').friend_ids
         following: -> @follower_ids and Meteor.userId() in @follower_ids
     Template.friend_button.events
         'click .add_friend': ->
-            user = Meteor.users.findOne username:Router.current().params.username
+            user = Docs.findOne username:Router.current().params.username
             Meteor.users.update Meteor.userId(),
                 $addToSet:friend_ids:user._id
                 
@@ -142,7 +142,7 @@ if Meteor.isClient
                 })
                 
         'click .remove_friend': ->
-            user = Meteor.users.findOne username:Router.current().params.username
+            user = Docs.findOne username:Router.current().params.username
             Meteor.users.update Meteor.userId(),
                 $pull:friend_ids:user._id
             $('body').toast({
@@ -270,7 +270,7 @@ if Meteor.isClient
     Template.user_card.onCreated ->
         @autorun => Meteor.subscribe 'user_from_username', @data
     Template.user_card.helpers
-        user: -> Meteor.users.findOne @valueOf()
+        user: -> Docs.findOne @valueOf()
 
 
     # Template.set_limit.events
@@ -282,7 +282,7 @@ if Meteor.isClient
     Template.big_user_card.onCreated ->
         @autorun => Meteor.subscribe 'user_from_username', @data
     Template.big_user_card.helpers
-        user: -> Meteor.users.findOne username:@valueOf()
+        user: -> Docs.findOne username:@valueOf()
 
 
 
@@ -300,13 +300,13 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'user_from_username', @data
     Template.username_info.events
         'click .goto_profile': ->
-            user = Meteor.users.findOne username:@valueOf()
+            user = Docs.findOne username:@valueOf()
             if user.is_current_member
                 Router.go "/member/#{user.username}/"
             else
                 Router.go "/user/#{user.username}/"
     Template.username_info.helpers
-        user: -> Meteor.users.findOne username:@valueOf()
+        user: -> Docs.findOne username:@valueOf()
 
 
 
@@ -314,7 +314,7 @@ if Meteor.isClient
     Template.user_info.onCreated ->
         @autorun => Meteor.subscribe 'user_from_id', @data
     Template.user_info.helpers
-        user_doc: -> Meteor.users.findOne @valueOf()
+        user_doc: -> Docs.findOne @valueOf()
 
 
     Template.toggle_edit.events
@@ -336,13 +336,13 @@ if Meteor.isClient
     Template.user_list_info.helpers
         user: ->
             console.log @
-            Meteor.users.findOne @valueOf()
+            Docs.findOne @valueOf()
 
 
 
     Template.user_field.helpers
         key_value: ->
-            user = Meteor.users.findOne Router.current().params.doc_id
+            user = Docs.findOne Router.current().params.doc_id
             user["#{@key}"]
 
     Template.user_field.events
@@ -374,7 +374,7 @@ if Meteor.isClient
                     $addToSet:"#{@key}":Meteor.userId()
     Template.user_list_toggle.helpers
         user_list_toggle_class: ->
-            if Meteor.user()
+            if Session.get('current_user')
                 parent = Template.parentData()
                 if parent["#{@key}"] and Meteor.userId() in parent["#{@key}"] then '' else 'basic'
             else
@@ -389,7 +389,7 @@ if Meteor.isClient
 
     Template.doc_array_togggle.helpers
         user_list_toggle_class: ->
-            if Meteor.user()
+            if Session.get('current_user')
                 parent = Template.parentData()
                 if parent["#{@key}"] and Meteor.userId() in parent["#{@key}"] then '' else 'basic'
             else
@@ -425,7 +425,7 @@ if Meteor.isClient
             if @read_ids
                 for reader_id in @read_ids
                     unless reader_id is @author_id
-                        readers.push Meteor.users.findOne reader_id
+                        readers.push Docs.findOne reader_id
             readers
 
 
@@ -577,7 +577,7 @@ if Meteor.isClient
     Template.doc_array_togggle.helpers
         doc_array_toggle_class: ->
             parent = Template.parentData()
-            # user = Meteor.users.findOne Router.current().params.username
+            # user = Docs.findOne Router.current().params.username
             if parent["#{@key}"] and @value in parent["#{@key}"] then 'active' else 'basic'
     Template.doc_array_togggle.events
         'click .toggle': (e,t)->

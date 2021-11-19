@@ -1,5 +1,7 @@
 Docs.allow
-    insert: (userId, doc) -> doc._author_id is userId
+    insert: (userId, doc) -> 
+        true    
+            # doc._author_id is userId
     update: (userId, doc) ->
         doc
         # if doc.model in ['calculator_doc','simulated_rental_item','healthclub_session']
@@ -83,10 +85,12 @@ Meteor.publish 'inline_doc', (slug)->
 
 
 Meteor.publish 'user_from_username', (username)->
-    Meteor.users.find username:username
+    Docs.find 
+        model:'user'
+        username:username
 
 Meteor.publish 'user_from_id', (user_id)->
-    Meteor.users.find user_id
+    Docs.find user_id
 
 Meteor.publish 'doc_by_id', (doc_id)->
     Docs.find doc_id
@@ -95,7 +99,7 @@ Meteor.publish 'doc', (doc_id)->
 
 Meteor.publish 'author_from_doc_id', (doc_id)->
     doc = Docs.findOne doc_id
-    Meteor.users.find user_id
+    Docs.find user_id
 
 Meteor.publish 'page', (slug)->
     Docs.find

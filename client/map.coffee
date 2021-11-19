@@ -231,7 +231,25 @@ Template.map2.onRendered ->
             
 Template.map2.helpers
     current_markers: -> current_markers.array()
+    can_move: -> Session.get 'can_move'
 Template.map2.events
+    'click .toggle_moving': (e,t)->
+        if Session.get 'can_move'
+            t.map.dragging.disable() 
+            t.map.touchZoom.disable() 
+            t.map.doubleClickZoom.disable() 
+            t.map.scrollWheelZoom.disable() 
+            t.map.keyboard.disable() 
+            Session.set 'can_move',false
+        else
+            t.map.dragging.enable() 
+            t.map.touchZoom.enable() 
+            t.map.doubleClickZoom.enable() 
+            t.map.scrollWheelZoom.enable() 
+            t.map.keyboard.enable() 
+            Session.set('can_move',true)
+            
+
     'keyup .add_place': (e,t)->
         val = $('.add_place').val()
         if e.which is 13

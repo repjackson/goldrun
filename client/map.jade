@@ -28,6 +28,13 @@ template(name='map2')
             .ui.button.find_me  
                 i.marker.icon
                 |find me
+            .ui.button.toggle_moving
+                if can_move
+                    i.chevron.right.icon
+                    |movable
+                else
+                    i.lock.icon
+                    |locked
             .ui.input
                 input.add_place(type='text' placeholder='add geocoded place')
             each current_markers

@@ -241,3 +241,8 @@ Meteor.publish 'facets', (
 
     self.ready()
 
+Meteor.publish 'some_rentals', ->
+    Docs.find {
+        model:'post'
+        app:'goldrun'
+    }, limit:10

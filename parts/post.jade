@@ -12,9 +12,9 @@ template(name='post_view')
                     a.ui.big.compact.basic.button.fly_left(href="/" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
-                    if can_edit
-                        a.zoomer(href="/post/#{_id}/edit")
-                            i.pencil.big.icon
+                    // if can_edit
+                    a.zoomer(href="/post/#{_id}/edit")
+                        i.pencil.big.icon
                     +bookmark_button
                     .ui.small.inline.header
                         |added
@@ -251,7 +251,7 @@ template(name='post_edit')
                     // if is_dev
                     //     +single_user_edit key='_author_username' label='author username' direct=true
                     //     +link_edit key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
-                    // // +text_edit key='contact_info' label='contact info' icon='info' direct=true
+                    +text_edit key='location' label='location text' icon='marker' direct=true
                 .column
                     +array_edit key='tags' icon='tags' label='tags' direct=true
                     +array_edit key='location_tags' label='public location tags' icon='marker' direct=true

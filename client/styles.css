@@ -11,7 +11,7 @@ body {
     /* background: #0e0e44 !important; */
 }
 /*#map { position:absolute; top:0; bottom:0; width:100%; }*/
-#map { width:100%; height:500px; }
+#map { width:100%; height:400px; }
 
 #mapid { 
   height: 500px !important;

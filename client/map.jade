@@ -59,3 +59,14 @@ template(name='map2')
                     i.remove.icon
                     |#{this}
             #map
+            .ui.header rentals
+            .ui.large.list
+                each rental_docs
+                    .item
+                        .header.pick_rental #{title},
+                        
+                        .ui.label #{location}
+                        each locaation_tags
+                            .ui.label #{this}
+                        a.ui.large.button(href="/post/#{_id}")
+                            |view

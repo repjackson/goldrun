@@ -217,6 +217,8 @@ Router.route '/map2', -> @render 'map2'
 #         Docs.find
 #             light_mode:true
     # 'click .init': (e,t)->
+Template.map2.onCreated ->
+    @autorun => @subscribe 'some_rentals', ->
 Template.map2.onRendered ->
     # console.log 'hi'
     # console.log @
@@ -245,7 +247,25 @@ Template.map2.helpers
     current_markers: -> current_markers.array()
     can_move: -> Session.get 'can_move'
     current_zoom_level: -> Session.get 'zoom_level'
+    rental_docs: ->
+        Docs.find 
+            model:'post'
+            app:'goldrun'
+   
 Template.map2.events
+    'click .pick_rental': (e,t)->
+        console.log @
+        # options = {
+        #     draggable:true
+            
+        #     }
+        # L.marker([50.5, 30.5], options).addTo(t.map);
+        # t.map.setView [50.5, 30.5], 14
+        t.geocoder.query @location, (error, result) ->
+            console.log 'found rental location', result
+            L.marker(result.latlng).addTo(t.map)
+            t.map.setView result.latlng, 15
+
     'click .click_markers': (e,t)->
         myFeatureLayer = L.mapbox.featureLayer('/mapbox.js/assets/data/sf_locations.geojson').addTo(t.map);
 
@@ -305,6 +325,7 @@ Template.map2.events
             t.geocoder.query val, (error, result) ->
                 console.log 'found result', result
                 L.marker(result.latlng).addTo(t.map)
+                t.map.setView result.latlng, 10
             val = $('.add_place').val('')
     'click .draw': (e,t)->
         t.map.setView [40, -74.50], 3

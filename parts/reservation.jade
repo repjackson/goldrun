@@ -1,15 +1,15 @@
 template(name='reservation_view')
     with current_doc
         .ui.stackable.padded.grid
-            .row
-                .four.wide.column 
+            .three.column.row
+                .column 
                     with rental
                         a.ui.fluid.large.button(href="/rental/#{_id}/")
                             i.left.chevron.icon
                             |#{title}
                         +image_view key='image' label='image' direct=true
                         +comments
-                .eight.wide.column 
+                .column 
                     .ui.header 
                         |viewing reservation
                     a.ui.header.inline.lowercase(href="/reservation/#{_id}/")
@@ -66,19 +66,12 @@ template(name='reservation_events')
 template(name='reservation_edit')
     with current_doc
         .ui.stackable.padded.grid
-            // if is_paying
-            //     .row
-            //         h1.ui.header is paying
             .three.column.row
                 .column 
                     // a.ui.big.fluid.button(href="/reservation/#{_id}/" title='save')
                     //     i.save.icon
                     //     //- +i name='submit-progress--v1'        
                     //     .ui.inline.header save draft     
-                    .ui.hidden.divider     
-                    .ui.large.fluid.icon.button.cancel_reservation
-                        i.ban.icon
-                        |cancel/delete
                     .ui.header 
                         strong #{rental.title}
                         small reservation
@@ -88,68 +81,6 @@ template(name='reservation_edit')
                         |&nbsp;
                         |&nbsp;
                         +image_view key='image' label='image' direct=true cl='ui rounded image'
-                    // .result_column   
-                    //     .ui.big.list
-                    //         .item
-                    //             i.user.shield.icon
-                    //             small 50% owner
-                    //             | #{owner_payout}c to #{rental.owner_username}
-                    //         .item.handler
-                    //             i.user.cog.icon
-                    //             small 45% handler
-                    //             | #{handler_payout}c to #{rental.handler_username}
-                    //         .item 
-                    //             small 5% taxes
-                    //             | #{taxes_payout}c
-                
-                // .column 
-                    // a.ui.header(href="/rental/#{rental._id}/") reserve #{rental.title}
-                    // .ui.fluid.button.reserve_now(class=now_button_class)
-                    //     |reserve now
-                    // unless now
-                    //     .ui.header 
-                    //         i.calendar.icon
-                    //         |start date/time
-                    //     .ui.input
-                    //         input.res_start(type='datetime-local' value="#{start_datetime}")
-                    // if start_datetime
-                    //     .ui.header 
-                    //         |duration
-                    //     div
-                    //     .ui.input            
-                    //         input.other_hour(type='number' min='0' value=hour_duration autocomplete="off")
-                    //     .ui.header 
-                    //         i.calendar.icon
-                    //         |end date/time            
-                    //     .ui.input
-                    //         input.res_end(type='datetime-local' value="#{end_datetime}")
-                .column.result_column.rounded
-                    // if start_datetime
-                    //     .ui.header.lowercase 
-                    //         small from 
-                    //         |{{cal_time start_datetime}}
-                    //     if end_datetime
-                    //         .ui.header.lowercase 
-                    //             small to
-                    //             |{{cal_time end_datetime}}
-                    //         .ui.header 
-                    //             | #{hour_duration}hrs * #{rental.hourly_dollars}c/hr = #{cost}
-                    //         .ui.header(title='security deposit amount will be held until successful return') 
-                    //             if rental.security_deposit_required
-                    //                 small + security deposit 
-                    //                 |#{rental.security_deposit_amount}c
-                    //         if rental.res_start_dropoff
-                    //             .ui.header 
-                    //                 small add reservation start dropoff for 
-                    //                 |#{rental.res_start_dropoff_fee}c
-                    //             +boolean_edit key='res_start_dropoff_selected' cl='trigger_recalc' label='start dropoff' direct=true data=this._id  
-                    //         div
-                    //         if rental.res_end_pickup
-                    //             .ui.header
-                    //                 small add reservation end pickup for 
-                    //                 |#{rental.res_end_pickup_fee}c
-                    //             +boolean_edit key='res_end_pickup_selected' cl='trigger_recalc' label='end pickup' direct=true data=this._id
-                    //         .ui.divider
                     if can_buy
                         .ui.header 
                             small your balance
@@ -174,11 +105,6 @@ template(name='reservation_edit')
                         .ui.header
                             small cost
                             | #{total_cost} 
-                            //- | #{cost} 
-                            //- if res_start_dropoff_selected
-                            //-     | + #{rental.res_start_dropoff_fee}
-                            //- if res_end_pickup_selected
-                            //-     | + #{rental.res_end_pickup_fee}
                         .ui.header
                             small balance after purchase
                             small = 
@@ -206,66 +132,55 @@ template(name='reservation_edit')
                         .ui.orange.fluid.button.unsubmit
                             i.undo.icon
                             |cancel
-                .ui.red.negative.button
-                    i.ban.icon
-                    | cancel
-                .ui.green.positive.large.button
-                    i.checkmark.icon
-                    |confirm
-                img.ui.image(src="{{c.url order_post.image_id width=200 height=200}}")    
-                
-                div
-                // +float_edit key='serving_purchase_price' label='serving purchase price' direct=true
-                // +float_edit key='cook_tip' label='cook tip' direct=true
-                .ui.header $#{order_total_transaction_amount} 
-                    small total transaction amount
-                .ui.header product 
-                with order_post
-                    a.ui.small.header(href="/product/#{product_id}") #{title}
-                    +image_view key='image' direct=true
-                    +html_view key='description' direct=true
-            .five.wide.column
-                .ui.header 
-                    small your credit: 
-                    strong #{currentUser.points}pts
-                .ui.big.label
-                    i.sun.icon
-                    |daily rate: #{post_daily_rate}p/day
-                .ui.header 
-                    small credit after purchase 
-                    strong #{points_after_purchase}p
-                .ui.header 
-                    +i name='delivery'
-                    |delivery method
-                +key_value_edit key='delivery_method' value='delivery' label='delivery' icon='deliver-food'
-                +key_value_edit key='delivery_method' value='pickup' label='pickup' icon='contactless-delivery'
-                +date_edit key='reservation_date' label='reservation date' icon='calendar'
-
-                if key_value_is 'delivery_method' 'delivery'
-                    +datetime_edit key='delivery_timedate' label='delivery timedate' direct=true
-                if key_value_is 'delivery_method' 'pickup'
-                    +datetime_edit key='pickup_timedate' label='pickup timedate' direct=true
-            .five.wide.column
-                +textarea_edit key='notes' label='notes' direct=true
-                .ui.hidden.divider
-                if can_complete
-                    a.ui.large.fluid.green.button.complete_order
-                        i.checkmark.large.icon   
-                        |complete order
-                else 
-                    .ui.header not enough points
-                    a.ui.large.fluid.green.disabled.button
-                        i.checkmark.large.icon   
-                        |complete order
-                .ui.hidden.divider
-                if can_delete
-                    .ui.red.compact.button.delete_order
-                        i.remove.icon   
-                        |cancel
-                else  
-                    .ui.red.disabled.button(title='existing reservations')
-                        i.remove.icon   
-                        | can't cancel  
-                if in_dev 
-                    +print_this
+                    .ui.large.fluid.icon.button.cancel_reservation
+                        i.ban.icon
+                        |cancel/delete
+                .column
+                    if can_delete
+                        .ui.red.compact.button.delete_order
+                            i.remove.icon   
+                            |cancel
+                    else  
+                        .ui.red.disabled.button(title='existing reservations')
+                            i.remove.icon   
+                            | can't cancel  
+                    .ui.green.positive.large.button
+                        i.checkmark.icon
+                        |confirm
+                    img.ui.image(src="{{c.url order_post.image_id width=200 height=200}}")    
+                    
+                    .ui.header product 
+                    with order_post
+                        a.ui.small.header(href="/product/#{product_id}") #{title}
+                        +image_view key='image' direct=true
+                        +html_view key='description' direct=true
+                    .ui.header 
+                        small your credit: 
+                        strong #{currentUser.points}pts
+                    .ui.big.label
+                        i.sun.icon
+                        |daily rate: #{post_daily_rate}p/day
+                    .ui.header 
+                        small credit after purchase 
+                        strong #{points_after_purchase}p
+                    .ui.header 
+                        +i name='delivery'
+                        |delivery method
+                    +date_edit key='reservation_date' label='reservation date' icon='calendar'
+    
+                .column
+                    +textarea_edit key='notes' label='notes' direct=true
+                    .ui.hidden.divider
+                    if can_complete
+                        a.ui.large.fluid.green.button.complete_order
+                            i.checkmark.large.icon   
+                            |complete order
+                    else 
+                        .ui.header not enough points
+                        a.ui.large.fluid.green.disabled.button
+                            i.checkmark.large.icon   
+                            |complete order
+                    .ui.hidden.divider
+                    if in_dev 
+                        +print_this
 

@@ -76,10 +76,10 @@ template(name='nav')
                 // +i name='order-history' cl='ui inline mini image'
                 i.list.large.icon
                 // strong.mobile.hidden orders
-            a.icon.item.zoomer(href='/deliveries' class="{{isActivePath '/deliveries'}}" title='deliveries')
-                // +i name='bicycle' cl='ui inline mini image'
-                i.bicycle.large.icon
-                // strong.mobile.hidden deliveries
+            // a.icon.item.zoomer(href='/deliveries' class="{{isActivePath '/deliveries'}}" title='deliveries')
+            //     // +i name='bicycle' cl='ui inline mini image'
+            //     i.bicycle.large.icon
+            //     // strong.mobile.hidden deliveries
         .right.menu
             a.ui.icon.item.add_post(title='add post')
                 i.plus.large.icon
@@ -91,7 +91,7 @@ template(name='nav')
                         img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200}}")
                     else
                         i.user.icon
-                    span.mobile.hidden #{currentUser.username}
+                    span #{currentUser.username}
                         //- |${{int current_user.credit}}
                     | {{currentUser.points}}p
                 //- else

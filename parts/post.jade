@@ -21,11 +21,9 @@ template(name='post_view')
                         // |added by #{_author_username}
                         |#{when}
                     div
-                    +array_view key='location_tags' icon='marker' direct=true title='location tags'
-                    div
                     +text_view key='location' icon='marker' label='location' direct=true
                     // img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
-                .column
+                    // +voting_full    
                     img.ui.centered.rounded.shadowed.fluid.image(src="{{c.url image_id crop='fit'}}")
                     i.large.tag.icon        
                     each tags 
@@ -39,57 +37,51 @@ template(name='post_view')
                             +user_card
                     // .ui.hidden.divider
                 .column
-                    unless approval_required
-                        .ui.big.green.fluid.button.new_reservation 
-                            i.large.clock.icon
-                            small reserve for 
-                            strong #{daily_rate}p/day
-                    else 
-                        .ui.big.blue.fluid.button.new_reservation 
-                            |request
-                        // small rent for
+                    // unless approval_required
+                    .ui.big.green.fluid.button.new_reservation 
+                        i.large.clock.icon
+                        small reserve for 
+                        strong #{daily_rate}p/day
+                    // else 
+                    //     .ui.big.blue.fluid.button.new_reservation 
+                    //         |request
+                    //     // small rent for
                     div
-                    +boolean_view key='auction' label='auction' icon='podium-with-audience--v2' direct=true
-                    if auction
-                        +number_view key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
-                        +float_view key='minimum_bid' label='hour minimum bid' icon='refund' direct=true
+                    // +boolean_view key='auction' label='auction' icon='podium-with-audience--v2' direct=true
+                    // if auction
+                    //     +number_view key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
+                    //     +float_view key='minimum_bid' label='hour minimum bid' icon='refund' direct=true
                 
-                .column
-                    if link 
-                        +link_view key='link' label='link' direct=true
-                    .ui.hidden.divider
-                    div
-                    .ui.inline.header
-                        +i name='delivery'
-                        |delivery
-                    div
-                    if delivery_instructions
-                        .ui.small.inline.header
-                            |delivery instructions:
-                        |#{delivery_instructions}   
+                    // if link 
+                    //     +link_view key='link' label='link' direct=true
+                    // .ui.hidden.divider
+                    // div
+                    // .ui.inline.header
+                    //     +i name='delivery'
+                    //     |delivery
+                    // div
+                    // if delivery_instructions
+                    //     .ui.small.inline.header
+                    //         |delivery instructions:
+                    //     |#{delivery_instructions}   
                     +rental_calendar
                 .column
-                    if description
-                        +textarea_view key='description' label='description' icon='content' direct=true
-                    div
-                    if security_deposit_required
-                        .ui.header 
-                        |$#{security_deposit_amount}
-                        small security deposit
-                    // +text_view key='contact_info' label='contact info' icon='info' direct=true
+                    if description.length
+                        +html_view key='description' label='description' icon='content' direct=true
+                    // div
+                    // if security_deposit_required
+                    //     .ui.header 
+                    //     |$#{security_deposit_amount}
+                    //     small security deposit
+                    // // +text_view key='contact_info' label='contact info' icon='info' direct=true
                     div
                     +link_view key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
-                    +rental_calendar
                     +rental_view_reservations
-                        
-                .column
-                    +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
-                    +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
-                    +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
+                    // +boolean_view key='pickup_delivery' label='pickup' direct=true icon='box'
+                    // +boolean_view key='unit_dropoff_delivery' label='home dropoff' icon='contactless-delivery' direct=true
+                    // +boolean_view key='building_dropoff_delivery' label='building dropoff' icon='building' direct=true
                     +post_orders
-                    +related_posts
-                    +voting_full    
-                .column
+                    // +related_posts
                     +rental_status
                     // if can_edit
                     //     a.ui.icon.button(href="/rental/#{_id}/edit" title='edit')
@@ -97,37 +89,34 @@ template(name='post_view')
                     +rental_stats
                     +last_viewed
                     +creation_info
-                    with _author_id
-                        +user_card
-                .column
-                    .ui.grey.header 
-                        i.user.shield.icon
-                        | owner
-                    +single_user_view key='owner_username' direct=true
-                    .ui.grey.header 
-                        i.user.clock.icon
-                        | handler
-                    +single_user_view key='handler_username' direct=true
-                .column
                     +comments
-                .column
-                    +boolean_view key='security_deposit_required' label='security deposit required' icon='lock' direct=true
-                    if security_deposit_required
-                        +number_view key='security_deposit_amount' label='security deposit amount' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
-                        div
-                        +boolean_view key='friends_exempt' label='friends exempt' icon='users' direct=true
+                // .column
+                //     .ui.grey.header 
+                //         i.user.shield.icon
+                //         | owner
+                //     +single_user_view key='owner_username' direct=true
+                //     .ui.grey.header 
+                //         i.user.clock.icon
+                //         | handler
+                //     +single_user_view key='handler_username' direct=true
+                // .column
+                //     +boolean_view key='security_deposit_required' label='security deposit required' icon='lock' direct=true
+                //     if security_deposit_required
+                //         +number_view key='security_deposit_amount' label='security deposit amount' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
+                //         div
+                //         +boolean_view key='friends_exempt' label='friends exempt' icon='users' direct=true
                         
-                    +boolean_view key='approval_required' label='approval required' icon='checkmark' direct=true
-                    if approval_required
-                        div
-                        |you will receive a notification when reservations are requested
-                    .ui.header
-                        +i name='refund'
-                        | refunds
-                    +boolean_view key='allow_refunds' label='allow refunds' icon='refund' direct=true
-                    if allow_refunds
-                        +number_view key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
-                        +number_view key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
+                //     +boolean_view key='approval_required' label='approval required' icon='checkmark' direct=true
+                //     if approval_required
+                //         div
+                //         |you will receive a notification when reservations are requested
+                //     .ui.header
+                //         +i name='refund'
+                //         | refunds
+                //     +boolean_view key='allow_refunds' label='allow refunds' icon='refund' direct=true
+                //     if allow_refunds
+                //         +number_view key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
+                //         +number_view key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
 
                 // .column
                 //     .ui.header
@@ -136,60 +125,60 @@ template(name='post_view')
                 //     .content
                 //         +single_user_view key='owner_username' label='owner' direct=true
                 //         +single_user_view key='handler_username' label='handler' direct=true
-                .column
-                    .ui.header
-                        +i name='clock'
-                        |availability
-                    .content
-                        +array_view key='availability_tags' label='availability tags' icon='clock' direct=true
-                        +boolean_view key='available' label='currently available' direct=true
-                        +multi_doc_view key='available_days' label='available days' ref_model='day_of_week' direct=true
-                .column
-                    .ui.header
-                        +i name='groups'
-                        |audience
-                    .content
-                        +boolean_view key='transaction_number_restriction' label='transaction number restriction' icon='hashtag' direct=true
-                        if transaction_number_restriction
-                            +number_view key='transaction_number_restriction_threshold' label='transaction number restriction threshold' direct=true
-                        +boolean_view key='transaction_amount_restriction' label='transaction amount restriction' icon='money' direct=true
-                        if transaction_amount_restriction
-                            +number_view key='transaction_amount_restriction_threshold' label='transaction amount restriction threshold' direct=true
-                        +boolean_view key='visible_to_public' label='visible to public' direct=true
-                        unless visible_to_public
-                            +boolean_view key='visible_to_friends' label='visible to friends' direct=true
-                        unless visible_to_public
-                            +boolean_view key='visible_to_specific_people' label='visible to specific people' direct=true
-                            if visible_to_specific_people
-                                +multi_user_view key='visible_to_member_ids' label='visible to members:' direct=true
-                .column
-                    .ui.header
-                        +i name='bicycle'
-                        |delivery
-                    .content
-                        .ui.header
-                            +i name='clock' cl='ui inline tiny image'
-                            |reservation start
-                        +boolean_view key='res_start_pickup' label='pickup' icon='truck' direct=true
-                        +boolean_view key='res_start_dropoff' label='dropoff' icon='dolly' direct=true
-                        if res_start_dropoff
-                            +number_view key='res_start_dropoff_fee' label='reservation start dropoff fee' icon='low-price' direct=true
-                .column
-                    .ui.header
-                        +i name='clock'
-                        |reservation end
-                    +boolean_view key='res_end_dropoff' label='dropoff' icon='dolly' direct=true
-                    +boolean_view key='res_end_pickup' label='pickup' icon='truck' direct=true
-                    if res_end_pickup
-                        +number_view key='res_end_pickup_fee' label='reservation end pickup fee' icon='low-price' direct=true
-                .column
-                    .ui.header
-                        +i name='bell'
-                        |notifications
-                    .content
-                        +boolean_view key='notify_on_reservation' label='on new reservation' icon='plus' direct=true
-                        +boolean_view key='notify_on_cancelation' label='on reservation cancelation' icon='cancel-2--v1' direct=true
-    +map2
+                // .column
+                //     .ui.header
+                //         +i name='clock'
+                //         |availability
+                //     .content
+                //         +array_view key='availability_tags' label='availability tags' icon='clock' direct=true
+                //         +boolean_view key='available' label='currently available' direct=true
+                //         +multi_doc_view key='available_days' label='available days' ref_model='day_of_week' direct=true
+                // .column
+                //     .ui.header
+                //         +i name='groups'
+                //         |audience
+                //     .content
+                //         +boolean_view key='transaction_number_restriction' label='transaction number restriction' icon='hashtag' direct=true
+                //         if transaction_number_restriction
+                //             +number_view key='transaction_number_restriction_threshold' label='transaction number restriction threshold' direct=true
+                //         +boolean_view key='transaction_amount_restriction' label='transaction amount restriction' icon='money' direct=true
+                //         if transaction_amount_restriction
+                //             +number_view key='transaction_amount_restriction_threshold' label='transaction amount restriction threshold' direct=true
+                //         +boolean_view key='visible_to_public' label='visible to public' direct=true
+                //         unless visible_to_public
+                //             +boolean_view key='visible_to_friends' label='visible to friends' direct=true
+                //         unless visible_to_public
+                //             +boolean_view key='visible_to_specific_people' label='visible to specific people' direct=true
+                //             if visible_to_specific_people
+                //                 +multi_user_view key='visible_to_member_ids' label='visible to members:' direct=true
+                // .column
+                //     .ui.header
+                //         +i name='bicycle'
+                //         |delivery
+                //     .content
+                //         .ui.header
+                //             +i name='clock' cl='ui inline tiny image'
+                //             |reservation start
+                //         +boolean_view key='res_start_pickup' label='pickup' icon='truck' direct=true
+                //         +boolean_view key='res_start_dropoff' label='dropoff' icon='dolly' direct=true
+                //         if res_start_dropoff
+                //             +number_view key='res_start_dropoff_fee' label='reservation start dropoff fee' icon='low-price' direct=true
+                // .column
+                //     .ui.header
+                //         +i name='clock'
+                //         |reservation end
+                //     +boolean_view key='res_end_dropoff' label='dropoff' icon='dolly' direct=true
+                //     +boolean_view key='res_end_pickup' label='pickup' icon='truck' direct=true
+                //     if res_end_pickup
+                //         +number_view key='res_end_pickup_fee' label='reservation end pickup fee' icon='low-price' direct=true
+                // .column
+                //     .ui.header
+                //         +i name='bell'
+                //         |notifications
+                //     .content
+                //         +boolean_view key='notify_on_reservation' label='on new reservation' icon='plus' direct=true
+                //         +boolean_view key='notify_on_cancelation' label='on reservation cancelation' icon='cancel-2--v1' direct=true
+    // +map2
 
 
 template(name='nearby_person')                    
@@ -242,6 +231,7 @@ template(name='post_edit')
                     a.ui.big.icon.green.fluid.button(href="/post/#{_id}/")
                         i.checkmark.big.icon
                     +text_edit key='title' icon='header' direct=true
+                    +number_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
                     .ui.icon.small.red.button.delete_post_item 
                         i.trash.icon
                     if in_dev
@@ -258,61 +248,60 @@ template(name='post_edit')
                     +array_edit key='private_location_tags' label='private location tags' icon='marker' direct=true tooltip='for handlers and buyers who are picking up'
                 .column
                     +image_edit key='image_id' label='image' direct=true
-                .column
-                    div
-                    +number_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
-                    div
-                    .ui.segment
-                        +boolean_edit key='security_deposit_required' label='security deposit required' icon='lock' direct=true
-                        if security_deposit_required
-                            div
-                            +number_edit key='security_deposit_amount' label='security deposit amount (c)' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
-                            div
-                            +boolean_edit key='friends_exempt' label='friends exempt' icon='teamwork' direct=true
-                .column
-                    +boolean_edit key='delivery_available' label='delivery available' icon='truck'
-                    if delivery_available
-                        +array_edit key='delivery_location_tags' label='delivery location tags' icon='marker'
-                    +boolean_edit key='pickup_available' label='pickup available' icon='doormat'
-                    if pickup_available
-                        +textarea_edit key='pickup_instructions' label='pickup instructions' icon='marker'
-                    .ui.header
-                        +i name='truck'
-                        |delivery
-                    .content
-                        .ui.header
-                            +i name='clock' cl='ui inline tiny image'
-                            |reservation start
-                        +boolean_edit key='res_start_pickup' label='pickup' icon='truck' direct=true
-                        +boolean_edit key='res_start_dropoff' label='dropoff' icon='dolly' direct=true
-                        if res_start_dropoff
-                            +number_edit key='res_start_dropoff_fee' label='reservation start dropoff fee' icon='low-price' direct=true
-                        .ui.header
-                            i.clock.icon
-                            |reservation end
-                        +boolean_edit key='res_end_dropoff' label='dropoff' icon='dolly' direct=true
-                        +boolean_edit key='res_end_pickup' label='pickup' icon='truck' direct=true
-                        if res_end_pickup
-                            +number_edit key='res_end_pickup_fee' label='reservation end pickup fee' icon='low-price' direct=true
+                // .column
+                //     div
+                //     div
+                //     .ui.segment
+                //         +boolean_edit key='security_deposit_required' label='security deposit required' icon='lock' direct=true
+                //         if security_deposit_required
+                //             div
+                //             +number_edit key='security_deposit_amount' label='security deposit amount (c)' icon='lock' direct=true tooltip='amount will be held from renters account then returned upon successful transaction'
+                //             div
+                //             +boolean_edit key='friends_exempt' label='friends exempt' icon='teamwork' direct=true
+                // .column
+                //     +boolean_edit key='delivery_available' label='delivery available' icon='truck'
+                //     if delivery_available
+                //         +array_edit key='delivery_location_tags' label='delivery location tags' icon='marker'
+                //     +boolean_edit key='pickup_available' label='pickup available' icon='doormat'
+                //     if pickup_available
+                //         +textarea_edit key='pickup_instructions' label='pickup instructions' icon='marker'
+                //     .ui.header
+                //         +i name='truck'
+                //         |delivery
+                    // .content
+                    //     .ui.header
+                    //         +i name='clock' cl='ui inline tiny image'
+                    //         |reservation start
+                    //     +boolean_edit key='res_start_pickup' label='pickup' icon='truck' direct=true
+                    //     +boolean_edit key='res_start_dropoff' label='dropoff' icon='dolly' direct=true
+                    //     if res_start_dropoff
+                    //         +number_edit key='res_start_dropoff_fee' label='reservation start dropoff fee' icon='low-price' direct=true
+                    //     .ui.header
+                    //         i.clock.icon
+                    //         |reservation end
+                    //     +boolean_edit key='res_end_dropoff' label='dropoff' icon='dolly' direct=true
+                    //     +boolean_edit key='res_end_pickup' label='pickup' icon='truck' direct=true
+                    //     if res_end_pickup
+                    //         +number_edit key='res_end_pickup_fee' label='reservation end pickup fee' icon='low-price' direct=true
                     
                 .column
                     +html_edit key='description' label='description' icon='content' direct=true
-                .column
-                    .ui.header
-                        +i name='shield'
-                        | policies
-                    .content
-                        +boolean_edit key='approval_required' label='approval required' icon='checkmark' direct=true
-                        if approval_required
-                            div
-                            |you will receive a notification when reservations are requested
-                        .ui.header
-                            +i name='refund'
-                            | refunds
-                        +boolean_edit key='allow_refunds' label='allow refunds' icon='refund' direct=true
-                        if allow_refunds
-                            +number_edit key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
-                            +number_edit key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
+                // .column
+                //     .ui.header
+                //         +i name='shield'
+                //         | policies
+                //     .content
+                //         +boolean_edit key='approval_required' label='approval required' icon='checkmark' direct=true
+                //         if approval_required
+                //             div
+                //             |you will receive a notification when reservations are requested
+                //         .ui.header
+                //             +i name='refund'
+                //             | refunds
+                //         +boolean_edit key='allow_refunds' label='allow refunds' icon='refund' direct=true
+                //         if allow_refunds
+                //             +number_edit key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
+                //             +number_edit key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
                 // .column
                 //     .ui.header
                 //         +i name='pie-chart'
@@ -320,46 +309,46 @@ template(name='post_edit')
                 //     .content
                 //         +single_user_edit key='owner_username' label='owner' direct=true
                 //         +single_user_edit key='handler_username' label='handler' direct=true
-                .column
-                    .ui.header
-                        +i name='clock'
-                        |availability
-                    .content
-                        +array_edit key='availability_tags' label='availability tags' icon='clock' direct=true
-                        +boolean_edit key='available' label='currently available' direct=true
-                        +multi_doc_edit key='available_days' label='available days' ref_model='day_of_week' direct=true
-                .column
-                    .ui.header
-                        +i name='groups'
-                        |audience
-                    .content
-                        +boolean_edit key='transaction_number_restriction' label='transaction number restriction' icon='hashtag' direct=true
-                        if transaction_number_restriction
-                            +number_edit key='transaction_number_restriction_threshold' label='transaction number restriction threshold' direct=true
-                        +boolean_edit key='transaction_amount_restriction' label='transaction amount restriction' icon='money' direct=true
-                        if transaction_amount_restriction
-                            +number_edit key='transaction_amount_restriction_threshold' label='transaction amount restriction threshold' direct=true
-                        +boolean_edit key='visible_to_public' label='visible to public' direct=true
-                        unless visible_to_public
-                            +boolean_edit key='visible_to_friends' label='visible to friends' direct=true
-                        unless visible_to_public
-                            +boolean_edit key='visible_to_specific_people' label='visible to specific people' direct=true
-                            if visible_to_specific_people
-                                +multi_user_edit key='visible_to_member_ids' label='visible to members:' direct=true
-                .column
-                    .header
-                        +i name='bell'
-                        |notifications
-                    .content
-                        +boolean_edit key='notify_on_reservation' label='on new reservation' icon='plus' direct=true
-                        +boolean_edit key='notify_on_cancelation' label='on reservation cancelation' icon='cancel-2--v1' direct=true
-                    //- unless published 
-                    //-     if can_publish
-                    //-         .ui.button.publish 
-                    //-             |publish 
-                    //-     else
-                    //-         .ui.disabled.button
-                    //-             |#{publish_message}
+                // .column
+                //     .ui.header
+                //         +i name='clock'
+                //         |availability
+                //     .content
+                //         +array_edit key='availability_tags' label='availability tags' icon='clock' direct=true
+                //         +boolean_edit key='available' label='currently available' direct=true
+                //         +multi_doc_edit key='available_days' label='available days' ref_model='day_of_week' direct=true
+                // .column
+                //     .ui.header
+                //         +i name='groups'
+                //         |audience
+                //     .content
+                //         +boolean_edit key='transaction_number_restriction' label='transaction number restriction' icon='hashtag' direct=true
+                //         if transaction_number_restriction
+                //             +number_edit key='transaction_number_restriction_threshold' label='transaction number restriction threshold' direct=true
+                //         +boolean_edit key='transaction_amount_restriction' label='transaction amount restriction' icon='money' direct=true
+                //         if transaction_amount_restriction
+                //             +number_edit key='transaction_amount_restriction_threshold' label='transaction amount restriction threshold' direct=true
+                //         +boolean_edit key='visible_to_public' label='visible to public' direct=true
+                //         unless visible_to_public
+                //             +boolean_edit key='visible_to_friends' label='visible to friends' direct=true
+                //         unless visible_to_public
+                //             +boolean_edit key='visible_to_specific_people' label='visible to specific people' direct=true
+                //             if visible_to_specific_people
+                //                 +multi_user_edit key='visible_to_member_ids' label='visible to members:' direct=true
+                // .column
+                //     .header
+                //         +i name='bell'
+                //         |notifications
+                //     .content
+                //         +boolean_edit key='notify_on_reservation' label='on new reservation' icon='plus' direct=true
+                //         +boolean_edit key='notify_on_cancelation' label='on reservation cancelation' icon='cancel-2--v1' direct=true
+                //     //- unless published 
+                //     //-     if can_publish
+                //     //-         .ui.button.publish 
+                //     //-             |publish 
+                //     //-     else
+                //     //-         .ui.disabled.button
+                //     //-             |#{publish_message}
 
     
 template(name='post_location')

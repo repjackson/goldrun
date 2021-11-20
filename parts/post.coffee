@@ -5,12 +5,12 @@ if Meteor.isClient
         ), name:'home'
 
 
-    Template.post_orders.onCreated ->
-        @autorun => @subscribe 'post_orders',Router.current().params.doc_id, ->
-    Template.post_orders.helpers
-        post_order_docs: ->
+    Template.post_reservations.onCreated ->
+        @autorun => @subscribe 'post_reservations',Router.current().params.doc_id, ->
+    Template.post_reservations.helpers
+        post_reservation_docs: ->
             Docs.find 
-                model:'order'
+                model:'reservation'
                 post_id:Router.current().params.doc_id
 
 
@@ -25,10 +25,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'post_edit'
         ), name:'post_edit'
-    Router.route '/order/:doc_id/checkout', (->
+    Router.route '/reservation/:doc_id/checkout', (->
         @layout 'layout'
-        @render 'order_edit'
-        ), name:'order_checkout'
+        @render 'reservation_edit'
+        ), name:'reservation_checkout'
 
 
     
@@ -86,7 +86,7 @@ if Meteor.isClient
         # 'click .add_to_cart': ->
         #     console.log @
         #     Docs.insert
-        #         model:'order'
+        #         model:'reservation'
         #         post_id:@_id
         #     $('body').toast({
         #         title: "#{@title} added to cart."
@@ -106,19 +106,11 @@ if Meteor.isClient
             new_reservation_id = Docs.insert
                 model:'reservation'
                 post_id: @_id
+                post_id:post._id
+                post_title:post.title
+                post_image_id:post.image_id
+                post_daily_rate:post.daily_rate
             Router.go "/reservation/#{new_reservation_id}/edit"
-        'click .rent_post': (e,t)->
-            post = Docs.findOne Router.current().params.doc_id
-            new_order_id = 
-                Docs.insert 
-                    model:'order'
-                    # order_type:'post'
-                    post_id:post._id
-                    post_title:post.title
-                    post_image_id:post.image_id
-                    post_daily_rate:post.daily_rate
-                    
-            Router.go "/order/#{new_order_id}/checkout"
             
             
 
@@ -128,17 +120,17 @@ if Meteor.isClient
 
         # 'click .buy_post': (e,t)->
         #     post = Docs.findOne Router.current().params.doc_id
-        #     new_order_id = 
+        #     new_reservation_id = 
         #         Docs.insert 
-        #             model:'order'
-        #             order_type:'post'
+        #             model:'reservation'
+        #             reservation_type:'post'
         #             post_id:post._id
         #             post_title:post.title
         #             post_price:post.dollar_price
         #             post_image_id:post.image_id
         #             post_point_price:post.point_price
         #             post_dollar_price:post.dollar_price
-        #     Router.go "/order/#{new_order_id}/checkout"
+        #     Router.go "/reservation/#{new_reservation_id}/checkout"
             
 if Meteor.isClient
     Template.user_posts.onCreated ->
@@ -165,10 +157,10 @@ if Meteor.isServer
             model:'post'
             _author_id: user._id
             
-    Meteor.publish 'post_orders', (doc_id)->
+    Meteor.publish 'post_reservations', (doc_id)->
         post = Docs.findOne doc_id
         Docs.find
-            model:'order'
+            model:'reservation'
             post_id:post._id
             
             

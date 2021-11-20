@@ -61,34 +61,6 @@ if Meteor.isClient
                 $pull:follower_ids:Meteor.userId()
    
    
-    Template.send_points_button.helpers
-        # is_friend: ->
-        #     user = Docs.findOne username:Router.current().params.username
-        #     # Meteor.userId() in user.friend_ids
-        #     user._id in Session.get('current_user').friend_ids
-        following: -> @follower_ids and Meteor.userId() in @follower_ids
-    Template.send_points_button.events
-        'click .send_points': ->
-            console.log @
-            user = Docs.findOne username:Router.current().params.username
-            Docs.update Meteor.userId(),
-                $addToSet:friend_ids:user._id
-                
-            $('body').toast({
-                title: "#{Router.current().params.username} added to friend list"
-                # message: 'Please see desk staff for key.'
-                class : 'success'
-                # position:'top center'
-                # className:
-                #     toast: 'ui massive message'
-                displayTime: 5000
-                transition:
-                  showMethod   : 'zoom',
-                  showDuration : 250,
-                  hideMethod   : 'fade',
-                  hideDuration : 250
-                })
-                
 
     Template.voting.events
         'click .upvote': (e,t)->

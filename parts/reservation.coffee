@@ -122,7 +122,6 @@ if Meteor.isClient
     Template.reservation_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'post_by_res_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'me', ->
         # @autorun => Meteor.subscribe 'owner_by_res_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'handler_by_res_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'user_by_username', 'deb_sclar'
@@ -137,10 +136,6 @@ if Meteor.isClient
         now_button_class: -> if @now then 'active' else ''
         sel_hr_class: -> if @duration_type is 'hour' then 'active' else ''
         sel_day_class: -> if @duration_type is 'day' then 'active' else ''
-        sel_month_class: -> if @duration_type is 'month' then 'active' else ''
-        is_month: -> @duration_type is 'month'
-        is_day: -> @duration_type is 'day'
-        is_hour: -> @duration_type is 'hour'
 
         is_paying: -> Session.get 'paying'
 
@@ -150,8 +145,6 @@ if Meteor.isClient
         need_credit: ->
             Meteor.user().credit < @total_cost
 
-        need_approval: ->
-            @friends_only and Meteor.userId() not in @author.friend_ids
 
         submit_button_class: ->
             if @start_datetime and @end_datetime then '' else 'disabled'
@@ -192,123 +185,6 @@ if Meteor.isClient
                 interval  : 200
               })
 
-        'change .res_start': (e,t)->
-            val = t.$('.res_start').val()
-            Docs.update @_id,
-                $set:start_datetime:val
-
-        'change .res_end': (e,t)->
-            val = t.$('.res_end').val()
-            Docs.update @_id,
-                $set:end_datetime:val
-
-            Meteor.call 'recalc_reservation_cost', Router.current().params.doc_id
-
-
-        'click .select_day': ->
-            Docs.update @_id,
-                $set: duration_type: 'day'
-        'click .select_hour': ->
-            Docs.update @_id,
-                $set: duration_type: 'hour'
-        'click .select_month': ->
-            Docs.update @_id,
-                $set: duration_type: 'month'
-
-        'click .set_1_hr': ->
-            Docs.update @_id,
-                $set:
-                    hour_duration: 1
-                    end_datetime: moment(@start_datetime).add(1,'hour').format("YYYY-MM-DD[T]HH:mm")
-            post = Docs.findOne @post_id
-            hour_duration = 1
-            cost = parseFloat hour_duration*post.hourly_dollars.toFixed(2)
-            # console.log diff
-            taxes_payout = parseFloat((cost*.05)).toFixed(2)
-            owner_payout = parseFloat((cost*.5)).toFixed(2)
-            handler_payout = parseFloat((cost*.45)).toFixed(2)
-            Docs.update @_id,
-                $set:
-                    cost: cost
-                    taxes_payout: taxes_payout
-                    owner_payout: owner_payout
-                    handler_payout: handler_payout
-
-        'change .other_hour': ->
-            $('.result_column .header')
-              .transition({
-                animation : 'pulse',
-                duration  : 200,
-                interval  : 50
-              })
-
-            val = parseInt $('.other_hour').val()
-            Docs.update @_id,
-                $set:
-                    hour_duration: val
-                    end_datetime: moment(@start_datetime).add(val,'hour').format("YYYY-MM-DD[T]HH:mm")
-
-            Meteor.call 'recalc_reservation_cost', Router.current().params.doc_id
-
-            # post = Docs.findOne @post_id
-            # hour_duration = val
-            # cost = parseFloat hour_duration*post.hourly_dollars.toFixed(2)
-            # # console.log diff
-            # taxes_payout = parseFloat((cost*.05)).toFixed(2)
-            # owner_payout = parseFloat((cost*.5)).toFixed(2)
-            # handler_payout = parseFloat((cost*.45)).toFixed(2)
-            # Docs.update @_id,
-            #     $set:
-            #         cost: cost
-            #         taxes_payout: taxes_payout
-            #         owner_payout: owner_payout
-            #         handler_payout: handler_payout
-            # $('.result_column').transition('glow',500)
-
-
-        'click .reserve_now': ->
-            if @now
-                Docs.update @_id,
-                    $set:
-                        now: false
-            else
-                now = Date.now()
-                Docs.update @_id,
-                    $set:
-                        now: true
-                        start_datetime: moment(now).format("YYYY-MM-DD[T]HH:mm")
-                        start_timestamp: now
-
-        'click .submit_reservation': ->
-            $('.ui.modal')
-            .modal({
-                closable: true
-                onDeny: ()->
-                onApprove: ()=>
-                    # Session.set 'paying', true
-                    post = Docs.findOne @post_id
-                    # console.log @
-                    Docs.update @_id,
-                        $set:
-                            submitted:true
-                            submitted_timestamp:Date.now()
-                    Session.set 'paying', false
-                    Meteor.call 'pay_for_reservation', @_id, =>
-                        Session.set 'paying', true
-                        Router.go "/reservation/#{@_id}/"
-            }).modal('show')
-
-        'click .unsubmit': ->
-            Docs.update @_id,
-                $set:
-                    submitted:false
-                    unsubmitted_timestamp:Date.now()
-            Docs.insert
-                model:'log_event'
-                parent_id:Router.current().params.doc_id
-                log_type:'reservation_unsubmission'
-                text:"reservation unsubmitted by #{Meteor.user().username}"
-            # Router.go "/reservation/#{@_id}/"
 
         'click .cancel_reservation': ->
             if confirm 'delete reservation?'

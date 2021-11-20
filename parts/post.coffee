@@ -103,6 +103,7 @@ if Meteor.isClient
         #           hideDuration : 250
         #         })
         'click .new_reservation': (e,t)->
+            post = Docs.findOne Router.current().params.doc_id
             new_reservation_id = Docs.insert
                 model:'reservation'
                 post_id: @_id

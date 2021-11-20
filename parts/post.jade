@@ -68,7 +68,7 @@ template(name='post_view')
                         +html_view key='description' label='description' icon='content' direct=true
                     div
                     +post_view_reservations
-                    +post_orders
+                    +post_reservations
                     +post_stats
                     // +last_viewed
                     +creation_info
@@ -102,14 +102,14 @@ template(name='related_posts')
                 | #{title}
                 |#{price}p
     
-template(name='post_orders')
+template(name='post_reservations')
     .ui.header 
-        +i name='order-history'
-        |#{post_order_docs.count}
-        |orders
+        +i name='reservation-history'
+        |#{post_reservation_docs.count}
+        |reservations
     .ui.selection.animated.link.large.list
-        each post_order_docs
-            a.item(href="/order/#{_id}")
+        each post_reservation_docs
+            a.item(href="/reservation/#{_id}")
                 | #{when} #{_author_username}
     
 

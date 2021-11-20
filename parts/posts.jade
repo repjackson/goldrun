@@ -79,13 +79,16 @@ template(name='post_card')
         .content
             a.header.zoomer.fly_right(href="/post/#{_id}/") 
                 | #{title}
-            .ui.inline.header #{daily_rate}p/day
+            div
+            .ui.inline.grey.header 
+                |#{daily_rate}
+                small c/day
             // if tags
             //     i.tag.icon
             // each tags
             //     a.ui.small.link.black.label.flat_pick_tag.spaced #{this}
-            .right.floated.meta
-                | added #{when}
+            // .right.floated.meta
+            //     | added #{when}
             unless anonymous
                 a(href="/user/#{_author_username}")
                     img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")

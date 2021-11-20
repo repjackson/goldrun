@@ -8,6 +8,23 @@ Tracker.autorun ->
     Tracker.afterFlush ->
         $(window).scrollTop 0
 
+    Template.nav.events
+        'click .add_post': ->
+            new_id =
+                Docs.insert
+                    model:'post'
+                    # passcode:passcode
+                    published:false
+                    daily_rate:1
+            Router.go "/post/#{new_id}/edit"
+            
+
+    Template.nav.onCreated ->
+        Session.setDefault 'limit', 20
+        @autorun -> Meteor.subscribe 'me'
+        # @autorun -> Meteor.subscribe 'users'
+        # @autorun -> Meteor.subscribe 'users_by_role','staff'
+        # @autorun -> Meteor.subscribe 'unread_messages'
 
 
 $.cloudinary.config

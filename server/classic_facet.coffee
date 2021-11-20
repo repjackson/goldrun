@@ -1,6 +1,3 @@
-Meteor.publish 'delta', (match)->
-    console.log match
-
 Meteor.publish 'facet', (
     selected_theme_tags
     selected_author_ids=[]

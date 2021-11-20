@@ -14,12 +14,12 @@ Router.route '/mapgl', -> @render 'mapgl'
 
 
 
-# Template.map2.helpers
-#     pos:-> 
-#         # console.log Geolocation.currentLocation()
-#         Geolocation.currentLocation()
-#     # lat: ()-> Geolocation.latLng().lat
-#     # lon: ()-> Geolocation.latLng().lon
+Template.map2.helpers
+    pos:-> 
+        # console.log Geolocation.currentLocation()
+        Geolocation.currentLocation()
+    # lat: ()-> Geolocation.latLng().lat
+    # lon: ()-> Geolocation.latLng().lon
 
 # Template.body.events
 #     # 'click a': ->

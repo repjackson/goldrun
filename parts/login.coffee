@@ -20,6 +20,7 @@ if Meteor.isClient
 
         'click .enter': (e,t)->
             Session.set('current_username', $('.username').val())
+            Router.go '/'
             # e.preventDefault()
             # username = $('.username').val()
             # password = $('.password').val()

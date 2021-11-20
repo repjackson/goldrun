@@ -20,9 +20,9 @@ if Meteor.isClient
                     Session.set('enter_mode', 'login')
 
         'click .enter': (e,t)->
-            e.preventDefault()
+            # e.preventDefault()
             username = $('.username').val()
-            password = $('.password').val()
+            password = $('#pass').val()
             # console.log options
             console.log username
             console.log password
@@ -56,14 +56,14 @@ if Meteor.isClient
 
 
 
-        'keyup .password, keyup .username': (e,t)->
+        'keyup #pass, keyup .username': (e,t)->
             if e.which is 13
                 e.preventDefault()
                 username = $('.username').val()
-                password = $('.password').val()
+                password = $('#pass').val()
+                console.log username
+                console.log password
                 if username and username.length > 0 and password and password.length > 0
-                    console.log username
-                    console.log password
                     Meteor.loginWithPassword username, password, (err,res)=>
                         if err
                             console.log err
@@ -106,8 +106,8 @@ if Meteor.isClient
             e.preventDefault()
             resetPassword = Router.current().params.token
             reset_password_form = $(e.currentTarget)
-            password = reset_password_form.find('.password1').val()
-            password_confirm = reset_password_form.find('.password2').val()
+            password = reset_password_form.find('#pass1').val()
+            password_confirm = reset_password_form.find('#pass2').val()
             #Check password is at least 6 chars long
 
             is_valid_password = (password, password_confirm) ->
@@ -188,8 +188,8 @@ if Meteor.isClient
             e.preventDefault()
             resetPassword = Router.current().params.token
             reset_password_form = $(e.currentTarget)
-            password = reset_password_form.find('.password1').val()
-            password_confirm = reset_password_form.find('.password2').val()
+            password = reset_password_form.find('#pass1').val()
+            password_confirm = reset_password_form.find('#pass2').val()
             #Check password is at least 6 chars long
 
             is_valid_password = (password, password_confirm) ->
@@ -281,13 +281,13 @@ if Meteor.isClient
                 else
                     Session.set 'enter_mode', 'register'
         
-        'blur .password': ->
-            password = $('.password').val()
+        'blur #pass': ->
+            password = $('#pass').val()
             Session.set 'password', password
 
         'click .register': (e,t)->
             username = $('.username').val()
-            password = $('.password').val()
+            password = $('#pass').val()
             # if Session.equals 'enter_mode', 'register'
             # if confirm "register #{username}?"
             # Meteor.call 'validate_email', email, (err,res)->

@@ -16,7 +16,7 @@ template(name='login')
                     +i name='password'
                     | password
                 .ui.fluid.large.input(class=login_class)
-                    input.password(type='password')
+                    input#pass(type='password')
                 //- if username
                 //- if logging_in
                 .ui.hidden.divider
@@ -52,7 +52,7 @@ template(name='register')
                     +i name='password'
                     | password
                 .ui.fluid.large.input(class=login_class)
-                    input.password(type='password')
+                    input#pass(type='password')
 
                 //- .ui.fluid.labeled.input(class=login_class)
                 //-     .ui.small.inline.header 

@@ -220,7 +220,7 @@ if Meteor.isClient
 
     Template.profile.onCreated ->
         @autorun => Meteor.subscribe 'user_reservations', Router.current().params.username
-        @autorun => Meteor.subscribe 'model_docs', 'rental'
+        # @autorun => Meteor.subscribe 'model_docs', 'post'
     Template.profile.helpers
         reservations: ->
             current_user = Docs.findOne username:Router.current().params.username
@@ -323,20 +323,20 @@ if Meteor.isClient
             Docs.find
                 model:'reservation'
                 user_username:Router.current().params.username
-        current_handling_rentals: ->
+        current_handling_posts: ->
             current_user = Docs.findOne username:Router.current().params.username
             Docs.find
-                model:'rental'
+                model:'post'
                 handler_username:current_user.username
         current_interest_rate: ->
             interest_rate = 0
             if Meteor.user().handling_active
                 current_user = Docs.findOne username:Router.current().params.username
-                handling_rentals = Docs.find(
-                    model:'rental'
+                handling_posts = Docs.find(
+                    model:'post'
                     handler_username:current_user.username
                 ).fetch()
-                for handling in handling_rentals
+                for handling in handling_posts
                     interest_rate += handling.hourly_dollars*.1
             interest_rate.toFixed(2)
 

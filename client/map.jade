@@ -59,13 +59,13 @@ template(name='map2')
                     i.remove.icon
                     |#{this}
             #map
-            .ui.header rentals
+            .ui.header posts
             .ui.four.cards.list
-                each rental_docs
+                each post_docs
                     .card
-                        img.ui.image.pick_rental.pointer.zoomer(src="{{c.url image_id width=400 height=400}}")
+                        img.ui.image.pick_post.pointer.zoomer(src="{{c.url image_id width=400 height=400}}")
                         .content
-                            a.header.pick_rental.zoomer #{title}
+                            a.header.pick_post.zoomer #{title}
                             .description
                                 .ui.label #{location}
                                 each locaation_tags

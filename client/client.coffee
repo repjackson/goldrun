@@ -1,4 +1,4 @@
-@selected_rental_tags = new ReactiveArray []
+@selected_post_tags = new ReactiveArray []
 @picked_tags = new ReactiveArray []
 @picked_location_tags = new ReactiveArray []
 

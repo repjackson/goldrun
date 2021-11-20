@@ -219,7 +219,7 @@ Template.map2.helpers
 #             light_mode:true
     # 'click .init': (e,t)->
 Template.map2.onCreated ->
-    @autorun => @subscribe 'some_rentals', ->
+    @autorun => @subscribe 'some_posts', ->
 Template.mapgl.onRendered ->
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
     mapgl = new mapboxgl.Map({
@@ -258,13 +258,13 @@ Template.map2.helpers
     current_markers: -> current_markers.array()
     can_move: -> Session.get 'can_move'
     current_zoom_level: -> Session.get 'zoom_level'
-    rental_docs: ->
+    post_docs: ->
         Docs.find 
             model:'post'
             app:'goldrun'
    
 Template.map2.events
-    'click .pick_rental': (e,t)->
+    'click .pick_post': (e,t)->
         console.log @
         # options = {
         #     draggable:true
@@ -273,7 +273,7 @@ Template.map2.events
         # L.marker([50.5, 30.5], options).addTo(t.map);
         # t.map.setView [50.5, 30.5], 14
         t.geocoder.query @location, (error, result) ->
-            console.log 'found rental location', result
+            console.log 'found post location', result
             L.marker(result.latlng).addTo(t.map)
             t.map.setView result.latlng, 15
 

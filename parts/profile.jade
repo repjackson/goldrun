@@ -5,7 +5,7 @@ template(name='profile')
             .four.column.row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .column
-                    a.item(href="/user/#{username}/food")
+                    a.item(href="/user/#{username}")
                         img.ui.centered.rounded.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     .spacer
                     a(href="/user/#{username}")
@@ -84,25 +84,6 @@ template(name='profile')
                             each reservations 
                                 +profile_reservation_item
                         
-                .column
-                    .ui.header 
-                        +i name='friends'
-                        |friended by
-                    .scrolling
-                        .ui.large.selection.link.animated.list
-                            each current_user.friend_ids
-                                // .ui.header #{this}
-                                +user_info
-                .column
-                    .ui.header 
-                        +i name='chevron-down'
-                        |friended
-                    .scrolling
-                        .ui.large.selection.link.animated.list
-                            each friended_by_users
-                                a.item(href="/user/#{username}") #{username}
-                            // each friended
-                            //     a.item(href="/user/#{username}") #{username}
     else 
         .ui.basic.center.aligned.segment
             i.massive.loading.refresh.icon
@@ -139,34 +120,34 @@ template(name='subscribe_user_button')
 
 
 
-template(name='profile_reservation_item')
-    .ui.segment.grid
-        .row
-            .column
-                .ui.header #{rental.title}
-        .row
-            .column
-                with rental
-                    //- img.ui.mini.image(src=image)
-                    +image_view key='image_id' direct=true cl='zoom ui tiny image'
-            .column
-                a.ui.header.inline.lowercase(href="/reservation/#{_id}/")
-                    small from 
-                    |{{cal_time start_datetime}}
-                a.ui.header.inline.lowercase(href="/reservation/#{_id}/")
-                    small to 
-                    |{{cal_time end_datetime}}
-                div
-                .ui.grey.inline.header #{hour_duration} hrs
-                .ui.grey.inline.header(title='credits')
-                    i.coins.icon
-                    | #{cost}
-                .ui.small.inline.header #{when} by #{_author_username}
-                a.ui.large.button(href="/reservation/#{_id}/")
-                    |view
-                    i.right.chevron.icon
-                if is_admin
-                    +remove_button
+// template(name='profile_reservation_item')
+//     .ui.segment.grid
+//         .row
+//             .column
+//                 .ui.header #{post.title}
+//         .row
+//             .column
+//                 with post
+//                     //- img.ui.mini.image(src=image)
+//                     +image_view key='image_id' direct=true cl='zoom ui tiny image'
+//             .column
+//                 a.ui.header.inline.lowercase(href="/reservation/#{_id}/")
+//                     small from 
+//                     |{{cal_time start_datetime}}
+//                 a.ui.header.inline.lowercase(href="/reservation/#{_id}/")
+//                     small to 
+//                     |{{cal_time end_datetime}}
+//                 div
+//                 .ui.grey.inline.header #{hour_duration} hrs
+//                 .ui.grey.inline.header(title='credits')
+//                     i.coins.icon
+//                     | #{cost}
+//                 .ui.small.inline.header #{when} by #{_author_username}
+//                 a.ui.large.button(href="/reservation/#{_id}/")
+//                     |view
+//                     i.right.chevron.icon
+//                 if is_admin
+//                     +remove_button
 
 
 
@@ -178,7 +159,7 @@ template(name='user_post_card')
         .content
             a.ui.inline.header(href="/post/#{_id}/") #{title} 
                 .ui.label #{daily_rate}p/day
-            +rental_status
+            +post_status
         .content
             span(title='views')
                 +ismall name='eye'
@@ -193,7 +174,7 @@ template(name='user_post_card')
                 .ui.label #{this}
             +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' add_label='bookmark' remove_label='unbookmark'  big=true
             div
-            a.ui.button(href="/rental/#{_id}/")
+            a.ui.button(href="/post/#{_id}/")
                 |view
                 i.right.chevron.icon
 
@@ -206,23 +187,6 @@ template(name='user_credit')
     // i.refresh.link.icon.calc_user_points
     .ui.stackable.one.column.grid
         if is_current_user
-            .column
-                .ui.header 
-                    |withdraw for nudefoods gift card
-                // |$10 minimum, takes one business day 
-                .ui.action.fluid.input
-                    input.withdrawal_amount(type='number' min='1' max=currentUser.credit placeholder='amount')
-                    .ui.icon.button.initial_withdrawal 
-                        i.right.chevron.icon
-                .ui.small.header withdrawals
-                .ui.bulleted.list
-                    each withdrawals
-                        .item
-                            .ui.header #{when} for #{amount} credit
-                            |status: #{status}
-                            .ui.button.cancel_withdrawal
-                                i.ban.icon
-                                |cancel
             .column
                 .ui.header 
                     +i name='donate'

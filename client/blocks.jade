@@ -344,16 +344,6 @@ template(name='add_button')
 
 
 
-template(name='edit_button')
-    a.ui.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
-        i.blue.pencil.icon
-        |Edit
-
-
-template(name='save_button')
-    a.ui.button.large.icon.save(title='Save' href="/m/#{model}/#{_id}/")
-        i.checkmark.icon
-        |Save
 
 template(name='toggle_button')
     .ui.icon.toggle.button(title=label)
@@ -366,12 +356,6 @@ template(name='view_user_button')
     .view_user.view(title="view #{username}")
         i.play.icon
         |View
-
-template(name='add_model_button')
-    .ui.icon.button.add(title="add #{model}")
-        i.plus.icon
-        |#{model}
-
 
             
 template(name='email_validation_check')
@@ -407,22 +391,4 @@ template(name='author_card')
                 |author: #{_author_username}    
         
                 
-template(name='view_visibility')
-    .ui.header 
-        +i name='eye' cl='ui avatar image'
-        |visibility
-    if key_value_is 'visibility' 'private'
-        +i name='private' cl='ui inline image'
-        |private
-    if key_value_is 'visibility' 'anyone'
-        +i name='groups' cl='ui inline image'
-        |anyone
-    if key_value_is 'visibility' 'friends'
-        +i name='friends' cl='ui inline image'
-        |friends
-    if key_value_is 'visibility' 'building'
-        +i name='building' cl='ui inline image'
-        |building 
-        
-        
                 

@@ -58,7 +58,7 @@ template(name='nav')
             .icon.item
                 i.big.spinning.grey.yin.yang.icon.cancel
         else 
-            a.header.icon.item.zoomer(href='/' class="{{isActivePath '/'}}" title='peer to peer rentals')
+            a.header.icon.item.zoomer(href='/' class="{{isActivePath '/'}}" title='peer to peer posts')
                 // +i name='gold-hallmark' cl='ui avatar image'
                 i.shop.large.icon
                 // strong.mobile.hidden gold run
@@ -147,3 +147,70 @@ template(name='not_found')
         a.ui.button.fly_up(href="/") 
           +i name='home' cl='ui avatar image' 
           |home
+
+
+template(name='key_value_edit')
+    .ui.compact.button.set_key_value(class=set_key_value_class)
+        if icon 
+            +i name=icon cl='ui avatar image'
+            // i.icon(class=icon)
+        if label 
+            |#{label}
+        else 
+            |#{value}
+
+
+template(name='send_points_button')
+    .ui.circular.button.send_points
+        +i name='donate'
+        |send points
+template(name='request_button')
+    .ui.button.request
+        |request
+
+template(name='session_key_value_edit')
+    .ui.button.set_key_value(class=set_key_value_class)
+        if key_value_is 'key' 'sort_key'
+            if session_is 'sort_key' value
+                if sorting_up
+                    i.sort.amount.down.icon
+                else
+                    i.sort.amount.up.icon
+        if icon 
+            +i name=icon cl='ui avatar image'
+            // i.icon(class=icon)
+        |#{label}
+
+
+template(name='limit_menu')
+    .ui.inline.small.grey.header
+        |limit
+    .ui.compact.menu
+        .ui.simple.dropdown.item
+            strong #{current_limit}
+            i.dropdown.icon
+            .menu
+                +set_limit amount=1
+                +set_limit amount=5
+                +set_limit amount=10
+                +set_limit amount=20
+
+
+template(name='set_limit')
+    .ui.button.set_limit #{amount}
+
+
+template(name='doc_array_togggle')
+    if currentUser
+        .ui.button.toggle(class=doc_array_toggle_class title=label)
+            if in_list member_ids
+                if remove_icon
+                    i.large.icon(class=remove_icon)
+                |#{remove_label}
+            else
+                if add_icon
+                    i.large.icon(class=add_icon)
+                |#{add_label}
+            |#{label}
+        //- each list_users
+        //-     +user_info

@@ -4,7 +4,7 @@ Docs.allow
             # doc._author_id is userId
     update: (userId, doc) ->
         doc
-        # if doc.model in ['calculator_doc','simulated_rental_item','healthclub_session']
+        # if doc.model in ['calculator_doc','simulated_post_item','healthclub_session']
         #     true
         # else if Meteor.user() and Meteor.user().roles and 'admin' in Meteor.user().roles
         #     true
@@ -243,7 +243,7 @@ Meteor.publish 'facets', (
 
     self.ready()
 
-Meteor.publish 'some_rentals', ->
+Meteor.publish 'some_posts', ->
     Docs.find {
         model:'post'
         app:'goldrun'

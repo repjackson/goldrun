@@ -12,8 +12,8 @@ Template.registerHelper 'current_limit', () -> parseInt(Session.get('limit'))
 # Template.registerHelper 'current_username', () ->
 #     Router.current().params.username
 
-Template.registerHelper 'rental', () ->
-    Docs.findOne @rental_id
+Template.registerHelper 'post', () ->
+    Docs.findOne @post_id
     # Template.parentData()
 
 Template.registerHelper 'building_units', () ->
@@ -72,7 +72,7 @@ Template.registerHelper 'first_initial', (user) ->
     # moment(input).fromNow()
 # Template.registerHelper 'logging_out', () -> Session.get 'logging_out'
 # Template.registerHelper 'is_event', () -> @shop_type is 'event'
-# Template.registerHelper 'is_rental', () -> @model is 'rental'
+# Template.registerHelper 'is_post', () -> @model is 'post'
 # Template.registerHelper 'is_service', () -> @model is 'service'
 # Template.registerHelper 'is_product', () -> @model is 'product'
 # Template.registerHelper 'upvote_class', () ->

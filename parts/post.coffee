@@ -177,7 +177,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.post_stats.events
         'click .refresh_post_stats': ->
-            Meteor.call 'refresh_rental_stats', @_id
+            Meteor.call 'refresh_post_stats', @_id
 
 
 

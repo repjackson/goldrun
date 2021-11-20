@@ -89,75 +89,6 @@ if Meteor.isClient
                   hideDuration : 250
                 })
                 
-        'click .remove_friend': ->
-            user = Docs.findOne username:Router.current().params.username
-            Docs.update Meteor.userId(),
-                $pull:friend_ids:user._id
-            $('body').toast({
-                title: "#{Router.current().params.username} removed from friend list"
-                # message: 'Please see desk staff for key.'
-                class : 'info'
-                # position:'top center'
-                # className:
-                #     toast: 'ui massive message'
-                displayTime: 5000
-                transition:
-                  showMethod   : 'zoom',
-                  showDuration : 250,
-                  hideMethod   : 'fade',
-                  hideDuration : 250
-                })
-                
-                
-                
-                
-                
-    Template.friend_button.helpers
-        is_friend: ->
-            user = Meteor.users.findOne username:Router.current().params.username
-            # Meteor.userId() in user.friend_ids
-            if Meteor.user()
-                user._id in Meteor.user().friend_ids
-        following: -> @follower_ids and Meteor.userId() in @follower_ids
-    Template.friend_button.events
-        'click .add_friend': ->
-            user = Meteor.users.findOne username:Router.current().params.username
-            Meteor.update Meteor.userId(),
-                $addToSet:friend_ids:user._id
-                
-            $('body').toast({
-                title: "#{Router.current().params.username} added to friend list"
-                # message: 'Please see desk staff for key.'
-                class : 'success'
-                # position:'top center'
-                # className:
-                #     toast: 'ui massive message'
-                displayTime: 5000
-                transition:
-                  showMethod   : 'zoom',
-                  showDuration : 250,
-                  hideMethod   : 'fade',
-                  hideDuration : 250
-                })
-                
-        'click .remove_friend': ->
-            user = Docs.findOne username:Router.current().params.username
-            Docs.update Meteor.userId(),
-                $pull:friend_ids:user._id
-            $('body').toast({
-                title: "#{Router.current().params.username} removed from friend list"
-                # message: 'Please see desk staff for key.'
-                class : 'info'
-                # position:'top center'
-                # className:
-                #     toast: 'ui massive message'
-                displayTime: 5000
-                transition:
-                  showMethod   : 'zoom',
-                  showDuration : 250,
-                  hideMethod   : 'fade',
-                  hideDuration : 250
-                })
 
     Template.voting.events
         'click .upvote': (e,t)->
@@ -177,60 +108,6 @@ if Meteor.isClient
             Meteor.call 'downvote', @, ->
 
 
-    Template.bookmark_button.events
-        'click .bookmark': (e,t)->
-            $(e.currentTarget).closest('.button').transition('pulse',200)
-            Docs.update @_id, 
-                $addToSet: 
-                    bookmarker_ids: Meteor.userId()
-            Docs.update Meteor.userId(), 
-                $addToSet:
-                    bookmark_ids:@_id
-            $('body').toast({
-                title: "bookmarked"
-                # message: 'Please see desk staff for key.'
-                class : 'success'
-                position:'bottom right'
-                # className:
-                #     toast: 'ui massive message'
-                # displayTime: 5000
-                transition:
-                  showMethod   : 'zoom',
-                  showDuration : 250,
-                  hideMethod   : 'fade',
-                  hideDuration : 250
-                })
-
-
-
-        'click .unbookmark': (e,t)->
-            $(e.currentTarget).closest('.button').transition('pulse',200)
-            Docs.update @_id, 
-                $pull:
-                    bookmarker_ids: Meteor.userId()
-            Docs.update Meteor.userId(), 
-                $pull:
-                    bookmark_ids:@_id
-            $('body').toast({
-                title: "unbookmarked"
-                # message: 'Please see desk staff for key.'
-                class : 'info'
-                position:'bottom right'
-                # className:
-                #     toast: 'ui massive message'
-                # displayTime: 5000
-                transition:
-                  showMethod   : 'zoom',
-                  showDuration : 250,
-                  hideMethod   : 'fade',
-                  hideDuration : 250
-                })
-                    
-                    
-    Template.bookmark_button.helpers
-        bookmarked: ->
-            @bookmarker_ids and Meteor.userId() in @bookmarker_ids
-
     # Template.doc_card.onCreated ->
     #     @autorun => Meteor.subscribe 'doc', Template.currentData().doc_id
     # Template.doc_card.helpers
@@ -241,15 +118,6 @@ if Meteor.isClient
 
 
 
-
-    # Template.call_watson.events
-    #     'click .autotag': ->
-    #         doc = Docs.findOne Router.current().params.doc_id
-    #         console.log doc
-    #         console.log @
-    #
-    #         Meteor.call 'call_watson', doc._id, @key, @mode
-
     Template.voting_full.events
         'click .upvote': (e,t)->
             $(e.currentTarget).closest('.button').transition('pulse',200)
@@ -258,11 +126,6 @@ if Meteor.isClient
             $(e.currentTarget).closest('.button').transition('pulse',200)
             Meteor.call 'downvote', @
 
-
-
-
-    Template.role_editor.onCreated ->
-        @autorun => Meteor.subscribe 'model', 'role'
 
 
 
@@ -351,14 +214,6 @@ if Meteor.isClient
                 $set:"#{@key}":value
 
 
-    Template.goto_model.events
-        'click .goto_model': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', @slug, ->
-                Session.set 'loading', false
-
-
-
     Template.user_list_toggle.onCreated ->
         @autorun => Meteor.subscribe 'user_list', Template.parentData(),@key
     Template.user_list_toggle.events
@@ -402,7 +257,6 @@ if Meteor.isClient
 
 
 
-
     Template.viewing.events
         'click .mark_read': (e,t)->
             unless @read_ids and Meteor.userId() in @read_ids
@@ -441,21 +295,6 @@ if Meteor.isClient
                 Docs.update @_id,
                     $set:"emails.0.verified":true
 
-
-    Template.add_button.onCreated ->
-        # console.log @
-        Meteor.subscribe 'model_from_slug', @data.model
-    Template.add_button.helpers
-        model: ->
-            data = Template.currentData()
-            Docs.findOne
-                model: 'model'
-                slug: data.model
-    Template.add_button.events
-        'click .add': ->
-            new_id = Docs.insert
-                model: @model
-            Router.go "/m/#{@model}/#{new_id}/edit"
 
     Template.set_sort_key.helpers
         sort_key_class: -> if Session.equals('sort_key',@key) then 'blue' else ''
@@ -496,12 +335,6 @@ if Meteor.isClient
                 Meteor.setTimeout =>
                     Docs.remove @_id
                 , 1000
-
-
-    Template.add_model_button.events
-        'click .add': ->
-            new_id = Docs.insert model: @model
-            Router.go "/edit/#{new_id}"
 
     Template.view_user_button.events
         'click .view_user': ->
@@ -549,19 +382,6 @@ if Meteor.isClient
             res
 
 if Meteor.isServer
-    Meteor.methods
-        'send_kiosk_message': (message)->
-            parent = Docs.findOne message.parent._id
-            Docs.update message._id,
-                $set:
-                    sent: true
-                    sent_timestamp: Date.now()
-            Docs.insert
-                model:'log_event'
-                log_type:'kiosk_message_sent'
-                text:"kiosk message sent"
-
-
     Meteor.publish 'children', (model, parent_id, limit)->
         # console.log model
         # console.log parent_id

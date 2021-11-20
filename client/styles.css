@@ -19,7 +19,7 @@ body {
   filter: drop-shadow(0px 0px 8px grey);    
   
 }
- img, .label, input, .input {
+ img, .label, input, .input, .green.button {
     filter: invert(1) !important;
 } 
 ::-webkit-scrollbar {
@@ -498,7 +498,7 @@ input.username_search{
     /* -moz-border-radius: 5px !important; */
     margin:2px !important;
     opacity:.9 !important;
-    font-family: 'Ubuntu', sans-serif !important;
+    /*font-family: 'Ubuntu', sans-serif !important;*/
     /* border-radius: 8px !important; */
 }
 

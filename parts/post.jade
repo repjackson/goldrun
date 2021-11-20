@@ -53,8 +53,8 @@ template(name='post_view')
                     if auction
                         +number_view key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
                         +float_view key='minimum_bid' label='hour minimum bid' icon='refund' direct=true
-                    div
                 
+                .column
                     if link 
                         +link_view key='link' label='link' direct=true
                     .ui.hidden.divider
@@ -129,13 +129,13 @@ template(name='post_view')
                         +number_view key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
                         +number_view key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
 
-                .column
-                    .ui.header
-                        +i name='pie-chart'
-                        |ownership
-                    .content
-                        +single_user_view key='owner_username' label='owner' direct=true
-                        +single_user_view key='handler_username' label='handler' direct=true
+                // .column
+                //     .ui.header
+                //         +i name='pie-chart'
+                //         |ownership
+                //     .content
+                //         +single_user_view key='owner_username' label='owner' direct=true
+                //         +single_user_view key='handler_username' label='handler' direct=true
                 .column
                     .ui.header
                         +i name='clock'
@@ -313,13 +313,13 @@ template(name='post_edit')
                         if allow_refunds
                             +number_edit key='full_refund_cutoff_hours' label='full refund cutoff hours' icon='clock' direct=true
                             +number_edit key='half_refund_cutoff_hours' label='half refund cutoff hours' icon='clock' direct=true
-                .column
-                    .ui.header
-                        +i name='pie-chart'
-                        |ownership
-                    .content
-                        +single_user_edit key='owner_username' label='owner' direct=true
-                        +single_user_edit key='handler_username' label='handler' direct=true
+                // .column
+                //     .ui.header
+                //         +i name='pie-chart'
+                //         |ownership
+                //     .content
+                //         +single_user_edit key='owner_username' label='owner' direct=true
+                //         +single_user_edit key='handler_username' label='handler' direct=true
                 .column
                     .ui.header
                         +i name='clock'

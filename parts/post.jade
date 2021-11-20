@@ -381,3 +381,174 @@ template(name='profile_post_item')
                 a.ui.button(href="/post/#{_id}/")
                     |view
                     i.right.chevron.icon
+
+
+
+
+template(name='sort_item')
+    .item.set_sort #{label}
+    
+    
+    
+template(name='rental_card')
+    .ui.card(class=rental_card_class)
+        a.image(href="/rental/#{_id}/") 
+            img.ui.zoom.pointer.goto_rental.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+        .content
+            a.ui.header(href="/rental/#{_id}/") 
+                //- |#{_author.name}'s
+                | #{title}
+            //- if session_is 'view_tags' true
+            //- +ismall name='tags'
+            each tags
+                .ui.small.circular.basic.label #{this}
+        //- .ui.inline.small.header tags
+        .content
+            .right.floated.meta
+                | {{from_now datetime_available}}
+            //- if session_is 'view_users' true
+            a(href="/user/#{_author.username}")
+                img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
+                |#{_author.username}
+        .content    
+            if hourly_rate
+                .ui.inline.header
+                    |#{hourly_rate}c/hr
+            if daily_rate
+                .ui.inline.header
+                    |#{daily_rate}c/day
+            if weekly_rate
+                .ui.inline.header
+                    |#{daily_rate}c/day
+            if can_edit
+                a.ui.large.icon.button(href="/rental/#{_id}/edit")
+                    i.pencil.icon
+        //- .ui.bottom.attached.buttons        
+        //-     .ui.green.button.quickbuy
+        //-         i.lightning.icon
+        //-         |buy
+        //-     a.ui.button(href="/rental/#{_id}/")
+        //-         |view
+        //-         i.right.chevron.icon
+    
+
+
+template(name='rental_view')
+
+                    
+                    
+template(name='last_viewed')
+    i.large.grey.eye.icon
+    .ui.inline.small.header last viewed {{long_date last_viewed_timestamp}}
+    .ui.inline.small.header {{from_now last_viewed_timestamp}}
+                    
+                    
+
+template(name='rental_stats')
+    //- .ui.accordion
+    //-     .title
+    .ui.grey.header.refresh_rental_stats
+        i.line.chart.icon
+        |stats
+    //- .content
+    .ui.big.list
+        .item #{views} views
+        .item #{reservation_count} reservations
+        .item #{total_earnings}c/#{total_rental_hours}hrs total
+        .item #{average_rental_cost}c / #{average_rental_duration}hrs avg rental
+        //- .item rental ranking # reservations
+        //- .item rental ranking $ earned
+        //- .item # different renters
+        //- .item avg daily earnings
+        //- .item avg weekly earnings
+        //- .item avg monthly earnings
+        //- .item biggest renter
+        //- .item predicted payback duration 
+        //- .item predicted payback date 
+    //-     //- .ui.header res slot exists
+    //-     +reservation_slot_template
+    //- else
+    //-     if is_product_author
+    //-         .ui.button.new_slot
+    //-             |new slot
+        
+    
+template(name='rental_status')
+    if available 
+        .ui.green.label available now
+    else 
+        .ui.label off the clock
+        
+        
+        
+
+
+template(name='rental_view_reservations')
+    .ui.header 
+        i.clock.icon
+        |reservations
+    //- .ui.icon.button.set_card_view
+    //-     i.clone.icon
+    //- .ui.icon.button.set_segment_view
+    //-     i.list.icon
+    //- .ui.hidden.divider
+    //- if view_res_cards
+    //-     .ui.stackable.three.cards
+    //-         each reservations
+    //-             +res_card
+    //- else if view_res_segments
+    each reservations
+        +reservation_segment
+        
+template(name='set_date_filter')        
+    .ui.button.set_date_filter(class=date_filter_class)
+        |#{label}
+        
+        
+
+template(name='reservation_segment')
+    .ui.segment
+        a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/")
+            small from 
+            |{{cal_time start_datetime}}
+            //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
+            //- |{{long_date start_datetime}}
+            small to 
+            |{{cal_time end_datetime}}
+        //- .ui.inline.header #{_author_username}
+        .ui.inline.header #{author.name}
+        .ui.grey.inline.header #{hour_duration}hrs
+        .ui.grey.inline.header(title='credits')
+            | $#{cost}
+        .ui.small.inline.header #{when} by #{_author_username}
+        a.ui.large.button(href="/reservation/#{_id}/")
+            |view
+            i.right.chevron.icon
+                
+                
+                
+                
+template(name='res_card')
+    .ui.card
+        .content
+            a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/")
+                small from 
+                |{{cal_time start_datetime}}
+                //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
+                //- |{{long_date start_datetime}}
+                small to 
+                |{{cal_time end_datetime}}
+            div
+            .ui.grey.inline.header #{hour_duration} hrs
+            .ui.grey.inline.header(title='credits')
+                //- i.coins.icon
+                | #{cost}c
+            .ui.small.header #{when} by #{_author_username}
+            a.ui.large.fluid.button(href="/reservation/#{_id}/")
+                |view
+                i.right.chevron.icon
+
+
+
+
+template(name='rental_edit')

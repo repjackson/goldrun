@@ -136,7 +136,7 @@ if Meteor.isClient
 
     Template.user_posts.helpers
         posts: ->
-            current_user = Docs.findOne username:Router.current().params.username
+            current_user = Meteor.users.findOne username:Router.current().params.username
             Docs.find {
                 model:'post'
                 _author_id: current_user._id
@@ -144,7 +144,7 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'user_posts', (username)->
-        user = Docs.findOne username:username
+        user = Meteor.users.findOne username:username
         Docs.find
             model:'post'
             _author_id: user._id

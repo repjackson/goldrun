@@ -172,6 +172,7 @@ Meteor.methods
 
 
     set_password: (user_id, new_password)->
+        console.log 'setting password', user_id, new_password
         Accounts.setPassword(user_id, new_password)
 
 

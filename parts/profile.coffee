@@ -13,12 +13,12 @@ if Meteor.isClient
 
     Template.profile.helpers
         bookmarked_docs: ->
-            user = Docs.findOne username:Router.current().params.username
+            user = Meteor.users.findOne username:Router.current().params.username
             Docs.find 
                 _id: $in: user.bookmark_ids
 if Meteor.isServer
     Meteor.publish 'user_bookmarked_docs', (username)->
-        user = Docs.findOne username:username
+        user = Meteor.users.findOne username:username
         Docs.find 
             _id: $in: user.bookmark_ids
         
@@ -79,11 +79,6 @@ if Meteor.isClient
                 })
             
 if Meteor.isServer
-    Meteor.publish 'user_posts', (username)->
-        Docs.find
-            model:'post'
-            _author_username:username
-    
     Meteor.methods
         calc_user_points: (username)->
             user = Docs.findOne username:username

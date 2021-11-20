@@ -2,7 +2,7 @@ template(name='user_edit')
     with user_from_username_param          
         //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
         .ui.stackable.padded.grid
-            .four.column.row
+            .three.column.row
                 .column
                     .ui.center.aligned.large.inline.grey.header
                         | #{user_from_username_param.first_name} #{user_from_username_param.last_name}
@@ -94,12 +94,12 @@ template(name='password_edit')
     //-     input#password(type='password', placeholder='old password')
     .ui.fluid.icon.input
         input#new_password(type='password', placeholder='new password')
-    if is_dev
-        .ui.fluid.button.send_enrollment_email
-            |send enrollment email
-    if is_admin
-        .ui.fluid.button.reset_password
-            |reset password
+    // if is_dev
+    //     .ui.fluid.button.send_enrollment_email
+    //         |send enrollment email
+    // if is_admin
+    //     .ui.fluid.button.reset_password
+    //         |reset password
     .ui.fluid.large.button.set_password
         +i name='password' cl='ui mini inline image'
         | set password

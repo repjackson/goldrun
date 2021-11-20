@@ -1,6 +1,7 @@
 if Meteor.isClient
     Template.login.onCreated ->
-        Session.set 'username', null
+        Session.setDefault 'username', ''
+        Session.setDefault 'password', ''
 
     Template.login.events
         'keyup .username': ->
@@ -22,11 +23,9 @@ if Meteor.isClient
             e.preventDefault()
             username = $('.username').val()
             password = $('.password').val()
-            options = {
-                username:username
-                password:password
-                }
             # console.log options
+            console.log username
+            console.log password
             Meteor.loginWithPassword username, password, (err,res)=>
                 if err
                     console.log err
@@ -63,11 +62,8 @@ if Meteor.isClient
                 username = $('.username').val()
                 password = $('.password').val()
                 if username and username.length > 0 and password and password.length > 0
-                    options = {
-                        username:username
-                        password:password
-                        }
-                    # console.log options
+                    console.log username
+                    console.log password
                     Meteor.loginWithPassword username, password, (err,res)=>
                         if err
                             console.log err
@@ -75,8 +71,8 @@ if Meteor.isClient
                                 message: err.reason
                             })
                         else
-                            # Router.go "/user/#{username}"
-                            Router.go "/"
+                            Router.go "/user/#{username}"
+                            # Router.go "/"
 
 
     Template.login.helpers
@@ -132,7 +128,7 @@ if Meteor.isClient
                 alert 'passwords need to be at least 6 characters long'
 
     Template.forgot_password.onCreated ->
-        @autorun -> Meteor.subscribe 'all_users'
+        # @autorun -> Meteor.subscribe 'all_users'
 
     Template.forgot_password.events
         'click .submit_email': (e, t) ->
@@ -364,18 +360,6 @@ if Meteor.isServer
         create_user: (options)->
             console.log 'creating user', options
             Accounts.createUser options
-
-        can_submit: ->
-            username = Session.get 'username'
-            email = Session.get 'email'
-            password = Session.get 'password'
-            password2 = Session.get 'password2'
-            if username and email
-                if password.length > 0 and password is password2
-                    true
-                else
-                    false
-
 
         find_username: (username)->
             res = Accounts.findUserByUsername(username)

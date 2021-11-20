@@ -116,30 +116,35 @@ if Meteor.isClient
 
 
     Template.password_edit.events
-        'click .change_password': (e, t) ->
-            Accounts.changePassword $('#password').val(), $('#new_password').val(), (err, res) ->
-                if err
-                    alert err.reason
-                else
-                    alert 'password changed'
-                    # $('.amSuccess').html('<p>Password Changed</p>').fadeIn().delay('5000').fadeOut();
+        # 'click .change_password': (e, t) ->
+        #     Accounts.changePassword $('#password').val(), $('#new_password').val(), (err, res) ->
+        #         if err
+        #             alert err.reason
+        #         else
+        #             alert 'password changed'
+        #             # $('.amSuccess').html('<p>Password Changed</p>').fadeIn().delay('5000').fadeOut();
 
         'click .set_password': (e, t) ->
             new_password = $('#new_password').val()
+            console.log 'new password', new_password
             current_user = Meteor.users.findOne username:Router.current().params.username
-            Meteor.call 'set_password', current_user._id, new_password, ->
-                alert "password set to #{new_password}."
+            Meteor.call 'set_password', current_user._id, new_password, (err,res)->
+                if err 
+                    alert err
+                else if res
+                    alert "password set to #{new_password}."
+                    console.lgo 'res', res
 
-        'click .send_password_reset_email': (e,t)->
-            current_user = Meteor.users.findOne username:Router.current().params.username
-            Meteor.call 'send_password_reset_email', current_user._id, @address, ->
-                alert 'password reset email sent'
+        # 'click .send_password_reset_email': (e,t)->
+        #     current_user = Meteor.users.findOne username:Router.current().params.username
+        #     Meteor.call 'send_password_reset_email', current_user._id, @address, ->
+        #         alert 'password reset email sent'
 
 
-        'click .send_enrollment_email': (e,t)->
-            current_user = Meteor.users.findOne username:Router.current().params.username
-            Meteor.call 'send_enrollment_email', current_user._id, @address, ->
-                alert 'enrollment email sent'
+        # 'click .send_enrollment_email': (e,t)->
+        #     current_user = Meteor.users.findOne username:Router.current().params.username
+        #     Meteor.call 'send_enrollment_email', current_user._id, @address, ->
+        #         alert 'enrollment email sent'
 
 
     Template.emails_edit.helpers

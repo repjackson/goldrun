@@ -114,9 +114,10 @@ if Meteor.isClient
                 
     Template.friend_button.helpers
         is_friend: ->
-            user = Meteor.findOne username:Router.current().params.username
+            user = Meteor.users.findOne username:Router.current().params.username
             # Meteor.userId() in user.friend_ids
-            user._id in Session.get('current_user').friend_ids
+            if Meteor.user()
+                user._id in Meteor.user().friend_ids
         following: -> @follower_ids and Meteor.userId() in @follower_ids
     Template.friend_button.events
         'click .add_friend': ->

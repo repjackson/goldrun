@@ -2,7 +2,7 @@ template(name='profile')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     with user_from_username_param
         .ui.stackable.padded.grid
-            .four.column.row
+            .three.column.row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .column
                     a.item(href="/user/#{username}")
@@ -28,7 +28,6 @@ template(name='profile')
                     // else if is_admin
                     //     a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                     //         +i name='settings' cl='ui avatar image'
-                    +friend_button
                     if is_current_user
                         +logout_button
                         +logout_other_clients_button
@@ -51,30 +50,6 @@ template(name='profile')
                     .ui.header 
                         +i name='order-history'
                         |rented to
-                .column
-                    .ui.header 
-                        +i name='truck'
-                        |deliveries
-                    if is_current_user
-                        +key_value_edit key='delivery_availability' value='available' 
-                        +key_value_edit key='delivery_availability' value='unavailable' 
-                    .ui.small.header past
-                    .ui.list 
-                        each past_deliveries
-                            .item #{when} #{post_title}
-                    .ui.small.header future
-                    .ui.list 
-                        each past_deliveries
-                            .item #{when} #{post_title}
-                .column
-                    .ui.header 
-                        +i name='bookmark'
-                        |bookmarks
-                    .ui.selection.link.animated.list
-                        each bookmarked_docs 
-                            a.item.fly_right(href="/post/#{_id}") 
-                                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                                |#{title}
                 .column
                     .ui.header 
                         +i name='clock'

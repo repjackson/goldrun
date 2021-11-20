@@ -50,11 +50,6 @@ if Meteor.isClient
             Docs.find
                 model:'post'
                 _author_username:Router.current().params.username
-        user_from_username_param: ->
-            Docs.findOne username:Router.current().params.username
-
-        user: ->
-            Docs.findOne username:Router.current().params.username
 
     Template.logout_other_clients_button.events
         'click .logout_other_clients': ->

@@ -16,11 +16,15 @@ template(name='user_edit')
                         +password_edit
                         //- +phone_editor
                         +username_edit
-                    // if is_admin
-                    with user_from_username_param
-                        .ui.orange.button.remove_user 
-                            i.remove.icon
-                            |delete user
+                    if in_dev
+                        +password_edit
+                        //- +phone_editor
+                        +username_edit
+                    if is_admin
+                        with user_from_username_param
+                            .ui.orange.button.remove_user 
+                                i.remove.icon
+                                |delete user
                 .column
                     .ui.form
                         +text_edit key='first_name' label='first name' direct=true
@@ -33,13 +37,7 @@ template(name='user_edit')
                             |emails
                         +emails_edit
                         +phone_edit key='phone' label='phone' icon='phone' direct=true
-                .column
-                    +array_edit key='allergens' label='allergens' icon='food' direct=true
-                    .ui.header 
-                        i.thumbs.down.icon
-                        |disliked posts
-                    each disliked_posts
-                        .ui.item #{title}
+
 template(name='user_settings')
     .ui.segment
         .ui.header 

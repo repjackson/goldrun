@@ -85,8 +85,7 @@ Meteor.publish 'inline_doc', (slug)->
 
 
 Meteor.publish 'user_from_username', (username)->
-    Docs.find 
-        model:'user'
+    Meteor.users.find 
         username:username
 
 Meteor.publish 'user_from_id', (user_id)->

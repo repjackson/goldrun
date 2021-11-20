@@ -9,8 +9,6 @@ Template.registerHelper 'sort_label', () -> Session.get('sort_label')
 Template.registerHelper 'sort_icon', () -> Session.get('sort_icon')
 Template.registerHelper 'current_limit', () -> parseInt(Session.get('limit'))
 
-Template.registerHelper 'current_username', () ->
-    Session.get('current_username')
 # Template.registerHelper 'current_username', () ->
 #     Router.current().params.username
 
@@ -45,8 +43,8 @@ Template.registerHelper 'display_mode', () -> Session.get('display_mode',true)
 Template.registerHelper 'is_loading', () -> Session.get 'loading'
 Template.registerHelper 'dev', () -> Meteor.isDevelopment
 # Template.registerHelper 'is_author', ()-> @_author_id is Meteor.userId()
-# Template.registerHelper 'is_handler', ()-> @handler_username is Session.get('current_username')
-# Template.registerHelper 'is_owner', ()-> @owner_username is Session.get('current_username')
+# Template.registerHelper 'is_handler', ()-> @handler_username is Meteor.user().username
+# Template.registerHelper 'is_owner', ()-> @owner_username is Meteor.user().username
 # Template.registerHelper 'is_grandparent_author', () ->
 #     grandparent = Template.parentData(2)
 #     grandparent._author_id is Meteor.userId()
@@ -225,15 +223,7 @@ Template.registerHelper 'is_current_admin', () ->
 
 
 
-Template.registerHelper 'current_user', () ->  Docs.findOne username:Router.current().params.username
-Template.registerHelper 'is_current_user', () ->
-    if Session.get('current_username') is Router.current().params.username
-        true
-    # else
-    #     if Meteor.user().roles and 'dev' in Meteor.user().roles
-    #         true
-    #     else
-    #         false
+Template.registerHelper 'current_user', () ->  Meteor.users.findOne username:Router.current().params.username
 Template.registerHelper 'order_post', -> 
     Docs.findOne 
         _id:@post_id
@@ -267,7 +257,7 @@ Template.registerHelper 'current_doc', ->
 
 
 Template.registerHelper 'user_from_username_param', () ->
-    found = Docs.findOne username:Router.current().params.username
+    found = Meteor.users.findOne username:Router.current().params.username
     # console.log found
     found
 Template.registerHelper 'field_value', () ->
@@ -306,11 +296,6 @@ Template.registerHelper 'sorted_field_values', () ->
         _.sortBy parent["#{@key}"], 'number'
 
 
-Template.registerHelper 'is_marketplace', () -> @model is 'marketplace'
-Template.registerHelper 'is_post', () -> @model is 'post'
-Template.registerHelper 'is_food', () -> @model is 'food'
-
-
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
 
 Template.registerHelper 'calculated_size', (metric) ->
@@ -334,16 +319,6 @@ Template.registerHelper 'calculated_size', (metric) ->
 
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
 
-
-Template.registerHelper 'building_leader', () ->
-    Docs.findOne @leader_id
-
-
-
-
-Template.registerHelper 'delta_key_value_is', (key, value)->
-    # console.log 'key', key
-    # console.log 'value', value
-    # console.log 'this', this
-    delta = Docs.findOne model:'delta'
-    delta["#{key}"] is value
+Template.registerHelper 'is_current_user', (key, value)->
+    if Meteor.user()
+        Meteor.user().username is Router.current().params.username

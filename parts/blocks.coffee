@@ -62,7 +62,6 @@ if Meteor.isClient
    
    
     Template.send_points_button.helpers
-        is_current_user: -> Session.get('current_username') is Router.current().params.username
         # is_friend: ->
         #     user = Docs.findOne username:Router.current().params.username
         #     # Meteor.userId() in user.friend_ids
@@ -114,16 +113,15 @@ if Meteor.isClient
                 
                 
     Template.friend_button.helpers
-        is_current_user: -> Session.get('current_username') is Router.current().params.username
         is_friend: ->
-            user = Docs.findOne username:Router.current().params.username
+            user = Meteor.findOne username:Router.current().params.username
             # Meteor.userId() in user.friend_ids
             user._id in Session.get('current_user').friend_ids
         following: -> @follower_ids and Meteor.userId() in @follower_ids
     Template.friend_button.events
         'click .add_friend': ->
-            user = Docs.findOne username:Router.current().params.username
-            Docs.update Meteor.userId(),
+            user = Meteor.users.findOne username:Router.current().params.username
+            Meteor.update Meteor.userId(),
                 $addToSet:friend_ids:user._id
                 
             $('body').toast({

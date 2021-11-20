@@ -147,7 +147,6 @@ template(name='user_post_card')
             +ismall name='tags'
             each tags
                 .ui.label #{this}
-            +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' add_label='bookmark' remove_label='unbookmark'  big=true
             div
             a.ui.button(href="/post/#{_id}/")
                 |view

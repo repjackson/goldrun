@@ -77,7 +77,7 @@ template(name='post_card')
         a.image.fly_right(href="/post/#{_id}/") 
             img.ui.zoomer.pointer.goto_post.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
-            a.ui.inline.header.zoomer.fly_right(href="/post/#{_id}/") 
+            a.header.zoomer.fly_right(href="/post/#{_id}/") 
                 | #{title}
             .ui.inline.header #{daily_rate}p/day
             // if tags
@@ -85,42 +85,13 @@ template(name='post_card')
             // each tags
             //     a.ui.small.link.black.label.flat_pick_tag.spaced #{this}
             .right.floated.meta
-                | #{when}
+                | added #{when}
             unless anonymous
                 a(href="/user/#{_author_username}")
                     img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
                     |#{_author_username}
             // .ui.label #{inventory} units available
             // .ui.label #{order_total} total orders
-            if delivery
-                +i name='deliver-post' cl='ui avatar image'
-                if delivery_fee
-                    .ui.inline.header(title='delivery fee') $#{delivery_fee}
-            if open
-                +i name='checkmark' cl='ui avatar image'
-            else 
-                i.ban.icon(title='not open to new orders')
-            if pickup
-                +i name='doormat' cl='ui avatar image'
-            // if can_edit
-            //     a.ui.large.icon.button(href="/post/#{_id}/edit")
-            //         i.pencil.icon
-            // if currentUser 
-            //     i.thumbs.up.link.grey.icon.upvote
-            // //     i.thumbs.down.link.grey.icon.downvote
-            // if location_tags
-            //     i.marker.icon.invert
-            //     each location_tags  
-            //         .ui.black.label #{this}
-        //- .ui.bottom.attached.buttons        
-        //-     .ui.green.button.quickbuy
-        //-         i.lightning.icon
-        //-         |buy
-        //-     a.ui.button(href="/post/#{_id}/")
-        //-         |view
-        //-         i.right.chevron.icon
-
-
 
 
 

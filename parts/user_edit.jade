@@ -38,14 +38,6 @@ template(name='user_edit')
                         +emails_edit
                         +phone_edit key='phone' label='phone' icon='phone' direct=true
 
-template(name='user_settings')
-    .ui.segment
-        .ui.header 
-            +i name='settings'
-            |settings
-        with user_from_username_param
-            +boolean_edit key='show_bookmarked_model_bar' label='show bookmarked model bar' direct=true
-
 
 template(name='user_single_doc_ref_editor')
     .ui.header #{label}

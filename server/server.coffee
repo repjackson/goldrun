@@ -64,7 +64,7 @@ Meteor.publish 'child_docs', (id)->
         parent_id:id
 
 Meteor.publish 'me', (id)->
-    Meteor.users.findOne Meteor.userId()
+    Meteor.users.find Meteor.userId()
 
 
 Meteor.publish 'facet_doc', (tags)->

@@ -122,9 +122,13 @@ if Meteor.isClient
     Template.reservation_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'rental_by_res_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'owner_by_res_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'handler_by_res_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'me', ->
+        # @autorun => Meteor.subscribe 'owner_by_res_id', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'handler_by_res_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'user_by_username', 'deb_sclar'
+    # Template.reservation_edit.onRendered =>
+    #     if Meteor.user()
+    #         Meteor.call 'calc_user_points', Meteor.user().username, ->
 
 
 

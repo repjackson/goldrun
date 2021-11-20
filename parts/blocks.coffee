@@ -101,11 +101,6 @@ if Meteor.isClient
 
 
 
-    Template.user_card.onCreated ->
-        @autorun => Meteor.subscribe 'user_from_username', @data
-    Template.user_card.helpers
-        user: -> Docs.findOne @valueOf()
-
 
     # Template.set_limit.events
     #     'click .set_limit': ->

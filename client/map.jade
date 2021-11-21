@@ -61,22 +61,28 @@ template(name='map2')
                     i.remove.icon
                     |#{this}
             #map
-            .ui.header posts
-            .ui.four.stackable.cards.list
-                each post_docs
-                    .card
-                        img.ui.image.pick_post.pointer.zoomer(src="{{c.url image_id width=400 height=400}}")
-                        .content
-                            a.header.pick_post.zoomer #{title}
-                            .description
-                                .ui.label #{location}
-                                each locaation_tags
-                                    .ui.label #{this}
-                                a.ui.compact.button(href="/post/#{_id}")
-                                    |view
         
 template(name='mapgl')
+    a.ui.icon.button.locate(title='locate me')
+        i.refresh.large.icon
+
     #mapgl
+    .ui.header 
+        |map posts
+    .ui.header 
+        |nearby posts
+    .ui.four.stackable.cards.list
+        each post_docs
+            .card
+                img.ui.image.pick_post.pointer.zoomer(src="{{c.url image_id width=400 height=400}}")
+                .content
+                    a.header.pick_post.zoomer #{title}
+                    .description
+                        .ui.label #{location}
+                        each locaation_tags
+                            .ui.label #{this}
+                        a.ui.compact.button(href="/post/#{_id}")
+                            |view
         
         
             

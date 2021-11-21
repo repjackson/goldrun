@@ -21,7 +21,7 @@ Template.map2.helpers
     # lat: ()-> Geolocation.latLng().lat
     # lon: ()-> Geolocation.latLng().lon
 
-Template.nav.events
+Template.mapgl.events
     'click .locate': ->
         navigator.geolocation.getCurrentPosition (position) =>
             console.log 'navigator position', position
@@ -218,56 +218,62 @@ Template.nav.events
 #         Docs.find
 #             light_mode:true
     # 'click .init': (e,t)->
-Template.mapgl.onRendered ->
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
-    mapgl = new mapboxgl.Map({
-        container: 'mapgl', # container ID
-        style: 'mapbox://styles/mapbox/streets-v11', # style URL
-        center: [Session.get('current_long'),Session.get('current_lat')], # starting position [lng, lat]
-        zoom: 17 # starting zoom
-        boxZoom: false
-        dragPan:false
-        scrollZoom:false
-        doubleClickZoom:false
-    });
-    
-    
-Template.map2.onCreated ->
-    @autorun => @subscribe 'some_posts', ->
-Template.map2.onRendered ->
-    # console.log 'hi'
-    # console.log @
-    L.mapbox.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
-    @map = L.mapbox.map 'map'
-
-    @geocoder = L.mapbox.geocoder 'mapbox.places'
-    # @map = L.mapbox.map('map')
-    #     .setView([40, -74.50], 9)
-    #     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
-    @map.on('click', (e)->
-        # 	alert(e.latlng);
-        $('body').toast(
-            showIcon: 'marker'
-            message: "lat long: #{e.latlng}"
-            # showProgress: 'bottom'
-            class: 'success'
-            displayTime: 'auto',
-            position: "bottom right"
+# Template.mapgl.onRendered ->
+Template.mapgl.events
+    'click .locate': (e,t)->
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
+        t.mapgl = new mapboxgl.Map({
+            container: 'mapgl', # container ID
+            style: 'mapbox://styles/mapbox/streets-v11', # style URL
+            center: [Session.get('current_long'),Session.get('current_lat')], # starting position [lng, lat]
+            zoom: 18 # starting zoom
+            boxZoom: false
+            dragPan:false
+            scrollZoom:false
+            doubleClickZoom:false
+        });
+        t.mapgl.on('click', (e)->
+            # 	alert(e.latlng);
+            $('body').toast(
+                showIcon: 'marker'
+                message: "lat long: #{e.latlng}"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
         )
+        circle = L.circle([Session.get('lat'), Session.get('long')], 200).addTo(t.mapgl);
+        console.log circle.getLatLng()
+        console.log circle.getRadius()
+
+    
+Template.mapgl.onCreated ->
+    @autorun => @subscribe 'some_posts', ->
+# Template.map2.onRendered ->
+#     # console.log 'hi'
+#     # console.log @
+#     L.mapbox.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
+#     @map = L.mapbox.map 'map'
+
+#     @geocoder = L.mapbox.geocoder 'mapbox.places'
+#     # @map = L.mapbox.map('map')
+#     #     .setView([40, -74.50], 9)
+#     #     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
     	
     	
-    )
+#     )
             
-Template.map2.helpers
-    current_markers: -> current_markers.array()
-    can_move: -> Session.get 'can_move'
-    current_zoom_level: -> Session.get 'zoom_level'
+Template.mapgl.helpers
+    # current_markers: -> current_markers.array()
+    # can_move: -> Session.get 'can_move'
+    # current_zoom_level: -> Session.get 'zoom_level'
     post_docs: ->
         Docs.find 
             model:'post'
             app:'goldrun'
    
-Template.map2.events
+Template.mapgl.events
     'click .pick_post': (e,t)->
         console.log @
         # options = {
@@ -288,8 +294,8 @@ Template.map2.events
             t.map.panTo(e.layer.getLatLng());
         )
 
-    'click .add_legend': (e,t)->
-        t.map.addControl(L.mapbox.legendControl());
+    # 'click .add_legend': (e,t)->
+    #     t.map.addControl(L.mapbox.legendControl());
     'click .add_circle': (e,t)->
         t.map.setView [50.5, 30.5], 15
         circle = L.circle([Session.get('lat'), Session.get('long')], 200).addTo(t.map);

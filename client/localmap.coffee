@@ -9,7 +9,7 @@ Template.localmap.helpers
     # lat: ()-> Geolocation.latLng().lat
     # lon: ()-> Geolocation.latLng().lon
 
-Template.nav.events
+Template.mapgl.events
     'click .locate': ->
         navigator.geolocation.getCurrentPosition (position) =>
             console.log 'navigator position', position

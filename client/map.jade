@@ -62,7 +62,7 @@ template(name='map2')
                     |#{this}
             #map
             .ui.header posts
-            .ui.four.cards.list
+            .ui.four.stackable.cards.list
                 each post_docs
                     .card
                         img.ui.image.pick_post.pointer.zoomer(src="{{c.url image_id width=400 height=400}}")

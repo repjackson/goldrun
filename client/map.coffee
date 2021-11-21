@@ -218,18 +218,21 @@ Template.nav.events
 #         Docs.find
 #             light_mode:true
     # 'click .init': (e,t)->
-Template.map2.onCreated ->
-    @autorun => @subscribe 'some_posts', ->
 Template.mapgl.onRendered ->
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHJ1biIsImEiOiJja3c2cTlwd3BmNmhqMnZwZzh3ZW5vdHRjIn0.bSaNtJ5tjrEQ_UitX5FbNQ';
     mapgl = new mapboxgl.Map({
         container: 'mapgl', # container ID
         style: 'mapbox://styles/mapbox/streets-v11', # style URL
-        center: [Session.get('current_lat'), Session.get('current_long')], # starting position [lng, lat]
-        zoom: 9 # starting zoom
+        center: [Session.get('current_long'),Session.get('current_lat')], # starting position [lng, lat]
+        zoom: 16 # starting zoom
+        boxZoom: false
+        dragPan:false
+        doubleClickZoom:false
     });
     
     
+Template.map2.onCreated ->
+    @autorun => @subscribe 'some_posts', ->
 Template.map2.onRendered ->
     # console.log 'hi'
     # console.log @

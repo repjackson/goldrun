@@ -9,6 +9,10 @@ Template.registerHelper 'sort_label', () -> Session.get('sort_label')
 Template.registerHelper 'sort_icon', () -> Session.get('sort_icon')
 Template.registerHelper 'current_limit', () -> parseInt(Session.get('limit'))
 
+Template.registerHelper 'current_lat', () -> 
+    Session.get('current_lat')
+Template.registerHelper 'current_long', () -> 
+    Session.get('current_long')
 # Template.registerHelper 'current_username', () ->
 #     Router.current().params.username
 
@@ -16,18 +20,6 @@ Template.registerHelper 'post', () ->
     Docs.findOne @post_id
     # Template.parentData()
 
-Template.registerHelper 'building_units', () ->
-    current_building = Docs.findOne Router.current().params.doc_id
-    Docs.find 
-        model:'unit'
-        building_code:current_building.building_code
-        # building_id:Router.current().params.doc_id
-        
-    
-    
-    
-Template.registerHelper 'active_path', (metric) ->
-    false
 Template.registerHelper 'sorting_up', () ->
     parseInt(Session.get('sort_direction')) is 1
 
@@ -43,8 +35,6 @@ Template.registerHelper 'display_mode', () -> Session.get('display_mode',true)
 Template.registerHelper 'is_loading', () -> Session.get 'loading'
 Template.registerHelper 'dev', () -> Meteor.isDevelopment
 # Template.registerHelper 'is_author', ()-> @_author_id is Meteor.userId()
-# Template.registerHelper 'is_handler', ()-> @handler_username is Meteor.user().username
-# Template.registerHelper 'is_owner', ()-> @owner_username is Meteor.user().username
 # Template.registerHelper 'is_grandparent_author', () ->
 #     grandparent = Template.parentData(2)
 #     grandparent._author_id is Meteor.userId()
@@ -71,18 +61,14 @@ Template.registerHelper 'first_initial', (user) ->
     @first_name[..2]+'.'
     # moment(input).fromNow()
 # Template.registerHelper 'logging_out', () -> Session.get 'logging_out'
-# Template.registerHelper 'is_event', () -> @shop_type is 'event'
-# Template.registerHelper 'is_post', () -> @model is 'post'
-# Template.registerHelper 'is_service', () -> @model is 'service'
-# Template.registerHelper 'is_product', () -> @model is 'product'
-# Template.registerHelper 'upvote_class', () ->
-#     if Meteor.userId()
-#         if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'
-#     else ''
-# Template.registerHelper 'downvote_class', () ->
-#     if Meteor.userId()
-#         if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline'
-#     else ''
+Template.registerHelper 'upvote_class', () ->
+    if Meteor.userId()
+        if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'
+    else ''
+Template.registerHelper 'downvote_class', () ->
+    if Meteor.userId()
+        if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline'
+    else ''
 
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
@@ -179,16 +165,6 @@ Template.registerHelper 'edit_fields', () ->
             edit_roles:$in:Meteor.user().roles
         }, sort:rank:1
 
-Template.registerHelper 'sortable_fields', () ->
-    model = Docs.findOne
-        model:'model'
-        slug:Router.current().params.model_slug
-    if model
-        Docs.find {
-            model:'field'
-            parent_id:model._id
-            sortable:true
-        }, sort:rank:1
 
 
 
@@ -211,36 +187,12 @@ Template.registerHelper 'in_list', (key) ->
             if Meteor.userId() in @["#{key}"] then true else false
 
 
-Template.registerHelper 'is_admin', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','admin'], Meteor.user().roles) then true else false
-        if 'admin' in Meteor.user().roles then true else false
-Template.registerHelper 'is_current_admin', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','admin'], Meteor.user().roles) then true else false
-        if 'admin' in Meteor.user().current_roles then true else false
-
-
-
-
 Template.registerHelper 'current_user', () ->  Meteor.users.findOne username:Router.current().params.username
 Template.registerHelper 'order_post', -> 
     Docs.findOne 
         _id:@post_id
     
     
-Template.registerHelper 'view_template', -> "#{@field_type}_view"
-Template.registerHelper 'edit_template', -> "#{@field_type}_edit"
-Template.registerHelper 'is_model', -> @model is 'model'
-
-
-# Template.body.events
-#     'click .toggle_sidebar': -> $('.ui.sidebar').sidebar('toggle')
-
-Template.registerHelper 'is_editing', () -> Session.equals 'editing_id', @_id
-Template.registerHelper 'editing_doc', () ->
-    Docs.findOne Session.get('editing_id')
-
 Template.registerHelper 'can_edit', () ->
     Session.equals('current_username',@_author_username)
     # if Meteor.user()

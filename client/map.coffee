@@ -288,7 +288,7 @@ Template.map2.events
         t.map.addControl(L.mapbox.legendControl());
     'click .add_circle': (e,t)->
         t.map.setView [50.5, 30.5], 15
-        circle = L.circle([50.5, 30.5], 200).addTo(t.map);
+        circle = L.circle([Session.get('lat'), Session.get('long')], 200).addTo(t.map);
         console.log circle.getLatLng()
         console.log circle.getRadius()
     'click .toggle_moving': (e,t)->

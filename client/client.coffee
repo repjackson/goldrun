@@ -8,7 +8,7 @@ Tracker.autorun ->
     Tracker.afterFlush ->
         $(window).scrollTop 0
 
-    Template.nav.events
+    Template.posts.events
         'click .add_post': ->
             new_id =
                 Docs.insert

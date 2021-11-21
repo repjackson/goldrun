@@ -395,10 +395,3 @@ if Meteor.isClient
                 model:'post'
                 _author_id: current_user._id
             }, sort:_timestamp:-1
-
-if Meteor.isServer
-    Meteor.publish 'user_posts', (username)->
-        user = Docs.findOne username:username
-        Docs.find
-            model:'post'
-            _author_id: user._id

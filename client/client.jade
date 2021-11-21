@@ -53,7 +53,7 @@ template(name='layout')
         +yield
 
 template(name='nav')
-    #topnav.topnav.ui.attached.borderless.five.item.menu.hscroll.clear
+    #topnav.topnav.ui.attached.borderless.four.item.menu.hscroll.clear
         if is_loading
             .icon.item
                 i.big.spinning.grey.yin.yang.icon.cancel
@@ -76,8 +76,6 @@ template(name='nav')
             //     // +i name='bicycle' cl='ui inline mini image'
             //     i.bicycle.large.icon
             //     // strong.mobile.hidden deliveries
-        a.ui.icon.item.locate(title='locate me')
-            i.refresh.large.icon
         a.ui.icon.item.add_post(title='add post')
             i.plus.large.icon
         if currentUser

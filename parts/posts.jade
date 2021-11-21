@@ -3,6 +3,7 @@ template(name='posts')
     .ui.stackable.padded.grid
         .sixteen.wide.column
             .ui.inline.header current lat: #{current_lat}, long: #{current_long}
+            +localmap
             .sorting_row
                 if selected_tag_plural
                     .ui.icon.black.compact.button.clear_picked_tags
@@ -50,6 +51,12 @@ template(name='post_card')
                     img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
                     |#{_author_username}
 
+
+template(name='localmap')
+    .ui.header local map
+    a.ui.icon.button.locate(title='locate me')
+        i.refresh.large.icon
+    #localmap
 
 
 template(name='set_post_sort_key')

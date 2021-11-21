@@ -19,15 +19,14 @@ template(name='map2')
     .ui.padded.grid
         .sixteen.wide.column
             .ui.inline.header map
-            .ui.big.disabled.button.init 
+            .ui.disabled.button.init 
                 i.checkmark.icon
                 |init
-            a.ui.big.disabled.button(href='/mapgl')
+            a.ui.big.button(href='/mapgl')
                 i.globe.icon
                 |map gl
             i.minus.circular.link.icon.zoomout(title='zoom out')
-            .ui.labeled.input
-                .label zoom
+            .ui.labeled.input(title='zoom')
                 input.zoom_level(type='number' value=current_zoom_level min='0' max='25')
             i.plus.circular.link.icon.zoomin(title='zoom in')
                 

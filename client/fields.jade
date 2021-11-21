@@ -570,15 +570,9 @@ template(name='array_edit')
         //- +clear_value                
     if field_value
         each field_value
-            if in_dev
-                .ui.big.label.touch_element
-                    i.delete.icon.remove_element
-                    |#{this}
-                // .ui.compact.circular.button.pick_tag
-                //     |#{this}
-            else
-                a.ui.basic.label.pick_tag
-                    |#{this}
+            a.ui.black.label
+                i.delete.icon.remove_element
+                |#{this}
 
 // template(name='array_edit')
 //     .spacer

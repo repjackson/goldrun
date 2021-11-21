@@ -2,68 +2,39 @@ template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
-            .three.column.row
+            .two.column.row
                 .column
                     // .ui.header 
                     //     small viewing
                     //     |#{title}
                     //     small post
                     .ui.inline.header #{title}
-                    a.ui.big.compact.basic.button.fly_left(href="/" title='shop')
+                    a.ui.big.basic.button.fly_left(href="/" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
                     // if can_edit
                     a.zoomer(href="/post/#{_id}/edit")
-                        i.pencil.big.icon
+                        i.pencil.big.ciopostrcular.icon
                     .ui.small.inline.header
                         |added
                         // |added by #{_author_username}
                         |#{when}
                     div
                     +text_view key='location' icon='marker' label='location' direct=true
-                    // img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
-                    // +voting_full    
+                    .ui.hidden.divider
                     img.ui.centered.rounded.shadowed.fluid.image(src="{{c.url image_id crop='fit'}}")
+                    .ui.hidden.divider
                     i.large.tag.icon        
                     each tags 
                         a.ui.compact.button.goto_tag
                             |#{this}
-                    // +text_view key='location' icon='marker' label='location description' direct=true
-                    +array_view key='location_tags' label='location tags' icon='marker' direct=true
-                unless anonymous
-                    .column
-                        with author
-                            +user_card
-                    // .ui.hidden.divider
                 .column
                     // unless approval_required
                     .ui.big.green.fluid.button.new_reservation 
                         i.large.clock.icon
                         small reserve for 
                         strong #{daily_rate}p/day
-                    // else 
-                    //     .ui.big.blue.fluid.button.new_reservation 
-                    //         |request
-                    //     // small rent for
                     div
-                    // +boolean_view key='auction' label='auction' icon='podium-with-audience--v2' direct=true
-                    // if auction
-                    //     +number_view key='auction_cutoff_hours' label='auction cutoff (hours)' direct=true
-                    //     +float_view key='minimum_bid' label='hour minimum bid' icon='refund' direct=true
-                
-                    // if link 
-                    //     +link_view key='link' label='link' direct=true
-                    // .ui.hidden.divider
-                    // div
-                    // .ui.inline.header
-                    //     +i name='delivery'
-                    //     |delivery
-                    // div
-                    // if delivery_instructions
-                    //     .ui.small.inline.header
-                    //         |delivery instructions:
-                    //     |#{delivery_instructions}   
-                .column
                     if description.length
                         +html_view key='description' label='description' icon='content' direct=true
                     div
@@ -75,33 +46,21 @@ template(name='post_view')
                     +comments
 
 
-template(name='nearby_person')                    
-    .column
-        .ui.segment.rounded.zoomer.pointer.goto_user
-            img.ui.tiny.circular.inline.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
-            a.ui.header(href="/user/#{username}") #{username}
-                if age
-                    |#{age}
-            |!{about} #{formatted}
-            each tags
-                .ui.basic.small.label #{this}
-            |#{light_mode}
+// template(name='nearby_person')                    
+//     .column
+//         .ui.segment.rounded.zoomer.pointer.goto_user
+//             img.ui.tiny.circular.inline.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
+//             a.ui.header(href="/user/#{username}") #{username}
+//                 if age
+//                     |#{age}
+//             |!{about} #{formatted}
+//             each tags
+//                 .ui.basic.small.label #{this}
+//             |#{light_mode}
             
 
 
         
-        
-template(name='related_posts')
-    .ui.header 
-        +i name='code-fork'
-        |#{related_posts.count}
-        |related posts
-    .ui.selection.animated.link.list
-        each related_post_docs
-            a.item(href="/post/#{_id}")
-                | #{title}
-                |#{price}p
-    
 template(name='post_reservations')
     .ui.header 
         +i name='reservation-history'
@@ -116,9 +75,9 @@ template(name='post_reservations')
 template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .three.column.row
+            .two.column.row
                 .column
-                    .ui.inline.header 
+                    .ui.inline.header
                         small editing
                         |'#{title}'
                         small post
@@ -130,19 +89,19 @@ template(name='post_edit')
                         i.trash.icon
                     if in_dev
                         +print_this
-                    +boolean_edit key='published' label='published' icon='checkmark'
-                    +boolean_edit key='anonymous' label='anonymous' icon='visible'
-                    // if is_dev
-                    //     +single_user_edit key='_author_username' label='author username' direct=true
-                    //     +link_edit key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
-                    +text_edit key='location' label='location text' icon='marker' direct=true
+                    // +boolean_edit key='published' label='published' icon='checkmark'
+                    // +boolean_edit key='anonymous' label='anonymous' icon='visible'
+                    div
+                    a.ui.header.refresh_gps 
+                        |gps coords
+                    .ui.label #{lat}
+                    .ui.label #{long}
+                    // +text_edit key='location' label='location text' icon='marker' direct=true
                 .column
                     +array_edit key='tags' icon='tags' label='tags' direct=true
-                    +array_edit key='location_tags' label='public location tags' icon='marker' direct=true
-                    +array_edit key='private_location_tags' label='private location tags' icon='marker' direct=true tooltip='for handlers and buyers who are picking up'
-                .column
+                    // +array_edit key='location_tags' label='public location tags' icon='marker' direct=true
+                    // +array_edit key='private_location_tags' label='private location tags' icon='marker' direct=true tooltip='for handlers and buyers who are picking up'
                     +image_edit key='image_id' label='image' direct=true
-                .column
                     +html_edit key='description' label='description' icon='content' direct=true
 
     

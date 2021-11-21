@@ -1,52 +1,52 @@
 template(name='posts')
     // +map2
     .ui.stackable.padded.grid
-        .four.wide.column
-            // .ui.inline.header 
-            //     +i name='shop'
-            //     |#{counter}
-            //     |items for rent
-            // div
-            // .spacer
-            .ui.icon.fluid.input
-                i.search.icon
-                input.query(type='text' placeholder='search...')
-            .ui.inline.small.header
-                i.marker.icon 
-                |location tags
-            each picked_location_tags
-                button.ui.blue.compact.small.button.unpick_location_tag(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
-            each location_tags
-                button.ui.compact.small.button.pick_location_tag(tabindex="0" class=result_class title=count) #{title}
-                    //- small #{count}
-            div
-            |sort by
-            +set_sort_key key='views' label='views' icon='eye'
-            // +set_sort_key key='datetime_available' label='available' icon='clock'
-            +set_sort_key key='price' label='price' icon='money'
-            +set_sort_key key='_timestamp' label='added' icon='clock'
-            +set_sort_key key='comment_count' label='comment count' icon='chat'
-            +set_sort_direction
-            |&nbsp;
-            |&nbsp;
-            +limit_menu
-            .ui.left.icon.search.small.input
-                i.search.icon.refresh_tags
-                input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
-            if selected_tag_plural
-                .ui.icon.circular.black.compact.button.clear_picked_tags
-                    i.remove.icon
-            each picked_tags
-                button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
-            each tags
-                button.ui.circular.compact.small.basic.button.tag_result(tabindex="0" class=result_class title=count) #{title}
-                    //- small #{count}
-            .spacer
-        .twelve.wide.column
+        // .four.wide.column
+        //     // .ui.inline.header 
+        //     //     +i name='shop'
+        //     //     |#{counter}
+        //     //     |items for rent
+        //     // div
+        //     // .spacer
+        //     .ui.icon.fluid.input
+        //         i.search.icon
+        //         input.query(type='text' placeholder='search...')
+        //     // .ui.inline.small.header
+        //     //     i.marker.icon 
+        //     //     |location tags
+        //     // each picked_location_tags
+        //     //     button.ui.blue.compact.small.button.unpick_location_tag(tabindex='0')
+        //     //         //- i.remove.icon
+        //     //         | #{this}
+        //     // each location_tags
+        //     //     button.ui.compact.small.button.pick_location_tag(tabindex="0" class=result_class title=count) #{title}
+        //     //         //- small #{count}
+        //     div
+        //     |sort by
+        //     +set_sort_key key='views' label='views' icon='eye'
+        //     // +set_sort_key key='datetime_available' label='available' icon='clock'
+        //     +set_sort_key key='price' label='price' icon='money'
+        //     +set_sort_key key='_timestamp' label='added' icon='clock'
+        //     +set_sort_key key='comment_count' label='comment count' icon='chat'
+        //     +set_sort_direction
+        //     |&nbsp;
+        //     |&nbsp;
+        //     +limit_menu
+        //     .ui.left.icon.search.small.input
+        //         i.search.icon.refresh_tags
+        //         input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
+        //     if selected_tag_plural
+        //         .ui.icon.circular.black.compact.button.clear_picked_tags
+        //             i.remove.icon
+        //     each picked_tags
+        //         button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
+        //             //- i.remove.icon
+        //             | #{this}
+        //     each tags
+        //         button.ui.circular.compact.small.basic.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+        //             //- small #{count}
+        //     .spacer
+        .sixteen.wide.column
             // .sorting_row
             //     if selected_tag_plural
             //         .ui.icon.black.compact.button.clear_picked_tags
@@ -60,7 +60,7 @@ template(name='posts')
             //             //- small #{count}
             // .spacer 
             if subs_ready     
-                .ui.stackable.four.centered.cards.scrolling
+                .ui.stackable.three.centered.cards.scrolling
                     each post_docs
                         +post_card
                     unless post_docs.count

@@ -57,9 +57,22 @@ if Meteor.isClient
             if confirm 'delete post?'
                 Docs.remove @_id
                 Router.go "/"
+                
+        'click .refresh_gps': ->
+            navigator.geolocation.getCurrentPosition (position) =>
+                console.log 'navigator position', position
+                Session.set('current_lat', position.coords.latitude)
+                Session.set('current_long', position.coords.longitude)
+                
+                console.log 'saving long', position.coords.longitude
+                console.log 'saving lat', position.coords.latitude
+            
+                pos = Geolocation.currentLocation()
+                Docs.update Router.current().params.doc_id, 
+                    $set:
+                        lat:position.coords.latitude
+                        long:position.coords.longitude
 
-    Template.post_view.helpers
-        sold_out: -> @inventory < 1
     Template.post_card.events
         'click .flat_pick_tag': -> picked_tags.push @valueOf()
     Template.post_view.events

@@ -249,24 +249,6 @@ if Meteor.isClient
                     $set: points: deposit_amount
             $('.deposit_amount').val('')
 
-        'click .initial_withdrawal': ->
-            withdrawal_amount = parseInt $('.withdrawal_amount').val()
-            if confirm "initiate withdrawal for #{withdrawal_amount}?"
-                Docs.insert
-                    model:'withdrawal'
-                    amount: withdrawal_amount
-                    status: 'started'
-                    complete: false
-                Docs.update Session.get('current_userid'),
-                    $inc: credit: -withdrawal_amount
-
-        'click .cancel_withdrawal': ->
-            if confirm "cancel withdrawal for #{@amount}?"
-                Docs.remove @_id
-                Docs.update Session.get('current_userid'),
-                    $inc: credit: @amount
-
-
 
     Template.profile.helpers
         owner_earnings: ->

@@ -68,15 +68,17 @@ template(name='nav')
                 i.marker.large.icon
             a.icon.item.zoomer(href='/mapgl' class="{{isActivePath '/mapgl'}}" title='mapbox gl')
                 i.globe.large.icon
-            a.icon.item.zoomer(href='/orders' class="{{isActivePath '/orders'}}" title='orders')
-                // +i name='order-history' cl='ui inline mini image'
-                i.list.large.icon
-                // strong.mobile.hidden orders
+            // a.icon.item.zoomer(href='/orders' class="{{isActivePath '/orders'}}" title='orders')
+            //     // +i name='order-history' cl='ui inline mini image'
+            //     i.list.large.icon
+            //     // strong.mobile.hidden orders
             // a.icon.item.zoomer(href='/deliveries' class="{{isActivePath '/deliveries'}}" title='deliveries')
             //     // +i name='bicycle' cl='ui inline mini image'
             //     i.bicycle.large.icon
             //     // strong.mobile.hidden deliveries
         .right.menu
+            a.ui.icon.item.locate(title='locate me')
+                i.refresh.large.icon
             a.ui.icon.item.add_post(title='add post')
                 i.plus.large.icon
             if currentUser

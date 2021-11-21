@@ -530,7 +530,10 @@ if Meteor.isClient
                 true
         can_complete: ->
             reservation = Docs.findOne Router.current().params.doc_id
-            reservation.post_daily_rate < Meteor.user().points and reservation.reservation_date
+            reservation.post_daily_rate < Meteor.user().points 
+            
+            # reservation.reservation_date
+            
             
             
         points_after_purchase: ->
@@ -552,43 +555,9 @@ if Meteor.isClient
                 # showProgress: 'bottom'
                 class: 'success'
                 # displayTime: 'auto',
-                position: "bottom center"
-            )
-            
-            Docs.update @post_id,
-                $inc: inventory:-1
-            
-            post = Docs.findOne @post_id
-            $('body').toast(
-                message: "post #{post.title} inventory updated to #{post.inventory}"
-                icon: 'hashtag'
-                # showProgress: 'bottom'
-                class: 'info'
-                # displayTime: 'auto',
                 position: "bottom right"
             )
-            Docs.update post._author_id,
-                $inc:
-                    points:@post_point_price
-            $('body').toast(
-                showIcon: 'chevron up'
-                message: "points debited from #{@_author_username}"
-                # showProgress: 'bottom'
-                class: 'info'
-                # displayTime: 'auto',
-                position: "bottom center"
-            )
-            Docs.update @_author_id,
-                $inc:
-                    points:-@post_point_price
-            $('body').toast(
-                showIcon: 'chevron down'
-                message: "points credited to #{post._author_username}"
-                # showProgress: 'bottom'
-                class: 'success'
-                # displayTime: 'auto',
-                position: "bottom center"
-            )
+            
             Router.go "/reservation/#{@_id}"
 
 

@@ -479,7 +479,6 @@ input.username_search{
     /*border-width: 1px !important;*/
     /*border-color: blue !important;*/
     /*box-shadow: 0 2px 5px 2px rgba(50, 50, 100, 0.1) !important;*/
-} */
 
 /* input:focus, textarea:focus {
     background: rgba(250, 250, 250, 0.8) !important;
@@ -498,7 +497,7 @@ input.username_search{
     margin:2px !important;
     opacity:.9 !important;
     /*font-family: 'Ubuntu', sans-serif !important;*/
-    /* border-radius: 8px !important; */
+    border-radius: 20px !important; 
 }
 
 .disabled.button, .disabled.segment, .disabled.label{

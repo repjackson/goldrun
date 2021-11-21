@@ -12,56 +12,20 @@ template(name='reservation_view')
                 .column 
                     .ui.header 
                         |viewing reservation
-                    a.ui.header.inline.lowercase(href="/reservation/#{_id}/")
-                        small from 
-                        |{{cal_time start_datetime}}
-                        small to 
-                        |{{cal_time end_datetime}}
                     if complete 
                         .ui.large.green.label complete 
                     else 
                         .ui.large.label ongoing (incomplete)
-                    .ui.small.header #{when} by #{_author_username}
-                    .ui.header 
-                        | #{hour_duration}
-                        small hrs * $
-                        |#{post.hourly_dollars}
-                        small /hr = $
-                        |#{cost}
-                    .ui.header by #{_author_username}
                     +reservation_events
-                .four.wide.column
                     if can_edit
                         a.ui.big.fluid.button(href="/reservation/#{_id}/edit" title='edit reservation')
                             i.pencil.icon
                             |edit
-                    .ui.header 
-                        |payouts
-                    .ui.big.list
-                        .item 
-                            |#{hour_duration}hr * #{post.hourly_dollars}c/hr = #{cost}c
-                        .item 
-                            small 50% owner
-                            |=#{owner_payout}c to #{post.owner_username}
-                        .item.handler
-                            small 45% handler
-                            |=#{handler_payout}c to #{post.handler_username}
-                        .item 
-                            small 5% taxes
-                            |=#{taxes_payout}c
-    with current_doc
-        .ui.stackable.padded.grid
-            .four.column.row
                 .column
                     // a.ui.circular.compact.button(href="/food/#{food_id}/")
                     //     i.left.chevron.icon
                     //     img.ui.avatar.image(src="{{c.url reservation_post.image width=200 height=200}}")    
                     //     |#{reservation_post.title}
-                    a.ui.circular.compact.button.fly_left(href="/post/#{post_id}/")
-                        i.left.chevron.icon
-                        img.ui.avatar.image(src="{{c.url reservation_post.image width=200 height=200}}")    
-                        |#{reservation_post.title} product
-                    .ui.header view '#{reservation_post.title}' reservation
                     if can_edit
                         a.ui.large.circular.icon.button(href="/reservation/#{_id}/edit")
                             i.pencil.large.icon
@@ -75,7 +39,7 @@ template(name='reservation_view')
                         with reservation_post
                             a(href="/post/#{_id}/")
                                 img.ui.rounded.image(src="{{c.url image width=400 height=400}}")
-                            a(href="/product/#{_id}/")
+                            a(href="/post/#{_id}/")
                                 .ui.header #{title}
                             .ui.header #{serving_purchase_price} serving perchase price
                             //- .ui.header #{cook_tip} cook tip
@@ -83,19 +47,10 @@ template(name='reservation_view')
                                 small total transaction amount
                     div
                 .column
-                    .ui.inline.header 
-                        small available 
-                        |{{from_now datetime_available}}:
                     +textarea_view key='description'
-                    .ui.small.inline.header {{long_date datetime_available}}
-                    // .ui.header ingredients
-                    // each reservation_post.ingredients
-                    //     .ui.label #{this}
-                    // .ui.header #{servings_left} servings left
                     if can_edit
-                        .ui.small.compact.button.cancel_reservation
+                        .ui.icon.button.cancel_reservation
                             i.remove.icon
-                            |cancel
                     .ui.hidden.divider
                     +comments
                 .column
@@ -149,10 +104,6 @@ template(name='reservation_edit')
                             small
                             //- | -  #{cost} 
                             | -  #{total_cost} 
-                            if res_start_dropoff_selected
-                                | + #{post.res_start_dropoff_fee}
-                            if res_end_pickup_selected
-                                | + #{post.res_end_pickup_fee}
                         .ui.header
                             small balance after purchase
                             small = 
@@ -181,26 +132,15 @@ template(name='reservation_edit')
                             .ui.big.teal.fluid.button.add_credit(class=submit_button_class)
                                 i.plus.icon
                                 |add credit to reserve
-                        else if need_approval
-                            .ui.big.teal.fluid.button.request_reservation(class=submit_button_class)
-                                |request reservation
-                        else
-                            .ui.big.disabled.fluid.button.send_message(title='cannot reserve for other reason')
-                                |send message
                     else
                         .ui.header submitted {{ from_now submitted_timestamp }}
-                        .ui.orange.fluid.button.unsubmit
+                        .ui.orange.fluid.button.cancel_reservation
                             i.undo.icon
                             |cancel
-                    .ui.large.fluid.icon.button.cancel_reservation
-                        i.ban.icon
-                        |cancel/delete
                 .column
                     img.ui.image(src="{{c.url reservation_post.image_id width=200 height=200}}")    
-                    
-                    .ui.header product 
                     with reservation_post
-                        a.ui.small.header(href="/product/#{product_id}") #{title}
+                        a.ui.small.header(href="/post/#{post_id}") #{title}
                         +image_view key='image' direct=true
                         +html_view key='description' direct=true
                     .ui.header 
@@ -282,16 +222,16 @@ template(name='reservations')
             .ui.icon.input
                 i.search.icon
                 input.query(type='text' placeholder='search...')
-            .ui.inline.small.header
-                i.marker.icon 
-                |location tags
-            each picked_location_tags
-                button.ui.blue.compact.small.button.unpick_location_tag(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
-            each location_tags
-                button.ui.compact.small.button.pick_location_tag(tabindex="0" class=result_class title=count) #{title}
-                    //- small #{count}
+            // .ui.inline.small.header
+            //     i.marker.icon 
+            //     |location tags
+            // each picked_location_tags
+            //     button.ui.blue.compact.small.button.unpick_location_tag(tabindex='0')
+            //         //- i.remove.icon
+            //         | #{this}
+            // each location_tags
+            //     button.ui.compact.small.button.pick_location_tag(tabindex="0" class=result_class title=count) #{title}
+            //         //- small #{count}
             div
             |sort by
             // +set_sort_key key='views' label='views' icon='eye'

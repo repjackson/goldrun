@@ -1,56 +1,34 @@
 if Meteor.isClient
-    Template.posts.onCreated ->
-        Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'sort_key', 'daily_rate'
-        Session.setDefault 'sort_label', 'available'
-        Session.setDefault 'limit',10
-        Session.setDefault 'view_open', true
-        @autorun => @subscribe 'count', ->
-        @autorun => @subscribe 'facets',
-            Session.get('query')
-            picked_tags.array()
-            picked_location_tags.array()
-            Session.get('limit')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
+    # Template.posts.onCreated ->
+    #     Session.setDefault 'view_mode', 'list'
+    #     Session.setDefault 'sort_key', 'daily_rate'
+    #     Session.setDefault 'sort_label', 'available'
+    #     Session.setDefault 'limit',10
+    #     Session.setDefault 'view_open', true
+    #     @autorun => @subscribe 'count', ->
+    #     @autorun => @subscribe 'facets',
+    #         Session.get('query')
+    #         picked_tags.array()
+    #         picked_location_tags.array()
+    #         Session.get('limit')
+    #         Session.get('sort_key')
+    #         Session.get('sort_direction')
+    #         Session.get('view_delivery')
+    #         Session.get('view_pickup')
+    #         Session.get('view_open')
 
-        @autorun => @subscribe 'results',
-            Session.get('query')
-            picked_tags.array()
-            picked_location_tags.array()
-            Session.get('limit')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
+    #     @autorun => @subscribe 'results',
+    #         Session.get('query')
+    #         picked_tags.array()
+    #         picked_location_tags.array()
+    #         Session.get('limit')
+    #         Session.get('sort_key')
+    #         Session.get('sort_direction')
+    #         Session.get('view_delivery')
+    #         Session.get('view_pickup')
+    #         Session.get('view_open')
 
     
-    # Template.post_card.events
-    #     'click .downvote':->
-    #         Docs.update Meteor.userId(),
-    #             $addToSet:downvoted_ids:@_id
-    #         Docs.update @_id, 
-    #             $addToSet:downvoter_ids:Meteor.userId()
-    #         $('body').toast({
-    #             title: "#{@title} downvoted and hidden"
-    #             # message: 'Please see desk staff for key.'
-    #             class : 'success'
-    #             # position:'top center'
-    #             # className:
-    #             #     toast: 'ui massive message'
-    #             displayTime: 5000
-    #             transition:
-    #               showMethod   : 'zoom',
-    #               showDuration : 250,
-    #               hideMethod   : 'fade',
-    #               hideDuration : 250
-    #             })
-                
-
     Template.posts.events
         'click .request_post': ->
             title = prompt "different title than #{Session.get('query')}"
@@ -60,19 +38,9 @@ if Meteor.isClient
                     title:Session.get('query')
 
 
-        # 'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
-        # 'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
-        # 'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
-
         'click .tag_result': -> picked_tags.push @title
         'click .unselect_tag': ->
             picked_tags.remove @valueOf()
-            # console.log picked_tags.array()
-            # if picked_tags.array().length is 1
-                # Meteor.call 'call_wiki', search, ->
-
-            # if picked_tags.array().length > 0
-                # Meteor.call 'search_reddit', picked_tags.array(), ->
 
         'click .clear_picked_tags': ->
             Session.set('query',null)
@@ -165,21 +133,19 @@ if Meteor.isClient
     Template.posts.onCreated ->
         @autorun => @subscribe 'post_facets',
             picked_tags.array()
+            Session.get('current_lat')
+            Session.get('current_long')
             Session.get('post_limit')
             Session.get('post_sort_key')
             Session.get('post_sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
 
         @autorun => @subscribe 'post_results',
             picked_tags.array()
+            Session.get('lat')
+            Session.get('long')
             Session.get('post_limit')
             Session.get('post_sort_key')
             Session.get('post_sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
 
 
     Template.posts.events
@@ -189,10 +155,6 @@ if Meteor.isClient
                     model:'post'
             Router.go("/post/#{new_id}/edit")
 
-
-        'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
-        'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
-        'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
 
         'click .tag_result': -> picked_tags.push @title
         'click .unselect_tag': ->
@@ -259,9 +221,6 @@ if Meteor.isClient
         sorting_up: ->
             parseInt(Session.get('post_sort_direction')) is 1
 
-        toggle_delivery_class: -> if Session.get('view_delivery') then 'blue' else ''
-        toggle_pickup_class: -> if Session.get('view_pickup') then 'blue' else ''
-        toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
         connection: ->
             console.log Meteor.status()
             Meteor.status()
@@ -317,9 +276,6 @@ if Meteor.isServer
         doc_limit
         doc_sort_key
         doc_sort_direction
-        view_delivery
-        view_pickup
-        view_open
         )->
         # console.log picked_tags
         if doc_limit
@@ -332,23 +288,13 @@ if Meteor.isServer
             sort_direction = parseInt(doc_sort_direction)
         self = @
         match = {model:'post'}
-        if view_open
-            match.open = $ne:false
-        if view_delivery
-            match.delivery = $ne:false
-        if view_pickup
-            match.pickup = $ne:false
         if picked_tags.length > 0
             match.tags = $all: picked_tags
-            sort = 'price_per_serving'
+            # sort = 'price_per_serving'
         else
             # match.tags = $nin: ['wikipedia']
             sort = '_timestamp'
             # match.source = $ne:'wikipedia'
-        # if view_images
-        #     match.is_image = $ne:false
-        # if view_videos
-        #     match.is_video = $ne:false
 
         # match.tags = $all: picked_tags
         # if filter then match.model = filter
@@ -358,7 +304,7 @@ if Meteor.isServer
         #     if key_array and key_array.length > 0
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
-        match: location = 
+        match.location = 
            { $near :
               {
                 $geometry: { type: "Point",  coordinates: [ lat, long ] },
@@ -378,82 +324,33 @@ if Meteor.isServer
 
     Meteor.publish 'post_facets', (
         picked_tags
+        lat
+        long
         picked_timestamp_tags
         query
         doc_limit
         doc_sort_key
         doc_sort_direction
-        view_delivery
-        view_pickup
-        view_open
         )->
-        # console.log 'dummy', dummy
-        # console.log 'query', query
+        console.log 'lat', lat
+        console.log 'long', long
         console.log 'selected tags', picked_tags
 
         self = @
         match = {}
         match.model = 'post'
-        if view_open
-            match.open = $ne:false
 
-        if view_delivery
-            match.delivery = $ne:false
-        if view_pickup
-            match.pickup = $ne:false
         if picked_tags.length > 0 then match.tags = $all: picked_tags
             # match.$regex:"#{current_query}", $options: 'i'}
-        # if query and query.length > 1
-        # #     console.log 'searching query', query
-        # #     # match.tags = {$regex:"#{query}", $options: 'i'}
-        # #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
-        # #
-        #     Terms.find {
-        #         title: {$regex:"#{query}", $options: 'i'}
-        #     },
-        #         sort:
-        #             count: -1
-        #         limit: 20
-            # tag_cloud = Docs.aggregate [
-            #     { $match: match }
-            #     { $project: "tags": 1 }
-            #     { $unwind: "$tags" }
-            #     { $group: _id: "$tags", count: $sum: 1 }
-            #     { $match: _id: $nin: picked_tags }
-            #     { $match: _id: {$regex:"#{query}", $options: 'i'} }
-            #     { $sort: count: -1, _id: 1 }
-            #     { $limit: 42 }
-            #     { $project: _id: 0, name: '$_id', count: 1 }
-            #     ]
-
-        # else
-        # unless query and query.length > 2
-        # if picked_tags.length > 0 then match.tags = $all: picked_tags
-        # # match.tags = $all: picked_tags
-        # # console.log 'match for tags', match
-        # tag_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "tags": 1 }
-        #     { $unwind: "$tags" }
-        #     { $group: _id: "$tags", count: $sum: 1 }
-        #     { $match: _id: $nin: picked_tags }
-        #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $limit: 20 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ], {
-        #     allowDiskUse: true
-        # }
-        #
-        # tag_cloud.forEach (tag, i) =>
-        #     # console.log 'queried tag ', tag
-        #     # console.log 'key', key
-        #     self.added 'tags', Random.id(),
-        #         title: tag.name
-        #         count: tag.count
-        #         # category:key
-        #         # index: i
-
+        if lat
+            match.location = 
+               { $near :
+                  {
+                    $geometry: { type: "Point",  coordinates: [ lat, long ] },
+                    $minDistance: 1000,
+                    $maxDistance: 5000
+                  }
+               }
 
         tag_cloud = Docs.aggregate [
             { $match: match }

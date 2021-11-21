@@ -163,7 +163,7 @@ Meteor.publish 'results', (
         # sort:_timestamp:-1
         limit: limit
 
-Meteor.publish 'facets', (
+Meteor.publish 'post_facets', (
     query=''
     picked_tags=[]
     picked_location_tags=[]
@@ -218,27 +218,27 @@ Meteor.publish 'facets', (
             # category:key
             # index: i
 
-    location_cloud = Docs.aggregate [
-        { $match: match }
-        { $project: "location_tags": 1 }
-        { $unwind: "$location_tags" }
-        { $group: _id: "$location_tags", count: $sum: 1 }
-        # { $nin: _id: picked_location_tags }
-        { $sort: count: -1, _id: 1 }
-        { $limit: 10 }
-        { $project: _id: 0, title: '$_id', count: 1 }
-    ], {
-        allowDiskUse: true
-    }
+    # location_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "location_tags": 1 }
+    #     { $unwind: "$location_tags" }
+    #     { $group: _id: "$location_tags", count: $sum: 1 }
+    #     # { $nin: _id: picked_location_tags }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $limit: 10 }
+    #     { $project: _id: 0, title: '$_id', count: 1 }
+    # ], {
+    #     allowDiskUse: true
+    # }
 
-    location_cloud.forEach (location_tag, i) =>
-        # console.log 'location_tag result ', location_tag
-        self.added 'results', Random.id(),
-            title: location_tag.title
-            count: location_tag.count
-            model:'location_tag'
-            # category:key
-            # index: i
+    # location_cloud.forEach (location_tag, i) =>
+    #     # console.log 'location_tag result ', location_tag
+    #     self.added 'results', Random.id(),
+    #         title: location_tag.title
+    #         count: location_tag.count
+    #         model:'location_tag'
+    #         # category:key
+    #         # index: i
 
 
     self.ready()
@@ -313,71 +313,6 @@ Meteor.methods
     validate_email: (email) ->
         re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         re.test String(email).toLowerCase()
-
-
-    notify_message: (message_id)->
-        message = Docs.findOne message_id
-        if message
-            to_user = Docs.findOne message.to_user_id
-
-            message_link = "https://www.goldrun.online/user/#{to_user.username}/messages"
-
-        	Email.send({
-                to:["<#{to_user.emails[0].address}>"]
-                from:"relay@goldrun.online"
-                subject:"gold run message from #{message._author_username}"
-                html: "<h3> #{message._author_username} sent you the message:</h3>"+"<h2> #{message.body}.</h2>"+
-                    "<br><h4>view your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
-            })
-
-    order_food: (food_id)->
-        food = Docs.findOne food_id
-        Docs.insert
-            model:'order'
-            food_id: food._id
-            order_price: food.price_per_serving
-            buyer_id: Meteor.userId()
-        Docs.update Meteor.userId(),
-            $inc:credit:-food.price_per_serving
-        Docs.update food.cook_user_id,
-            $inc:credit:food.price_per_serving
-        Meteor.call 'calc_food_data', food_id, ->
-
-    calc_food_data: (food_id)->
-        food = Docs.findOne food_id
-        console.log food
-        order_count =
-            Docs.find(
-                model:'order'
-                food_id:food_id
-            ).count()
-        console.log 'order count', order_count
-        servings_left = food.servings_amount-order_count
-        console.log 'servings left', servings_left
-
-        # food_dish =
-        #     Docs.findOne food.dish_id
-        # console.log 'food_dish', food_dish
-        # if food_dish.ingredient_ids
-        #     food_ingredients =
-        #         Docs.find(
-        #             model:'ingredient'
-        #             _id: $in:food_dish.ingredient_ids
-        #         ).fetch()
-        #
-        #     ingredient_titles = []
-        #     for ingredient in food_ingredients
-        #         console.log ingredient.title
-        #         ingredient_titles.push ingredient.title
-        #     Docs.update food_id,
-        #         $set:
-        #             ingredient_titles:ingredient_titles
-
-        Docs.update food_id,
-            $set:
-                order_count:order_count
-                servings_left:servings_left
-
 
 
     lookup_user: (username_query, role_filter)->

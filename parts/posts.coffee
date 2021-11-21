@@ -312,6 +312,8 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'post_results', (
         picked_tags
+        lat
+        long
         doc_limit
         doc_sort_key
         doc_sort_direction
@@ -356,6 +358,15 @@ if Meteor.isServer
         #     if key_array and key_array.length > 0
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
+        match: location = 
+           { $near :
+              {
+                $geometry: { type: "Point",  coordinates: [ lat, long ] },
+                $minDistance: 1000,
+                $maxDistance: 5000
+              }
+           }
+        
 
         console.log 'post match', match
         console.log 'sort key', sort_key

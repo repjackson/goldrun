@@ -17,10 +17,6 @@ template(name='reservation_view')
                     else 
                         .ui.large.label ongoing (incomplete)
                     +reservation_events
-                    if can_edit
-                        a.ui.big.fluid.button(href="/reservation/#{_id}/edit" title='edit reservation')
-                            i.pencil.icon
-                            |edit
                 .column
                     // a.ui.circular.compact.button(href="/food/#{food_id}/")
                     //     i.left.chevron.icon

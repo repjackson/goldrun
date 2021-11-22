@@ -35,7 +35,30 @@ template(name='profile')
                         +print_this
                     +send_points_button
                     // +request_button
-                    +user_credit
+                    .ui.inline.header #{current_user.points}p
+                    // i.refresh.link.icon.calc_user_points
+                    .ui.stackable.one.column.grid
+                        if is_current_user
+                            .column
+                                .ui.header 
+                                    +i name='donate'
+                                    |deposits
+                                // |includes 2% credit card processing fee
+                                .ui.action.fluid.input
+                                    input.deposit_amount(type='number' min='1' placeholder='deposit')
+                                    .ui.icon.button.add_credits   
+                                        i.right.chevron.icon
+                                        
+                                .ui.large.bulleted.list.smallscroll
+                                    each deposit_docs
+                                        .item 
+                                            .content
+                                                .header 
+                                                    |$#{amount}
+                                                .description #{when} {{long_date _timestamp}}
+                                                //- if is_dev
+                                                +remove_button
+                                                
                 .column
                     .ui.header 
                         +i name='shopping-cart'
@@ -150,27 +173,3 @@ template(name='user_post_card')
 
 
 template(name='user_credit')
-    .ui.inline.header #{current_user.points}p
-    // i.refresh.link.icon.calc_user_points
-    .ui.stackable.one.column.grid
-        if is_current_user
-            .column
-                .ui.header 
-                    +i name='donate'
-                    |deposits
-                // |includes 2% credit card processing fee
-                .ui.action.fluid.input
-                    input.deposit_amount(type='number' min='1' placeholder='deposit')
-                    .ui.icon.button.add_credits   
-                        i.right.chevron.icon
-                        
-                .ui.large.bulleted.list.smallscroll
-                    each deposit_docs
-                        .item 
-                            .content
-                                .header 
-                                    |$#{amount}
-                                .description #{when} {{long_date _timestamp}}
-                                //- if is_dev
-                                +remove_button
-                                

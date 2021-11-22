@@ -145,7 +145,7 @@ if Meteor.isClient
     	# )
 
 
-    Template.user_credit.events
+    Template.profile.events
         'click .add_credits': ->
             amount = parseInt $('.deposit_amount').val()
             # amount_times_100 = parseInt amount*100
@@ -195,7 +195,7 @@ if Meteor.isClient
         deposit_docs: ->
             Docs.find {
                 model:'deposit'
-                _author_username: Router.current().params.username
+                # _author_username: Router.current().params.username
             }, sort:_timestamp:-1
         withdrawals: ->
             Docs.find {

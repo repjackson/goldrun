@@ -29,11 +29,11 @@ template(name='post_view')
                         a.ui.compact.button.goto_tag
                             |#{this}
                 .column
-                    // unless approval_required
-                    .ui.big.green.fluid.button.new_reservation 
-                        i.large.clock.icon
-                        small reserve for 
-                        strong #{daily_rate}p/day
+                    unless is_author
+                        .ui.big.green.fluid.button.new_reservation 
+                            i.large.clock.icon
+                            small reserve for 
+                            strong #{daily_rate}p/day
                     div
                     if description.length
                         +html_view key='description' label='description' icon='content' direct=true

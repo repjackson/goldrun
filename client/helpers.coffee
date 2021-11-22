@@ -9,6 +9,8 @@ Template.registerHelper 'sort_label', () -> Session.get('sort_label')
 Template.registerHelper 'sort_icon', () -> Session.get('sort_icon')
 Template.registerHelper 'current_limit', () -> parseInt(Session.get('limit'))
 
+Template.registerHelper 'is_author', () -> 
+    @_author_id is Meteor.userId()
 Template.registerHelper 'current_lat', () -> 
     Session.get('current_lat')
 Template.registerHelper 'current_long', () -> 

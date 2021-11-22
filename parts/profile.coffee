@@ -14,8 +14,9 @@ if Meteor.isClient
 if Meteor.isClient
     Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_deposits', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_reservations', Router.current().params.username, ->
 
     Template.profile.onRendered ->
         Meteor.setTimeout ->
@@ -38,6 +39,10 @@ if Meteor.isClient
         user_post_docs: ->
             Docs.find
                 model:'post'
+                _author_username:Router.current().params.username
+        user_reservation_docs: ->
+            Docs.find
+                model:'reservation'
                 _author_username:Router.current().params.username
 
     Template.logout_other_clients_button.events
@@ -68,6 +73,11 @@ if Meteor.isClient
                 })
             
 if Meteor.isServer
+    Meteor.publish 'user_deposits', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find 
+            model:'deposit'
+            _author_username:username
     Meteor.methods
         calc_user_points: (username)->
             user = Docs.findOne username:username
@@ -135,21 +145,21 @@ if Meteor.isClient
     	# )
 
 
-    # Template.user_credit.events
-    #     'click .add_credits': ->
-    #         amount = parseInt $('.deposit_amount').val()
-    #         amount_times_100 = parseInt amount*100
-    #         calculated_amount = amount_times_100*1.02+20
-    #         # Template.instance().checkout.open
-    #         #     name: 'credit deposit'
-    #         #     # email:Meteor.user().emails[0].address
-    #         #     description: 'gold run'
-    #         #     amount: calculated_amount
-    #         Docs.insert
-    #             model:'deposit'
-    #             amount: amount
-    #         Docs.update Session.get('current_userid'),
-    #             $inc: credit: amount_times_100
+    Template.user_credit.events
+        'click .add_credits': ->
+            amount = parseInt $('.deposit_amount').val()
+            # amount_times_100 = parseInt amount*100
+            # calculated_amount = amount_times_100*1.02+20
+            # Template.instance().checkout.open
+            #     name: 'credit deposit'
+            #     # email:Meteor.user().emails[0].address
+            #     description: 'gold run'
+            #     amount: calculated_amount
+            Docs.insert
+                model:'deposit'
+                amount: amount
+            Meteor.users.update Meteor.userId(),
+                $inc: credit: amount
 
 
     #     'click .initial_withdrawal': ->
@@ -222,7 +232,7 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'deposit'
         # @autorun => Meteor.subscribe 'model_docs', 'reservation'
-        @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
+        # @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
 
 
     Template.profile.events
@@ -281,10 +291,10 @@ if Meteor.isClient
 
 
 
-    Template.profile.onCreated ->
-        @autorun => Meteor.subscribe 'user_upcoming_reservations', Router.current().params.username
-        @autorun => Meteor.subscribe 'user_handling', Router.current().params.username
-        @autorun => Meteor.subscribe 'user_current_reservations', Router.current().params.username
+    # Template.profile.onCreated ->
+    #     @autorun => Meteor.subscribe 'user_upcoming_reservations', Router.current().params.username
+    #     @autorun => Meteor.subscribe 'user_handling', Router.current().params.username
+    #     @autorun => Meteor.subscribe 'user_current_reservations', Router.current().params.username
     Template.profile.helpers
         current_reservations: ->
             Docs.find

@@ -57,6 +57,7 @@ template(name='reservation_view')
                         strong #{_author_username}
                     with _author
                         +user_card
+                    .ui.header status: #{status}
 
 
 template(name='reservation_events')

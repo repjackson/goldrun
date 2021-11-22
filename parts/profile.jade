@@ -40,22 +40,26 @@ template(name='profile')
                     .ui.header 
                         +i name='shopping-cart'
                         |#{user_post_docs.count} posts
-                    .ui.selection.animated.list
+                    .ui.selection.animated.large.list
                         each user_post_docs 
                             a.item(href="/post/#{_id}") 
-                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                                |#{title}
+                                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                                .content
+                                    .title #{title}
                 .column
                     .ui.header 
                         +i name='order-history'
                         |rented to
+                    .ui.items
+                        each user_rented_to_docs
+                            +profile_reservation_item
                 .column
                     .ui.header 
                         +i name='clock'
-                        |reservations
+                        |rented from
                     .scrolling
-                        .ui.segments
-                            each reservations 
+                        .ui.items
+                            each user_reservation_docs
                                 +profile_reservation_item
                         
     else 
@@ -82,16 +86,6 @@ template(name='logout_button')
         // i.sign.out.alternate.icon
         +i name='exit'
         |log out
-
-
-template(name='subscribe_user_button')
-    .ui.button.subscribe_user
-        +i name='subscription'
-        |subscribe
-
-
-
-
 
 
 // template(name='profile_reservation_item')

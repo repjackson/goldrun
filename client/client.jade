@@ -88,7 +88,8 @@ template(name='nav')
                     i.user.icon
                 span #{currentUser.username}
                     //- |${{int current_user.credit}}
-                | {{currentUser.points}}p
+                |&nbsp;
+                | {{currentUser.credit}}c
             //- else
             //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='log out')
             //-         i.sign.out.icon

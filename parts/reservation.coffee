@@ -530,7 +530,7 @@ if Meteor.isClient
                 true
         can_complete: ->
             reservation = Docs.findOne Router.current().params.doc_id
-            reservation.post_daily_rate < Meteor.user().points 
+            reservation.post_daily_rate < Meteor.user().credit 
             
             # reservation.reservation_date
             

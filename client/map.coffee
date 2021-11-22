@@ -226,7 +226,7 @@ Template.mapgl.events
             container: 'mapgl', # container ID
             style: 'mapbox://styles/mapbox/streets-v11', # style URL
             center: [Session.get('current_long'),Session.get('current_lat')], # starting position [lng, lat]
-            zoom: 18 # starting zoom
+            zoom: 17 # starting zoom
             boxZoom: false
             dragPan:false
             scrollZoom:false

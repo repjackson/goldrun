@@ -40,6 +40,10 @@ if Meteor.isClient
             Docs.find
                 model:'post'
                 _author_username:Router.current().params.username
+        reserved_from_docs: ->
+            Docs.find
+                model:'reservation'
+                _author_username:Router.current().params.username
         user_reservation_docs: ->
             Docs.find
                 model:'reservation'

@@ -1,14 +1,13 @@
 template(name='order_view')
     with current_doc
         .ui.stackable.padded.grid
-            .two.column.row
+            .three.column.row
                 .column 
                     with rental
                         a.ui.fluid.large.button(href="/rental/#{_id}/")
                             i.left.chevron.icon
                             |#{title}
                         +image_view key='image' label='image' direct=true
-                        +comments
                     .ui.header 
                         |viewing order
                     if complete 
@@ -45,7 +44,7 @@ template(name='order_view')
                     if can_edit
                         .ui.icon.button.cancel_order
                             i.remove.icon
-                    .ui.hidden.divider
+                .column
                     +comments
                     .ui.header 
                         small buyer

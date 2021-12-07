@@ -224,44 +224,10 @@ if Meteor.isClient
     Template.profile.onCreated ->
         @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'rental'
-    Template.profile.helpers
-        orders: ->
-            current_user = Docs.findOne username:Router.current().params.username
-            Docs.find {
-                model:'order'
-            }, sort:_timestamp:-1
-
-
-    Template.profile.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
         @autorun => Meteor.subscribe 'user_deposts', Router.current().params.username, ->
-        # @autorun => Meteor.subscribe 'model_docs', 'order'
+        @autorun => Meteor.subscribe 'model_docs', 'order', ->
         # @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
-
-
-    Template.profile.events
-        # 'click .add_credits': ->
-        #     # deposit_amount = parseInt $('.deposit_amount').val()*100
-        #     deposit_amount = parseInt $('.deposit_amount').val()
-        #     calculated_amount = deposit_amount*1.02+20
-        #     note = prompt 'notes?' 
-        #     new_id = 
-        #         Docs.insert 
-        #             model:'deposit'
-        #             amount:deposit_amount
-        #             note:note
-            
-        #     # is_number = typeof(Meteor.user().points) is 'number'
-        #     is_number = isNaN(Meteor.user().points)
-        #     console.log typeof(Meteor.user().points)
-        #     unless is_number
-        #         Docs.update Session.get('current_userid'),
-        #             $inc:
-        #                 points:deposit_amount
-        #     else                    
-        #         Docs.update Session.get('current_userid'),
-        #             $set: points: deposit_amount
-        #     $('.deposit_amount').val('')
 
 
     Template.profile.helpers
@@ -292,14 +258,6 @@ if Meteor.isClient
             }, sort:_timestamp:-1
 
 
-
-
-
-    # Template.profile.onCreated ->
-    #     @autorun => Meteor.subscribe 'user_upcoming_orders', Router.current().params.username
-    #     @autorun => Meteor.subscribe 'user_handling', Router.current().params.username
-    #     @autorun => Meteor.subscribe 'user_current_orders', Router.current().params.username
-    Template.profile.helpers
         current_orders: ->
             Docs.find
                 model:'order'

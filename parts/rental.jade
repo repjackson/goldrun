@@ -154,26 +154,11 @@ template(name='rental_view')
                     if description.length
                         +html_view key='description' label='description' icon='content' direct=true
                     div
-                    +rental_view_orders
                     +rental_orders
                     +rental_stats
                     // +last_viewed
                     +creation_info
                     +comments
-
-
-// template(name='nearby_person')                    
-//     .column
-//         .ui.segment.rounded.zoomer.pointer.goto_user
-//             img.ui.tiny.circular.inline.image(src="{{c.url profile_image_id height=500 width=500 gravity='face' crop='fill'}}")
-//             a.ui.header(href="/user/#{username}") #{username}
-//                 if age
-//                     |#{age}
-//             |!{about} #{formatted}
-//             each tags
-//                 .ui.basic.small.label #{this}
-//             |#{light_mode}
-            
 
 
         
@@ -185,7 +170,7 @@ template(name='rental_orders')
     .ui.selection.animated.link.large.list
         each rental_order_docs
             a.item(href="/order/#{_id}")
-                | #{when} #{_author_username}
+                | #{_author_username} for #{order_date}
     
 
 template(name='rental_edit')
@@ -310,22 +295,6 @@ template(name='rental_status')
         
 
 
-template(name='rental_view_orders')
-    .ui.header 
-        i.clock.icon
-        |orders
-    //- .ui.icon.button.set_card_view
-    //-     i.clone.icon
-    //- .ui.icon.button.set_segment_view
-    //-     i.list.icon
-    //- .ui.hidden.divider
-    //- if view_res_cards
-    //-     .ui.stackable.three.cards
-    //-         each orders
-    //-             +res_card
-    //- else if view_res_segments
-    each orders
-        +order_segment
         
 template(name='set_date_filter')        
     .ui.button.set_date_filter(class=date_filter_class)

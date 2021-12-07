@@ -73,7 +73,7 @@ template(name='profile')
                         +i name='order-history'
                         |rented to
                     .ui.items
-                        each user_rented_to_docs
+                        each received_orders
                             +profile_order_item
                 .column
                     .ui.header 
@@ -81,19 +81,13 @@ template(name='profile')
                         |rented from
                     .scrolling
                         .ui.items
-                            each user_order_docs
+                            each purchased_orders
                                 +profile_order_item
                         
     else 
         .ui.basic.center.aligned.segment
             i.massive.loading.refresh.icon
                             
-
-// template(name='profile_nav_button')                        
-//     a.ui.compact.button(href="/user/#{current_username}/#{key}" class="{{isActiveRoute regex=key}}")
-//         +i name=icon cl='ui avatar image'
-//         |#{label}
-
 
 
 template(name='logout_other_clients_button')

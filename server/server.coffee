@@ -4,7 +4,7 @@ Docs.allow
             # doc._author_id is userId
     update: (userId, doc) ->
         doc
-        # if doc.model in ['calculator_doc','simulated_post_item','healthclub_session']
+        # if doc.model in ['calculator_doc','simulated_rental_item','healthclub_session']
         #     true
         # else if Meteor.user() and Meteor.user().roles and 'admin' in Meteor.user().roles
         #     true
@@ -20,7 +20,7 @@ Meteor.users.allow
             # doc._author_id is userId
     update: (userId, doc) ->
         doc
-        # if doc.model in ['calculator_doc','simulated_post_item','healthclub_session']
+        # if doc.model in ['calculator_doc','simulated_rental_item','healthclub_session']
         #     true
         # else if Meteor.user() and Meteor.user().roles and 'admin' in Meteor.user().roles
         #     true
@@ -63,7 +63,7 @@ Meteor.publish 'model_fields_from_child_id', (child_id)->
 
 Meteor.publish 'model_docs', (
     model
-    limit=10
+    limit=20
     )->
     Docs.find {
         model: model
@@ -88,9 +88,9 @@ Meteor.publish 'facet_doc', (tags)->
     Docs.find
         tags: split_array
 
-Meteor.publish 'latest_posts', (tags)->
+Meteor.publish 'latest_rentals', (tags)->
     Docs.find({
-        model:'post'
+        model:'rental'
     },{
         sort:_timestamp:-1
         limit:10
@@ -139,7 +139,7 @@ Meteor.publish 'results', (
     console.log picked_tags
     self = @
     match = {}
-    match.model = 'post'
+    match.model = 'rental'
     
     match.app = 'goldrun'
     # if view_open
@@ -179,7 +179,7 @@ Meteor.publish 'results', (
         # sort:_timestamp:-1
         limit: limit
 
-Meteor.publish 'post_facets', (
+Meteor.publish 'rental_facets', (
     query=''
     picked_tags=[]
     picked_location_tags=[]
@@ -198,7 +198,7 @@ Meteor.publish 'post_facets', (
 
     self = @
     match = {}
-    match.model = 'post'
+    match.model = 'rental'
     match.app = 'goldrun'
     # if view_open
     #     match.open = $ne:false
@@ -259,9 +259,9 @@ Meteor.publish 'post_facets', (
 
     self.ready()
 
-Meteor.publish 'some_posts', ->
+Meteor.publish 'some_rentals', ->
     Docs.find {
-        model:'post'
+        model:'rental'
         app:'goldrun'
     }, limit:10
     

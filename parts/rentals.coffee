@@ -316,9 +316,9 @@ if Meteor.isServer
         #   }
         
 
-        console.log 'rental match', match
-        console.log 'sort key', sort_key
-        console.log 'sort direction', sort_direction
+        # console.log 'rental match', match
+        # console.log 'sort key', sort_key
+        # console.log 'sort direction', sort_direction
         Docs.find match,
             sort:"#{sort_key}":sort_direction
             # sort:_timestamp:-1
@@ -334,9 +334,9 @@ if Meteor.isServer
         doc_sort_key
         doc_sort_direction
         )->
-        console.log 'lat', lat
-        console.log 'long', long
-        console.log 'selected tags', picked_tags
+        # console.log 'lat', lat
+        # console.log 'long', long
+        # console.log 'selected tags', picked_tags
 
         self = @
         match = {}
@@ -344,15 +344,15 @@ if Meteor.isServer
 
         if picked_tags.length > 0 then match.tags = $all: picked_tags
             # match.$regex:"#{current_query}", $options: 'i'}
-        if lat
-            match.location = 
-               { $near :
-                  {
-                    $geometry: { type: "Point",  coordinates: [ lat, long ] },
-                    $minDistance: 1000,
-                    $maxDistance: 5000
-                  }
-               }
+        # if lat
+        #     match.location = 
+        #        { $near :
+        #           {
+        #             $geometry: { type: "Point",  coordinates: [ lat, long ] },
+        #             $minDistance: 1000,
+        #             $maxDistance: 5000
+        #           }
+        #        }
 
         tag_cloud = Docs.aggregate [
             { $match: match }

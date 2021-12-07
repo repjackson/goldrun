@@ -150,7 +150,7 @@ if Meteor.isClient
 
 
     Template.profile.events
-        'click .add_credits': ->
+        'click .add_points': ->
             amount = parseInt $('.deposit_amount').val()
             # amount_times_100 = parseInt amount*100
             # calculated_amount = amount_times_100*1.02+20
@@ -163,7 +163,7 @@ if Meteor.isClient
                 model:'deposit'
                 amount: amount
             Meteor.users.update Meteor.userId(),
-                $inc: credit: amount
+                $inc: points: amount
 
 
     #     'click .initial_withdrawal': ->

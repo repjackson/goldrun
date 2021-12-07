@@ -1,4 +1,119 @@
-template(name='post_view')
+template(name='rentals')
+    // +map2
+    .ui.stackable.grid
+        .sixteen.wide.column
+            //- .ui.inline.header current lat: #{current_lat}, long: #{current_long}
+            .sorting_row
+                if selected_tag_plural
+                    .ui.icon.black.compact.button.clear_picked_tags
+                        i.remove.icon
+                each picked_tags
+                    button.ui.blue.compact.large.button.unselect_tag(tabindex='0')
+                        //- i.remove.icon
+                        | #{this}
+                each tags
+                    button.ui.compact.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+                        //- small #{count}
+            .spacer 
+            if subs_ready     
+                .ui.stackable.four.centered.cards.scrolling
+                    each rental_docs
+                        +rental_card
+                    // unless rental_docs.count
+                    //     .ui.button.request_rental
+                    //         |request
+                    //     each requests
+                    //         .ui.header #{when}
+            else 
+                .ui.center.aligned.basic.segment
+                    i.massive.grey.notched.circle.loading.icon
+            //- +mapgl
+
+template(name='rental_card')
+    .ui.card(class=rental_card_class)
+        a.image.fly_right(href="/rental/#{_id}/") 
+            if image_id
+                img.ui.zoomer.pointer.goto_rental.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+            if image_link
+                img.ui.zoomer.pointer.goto_rental.image(src=image_link)
+
+
+        .content
+            a.header.zoomer.fly_right(href="/rental/#{_id}/") 
+                | #{title}
+            div
+            .ui.inline.grey.header 
+                |#{daily_rate}
+                small c/day
+            // if tags
+            //     i.tag.icon
+            // each tags
+            //     a.ui.small.link.black.label.flat_pick_tag.spaced #{this}
+            // .right.floated.meta
+            //     | added #{when}
+            unless anonymous
+                a(href="/user/#{_author_username}")
+                    img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
+                    |#{_author_username}
+
+
+template(name='localmap')
+    #localmap
+
+
+template(name='set_rental_sort_key')
+    .item.set_sort
+        if color
+            .ui.label(class=color) #{label}
+        else 
+            if emoji
+                em(data-emoji=emoji)
+            else if icon
+                i.icon(class=icon)
+            |#{label}
+        
+
+template(name='set_view_mode_rental')
+    .item.set_view
+        i.icon(class=icon)
+        |#{title}
+
+
+template(name='set_rental_limit')
+    .item.set_limit #{amount}
+    
+    
+// template(name='user_rentals')
+//     .scrolling
+//         if is_current_user
+//             .ui.circular.button.add_rental
+//                 i.plus.icon
+//                 |rental
+//         each rentals
+//             +profile_rental_item
+
+// template(name='profile_rental_item')
+//     .ui.segment.grid
+//         .row
+//             .four.wide.column
+//                 +image_view key='image_id' direct=true cl='zoom ui tiny image'
+//             .twelve.wide.column
+//                 .ui.header #{title}
+//                 a.ui.small.header(href="/rental/#{_id}/")
+//                     |#{hourly_rate}c / hr
+//                 a.ui.small.header(href="/rental/#{_id}/")
+//                     |#{daily_rate}c / day
+//                 .ui.small.inline.header #{when}
+//                 a.ui.button(href="/rental/#{_id}/")
+//                     |view
+//                     i.right.chevron.icon
+//                 if is_admin
+//                     +remove_button
+    
+
+
+
+template(name='rental_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
@@ -7,14 +122,14 @@ template(name='post_view')
                     // .ui.header 
                     //     small viewing
                     //     |#{title}
-                    //     small post
+                    //     small rental
                     .ui.inline.header #{title}
                     a.ui.big.basic.button.fly_left(href="/" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
-                    // if can_edit
-                    a.zoomer(href="/post/#{_id}/edit")
-                        i.pencil.big.ciopostrcular.icon
+                    if can_edit
+                        a.zoomer(href="/rental/#{_id}/edit")
+                            i.pencil.big.circular.icon
                     .ui.small.inline.header
                         |added
                         // |added by #{_author_username}
@@ -22,7 +137,11 @@ template(name='post_view')
                     div
                     +text_view key='location' icon='marker' label='location' direct=true
                     .ui.hidden.divider
-                    img.ui.centered.rounded.shadowed.fluid.image(src="{{c.url image_id crop='fit'}}")
+                    if image_id
+                        img.ui.centered.rounded.shadowed.fluid.image(src="{{c.url image_id crop='fit'}}")
+                    if image_link
+                        img.ui.centered.rounded.shadowed.fluid.image(src=image_link)
+ 
                     .ui.hidden.divider
                     i.large.tag.icon        
                     each tags 
@@ -38,9 +157,9 @@ template(name='post_view')
                     if description.length
                         +html_view key='description' label='description' icon='content' direct=true
                     div
-                    +post_view_reservations
-                    +post_reservations
-                    +post_stats
+                    +rental_view_reservations
+                    +rental_reservations
+                    +rental_stats
                     // +last_viewed
                     +creation_info
                     +comments
@@ -61,18 +180,18 @@ template(name='post_view')
 
 
         
-template(name='post_reservations')
+template(name='rental_reservations')
     .ui.header 
         +i name='reservation-history'
-        |#{post_reservation_docs.count}
+        |#{rental_reservation_docs.count}
         |reservations
     .ui.selection.animated.link.large.list
-        each post_reservation_docs
+        each rental_reservation_docs
             a.item(href="/reservation/#{_id}")
                 | #{when} #{_author_username}
     
 
-template(name='post_edit')
+template(name='rental_edit')
     with current_doc
         .ui.stackable.padded.grid
             .two.column.row
@@ -80,17 +199,17 @@ template(name='post_edit')
                     .ui.inline.header
                         small editing
                         |'#{title}'
-                        small post
-                    a.ui.big.icon.green.fluid.button(href="/post/#{_id}/")
+                        small rental
+                    a.ui.big.icon.green.fluid.button(href="/rental/#{_id}/")
                         i.checkmark.big.icon
                     +text_edit key='title' icon='header' direct=true
                     +number_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
-                    .ui.icon.small.red.button.delete_post_item 
+                    .ui.icon.small.red.button.delete_rental_item 
                         i.trash.icon
                     if in_dev
                         +print_this
-                    // +boolean_edit key='published' label='published' icon='checkmark'
-                    // +boolean_edit key='anonymous' label='anonymous' icon='visible'
+                    +boolean_edit key='published' label='published' icon='checkmark'
+                    +boolean_edit key='anonymous' label='anonymous' icon='visible'
                     div
                     a.ui.header.refresh_gps 
                         |gps coords
@@ -99,13 +218,14 @@ template(name='post_edit')
                     // +text_edit key='location' label='location text' icon='marker' direct=true
                 .column
                     +array_edit key='tags' icon='tags' label='tags' direct=true
-                    // +array_edit key='location_tags' label='public location tags' icon='marker' direct=true
+                    +array_edit key='location_tags' label='public location tags' icon='marker' direct=true
                     // +array_edit key='private_location_tags' label='private location tags' icon='marker' direct=true tooltip='for handlers and buyers who are picking up'
-                    +image_edit key='image_id' label='image' direct=true
+                    //- +image_edit key='image_id' label='image' direct=true
+                    +image_link_edit key='image_link' label='image link' direct=true
                     +html_edit key='description' label='description' icon='content' direct=true
 
     
-template(name='post_location')
+template(name='rental_location')
     .ui.inline.header current location
     |#{current_location}
     
@@ -113,26 +233,26 @@ template(name='post_location')
 
 
 
-template(name='user_posts')
+template(name='user_rentals')
     .scrolling
         if is_current_user
-            .ui.button.add_post
+            .ui.button.add_rental
                 i.plus.icon
-                |post
-        each posts
-            +profile_post_item
+                |rental
+        each rentals
+            +profile_rental_item
 
-template(name='profile_post_item')
+template(name='profile_rental_item')
     .ui.segment.grid
         .row
             .three.column
                 +image_view key='image' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
                 .ui.header #{title}
-                a.ui.header.inline.lowercase(href="/post/#{_id}/")
+                a.ui.header.inline.lowercase(href="/rental/#{_id}/")
                     |#{daily_rate}p/day
                 .ui.small.inline.header #{when}
-                a.ui.button(href="/post/#{_id}/")
+                a.ui.button(href="/rental/#{_id}/")
                     |view
                     i.right.chevron.icon
 
@@ -154,20 +274,20 @@ template(name='last_viewed')
                     
                     
 
-template(name='post_stats')
+template(name='rental_stats')
     //- .ui.accordion
     //-     .title
-    .ui.grey.header.refresh_post_stats
+    .ui.grey.header.refresh_rental_stats
         i.line.chart.icon
         |stats
     //- .content
     .ui.big.list
         .item #{views} views
         .item #{reservation_count} reservations
-        .item #{total_earnings}c/#{total_post_hours}hrs total
-        .item #{average_post_cost}c / #{average_post_duration}hrs avg post
-        //- .item post ranking # reservations
-        //- .item post ranking $ earned
+        .item #{total_earnings}c/#{total_rental_hours}hrs total
+        .item #{average_rental_cost}c / #{average_rental_duration}hrs avg rental
+        //- .item rental ranking # reservations
+        //- .item rental ranking $ earned
         //- .item # different renters
         //- .item avg daily earnings
         //- .item avg weekly earnings
@@ -183,7 +303,7 @@ template(name='post_stats')
     //-             |new slot
         
     
-template(name='post_status')
+template(name='rental_status')
     if available 
         .ui.green.label available now
     else 
@@ -193,7 +313,7 @@ template(name='post_status')
         
 
 
-template(name='post_view_reservations')
+template(name='rental_view_reservations')
     .ui.header 
         i.clock.icon
         |reservations

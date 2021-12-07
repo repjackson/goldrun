@@ -1,5 +1,5 @@
 if Meteor.isClient
-    # Template.posts.onCreated ->
+    # Template.rentals.onCreated ->
     #     Session.setDefault 'view_mode', 'list'
     #     Session.setDefault 'sort_key', 'daily_rate'
     #     Session.setDefault 'sort_label', 'available'
@@ -29,8 +29,8 @@ if Meteor.isClient
     #         Session.get('view_open')
 
     
-    Template.posts.events
-        'click .request_post': ->
+    Template.rentals.events
+        'click .request_rental': ->
             title = prompt "different title than #{Session.get('query')}"
             new_id = 
                 Docs.insert 
@@ -65,8 +65,8 @@ if Meteor.isClient
                     # , 10000
         , 1000)
 
-        'click .calc_post_count': ->
-            Meteor.call 'calc_post_count', ->
+        'click .calc_rental_count': ->
+            Meteor.call 'calc_rental_count', ->
 
         # 'keydown #search': _.throttle((e,t)->
         #     if e.which is 8
@@ -79,13 +79,13 @@ if Meteor.isClient
         #             Meteor.call 'search_reddit', picked_tags.array(), ->
         # , 1000)
 
-    Template.posts.helpers
+    Template.rentals.helpers
         query_requests: ->
             Docs.find
                 model:'request'
                 title:Session.get('query')
             
-        counter: -> Counts.get('post_counter')
+        counter: -> Counts.get('rental_counter')
         tags: -> Results.find({model:'tag', title:$nin:picked_tags.array()})
         location_tags: -> Results.find({model:'location_tag',title:$nin:picked_location_tags.array()})
         authors: -> Results.find({model:'author'})
@@ -100,12 +100,12 @@ if Meteor.isClient
         picked_tags_plural: -> picked_tags.array().length > 1
         searching: -> Session.get('searching')
 
-        one_post: ->
+        one_rental: ->
             Docs.find().count() is 1
-        post_docs: ->
+        rental_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {
-                model: 'post'
+                model: 'rental'
                 # downvoter_ids:$nin:[Meteor.userId()]
             },
                 sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
@@ -117,43 +117,43 @@ if Meteor.isClient
 
 
 if Meteor.isClient
-    Router.route '/posts', (->
+    Router.route '/rentals', (->
         @layout 'layout'
-        @render 'posts'
-        ), name:'posts'
+        @render 'rentals'
+        ), name:'rentals'
 
 
-    Template.posts.onCreated ->
+    Template.rentals.onCreated ->
         Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'post_sort_key', 'datetime_available'
-        Session.setDefault 'post_sort_label', 'available'
-        Session.setDefault 'post_limit', 5
+        Session.setDefault 'rental_sort_key', 'datetime_available'
+        Session.setDefault 'rental_sort_label', 'available'
+        Session.setDefault 'rental_limit', 5
         Session.setDefault 'view_open', true
 
-    Template.posts.onCreated ->
-        @autorun => @subscribe 'post_facets',
+    Template.rentals.onCreated ->
+        @autorun => @subscribe 'rental_facets',
             picked_tags.array()
             Session.get('current_lat')
             Session.get('current_long')
-            Session.get('post_limit')
-            Session.get('post_sort_key')
-            Session.get('post_sort_direction')
+            Session.get('rental_limit')
+            Session.get('rental_sort_key')
+            Session.get('rental_sort_direction')
 
-        @autorun => @subscribe 'post_results',
+        @autorun => @subscribe 'rental_results',
             picked_tags.array()
             Session.get('lat')
             Session.get('long')
-            Session.get('post_limit')
-            Session.get('post_sort_key')
-            Session.get('post_sort_direction')
+            Session.get('rental_limit')
+            Session.get('rental_sort_key')
+            Session.get('rental_sort_direction')
 
 
-    Template.posts.events
-        'click .add_post': ->
+    Template.rentals.events
+        'click .add_rental': ->
             new_id =
                 Docs.insert
-                    model:'post'
-            Router.go("/post/#{new_id}/edit")
+                    model:'rental'
+            Router.go("/rental/#{new_id}/edit")
 
 
         'click .tag_result': -> picked_tags.push @title
@@ -189,8 +189,8 @@ if Meteor.isClient
                     # , 10000
         , 1000)
 
-        'click .calc_post_count': ->
-            Meteor.call 'calc_post_count', ->
+        'click .calc_rental_count': ->
+            Meteor.call 'calc_rental_count', ->
 
         # 'keydown #search': _.throttle((e,t)->
         #     if e.which is 8
@@ -208,18 +208,18 @@ if Meteor.isClient
 
 
         'click .set_sort_direction': ->
-            if Session.get('post_sort_direction') is -1
-                Session.set('post_sort_direction', 1)
+            if Session.get('rental_sort_direction') is -1
+                Session.set('rental_sort_direction', 1)
             else
-                Session.set('post_sort_direction', -1)
+                Session.set('rental_sort_direction', -1)
 
 
-    Template.posts.helpers
-        quickbuying_post: ->
+    Template.rentals.helpers
+        quickbuying_rental: ->
             Docs.findOne Session.get('quickbuying_id')
 
         sorting_up: ->
-            parseInt(Session.get('post_sort_direction')) is 1
+            parseInt(Session.get('rental_sort_direction')) is 1
 
         connection: ->
             console.log Meteor.status()
@@ -234,10 +234,10 @@ if Meteor.isClient
             # if Session.get('current_query') and Session.get('current_query').length > 1
             #     Terms.find({}, sort:count:-1)
             # else
-            post_count = Docs.find().count()
-            # console.log 'post count', post_count
-            if post_count < 3
-                Tags.find({count: $lt: post_count})
+            rental_count = Docs.find().count()
+            # console.log 'rental count', rental_count
+            if rental_count < 3
+                Tags.find({count: $lt: rental_count})
             else
                 Tags.find()
 
@@ -251,14 +251,14 @@ if Meteor.isClient
         picked_tags_plural: -> picked_tags.array().length > 1
         searching: -> Session.get('searching')
 
-        one_post: ->
+        one_rental: ->
             Docs.find().count() is 1
-        post: ->
+        rental: ->
             # if picked_tags.array().length > 0
             Docs.find {
-                model:'post'
+                model:'rental'
             },
-                sort: "#{Session.get('post_sort_key')}":parseInt(Session.get('post_sort_direction'))
+                sort: "#{Session.get('rental_sort_key')}":parseInt(Session.get('rental_sort_direction'))
                 limit:Session.get('limit')
 
         home_subs_ready: ->
@@ -269,7 +269,7 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'post_results', (
+    Meteor.publish 'rental_results', (
         picked_tags
         lat=50
         long=100
@@ -287,7 +287,7 @@ if Meteor.isServer
         if doc_sort_direction
             sort_direction = parseInt(doc_sort_direction)
         self = @
-        match = {model:'post'}
+        match = {model:'rental'}
         if picked_tags.length > 0
             match.tags = $all: picked_tags
             # sort = 'price_per_serving'
@@ -316,7 +316,7 @@ if Meteor.isServer
         #   }
         
 
-        console.log 'post match', match
+        console.log 'rental match', match
         console.log 'sort key', sort_key
         console.log 'sort direction', sort_direction
         Docs.find match,
@@ -324,7 +324,7 @@ if Meteor.isServer
             # sort:_timestamp:-1
             limit: limit
 
-    Meteor.publish 'post_facets', (
+    Meteor.publish 'rental_facets', (
         picked_tags
         lat
         long
@@ -340,7 +340,7 @@ if Meteor.isServer
 
         self = @
         match = {}
-        match.model = 'post'
+        match.model = 'rental'
 
         if picked_tags.length > 0 then match.tags = $all: picked_tags
             # match.$regex:"#{current_query}", $options: 'i'}
@@ -379,19 +379,19 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-    Template.user_posts.onCreated ->
-        @autorun => Meteor.subscribe 'user_posts', Router.current().params.username
-    Template.user_posts.events
-        'click .add_post': ->
+    Template.user_rentals.onCreated ->
+        @autorun => Meteor.subscribe 'user_rentals', Router.current().params.username
+    Template.user_rentals.events
+        'click .add_rental': ->
             new_id =
                 Docs.insert
-                    model:'post'
-            Router.go "/post/#{new_id}/edit"
+                    model:'rental'
+            Router.go "/rental/#{new_id}/edit"
 
-    Template.user_posts.helpers
-        posts: ->
+    Template.user_rentals.helpers
+        rentals: ->
             current_user = Docs.findOne username:Router.current().params.username
             Docs.find {
-                model:'post'
+                model:'rental'
                 _author_id: current_user._id
             }, sort:_timestamp:-1

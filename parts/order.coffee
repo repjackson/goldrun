@@ -1,31 +1,31 @@
 if Meteor.isClient
-    Router.route '/reservation/:doc_id/', (->
-        @render 'reservation_view'
-        ), name:'reservation_view'
-    Template.reservation_view.onCreated ->
+    Router.route '/order/:doc_id/', (->
+        @render 'order_view'
+        ), name:'order_view'
+    Template.order_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'post_by_res_id', Router.current().params.doc_id
 
 
-    # Template.post_view_reservations.onCreated ->
-    #     @autorun -> Meteor.subscribe 'post_reservations',
+    # Template.post_view_orders.onCreated ->
+    #     @autorun -> Meteor.subscribe 'post_orders',
     #         Template.currentData()
     #         Session.get 'res_view_mode'
     #         Session.get 'date_filter'
-    # Template.post_view_reservations.helpers
-    #     reservations: ->
+    # Template.post_view_orders.helpers
+    #     orders: ->
     #         Docs.find {
-    #             model:'reservation'
+    #             model:'order'
     #         }, sort: start_datetime:-1
     #     view_res_cards: -> Session.equals 'res_view_mode', 'cards'
     #     view_res_segments: -> Session.equals 'res_view_mode', 'segments'
-    # Template.post_view_reservations.events
+    # Template.post_view_orders.events
     #     'click .set_card_view': -> Session.set 'res_view_mode', 'cards'
     #     'click .set_segment_view': -> Session.set 'res_view_mode', 'segments'
 
-    Template.reservation_events.onCreated ->
+    Template.order_events.onCreated ->
         @autorun => Meteor.subscribe 'log_events', Router.current().params.doc_id
-    Template.reservation_events.helpers
+    Template.order_events.helpers
         log_events: ->
             Docs.find
                 model:'log_event'
@@ -36,7 +36,7 @@ if Meteor.isClient
     #         $('.accordion').accordion()
     #     , 1000
 
-    # Template.post_view_reservations.onRendered ->
+    # Template.post_view_orders.onRendered ->
     #     Session.setDefault 'view_mode', 'cards'
 
 
@@ -49,11 +49,11 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'post_reservations', (post, view_mode, date_filter)->
+    Meteor.publish 'post_orders', (post, view_mode, date_filter)->
         console.log view_mode
         console.log date_filter
         Docs.find
-            model:'reservation'
+            model:'order'
             post_id: post._id
 
 
@@ -62,51 +62,51 @@ if Meteor.isServer
             model:'log_event'
             parent_id:parent_id
 
-    Meteor.publish 'reservations_by_product_id', (product_id)->
+    Meteor.publish 'orders_by_product_id', (product_id)->
         Docs.find
-            model:'reservation'
+            model:'order'
             product_id:product_id
 
     Meteor.publish 'post_by_res_id', (res_id)->
-        reservation = Docs.findOne res_id
-        if reservation
+        order = Docs.findOne res_id
+        if order
             Docs.find
                 model:'post'
-                _id: reservation.post_id
+                _id: order.post_id
 
     Meteor.publish 'owner_by_res_id', (res_id)->
-        reservation = Docs.findOne res_id
+        order = Docs.findOne res_id
         post =
             Docs.findOne
                 model:'post'
-                _id: reservation.post_id
+                _id: order.post_id
 
         Docs.find
             _id: post.owner_username
 
     Meteor.publish 'handler_by_res_id', (res_id)->
-        reservation = Docs.findOne res_id
+        order = Docs.findOne res_id
         post =
             Docs.findOne
                 model:'post'
-                _id: reservation.post_id
+                _id: order.post_id
 
         Docs.find
             _id: post.handler_username
 
     Meteor.methods
-        calc_reservation_stats: ->
-            reservation_stat_doc = Docs.findOne(model:'reservation_stats')
-            unless reservation_stat_doc
+        calc_order_stats: ->
+            order_stat_doc = Docs.findOne(model:'order_stats')
+            unless order_stat_doc
                 new_id = Docs.insert
-                    model:'reservation_stats'
-                reservation_stat_doc = Docs.findOne(model:'reservation_stats')
-            console.log reservation_stat_doc
-            total_count = Docs.find(model:'reservation').count()
-            submitted_count = Docs.find(model:'reservation', submitted:true).count()
-            current_count = Docs.find(model:'reservation', current:true).count()
-            unsubmitted_count = Docs.find(model:'reservation', submitted:$ne:true).count()
-            Docs.update reservation_stat_doc._id,
+                    model:'order_stats'
+                order_stat_doc = Docs.findOne(model:'order_stats')
+            console.log order_stat_doc
+            total_count = Docs.find(model:'order').count()
+            submitted_count = Docs.find(model:'order', submitted:true).count()
+            current_count = Docs.find(model:'order', current:true).count()
+            unsubmitted_count = Docs.find(model:'order', submitted:$ne:true).count()
+            Docs.update order_stat_doc._id,
                 $set:
                     total_count:total_count
                     submitted_count:submitted_count
@@ -115,23 +115,23 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-    Router.route '/reservation/:doc_id/edit', (->
-        @render 'reservation_edit'
-        ), name:'reservation_edit'
+    Router.route '/order/:doc_id/edit', (->
+        @render 'order_edit'
+        ), name:'order_edit'
 
-    Template.reservation_edit.onCreated ->
+    Template.order_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'post_by_res_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'owner_by_res_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'handler_by_res_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'user_by_username', 'deb_sclar'
-    # Template.reservation_edit.onRendered =>
+    # Template.order_edit.onRendered =>
     #     if Meteor.user()
     #         Meteor.call 'calc_user_points', Meteor.user().username, ->
 
 
 
-    Template.reservation_edit.helpers
+    Template.order_edit.helpers
         post: -> Docs.findOne model:'post'
         now_button_class: -> if @now then 'active' else ''
         sel_hr_class: -> if @duration_type is 'hour' then 'active' else ''
@@ -149,7 +149,7 @@ if Meteor.isClient
         submit_button_class: ->
             if @start_datetime and @end_datetime then '' else 'disabled'
 
-        member_balance_after_reservation: ->
+        member_balance_after_order: ->
             post = Docs.findOne @post_id
             if post
                 current_balance = Meteor.user().credit
@@ -157,7 +157,7 @@ if Meteor.isClient
 
         # diff: -> moment(@end_datetime).diff(moment(@start_datetime),'hours',true)
 
-    Template.reservation_edit.events
+    Template.order_edit.events
         'click .add_credit': ->
             deposit_amount = Math.abs(parseFloat($('.adding_credit').val()))
             stripe_charge = parseFloat(deposit_amount)*100*1.02+20
@@ -171,7 +171,7 @@ if Meteor.isClient
                 amount: stripe_charge
 
         'click .trigger_recalc': ->
-            Meteor.call 'recalc_reservation_cost', Router.current().params.doc_id
+            Meteor.call 'recalc_order_cost', Router.current().params.doc_id
             $('.handler')
               .transition({
                 animation : 'pulse'
@@ -186,8 +186,8 @@ if Meteor.isClient
               })
 
 
-        'click .cancel_reservation': ->
-            if confirm 'delete reservation?'
+        'click .cancel_order': ->
+            if confirm 'delete order?'
                 Docs.remove @_id
                 Router.go "/post/#{@post_id}/"
 
@@ -198,14 +198,14 @@ if Meteor.isClient
         #         $set:
         #             submitted:true
         #             submitted_timestamp:Date.now()
-        #     Meteor.call 'pay_for_reservation', @_id, =>
-        #         Router.go "/reservation/#{@_id}/"
+        #     Meteor.call 'pay_for_order', @_id, =>
+        #         Router.go "/order/#{@_id}/"
 
 
 
 if Meteor.isServer
     Meteor.methods
-        recalc_reservation_cost: (res_id)->
+        recalc_order_cost: (res_id)->
             res = Docs.findOne res_id
             # console.log res
             post = Docs.findOne res.post_id
@@ -233,7 +233,7 @@ if Meteor.isServer
                     owner_payout: owner_payout.toFixed(2)
                     handler_payout: handler_payout.toFixed(2)
 
-        pay_for_reservation: (res_id)->
+        pay_for_order: (res_id)->
             res = Docs.findOne res_id
             # console.log res
             post = Docs.findOne res.post_id
@@ -251,12 +251,12 @@ if Meteor.isServer
                 parent_id:res_id
                 res_id: res_id
                 post_id: res.post_id
-                log_type:'reservation_submission'
-                text:"reservation submitted by #{Meteor.user().username}"
+                log_type:'order_submission'
+                text:"order submitted by #{Meteor.user().username}"
 
-        send_payment: (from_username, to_username, amount, reason, reservation_id)->
-            console.log 'sending payment from', from_username, 'to', to_username, 'for', amount, reason, reservation_id
-            res = reservation_id
+        send_payment: (from_username, to_username, amount, reason, order_id)->
+            console.log 'sending payment from', from_username, 'to', to_username, 'for', amount, reason, order_id
+            res = order_id
             sender = Docs.findOne username:from_username
             recipient = Docs.findOne username:to_username
 
@@ -280,7 +280,7 @@ if Meteor.isServer
                 recipient_username: to_username
                 recipient_id: recipient._id
                 amount: amount
-                reservation_id: reservation_id
+                order_id: order_id
                 post_id: res.post_id
                 reason:reason
             Docs.insert
@@ -301,42 +301,42 @@ if Meteor.isServer
 
 if Meteor.isClient
     
-    Router.route '/reservations', (->
+    Router.route '/orders', (->
         @layout 'layout'
-        @render 'reservations'
-        ), name:'reservations'
+        @render 'orders'
+        ), name:'orders'
     
-    Template.reservations.onCreated ->
+    Template.orders.onCreated ->
         Session.setDefault 'view_mode', 'list'
         Session.setDefault 'sort_key', 'daily_rate'
         Session.setDefault 'sort_label', 'available'
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
         @autorun => @subscribe 'count', ->
-        @autorun => @subscribe 'reservation_facets',
+        @autorun => @subscribe 'order_facets',
             Session.get('query')
             picked_tags.array()
             picked_location_tags.array()
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
-            Session.get('view_reservation')
+            Session.get('view_order')
             Session.get('view_pickup')
             Session.get('view_open')
 
-        @autorun => @subscribe 'reservation_results',
+        @autorun => @subscribe 'order_results',
             Session.get('query')
             picked_tags.array()
             picked_location_tags.array()
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
-            Session.get('view_reservation')
+            Session.get('view_order')
             Session.get('view_pickup')
             Session.get('view_open')
 
     
-    # Template.reservation_card.events
+    # Template.order_card.events
     #     'click .downvote':->
     #         Docs.update Meteor.userId(),
     #             $addToSet:downvoted_ids:@_id
@@ -358,8 +358,8 @@ if Meteor.isClient
     #             })
                 
 
-    Template.reservations.events
-        'click .request_reservation': ->
+    Template.orders.events
+        'click .request_order': ->
             title = prompt "different title than #{Session.get('query')}"
             new_id = 
                 Docs.insert 
@@ -367,7 +367,7 @@ if Meteor.isClient
                     title:Session.get('query')
 
 
-        # 'click .toggle_reservation': -> Session.set('view_reservation', !Session.get('view_reservation'))
+        # 'click .toggle_order': -> Session.set('view_order', !Session.get('view_order'))
         # 'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
         # 'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
 
@@ -404,8 +404,8 @@ if Meteor.isClient
                     # , 10000
         , 1000)
 
-        'click .calc_reservation_count': ->
-            Meteor.call 'calc_reservation_count', ->
+        'click .calc_order_count': ->
+            Meteor.call 'calc_order_count', ->
 
         # 'keydown #search': _.throttle((e,t)->
         #     if e.which is 8
@@ -418,13 +418,13 @@ if Meteor.isClient
         #             Meteor.call 'search_reddit', picked_tags.array(), ->
         # , 1000)
 
-    Template.reservations.helpers
+    Template.orders.helpers
         query_requests: ->
             Docs.find
                 model:'request'
                 title:Session.get('query')
             
-        counter: -> Counts.get('reservation_counter')
+        counter: -> Counts.get('order_counter')
         tags: -> Results.find({model:'tag', title:$nin:picked_tags.array()})
         location_tags: -> Results.find({model:'location_tag',title:$nin:picked_location_tags.array()})
         authors: -> Results.find({model:'author'})
@@ -439,12 +439,12 @@ if Meteor.isClient
         picked_tags_plural: -> picked_tags.array().length > 1
         searching: -> Session.get('searching')
 
-        one_reservation: ->
+        one_order: ->
             Docs.find().count() is 1
-        reservation_docs: ->
+        order_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {
-                model: 'reservation'
+                model: 'order'
                 # downvoter_ids:$nin:[Meteor.userId()]
             },
                 sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
@@ -455,7 +455,7 @@ if Meteor.isClient
 
 
 if Meteor.isServer 
-    Meteor.publish 'reservation_results', (
+    Meteor.publish 'order_results', (
         query=''
         picked_tags=[]
         picked_location_tags=[]
@@ -469,7 +469,7 @@ if Meteor.isServer
         console.log picked_tags
         self = @
         match = {}
-        match.model = 'reservation'
+        match.model = 'order'
         
         match.app = 'goldrun'
         # if view_open
@@ -510,40 +510,40 @@ if Meteor.isServer
             limit: limit
 
 if Meteor.isClient
-    Template.reservation_edit.onCreated ->
+    Template.order_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'post_from_reservation_id', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'post_from_order_id', Router.current().params.doc_id, ->
         # @autorun => Meteor.subscribe 'model_docs', 'dish'
 
-    Template.reservation_edit.helpers
+    Template.order_edit.helpers
         # all_dishes: ->
         #     Docs.find
         #         model:'dish'
         can_delete: ->
-            reservation = Docs.findOne Router.current().params.doc_id
-            if reservation.reservation_ids
-                if reservation.reservation_ids.length > 1
+            order = Docs.findOne Router.current().params.doc_id
+            if order.order_ids
+                if order.order_ids.length > 1
                     false
                 else
                     true
             else
                 true
         can_complete: ->
-            reservation = Docs.findOne Router.current().params.doc_id
-            reservation.post_daily_rate < Meteor.user().credit 
+            order = Docs.findOne Router.current().params.doc_id
+            order.post_daily_rate < Meteor.user().points 
             
-            # reservation.reservation_date
+            # order.order_date
             
             
             
         points_after_purchase: ->
             user_points = Meteor.user().points
-            current_reservation = Docs.findOne Router.current().params.doc_id
-            Meteor.user().points - current_reservation.post_daily_rate
+            current_order = Docs.findOne Router.current().params.doc_id
+            Meteor.user().points - current_order.post_daily_rate
 
 
-    Template.reservation_edit.events
-        'click .complete_reservation': (e,t)->
+    Template.order_edit.events
+        'click .complete_order': (e,t)->
             Docs.update Router.current().params.doc_id,
                 $set:
                     complete:true
@@ -551,18 +551,18 @@ if Meteor.isClient
                     
             $('body').toast(
                 showIcon: 'checkmark'
-                message: 'reservation completed'
+                message: 'order completed'
                 # showProgress: 'bottom'
                 class: 'success'
                 # displayTime: 'auto',
                 position: "bottom right"
             )
             
-            Router.go "/reservation/#{@_id}"
+            Router.go "/order/#{@_id}"
 
 
-        'click .delete_reservation': (e,t)->
-            if confirm 'cancel reservation?'
+        'click .delete_order': (e,t)->
+            if confirm 'cancel order?'
                 doc_id = Router.current().params.doc_id
                 $(e.currentTarget).closest('.grid').transition('fly right', 500)
                 Router.go "/post/#{@post_id}"
@@ -573,31 +573,31 @@ if Meteor.isClient
 
 
 if Meteor.isClient
-    Template.profile_reservation_item.onCreated ->
-        @autorun => Meteor.subscribe 'post_from_reservation_id', @data._id
-    Template.reservation_view.onCreated ->
+    Template.profile_order_item.onCreated ->
+        @autorun => Meteor.subscribe 'post_from_order_id', @data._id
+    Template.order_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'dish'
-        # @autorun => Meteor.subscribe 'model_docs', 'reservation'
-        @autorun => Meteor.subscribe 'post_from_reservation_id', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'model_docs', 'order'
+        @autorun => Meteor.subscribe 'post_from_order_id', Router.current().params.doc_id
 
 
-    Template.reservation_view.events
-        'click .cancel_reservation': ->
+    Template.order_view.events
+        'click .cancel_order': ->
             if confirm 'cancel?'
                 Docs.remove @_id
 
 
-    Template.reservation_view.helpers
-        can_reservation: ->
+    Template.order_view.helpers
+        can_order: ->
             # if StripeCheckout
             unless @_author_id is Meteor.userId()
-                reservation_count =
+                order_count =
                     Docs.find(
-                        model:'reservation'
-                        reservation_id:@_id
+                        model:'order'
+                        order_id:@_id
                     ).count()
-                if reservation_count is @servings_amount
+                if order_count is @servings_amount
                     false
                 else
                     true
@@ -608,43 +608,43 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'post_from_reservation_id', (reservation_id)->
-        reservation = Docs.findOne reservation_id
+    Meteor.publish 'post_from_order_id', (order_id)->
+        order = Docs.findOne order_id
         Docs.find
-            _id: reservation.post_id
+            _id: order.post_id
 
     # Meteor.methods
-        # reservation_reservation: (reservation_id)->
-        #     reservation = Docs.findOne reservation_id
+        # order_order: (order_id)->
+        #     order = Docs.findOne order_id
         #     Docs.insert
-        #         model:'reservation'
-        #         reservation_id: reservation._id
-        #         reservation_price: reservation.price_per_serving
+        #         model:'order'
+        #         order_id: order._id
+        #         order_price: order.price_per_serving
         #         buyer_id: Meteor.userId()
         #     Docs.update Meteor.userId(),
-        #         $inc:credit:-reservation.price_per_serving
-        #     Docs.update reservation._author_id,
-        #         $inc:credit:reservation.price_per_serving
-        #     Meteor.call 'calc_reservation_data', reservation_id, ->
+        #         $inc:credit:-order.price_per_serving
+        #     Docs.update order._author_id,
+        #         $inc:credit:order.price_per_serving
+        #     Meteor.call 'calc_order_data', order_id, ->
 
 
 
 if Meteor.isClient
-    Template.user_reservations.onCreated ->
-        @autorun => Meteor.subscribe 'user_reservations', Router.current().params.username
+    Template.user_orders.onCreated ->
+        @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'post'
-    Template.user_reservations.helpers
-        reservations: ->
+    Template.user_orders.helpers
+        orders: ->
             current_user = Docs.findOne username:Router.current().params.username
             Docs.find {
-                model:'reservation'
+                model:'order'
             }, sort:_timestamp:-1
 
 if Meteor.isServer
-    Meteor.publish 'user_reservations', (username)->
+    Meteor.publish 'user_orders', (username)->
         user = Docs.findOne username:username
         if user
             Docs.find({
-                model:'reservation'
+                model:'order'
                 _author_id: user._id
             }, limit:20)

@@ -1,30 +1,30 @@
 if Meteor.isClient
     Router.route '/', (->
         @layout 'layout'
-        @render 'posts'
+        @render 'rentals'
         ), name:'home'
 
 
-    Template.post_reservations.onCreated ->
-        @autorun => @subscribe 'post_reservations',Router.current().params.doc_id, ->
-    Template.post_reservations.helpers
-        post_reservation_docs: ->
+    Template.rental_reservations.onCreated ->
+        @autorun => @subscribe 'rental_reservations',Router.current().params.doc_id, ->
+    Template.rental_reservations.helpers
+        rental_reservation_docs: ->
             Docs.find 
                 model:'reservation'
-                post_id:Router.current().params.doc_id
+                rental_id:Router.current().params.doc_id
 
 
 
 
 if Meteor.isClient
-    Router.route '/post/:doc_id/', (->
+    Router.route '/rental/:doc_id/', (->
         @layout 'layout'
-        @render 'post_view'
-        ), name:'post_view'
-    Router.route '/post/:doc_id/edit', (->
+        @render 'rental_view'
+        ), name:'rental_view'
+    Router.route '/rental/:doc_id/edit', (->
         @layout 'layout'
-        @render 'post_edit'
-        ), name:'post_edit'
+        @render 'rental_edit'
+        ), name:'rental_edit'
     Router.route '/reservation/:doc_id/checkout', (->
         @layout 'layout'
         @render 'reservation_edit'
@@ -32,11 +32,11 @@ if Meteor.isClient
 
 
     
-    Template.post_view.onCreated ->
+    Template.rental_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.post_edit.onCreated ->
+    Template.rental_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.post_edit.helpers
+    Template.rental_edit.helpers
         upcoming_days: ->
             upcoming_days = []
             now = new Date()
@@ -52,9 +52,9 @@ if Meteor.isClient
             upcoming_days
     
     
-    Template.post_edit.events
-        'click .delete_post_item': ->
-            if confirm 'delete post?'
+    Template.rental_edit.events
+        'click .delete_rental_item': ->
+            if confirm 'delete rental?'
                 Docs.remove @_id
                 Router.go "/"
                 
@@ -73,14 +73,14 @@ if Meteor.isClient
                         lat:position.coords.latitude
                         long:position.coords.longitude
 
-    Template.post_card.events
+    Template.rental_card.events
         'click .flat_pick_tag': -> picked_tags.push @valueOf()
-    Template.post_view.events
+    Template.rental_view.events
         # 'click .add_to_cart': ->
         #     console.log @
         #     Docs.insert
         #         model:'cart_item'
-        #         post_id:@_id
+        #         rental_id:@_id
         #     $('body').toast({
         #         title: "#{@title} added to cart."
         #         # message: 'Please see desk staff for key.'
@@ -100,7 +100,7 @@ if Meteor.isClient
         #     console.log @
         #     Docs.insert
         #         model:'reservation'
-        #         post_id:@_id
+        #         rental_id:@_id
         #     $('body').toast({
         #         title: "#{@title} added to cart."
         #         # message: 'Please see desk staff for key.'
@@ -116,14 +116,14 @@ if Meteor.isClient
         #           hideDuration : 250
         #         })
         'click .new_reservation': (e,t)->
-            post = Docs.findOne Router.current().params.doc_id
+            rental = Docs.findOne Router.current().params.doc_id
             new_reservation_id = Docs.insert
                 model:'reservation'
-                post_id: @_id
-                post_id:post._id
-                post_title:post.title
-                post_image_id:post.image_id
-                post_daily_rate:post.daily_rate
+                rental_id: @_id
+                rental_id:rental._id
+                rental_title:rental.title
+                rental_image_id:rental.image_id
+                rental_daily_rate:rental.daily_rate
             Router.go "/reservation/#{new_reservation_id}/edit"
             
             
@@ -132,58 +132,58 @@ if Meteor.isClient
             picked_tags.push @valueOf()
             Router.go '/'
 
-        # 'click .buy_post': (e,t)->
-        #     post = Docs.findOne Router.current().params.doc_id
+        # 'click .buy_rental': (e,t)->
+        #     rental = Docs.findOne Router.current().params.doc_id
         #     new_reservation_id = 
         #         Docs.insert 
         #             model:'reservation'
-        #             reservation_type:'post'
-        #             post_id:post._id
-        #             post_title:post.title
-        #             post_price:post.dollar_price
-        #             post_image_id:post.image_id
-        #             post_point_price:post.point_price
-        #             post_dollar_price:post.dollar_price
+        #             reservation_type:'rental'
+        #             rental_id:rental._id
+        #             rental_title:rental.title
+        #             rental_price:rental.dollar_price
+        #             rental_image_id:rental.image_id
+        #             rental_point_price:rental.point_price
+        #             rental_dollar_price:rental.dollar_price
         #     Router.go "/reservation/#{new_reservation_id}/checkout"
             
 if Meteor.isClient
-    Template.user_posts.onCreated ->
-        @autorun => Meteor.subscribe 'user_posts', Router.current().params.username
-    Template.user_posts.events
-        'click .add_post': ->
+    Template.user_rentals.onCreated ->
+        @autorun => Meteor.subscribe 'user_rentals', Router.current().params.username
+    Template.user_rentals.events
+        'click .add_rental': ->
             new_id =
                 Docs.insert
-                    model:'post'
-            Router.go "/post/#{new_id}/edit"
+                    model:'rental'
+            Router.go "/rental/#{new_id}/edit"
 
-    Template.user_posts.helpers
-        posts: ->
+    Template.user_rentals.helpers
+        rentals: ->
             current_user = Meteor.users.findOne username:Router.current().params.username
             Docs.find {
-                model:'post'
+                model:'rental'
                 _author_id: current_user._id
             }, sort:_timestamp:-1
 
 if Meteor.isServer
-    Meteor.publish 'user_posts', (username)->
+    Meteor.publish 'user_rentals', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
-            model:'post'
+            model:'rental'
             _author_id: user._id
             
-    Meteor.publish 'post_reservations', (doc_id)->
-        post = Docs.findOne doc_id
+    Meteor.publish 'rental_reservations', (doc_id)->
+        rental = Docs.findOne doc_id
         Docs.find
             model:'reservation'
-            post_id:post._id
+            rental_id:rental._id
             
             
             
             
 if Meteor.isClient
-    Template.post_stats.events
-        'click .refresh_post_stats': ->
-            Meteor.call 'refresh_post_stats', @_id
+    Template.rental_stats.events
+        'click .refresh_rental_stats': ->
+            Meteor.call 'refresh_rental_stats', @_id
 
 
 
@@ -204,10 +204,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'post_reservations_by_id', (post_id)->
+    Meteor.publish 'rental_reservations_by_id', (rental_id)->
         Docs.find
             model:'reservation'
-            post_id: post_id
+            rental_id: rental_id
 
 
     Meteor.publish 'reservation_by_day', (product_id, month_day)->
@@ -222,14 +222,14 @@ if Meteor.isServer
             product_id:product_id
 
     Meteor.publish 'reservation_slot', (moment_ob)->
-        posts_return = []
+        rentals_return = []
         for day in [0..6]
             day_number++
             # long_form = moment(now).add(day, 'days').format('dddd MMM Do')
             date_string =  moment(now).add(day, 'days').format('YYYY-MM-DD')
             console.log date_string
-            posts.return.push date_string
-        posts_return
+            rentals.return.push date_string
+        rentals_return
 
         # data.long_form
         # Docs.find
@@ -237,38 +237,38 @@ if Meteor.isServer
 
 
     Meteor.methods
-        refresh_post_stats: (post_id)->
-            post = Docs.findOne post_id
-            # console.log post
-            reservations = Docs.find({model:'reservation', post_id:post_id})
+        refresh_rental_stats: (rental_id)->
+            rental = Docs.findOne rental_id
+            # console.log rental
+            reservations = Docs.find({model:'reservation', rental_id:rental_id})
             reservation_count = reservations.count()
             total_earnings = 0
-            total_post_hours = 0
-            average_post_duration = 0
+            total_rental_hours = 0
+            average_rental_duration = 0
 
             # shortest_reservation =
             # longest_reservation =
 
             for res in reservations.fetch()
                 total_earnings += parseFloat(res.cost)
-                total_post_hours += parseFloat(res.hour_duration)
+                total_rental_hours += parseFloat(res.hour_duration)
 
-            average_post_cost = total_earnings/reservation_count
-            average_post_duration = total_post_hours/reservation_count
+            average_rental_cost = total_earnings/reservation_count
+            average_rental_duration = total_rental_hours/reservation_count
 
-            Docs.update post_id,
+            Docs.update rental_id,
                 $set:
                     reservation_count: reservation_count
                     total_earnings: total_earnings.toFixed(0)
-                    total_post_hours: total_post_hours.toFixed(0)
-                    average_post_cost: average_post_cost.toFixed(0)
-                    average_post_duration: average_post_duration.toFixed(0)
+                    total_rental_hours: total_rental_hours.toFixed(0)
+                    average_rental_cost: average_rental_cost.toFixed(0)
+                    average_rental_duration: average_rental_duration.toFixed(0)
 
             # .ui.small.header total earnings
-            # .ui.small.header post ranking #reservations
-            # .ui.small.header post ranking $ earned
+            # .ui.small.header rental ranking #reservations
+            # .ui.small.header rental ranking $ earned
             # .ui.small.header # different renters
-            # .ui.small.header avg post time
+            # .ui.small.header avg rental time
             # .ui.small.header avg daily earnings
             # .ui.small.header avg weekly earnings
             # .ui.small.header avg monthly earnings

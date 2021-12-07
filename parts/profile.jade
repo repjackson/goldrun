@@ -30,7 +30,7 @@ template(name='profile')
                     //         +i name='settings' cl='ui avatar image'
                     if is_current_user
                         +logout_button
-                        +logout_other_clients_button
+                        //- +logout_other_clients_button
                     if in_dev 
                         +print_this
                     +send_points_button
@@ -46,7 +46,7 @@ template(name='profile')
                                 // |includes 2% credit card processing fee
                                 .ui.action.fluid.input
                                     input.deposit_amount(type='number' min='1' placeholder='deposit')
-                                    .ui.icon.button.add_credits   
+                                    .ui.icon.button.add_points   
                                         i.right.chevron.icon
                                         
                                 .ui.large.bulleted.list.smallscroll

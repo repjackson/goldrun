@@ -71,9 +71,9 @@ template(name='nav')
             //-     //- +i name='bicycle'
             //-     i.tasks.large.icon
             //-     strong.mobile.hidden tasks
-        a.ui.icon.item.add_post(title='add post')
-            i.plus.large.icon
         if currentUser
+            a.ui.icon.item.add_post(title='add post')
+                i.plus.large.icon
             // a.item(href="/user/#{current_user.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
             a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
                 // | {{fixed current_user.points}}p
@@ -84,7 +84,7 @@ template(name='nav')
                 span #{currentUser.username}
                     //- |${{int current_user.credit}}
                 |&nbsp;
-                | {{currentUser.credit}}c
+                | {{currentUser.points}}p
             //- else
             //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='log out')
             //-         i.sign.out.icon

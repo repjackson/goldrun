@@ -2,9 +2,7 @@ template(name='posts')
     // +map2
     .ui.stackable.grid
         .sixteen.wide.column
-            .ui.inline.header current lat: #{current_lat}, long: #{current_long}
-            // +localmap
-            +mapgl
+            //- .ui.inline.header current lat: #{current_lat}, long: #{current_long}
             .sorting_row
                 if selected_tag_plural
                     .ui.icon.black.compact.button.clear_picked_tags
@@ -29,6 +27,7 @@ template(name='posts')
             else 
                 .ui.center.aligned.basic.segment
                     i.massive.grey.notched.circle.loading.icon
+            //- +mapgl
 
 template(name='post_card')
     .ui.card(class=post_card_class)

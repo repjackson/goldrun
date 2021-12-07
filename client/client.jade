@@ -58,24 +58,19 @@ template(name='nav')
             .icon.item
                 i.big.spinning.grey.yin.yang.icon.cancel
         else 
-            a.header.icon.item.zoomer(href='/' class="{{isActivePath '/'}}" title='peer to peer posts')
-                // +i name='gold-hallmark' cl='ui avatar image'
-                i.marker.large.icon
+            a.header.item.zoomer.locate(href='/' class="{{isActivePath '/'}}" title='peer to peer posts')
+                //- i.marker.large.icon
+                i.shopping.cart.icon
+                |shop
                 // strong.mobile.hidden gold run
-            // a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
-            //     +i name='search' cl='ui inline mini image'
-            // a.icon.item.zoomer(href='/map2' class="{{isActivePath '/map2'}}" title='mapbox')
-            //     i.marker.large.icon
-            // a.icon.item.zoomer(href='/mapgl' class="{{isActivePath '/mapgl'}}" title='mapbox gl')
-            //     i.globe.large.icon
-            // a.icon.item.zoomer(href='/orders' class="{{isActivePath '/orders'}}" title='orders')
-            //     // +i name='order-history' cl='ui inline mini image'
-            //     i.list.large.icon
-            //     // strong.mobile.hidden orders
-            // a.icon.item.zoomer(href='/deliveries' class="{{isActivePath '/deliveries'}}" title='deliveries')
-            //     // +i name='bicycle' cl='ui inline mini image'
-            //     i.bicycle.large.icon
-            //     // strong.mobile.hidden deliveries
+            //- a.item.zoomer(href='/orders' class="{{isActivePath '/orders'}}" title='orders')
+            //-     //- +i name='order-history'
+            //-     i.list.large.icon
+            //-     strong.mobile.hidden orders
+            //- a.item.zoomer(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks')
+            //-     //- +i name='bicycle'
+            //-     i.tasks.large.icon
+            //-     strong.mobile.hidden tasks
         a.ui.icon.item.add_post(title='add post')
             i.plus.large.icon
         if currentUser

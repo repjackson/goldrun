@@ -643,7 +643,8 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'user_reservations', (username)->
         user = Docs.findOne username:username
-        Docs.find({
-            model:'reservation'
-            _author_id: user._id
-        }, limit:20)
+        if user
+            Docs.find({
+                model:'reservation'
+                _author_id: user._id
+            }, limit:20)

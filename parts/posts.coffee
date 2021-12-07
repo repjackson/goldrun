@@ -304,8 +304,8 @@ if Meteor.isServer
         #     if key_array and key_array.length > 0
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
-        match.location = 
-           { $near : [ -73.9667, 40.78 ], $maxDistance: 110 }
+        # match.location = 
+        #    { $near : [ -73.9667, 40.78 ], $maxDistance: 110 }
             
         #   { $near :
         #       {

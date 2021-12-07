@@ -33,18 +33,30 @@ Tracker.autorun ->
     #                     long:position.coords.longitude
  
 
-    Template.nav.onCreated ->
-        Session.setDefault 'limit', 20
-        @autorun -> Meteor.subscribe 'me'
-        # @autorun -> Meteor.subscribe 'users'
-        # @autorun -> Meteor.subscribe 'users_by_role','staff'
-        # @autorun -> Meteor.subscribe 'unread_messages'
+Template.nav.onCreated ->
+    Session.setDefault 'limit', 20
+    @autorun -> Meteor.subscribe 'me'
+    # @autorun -> Meteor.subscribe 'users'
+    # @autorun -> Meteor.subscribe 'users_by_role','staff'
+    # @autorun -> Meteor.subscribe 'unread_messages'
 
 
 $.cloudinary.config
     cloud_name:"facet"
 # Router.notFound =
     # action: 'not_found'
+
+Template.nav.events
+    'click .add_post': ->
+        new_id = 
+            Docs.insert 
+                model:'post'
+        Router.go "/post/#{new_id}/edit"
+    'click .locate': ->
+        navigator.geolocation.getCurrentPosition (position) =>
+            console.log 'navigator position', position
+            Session.set('current_lat', position.coords.latitude)
+            Session.set('current_long', position.coords.longitude)
 
 Template.body.events
     'click .fly_up': (e,t)->

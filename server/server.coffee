@@ -33,10 +33,10 @@ Meteor.publish 'count', ->
                       # handle when Meteor expects a Mongo.Cursor object.
 
 
-Cloudinary.config
-    cloud_name: 'facet'
-    api_key: Meteor.settings.private.cloudinary_key
-    api_secret: Meteor.settings.private.cloudinary_secret
+# Cloudinary.config
+#     cloud_name: 'facet'
+#     api_key: Meteor.settings.private.cloudinary_key
+#     api_secret: Meteor.settings.private.cloudinary_secret
 
 
 

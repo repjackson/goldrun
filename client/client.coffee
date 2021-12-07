@@ -42,11 +42,11 @@ Template.nav.events
             Docs.insert 
                 model:'rental'
         Router.go "/rental/#{new_id}/edit"
-    'click .locate': ->
-        navigator.geolocation.getCurrentPosition (position) =>
-            console.log 'navigator position', position
-            Session.set('current_lat', position.coords.latitude)
-            Session.set('current_long', position.coords.longitude)
+    # 'click .locate': ->
+    #     navigator.geolocation.getCurrentPosition (position) =>
+    #         console.log 'navigator position', position
+    #         Session.set('current_lat', position.coords.latitude)
+    #         Session.set('current_long', position.coords.longitude)
 
 Template.body.events
     'click .fly_up': (e,t)->

@@ -18,8 +18,8 @@ Template.registerHelper 'current_long', () ->
 # Template.registerHelper 'current_username', () ->
 #     Router.current().params.username
 
-Template.registerHelper 'post', () ->
-    Docs.findOne @post_id
+Template.registerHelper 'rental', () ->
+    Docs.findOne @rental_id
     # Template.parentData()
 
 Template.registerHelper 'sorting_up', () ->
@@ -140,34 +140,6 @@ Template.registerHelper 'template_parent', () ->
     # console.log Template.parentData()
     Template.parentData()
 
-Template.registerHelper 'fields', () ->
-    model = Docs.findOne
-        model:'model'
-        slug:Router.current().params.model_slug
-    if model
-        match = {}
-        # if Meteor.user()
-        #     match.view_roles = $in:Meteor.user().roles
-        match.model = 'field'
-        match.parent_id = model._id
-        # console.log model
-        cur = Docs.find match,
-            sort:rank:1
-        # console.log cur.fetch()
-        cur
-
-Template.registerHelper 'edit_fields', () ->
-    model = Docs.findOne
-        model:'model'
-        slug:Router.current().params.model_slug
-    if model
-        Docs.find {
-            model:'field'
-            parent_id:model._id
-            edit_roles:$in:Meteor.user().roles
-        }, sort:rank:1
-
-
 
 
 Template.registerHelper 'nl2br', (text)->
@@ -178,11 +150,6 @@ Template.registerHelper 'nl2br', (text)->
 Template.registerHelper 'loading_class', () ->
     if Session.get 'loading' then 'disabled' else ''
 
-Template.registerHelper 'current_model', (input) ->
-    Docs.findOne
-        model:'model'
-        slug: Router.current().params.model_slug
-
 Template.registerHelper 'in_list', (key) ->
     if Meteor.userId()
         if @["#{key}"]
@@ -190,9 +157,9 @@ Template.registerHelper 'in_list', (key) ->
 
 
 Template.registerHelper 'current_user', () ->  Meteor.users.findOne username:Router.current().params.username
-Template.registerHelper 'order_post', -> 
+Template.registerHelper 'order_rental', -> 
     Docs.findOne 
-        _id:@post_id
+        _id:@rental_id
     
     
 Template.registerHelper 'can_edit', () ->

@@ -37,35 +37,34 @@ template(name='profile')
                     // +request_button
                     .ui.inline.header #{current_user.points}p
                     // i.refresh.link.icon.calc_user_points
-                    .ui.stackable.one.column.grid
-                        if is_current_user
-                            .column
-                                .ui.header 
-                                    +i name='donate'
-                                    |deposits
-                                // |includes 2% credit card processing fee
-                                .ui.action.fluid.input
-                                    input.deposit_amount(type='number' min='1' placeholder='deposit')
-                                    .ui.icon.button.add_points   
-                                        i.right.chevron.icon
+                if is_current_user
+                    .column
+                        .ui.header 
+                            +i name='donate'
+                            |deposits
+                        // |includes 2% credit card processing fee
+                        .ui.action.fluid.input
+                            input.deposit_amount(type='number' min='1' placeholder='deposit')
+                            .ui.icon.button.add_points   
+                                i.right.chevron.icon
+                                
+                        .ui.large.bulleted.list.smallscroll
+                            each deposit_docs
+                                .item 
+                                    .content
+                                        .header 
+                                            |$#{amount}
+                                        .description #{when} {{long_date _timestamp}}
+                                        //- if is_dev
+                                        +remove_button
                                         
-                                .ui.large.bulleted.list.smallscroll
-                                    each deposit_docs
-                                        .item 
-                                            .content
-                                                .header 
-                                                    |$#{amount}
-                                                .description #{when} {{long_date _timestamp}}
-                                                //- if is_dev
-                                                +remove_button
-                                                
                 .column
                     .ui.header 
                         +i name='shopping-cart'
-                        |#{user_post_docs.count} posts
+                        |#{user_rental_docs.count} rentals
                     .ui.selection.animated.large.list
-                        each user_post_docs 
-                            a.item(href="/post/#{_id}") 
+                        each user_rental_docs 
+                            a.item(href="/rental/#{_id}") 
                                 img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                                 .content
                                     .title #{title}
@@ -115,10 +114,10 @@ template(name='logout_button')
 //     .ui.segment.grid
 //         .row
 //             .column
-//                 .ui.header #{post.title}
+//                 .ui.header #{rental.title}
 //         .row
 //             .column
-//                 with post
+//                 with rental
 //                     //- img.ui.mini.image(src=image)
 //                     +image_view key='image_id' direct=true cl='zoom ui tiny image'
 //             .column
@@ -143,14 +142,14 @@ template(name='logout_button')
 
 
         
-template(name='user_post_card')
+template(name='user_rental_card')
     .ui.small.card
-        a.zoom(href="/post/#{_id}/")
+        a.zoom(href="/rental/#{_id}/")
             img.ui.centered.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
         .content
-            a.ui.inline.header(href="/post/#{_id}/") #{title} 
+            a.ui.inline.header(href="/rental/#{_id}/") #{title} 
                 .ui.label #{daily_rate}p/day
-            +post_status
+            +rental_status
         .content
             span(title='views')
                 +ismall name='eye'
@@ -164,7 +163,7 @@ template(name='user_post_card')
             each tags
                 .ui.label #{this}
             div
-            a.ui.button(href="/post/#{_id}/")
+            a.ui.button(href="/rental/#{_id}/")
                 |view
                 i.right.chevron.icon
 

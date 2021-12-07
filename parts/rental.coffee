@@ -123,6 +123,7 @@ if Meteor.isClient
                 rental_id:rental._id
                 rental_title:rental.title
                 rental_image_id:rental.image_id
+                rental_image_link:rental.image_link
                 rental_daily_rate:rental.daily_rate
             Router.go "/order/#{new_order_id}/edit"
             

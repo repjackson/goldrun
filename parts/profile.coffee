@@ -15,7 +15,7 @@ if Meteor.isClient
     Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_deposits', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_rentals', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_orders', Router.current().params.username, ->
 
     Template.profile.onRendered ->
@@ -36,9 +36,9 @@ if Meteor.isClient
     #         "user_#{Router.current().params.group}"
 
     Template.profile.helpers
-        user_post_docs: ->
+        user_rental_docs: ->
             Docs.find
-                model:'post'
+                model:'rental'
                 _author_username:Router.current().params.username
         reserved_from_docs: ->
             Docs.find
@@ -223,7 +223,7 @@ if Meteor.isClient
 
     Template.profile.onCreated ->
         @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
-        # @autorun => Meteor.subscribe 'model_docs', 'post'
+        # @autorun => Meteor.subscribe 'model_docs', 'rental'
     Template.profile.helpers
         orders: ->
             current_user = Docs.findOne username:Router.current().params.username
@@ -234,34 +234,34 @@ if Meteor.isClient
 
     Template.profile.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
-        @autorun => Meteor.subscribe 'model_docs', 'deposit'
+        @autorun => Meteor.subscribe 'user_deposts', Router.current().params.username, ->
         # @autorun => Meteor.subscribe 'model_docs', 'order'
         # @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
 
 
     Template.profile.events
-        'click .add_credits': ->
-            # deposit_amount = parseInt $('.deposit_amount').val()*100
-            deposit_amount = parseInt $('.deposit_amount').val()
-            calculated_amount = deposit_amount*1.02+20
-            note = prompt 'notes?' 
-            new_id = 
-                Docs.insert 
-                    model:'deposit'
-                    amount:deposit_amount
-                    note:note
+        # 'click .add_credits': ->
+        #     # deposit_amount = parseInt $('.deposit_amount').val()*100
+        #     deposit_amount = parseInt $('.deposit_amount').val()
+        #     calculated_amount = deposit_amount*1.02+20
+        #     note = prompt 'notes?' 
+        #     new_id = 
+        #         Docs.insert 
+        #             model:'deposit'
+        #             amount:deposit_amount
+        #             note:note
             
-            # is_number = typeof(Meteor.user().points) is 'number'
-            is_number = isNaN(Meteor.user().points)
-            console.log typeof(Meteor.user().points)
-            unless is_number
-                Docs.update Session.get('current_userid'),
-                    $inc:
-                        points:deposit_amount
-            else                    
-                Docs.update Session.get('current_userid'),
-                    $set: points: deposit_amount
-            $('.deposit_amount').val('')
+        #     # is_number = typeof(Meteor.user().points) is 'number'
+        #     is_number = isNaN(Meteor.user().points)
+        #     console.log typeof(Meteor.user().points)
+        #     unless is_number
+        #         Docs.update Session.get('current_userid'),
+        #             $inc:
+        #                 points:deposit_amount
+        #     else                    
+        #         Docs.update Session.get('current_userid'),
+        #             $set: points: deposit_amount
+        #     $('.deposit_amount').val('')
 
 
     Template.profile.helpers
@@ -308,22 +308,6 @@ if Meteor.isClient
             Docs.find
                 model:'order'
                 user_username:Router.current().params.username
-        current_handling_posts: ->
-            current_user = Docs.findOne username:Router.current().params.username
-            Docs.find
-                model:'post'
-                handler_username:current_user.username
-        current_interest_rate: ->
-            interest_rate = 0
-            if Meteor.user().handling_active
-                current_user = Docs.findOne username:Router.current().params.username
-                handling_posts = Docs.find(
-                    model:'post'
-                    handler_username:current_user.username
-                ).fetch()
-                for handling in handling_posts
-                    interest_rate += handling.hourly_dollars*.1
-            interest_rate.toFixed(2)
 
 
             

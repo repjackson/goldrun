@@ -120,10 +120,9 @@ Docs.before.insert (userId, doc)->
         # date_array = _.each(date_array, (el)-> console.log(typeof el))
         # console.log date_array
         doc._timestamp_tags = date_array
-
-    # doc._author_id = Meteor.userId()
-    # if Meteor.user()
-    #     doc._author_username = Meteor.user().username
+    if Meteor.user()
+        doc._author_id = Meteor.userId()
+        doc._author_username = Meteor.user().username
     doc.app = 'goldrun'
     # doc.points = 0
     # doc.downvoters = []
@@ -172,33 +171,6 @@ Docs.helpers
     # to_user: ->
     #     if @to_user_id
     #         Docs.findOne @to_user_id
-
-
-    food_orders: ->
-        # if @order_ids
-        Docs.find
-            food_id:@_id
-            model:'order'
-        # else
-        #     []
-    order_food: ->
-        Docs.findOne
-            model:'food'
-            _id:@food_id
-    order_post: ->
-        Docs.findOne
-            model:'post'
-            _id:@post_id
-
-    order_total_transaction_amount: ->
-        @serving_purchase_price+@cook_tip
-
-
-    order: ->
-        Docs.findOne
-            model:'order'
-            _id:@order_id
-
 
 
     upvoters: ->

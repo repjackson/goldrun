@@ -3,8 +3,8 @@ template(name='order_view')
         .ui.stackable.padded.grid
             .two.column.row
                 .column 
-                    with post
-                        a.ui.fluid.large.button(href="/post/#{_id}/")
+                    with rental
+                        a.ui.fluid.large.button(href="/rental/#{_id}/")
                             i.left.chevron.icon
                             |#{title}
                         +image_view key='image' label='image' direct=true
@@ -19,8 +19,8 @@ template(name='order_view')
                 .column
                     // a.ui.circular.compact.button(href="/food/#{food_id}/")
                     //     i.left.chevron.icon
-                    //     img.ui.avatar.image(src="{{c.url order_post.image width=200 height=200}}")    
-                    //     |#{order_post.title}
+                    //     img.ui.avatar.image(src="{{c.url order_rental.image width=200 height=200}}")    
+                    //     |#{order_rental.title}
                     if can_edit
                         a.ui.large.circular.icon.button(href="/order/#{_id}/edit")
                             i.pencil.large.icon
@@ -31,10 +31,10 @@ template(name='order_view')
                         +i name='shop'
                         |item
                     .ui.segment 
-                        with order_post
-                            a(href="/post/#{_id}/")
+                        with order_rental
+                            a(href="/rental/#{_id}/")
                                 img.ui.rounded.image(src="{{c.url image width=400 height=400}}")
-                            a(href="/post/#{_id}/")
+                            a(href="/rental/#{_id}/")
                                 .ui.header #{title}
                             .ui.header #{serving_purchase_price} serving perchase price
                             //- .ui.header #{cook_tip} cook tip
@@ -82,9 +82,9 @@ template(name='order_edit')
                     //     //- +i name='submit-progress--v1'        
                     //     .ui.inline.header save draft     
                     .ui.header 
-                        strong #{post.title}
+                        strong #{rental.title}
                         small order
-                    with post
+                    with rental
                         .ui.inline.header #{daily_rate}c
                             small /day
                         |&nbsp;
@@ -131,9 +131,9 @@ template(name='order_edit')
                         .ui.orange.fluid.button.cancel_order
                             i.undo.icon
                             |cancel
-                    img.ui.image(src="{{c.url order_post.image_id width=200 height=200}}")    
-                    with order_post
-                        a.ui.small.header(href="/post/#{post_id}") #{title}
+                    img.ui.image(src="{{c.url order_rental.image_id width=200 height=200}}")    
+                    with order_rental
+                        a.ui.small.header(href="/rental/#{rental_id}") #{title}
                         +image_view key='image' direct=true
                         +html_view key='description' direct=true
                     .ui.header 
@@ -141,15 +141,15 @@ template(name='order_edit')
                         strong #{currentUser.points}pts
                     .ui.big.label
                         i.sun.icon
-                        |daily rate: #{post_daily_rate}p/day
+                        |daily rate: #{rental_daily_rate}p/day
                     .ui.header 
                         small credit after purchase 
                         strong #{points_after_purchase}p
                 .column
                     +date_edit key='order_date' label='order date' icon='calendar'
-                    .ui.button.today
+                    .ui.disabled.button.today
                         |today
-                    .ui.button.tomorrow
+                    .ui.disabled.button.tomorrow
                         |tomorrow
                     +textarea_edit key='notes' label='notes' direct=true
                     .ui.hidden.divider
@@ -189,11 +189,11 @@ template(name='profile_order_item')
     .ui.segment.grid
         .row
             .four.wide.column
-                with order_post
+                with order_rental
                     //- img.ui.mini.image(src=image)
                     +image_view key='image' direct=true cl='zoom ui tiny image'
             .twelve.wide.column
-                .ui.header #{order_post.title}
+                .ui.header #{order_rental.title}
                 a.ui.small.header.inline.lowercase(href="/order/#{_id}/")
                     |#{order_amount}c
                 .ui.small.inline.header #{when} by #{_author_username}

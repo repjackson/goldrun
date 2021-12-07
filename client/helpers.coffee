@@ -196,8 +196,8 @@ Template.registerHelper 'order_post', ->
     
     
 Template.registerHelper 'can_edit', () ->
-    Session.equals('current_username',@_author_username)
-    # if Meteor.user()
+    # Session.equals('current_username',@_author_username)
+    Meteor.user()
     #     Meteor.userId() is @_author_id or 'admin' in Meteor.user().roles
 
 Template.registerHelper 'publish_when', () -> moment(@publish_date).fromNow()

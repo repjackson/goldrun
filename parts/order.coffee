@@ -4,22 +4,22 @@ if Meteor.isClient
         ), name:'order_view'
     Template.order_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'post_by_res_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'rental_by_res_id', Router.current().params.doc_id
 
 
-    # Template.post_view_orders.onCreated ->
-    #     @autorun -> Meteor.subscribe 'post_orders',
+    # Template.rental_view_orders.onCreated ->
+    #     @autorun -> Meteor.subscribe 'rental_orders',
     #         Template.currentData()
     #         Session.get 'res_view_mode'
     #         Session.get 'date_filter'
-    # Template.post_view_orders.helpers
+    # Template.rental_view_orders.helpers
     #     orders: ->
     #         Docs.find {
     #             model:'order'
     #         }, sort: start_datetime:-1
     #     view_res_cards: -> Session.equals 'res_view_mode', 'cards'
     #     view_res_segments: -> Session.equals 'res_view_mode', 'segments'
-    # Template.post_view_orders.events
+    # Template.rental_view_orders.events
     #     'click .set_card_view': -> Session.set 'res_view_mode', 'cards'
     #     'click .set_segment_view': -> Session.set 'res_view_mode', 'segments'
 
@@ -31,12 +31,12 @@ if Meteor.isClient
                 model:'log_event'
                 parent_id: Router.current().params.doc_id
 
-    # Template.post_stats.onRendered ->
+    # Template.rental_stats.onRendered ->
     #     Meteor.setTimeout ->
     #         $('.accordion').accordion()
     #     , 1000
 
-    # Template.post_view_orders.onRendered ->
+    # Template.rental_view_orders.onRendered ->
     #     Session.setDefault 'view_mode', 'cards'
 
 
@@ -49,12 +49,12 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'post_orders', (post, view_mode, date_filter)->
+    Meteor.publish 'rental_orders', (rental, view_mode, date_filter)->
         console.log view_mode
         console.log date_filter
         Docs.find
             model:'order'
-            post_id: post._id
+            rental_id: rental._id
 
 
     Meteor.publish 'log_events', (parent_id)->
@@ -67,32 +67,32 @@ if Meteor.isServer
             model:'order'
             product_id:product_id
 
-    Meteor.publish 'post_by_res_id', (res_id)->
+    Meteor.publish 'rental_by_res_id', (res_id)->
         order = Docs.findOne res_id
         if order
             Docs.find
-                model:'post'
-                _id: order.post_id
+                model:'rental'
+                _id: order.rental_id
 
     Meteor.publish 'owner_by_res_id', (res_id)->
         order = Docs.findOne res_id
-        post =
+        rental =
             Docs.findOne
-                model:'post'
-                _id: order.post_id
+                model:'rental'
+                _id: order.rental_id
 
         Docs.find
-            _id: post.owner_username
+            _id: rental.owner_username
 
     Meteor.publish 'handler_by_res_id', (res_id)->
         order = Docs.findOne res_id
-        post =
+        rental =
             Docs.findOne
-                model:'post'
-                _id: order.post_id
+                model:'rental'
+                _id: order.rental_id
 
         Docs.find
-            _id: post.handler_username
+            _id: rental.handler_username
 
     Meteor.methods
         calc_order_stats: ->
@@ -121,7 +121,7 @@ if Meteor.isClient
 
     Template.order_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'post_by_res_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'rental_by_res_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'owner_by_res_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'handler_by_res_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'user_by_username', 'deb_sclar'
@@ -132,7 +132,7 @@ if Meteor.isClient
 
 
     Template.order_edit.helpers
-        post: -> Docs.findOne model:'post'
+        rental: -> Docs.findOne model:'rental'
         now_button_class: -> if @now then 'active' else ''
         sel_hr_class: -> if @duration_type is 'hour' then 'active' else ''
         sel_day_class: -> if @duration_type is 'day' then 'active' else ''
@@ -150,8 +150,8 @@ if Meteor.isClient
             if @start_datetime and @end_datetime then '' else 'disabled'
 
         member_balance_after_order: ->
-            post = Docs.findOne @post_id
-            if post
+            rental = Docs.findOne @rental_id
+            if rental
                 current_balance = Meteor.user().credit
                 (current_balance-@total_cost).toFixed(2)
 
@@ -189,10 +189,10 @@ if Meteor.isClient
         'click .cancel_order': ->
             if confirm 'delete order?'
                 Docs.remove @_id
-                Router.go "/post/#{@post_id}/"
+                Router.go "/rental/#{@rental_id}/"
 
 
-        #     post = Docs.findOne @post_id
+        #     rental = Docs.findOne @rental_id
         #     # console.log @
         #     Docs.update @_id,
         #         $set:
@@ -208,21 +208,21 @@ if Meteor.isServer
         recalc_order_cost: (res_id)->
             res = Docs.findOne res_id
             # console.log res
-            post = Docs.findOne res.post_id
+            rental = Docs.findOne res.rental_id
             hour_duration = moment(res.end_datetime).diff(moment(res.start_datetime),'hours',true)
-            cost = parseFloat hour_duration*post.hourly_dollars
+            cost = parseFloat hour_duration*rental.hourly_dollars
             total_cost = cost
             taxes_payout = parseFloat((cost*.05))
             owner_payout = parseFloat((cost*.5))
             handler_payout = parseFloat((cost*.45))
-            if post.security_deposit_required
-                total_cost += post.security_deposit_amount
+            if rental.security_deposit_required
+                total_cost += rental.security_deposit_amount
             if res.res_start_dropoff_selected
-                total_cost += post.res_start_dropoff_fee
-                handler_payout += post.res_start_dropoff_fee
+                total_cost += rental.res_start_dropoff_fee
+                handler_payout += rental.res_start_dropoff_fee
             if res.res_end_pickup_selected
-                total_cost += post.res_end_pickup_fee
-                handler_payout += post.res_end_pickup_fee
+                total_cost += rental.res_end_pickup_fee
+                handler_payout += rental.res_end_pickup_fee
             # console.log diff
             Docs.update res._id,
                 $set:
@@ -236,21 +236,21 @@ if Meteor.isServer
         pay_for_order: (res_id)->
             res = Docs.findOne res_id
             # console.log res
-            post = Docs.findOne res.post_id
+            rental = Docs.findOne res.rental_id
 
-            Meteor.call 'send_payment', Meteor.user().username, post.owner_username, res.owner_payout, 'owner_payment', res_id
+            Meteor.call 'send_payment', Meteor.user().username, rental.owner_username, res.owner_payout, 'owner_payment', res_id
             Docs.insert
                 model:'log_event'
                 log_type: 'payment'
 
-            Meteor.call 'send_payment', Meteor.user().username, post.handler_username, res.handler_payout, 'handler_payment', res_id
+            Meteor.call 'send_payment', Meteor.user().username, rental.handler_username, res.handler_payout, 'handler_payment', res_id
             Meteor.call 'send_payment', Meteor.user().username, 'dev', res.taxes_payout, 'taxes_payment', res_id
 
             Docs.insert
                 model:'log_event'
                 parent_id:res_id
                 res_id: res_id
-                post_id: res.post_id
+                rental_id: res.rental_id
                 log_type:'order_submission'
                 text:"order submitted by #{Meteor.user().username}"
 
@@ -281,7 +281,7 @@ if Meteor.isServer
                 recipient_id: recipient._id
                 amount: amount
                 order_id: order_id
-                post_id: res.post_id
+                rental_id: res.rental_id
                 reason:reason
             Docs.insert
                 model:'log_event'
@@ -512,7 +512,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.order_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'post_from_order_id', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'rental_from_order_id', Router.current().params.doc_id, ->
         # @autorun => Meteor.subscribe 'model_docs', 'dish'
 
     Template.order_edit.helpers
@@ -530,7 +530,7 @@ if Meteor.isClient
                 true
         can_complete: ->
             order = Docs.findOne Router.current().params.doc_id
-            order.post_daily_rate < Meteor.user().points 
+            order.rental_daily_rate < Meteor.user().points 
             
             # order.order_date
             
@@ -539,7 +539,7 @@ if Meteor.isClient
         points_after_purchase: ->
             user_points = Meteor.user().points
             current_order = Docs.findOne Router.current().params.doc_id
-            Meteor.user().points - current_order.post_daily_rate
+            Meteor.user().points - current_order.rental_daily_rate
 
 
     Template.order_edit.events
@@ -565,7 +565,7 @@ if Meteor.isClient
             if confirm 'cancel order?'
                 doc_id = Router.current().params.doc_id
                 $(e.currentTarget).closest('.grid').transition('fly right', 500)
-                Router.go "/post/#{@post_id}"
+                Router.go "/rental/#{@rental_id}"
 
                 Docs.remove doc_id
 
@@ -574,12 +574,12 @@ if Meteor.isClient
 
 if Meteor.isClient
     Template.profile_order_item.onCreated ->
-        @autorun => Meteor.subscribe 'post_from_order_id', @data._id
+        @autorun => Meteor.subscribe 'rental_from_order_id', @data._id
     Template.order_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'dish'
         # @autorun => Meteor.subscribe 'model_docs', 'order'
-        @autorun => Meteor.subscribe 'post_from_order_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'rental_from_order_id', Router.current().params.doc_id
 
 
     Template.order_view.events
@@ -608,10 +608,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'post_from_order_id', (order_id)->
+    Meteor.publish 'rental_from_order_id', (order_id)->
         order = Docs.findOne order_id
         Docs.find
-            _id: order.post_id
+            _id: order.rental_id
 
     # Meteor.methods
         # order_order: (order_id)->
@@ -632,7 +632,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.user_orders.onCreated ->
         @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
-        # @autorun => Meteor.subscribe 'model_docs', 'post'
+        # @autorun => Meteor.subscribe 'model_docs', 'rental'
     Template.user_orders.helpers
         orders: ->
             current_user = Docs.findOne username:Router.current().params.username

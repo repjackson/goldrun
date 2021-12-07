@@ -5,12 +5,12 @@ if Meteor.isClient
         ), name:'home'
 
 
-    Template.rental_reservations.onCreated ->
-        @autorun => @subscribe 'rental_reservations',Router.current().params.doc_id, ->
-    Template.rental_reservations.helpers
-        rental_reservation_docs: ->
+    Template.rental_orders.onCreated ->
+        @autorun => @subscribe 'rental_orders',Router.current().params.doc_id, ->
+    Template.rental_orders.helpers
+        rental_order_docs: ->
             Docs.find 
-                model:'reservation'
+                model:'order'
                 rental_id:Router.current().params.doc_id
 
 
@@ -25,10 +25,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'rental_edit'
         ), name:'rental_edit'
-    Router.route '/reservation/:doc_id/checkout', (->
+    Router.route '/order/:doc_id/checkout', (->
         @layout 'layout'
-        @render 'reservation_edit'
-        ), name:'reservation_checkout'
+        @render 'order_edit'
+        ), name:'order_checkout'
 
 
     
@@ -99,7 +99,7 @@ if Meteor.isClient
         # 'click .add_to_cart': ->
         #     console.log @
         #     Docs.insert
-        #         model:'reservation'
+        #         model:'order'
         #         rental_id:@_id
         #     $('body').toast({
         #         title: "#{@title} added to cart."
@@ -115,16 +115,16 @@ if Meteor.isClient
         #           hideMethod   : 'fade',
         #           hideDuration : 250
         #         })
-        'click .new_reservation': (e,t)->
+        'click .new_order': (e,t)->
             rental = Docs.findOne Router.current().params.doc_id
-            new_reservation_id = Docs.insert
-                model:'reservation'
+            new_order_id = Docs.insert
+                model:'order'
                 rental_id: @_id
                 rental_id:rental._id
                 rental_title:rental.title
                 rental_image_id:rental.image_id
                 rental_daily_rate:rental.daily_rate
-            Router.go "/reservation/#{new_reservation_id}/edit"
+            Router.go "/order/#{new_order_id}/edit"
             
             
 
@@ -134,17 +134,17 @@ if Meteor.isClient
 
         # 'click .buy_rental': (e,t)->
         #     rental = Docs.findOne Router.current().params.doc_id
-        #     new_reservation_id = 
+        #     new_order_id = 
         #         Docs.insert 
-        #             model:'reservation'
-        #             reservation_type:'rental'
+        #             model:'order'
+        #             order_type:'rental'
         #             rental_id:rental._id
         #             rental_title:rental.title
         #             rental_price:rental.dollar_price
         #             rental_image_id:rental.image_id
         #             rental_point_price:rental.point_price
         #             rental_dollar_price:rental.dollar_price
-        #     Router.go "/reservation/#{new_reservation_id}/checkout"
+        #     Router.go "/order/#{new_order_id}/checkout"
             
 if Meteor.isClient
     Template.user_rentals.onCreated ->
@@ -171,10 +171,10 @@ if Meteor.isServer
             model:'rental'
             _author_id: user._id
             
-    Meteor.publish 'rental_reservations', (doc_id)->
+    Meteor.publish 'rental_orders', (doc_id)->
         rental = Docs.findOne doc_id
         Docs.find
-            model:'reservation'
+            model:'order'
             rental_id:rental._id
             
             
@@ -188,7 +188,7 @@ if Meteor.isClient
 
 
 
-    Template.reservation_segment.events
+    Template.order_segment.events
         'click .calc_res_numbers': ->
             start_date = moment(@start_timestamp).date()
             start_month = moment(@start_timestamp).month()
@@ -204,24 +204,24 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'rental_reservations_by_id', (rental_id)->
+    Meteor.publish 'rental_orders_by_id', (rental_id)->
         Docs.find
-            model:'reservation'
+            model:'order'
             rental_id: rental_id
 
 
-    Meteor.publish 'reservation_by_day', (product_id, month_day)->
+    Meteor.publish 'order_by_day', (product_id, month_day)->
         # console.log month_day
         # console.log product_id
-        reservations = Docs.find(model:'reservation',product_id:product_id).fetch()
-        # for reservation in reservations
-            # console.log 'id', reservation._id
-            # console.log reservation.paid_amount
+        orders = Docs.find(model:'order',product_id:product_id).fetch()
+        # for order in orders
+            # console.log 'id', order._id
+            # console.log order.paid_amount
         Docs.find
-            model:'reservation'
+            model:'order'
             product_id:product_id
 
-    Meteor.publish 'reservation_slot', (moment_ob)->
+    Meteor.publish 'order_slot', (moment_ob)->
         rentals_return = []
         for day in [0..6]
             day_number++
@@ -233,39 +233,39 @@ if Meteor.isServer
 
         # data.long_form
         # Docs.find
-        #     model:'reservation_slot'
+        #     model:'order_slot'
 
 
     Meteor.methods
         refresh_rental_stats: (rental_id)->
             rental = Docs.findOne rental_id
             # console.log rental
-            reservations = Docs.find({model:'reservation', rental_id:rental_id})
-            reservation_count = reservations.count()
+            orders = Docs.find({model:'order', rental_id:rental_id})
+            order_count = orders.count()
             total_earnings = 0
             total_rental_hours = 0
             average_rental_duration = 0
 
-            # shortest_reservation =
-            # longest_reservation =
+            # shortest_order =
+            # longest_order =
 
-            for res in reservations.fetch()
+            for res in orders.fetch()
                 total_earnings += parseFloat(res.cost)
                 total_rental_hours += parseFloat(res.hour_duration)
 
-            average_rental_cost = total_earnings/reservation_count
-            average_rental_duration = total_rental_hours/reservation_count
+            average_rental_cost = total_earnings/order_count
+            average_rental_duration = total_rental_hours/order_count
 
             Docs.update rental_id,
                 $set:
-                    reservation_count: reservation_count
+                    order_count: order_count
                     total_earnings: total_earnings.toFixed(0)
                     total_rental_hours: total_rental_hours.toFixed(0)
                     average_rental_cost: average_rental_cost.toFixed(0)
                     average_rental_duration: average_rental_duration.toFixed(0)
 
             # .ui.small.header total earnings
-            # .ui.small.header rental ranking #reservations
+            # .ui.small.header rental ranking #orders
             # .ui.small.header rental ranking $ earned
             # .ui.small.header # different renters
             # .ui.small.header avg rental time

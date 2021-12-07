@@ -2,7 +2,7 @@ template(name='profile')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     with user_from_username_param
         .ui.stackable.padded.grid
-            .two.column.row
+            .three.column.row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .column
                     a.item(href="/user/#{username}")
@@ -75,15 +75,15 @@ template(name='profile')
                         |rented to
                     .ui.items
                         each user_rented_to_docs
-                            +profile_reservation_item
+                            +profile_order_item
                 .column
                     .ui.header 
                         +i name='clock'
                         |rented from
                     .scrolling
                         .ui.items
-                            each user_reservation_docs
-                                +profile_reservation_item
+                            each user_order_docs
+                                +profile_order_item
                         
     else 
         .ui.basic.center.aligned.segment
@@ -111,7 +111,7 @@ template(name='logout_button')
         |log out
 
 
-// template(name='profile_reservation_item')
+// template(name='profile_order_item')
 //     .ui.segment.grid
 //         .row
 //             .column
@@ -122,10 +122,10 @@ template(name='logout_button')
 //                     //- img.ui.mini.image(src=image)
 //                     +image_view key='image_id' direct=true cl='zoom ui tiny image'
 //             .column
-//                 a.ui.header.inline.lowercase(href="/reservation/#{_id}/")
+//                 a.ui.header.inline.lowercase(href="/order/#{_id}/")
 //                     small from 
 //                     |{{cal_time start_datetime}}
-//                 a.ui.header.inline.lowercase(href="/reservation/#{_id}/")
+//                 a.ui.header.inline.lowercase(href="/order/#{_id}/")
 //                     small to 
 //                     |{{cal_time end_datetime}}
 //                 div
@@ -134,7 +134,7 @@ template(name='logout_button')
 //                     i.coins.icon
 //                     | #{cost}
 //                 .ui.small.inline.header #{when} by #{_author_username}
-//                 a.ui.large.button(href="/reservation/#{_id}/")
+//                 a.ui.large.button(href="/order/#{_id}/")
 //                     |view
 //                     i.right.chevron.icon
 //                 if is_admin

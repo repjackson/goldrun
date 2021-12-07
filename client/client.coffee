@@ -1,4 +1,4 @@
-@selected_post_tags = new ReactiveArray []
+@selected_rental_tags = new ReactiveArray []
 @picked_tags = new ReactiveArray []
 @picked_location_tags = new ReactiveArray []
 
@@ -7,16 +7,6 @@ Tracker.autorun ->
     current = Router.current()
     Tracker.afterFlush ->
         $(window).scrollTop 0
-
-    Template.posts.events
-        'click .add_post': ->
-            new_id =
-                Docs.insert
-                    model:'post'
-                    # passcode:passcode
-                    published:false
-                    daily_rate:1
-            Router.go "/post/#{new_id}/edit"
     #   'click .refresh_gps': ->
     #         navigator.geolocation.getCurrentPosition (position) =>
     #             console.log 'navigator position', position
@@ -47,11 +37,11 @@ $.cloudinary.config
     # action: 'not_found'
 
 Template.nav.events
-    'click .add_post': ->
+    'click .add_rental': ->
         new_id = 
             Docs.insert 
-                model:'post'
-        Router.go "/post/#{new_id}/edit"
+                model:'rental'
+        Router.go "/rental/#{new_id}/edit"
     'click .locate': ->
         navigator.geolocation.getCurrentPosition (position) =>
             console.log 'navigator position', position

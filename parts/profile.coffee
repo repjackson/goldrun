@@ -16,7 +16,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_deposits', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_posts', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'user_reservations', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_orders', Router.current().params.username, ->
 
     Template.profile.onRendered ->
         Meteor.setTimeout ->
@@ -42,11 +42,11 @@ if Meteor.isClient
                 _author_username:Router.current().params.username
         reserved_from_docs: ->
             Docs.find
-                model:'reservation'
+                model:'order'
                 _author_username:Router.current().params.username
-        user_reservation_docs: ->
+        user_order_docs: ->
             Docs.find
-                model:'reservation'
+                model:'order'
                 _author_username:Router.current().params.username
 
     Template.logout_other_clients_button.events
@@ -110,7 +110,7 @@ if Meteor.isClient
     Template.profile.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'deposit'
-        # @autorun => Meteor.subscribe 'model_docs', 'reservation'
+        # @autorun => Meteor.subscribe 'model_docs', 'order'
         # @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
         # if Meteor.isDevelopment
         #     pub_key = Meteor.settings.public.stripe_test_publishable
@@ -188,7 +188,7 @@ if Meteor.isClient
     Template.profile.helpers
         owner_earnings: ->
             Docs.find
-                model:'reservation'
+                model:'order'
                 owner_username:Router.current().params.username
                 complete:true
         payments: ->
@@ -206,14 +206,14 @@ if Meteor.isClient
                 model:'withdrawal'
                 _author_username: Router.current().params.username
             }, sort:_timestamp:-1
-        received_reservations: ->
+        received_orders: ->
             Docs.find {
-                model:'reservation'
+                model:'order'
                 owner_username: Router.current().params.username
             }, sort:_timestamp:-1
-        purchased_reservations: ->
+        purchased_orders: ->
             Docs.find {
-                model:'reservation'
+                model:'order'
                 _author_username: Router.current().params.username
             }, sort:_timestamp:-1
 
@@ -222,20 +222,20 @@ if Meteor.isClient
 
 
     Template.profile.onCreated ->
-        @autorun => Meteor.subscribe 'user_reservations', Router.current().params.username
+        @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'post'
     Template.profile.helpers
-        reservations: ->
+        orders: ->
             current_user = Docs.findOne username:Router.current().params.username
             Docs.find {
-                model:'reservation'
+                model:'order'
             }, sort:_timestamp:-1
 
 
     Template.profile.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'deposit'
-        # @autorun => Meteor.subscribe 'model_docs', 'reservation'
+        # @autorun => Meteor.subscribe 'model_docs', 'order'
         # @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
 
 
@@ -267,7 +267,7 @@ if Meteor.isClient
     Template.profile.helpers
         owner_earnings: ->
             Docs.find
-                model:'reservation'
+                model:'order'
                 owner_username:Router.current().params.username
                 complete:true
         payments: ->
@@ -280,14 +280,14 @@ if Meteor.isClient
                 model:'withdrawal'
                 _author_username: Router.current().params.username
             }, sort:_timestamp:-1
-        received_reservations: ->
+        received_orders: ->
             Docs.find {
-                model:'reservation'
+                model:'order'
                 owner_username: Router.current().params.username
             }, sort:_timestamp:-1
-        purchased_reservations: ->
+        purchased_orders: ->
             Docs.find {
-                model:'reservation'
+                model:'order'
                 _author_username: Router.current().params.username
             }, sort:_timestamp:-1
 
@@ -296,17 +296,17 @@ if Meteor.isClient
 
 
     # Template.profile.onCreated ->
-    #     @autorun => Meteor.subscribe 'user_upcoming_reservations', Router.current().params.username
+    #     @autorun => Meteor.subscribe 'user_upcoming_orders', Router.current().params.username
     #     @autorun => Meteor.subscribe 'user_handling', Router.current().params.username
-    #     @autorun => Meteor.subscribe 'user_current_reservations', Router.current().params.username
+    #     @autorun => Meteor.subscribe 'user_current_orders', Router.current().params.username
     Template.profile.helpers
-        current_reservations: ->
+        current_orders: ->
             Docs.find
-                model:'reservation'
+                model:'order'
                 user_username:Router.current().params.username
-        upcoming_reservations: ->
+        upcoming_orders: ->
             Docs.find
-                model:'reservation'
+                model:'order'
                 user_username:Router.current().params.username
         current_handling_posts: ->
             current_user = Docs.findOne username:Router.current().params.username

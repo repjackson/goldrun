@@ -148,17 +148,17 @@ template(name='rental_view')
                         a.ui.compact.button.goto_tag
                             |#{this}
                 .column
-                    unless is_author
-                        .ui.big.green.fluid.button.new_reservation 
-                            i.large.clock.icon
-                            small reserve for 
-                            strong #{daily_rate}p/day
+                    //- unless is_author
+                    .ui.big.green.fluid.button.new_order 
+                        i.large.clock.icon
+                        small reserve for 
+                        strong #{daily_rate}p/day
                     div
                     if description.length
                         +html_view key='description' label='description' icon='content' direct=true
                     div
-                    +rental_view_reservations
-                    +rental_reservations
+                    +rental_view_orders
+                    +rental_orders
                     +rental_stats
                     // +last_viewed
                     +creation_info
@@ -180,14 +180,14 @@ template(name='rental_view')
 
 
         
-template(name='rental_reservations')
+template(name='rental_orders')
     .ui.header 
-        +i name='reservation-history'
-        |#{rental_reservation_docs.count}
-        |reservations
+        +i name='order-history'
+        |#{rental_order_docs.count}
+        |orders
     .ui.selection.animated.link.large.list
-        each rental_reservation_docs
-            a.item(href="/reservation/#{_id}")
+        each rental_order_docs
+            a.item(href="/order/#{_id}")
                 | #{when} #{_author_username}
     
 
@@ -283,10 +283,10 @@ template(name='rental_stats')
     //- .content
     .ui.big.list
         .item #{views} views
-        .item #{reservation_count} reservations
+        .item #{order_count} orders
         .item #{total_earnings}c/#{total_rental_hours}hrs total
         .item #{average_rental_cost}c / #{average_rental_duration}hrs avg rental
-        //- .item rental ranking # reservations
+        //- .item rental ranking # orders
         //- .item rental ranking $ earned
         //- .item # different renters
         //- .item avg daily earnings
@@ -296,7 +296,7 @@ template(name='rental_stats')
         //- .item predicted payback duration 
         //- .item predicted payback date 
     //-     //- .ui.header res slot exists
-    //-     +reservation_slot_template
+    //-     +order_slot_template
     //- else
     //-     if is_product_author
     //-         .ui.button.new_slot
@@ -313,10 +313,10 @@ template(name='rental_status')
         
 
 
-template(name='rental_view_reservations')
+template(name='rental_view_orders')
     .ui.header 
         i.clock.icon
-        |reservations
+        |orders
     //- .ui.icon.button.set_card_view
     //-     i.clone.icon
     //- .ui.icon.button.set_segment_view
@@ -324,11 +324,11 @@ template(name='rental_view_reservations')
     //- .ui.hidden.divider
     //- if view_res_cards
     //-     .ui.stackable.three.cards
-    //-         each reservations
+    //-         each orders
     //-             +res_card
     //- else if view_res_segments
-    each reservations
-        +reservation_segment
+    each orders
+        +order_segment
         
 template(name='set_date_filter')        
     .ui.button.set_date_filter(class=date_filter_class)
@@ -336,9 +336,9 @@ template(name='set_date_filter')
         
         
 
-template(name='reservation_segment')
+template(name='order_segment')
     .ui.segment
-        a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/")
+        a.ui.small.header.inline.lowercase(href="/order/#{_id}/")
             small from 
             |{{cal_time start_datetime}}
             //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
@@ -351,7 +351,7 @@ template(name='reservation_segment')
         .ui.grey.inline.header(title='credits')
             | $#{cost}
         .ui.small.inline.header #{when} by #{_author_username}
-        a.ui.large.button(href="/reservation/#{_id}/")
+        a.ui.large.button(href="/order/#{_id}/")
             |view
             i.right.chevron.icon
                 
@@ -361,7 +361,7 @@ template(name='reservation_segment')
 template(name='res_card')
     .ui.card
         .content
-            a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/")
+            a.ui.small.header.inline.lowercase(href="/order/#{_id}/")
                 small from 
                 |{{cal_time start_datetime}}
                 //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
@@ -374,7 +374,7 @@ template(name='res_card')
                 //- i.coins.icon
                 | #{cost}c
             .ui.small.header #{when} by #{_author_username}
-            a.ui.large.fluid.button(href="/reservation/#{_id}/")
+            a.ui.large.fluid.button(href="/order/#{_id}/")
                 |view
                 i.right.chevron.icon
 

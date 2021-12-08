@@ -295,6 +295,19 @@ if Meteor.isClient
             picked_tags.push @valueOf()
             Router.go '/'
             
+        'click .cancel_order': ->
+            Swal.fire({
+                title: "cancel?"
+                # text: "this will charge you $5"
+                icon: 'question'
+                showCancelButton: true,
+                confirmButtonText: 'confirm'
+                cancelButtonText: 'cancel'
+            }).then((result)=>
+                if result.value
+                    Docs.remove @_id
+                )
+
     Template.quickbuy.helpers
         button_class: ->
             tech_form = moment().add(@day_diff, 'days').format('YYYY-MM-DD')
@@ -317,6 +330,7 @@ if Meteor.isClient
     Template.quickbuy.events
         'click .buy': ->
             console.log @
+            context = Template.parentData()
             human_form = moment().add(@day_diff, 'days').format('dddd, MMM Do')
             tech_form = moment().add(@day_diff, 'days').format('YYYY-MM-DD')
             Swal.fire({
@@ -328,10 +342,10 @@ if Meteor.isClient
                 cancelButtonText: 'cancel'
             }).then((result)=>
                 if result.value
-                    rental = Docs.findOne @_id
+                    rental = Docs.findOne context._id
                     new_order_id = Docs.insert
                         model:'order'
-                        rental_id: @_id
+                        rental_id: rental._id
                         order_date: tech_form
                         _seller_username:rental._author_username
                         rental_id:rental._id

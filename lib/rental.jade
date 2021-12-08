@@ -87,7 +87,7 @@ template(name='rental_big_card')
                     a(href="/user/#{_author_username}")
                         img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
                         |#{_author_username}
-                +quickbuy day_diff=0
+                // +quickbuy day_diff=0
                 +quickbuy day_diff=1
                 +quickbuy day_diff=2
                 +quickbuy day_diff=3
@@ -159,7 +159,7 @@ template(name='rental_view')
                         each past_order_docs
                             .item
                                 .right.floated.content
-                                    i.red.circular.cancel.link.icon.zoomer
+                                    i.red.circular.cancel.link.icon.zoomer.cancel_order
                                 .content
                                     a(href="user/#{_author_username}")
                                         | #{_author_username}
@@ -174,7 +174,7 @@ template(name='rental_view')
                     //     i.large.clock.icon
                     //     small reserve for 
                     //     strong #{daily_rate}p/day
-                    +quickbuy day_diff=0
+                    // +quickbuy day_diff=0
                     +quickbuy day_diff=1
                     +quickbuy day_diff=2
                     +quickbuy day_diff=3

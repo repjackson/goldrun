@@ -90,7 +90,7 @@ if Meteor.isClient
                 title:Session.get('query')
             
         counter: -> Counts.get('rental_counter')
-        tags: -> Results.find({model:'tag', title:$nin:picked_tags.array()})
+        tags: -> Results.find({model:'tag'})
         location_tags: -> Results.find({model:'location_tag',title:$nin:picked_location_tags.array()})
         authors: -> Results.find({model:'author'})
 
@@ -146,6 +146,8 @@ if Meteor.isServer
             # match.tags = $nin: ['wikipedia']
             sort = '_timestamp'
             # match.source = $ne:'wikipedia'
+        if Meteor.userId()
+            match._author_id = $ne:Meteor.userId()
 
         # match.tags = $all: picked_tags
         # if filter then match.model = filter
@@ -192,7 +194,8 @@ if Meteor.isServer
         self = @
         match = {}
         match.model = 'rental'
-
+        if Meteor.userId()
+            match._author_id = $ne:Meteor.userId()
         if picked_tags.length > 0 then match.tags = $all: picked_tags
             # match.$regex:"#{current_query}", $options: 'i'}
         # if lat
@@ -205,13 +208,12 @@ if Meteor.isServer
         #           }
         #        }
         agg_doc_count = Docs.find(match).count()
-
+        # console.log match
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
-            # { $nin: _id: picked_tags }
             { $match: _id: $nin: picked_tags }
             { $match: count: $lt: agg_doc_count }
             { $sort: count: -1, _id: 1 }
@@ -223,9 +225,10 @@ if Meteor.isServer
 
         tag_cloud.forEach (tag, i) =>
             # console.log 'tag result ', tag
-            self.added 'tags', Random.id(),
+            self.added 'results', Random.id(),
                 title: tag.title
                 count: tag.count
+                model:'tag'
                 # category:key
                 # index: i
         self.ready()
@@ -239,13 +242,6 @@ if Meteor.isClient
         ), name:'home'
 
 
-    Template.rental_view.onCreated ->
-        @autorun => @subscribe 'rental_orders',Router.current().params.doc_id, ->
-    Template.rental_view.helpers
-        future_order_docs: ->
-            Docs.find 
-                model:'order'
-                rental_id:Router.current().params.doc_id
 
 
 
@@ -259,55 +255,24 @@ if Meteor.isClient
         @layout 'layout'
         @render 'rental_edit'
         ), name:'rental_edit'
-    Router.route '/order/:doc_id/checkout', (->
-        @layout 'layout'
-        @render 'order_edit'
-        ), name:'order_checkout'
 
 
     
     Template.rental_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.rental_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.rental_edit.helpers
-        upcoming_days: ->
-            upcoming_days = []
-            now = new Date()
-            today = moment(now).format('dddd MMM Do')
-            # upcoming_days.push today
-            day_number = 0
-            # for day in [0..3]
-            for day in [0..1]
-                day_number++
-                moment_ob = moment(now).add(day, 'days')
-                long_form = moment(now).add(day, 'days').format('dddd MMM Do')
-                upcoming_days.push {moment_ob:moment_ob,long_form:long_form}
-            upcoming_days
+        @autorun => @subscribe 'rental_orders',Router.current().params.doc_id, ->
+    Template.rental_view.onRendered ->
+        Docs.update Router.current().params.doc_id, 
+            $inc:views:1
     
-    
-    Template.rental_edit.events
-        'click .delete_rental_item': ->
-            if confirm 'delete rental?'
-                Docs.remove @_id
-                Router.go "/"
+    Template.rental_view.helpers
+        future_order_docs: ->
+            Docs.find 
+                model:'order'
+                rental_id:Router.current().params.doc_id
                 
-      'click .refresh_gps': ->
-            navigator.geolocation.getCurrentPosition (position) =>
-                console.log 'navigator position', position
-                Session.set('current_lat', position.coords.latitude)
-                Session.set('current_long', position.coords.longitude)
                 
-                console.log 'saving long', position.coords.longitude
-                console.log 'saving lat', position.coords.latitude
-            
-                pos = Geolocation.currentLocation()
-                if pos
-                    Docs.update Router.current().params.doc_id, 
-                        $set:
-                            lat:position.coords.latitude
-                            long:position.coords.longitude
-
+                
     Template.rental_card.events
         'click .flat_pick_tag': -> picked_tags.push @valueOf()
         
@@ -328,19 +293,6 @@ if Meteor.isClient
             picked_tags.push @valueOf()
             Router.go '/'
             
-        'click .cancel':->
-            Swal.fire({
-                title: "delete order?"
-                # text: "this will charge you $5"
-                icon: 'question'
-                showCancelButton: true,
-                confirmButtonText: 'delete'
-                cancelButtonText: 'cancel'
-            }).then((result)=>
-                # console.log @            
-                Docs.remove @_id            
-            )
-
     Template.quickbuy.helpers
         button_class: ->
             tech_form = moment().add(@day_diff, 'days').format('YYYY-MM-DD')
@@ -379,6 +331,7 @@ if Meteor.isClient
                         model:'order'
                         rental_id: @_id
                         order_date: tech_form
+                        _seller_username:rental._author_username
                         rental_id:rental._id
                         rental_title:rental.title
                         rental_image_id:rental.image_id

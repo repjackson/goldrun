@@ -122,7 +122,7 @@ Template.registerHelper 'parent_key_value_is', (key, value)->
 #         _id:$in:session_document.guest_ids
 
 
-Template.registerHelper '_author', () -> Docs.findOne @_author_id
+Template.registerHelper '_author', () -> Meteor.users.findOne @_author_id
 Template.registerHelper 'is_text', () ->
     # console.log @field_type
     @field_type is 'text'
@@ -155,8 +155,8 @@ Template.registerHelper 'order_rental', ->
     
 Template.registerHelper 'can_edit', () ->
     # Session.equals('current_username',@_author_username)
-    Meteor.user()
-    #     Meteor.userId() is @_author_id or 'admin' in Meteor.user().roles
+    # Meteor.user()
+    Meteor.userId() is @_author_id or 'admin' in Meteor.user().roles
 
 Template.registerHelper 'publish_when', () -> moment(@publish_date).fromNow()
 

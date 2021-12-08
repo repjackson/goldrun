@@ -1,7 +1,7 @@
 @Docs = new Meteor.Collection 'docs'
-@Tags = new Meteor.Collection 'tags'
+# @Tags = new Meteor.Collection 'tags'
 @Results = new Meteor.Collection 'results'
-@Markers = new Meteor.Collection 'markers'
+# @Markers = new Meteor.Collection 'markers'
 
 
 Router.configure
@@ -144,8 +144,7 @@ if Meteor.isServer
 
 
 Docs.helpers
-    # author: -> Docs.findOne @_author_id
-    # cook: -> Docs.findOne @cook_user_id
+    _author: -> Meteor.users.findOne @_author_id
 
     when: -> moment(@_timestamp).fromNow()
     ten_tags: -> if @tags then @tags[..10]

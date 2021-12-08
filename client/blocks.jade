@@ -159,21 +159,21 @@ template(name='user_status')
     // else 
     //     |Offline
 
-// template(name='user_card')
-//     with user
-//         .ui.card
-//             //- if is_staff
-//             a.image(href="/user/#{username}")
-//                 img.ui.tiny.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-//             .content    
-//                 .header 
-//                     a.header(href="/user/#{username}") #{name} 
-//                     .meta @#{username}
-//                     if is_admin
-//                         div
-//                         +user_email
-//                 //- +emails_edit    
-//         //- +user_status user
+template(name='user_card')
+    with user
+        .ui.card
+            //- if is_staff
+            a.image(href="/user/#{username}")
+                img.ui.tiny.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+            .content    
+                .header 
+                    a.header(href="/user/#{username}") #{name} 
+                    .meta @#{username}
+                    if is_admin
+                        div
+                        +user_email
+                //- +emails_edit    
+        //- +user_status user
 
 
 template(name='user_email')

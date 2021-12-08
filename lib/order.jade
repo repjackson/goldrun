@@ -39,15 +39,14 @@ template(name='order_view')
                 .column
                     +comments
                     .ui.header 
-                        small buyer
+                        +i name='donate'
+                        | buyer
                         strong #{_author_username}
                     with _author
                         +user_card
                     .ui.header 
                         small seller
-                        strong #{_author_username}
-                    with _author
-                        +user_card
+                        strong #{_seller_username}
                     .ui.header status: #{status}
 
 

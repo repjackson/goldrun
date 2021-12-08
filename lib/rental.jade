@@ -91,17 +91,13 @@ template(name='rental_view')
                     //     small viewing
                     //     |#{title}
                     //     small rental
-                    .ui.inline.header #{title}
                     a.ui.big.basic.button.fly_left(href="/" title='shop')
                         i.left.chevron.icon
                         +i name='shop' cl='ui inline image'
+                    .ui.big.header #{title}
                     if can_edit
                         a.zoomer(href="/rental/#{_id}/edit")
                             i.pencil.big.circular.icon
-                    .ui.small.inline.header
-                        |added
-                        // |added by #{_author_username}
-                        |#{when}
                     div
                     +text_view key='location' icon='marker' label='location' direct=true
                     .ui.hidden.divider
@@ -115,6 +111,23 @@ template(name='rental_view')
                     each tags 
                         a.ui.compact.button.goto_tag
                             |#{this}
+                    div
+                    .ui.header 
+                        +i name='order-history'
+                        |#{past_order_docs.count}
+                        |past orders
+                    .ui.selection.animated.large.middle.aligned.divided.list
+                        each past_order_docs
+                            .item
+                                .right.floated.content
+                                    i.red.circular.cancel.link.icon.zoomer
+                                .content
+                                    a(href="user/#{_author_username}")
+                                        | #{_author_username}
+                                        small for
+                                        |#{order_date}
+                                    a(href="/order/#{_id}")
+                                        i.chevron.right.circular.icon
                 .column
                     .ui.header #{daily_rate}p/day
                     //- unless is_author
@@ -132,42 +145,6 @@ template(name='rental_view')
                     if description.length
                         +html_view key='description' label='description' icon='content' direct=true
                     div
-                    .ui.header 
-                        +i name='clock'
-                        |#{future_order_docs.count}
-                        |future orders
-                    .ui.link.large.divided.middle.aligned.list
-                        each future_order_docs
-                            .item
-                                .right.floated.content
-                                    i.red.circular.cancel.link.icon.zoomer
-                                .content
-                                    | #{_author_username}
-                                    small for
-                                    |#{order_date}, {{from_now order_date}}
-                                    a(href="/order/#{_id}")
-                                        i.chevron.right.circular.icon
-                    div
-                    .ui.header 
-                        +i name='order-history'
-                        |#{past_order_docs.count}
-                        |past orders
-                    .ui.selection.animated.large.middle.aligned.divided.list
-                        each past_order_docs
-                            .item
-                                .right.floated.content
-                                    i.red.circular.cancel.link.icon.zoomer
-                                .content
-                                    | #{_author_username}
-                                    small for
-                                    |#{order_date}
-                                    a(href="/order/#{_id}")
-                                        i.chevron.right.circular.icon
-                .column
-                    +rental_stats
-                    // +last_viewed
-                    +creation_info
-                    +comments
                     .ui.small.list
                         .item total earnings
                         .item rental ranking #orders
@@ -180,6 +157,29 @@ template(name='rental_view')
                         .item biggest renter
                         .item predicted payback duration
                         .item predicted payback date
+                .column
+                    .ui.header 
+                        +i name='clock'
+                        |#{future_order_docs.count}
+                        |future orders
+                    .ui.link.large.divided.middle.aligned.list
+                        each future_order_docs
+                            .item
+                                .right.floated.content
+                                    a(href="/order/#{_id}")
+                                        i.chevron.right.circular.icon
+                                    if can_edit
+                                        i.red.circular.cancel.link.icon.zoomer
+                                .content
+                                    a(href="/user/#{_author_username}")
+                                        img.ui.avatar.image(src="{{c.url _author.image_id width=200 height=200 crop='crop'}}")
+                                        | #{_author_username}
+                                    small for
+                                    |#{order_date}, {{from_now order_date}}
+                    +rental_stats
+                    // +last_viewed
+                    +creation_info
+                    +comments
 template(name='quickbuy')
     .ui.basic.green.button.buy(class=button_class)
         i.lightning.icon

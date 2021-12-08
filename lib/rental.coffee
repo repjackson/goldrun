@@ -148,49 +148,49 @@ if Meteor.isClient
             Session.get('rental_sort_direction')
 
 
-    Template.rentals.events
-        'click .add_rental': ->
-            new_id =
-                Docs.insert
-                    model:'rental'
-            Router.go("/rental/#{new_id}/edit")
+    # Template.rentals.events
+    #     'click .add_rental': ->
+    #         new_id =
+    #             Docs.insert
+    #                 model:'rental'
+    #         Router.go("/rental/#{new_id}/edit")
 
 
-        'click .tag_result': -> picked_tags.push @title
-        'click .unselect_tag': ->
-            picked_tags.remove @valueOf()
-            # console.log picked_tags.array()
-            # if picked_tags.array().length is 1
-                # Meteor.call 'call_wiki', search, ->
+    #     'click .tag_result': -> picked_tags.push @title
+    #     'click .unselect_tag': ->
+    #         picked_tags.remove @valueOf()
+    #         # console.log picked_tags.array()
+    #         # if picked_tags.array().length is 1
+    #             # Meteor.call 'call_wiki', search, ->
 
-            # if picked_tags.array().length > 0
-                # Meteor.call 'search_reddit', picked_tags.array(), ->
+    #         # if picked_tags.array().length > 0
+    #             # Meteor.call 'search_reddit', picked_tags.array(), ->
 
-        'click .clear_picked_tags': ->
-            Session.set('current_query',null)
-            picked_tags.clear()
+    #     'click .clear_picked_tags': ->
+    #         Session.set('current_query',null)
+    #         picked_tags.clear()
 
-        'keyup #search': _.throttle((e,t)->
-            query = $('#search').val()
-            Session.set('current_query', query)
-            # console.log Session.get('current_query')
-            if e.which is 13
-                search = $('#search').val().trim().toLowerCase()
-                if search.length > 0
-                    picked_tags.push search
-                    console.log 'search', search
-                    # Meteor.call 'log_term', search, ->
-                    $('#search').val('')
-                    Session.set('current_query', null)
-                    # # $('#search').val('').blur()
-                    # # $( "p" ).blur();
-                    # Meteor.setTimeout ->
-                    #     Session.set('dummy', !Session.get('dummy'))
-                    # , 10000
-        , 1000)
+    #     'keyup #search': _.throttle((e,t)->
+    #         query = $('#search').val()
+    #         Session.set('current_query', query)
+    #         # console.log Session.get('current_query')
+    #         if e.which is 13
+    #             search = $('#search').val().trim().toLowerCase()
+    #             if search.length > 0
+    #                 picked_tags.push search
+    #                 console.log 'search', search
+    #                 # Meteor.call 'log_term', search, ->
+    #                 $('#search').val('')
+    #                 Session.set('current_query', null)
+    #                 # # $('#search').val('').blur()
+    #                 # # $( "p" ).blur();
+    #                 # Meteor.setTimeout ->
+    #                 #     Session.set('dummy', !Session.get('dummy'))
+    #                 # , 10000
+    #     , 1000)
 
-        'click .calc_rental_count': ->
-            Meteor.call 'calc_rental_count', ->
+    #     'click .calc_rental_count': ->
+    #         Meteor.call 'calc_rental_count', ->
 
         # 'keydown #search': _.throttle((e,t)->
         #     if e.which is 8
@@ -203,15 +203,15 @@ if Meteor.isClient
         #             Meteor.call 'search_reddit', picked_tags.array(), ->
         # , 1000)
 
-        'click .reconnect': ->
-            Meteor.reconnect()
+        # 'click .reconnect': ->
+        #     Meteor.reconnect()
 
 
-        'click .set_sort_direction': ->
-            if Session.get('rental_sort_direction') is -1
-                Session.set('rental_sort_direction', 1)
-            else
-                Session.set('rental_sort_direction', -1)
+        # 'click .set_sort_direction': ->
+        #     if Session.get('rental_sort_direction') is -1
+        #         Session.set('rental_sort_direction', 1)
+        #     else
+        #         Session.set('rental_sort_direction', -1)
 
 
     Template.rentals.helpers
@@ -325,7 +325,7 @@ if Meteor.isServer
             limit: limit
 
     Meteor.publish 'rental_facets', (
-        picked_tags
+        picked_tags=[]
         lat
         long
         picked_timestamp_tags
@@ -353,12 +353,16 @@ if Meteor.isServer
         #             $maxDistance: 5000
         #           }
         #        }
+        agg_doc_count = Docs.find(match).count()
 
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
+            # { $nin: _id: picked_tags }
+            { $match: _id: $nin: picked_tags }
+            { $match: count: $lt: agg_doc_count }
             { $sort: count: -1, _id: 1 }
             { $limit: 20 }
             { $project: _id: 0, title: '$_id', count: 1 }
@@ -373,8 +377,6 @@ if Meteor.isServer
                 count: tag.count
                 # category:key
                 # index: i
-
-
         self.ready()
 
 

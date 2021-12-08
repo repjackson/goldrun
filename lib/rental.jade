@@ -190,10 +190,10 @@ template(name='rental_edit')
                         i.trash.icon
                     if in_dev
                         +print_this
-                    +boolean_edit key='published' label='published' icon='checkmark'
-                    +boolean_edit key='anonymous' label='anonymous' icon='visible'
+                    // +boolean_edit key='published' label='published' icon='checkmark'
+                    // +boolean_edit key='anonymous' label='anonymous' icon='visible'
                     div
-                    a.ui.header.refresh_gps 
+                    a.ui.header.pointer.refresh_gps(href='#') 
                         |gps coords
                     .ui.label #{lat}
                     .ui.label #{long}
@@ -202,17 +202,11 @@ template(name='rental_edit')
                     +array_edit key='tags' icon='tags' label='tags' direct=true
                     +array_edit key='location_tags' label='public location tags' icon='marker' direct=true
                     // +array_edit key='private_location_tags' label='private location tags' icon='marker' direct=true tooltip='for handlers and buyers who are picking up'
-                    //- +image_edit key='image_id' label='image' direct=true
+                    +image_edit key='image_id' label='image' direct=true
                     +image_link_edit key='image_link' label='image link' direct=true
                     +html_edit key='description' label='description' icon='content' direct=true
 
     
-template(name='rental_location')
-    .ui.inline.header current location
-    |#{current_location}
-    
-    
-
 
 
 template(name='user_rentals')
@@ -266,8 +260,8 @@ template(name='rental_stats')
     .ui.big.list
         .item #{views} views
         .item #{order_count} orders
-        .item #{total_earnings}c/#{total_rental_hours}hrs total
-        .item #{average_rental_cost}c / #{average_rental_duration}hrs avg rental
+        .item #{total_earnings}p/#{total_rental_hours}hrs total
+        // .item #{average_rental_cost}c / #{average_rental_duration}hrs avg rental
         //- .item rental ranking # orders
         //- .item rental ranking $ earned
         //- .item # different renters
@@ -285,17 +279,6 @@ template(name='rental_stats')
     //-             |new slot
         
     
-template(name='rental_status')
-    if available 
-        .ui.green.label available now
-    else 
-        .ui.label off the clock
-        
-        
-        
-
-
-        
 template(name='set_date_filter')        
     .ui.button.set_date_filter(class=date_filter_class)
         |#{label}
@@ -321,27 +304,3 @@ template(name='order_segment')
             |view
             i.right.chevron.icon
                 
-                
-                
-                
-template(name='res_card')
-    .ui.card
-        .content
-            a.ui.small.header.inline.lowercase(href="/order/#{_id}/")
-                small from 
-                |{{cal_time start_datetime}}
-                //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
-                //- |{{long_date start_datetime}}
-                small to 
-                |{{cal_time end_datetime}}
-            div
-            .ui.grey.inline.header #{hour_duration} hrs
-            .ui.grey.inline.header(title='credits')
-                //- i.coins.icon
-                | #{cost}c
-            .ui.small.header #{when} by #{_author_username}
-            a.ui.large.fluid.button(href="/order/#{_id}/")
-                |view
-                i.right.chevron.icon
-
-

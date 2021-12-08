@@ -49,12 +49,12 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'rental_orders', (rental, view_mode, date_filter)->
-        console.log view_mode
-        console.log date_filter
-        Docs.find
-            model:'order'
-            rental_id: rental._id
+    # Meteor.publish 'rental_orders', (rental, view_mode, date_filter)->
+    #     console.log view_mode
+    #     console.log date_filter
+    #     Docs.find
+    #         model:'order'
+    #         rental_id: rental._id
 
 
     Meteor.publish 'log_events', (parent_id)->
@@ -300,7 +300,6 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-    
     Router.route '/orders', (->
         @layout 'layout'
         @render 'orders'
@@ -336,28 +335,6 @@ if Meteor.isClient
             Session.get('view_open')
 
     
-    # Template.order_card.events
-    #     'click .downvote':->
-    #         Docs.update Meteor.userId(),
-    #             $addToSet:downvoted_ids:@_id
-    #         Docs.update @_id, 
-    #             $addToSet:downvoter_ids:Meteor.userId()
-    #         $('body').toast({
-    #             title: "#{@title} downvoted and hidden"
-    #             # message: 'Please see desk staff for key.'
-    #             class : 'success'
-    #             # position:'top center'
-    #             # className:
-    #             #     toast: 'ui massive message'
-    #             displayTime: 5000
-    #             transition:
-    #               showMethod   : 'zoom',
-    #               showDuration : 250,
-    #               hideMethod   : 'fade',
-    #               hideDuration : 250
-    #             })
-                
-
     Template.orders.events
         'click .request_order': ->
             title = prompt "different title than #{Session.get('query')}"

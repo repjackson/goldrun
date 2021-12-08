@@ -4,12 +4,12 @@ if Meteor.isClient
             $('.accordion').accordion()
         , 1000
     Template.comments.onCreated ->
-        if Router.current().params.doc_id
-            parent = Docs.findOne Router.current().params.doc_id
-        else
-            parent = Docs.findOne Template.parentData()._id
-        if parent
-            @autorun => Meteor.subscribe 'children', 'comment', parent._id
+        # if Router.current().params.doc_id
+        #     parent = Docs.findOne Router.current().params.doc_id
+            # @autorun => Meteor.subscribe 'children', 'comment', parent._id
+        # else
+        #     parent = Docs.findOne Template.parentData()._id
+        # if parent
     Template.comments.helpers
         doc_comments: ->
             if Router.current().params.doc_id

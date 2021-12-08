@@ -105,7 +105,7 @@ if Meteor.isClient
         searching: -> Session.get('searching')
 
         one_rental: ->
-            Docs.find().count() is 1
+            Docs.find(model:'rental').count() is 1
         rental_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {
@@ -258,6 +258,8 @@ if Meteor.isClient
 
 
     
+    Template.rental_big_card.onCreated ->
+        @autorun => @subscribe 'rental_orders',@data._id, ->
     Template.rental_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => @subscribe 'rental_orders',Router.current().params.doc_id, ->
@@ -326,7 +328,7 @@ if Meteor.isClient
                 cancelButtonText: 'cancel'
             }).then((result)=>
                 if result.value
-                    rental = Docs.findOne Router.current().params.doc_id
+                    rental = Docs.findOne @_id
                     new_order_id = Docs.insert
                         model:'order'
                         rental_id: @_id

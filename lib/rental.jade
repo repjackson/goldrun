@@ -15,15 +15,19 @@ template(name='rentals')
                     button.ui.compact.button.tag_result(tabindex="0" class=result_class title=count) #{title}
                         //- small #{count}
             .spacer 
-            if subs_ready     
-                .ui.stackable.four.centered.cards.scrolling
+            if subs_ready
+                if one_rental
                     each rental_docs
-                        +rental_card
-                    // unless rental_docs.count
-                    //     .ui.button.request_rental
-                    //         |request
-                    //     each requests
-                    //         .ui.header #{when}
+                        +rental_big_card
+                else
+                    .ui.stackable.four.centered.cards.scrolling
+                        each rental_docs
+                            +rental_card
+                        // unless rental_docs.count
+                        //     .ui.button.request_rental
+                        //         |request
+                        //     each requests
+                        //         .ui.header #{when}
             else 
                 .ui.center.aligned.basic.segment
                     i.massive.grey.notched.circle.loading.icon
@@ -55,6 +59,40 @@ template(name='rental_card')
                 a(href="/user/#{_author_username}")
                     img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
                     |#{_author_username}
+template(name='rental_big_card')
+    .ui.fluid.segment
+        .ui.fluid.two.column.grid(class=rental_card_class)
+            .column
+                a.image.fly_right(href="/rental/#{_id}/") 
+                    if image_id
+                        img.ui.zoomer.pointer.goto_rental.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+                    if image_link
+                        img.ui.zoomer.pointer.goto_rental.image(src=image_link)
+    
+    
+            .column
+                a.header.zoomer.fly_right(href="/rental/#{_id}/") 
+                    | #{title}
+                div
+                .ui.inline.header 
+                    |#{daily_rate}
+                    small p/day
+                // if tags
+                //     i.tag.icon
+                // each tags
+                //     a.ui.small.link.black.label.flat_pick_tag.spaced #{this}
+                // .right.floated.meta
+                //     | added #{when}
+                unless anonymous
+                    a(href="/user/#{_author_username}")
+                        img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
+                        |#{_author_username}
+                +quickbuy day_diff=0
+                +quickbuy day_diff=1
+                +quickbuy day_diff=2
+                +quickbuy day_diff=3
+                +quickbuy day_diff=4
+                +quickbuy day_diff=5
 
 
 
@@ -82,6 +120,7 @@ template(name='set_rental_limit')
     
 
 template(name='rental_view')
+    // .ui.header rental view
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")

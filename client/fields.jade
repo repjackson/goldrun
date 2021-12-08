@@ -466,8 +466,12 @@ template(name='date_edit')
             //- else
             //-     |#{this}
             //- +clear_value                
-    .ui.fluid.input
+    .ui.large.input
         input.edit_date(type='date' value=field_value placeholder=placeholder autocomplete="off")
+    .ui.button.today
+        |today
+    .ui.button.tomorrow
+        |tomorrow
 
 
 template(name='date_view')

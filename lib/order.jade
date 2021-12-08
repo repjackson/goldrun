@@ -3,11 +3,12 @@ template(name='order_view')
         .ui.stackable.padded.grid
             .three.column.row
                 .column 
-                    with rental
-                        a.ui.fluid.large.button(href="/rental/#{_id}/")
+                    with order_rental
+                        a.ui.button.fly_left(href="/rental/#{_id}/")
+                            img.ui.rounded.image(src="{{c.url image_id width=400 height=400}}")
                             i.left.chevron.icon
-                            |#{title}
-                        +image_view key='image' label='image' direct=true
+                            .ui.inline.header #{title}
+                    +image_view key='image' label='image' direct=true
                     .ui.header 
                         |viewing order
                     if complete 
@@ -28,22 +29,13 @@ template(name='order_view')
                         |#{when}
                     .ui.header 
                         +i name='shop'
-                        |item
-                    .ui.segment 
-                        with order_rental
-                            a(href="/rental/#{_id}/")
-                                img.ui.rounded.image(src="{{c.url image width=400 height=400}}")
-                            a(href="/rental/#{_id}/")
-                                .ui.header #{title}
-                            .ui.header #{serving_purchase_price} serving perchase price
-                            //- .ui.header #{cook_tip} cook tip
-                            .ui.header $#{order_total_transaction_amount} 
-                                small total transaction amount
+                        |rental item
                     div
                     +textarea_view key='description'
                     if can_edit
-                        .ui.icon.button.cancel_order
+                        .ui.basic.red.button.cancel_order
                             i.remove.icon
+                            |cancel
                 .column
                     +comments
                     .ui.header 
@@ -146,10 +138,6 @@ template(name='order_edit')
                         strong #{points_after_purchase}p
                 .column
                     +date_edit key='order_date' label='order date' icon='calendar'
-                    .ui.disabled.button.today
-                        |today
-                    .ui.disabled.button.tomorrow
-                        |tomorrow
                     +textarea_edit key='notes' label='notes' direct=true
                     .ui.hidden.divider
                     if can_complete

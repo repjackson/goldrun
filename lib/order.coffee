@@ -84,15 +84,6 @@ if Meteor.isServer
         Docs.find
             _id: rental.owner_username
 
-    Meteor.publish 'handler_by_res_id', (res_id)->
-        order = Docs.findOne res_id
-        rental =
-            Docs.findOne
-                model:'rental'
-                _id: order.rental_id
-
-        Docs.find
-            _id: rental.handler_username
 
     Meteor.methods
         calc_order_stats: ->
@@ -140,10 +131,10 @@ if Meteor.isClient
         is_paying: -> Session.get 'paying'
 
         can_buy: ->
-            Meteor.user().credit > @total_cost
+            Meteor.user().points > @total_cost
 
         need_credit: ->
-            Meteor.user().credit < @total_cost
+            Meteor.user().points < @total_cost
 
 
         submit_button_class: ->
@@ -152,7 +143,7 @@ if Meteor.isClient
         member_balance_after_order: ->
             rental = Docs.findOne @rental_id
             if rental
-                current_balance = Meteor.user().credit
+                current_balance = Meteor.user().points
                 (current_balance-@total_cost).toFixed(2)
 
         # diff: -> moment(@end_datetime).diff(moment(@start_datetime),'hours',true)

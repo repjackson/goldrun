@@ -159,14 +159,13 @@ template(name='rental_view')
                         each past_order_docs
                             .item
                                 .right.floated.content
-                                    i.red.circular.cancel.link.icon.zoomer.cancel_order
+                                    a(href="/order/#{_id}")
+                                        i.chevron.right.circular.icon
                                 .content
                                     a(href="user/#{_author_username}")
                                         | #{_author_username}
                                         small for
                                         |#{order_date}
-                                    a(href="/order/#{_id}")
-                                        i.chevron.right.circular.icon
                 .column
                     .ui.header #{daily_rate}p/day
                     //- unless is_author
@@ -208,7 +207,7 @@ template(name='rental_view')
                                     a(href="/order/#{_id}")
                                         i.chevron.right.circular.icon
                                     if can_edit
-                                        i.red.circular.cancel.link.icon.zoomer
+                                        i.red.circular.cancel.link.icon.zoomer.cancel_order
                                 .content
                                     a(href="/user/#{_author_username}")
                                         img.ui.avatar.image(src="{{c.url _author.image_id width=200 height=200 crop='crop'}}")

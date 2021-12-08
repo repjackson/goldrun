@@ -296,6 +296,7 @@ if Meteor.isClient
             Router.go '/'
             
         'click .cancel_order': ->
+            console.log 'hi'
             Swal.fire({
                 title: "cancel?"
                 # text: "this will charge you $5"

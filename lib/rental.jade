@@ -42,9 +42,9 @@ template(name='rental_card')
             a.header.zoomer.fly_right(href="/rental/#{_id}/") 
                 | #{title}
             div
-            .ui.inline.grey.header 
+            .ui.inline.header 
                 |#{daily_rate}
-                small c/day
+                small p/day
             // if tags
             //     i.tag.icon
             // each tags
@@ -150,6 +150,12 @@ template(name='rental_view')
                         i.large.clock.icon
                         small reserve for 
                         strong #{daily_rate}p/day
+                    +quickbuy day_diff=0
+                    +quickbuy day_diff=1
+                    +quickbuy day_diff=2
+                    +quickbuy day_diff=3
+                    +quickbuy day_diff=4
+                    +quickbuy day_diff=5
                     div
                     if description.length
                         +html_view key='description' label='description' icon='content' direct=true
@@ -159,8 +165,23 @@ template(name='rental_view')
                     // +last_viewed
                     +creation_info
                     +comments
-
-
+                    .ui.small.list
+                        .item total earnings
+                        .item rental ranking #orders
+                        .item rental ranking $ earned
+                        .item # different renters
+                        .item avg rental time
+                        .item avg daily earnings
+                        .item avg weekly earnings
+                        .item avg monthly earnings
+                        .item biggest renter
+                        .item predicted payback duration
+                        .item predicted payback date
+template(name='quickbuy')
+    .ui.basic.green.button.buy(class=button_class)
+        i.lightning.icon
+        | #{human_form}
+        small #{from_form}
         
 template(name='rental_orders')
     .ui.header 
@@ -176,7 +197,7 @@ template(name='rental_orders')
 template(name='rental_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .two.column.row
+            .three.column.row
                 .column
                     .ui.inline.header
                         small editing
@@ -188,6 +209,7 @@ template(name='rental_edit')
                     +number_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
                     .ui.icon.small.red.button.delete_rental_item 
                         i.trash.icon
+                .column
                     if in_dev
                         +print_this
                     // +boolean_edit key='published' label='published' icon='checkmark'
@@ -198,13 +220,13 @@ template(name='rental_edit')
                     .ui.label #{lat}
                     .ui.label #{long}
                     // +text_edit key='location' label='location text' icon='marker' direct=true
+                    +html_edit key='description' label='description' icon='content' direct=true
                 .column
                     +array_edit key='tags' icon='tags' label='tags' direct=true
                     +array_edit key='location_tags' label='public location tags' icon='marker' direct=true
                     // +array_edit key='private_location_tags' label='private location tags' icon='marker' direct=true tooltip='for handlers and buyers who are picking up'
                     +image_edit key='image_id' label='image' direct=true
                     +image_link_edit key='image_link' label='image link' direct=true
-                    +html_edit key='description' label='description' icon='content' direct=true
 
     
 

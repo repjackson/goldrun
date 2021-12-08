@@ -1,33 +1,33 @@
 if Meteor.isClient
-    # Template.rentals.onCreated ->
-    #     Session.setDefault 'view_mode', 'list'
-    #     Session.setDefault 'sort_key', 'daily_rate'
-    #     Session.setDefault 'sort_label', 'available'
-    #     Session.setDefault 'limit',10
-    #     Session.setDefault 'view_open', true
-    #     @autorun => @subscribe 'count', ->
-    #     @autorun => @subscribe 'facets',
-    #         Session.get('query')
-    #         picked_tags.array()
-    #         picked_location_tags.array()
-    #         Session.get('limit')
-    #         Session.get('sort_key')
-    #         Session.get('sort_direction')
-    #         Session.get('view_delivery')
-    #         Session.get('view_pickup')
-    #         Session.get('view_open')
+    Router.route '/rentals', (->
+        @layout 'layout'
+        @render 'rentals'
+        ), name:'rentals'
 
-    #     @autorun => @subscribe 'results',
-    #         Session.get('query')
-    #         picked_tags.array()
-    #         picked_location_tags.array()
-    #         Session.get('limit')
-    #         Session.get('sort_key')
-    #         Session.get('sort_direction')
-    #         Session.get('view_delivery')
-    #         Session.get('view_pickup')
-    #         Session.get('view_open')
 
+    Template.rentals.onCreated ->
+        Session.setDefault 'view_mode', 'list'
+        Session.setDefault 'rental_sort_key', 'datetime_available'
+        Session.setDefault 'rental_sort_label', 'available'
+        Session.setDefault 'rental_limit', 5
+        Session.setDefault 'view_open', true
+
+    Template.rentals.onCreated ->
+        @autorun => @subscribe 'rental_facets',
+            picked_tags.array()
+            Session.get('current_lat')
+            Session.get('current_long')
+            Session.get('rental_limit')
+            Session.get('rental_sort_key')
+            Session.get('rental_sort_direction')
+
+        @autorun => @subscribe 'rental_results',
+            picked_tags.array()
+            Session.get('lat')
+            Session.get('long')
+            Session.get('rental_limit')
+            Session.get('rental_sort_key')
+            Session.get('rental_sort_direction')
     
     Template.rentals.events
         'click .fly_right': (e,t)->
@@ -120,107 +120,12 @@ if Meteor.isClient
 
 
 
-if Meteor.isClient
-    Router.route '/rentals', (->
-        @layout 'layout'
-        @render 'rentals'
-        ), name:'rentals'
 
-
-    Template.rentals.onCreated ->
-        Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'rental_sort_key', 'datetime_available'
-        Session.setDefault 'rental_sort_label', 'available'
-        Session.setDefault 'rental_limit', 5
-        Session.setDefault 'view_open', true
-
-    Template.rentals.onCreated ->
-        @autorun => @subscribe 'rental_facets',
-            picked_tags.array()
-            Session.get('current_lat')
-            Session.get('current_long')
-            Session.get('rental_limit')
-            Session.get('rental_sort_key')
-            Session.get('rental_sort_direction')
-
-        @autorun => @subscribe 'rental_results',
-            picked_tags.array()
-            Session.get('lat')
-            Session.get('long')
-            Session.get('rental_limit')
-            Session.get('rental_sort_key')
-            Session.get('rental_sort_direction')
-
-
-    # Template.rentals.events
-    #     'click .add_rental': ->
-    #         new_id =
-    #             Docs.insert
-    #                 model:'rental'
-    #         Router.go("/rental/#{new_id}/edit")
-
-
-    #     'click .tag_result': -> picked_tags.push @title
-    #     'click .unselect_tag': ->
-    #         picked_tags.remove @valueOf()
-    #         # console.log picked_tags.array()
-    #         # if picked_tags.array().length is 1
-    #             # Meteor.call 'call_wiki', search, ->
-
-    #         # if picked_tags.array().length > 0
-    #             # Meteor.call 'search_reddit', picked_tags.array(), ->
-
-    #     'click .clear_picked_tags': ->
-    #         Session.set('current_query',null)
-    #         picked_tags.clear()
-
-    #     'keyup #search': _.throttle((e,t)->
-    #         query = $('#search').val()
-    #         Session.set('current_query', query)
-    #         # console.log Session.get('current_query')
-    #         if e.which is 13
-    #             search = $('#search').val().trim().toLowerCase()
-    #             if search.length > 0
-    #                 picked_tags.push search
-    #                 console.log 'search', search
-    #                 # Meteor.call 'log_term', search, ->
-    #                 $('#search').val('')
-    #                 Session.set('current_query', null)
-    #                 # # $('#search').val('').blur()
-    #                 # # $( "p" ).blur();
-    #                 # Meteor.setTimeout ->
-    #                 #     Session.set('dummy', !Session.get('dummy'))
-    #                 # , 10000
-    #     , 1000)
-
-    #     'click .calc_rental_count': ->
-    #         Meteor.call 'calc_rental_count', ->
-
-        # 'keydown #search': _.throttle((e,t)->
-        #     if e.which is 8
-        #         search = $('#search').val()
-        #         if search.length is 0
-        #             last_val = picked_tags.array().slice(-1)
-        #             console.log last_val
-        #             $('#search').val(last_val)
-        #             picked_tags.pop()
-        #             Meteor.call 'search_reddit', picked_tags.array(), ->
-        # , 1000)
-
-        # 'click .reconnect': ->
-        #     Meteor.reconnect()
-
-
-        # 'click .set_sort_direction': ->
-        #     if Session.get('rental_sort_direction') is -1
-        #         Session.set('rental_sort_direction', 1)
-        #     else
-        #         Session.set('rental_sort_direction', -1)
 
 
     Template.rentals.helpers
-        quickbuying_rental: ->
-            Docs.findOne Session.get('quickbuying_id')
+        # quickbuying_rental: ->
+        #     Docs.findOne Session.get('quickbuying_id')
 
         sorting_up: ->
             parseInt(Session.get('rental_sort_direction')) is 1
@@ -384,23 +289,23 @@ if Meteor.isServer
         self.ready()
 
 
-if Meteor.isClient
-    Template.user_rentals.onCreated ->
-        @autorun => Meteor.subscribe 'user_rentals', Router.current().params.username
-    Template.user_rentals.events
-        'click .add_rental': ->
-            new_id =
-                Docs.insert
-                    model:'rental'
-            Router.go "/rental/#{new_id}/edit"
+# if Meteor.isClient
+#     Template.user_rentals.onCreated ->
+#         @autorun => Meteor.subscribe 'user_rentals', Router.current().params.username
+#     Template.user_rentals.events
+#         'click .add_rental': ->
+#             new_id =
+#                 Docs.insert
+#                     model:'rental'
+#             Router.go "/rental/#{new_id}/edit"
 
-    Template.user_rentals.helpers
-        rentals: ->
-            current_user = Docs.findOne username:Router.current().params.username
-            Docs.find {
-                model:'rental'
-                _author_id: current_user._id
-            }, sort:_timestamp:-1
+#     Template.user_rentals.helpers
+#         rentals: ->
+#             current_user = Docs.findOne username:Router.current().params.username
+#             Docs.find {
+#                 model:'rental'
+#                 _author_id: current_user._id
+#             }, sort:_timestamp:-1
 
 
 
@@ -475,13 +380,15 @@ if Meteor.isClient
                 console.log 'saving lat', position.coords.latitude
             
                 pos = Geolocation.currentLocation()
-                Docs.update Router.current().params.doc_id, 
-                    $set:
-                        lat:position.coords.latitude
-                        long:position.coords.longitude
+                if pos
+                    Docs.update Router.current().params.doc_id, 
+                        $set:
+                            lat:position.coords.latitude
+                            long:position.coords.longitude
 
     Template.rental_card.events
         'click .flat_pick_tag': -> picked_tags.push @valueOf()
+        
     Template.rental_view.events
         'click .new_order': (e,t)->
             rental = Docs.findOne Router.current().params.doc_id
@@ -495,30 +402,62 @@ if Meteor.isClient
                 rental_daily_rate:rental.daily_rate
             Router.go "/order/#{new_order_id}/edit"
             
-            
-
         'click .goto_tag': ->
             picked_tags.push @valueOf()
             Router.go '/'
 
+    Template.quickbuy.helpers
+        button_class: ->
+            tech_form = moment().add(@day_diff, 'days').format('YYYY-MM-DD')
+            found_order = 
+                Docs.findOne
+                    model:'order'
+                    order_date:tech_form
+            if found_order
+                'disabled'
+            else 
+                'large'
+                    
+                    
+                    
+        human_form: ->
+            moment().add(@day_diff, 'days').format('ddd, MMM Do')
+        from_form: ->
+            moment().add(@day_diff, 'days').fromNow()
             
-if Meteor.isClient
-    Template.user_rentals.onCreated ->
-        @autorun => Meteor.subscribe 'user_rentals', Router.current().params.username
-    Template.user_rentals.events
-        'click .add_rental': ->
-            new_id =
-                Docs.insert
-                    model:'rental'
-            Router.go "/rental/#{new_id}/edit"
+    Template.quickbuy.events
+        'click .buy': ->
+            console.log @
+            human_form = moment().add(@day_diff, 'days').format('MM dddd')
+            tech_form = moment().add(@day_diff, 'days').format('YYYY-MM-DD')
+            Swal.fire({
+                title: "quickbuy #{human_form}?"
+                # text: "this will charge you $5"
+                icon: 'question'
+                showCancelButton: true,
+                confirmButtonText: 'confirm'
+                cancelButtonText: 'cancel'
+            }).then((result)=>
+                if result.value
+                    rental = Docs.findOne Router.current().params.doc_id
+                    new_order_id = Docs.insert
+                        model:'order'
+                        rental_id: @_id
+                        order_date: tech_form
+                        rental_id:rental._id
+                        rental_title:rental.title
+                        rental_image_id:rental.image_id
+                        rental_image_link:rental.image_link
+                        rental_daily_rate:rental.daily_rate
 
-    Template.user_rentals.helpers
-        rentals: ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
-            Docs.find {
-                model:'rental'
-                _author_id: current_user._id
-            }, sort:_timestamp:-1
+                    Swal.fire(
+                        "reserved for #{human_form}",
+                        ''
+                        'success'
+                    )
+            )
+
+            
 
 if Meteor.isServer
     Meteor.publish 'user_rentals', (username)->
@@ -619,15 +558,3 @@ if Meteor.isServer
                     total_rental_hours: total_rental_hours.toFixed(0)
                     average_rental_cost: average_rental_cost.toFixed(0)
                     average_rental_duration: average_rental_duration.toFixed(0)
-
-            # .ui.small.header total earnings
-            # .ui.small.header rental ranking #orders
-            # .ui.small.header rental ranking $ earned
-            # .ui.small.header # different renters
-            # .ui.small.header avg rental time
-            # .ui.small.header avg daily earnings
-            # .ui.small.header avg weekly earnings
-            # .ui.small.header avg monthly earnings
-            # .ui.small.header biggest renter
-            # .ui.small.header predicted payback duration
-            # .ui.small.header predicted payback date

@@ -148,49 +148,49 @@ if Meteor.isClient
 
         # diff: -> moment(@end_datetime).diff(moment(@start_datetime),'hours',true)
 
-    Template.order_edit.events
-        'click .add_credit': ->
-            deposit_amount = Math.abs(parseFloat($('.adding_credit').val()))
-            stripe_charge = parseFloat(deposit_amount)*100*1.02+20
-            # stripe_charge = parseInt(deposit_amount*1.02+20)
+    # Template.order_edit.events
+    #     'click .add_credit': ->
+    #         deposit_amount = Math.abs(parseFloat($('.adding_credit').val()))
+    #         stripe_charge = parseFloat(deposit_amount)*100*1.02+20
+    #         # stripe_charge = parseInt(deposit_amount*1.02+20)
 
-            # if confirm "add #{deposit_amount} credit?"
-            Template.instance().checkout.open
-                name: 'credit deposit'
-                # email:Meteor.user().emails[0].address
-                description: 'gold run'
-                amount: stripe_charge
+    #         # if confirm "add #{deposit_amount} credit?"
+    #         Template.instance().checkout.open
+    #             name: 'credit deposit'
+    #             # email:Meteor.user().emails[0].address
+    #             description: 'gold run'
+    #             amount: stripe_charge
 
-        'click .trigger_recalc': ->
-            Meteor.call 'recalc_order_cost', Router.current().params.doc_id
-            $('.handler')
-              .transition({
-                animation : 'pulse'
-                duration  : 500
-                interval  : 200
-              })
-            $('.result')
-              .transition({
-                animation : 'pulse'
-                duration  : 500
-                interval  : 200
-              })
-
-
-        'click .cancel_order': ->
-            if confirm 'delete order?'
-                Docs.remove @_id
-                Router.go "/rental/#{@rental_id}/"
+    #     'click .trigger_recalc': ->
+    #         Meteor.call 'recalc_order_cost', Router.current().params.doc_id
+    #         $('.handler')
+    #           .transition({
+    #             animation : 'pulse'
+    #             duration  : 500
+    #             interval  : 200
+    #           })
+    #         $('.result')
+    #           .transition({
+    #             animation : 'pulse'
+    #             duration  : 500
+    #             interval  : 200
+    #           })
 
 
-        #     rental = Docs.findOne @rental_id
-        #     # console.log @
-        #     Docs.update @_id,
-        #         $set:
-        #             submitted:true
-        #             submitted_timestamp:Date.now()
-        #     Meteor.call 'pay_for_order', @_id, =>
-        #         Router.go "/order/#{@_id}/"
+    #     'click .cancel_order': ->
+    #         if confirm 'delete order?'
+    #             Docs.remove @_id
+    #             Router.go "/rental/#{@rental_id}/"
+
+
+    #     #     rental = Docs.findOne @rental_id
+    #     #     # console.log @
+    #     #     Docs.update @_id,
+    #     #         $set:
+    #     #             submitted:true
+    #     #             submitted_timestamp:Date.now()
+    #     #     Meteor.call 'pay_for_order', @_id, =>
+    #     #         Router.go "/order/#{@_id}/"
 
 
 

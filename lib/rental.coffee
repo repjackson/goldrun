@@ -317,9 +317,9 @@ if Meteor.isClient
         ), name:'home'
 
 
-    Template.rental_orders.onCreated ->
+    Template.rental_view.onCreated ->
         @autorun => @subscribe 'rental_orders',Router.current().params.doc_id, ->
-    Template.rental_orders.helpers
+    Template.rental_view.helpers
         rental_order_docs: ->
             Docs.find 
                 model:'order'
@@ -428,7 +428,7 @@ if Meteor.isClient
     Template.quickbuy.events
         'click .buy': ->
             console.log @
-            human_form = moment().add(@day_diff, 'days').format('MM dddd')
+            human_form = moment().add(@day_diff, 'days').format('dddd, MMM Do')
             tech_form = moment().add(@day_diff, 'days').format('YYYY-MM-DD')
             Swal.fire({
                 title: "quickbuy #{human_form}?"
@@ -449,7 +449,6 @@ if Meteor.isClient
                         rental_image_id:rental.image_id
                         rental_image_link:rental.image_link
                         rental_daily_rate:rental.daily_rate
-
                     Swal.fire(
                         "reserved for #{human_form}",
                         ''

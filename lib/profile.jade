@@ -9,18 +9,13 @@ template(name='profile')
                         img.ui.centered.rounded.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     .spacer
                     a(href="/user/#{username}")
-                        .ui.center.aligned.header
-                            strong #{username}
-                            //- 
-                            //- strong #{user.first_name} #{user.last_name}
+                        .ui.header
+                            strong @#{username}
                             //- small @#{user.username}        
-                        .ui.inline.header
-                            strong #{username}
-                            //- small @#{user.username}        
-                        a.ui.inline.header(href="/user/#{username}/credit" title='credit')
+                        a.ui.header(href="/user/#{username}/points" title='points')
                             //- +i name='coins'
                             //- i.coins.icon
-                            |{{fixed points}}pts
+                            |#{points} pts
                     // if is_current_user
                     a.ui.large.button(href="/user/#{username}/edit" title='profile settings')
                         i.cog.icon
@@ -33,16 +28,15 @@ template(name='profile')
                         //- +logout_other_clients_button
                     if in_dev 
                         +print_this
-                    +send_points_button
+                    // +send_points_button
                     // +request_button
-                    .ui.inline.header #{current_user.points}p
                     // i.refresh.link.icon.calc_user_points
                 if is_current_user
                     .column
                         .ui.header 
                             +i name='donate'
                             |deposits
-                        // |includes 2% credit card processing fee
+                        // |includes 2% points card processing fee
                         .ui.action.fluid.input
                             input.deposit_amount(type='number' min='1' placeholder='deposit')
                             .ui.icon.button.add_points   
@@ -67,7 +61,9 @@ template(name='profile')
                             a.item(href="/rental/#{_id}") 
                                 img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                                 .content
-                                    .title #{title}
+                                    .title 
+                                        |#{title}
+                                        strong #{daily_rate}p/day
                 .column
                     .ui.header 
                         +i name='order-history'
@@ -123,7 +119,7 @@ template(name='logout_button')
 //                     |{{cal_time end_datetime}}
 //                 div
 //                 .ui.grey.inline.header #{hour_duration} hrs
-//                 .ui.grey.inline.header(title='credits')
+//                 .ui.grey.inline.header(title='pointss')
 //                     i.coins.icon
 //                     | #{cost}
 //                 .ui.small.inline.header #{when} by #{_author_username}
@@ -162,7 +158,3 @@ template(name='user_rental_card')
                 i.right.chevron.icon
 
 
-
-
-
-template(name='user_credit')

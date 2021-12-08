@@ -352,7 +352,7 @@ body {
 }
 
  .invert {
-    filter: invert(100%) !important; 
+    /*filter: invert(100%) !important; */
      /*background-color:white; */
      /*height: 100%; */
  } 

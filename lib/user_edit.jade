@@ -5,13 +5,13 @@ template(name='user_edit')
             .three.column.row
                 .column
                     .ui.center.aligned.large.inline.grey.header
-                        | #{user_from_username_param.first_name} #{user_from_username_param.last_name}
                     //- +i name='pencil'
-                    .ui.small.inline.header @#{user_from_username_param.username}
-                    a.ui.green.fluid.icon.button(href="/user/#{user_from_username_param.username}/") 
+                    .ui.small.inline.header @#{username}
+                    a.ui.green.fluid.icon.button(href="/user/#{username}/") 
                         i.checkmark.large.icon
                     .ui.hidden.divider
                     +image_edit key='image_id' icon='picture' title='profile image' direct=true
+                .column
                     if is_current_user
                         +password_edit
                         //- +phone_editor

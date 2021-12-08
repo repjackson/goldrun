@@ -114,7 +114,7 @@ template(name='rental_view')
     with current_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
-            .two.column.row
+            .three.column.row
                 .column
                     // .ui.header 
                     //     small viewing
@@ -145,11 +145,12 @@ template(name='rental_view')
                         a.ui.compact.button.goto_tag
                             |#{this}
                 .column
+                    .ui.header #{daily_rate}p/day
                     //- unless is_author
-                    .ui.big.green.fluid.button.new_order 
-                        i.large.clock.icon
-                        small reserve for 
-                        strong #{daily_rate}p/day
+                    // .ui.big.green.fluid.button.new_order 
+                    //     i.large.clock.icon
+                    //     small reserve for 
+                    //     strong #{daily_rate}p/day
                     +quickbuy day_diff=0
                     +quickbuy day_diff=1
                     +quickbuy day_diff=2
@@ -160,7 +161,15 @@ template(name='rental_view')
                     if description.length
                         +html_view key='description' label='description' icon='content' direct=true
                     div
-                    +rental_orders
+                    .ui.header 
+                        +i name='order-history'
+                        |#{rental_order_docs.count}
+                        |orders
+                    .ui.selection.animated.link.large.list
+                        each rental_order_docs
+                            a.item(href="/order/#{_id}")
+                                | #{_author_username} for #{order_date}
+                .column
                     +rental_stats
                     // +last_viewed
                     +creation_info
@@ -183,16 +192,6 @@ template(name='quickbuy')
         | #{human_form}
         small #{from_form}
         
-template(name='rental_orders')
-    .ui.header 
-        +i name='order-history'
-        |#{rental_order_docs.count}
-        |orders
-    .ui.selection.animated.link.large.list
-        each rental_order_docs
-            a.item(href="/order/#{_id}")
-                | #{_author_username} for #{order_date}
-    
 
 template(name='rental_edit')
     with current_doc

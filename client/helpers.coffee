@@ -1,5 +1,3 @@
-Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
-Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 
 Template.registerHelper 'parent', () -> Template.parentData()
 Template.registerHelper 'parent_doc', () ->
@@ -55,13 +53,6 @@ Template.registerHelper 'int', (input) -> input.toFixed(0)
 Template.registerHelper 'when', () -> moment(@_timestamp).fromNow()
 Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
 Template.registerHelper 'cal_time', (input) -> moment(input).calendar()
-Template.registerHelper 'last_initial', (user) ->
-    @last_name[0]+'.'
-Template.registerHelper 'first_letter', (user) ->
-    @first_name[..0]+'.'
-Template.registerHelper 'first_initial', (user) ->
-    @first_name[..2]+'.'
-    # moment(input).fromNow()
 # Template.registerHelper 'logging_out', () -> Session.get 'logging_out'
 Template.registerHelper 'upvote_class', () ->
     if Meteor.userId()

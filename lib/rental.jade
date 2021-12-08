@@ -80,35 +80,6 @@ template(name='set_rental_limit')
     .item.set_limit #{amount}
     
     
-// template(name='user_rentals')
-//     .scrolling
-//         if is_current_user
-//             .ui.circular.button.add_rental
-//                 i.plus.icon
-//                 |rental
-//         each rentals
-//             +profile_rental_item
-
-// template(name='profile_rental_item')
-//     .ui.segment.grid
-//         .row
-//             .four.wide.column
-//                 +image_view key='image_id' direct=true cl='zoom ui tiny image'
-//             .twelve.wide.column
-//                 .ui.header #{title}
-//                 a.ui.small.header(href="/rental/#{_id}/")
-//                     |#{hourly_rate}c / hr
-//                 a.ui.small.header(href="/rental/#{_id}/")
-//                     |#{daily_rate}c / day
-//                 .ui.small.inline.header #{when}
-//                 a.ui.button(href="/rental/#{_id}/")
-//                     |view
-//                     i.right.chevron.icon
-//                 if is_admin
-//                     +remove_button
-    
-
-
 
 template(name='rental_view')
     with current_doc
@@ -162,13 +133,36 @@ template(name='rental_view')
                         +html_view key='description' label='description' icon='content' direct=true
                     div
                     .ui.header 
+                        +i name='clock'
+                        |#{future_order_docs.count}
+                        |future orders
+                    .ui.link.large.divided.middle.aligned.list
+                        each future_order_docs
+                            .item
+                                .right.floated.content
+                                    i.red.circular.cancel.link.icon.zoomer
+                                .content
+                                    | #{_author_username}
+                                    small for
+                                    |#{order_date}, {{from_now order_date}}
+                                    a(href="/order/#{_id}")
+                                        i.chevron.right.circular.icon
+                    div
+                    .ui.header 
                         +i name='order-history'
-                        |#{rental_order_docs.count}
-                        |orders
-                    .ui.selection.animated.link.large.list
-                        each rental_order_docs
-                            a.item(href="/order/#{_id}")
-                                | #{_author_username} for #{order_date}
+                        |#{past_order_docs.count}
+                        |past orders
+                    .ui.selection.animated.large.middle.aligned.divided.list
+                        each past_order_docs
+                            .item
+                                .right.floated.content
+                                    i.red.circular.cancel.link.icon.zoomer
+                                .content
+                                    | #{_author_username}
+                                    small for
+                                    |#{order_date}
+                                    a(href="/order/#{_id}")
+                                        i.chevron.right.circular.icon
                 .column
                     +rental_stats
                     // +last_viewed

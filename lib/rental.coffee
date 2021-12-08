@@ -9,7 +9,7 @@ if Meteor.isClient
         Session.setDefault 'view_mode', 'list'
         Session.setDefault 'rental_sort_key', 'datetime_available'
         Session.setDefault 'rental_sort_label', 'available'
-        Session.setDefault 'rental_limit', 5
+        Session.setDefault 'rental_limit', 42
         Session.setDefault 'view_open', true
 
     Template.rentals.onCreated ->
@@ -123,74 +123,16 @@ if Meteor.isClient
 
 
 
-    Template.rentals.helpers
-        # quickbuying_rental: ->
-        #     Docs.findOne Session.get('quickbuying_id')
-
-        sorting_up: ->
-            parseInt(Session.get('rental_sort_direction')) is 1
-
-        connection: ->
-            console.log Meteor.status()
-            Meteor.status()
-        connected: ->
-            Meteor.status().connected
-        invert_class: ->
-            if Meteor.user()
-                if Meteor.user().dark_mode
-                    'invert'
-        tags: ->
-            # if Session.get('current_query') and Session.get('current_query').length > 1
-            #     Terms.find({}, sort:count:-1)
-            # else
-            rental_count = Docs.find().count()
-            # console.log 'rental count', rental_count
-            if rental_count < 3
-                Tags.find({count: $lt: rental_count})
-            else
-                Tags.find()
-
-        result_class: ->
-            if Template.instance().subscriptionsReady()
-                ''
-            else
-                'disabled'
-
-        picked_tags: -> picked_tags.array()
-        picked_tags_plural: -> picked_tags.array().length > 1
-        searching: -> Session.get('searching')
-
-        one_rental: ->
-            Docs.find().count() is 1
-        rental: ->
-            # if picked_tags.array().length > 0
-            Docs.find {
-                model:'rental'
-            },
-                sort: "#{Session.get('rental_sort_key')}":parseInt(Session.get('rental_sort_direction'))
-                limit:Session.get('limit')
-
-        home_subs_ready: ->
-            Template.instance().subscriptionsReady()
-
-
-
-
-
 if Meteor.isServer
     Meteor.publish 'rental_results', (
         picked_tags
         lat=50
         long=100
-        doc_limit
+        limit=42
         doc_sort_key
         doc_sort_direction
         )->
         # console.log picked_tags
-        if doc_limit
-            limit = doc_limit
-        else
-            limit = 10
         if doc_sort_key
             sort_key = doc_sort_key
         if doc_sort_direction
@@ -289,26 +231,6 @@ if Meteor.isServer
         self.ready()
 
 
-# if Meteor.isClient
-#     Template.user_rentals.onCreated ->
-#         @autorun => Meteor.subscribe 'user_rentals', Router.current().params.username
-#     Template.user_rentals.events
-#         'click .add_rental': ->
-#             new_id =
-#                 Docs.insert
-#                     model:'rental'
-#             Router.go "/rental/#{new_id}/edit"
-
-#     Template.user_rentals.helpers
-#         rentals: ->
-#             current_user = Docs.findOne username:Router.current().params.username
-#             Docs.find {
-#                 model:'rental'
-#                 _author_id: current_user._id
-#             }, sort:_timestamp:-1
-
-
-
 
 if Meteor.isClient
     Router.route '/', (->
@@ -320,7 +242,7 @@ if Meteor.isClient
     Template.rental_view.onCreated ->
         @autorun => @subscribe 'rental_orders',Router.current().params.doc_id, ->
     Template.rental_view.helpers
-        rental_order_docs: ->
+        future_order_docs: ->
             Docs.find 
                 model:'order'
                 rental_id:Router.current().params.doc_id
@@ -405,6 +327,19 @@ if Meteor.isClient
         'click .goto_tag': ->
             picked_tags.push @valueOf()
             Router.go '/'
+            
+        'click .cancel':->
+            Swal.fire({
+                title: "delete order?"
+                # text: "this will charge you $5"
+                icon: 'question'
+                showCancelButton: true,
+                confirmButtonText: 'delete'
+                cancelButtonText: 'cancel'
+            }).then((result)=>
+                # console.log @            
+                Docs.remove @_id            
+            )
 
     Template.quickbuy.helpers
         button_class: ->

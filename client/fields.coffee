@@ -33,6 +33,23 @@ Template.date_edit.events
         parent = Template.parentData()
         val = t.$('.edit_date').val()
         doc = Docs.findOne parent._id
+        console.log val
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":val
+
+    'click .today': ->
+        val = moment().format("YYYY-MM-DD")
+        parent = Template.parentData()
+        doc = Docs.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":val
+
+    'click .tomorrow': ->
+        val = moment().add(1, 'days').format("YYYY-MM-DD")
+        parent = Template.parentData()
+        doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val

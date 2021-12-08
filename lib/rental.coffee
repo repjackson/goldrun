@@ -30,6 +30,10 @@ if Meteor.isClient
 
     
     Template.rentals.events
+        'click .fly_right': (e,t)->
+            console.log 'hi'
+            $(e.currentTarget).closest('.grid').transition('fly right', 500)
+    
         'click .request_rental': ->
             title = prompt "different title than #{Session.get('query')}"
             new_id = 

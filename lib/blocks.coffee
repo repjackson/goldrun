@@ -115,12 +115,12 @@ if Meteor.isClient
 
 
 
-    Template.set_sort_direction.events
-        'click .set_sort_direction': ->
-            if Session.get('sort_direction') is -1
-                Session.set('sort_direction', 1)
-            else
-                Session.set('sort_direction', -1)
+    # Template.set_sort_direction.events
+    #     'click .set_sort_direction': ->
+    #         if Session.get('sort_direction') is -1
+    #             Session.set('sort_direction', 1)
+    #         else
+    #             Session.set('sort_direction', -1)
 
 
 
@@ -308,24 +308,24 @@ if Meteor.isClient
             Router.go "/user/#{username}"
 
 
-    Template.session_edit_value_button.events
-        'click .set_session_value': ->
-            # console.log @key
-            # console.log @value
-            Session.set(@key, @value)
+    # Template.session_edit_value_button.events
+    #     'click .set_session_value': ->
+    #         # console.log @key
+    #         # console.log @value
+    #         Session.set(@key, @value)
 
-    Template.session_edit_value_button.helpers
-        calculated_class: ->
-            res = ''
-            # console.log @
-            if @cl
-                res += @cl
-            if Session.equals(@key,@value)
-                res += ' active'
-            else 
-                res += ' basic'
-            # console.log res
-            res
+    # Template.session_edit_value_button.helpers
+    #     calculated_class: ->
+    #         res = ''
+    #         # console.log @
+    #         if @cl
+    #             res += @cl
+    #         if Session.equals(@key,@value)
+    #             res += ' active'
+    #         else 
+    #             res += ' basic'
+    #         # console.log res
+    #         res
 
 
 

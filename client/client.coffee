@@ -1,5 +1,6 @@
 @selected_rental_tags = new ReactiveArray []
 @picked_tags = new ReactiveArray []
+@picked_user_tags = new ReactiveArray []
 @picked_location_tags = new ReactiveArray []
 
 

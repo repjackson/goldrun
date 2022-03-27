@@ -52,66 +52,66 @@ template(name='layout')
     .global_container
         +yield
 
-template(name='nav')
-    #topnav.topnav.ui.attached.borderless.four.item.menu.hscroll.clear
-        if is_loading
-            .icon.item
-                i.big.spinning.grey.yin.yang.icon.cancel
-        else 
-            a.icon.item.zoomer.locate(href='/' class="{{isActivePath '/'}}" title='peer to peer rentals')
-                //- i.marker.large.icon
-                i.shopping.cart.large.icon
-                // strong.mobile.hidden gold run
-        if currentUser
-            a.ui.icon.item.add_rental(title='add rental')
-                i.plus.large.icon
-            a.ui.icon.item.alerts(title='alerts')
-                i.bell.large.icon
-            // a.item(href="/user/#{current_user.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
-            a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
-                // | {{fixed current_user.points}}p
-                if currentUser.image_id
-                    img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200}}")
-                else
-                    i.user.icon
-                span #{currentUser.username}
-                    //- |${{int current_user.credit}}
-                |&nbsp;
-                | {{currentUser.points}}p
-            //- else
-            //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='log out')
-            //-         i.sign.out.icon
-        else
-            // unless current_user
-            a.item(href='/login' title='enter') 
-                i.sign.in.large.icon
-                // +i name='internal'
-                //- |login
+// template(name='nav')
+//     #topnav.topnav.ui.attached.borderless.four.item.menu.hscroll.clear
+//         if is_loading
+//             .icon.item
+//                 i.big.spinning.grey.yin.yang.icon.cancel
+//         else 
+//             a.icon.item.zoomer.locate(href='/' class="{{isActivePath '/'}}" title='peer to peer rentals')
+//                 //- i.marker.large.icon
+//                 i.shopping.cart.large.icon
+//                 // strong.mobile.hidden gold run
+//         if currentUser
+//             a.ui.icon.item.add_rental(title='add rental')
+//                 i.plus.large.icon
+//             a.ui.icon.item.alerts(title='alerts')
+//                 i.bell.large.icon
+//             // a.item(href="/user/#{current_user.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
+//             a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
+//                 // | {{fixed current_user.points}}p
+//                 if currentUser.image_id
+//                     img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200}}")
+//                 else
+//                     i.user.icon
+//                 span #{currentUser.username}
+//                     //- |${{int current_user.credit}}
+//                 |&nbsp;
+//                 | {{currentUser.points}}p
+//             //- else
+//             //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='log out')
+//             //-         i.sign.out.icon
+//         else
+//             // unless current_user
+//             a.item(href='/login' title='enter') 
+//                 i.sign.in.large.icon
+//                 // +i name='internal'
+//                 //- |login
 
 
-template(name='my_latest_activity')
-    .ui.grey.header 
-        i.grey.rss.icon
-        |your activity
-    .ui.list
-        each my_latest_activity
-            .item 
-                img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
-                |#{text} #{body}
-                small #{when}
+// template(name='my_latest_activity')
+//     .ui.grey.header 
+//         i.grey.rss.icon
+//         |your activity
+//     .ui.list
+//         each my_latest_activity
+//             .item 
+//                 img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
+//                 |#{text} #{body}
+//                 small #{when}
 
 
-template(name='latest_activity')
-    .ui.header 
-        +i name='order-history'
-        | activity
-    .ui.list
-        each latest_activity
-            .item 
-                img.ui.avatar.image(src="{{c.url author.image_id width=200 height=200 gravity='face' crop='fill'}}")
-                |#{text} #{body} 
-                .ui.label(title='log type') #{log_type}
-                small #{when}
+// template(name='latest_activity')
+//     .ui.header 
+//         +i name='order-history'
+//         | activity
+//     .ui.list
+//         each latest_activity
+//             .item 
+//                 img.ui.avatar.image(src="{{c.url author.image_id width=200 height=200 gravity='face' crop='fill'}}")
+//                 |#{text} #{body} 
+//                 .ui.label(title='log type') #{log_type}
+//                 small #{when}
 
 
 
@@ -133,68 +133,68 @@ template(name='not_found')
           |home
 
 
-template(name='key_value_edit')
-    .ui.compact.button.set_key_value(class=set_key_value_class)
-        if icon 
-            +i name=icon cl='ui avatar image'
-            // i.icon(class=icon)
-        if label 
-            |#{label}
-        else 
-            |#{value}
+// template(name='key_value_edit')
+//     .ui.compact.button.set_key_value(class=set_key_value_class)
+//         if icon 
+//             +i name=icon cl='ui avatar image'
+//             // i.icon(class=icon)
+//         if label 
+//             |#{label}
+//         else 
+//             |#{value}
 
 
-template(name='send_points_button')
-    .ui.circular.button.send_points
-        +i name='donate'
-        |send points
-template(name='request_button')
-    .ui.button.request
-        |request
+// template(name='send_points_button')
+//     .ui.circular.button.send_points
+//         +i name='donate'
+//         |send points
+// template(name='request_button')
+//     .ui.button.request
+//         |request
 
-template(name='session_key_value_edit')
-    .ui.button.set_key_value(class=set_key_value_class)
-        if key_value_is 'key' 'sort_key'
-            if session_is 'sort_key' value
-                if sorting_up
-                    i.sort.amount.down.icon
-                else
-                    i.sort.amount.up.icon
-        if icon 
-            +i name=icon cl='ui avatar image'
-            // i.icon(class=icon)
-        |#{label}
-
-
-template(name='limit_menu')
-    .ui.inline.small.grey.header
-        |limit
-    .ui.compact.menu
-        .ui.simple.dropdown.item
-            strong #{current_limit}
-            i.dropdown.icon
-            .menu
-                +set_limit amount=1
-                +set_limit amount=5
-                +set_limit amount=10
-                +set_limit amount=20
+// template(name='session_key_value_edit')
+//     .ui.button.set_key_value(class=set_key_value_class)
+//         if key_value_is 'key' 'sort_key'
+//             if session_is 'sort_key' value
+//                 if sorting_up
+//                     i.sort.amount.down.icon
+//                 else
+//                     i.sort.amount.up.icon
+//         if icon 
+//             +i name=icon cl='ui avatar image'
+//             // i.icon(class=icon)
+//         |#{label}
 
 
-template(name='set_limit')
-    .ui.button.set_limit #{amount}
+// template(name='limit_menu')
+//     .ui.inline.small.grey.header
+//         |limit
+//     .ui.compact.menu
+//         .ui.simple.dropdown.item
+//             strong #{current_limit}
+//             i.dropdown.icon
+//             .menu
+//                 +set_limit amount=1
+//                 +set_limit amount=5
+//                 +set_limit amount=10
+//                 +set_limit amount=20
 
 
-template(name='doc_array_togggle')
-    if currentUser
-        .ui.button.toggle(class=doc_array_toggle_class title=label)
-            if in_list member_ids
-                if remove_icon
-                    i.large.icon(class=remove_icon)
-                |#{remove_label}
-            else
-                if add_icon
-                    i.large.icon(class=add_icon)
-                |#{add_label}
-            |#{label}
-        //- each list_users
-        //-     +user_info
+// template(name='set_limit')
+//     .ui.button.set_limit #{amount}
+
+
+// template(name='doc_array_togggle')
+//     if currentUser
+//         .ui.button.toggle(class=doc_array_toggle_class title=label)
+//             if in_list member_ids
+//                 if remove_icon
+//                     i.large.icon(class=remove_icon)
+//                 |#{remove_label}
+//             else
+//                 if add_icon
+//                     i.large.icon(class=add_icon)
+//                 |#{add_label}
+//             |#{label}
+//         //- each list_users
+//         //-     +user_info

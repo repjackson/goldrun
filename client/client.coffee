@@ -49,7 +49,7 @@ Template.nav.events
     #         Session.set('current_lat', position.coords.latitude)
     #         Session.set('current_long', position.coords.longitude)
 
-Template.body.events
+Template.layout.events
     'click .fly_up': (e,t)->
         # console.log 'hi'
         $(e.currentTarget).closest('.grid').transition('slide up', 500)
@@ -76,3 +76,7 @@ Template.body.events
 
 
 # Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
+Router.route '/', (->
+    @layout 'layout'
+    @render 'home'
+    ), name:'home'

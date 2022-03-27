@@ -57,22 +57,22 @@ template(name='events')
                 +session_set key='sort_key' value='start_datetime' label='start time/date' icon='calendar'
                 +session_set key='sort_key' value='price' label='price' icon='money'
                 .spacer
-                if subs_ready
-                    if session_is 'view_mode' 'grid'
-                        if one_result
-                            .ui.stackable.one.cards.scrolling
-                                each event_docs
-                                    +event_card
-                        else
-                            .ui.stackable.three.cards.scrolling
-                                each event_docs
-                                    +event_card
-                    if session_is 'view_mode' 'list'
-                        .ui.selection.divided.animated.list.scrolling
-                            each event_docs 
-                                +event_item
-                else 
-                    i.massive.loading.yin.yang.icon
+                // if subs_ready
+                //     if session_is 'view_mode' 'grid'
+                if one_result
+                    .ui.stackable.one.cards.scrolling
+                        each event_docs
+                            +event_card
+                else
+                    .ui.stackable.three.cards.scrolling
+                        each event_docs
+                            +event_card
+                // if session_is 'view_mode' 'list'
+                    .ui.selection.divided.animated.list.scrolling
+                        each event_docs 
+                            +event_item
+            // else 
+            //     i.massive.loading.yin.yang.icon
 
 template(name='session_icon_button')
     .ui.icon.circular.button.set_session_value(class=session_icon_button_class)

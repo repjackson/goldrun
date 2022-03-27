@@ -183,11 +183,11 @@ if Meteor.isClient
             if picked_tags.array().length > 0
                 match.tags = $all: picked_tags
             
-            if Session.get('viewing_past')
-                # match.date = $gt:moment().subtract(1,'days').format("YYYY-MM-DD")
-                match.start_datetime = $lt:moment().subtract(1,'days').format()
-            else if Session.get('view_mode', 'all')
-                match.start_datetime = $gt:moment().subtract(1,'days').format()
+            # if Session.get('viewing_past')
+            #     # match.date = $gt:moment().subtract(1,'days').format("YYYY-MM-DD")
+            #     match.start_datetime = $lt:moment().subtract(1,'days').format()
+            # else if Session.get('view_mode', 'all')
+            #     match.start_datetime = $gt:moment().subtract(1,'days').format()
             # else
             #     match.date = $lt:moment().subtract(1,'days').format("YYYY-MM-DD")
             if Session.get('event_search')

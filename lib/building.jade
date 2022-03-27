@@ -1,0 +1,120 @@
+template(name='buildings')
+    .ui.stackable.padded.grid
+        .sixteen.wide.column
+            .ui.inline.header 
+                +i name='bedroom'
+                |buildings
+            .ui.icon.button.add_building
+                i.plus.icon
+            .ui.cards
+                each building_docs
+                    a.ui.card(href="/building/#{_id}") 
+                        .content 
+                            .ui.header #{building_number}, #{building_building}
+
+
+template(name='building_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .four.wide.column
+                a.ui.big.button(href="/buildings")
+                    i.large.left.chevron.icon
+                    // |#{building_code}
+                    +i name='apartment'
+                    |buildings
+                .ui.header
+                    i.home.icon 
+                    //- +i name='apartment'
+                    |building
+                    |#{building_number}
+                +image_view key='image_id' direct=true
+                .ui.header 
+                    |Building #{building_number}
+                .ui.header 
+                    |building code: #{building_code}
+                if can_edit
+                    +number_edit key='building_number' direct=true
+                    +text_edit key='building_code' direct=true
+                    +textarea_edit key='notes' direct=true
+                +user_key
+            .twelve.wide.column
+                +building_residents
+                +building_owners
+                .ui.header 
+                    +i name='cubes'
+                    |building units
+                each building_unit_docs 
+                    .ui.header #{unit_number}
+                if is_springdale
+                    +building_permits
+
+            
+template(name='building_permits')            
+    .ui.segment
+        .ui.header 
+            +i name='badge'
+            |building Permits
+        .ui.cards
+            each permits
+                .ui.card
+                    .content
+                        with resident 
+                            +username_info
+                        +date_view key='expiration_date' icon='calendar delete' direct=true
+                        +text_view key='permit' icon='badge' direct=true
+                        +text_view key='license_plate' icon='driver-license-card' direct=true
+
+template(name='building_owners')            
+    .ui.segment
+        .ui.header 
+            //- +i name='rent'
+            i.money.icon
+            |building Owners
+        .ui.four.cards
+            each building_owner_docs
+                .ui.card
+                    .image
+                        img.ui.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                    .content
+                        a.header(href="/user/#{username}")
+                             |#{first_name} #{last_name} 
+                            .meta @#{username}
+                            //- +array_view key='tags' label='Tags' direct=true
+
+
+template(name='building_residents')            
+    .ui.segment
+        .ui.header
+            //- +i name='group'
+            i.users.icon
+            |building Residents
+        .ui.four.cards
+            each building_resident_docs
+                .ui.card
+                    .image
+                        img.ui.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                    .content
+                        a.header(href="/user/#{username}")
+                             |#{first_name} #{last_name} 
+                            .meta @#{username}
+                            .meta 
+                                i.calendar.icon(title='expiration date')
+                                |#{expiration_date}
+                            //- +array_view key='tags' label='Tags' direct=true
+
+
+
+template(name='building_edit')         
+    with current_doc
+        .ui.padded.two.column.centered.grid
+            .column
+                +image_edit key='image_id' direct=true
+                h2.ui.center.aligned.header #{building_number} #{building_number} 
+                +number_edit key='building_number' label='building number' direct=true
+                +text_edit key='building_code' label='building code' direct=true
+                +text_edit key='address' label='address' direct=true
+                // +text_edit key='email' label='Email' direct=true
+            .column
+                a.ui.big.fluid.green.button(href="/building/#{_id}")
+                    i.checkmark.icon
+                    |save

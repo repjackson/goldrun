@@ -1,0 +1,10 @@
+template(name='home')
+    .ui.stackable.padded.grid
+        .sixteen.wide.column
+            .ui.header gold run
+            .ui.header hot tub status
+            .ui.header latest posts
+            .ui.list
+                each latest_posts
+                    a.ui.item(href="/post/#{_id}")
+                        |#{title}

@@ -143,6 +143,29 @@ if Meteor.isServer
 # ), fetchPrevious: true
 
 
+Meteor.users.helpers
+    name: ->
+        if @nickname
+            "#{@nickname}"
+        else if @first_name
+            "#{@first_name} #{@last_name}"
+        else
+            "#{@username}"
+    shortname: ->
+        if @nickname
+            "#{@nickname}"
+        else if @first_name
+            "#{@first_name}"
+        else
+            "#{@username}"
+    email_address: -> if @emails and @emails[0] then @emails[0].address
+    email_verified: -> if @emails and @emails[0] then @emails[0].verified
+    five_tags: ->
+        if @tags
+            @tags[..5]
+    has_points: -> @points > 0
+    # is_tech_admin: ->
+    #     @_id in ['vwCi2GTJgvBJN5F6c','Dw2DfanyyteLytajt','LQEJBS6gHo3ibsJFu','YFPxjXCgjhMYEPADS','RWPa8zfANCJsczDcQ']
 Docs.helpers
     _author: -> Meteor.users.findOne @_author_id
 

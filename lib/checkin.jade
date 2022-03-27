@@ -1,0 +1,77 @@
+template(name='checkins')
+    .ui.stackable.padded.grid
+        .sixteen.wide.column
+            .ui.inline.header 
+                +i name='bedroom'
+                |checkins
+            .ui.icon.button.add_checkin
+                i.plus.icon
+            .ui.cards
+                each checkin_docs
+                    +checkin_card
+                    
+                    
+                    
+template(name='checkin_card')
+    a.ui.card(href="/checkin/#{_id}") 
+        .content 
+            .ui.header  
+                |#{when}
+            .ui.header  
+                |#{resident_first_name} #{resident_last_name}
+            .ui.header 
+                |#{checkin_number}, #{checkin_building}
+
+
+template(name='checkin_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .twelve.wide.column
+                a.ui.big.button(href="/checkins")
+                    i.large.left.chevron.icon
+                    |checkins
+                a.ui.big.button(href="/staff")
+                    i.large.left.chevron.icon
+                    i.big.shield.icon
+                    |staff
+                    // |#{checkin.building_code}
+                .ui.header
+                    i.home.icon 
+                    //- +i name='apartment'
+                    |checkin
+                    |#{checkin.checkin_number}
+                .ui.header 
+                    |#{when}
+                .ui.header 
+                    |active: #{active}
+                .ui.header 
+                    |building #{checkin.building_number}
+                if is_dev
+                    with checkin
+                        +number_edit key='building_number' direct=true
+                .ui.header 
+                    |building #{checkin.building_code}
+                if is_dev
+                    with checkin
+                        +text_edit key='building_code' direct=true
+                        +textarea_edit key='notes' direct=true
+                +print_this
+            .four.wide.column
+                if currentUser
+                    +remove_button
+
+
+template(name='checkin_edit')         
+    with current_doc
+        .ui.padded.two.column.centered.grid
+            .column
+                +image_edit key='image_id'
+                h2.ui.center.aligned.header #{checkin_number} #{building_number} 
+                +number_edit key='checkin_number' label='checkin number' direct=true
+                +number_edit key='building_number' label='building number' direct=true
+                +text_edit key='address' label='address' direct=true
+                // +text_edit key='email' label='Email' direct=true
+            .column
+                a.ui.big.fluid.green.button(href="/resident/#{_id}")
+                    i.checkmark.icon
+                    |save

@@ -62,20 +62,20 @@ template(name='users')
             +i name='tag'
             +i name='campfire'
             .scrolling
-                if session_is 'view_mode' 'grid'
-                    if one_result
-                        .ui.stackable.centered.one.cards
-                            each user_docs
-                                +user_card
-                    else
-                        .ui.stackable.centered.four.cards
-                            each user_docs
-                                +user_card
-                else if session_is 'view_mode' 'list'
-                    .ui.divided.selection.animated.list
+                // if session_is 'view_mode' 'grid'
+                if one_result
+                    .ui.stackable.centered.one.cards
                         each user_docs
-                            +user_item
-            //             div
+                            +user_card
+                else
+                    .ui.stackable.centered.four.cards
+                        each user_docs
+                            +user_card
+            //     else if session_is 'view_mode' 'list'
+            //         .ui.divided.selection.animated.list
+            //             each user_docs
+            //                 +user_item
+            // //             div
 
 template(name='user_cloud')
 
@@ -85,7 +85,7 @@ template(name='user_card')
     a.card.zoomer.fly_left(href="/user/#{username}")
         unless background_image_id
             img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
-        if background_image_id
+        if image_id
             .ui.fade.reveal.image
                 .visible.content
                     img(class=currentUser.invert_class src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}") 

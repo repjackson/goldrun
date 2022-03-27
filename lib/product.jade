@@ -5,9 +5,8 @@ template(name='products')
                 +i name='blog'
                 |products
                 // if currentUser
-                .ui.icon.button.add_product
-                    i.plus.icon
-                // +add_model_button model='product'
+            .ui.icon.button.add_product
+                i.plus.icon
             each picked_tags
                 a.ui.blue.button.unpick_product_tag
                     |#{this}
@@ -58,28 +57,28 @@ template(name='product_view')
                         // i.wordpress.large.icon
                         i.external.icon
                         |#{product_link}
-                    
-                    +boolean_view key='gluten_free' label='gluten free' direct=true icon='no-gluten'
-                    +boolean_view key='vegetarian' label='vegetarian' direct=true icon='vegetarian-mark'
-                    +boolean_view key='no_sugar_added' label='no sugar added' direct=true icon='no-sugar2'
-                    +boolean_view key='vegan' label='vegan' direct=true icon='vegan-symbol'
-                    +boolean_view key='paleo' label='paleo' direct=true icon='caveman'
-                    +boolean_view key='local' label='local' direct=true icon='marker'
-                    +boolean_view key='nut_free' label='nut free' direct=true icon='no-peanut'
-                    +boolean_view key='rescued' label='rescued' direct=true icon='nothing-found'
-                    +boolean_view key='organic' label='organic' direct=true icon='organic-food'
-                    +boolean_view key='no_gmo' label='no gmo' direct=true icon='no-gmo'
-                    +boolean_view key='jar' label='jar container (requires deposit & return)' direct=true icon='mason-jar'
-                    // .ui.header #{menu_section}
-                            +link_edit key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
-                    // +boolean_view key='has_2cup' label='2 cup' direct=true icon='cup'
-                    div
-                    .ui.inline.header 
-                        +i name='ingredients'
-                        |ingredients
-                    each ingredients
-                        .ui.large.basic.label.goto_ingredient #{this}
-                    div
+                    if is_food
+                        +boolean_view key='gluten_free' label='gluten free' direct=true icon='no-gluten'
+                        +boolean_view key='vegetarian' label='vegetarian' direct=true icon='vegetarian-mark'
+                        +boolean_view key='no_sugar_added' label='no sugar added' direct=true icon='no-sugar2'
+                        +boolean_view key='vegan' label='vegan' direct=true icon='vegan-symbol'
+                        +boolean_view key='paleo' label='paleo' direct=true icon='caveman'
+                        +boolean_view key='local' label='local' direct=true icon='marker'
+                        +boolean_view key='nut_free' label='nut free' direct=true icon='no-peanut'
+                        +boolean_view key='rescued' label='rescued' direct=true icon='nothing-found'
+                        +boolean_view key='organic' label='organic' direct=true icon='organic-food'
+                        +boolean_view key='no_gmo' label='no gmo' direct=true icon='no-gmo'
+                        +boolean_view key='jar' label='jar container (requires deposit & return)' direct=true icon='mason-jar'
+                        // .ui.header #{menu_section}
+                                +link_edit key='amazon_referral_link' label='amazon referral link' icon='amazon' direct=true
+                        // +boolean_view key='has_2cup' label='2 cup' direct=true icon='cup'
+                        div
+                        .ui.inline.header 
+                            +i name='ingredients'
+                            |ingredients
+                        each ingredients
+                            .ui.large.basic.label.goto_ingredient #{this}
+                        div
                     +voting_full
                     +link_view key='amazon_referral_link' label='amazon link' icon='amazon' direct=true
                     +link_view key='external_link' label='external link' icon='globe' direct=true
@@ -288,7 +287,7 @@ template(name='product_edit')
                         i.pencil.icon
                         | #{title}
                         small product
-                    .ui.large.icon.fluid.green.button.save_product.fly_right(title='save product')
+                    .ui.large.icon.fluid.green.button.save_product.fly_up(title='save product')
                         i.checkmark.large.icon   
                     +text_edit key='title' label='title' icon='header' direct=true
                     +text_edit key='slug' label='slug' icon='slug' direct=true
@@ -367,15 +366,10 @@ template(name='product_edit')
                                     img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                                     |#{title}
                             
-                                
-                                
-                                
-                                
-                    
 
                             
 template(name='product_card')
-    .ui.card.zoomer(class=product_card_class title=ingredients)
+    .ui.card.zoomer.fly_right(class=product_card_class title=ingredients)
         if rescued 
             .ui.top.right.attached.blue.label(title='rescued')
                 i.search.icon

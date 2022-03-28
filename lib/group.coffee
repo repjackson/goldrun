@@ -53,6 +53,15 @@ if Meteor.isClient
             Router.go "/product/#{new_id}/edit"
             
     Template.group_view.events
+        'click .add_group_task': ->
+            new_id = 
+                Docs.insert 
+                    model:'task'
+                    group_id:Router.current().params.doc_id
+                    
+            Router.go "/task/#{new_id}/edit"
+            
+        
         'click .refresh_group_stats': ->
             Meteor.call 'calc_group_stats', Router.current().params.doc_id, ->
         'click .add_group_event': ->

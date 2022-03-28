@@ -151,6 +151,7 @@ template(name='group_edit')
                     +boolean_edit key='has_checkin' label='checkin' icon='clock' direct=true
                     +boolean_edit key='has_shop' label='shop' icon='shop' direct=true
                     +boolean_edit key='has_posts' label='posts' icon='blog' direct=true
+                    +boolean_edit key='has_tasks' label='tasks' icon='tasks' direct=true
                     
                     
 template(name='group_view')
@@ -189,7 +190,7 @@ template(name='group_view')
                     +multi_user_view key='member_ids' label='members' direct=true
                         
                 .twelve.wide.column
-                    .ui.styled.fluid.active.accordion
+                    .ui.styled.fluid.active.accordio
                         .title
                             i.info.icon
                             |about
@@ -292,6 +293,17 @@ template(name='group_view')
                                 i.dropdown.icon
                             .content
                                 +group_shop
+                        if has_tasks 
+                            .ui.header
+                                i.tasks.icon
+                                |tasks
+                            if currentUser
+                                i.large.circular.link.plus.icon.add_group_task
+                            .ui.large.list 
+                                each group_tasks 
+                                    a.item(href="/tasks/#{_id}")
+                                        |#{title}
+                            
                                 
                                 
                                 

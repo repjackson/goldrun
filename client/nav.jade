@@ -5,8 +5,8 @@ template(name='nav')
         //     .icon.item
         //         i.big.loading.grey.refresh.icon.cancel
         // else 
-        a.icon.item.toggle_leftbar
-            i.large.bars.icon
+        // a.icon.item.toggle_leftbar
+        //     i.large.bars.icon
         a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" )
             +i name='one-ring'
             // i.large.home.icon
@@ -19,30 +19,6 @@ template(name='nav')
             // i.large.users.icon
             +i name='groups'
             .mobile.hidden users 
-        a.icon.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
-            // i.large.users.icon
-            +i name='shop'
-            .mobile.hidden products 
-        a.icon.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
-            // i.large.users.icon
-            +i name='blog'
-            .mobile.hidden posts 
-        a.icon.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
-            // i.large.fire.icon
-            +i name='campfire'
-            // span.mobile.hidden groups
-        a.icon.item.fly_right(href="/buildings" class="{{isActiveRoute 'transfers'}}" title='transfers')
-            // i.large.exchange.icon
-            +i name='exchange'
-            // span.mobile.hidden posts
-        a.icon.item.fly_right(href="/buildings" class="{{isActiveRoute 'buildings'}}" title='buildings')
-            // i.large.exchange.icon
-            +i name='apartments'
-            // span.mobile.hidden posts
-        a.icon.item.fly_right(href="/units" class="{{isActiveRoute 'units'}}" title='units')
-            // i.large.exchange.icon
-            +i name='cubes'
-            // span.mobile.hidden posts
             
         // // .icon.item 
         // //     i.large.search.icon
@@ -95,7 +71,32 @@ template(name='nav')
                     i.sign.in.large.icon
                     // +i name='internal'
                     span.mobile.hidden login
-            
+    .ui.attached.menu
+        a.icon.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
+            // i.large.users.icon
+            +i name='task'
+            .mobile.hidden tasks 
+        a.icon.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
+            // i.large.users.icon
+            +i name='shop'
+            .mobile.hidden products 
+        a.icon.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
+            // i.large.users.icon
+            +i name='blog'
+            .mobile.hidden posts 
+        a.icon.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
+            // i.large.fire.icon
+            +i name='campfire'
+            span.mobile.hidden groups
+        a.icon.item.fly_right(href="/buildings" class="{{isActiveRoute 'buildings'}}" title='buildings')
+            // i.large.exchange.icon
+            +i name='apartment'
+            span.mobile.hidden buildings
+        a.icon.item.fly_right(href="/units" class="{{isActiveRoute 'units'}}" title='units')
+            // i.large.exchange.icon
+            +i name='room'
+            span.mobile.hidden units
+        
                 
 
 template(name='my_latest_activity')

@@ -4,9 +4,9 @@ template(name='posts')
             .ui.inline.header 
                 +i name='blog'
                 |posts
-                if currentUser
-                    .ui.icon.button.add_post
-                        i.plus.large.icon
+            if currentUser
+                .ui.icon.button.add_post
+                    i.plus.large.icon
             .ui.compact.button.toggle_yours
                 if viewing_yours
                     i.undo.green.icon

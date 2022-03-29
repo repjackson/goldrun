@@ -1,10 +1,32 @@
 template(name='home')
     .ui.stackable.padded.grid
         .sixteen.wide.column
-            .ui.header gold run
-            .ui.header hot tub status
-            .ui.header latest posts
-            .ui.list
-                each latest_posts
+            .ui.header 
+                +i name='jacuuzi'
+                |hot tub status
+            with healthclub_status_doc
+                if hottub_open
+                    .ui.large.green.label 
+                        |open
+                else 
+                    .ui.red.basic.label 
+                        |closed
+            
+            .ui.header 
+                +i name='pool'
+                |pool status
+            with healthclub_status_doc
+                if pool_open
+                    .ui.large.green.label 
+                        |open
+                else 
+                    .ui.red.basic.label 
+                        |closed
+            
+            .ui.header 
+                +i name='blog'
+                |latest posts
+            .ui.large.link.selection.animated.list
+                each latest_post_docs
                     a.ui.item(href="/post/#{_id}")
                         |#{title}

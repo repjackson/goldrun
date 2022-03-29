@@ -24,6 +24,17 @@ Tracker.autorun ->
     #                     long:position.coords.longitude
  
 
+Template.home.onCreated ->
+    Session.setDefault 'limit', 20
+    @autorun -> Meteor.subscribe 'model_docs', 'post', ->
+        
+        
+Template.home.helpers
+    latest_post_docs: ->
+        Docs.find {
+            model:'post'
+        }, sort:_timestamp:-1
+        
 Template.nav.onCreated ->
     Session.setDefault 'limit', 20
     @autorun -> Meteor.subscribe 'me'

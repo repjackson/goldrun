@@ -336,6 +336,13 @@ if Meteor.isClient
     Template.transfer_edit.onRendered ->
 
 
+    Template.transfer_view.helpers
+        recipient: ->
+            transfer = Docs.findOne Router.current().params.doc_id
+            if transfer and transfer.recipient_id
+                Meteor.users.findOne
+                    _id: transfer.recipient_id
+
     Template.transfer_edit.helpers
         # terms: ->
         #     Terms.find()

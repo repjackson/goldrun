@@ -559,6 +559,7 @@ Template.single_user_edit.events
             Meteor.call 'lookup_user', search_value, @role_filter, (err,res)=>
                 if err then console.error err
                 else
+                    console.log res
                     t.user_results.set res
 
     'click .select_user': (e,t) ->

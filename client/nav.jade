@@ -18,7 +18,11 @@ template(name='nav')
         a.icon.item.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title='users')
             // i.large.users.icon
             +i name='groups'
-            .mobile.hidden users 
+            .mobile.hidden people
+        a.icon.item.fly_right(href="/transfers" class="{{isActiveRoute 'transfers'}}" title='transfers')
+            // i.large.users.icon
+            +i name='exchange'
+            .mobile.hidden transfers 
         .right.menu
             if currentUser
                 .icon.item.add_post 

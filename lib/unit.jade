@@ -76,7 +76,8 @@ template(name='unit_edit')
                 +number_edit key='square_feet' label='square feet' icon='ruler' direct=true
                 +number_edit key='monthly_rent' label='monthly rent' icon='money' direct=true
                 +boolean_edit key='for_sale' label='for sale' icon='money' direct=true
-
+                if for_sale 
+                    +date_edit key='date_available' label='date available' icon='calendar' direct=true
             
             
 template(name='unit_card')

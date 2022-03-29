@@ -114,7 +114,8 @@ Meteor.publish 'doc', (doc_id)->
 
 Meteor.publish 'author_from_doc_id', (doc_id)->
     doc = Docs.findOne doc_id
-    Docs.find user_id
+    if doc 
+        Docs.find doc._author_id
 
 Meteor.publish 'page', (slug)->
     Docs.find
@@ -250,15 +251,15 @@ Meteor.methods
 
 
     lookup_user: (username_query, role_filter)->
-        if role_filter
-            Docs.find({
-                username: {$regex:"#{username_query}", $options: 'i'}
-                roles:$in:[role_filter]
-                },{limit:10}).fetch()
-        else
-            Docs.find({
-                username: {$regex:"#{username_query}", $options: 'i'}
-                },{limit:10}).fetch()
+        # if role_filter
+        #     Docs.find({
+        #         username: {$regex:"#{username_query}", $options: 'i'}
+        #         roles:$in:[role_filter]
+        #         },{limit:10}).fetch()
+        # else
+        Meteor.users.find({
+            username: {$regex:"#{username_query}", $options: 'i'}
+            },{limit:10}).fetch()
 
 
     lookup_doc: (guest_name, model_filter)->

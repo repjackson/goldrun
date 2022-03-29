@@ -8,9 +8,19 @@ template(name='buildings')
                 i.plus.icon
             .ui.cards
                 each building_docs
-                    a.ui.card(href="/building/#{_id}") 
-                        .content 
-                            .ui.header #{building_number}, #{building_building}
+                    +building_card
+                    
+                    
+template(name='building_card')
+    a.ui.card.zoomer.fly_right(class=product_card_class title=ingredients href="/building/#{_id}")
+        img.ui.centered.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+        .content
+            .ui.header 
+                //- |#{_author.name}'s
+                | #{title}
+            .ui.header #{building_number}, #{building_building}
+            each location_tags 
+                .ui.basic.label #{this}
 
 
 template(name='building_view')
@@ -27,21 +37,20 @@ template(name='building_view')
                     //- +i name='apartment'
                     |building
                     |#{building_number}
+                if can_edit 
+                    a.ui.button(href="/building/#{_id}/edit" title='edit')
+                        i.large.pencil.icon
                 +image_view key='image_id' direct=true
                 .ui.header 
                     |Building #{building_number}
                 .ui.header 
                     |building code: #{building_code}
-                if can_edit
-                    +number_edit key='building_number' direct=true
-                    +text_edit key='building_code' direct=true
-                    +textarea_edit key='notes' direct=true
                 +user_key
             .twelve.wide.column
                 +building_residents
                 +building_owners
                 .ui.header 
-                    +i name='cubes'
+                    +i name='room'
                     |building units
                 each building_unit_docs 
                     .ui.header #{unit_number}
@@ -81,14 +90,13 @@ template(name='building_owners')
                             .meta @#{username}
                             //- +array_view key='tags' label='Tags' direct=true
 
-
 template(name='building_residents')            
     .ui.segment
         .ui.header
-            //- +i name='group'
-            i.users.icon
-            |building Residents
-        .ui.four.cards
+            +i name='group'
+            // i.users.icon
+            |building residents
+        .ui.stackable.cards
             each building_resident_docs
                 .ui.card
                     .image
@@ -114,7 +122,11 @@ template(name='building_edit')
                 +text_edit key='building_code' label='building code' direct=true
                 +text_edit key='address' label='address' direct=true
                 // +text_edit key='email' label='Email' direct=true
+                +number_edit key='building_number' direct=true
+                +text_edit key='building_code' direct=true
+                +textarea_edit key='notes' direct=true
+                
             .column
                 a.ui.big.fluid.green.button(href="/building/#{_id}")
-                    i.checkmark.icon
+                    i.checkmark.big.icon
                     |save

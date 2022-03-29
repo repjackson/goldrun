@@ -6,7 +6,7 @@ if Meteor.isClient
     Template.comments.onCreated ->
         # if Router.current().params.doc_id
         #     parent = Docs.findOne Router.current().params.doc_id
-            # @autorun => Meteor.subscribe 'children', 'comment', parent._id
+        @autorun => Meteor.subscribe 'children', 'comment', Router.current().params.doc_id, ->
         # else
         #     parent = Docs.findOne Template.parentData()._id
         # if parent

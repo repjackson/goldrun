@@ -1,8 +1,12 @@
 template(name='home')
     .ui.stackable.padded.grid
-        .sixteen.wide.column
+        .four.wide.column
             .ui.header 
-                +i name='jacuuzi'
+                +i name='dashboard' 
+                |gr dashboard
+            
+            .ui.header 
+                +i name='jacuzzi'
                 |hot tub status
             with healthclub_status_doc
                 if hottub_open
@@ -12,6 +16,7 @@ template(name='home')
                     .ui.red.basic.label 
                         |closed
             
+        .four.wide.column
             .ui.header 
                 +i name='pool'
                 |pool status
@@ -23,6 +28,7 @@ template(name='home')
                     .ui.red.basic.label 
                         |closed
             
+        .four.wide.column
             .ui.header 
                 +i name='blog'
                 |latest posts
@@ -31,6 +37,7 @@ template(name='home')
                     a.ui.item(href="/post/#{_id}")
                         |#{title}
                         
+        .four.wide.column
             .ui.header 
                 +i name='money'
                 |real estate available 

@@ -79,6 +79,23 @@ template(name='profile')
                         .ui.items
                             each purchased_orders
                                 +profile_order_item
+                .column
+                    .ui.header 
+                        +i name='donate'
+                        |points sent
+                    .scrolling
+                        .ui.items
+                            each sent_transfer_docs
+                                +transfer_item
+                .column
+                    .ui.header 
+                        +i name='chevron down'
+                        |points received
+                    .scrolling
+                        .ui.items
+                            each received_transfer_docs
+                                +transfer_item
+                
                         
     else 
         .ui.basic.center.aligned.segment

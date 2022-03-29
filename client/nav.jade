@@ -82,10 +82,22 @@ template(name='nav')
             // i.large.fire.icon
             +i name='campfire'
             span.mobile.hidden groups
+        a.icon.zoomer.item.fly_right(href="/requests" class="{{isActiveRoute 'requests'}}" title='requests')
+            // i.large.fire.icon
+            +i name='hand-holding-heart'
+            span.mobile.hidden requests
+        a.icon.zoomer.item.fly_right(href="/services" class="{{isActiveRoute 'services'}}" title='services')
+            // i.large.fire.icon
+            +i name='wrench'
+            span.mobile.hidden services
         a.icon.zoomer.item.fly_right(href="/buildings" class="{{isActiveRoute 'buildings'}}" title='buildings')
             // i.large.exchange.icon
             +i name='apartment'
             span.mobile.hidden buildings
+        a.icon.zoomer.item.fly_right(href="/rentals" class="{{isActiveRoute 'rentals'}}" title='rentals')
+            // i.large.exchange.icon
+            +i name='clock'
+            span.mobile.hidden rentals
         a.icon.zoomer.item.fly_right(href="/units" class="{{isActiveRoute 'units'}}" title='units')
             // i.large.exchange.icon
             +i name='room'

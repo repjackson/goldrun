@@ -40,6 +40,10 @@ if Meteor.isClient
             Docs.find
                 model:'rental'
                 _author_username:Router.current().params.username
+        sent_transfer_docs: ->
+            Docs.find
+                model:'transfer'
+                _author_username:Router.current().params.username
         reserved_from_docs: ->
             Docs.find
                 model:'order'

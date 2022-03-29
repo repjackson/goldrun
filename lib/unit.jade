@@ -20,7 +20,7 @@ template(name='unit_view')
             .four.wide.column
                 a.ui.large.button.fly_left(href="/units")
                     i.large.left.chevron.icon
-                    +i name='cubes'
+                    +i name='room'
                     |units
                 a.ui.big.button(href="/building/#{building_code}")
                     i.large.left.chevron.icon
@@ -31,29 +31,67 @@ template(name='unit_view')
                     |unit
                     |#{unit_number}
                 .ui.header 
-                    |Building #{building_number}
+                    |Building ##{building_number}
                 .ui.header 
                     |building #{building_code}
-                if can_edit
-                    +text_edit key='building_code' label='building_code' direct=true
-                    +number_edit key='building_number' label='building number' direct=true
-                    +textarea_edit key='notes' direct=true
+                if can_edit 
+                    a.ui.icon.button(href="/unit/#{_id}/edit")
+                        i.large.pencil.icon
+                // if can_edit
+                //     +text_edit key='building_code' label='building_code' direct=true
+                //     +number_edit key='building_number' label='building number' direct=true
+                //     +textarea_edit key='notes' direct=true
+            .six.wide.column
+                +html_view key='description' label='description' direct=true
                 +user_key
-            .twelve.wide.column
+                +number_view key='bedroom_count' label='bedrooms' icon='bedroom' direct=true
+                +number_view key='bathroom_count' label='bathrooms' icon='bath' direct=true
+            .six.wide.column
+                +number_view key='square_feet' label='square feet' icon='ruler' direct=true
+                +number_view key='monthly_rent' label='monthly rent' icon='money' direct=true
+                +boolean_view key='for_sale' label='for sale' icon='money' direct=true
+
                 +unit_residents
                 +unit_owners
                 if is_springdale
                     +unit_permits
 
             
+template(name='unit_edit')         
+    with current_doc
+        .ui.padded.two.column.centered.grid
+            .column
+                +image_edit key='image_id'
+                h2.ui.center.aligned.header #{unit_number} #{building_number} 
+                +number_edit key='unit_number' label='unit number' direct=true
+                +number_edit key='building_number' label='building number' direct=true
+                +text_edit key='address' label='address' direct=true
+                // +text_edit key='email' label='Email' direct=true
+            .column
+                a.ui.big.fluid.icon.green.button(href="/unit/#{_id}")
+                    i.checkmark.big.icon
+                +html_edit key='description' label='description' direct=true
+                +number_edit key='bedroom_count' label='bedrooms' icon='bedroom' direct=true
+                +number_edit key='bathroom_count' label='bathrooms' icon='bathroom' direct=true
+                +number_edit key='square_feet' label='square feet' icon='ruler' direct=true
+                +number_edit key='monthly_rent' label='monthly rent' icon='money' direct=true
+                +boolean_edit key='for_sale' label='for sale' icon='money' direct=true
+
+            
+            
 template(name='unit_card')
     a.ui.card(href="/unit/#{_id}") 
         .content 
-            .ui.header #{unit_number}, 
+            .ui.inline.header ##{title}
+            .ui.inline.header ##{unit_number}
             .ui.header
                 |building number
                 +i name='building'
                 |#{building_number}
+            if for_sale 
+                .ui.basic.label
+                    +i name='money' 
+                    |for sale
 
             
 template(name='unit_permits')            
@@ -150,16 +188,3 @@ template(name='user_key')
                         .item #{when} by #{_author_username}
 
 
-template(name='unit_edit')         
-    with current_doc
-        .ui.padded.two.column.centered.grid
-            .column
-                +image_edit key='image_id'
-                h2.ui.center.aligned.header #{unit_number} #{building_number} 
-                +number_edit key='unit_number' label='unit number' direct=true
-                +number_edit key='building_number' label='building number' direct=true
-                +text_edit key='address' label='address' direct=true
-                // +text_edit key='email' label='Email' direct=true
-            .column
-                a.ui.big.fluid.icon.green.button(href="/unit/#{_id}")
-                    i.checkmark.big.icon

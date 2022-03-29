@@ -1,6 +1,6 @@
 template(name='nav')
     // https://fomantic-ui.com/elements/icon.html#/icon
-    #topnav.topnav.ui.attached.borderless.big.menu.hscroll
+    #topnav.topnav.ui.attached.borderless.inverted.menu.hscroll
         // if is_loading
         //     .icon.item
         //         i.big.loading.grey.refresh.icon.cancel
@@ -61,28 +61,28 @@ template(name='nav')
                     i.sign.in.large.icon
                     // +i name='internal'
                     span.mobile.hidden login
-    .ui.attached.menu
-        a.icon.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
+    .ui.attached.small.borderless.inverted.menu
+        a.icon.zoomer.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
             // i.large.users.icon
             +i name='task'
             .mobile.hidden tasks 
-        a.icon.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
+        a.icon.zoomer.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
             // i.large.users.icon
             +i name='shop'
             .mobile.hidden products 
-        a.icon.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
+        a.icon.zoomer.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
             // i.large.users.icon
             +i name='blog'
             .mobile.hidden posts 
-        a.icon.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
+        a.icon.zoomer.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
             // i.large.fire.icon
             +i name='campfire'
             span.mobile.hidden groups
-        a.icon.item.fly_right(href="/buildings" class="{{isActiveRoute 'buildings'}}" title='buildings')
+        a.icon.zoomer.item.fly_right(href="/buildings" class="{{isActiveRoute 'buildings'}}" title='buildings')
             // i.large.exchange.icon
             +i name='apartment'
             span.mobile.hidden buildings
-        a.icon.item.fly_right(href="/units" class="{{isActiveRoute 'units'}}" title='units')
+        a.icon.zoomer.item.fly_right(href="/units" class="{{isActiveRoute 'units'}}" title='units')
             // i.large.exchange.icon
             +i name='room'
             span.mobile.hidden units

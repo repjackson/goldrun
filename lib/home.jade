@@ -30,3 +30,10 @@ template(name='home')
                 each latest_post_docs
                     a.ui.item(href="/post/#{_id}")
                         |#{title}
+                        
+            .ui.header 
+                +i name='money'
+                |real estate available 
+            each available_properties_docs
+                .ui.header 
+                    |#{title}

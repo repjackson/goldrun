@@ -1,6 +1,6 @@
 template(name='posts')
     .ui.stackable.padded.grid 
-        .six.wide.column
+        .four.wide.column
             .ui.inline.header 
                 +i name='blog'
                 |posts
@@ -21,15 +21,15 @@ template(name='posts')
                 a.ui.compact.button.pick_post_tag
                     |#{name} 
                     // small.ui.grey.text #{count}
-        .ten.wide.column
+        .twelve.wide.column
             // +session_set key='view_mode' value='grid' icon='th'
             // +session_set key='view_mode' value='list' icon='list'
             i.large.sort.icon
             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
-            .scrolling
+            .scrollin
                 // if subs_ready
-                .ui.centered.stackable.fluid.cards
+                .ui.centered.stackable.cards
                     each post_docs 
                         +post_card
                 // else 
@@ -65,7 +65,7 @@ template(name='set_view_mode_post')
 
 
 template(name='post_card')
-    .ui.link.fluid.card.view_post.pointer.fly_right
+    .ui.link.card.view_post.pointer.fly_right
         img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
             a.ui.header.zoomer(href="/post/#{_id}") #{title}

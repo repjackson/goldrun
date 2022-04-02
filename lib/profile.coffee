@@ -31,6 +31,16 @@ if Meteor.isClient
             Docs.insert 
                 model:'user'
                 username:Router.current().params.username
+                
+        'click .send_points': ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            new_id = 
+                Docs.insert 
+                    model:'transfer'
+                    recipient_id: user._id
+            Router.go "/transfer/#{new_id}/edit"
+            
+                
     # Template.user_section.helpers
     #     user_section_template: ->
     #         "user_#{Router.current().params.group}"

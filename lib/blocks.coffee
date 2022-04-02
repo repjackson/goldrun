@@ -393,6 +393,7 @@ Meteor.methods
             $set:
                 last_viewed: Date.now() 
             $inc:views:1
+            
     mark_unread: (doc_id)->
         doc = Docs.findOne doc_id
         Docs.update doc_id,

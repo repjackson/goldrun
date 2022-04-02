@@ -1,11 +1,11 @@
-template(name='posts')
+template(name='services')
     .ui.stackable.padded.grid 
         .six.wide.column
             .ui.inline.header 
                 +i name='blog'
-                |posts
+                |services
             if currentUser
-                .ui.icon.button.add_post
+                .ui.icon.button.add_service
                     i.plus.large.icon
             .ui.compact.button.toggle_yours
                 if viewing_yours
@@ -14,29 +14,29 @@ template(name='posts')
                     i.circle.outline.icon
                 |yours
             each picked_tags
-                a.ui.blue.button.unpick_post_tag
+                a.ui.blue.button.unpick_service_tag
                     |#{this}
             each tag_results
                 // if title
-                a.ui.compact.button.pick_post_tag
+                a.ui.compact.button.pick_service_tag
                     |#{name} 
                     // small.ui.grey.text #{count}
         .ten.wide.column
-            // +session_set key='view_mode' value='grid' icon='th'
-            // +session_set key='view_mode' value='list' icon='list'
+            +session_set key='view_mode' value='grid' icon='th'
+            +session_set key='view_mode' value='list' icon='list'
             i.large.sort.icon
             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
             .scrolling
                 // if subs_ready
                 .ui.centered.stackable.fluid.cards
-                    each post_docs 
-                        +post_card
+                    each service_docs 
+                        +service_card
                 // else 
                 //     i.massive.yin.yang.loading.icon
 
 
-template(name='set_post_sort_key')
+template(name='set_service_sort_key')
     .item.set_sort
         if color
             .ui.label(class=color) #{label}
@@ -53,7 +53,7 @@ template(name='set_post_sort_key')
         
         
 
-template(name='set_view_mode_post')
+template(name='set_view_mode_service')
     .item.set_view
         i.icon(class=icon)
         |#{title}
@@ -64,25 +64,24 @@ template(name='set_view_mode_post')
 
 
 
-template(name='post_card')
-    .ui.link.fluid.card.view_post.pointer.fly_right
+template(name='service_card')
+    .ui.link.fluid.card.view_service.pointer.fly_right
         img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
-            a.ui.header.zoomer(href="/post/#{_id}") #{title}
+            a.ui.header.zoomer(href="/service/#{_id}") #{title}
             if private 
                 i.large.lock.icon
             .ui.small.grey.inline.header #{when}
             | !{content}
             // +comments_view_small
-            |#{points}pts
             +author_info
             if group_id     
                 +group_info
             
         
-template(name='post_item')
-    .ui.fluid.segment.view_post.pointer
-        a.ui.header(href="/post/#{_id}/view") #{title}
+template(name='service_item')
+    .ui.fluid.segment.view_service.pointer
+        a.ui.header(href="/service/#{_id}/view") #{title}
         div
         .ui.small.grey.inline.header #{when}
         | #{content}
@@ -90,19 +89,19 @@ template(name='post_item')
             .ui.basic.small.label #{this}
         
 
-template(name='post_view')
+template(name='service_view')
     with current_doc
         .ui.stackable.padded.grid
             .row 
                 .four.wide.column.scrolling
-                    a.ui.circular.icon.button(href="/posts" title='posts')
+                    a.ui.circular.icon.button(href="/services" title='services')
                         i.chevron.left.icon
-                        +i name='post'
-                        |posts
+                        +i name='service'
+                        |services
                     .ui.inline.grey.header {{from_now start_datetime}}
                     
                     if can_edit
-                        a.ui.circular.icon.button.fly_down(href="/post/#{_id}/edit" title='edit')
+                        a.ui.circular.icon.button.fly_down(href="/service/#{_id}/edit" title='edit')
                             +i name='pencil'
                     .ui.segment
                         .ui.header 
@@ -139,29 +138,17 @@ template(name='post_view')
 
 
 
-template(name='visibility_settings')
-    .ui.header 
-        i.eye.icon
-        |visibility settings
-    if private 
-        .ui.header 
-            i.lock.icon
-            |private
-    if friends_only
-        .ui.header 
-            +i name='friends'
-            |friends only
 
 
-template(name='post_edit')
+template(name='service_edit')
     with current_doc
         .ui.stackable.padded.grid
             .three.column.row 
                 .column.scrolling
                     .ui.inline.header 
                         +icolor name='news' cl='ui image inline pointer'
-                        |edit post
-                    a.ui.icon.green.big.button(href="/post/#{_id}/view" title='save')
+                        |edit service
+                    a.ui.icon.green.big.button(href="/service/#{_id}/view" title='save')
                         i.checkmark.big.icon
                     +text_edit key='title' label='title' direct=true
                     
@@ -169,7 +156,7 @@ template(name='post_edit')
                     if has_content
                         +html_edit key='content' label='content' direct=true
                 .column.scrolling
-                    i.large.link.red.remove.icon.delete_post
+                    i.large.link.red.remove.icon.delete_service
                     if is_dev
                         +single_user_edit key='_author_id' label='author' direct=true
                     else 

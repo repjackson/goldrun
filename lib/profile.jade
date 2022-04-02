@@ -2,7 +2,7 @@ template(name='profile')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     with user_from_username_param
         .ui.stackable.padded.grid
-            .three.column.row
+            .four.column.row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .column
                     a.item(href="/user/#{username}")
@@ -53,6 +53,8 @@ template(name='profile')
                                         +remove_button
                                         
                 .column
+                    .ui.header friends
+                .column
                     .ui.header 
                         +i name='shopping-cart'
                         |#{user_rental_docs.count} rentals
@@ -64,14 +66,12 @@ template(name='profile')
                                     .title 
                                         |#{title}
                                         strong #{daily_rate}p/day
-                .column
                     .ui.header 
                         +i name='order-history'
                         |rented to
                     .ui.items
                         each received_orders
                             +profile_order_item
-                .column
                     .ui.header 
                         +i name='clock'
                         |rented from
@@ -87,10 +87,12 @@ template(name='profile')
                         .ui.items
                             each sent_transfer_docs
                                 +transfer_item
-                .column
                     .ui.header 
-                        +i name='chevron down'
+                        +i name='down chevron'
                         |points received
+                    .ui.button.send_points
+                        i.send.icon
+                        |send points
                     .scrolling
                         .ui.items
                             each received_transfer_docs

@@ -1,35 +1,34 @@
 if Meteor.isClient
-    Router.route '/posts', (->
+    Router.route '/services', (->
         @layout 'layout'
-        @render 'posts'
-        ), name:'posts'
-    Router.route '/post/:doc_id/edit', (->
+        @render 'services'
+        ), name:'services'
+    Router.route '/service/:doc_id/edit', (->
         @layout 'layout'
-        @render 'post_edit'
-        ), name:'post_edit'
-    Router.route '/post/:doc_id', (->
+        @render 'service_edit'
+        ), name:'service_edit'
+    Router.route '/service/:doc_id', (->
         @layout 'layout'
-        @render 'post_view'
-        ), name:'post_view'
-    Router.route '/post/:doc_id/view', (->
+        @render 'service_view'
+        ), name:'service_view'
+    Router.route '/service/:doc_id/view', (->
         @layout 'layout'
-        @render 'post_view'
-        ), name:'post_view_long'
+        @render 'service_view'
+        ), name:'service_view_long'
     
     
-    # Template.posts.onCreated ->
-    #     @autorun => Meteor.subscribe 'model_docs', 'post', ->
-    Template.posts.onCreated ->
+    # Template.services.onCreated ->
+    #     @autorun => Meteor.subscribe 'model_docs', 'service', ->
+    Template.services.onCreated ->
         Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'sort_key', '_timestamp'
+        Session.setDefault 'sort_key', 'member_count'
         Session.setDefault 'sort_label', 'available'
-        Session.setDefault 'sort_direction', -1
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
 
-    Template.posts.onCreated ->
-        # @autorun => @subscribe 'model_docs', 'post', ->
-        @autorun => @subscribe 'post_facets',
+    Template.services.onCreated ->
+        # @autorun => @subscribe 'model_docs', 'service', ->
+        @autorun => @subscribe 'service_facets',
             picked_tags.array()
             # Session.get('limit')
             # Session.get('sort_key')
@@ -38,7 +37,7 @@ if Meteor.isClient
             # Session.get('view_pickup')
             # Session.get('view_open')
 
-        @autorun => @subscribe 'post_results',
+        @autorun => @subscribe 'service_results',
             picked_tags.array()
             Session.get('group_title_search')
             Session.get('limit')
@@ -48,45 +47,46 @@ if Meteor.isClient
             Session.get('view_pickup')
             Session.get('view_open')
 
-    Template.post_view.onCreated ->
+    Template.service_view.onCreated ->
         @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
+
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-    Template.post_edit.onCreated ->
+    Template.service_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-    Template.post_card.onCreated ->
+    Template.service_card.onCreated ->
         @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
 
 
-    Template.posts.helpers
-        post_docs: ->
+    Template.services.helpers
+        service_docs: ->
             Docs.find {
-                model:'post'
-            }, sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+                model:'service'
+            }, sort:_timestamp:-1
         tag_results: ->
             Results.find 
-                model:'post_tag'
-        picked_post_tags: -> picked_tags.array()
+                model:'service_tag'
+        picked_service_tags: -> picked_tags.array()
         
                 
-    Template.posts.events
-        'click .add_post': ->
+    Template.services.events
+        'click .add_service': ->
             new_id = 
                 Docs.insert 
-                    model:'post'
-            Router.go "/post/#{new_id}/edit"
-    Template.post_card.events
-        'click .view_post': ->
-            Router.go "/post/#{@_id}"
-    Template.post_item.events
-        'click .view_post': ->
-            Router.go "/post/#{@_id}"
+                    model:'service'
+            Router.go "/service/#{new_id}/edit"
+    Template.service_card.events
+        'click .view_service': ->
+            Router.go "/service/#{@_id}"
+    Template.service_item.events
+        'click .view_service': ->
+            Router.go "/service/#{@_id}"
 
-    Template.post_view.events
-        'click .add_post_recipe': ->
+    Template.service_view.events
+        'click .add_service_recipe': ->
             new_id = 
                 Docs.insert 
                     model:'recipe'
-                    post_ids:[@_id]
+                    service_ids:[@_id]
             Router.go "/recipe/#{new_id}/edit"
 
     # Template.favorite_icon_toggle.helpers
@@ -114,10 +114,10 @@ if Meteor.isClient
     #                 $addToSet:favorite_ids:Meteor.userId()
     
     
-    Template.post_edit.events
-        'click .delete_post': ->
+    Template.service_edit.events
+        'click .delete_service': ->
             Swal.fire({
-                title: "delete post?"
+                title: "delete service?"
                 text: "cannot be undone"
                 icon: 'question'
                 confirmButtonText: 'delete'
@@ -131,16 +131,16 @@ if Meteor.isClient
                     Swal.fire(
                         position: 'top-end',
                         icon: 'success',
-                        title: 'post removed',
+                        title: 'service removed',
                         showConfirmButton: false,
                         timer: 1500
                     )
-                    Router.go "/post"
+                    Router.go "/service"
             )
 
         'click .publish': ->
             Swal.fire({
-                title: "publish post?"
+                title: "publish service?"
                 text: "point bounty will be held from your account"
                 icon: 'question'
                 confirmButtonText: 'publish'
@@ -150,11 +150,11 @@ if Meteor.isClient
                 reverseButtons: true
             }).then((result)=>
                 if result.value
-                    Meteor.call 'publish_post', @_id, =>
+                    Meteor.call 'publish_service', @_id, =>
                         Swal.fire(
                             position: 'bottom-end',
                             icon: 'success',
-                            title: 'post published',
+                            title: 'service published',
                             showConfirmButton: false,
                             timer: 1000
                         )
@@ -162,7 +162,7 @@ if Meteor.isClient
 
         'click .unpublish': ->
             Swal.fire({
-                title: "unpublish post?"
+                title: "unpublish service?"
                 text: "point bounty will be returned to your account"
                 icon: 'question'
                 confirmButtonText: 'unpublish'
@@ -172,18 +172,18 @@ if Meteor.isClient
                 reverseButtons: true
             }).then((result)=>
                 if result.value
-                    Meteor.call 'unpublish_post', @_id, =>
+                    Meteor.call 'unpublish_service', @_id, =>
                         Swal.fire(
                             position: 'bottom-end',
                             icon: 'success',
-                            title: 'post unpublished',
+                            title: 'service unpublished',
                             showConfirmButton: false,
                             timer: 1000
                         )
             )
             
 if Meteor.isServer
-    Meteor.publish 'post_results', (
+    Meteor.publish 'service_results', (
         )->
         # console.log picked_ingredients
         # if doc_limit
@@ -195,7 +195,7 @@ if Meteor.isServer
         # if doc_sort_direction
         #     sort_direction = parseInt(doc_sort_direction)
         self = @
-        match = {model:'post'}
+        match = {model:'service'}
         # if picked_ingredients.length > 0
         #     match.ingredients = $all: picked_ingredients
         #     # sort = 'price_per_serving'
@@ -211,9 +211,9 @@ if Meteor.isServer
         #     match.vegan = true
         # if view_gf
         #     match.gluten_free = true
-        # if post_query and post_query.length > 1
-        #     console.log 'searching post_query', post_query
-        #     match.title = {$regex:"#{post_query}", $options: 'i'}
+        # if service_query and service_query.length > 1
+        #     console.log 'searching service_query', service_query
+        #     match.title = {$regex:"#{service_query}", $options: 'i'}
         #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
 
         # match.tags = $all: picked_ingredients
@@ -225,7 +225,7 @@ if Meteor.isServer
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
 
-        # console.log 'post match', match
+        # console.log 'service match', match
         # console.log 'sort key', sort_key
         # console.log 'sort direction', sort_direction
         unless Meteor.userId()
@@ -236,10 +236,10 @@ if Meteor.isServer
             limit: 42
             
             
-    Meteor.publish 'post_count', (
+    Meteor.publish 'service_count', (
         picked_ingredients
         picked_sections
-        post_query
+        service_query
         view_vegan
         view_gf
         )->
@@ -247,7 +247,7 @@ if Meteor.isServer
     
         # console.log picked_ingredients
         self = @
-        match = {model:'post'}
+        match = {model:'service'}
         if picked_ingredients.length > 0
             match.ingredients = $all: picked_ingredients
             # sort = 'price_per_serving'
@@ -262,15 +262,15 @@ if Meteor.isServer
             match.vegan = true
         if view_gf
             match.gluten_free = true
-        if post_query and post_query.length > 1
-            console.log 'searching post_query', post_query
-            match.title = {$regex:"#{post_query}", $options: 'i'}
-        Counts.publish this, 'post_counter', Docs.find(match)
+        if service_query and service_query.length > 1
+            console.log 'searching service_query', service_query
+            match.title = {$regex:"#{service_query}", $options: 'i'}
+        Counts.publish this, 'service_counter', Docs.find(match)
         return undefined
 
-    Meteor.publish 'post_facets', (
+    Meteor.publish 'service_facets', (
         picked_tags
-        post_query
+        service_query
         doc_limit
         doc_sort_key
         doc_sort_direction
@@ -280,11 +280,11 @@ if Meteor.isServer
 
         self = @
         match = {}
-        match.model = 'post'
-            # match.$regex:"#{post_query}", $options: 'i'}
-        # if post_query and post_query.length > 1
-        #     console.log 'searching post_query', post_query
-        #     match.title = {$regex:"#{post_query}", $options: 'i'}
+        match.model = 'service'
+            # match.$regex:"#{service_query}", $options: 'i'}
+        # if service_query and service_query.length > 1
+        #     console.log 'searching service_query', service_query
+        #     match.title = {$regex:"#{service_query}", $options: 'i'}
         #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
         if picked_tags.length > 0
             match.tags = $all: picked_tags
@@ -295,7 +295,7 @@ if Meteor.isServer
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: picked_tags }
-            # { $match: _id: {$regex:"#{post_query}", $options: 'i'} }
+            # { $match: _id: {$regex:"#{service_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
             { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
@@ -309,7 +309,7 @@ if Meteor.isServer
             self.added 'results', Random.id(),
                 name: tag.name
                 count: tag.count
-                model:'post_tag'
+                model:'service_tag'
                 # category:key
                 # index: i
 
@@ -321,9 +321,9 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-    Template.post_card.onCreated ->
+    Template.service_card.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'food'
-    Template.post_card.events
+    Template.service_card.events
         'click .quickbuy': ->
             console.log @
             Session.set('quickbuying_id', @_id)
@@ -347,8 +347,8 @@ if Meteor.isClient
         # 'click .view_card': ->
         #     $('.container_')
 
-    Template.post_card.helpers
-        post_card_class: ->
+    Template.service_card.helpers
+        service_card_class: ->
             # if Session.get('quickbuying_id')
             #     if Session.equals('quickbuying_id', @_id)
             #         'raised'

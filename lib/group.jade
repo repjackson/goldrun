@@ -28,37 +28,33 @@ template(name='groups')
                 .ui.icon.input
                     i.search.icon
                     input.search_group(type='text' placeholder='search...' value=current_group_search)
-                |sort by
-                .ui.compact.small.menu
-                    .ui.simple.dropdown.item
-                        strong #{current_group_sort_label}
-                        i.dropdown.icon
-                        .menu
-                            +set_sort_key key='member_ids' label='$/serving' icon='money'
-                            +set_sort_key key='private' label='available' icon='clock'
-                            +set_sort_key key='_timestamp' label='added' icon='clock'
-                            +set_sort_key key='comment_count' label='comment count' icon='chat'
+                // |sort by
+                // .ui.compact.small.menu
+                //     .ui.simple.dropdown.item
+                //         strong #{current_group_sort_label}
+                //         i.dropdown.icon
+                //         .menu
+                //             +set_sort_key key='member_ids' label='$/serving' icon='money'
+                //             +set_sort_key key='private' label='available' icon='clock'
+                //             +set_sort_key key='_timestamp' label='added' icon='clock'
+                //             +set_sort_key key='comment_count' label='comment count' icon='chat'
                 .ui.compact.icon.circular.button.set_sort_direction(title='toggle sort direction')
                     if sorting_up
                         i.sort.amount.down.icon
                     else
                         i.sort.amount.up.icon
                 |&nbsp;
-            +session_set key='view_mode' value='grid' icon='th'
-            +session_set key='view_mode' value='list' icon='list'
-            if session_is 'view_mode' 'grid'
-                if one_result
-                    .ui.stackable.one.cards.scrolling
-                        each group_docs
-                            +group_card
-                else
-                    .ui.stackable.three.cards.scrolling
-                        each group_docs
-                            +group_card
-            if session_is 'view_mode' 'list'
-                .ui.selection.divided.animated.list.scrolling
-                    each group_docs 
-                        +group_item
+            // +session_set key='view_mode' value='grid' icon='th'
+            // +session_set key='view_mode' value='list' icon='list'
+            // if session_is 'view_mode' 'grid'
+            if one_result
+                .ui.stackable.one.cards.scrolling
+                    each group_docs
+                        +group_card
+            else
+                .ui.stackable.three.cards.scrolling
+                    each group_docs
+                        +group_card
         
 
 template(name='group_card')

@@ -74,7 +74,9 @@ template(name='home')
                     input.add_public_chat(type='text' placeholder='add message...')
                 .ui.list
                     each latest_chat_docs
-                        .item #{body}
+                        .item
+                            |#{body}
+                            small #{when}
                             
             .column
                 .ui.header 

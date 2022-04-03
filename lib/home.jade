@@ -10,7 +10,6 @@ template(name='home')
                 |latest activity
                 each latest_docs
                     .item #{title}
-            .column
                 .ui.header 
                     +i name='jacuzzi'
                     |hot tub status
@@ -38,7 +37,9 @@ template(name='home')
                     |latest posts
                 .ui.large.link.selection.animated.list
                     each latest_post_docs
-                        a.ui.item(href="/post/#{_id}")
+                        a.ui.item.fly_right(href="/post/#{_id}")
+                            img.ui.tiny.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+        
                             |#{title}
             .column
                 .ui.header 

@@ -28,8 +28,10 @@ Template.home.onCreated ->
     Session.setDefault 'limit', 20
     @autorun -> Meteor.subscribe 'model_docs', 'post', ->
     @autorun -> Meteor.subscribe 'model_docs', 'chat_message', ->
+    @autorun -> Meteor.subscribe 'model_docs', 'stat', ->
         
-        
+Template.home.onRendered ->
+    Meteor.call 'log_homepage_view', ->        
 Template.home.events 
     'keyup .add_public_chat': (e,t)->
         val = t.$('.add_public_chat').val()
@@ -58,6 +60,11 @@ Template.home.events
                     
                 
 Template.home.helpers
+    homepage_views: ->
+        doc = 
+            Docs.findOne 
+                model:'stat'
+        doc.homepage_views
     latest_post_docs: ->
         Docs.find {
             model:'post'

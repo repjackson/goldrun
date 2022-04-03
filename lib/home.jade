@@ -2,18 +2,15 @@ template(name='home')
     .ui.stackable.padded.grid
         .four.column.row
             .column
-                .ui.header #{homepage_data_doc.homepage_views} homepage views
-                .ui.header #{homepage_data_doc.homepage_anon_views} anon views
-                .ui.header #{homepage_data_doc.homepage_loggedin_views} logged in views
+                .ui.list
+                    .item #{homepage_data_doc.homepage_views} homepage views
+                    .item #{homepage_data_doc.homepage_anon_views} anon views
+                    .item #{homepage_data_doc.homepage_loggedin_views} logged in views
                 +i name='clock'
                 |latest activity
                 each latest_docs
                     .item #{title}
             .column
-                .ui.header 
-                    +i name='dashboard' 
-                    |gr dashboard
-                
                 .ui.header 
                     +i name='jacuzzi'
                     |hot tub status
@@ -24,10 +21,8 @@ template(name='home')
                     else 
                         .ui.red.basic.label 
                             |closed
-                
-            .column
                 .ui.header 
-                    +i name='pool'
+                    +i name='water'
                     |pool status
                 with healthclub_status_doc
                     if pool_open
@@ -62,3 +57,6 @@ template(name='home')
                 each available_properties_docs
                     .ui.header 
                         |#{title}
+                        
+                        
+            iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12223.22752652539!2d-105.27157281318149!3d40.01276107062417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876bedcf1563c603%3A0x8a56ee2b4204da87!2sGold%20Run%20Condos!5e0!3m2!1sen!2sus!4v1649023489666!5m2!1sen!2sus" width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade")

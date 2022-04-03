@@ -60,11 +60,10 @@ Template.home.events
                     
                 
 Template.home.helpers
-    homepage_views: ->
+    homepage_data_doc: ->
         doc = 
             Docs.findOne 
                 model:'stat'
-        doc.homepage_views
     latest_post_docs: ->
         Docs.find {
             model:'post'

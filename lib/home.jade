@@ -2,7 +2,9 @@ template(name='home')
     .ui.stackable.padded.grid
         .four.column.row
             .column
-                .ui.header #{homepage_views} homepage views
+                .ui.header #{homepage_data_doc.homepage_views} homepage views
+                .ui.header #{homepage_data_doc.homepage_anon_views} anon views
+                .ui.header #{homepage_data_doc.homepage_loggedin_views} logged in views
                 +i name='clock'
                 |latest activity
                 each latest_docs

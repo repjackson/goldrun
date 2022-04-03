@@ -1,6 +1,6 @@
 template(name='nav')
     // https://fomantic-ui.com/elements/icon.html#/icon
-    #topnav.topnav.ui.attached.borderless.inverted.menu.hscroll
+    #topnav.topnav.ui.attached.borderless.menu.hscroll
         // if is_loading
         //     .icon.item
         //         i.big.loading.grey.refresh.icon.cancel
@@ -65,7 +65,7 @@ template(name='nav')
                     i.sign.in.large.icon
                     // +i name='internal'
                     span.mobile.hidden login
-    .ui.attached.small.borderless.inverted.menu
+    .ui.attached.small.borderless.menu
         a.icon.zoomer.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
             // i.large.users.icon
             +i name='task'
@@ -162,7 +162,7 @@ template(name='walletbar')
         .ui.header wallet
         
 template(name='right_sidebar')
-    .ui.right.sidebar.vertical.borderless.inverted.menu.rightbar
+    .ui.right.sidebar.vertical.borderless.menu.rightbar
         a.item.toggle_rightbar.no_blink(href="/user/#{currentUser.username}" class="{{isActiveRoute 'user_layout'}}")
             img.ui.avatar.compact.image(src="{{c.url currentUser.image_id height=200 width=200 gravity='face' crop='fill'}}")
             |#{currentUser.name}

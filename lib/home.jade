@@ -2,9 +2,10 @@ template(name='home')
     .ui.stackable.padded.grid
         .four.column.row
             .column
-                |latest docs 
+                +i name='clock'
+                |latest activity
                 each latest_docs
-                    .item 
+                    .item #{title}
             .column
                 .ui.header 
                     +i name='dashboard' 

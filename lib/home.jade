@@ -2,10 +2,27 @@ template(name='home')
     .ui.stackable.padded.grid
         .four.column.row
             .column
+                .ui.header 
+                    +i name='leaderboard'
+                    |leaderboard
+                .ui.animated.selection.link.list.smallscroll
+                    each top_users
+                        a.item(href="/user/#{username}")
+                            img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                            .content
+                                strong #{username}
+                                small #{points}pts
+            .column
                 .ui.list
-                    .item #{homepage_data_doc.homepage_views} homepage views
-                    .item #{homepage_data_doc.homepage_anon_views} anon views
-                    .item #{homepage_data_doc.homepage_loggedin_views} logged in views
+                    .item 
+                        i.eye.icon
+                        |#{homepage_data_doc.homepage_views} homepage views
+                    .item 
+                        i.lock.icon
+                        |#{homepage_data_doc.homepage_anon_views} anon views
+                    .item 
+                        i.user.icon
+                        |#{homepage_data_doc.homepage_loggedin_views} logged in views
                 +i name='clock'
                 |latest activity
                 each latest_docs
@@ -35,12 +52,20 @@ template(name='home')
                 .ui.header 
                     +i name='blog'
                     |latest posts
-                .ui.large.link.selection.animated.list
+                .ui.large.link.selection.animated.list.smallscroll
                     each latest_post_docs
                         a.ui.item.fly_right(href="/post/#{_id}")
-                            img.ui.tiny.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-        
-                            |#{title}
+                            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                            .content
+                                .header 
+                                    |#{title}
+                                .description 
+                                    .ui.label #{model}
+                                    |#{when}
+                                    |by #{_author_username}
+                                    // +author_info
+                            
+                        
             .column
                 .ui.header 
                     +i name='chat'

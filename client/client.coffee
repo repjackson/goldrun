@@ -29,6 +29,7 @@ Template.home.onCreated ->
     @autorun -> Meteor.subscribe 'model_docs', 'post', ->
     @autorun -> Meteor.subscribe 'model_docs', 'chat_message', ->
     @autorun -> Meteor.subscribe 'model_docs', 'stat', ->
+    @autorun -> Meteor.subscribe 'all_users', ->
         
 Template.home.onRendered ->
     Meteor.call 'log_homepage_view', ->        
@@ -72,6 +73,10 @@ Template.home.helpers
         Docs.find {
             model:'chat_message'
         }, sort:_timestamp:-1
+    top_users: ->
+        Meteor.users.find {},
+            sort:points:-1
+            
         
 Template.nav.onCreated ->
     Session.setDefault 'limit', 20

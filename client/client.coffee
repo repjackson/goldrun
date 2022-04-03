@@ -27,12 +27,44 @@ Tracker.autorun ->
 Template.home.onCreated ->
     Session.setDefault 'limit', 20
     @autorun -> Meteor.subscribe 'model_docs', 'post', ->
+    @autorun -> Meteor.subscribe 'model_docs', 'chat_message', ->
         
         
+Template.home.events 
+    'keyup .add_public_chat': (e,t)->
+        val = t.$('.add_public_chat').val()
+        if e.which is 13
+            if val.length > 0
+                new_id = 
+                    Docs.insert 
+                        model:'chat_message'
+                        chat_type:'public'
+                        body:val
+                val = t.$('.add_public_chat').val('')
+                $('body').toast({
+                    title: "message sent"
+                    # message: 'Please see desk staff for key.'
+                    class : 'success'
+                    # position:'top center'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
+                    
+                
 Template.home.helpers
     latest_post_docs: ->
         Docs.find {
             model:'post'
+        }, sort:_timestamp:-1
+    latest_chat_docs: ->
+        Docs.find {
+            model:'chat_message'
         }, sort:_timestamp:-1
         
 Template.nav.onCreated ->

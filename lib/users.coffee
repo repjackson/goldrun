@@ -63,6 +63,8 @@ if Meteor.isServer
             Meteor.users.find({},limit:limit)
         else
             Meteor.users.find()
+            
+            
     Meteor.publish 'user_results', (
         picked_tags
         doc_limit

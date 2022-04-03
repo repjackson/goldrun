@@ -41,6 +41,15 @@ template(name='home')
                     each latest_post_docs
                         a.ui.item(href="/post/#{_id}")
                             |#{title}
+            .column
+                .ui.header 
+                    +i name='chat'
+                    |public chat
+                .ui.input
+                    input.add_public_chat(type='text' placeholder='add message...')
+                .ui.list
+                    each latest_chat_docs
+                        .item #{body}
                             
             .column
                 .ui.header 

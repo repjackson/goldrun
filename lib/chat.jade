@@ -4,7 +4,8 @@ template(name='view_chats')
         .row
             .four.wide.column
                 .ui.header
-                    i.chat.outline.icon
+                    +i name='chat'
+                    // i.chat.outline.icon
                     | chat
                 //- .ui.label(title='Unread') #{unread_message_count} Unread
                 .unread_icon(data-tooltip='unread messages' data-position='bottom center')
@@ -74,11 +75,11 @@ template(name='chat_list_item')
                 .ui.inline.small.header #{title}
                 if private
                     i.lock.icon
-                //- each tags
-                //-     .ui.label #{this}
-            //- .description
-                // strong {{cutString last_message.body 100}}
-                //- strong {{last_message.body}}
+                each tags
+                   .ui.label #{this}
+            .description
+                strong {{cutString last_message.body 100}}
+                // strong {{last_message.body}}
             //- .description
             //-     |by #{last_message.author.username} #{last_message.when}
             //- .extra

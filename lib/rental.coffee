@@ -30,6 +30,11 @@ if Meteor.isClient
             Session.get('rental_sort_direction')
     
     Template.rentals.events
+        'click .add_rental': ->
+            new_id = 
+                Docs.insert 
+                    model:'rental'
+            Router.go "/rental/#{new_id}/edit"
         'click .fly_right': (e,t)->
             console.log 'hi'
             $(e.currentTarget).closest('.grid').transition('fly right', 500)
@@ -119,6 +124,11 @@ if Meteor.isClient
             Template.instance().subscriptionsReady()
 
 
+    Template.rental_view.onCreated ->
+        @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
+    Template.rental_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
 
 
 

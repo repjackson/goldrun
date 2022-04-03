@@ -5,6 +5,9 @@ template(name='rentals')
             .ui.header 
                 +i name='clock'
                 |rentals
+            if currentUser 
+                .ui.icon.button.add_rental
+                    i.plus.icon
             //- .ui.inline.header current lat: #{current_lat}, long: #{current_long}
             .sorting_row
                 if selected_tag_plural

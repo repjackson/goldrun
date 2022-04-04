@@ -14,16 +14,23 @@ template(name='units')
 template(name='unit_card')
     a.ui.card(href="/unit/#{_id}") 
         .content 
-            .ui.inline.header ##{title}
-            .ui.inline.header ##{unit_number}
+            .ui.inline.header #{address}
+            // .ui.inline.header ##{unit_number}
             .ui.header
-                |building number
                 +i name='building'
-                |#{building_number}
+                |##{building_number}
+            if unit_residents
+                +i name='groups'
+                each unit_residents 
+                    +user_info
             if for_sale 
                 .ui.basic.label
                     +i name='money' 
                     |for sale
+            if for_rent 
+                .ui.basic.label
+                    +i name='clock' 
+                    |for rent
 
             
 
@@ -61,10 +68,17 @@ template(name='unit_view')
                 +user_key
                 +number_view key='bedroom_count' label='bedrooms' icon='bedroom' direct=true
                 +number_view key='bathroom_count' label='bathrooms' icon='bath' direct=true
+                if link
+                    +link_view key='link' label='link' icon='link' direct=true
             .six.wide.column
                 +number_view key='square_feet' label='square feet' icon='ruler' direct=true
                 +number_view key='monthly_rent' label='monthly rent' icon='money' direct=true
+                +boolean_view key='for_rent' label='for rent' icon='money' direct=true
+                    if for_rent 
+                        +date_view key='date_available_rent' label='date available to rent' direct=true
                 +boolean_view key='for_sale' label='for sale' icon='money' direct=true
+                if for_sale 
+                    +date_view key='date_available' label='date available' icon='calendar' direct=true
 
                 +unit_residents
                 +unit_owners
@@ -74,22 +88,27 @@ template(name='unit_view')
             
 template(name='unit_edit')         
     with current_doc
-        .ui.padded.two.column.centered.grid
+        .ui.padded.three.column.centered.grid
             .column
                 +image_edit key='image_id'
                 h2.ui.center.aligned.header #{unit_number} #{building_number} 
+                +text_edit key='address' label='address' direct=true
                 +number_edit key='unit_number' label='unit number' direct=true
                 +number_edit key='building_number' label='building number' direct=true
-                +text_edit key='address' label='address' direct=true
+                +link_edit key='link' label='link' icon='link' direct=true
                 // +text_edit key='email' label='Email' direct=true
             .column
                 a.ui.big.fluid.icon.green.button(href="/unit/#{_id}")
                     i.checkmark.big.icon
                 +html_edit key='description' label='description' direct=true
+            .column
                 +number_edit key='bedroom_count' label='bedrooms' icon='bedroom' direct=true
-                +number_edit key='bathroom_count' label='bathrooms' icon='bathroom' direct=true
+                +number_edit key='bathroom_count' label='bathrooms' icon='bath' direct=true
                 +number_edit key='square_feet' label='square feet' icon='ruler' direct=true
                 +number_edit key='monthly_rent' label='monthly rent' icon='money' direct=true
+                +boolean_edit key='for_rent' label='for rent' icon='money' direct=true
+                    if for_rent 
+                        +date_edit key='date_available_rent' label='date available to rent' direct=true
                 +boolean_edit key='for_sale' label='for sale' icon='money' direct=true
                 if for_sale 
                     +date_edit key='date_available' label='date available' icon='calendar' direct=true

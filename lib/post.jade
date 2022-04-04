@@ -121,7 +121,7 @@ template(name='post_view')
                     +group_widget
                 .twelve.wide.column.scrolling
                     .ui.header #{title}
-                    img.ui.rounded.fluid.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                    img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
                     |!{content}

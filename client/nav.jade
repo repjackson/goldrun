@@ -11,23 +11,19 @@ template(name='nav')
             +i name='one-ring'
             // i.large.home.icon
             span.mobile.hidden goldrun
-        a.icon.item.fly_right(href="/events" class="{{isActiveRoute 'events'}}" title='events')
-            // i.large.calendar.icon
-            +i name='calendar'
-            span.mobile.hidden events
+        a.icon.item.fly_right(href="/healthclub" class="{{isActiveRoute 'healthclub'}}" title='healthclub')
+            // i.large.users.icon
+            +i name='fitness'
+            .mobile.hidden healthclub
         a.icon.item.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title='users')
             // i.large.users.icon
             +i name='groups'
             .mobile.hidden people
-        a.icon.item.fly_right(href="/orders" class="{{isActiveRoute 'transfers'}}" title='transfers')
-            // i.large.users.icon
-            +i name='exchange'
-            .mobile.hidden payments 
-        a.icon.item.fly_right(href="/orders" class="{{isActiveRoute 'orders'}}" title='orders')
-            // i.large.users.icon
-            +i name='order-history'
-            .mobile.hidden orders 
-        .ui.icon.input 
+        a.icon.item.fly_right(href="/events" class="{{isActiveRoute 'events'}}" title='events')
+            // i.large.calendar.icon
+            +i name='calendar'
+            span.mobile.hidden events
+        .ui.icon.input.mobile.hidden
             i.search.icon
             input(type='text' placeholder='...')
         .item     
@@ -35,14 +31,13 @@ template(name='nav')
                 .ui.label #{this}
         .right.menu
             if currentUser
-                .icon.item.add_post 
+                a.icon.item(href="/add")
                     i.large.plus.icon
+                if currentUser.is_admin
+                    +i name='shield'
                 a.icon.item(href="/inbox")
                     // i.large.inbox.icon
                     +i name='inbox'
-                a.icon.item(href="/chat")
-                    // i.large.inbox.icon
-                    +i name='chat'
                 a.item.toggle_topbar.mobile.hidden(title='alerts')
                     // i.wallet.icon
                     // .ui.avatar.image.bell
@@ -75,7 +70,11 @@ template(name='nav')
                     i.sign.in.large.icon
                     // +i name='internal'
                     span.mobile.hidden login
-    .ui.attached.small.borderless.menu
+    .ui.attached.small.borderless.menu.hscroll
+        a.icon.item.zoomer.fly_right(href="/chat")
+            // i.large.inbox.icon
+            +i name='chat'
+            .mobile.hidden chat 
         a.icon.zoomer.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
             // i.large.users.icon
             +i name='task'
@@ -84,6 +83,14 @@ template(name='nav')
             // i.large.users.icon
             +i name='shop'
             .mobile.hidden products 
+        a.icon.item.zoomer.fly_right(href="/transfers" class="{{isActiveRoute 'transfers'}}" title='transfers')
+            // i.large.users.icon
+            +i name='exchange'
+            .mobile.hidden transfers 
+        a.icon.item.zoomer.fly_right(href="/orders" class="{{isActiveRoute 'orders'}}" title='orders')
+            // i.large.users.icon
+            +i name='order-history'
+            .mobile.hidden orders 
         a.icon.zoomer.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
             // i.large.users.icon
             +i name='blog'

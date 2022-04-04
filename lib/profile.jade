@@ -53,7 +53,9 @@ template(name='profile')
                                         +remove_button
                                         
                 .column
-                    .ui.header friends
+                    .ui.header 
+                        +i name='friends'
+                        |friends
                 .column
                     .ui.header 
                         +i name='shopping-cart'

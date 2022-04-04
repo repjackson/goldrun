@@ -1,0 +1,429 @@
+// template(name='kiosk_container')
+//     with kiosk_doc
+//         +Template.dynamic template=kiosk_view
+
+template(name='staff')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.large.inline.header 
+                    //- i.user.shield.icon
+                    +i name='user-shield'
+                    |staff
+                //- i.massive.loading.brown.poo.icon
+                a.ui.large.button.add_resident
+                    //- i.user.add.large.icon
+                    +i name='add-user-male' classes='ui inline mini image'
+                    strong add resident
+                // .ui.header
+                //     |#{checkedin_members.count} checked in members
+                .ui.header 
+                    // i.clock.icon
+                    +i name='clock'
+                    |old sessions
+                .ui.list 
+                    each old_session_docs 
+                        .item #{when} #{resident_name}
+
+            .twelve.wide.column
+                // .ui.styled.fluid.large.accordion
+                // .active.title
+                +checkin_input
+
+                .ui.header
+                    +i name='groups' classes='ui inline image'
+                    |#{active_sessions.count} active sessions
+                    // i.dropdown.icon
+                // .active.content
+                .ui.stackable.doubling.centered.cards
+                    each active_sessions
+                        +session_card
+
+template(name='checkin_input')
+    .ui.massive.fluid.left.icon.input
+        input.name_search(type='text' placeholder='resident first or last name...' autofocus)
+        if is_query
+            i.remove.link.icon.clear_results
+        else 
+            i.search.icon
+    each search_results
+        +checkin_button
+
+
+
+template(name='session_card')
+    .ui.card
+        if session_resident.kiosk_photo
+            img.ui.image(src="{{c.url session_resident.kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
+        else
+            //- |old photo
+            img.ui.image(src="{{c.url session_resident.image_id width=300 height=300 gravity='face' crop='fill'}}")
+        .content
+            a.fly_right(href="/resident/#{resident_id}")
+                .ui.inline.header
+                    |#{resident_first_name} #{resident_last_name}
+            .ui.small.header #{when}
+            with session_resident
+                if address
+                    div
+                    +i name='marker' classes='ui avatar image'
+                    |#{address}
+                div
+                    +i name='building' classes='ui avatar image'
+                    |#{building_number}
+                div
+                    +i name='home' classes='ui avatar image'
+                    | #{unit_number}
+                //- +number_edit key='checkins_without_gov_id' label='alter checkins without gov id' direct=true
+                //- +number_edit key='checkins_without_email_verification' label='alter checkins without email verification' direct=true
+                //- +number_view key='unit_number' label='unit #' direct=true
+                //- +text_view key='building_code' label='building code' direct=true
+                +lease_expiration_check
+                //- +rules_and_regs_check
+                +user_check_steps 
+                if active_violations
+                    .ui.big.red.label active violations
+                if staff_notes
+                    .ui.small.header
+                        i.clipboard.icon(title='staff notes')
+                        |#{staff_notes}       
+            if checkin_guest_docs.count
+                .ui.small.header Guests
+                each checkin_guest_docs
+                    .ui.large.label 
+                        |#{guest_name} #{first_name} #{last_name}
+            if user_is_resident
+                +date_view key='start_date' label='start date' direct=true
+                +date_view key='expiration_date' label='expiration date' direct=true
+            .ui.fluid.button.sign_out
+                +i name='exit' classes='ui mini inline image'
+                |check out
+            +print_this
+template(name='checkin')
+    img.ui.fluid.image.checkin_banner(src="{{c.url 'grfront' width=1000 height=1000 crop='crop'}}")
+    .ui.grid.header-wrapper
+        //- +Template.dynamic template=kiosk_view
+        .row
+            .sixteen.wide.center.aligned.column
+                if is_staff
+                    a.ui.compact.button(href='/staff')
+                        i.left.chevron.icon
+                        +i name='user-shield' classes='ui avatar image'
+                        |staff
+                img.ui.circular.centered.small.inline.image.shadowed(src="{{c.url 'gold_run_logo' }}")
+        .row
+            .sixteen.wide.column
+                .row
+                    +checkin_input
+                    // .ui.center.aligned.basic.segment.test
+                    //     if checkedout_members.length
+                    //         each checkedout_members
+                    //             +checkin_button
+                    //     else
+                    //         if checking_in
+                    //             if is_query
+                    //                 .ui.center.aligned.header No members found
+                    //                 .ui.center.aligned.header See staff to add
+                .ui.padded.grid
+                    .two.column.row
+                        .column
+                            // +inline_doc slug='health_club_notices' classes='ui large header'
+                            .ui.large.relaxed.list
+                                .item
+                                    .content
+                                        .header Wifi
+                                        .description Gold Run Health Club / goldrun1
+                                .item
+                                    .content
+                                        .header Upstairs Code: 4589
+                            .ui.big.relaxed.list
+                                .item
+                                    .content
+                                        .header Onsite Manager
+                                        .description 
+                                            div Rick Hamp 
+                                            div 303-545-1787
+                                            div goldruncondos@gmail.com
+                        .column
+                            .ui.header Hours
+                            .ui.large.list
+                                .item Mon 7a-10p
+                                .item Tues 7a-10p
+                                .item Wed 7a-10p
+                                .item Thur 7a-10p
+                                .item Fri 7a-9p
+                                .item Sat 8a-9p
+                                .item Sun 8a-10p
+                            // +healthclub_status
+                            
+
+template(name='facet_doc_edit')
+    with facet_doc
+        if is_staff
+            +textarea_edit key='body'
+        else 
+            h3 
+                +textarea_view key='body'
+                        
+                        
+        
+template(name='sign_waiver')
+    with receipt_doc
+        .ui.stackable.padded.grid
+            .centered.row
+                .twelve.wide.column.scrolling
+                    .row
+                        h1.ui.center.aligned.header
+                            i.user.plus.icon
+                            |Sign Waiver
+                        with waiver_doc
+                            |!{html}
+                        +signature
+                        .ui.fluid.green.button.sign_waiver
+                            | Sign Waiver
+
+
+
+template(name='checkin_button')
+    .ui.massive.button.checkin.new_session
+        h2 #{first_name} #{last_name}
+    // unless is_staff
+    //     //- unless healthclub_checkedin
+    //     .ui.massive.basic.button.checkin.new_session
+    //         h2 #{first_name} #{last_name}
+    //     //- if healthclub_checkedin
+    //     //- if is_staff
+    //     //- else
+    //     //-     .ui.big.basic.button.checkout
+    //     //-         i.sign.out.icon
+    //     //-             //- +i name='exit-sign' classes='ui avatar image'
+    //     //-             |check out
+    // if is_staff
+    //     if healthclub_checkedin
+    //         .ui.basic.button.checkout
+    //             i.sign.out.icon
+    //             //- +i name='exit-sign' classes='ui avatar image'
+    //             |health club check out
+    //     else
+    //         .ui.massive.fade.animated.button.new_session
+    //             .visible.content
+    //                 strong #{first_name} #{last_name}
+    //             .hidden.content
+    //                 |check in
+
+
+
+
+template(name='set_kiosk_template')            
+    .ui.button.set_kiosk_template #{label}
+
+
+
+
+
+template(name='session')
+    img.ui.fluid.image.checkin_banner(src="{{c.url 'grfront' width=1000 height=1000 crop='crop'}}")
+    if loading_checkin
+        .ui.center.aligned.basic.segment
+            i.massive.loading.refresh.icon
+            .ui.massive.header Running checks and loading profile
+    else 
+        .ui.padded.middle.aligned.grid.header-wrapper
+            .two.column.row
+                .column
+                    //- if is_staff
+                    //- a.ui.header(href="/user/#{user.username}")
+                    .ui.big.icon.basic.button.cancel_checkin
+                        i.big.ban.icon
+                        |cancel
+                    if current_resident.kiosk_photo
+                        with current_resident
+                            +image_view key='kiosk_photo' label='photo' direct=true classes='medium circular shadowed'
+                    else
+                        //- h1.ui.header Please click below to add photo
+                        //- .ui.header (switch camera to front)
+                        with current_resident
+                            +image_edit key='kiosk_photo' label=' ' direct=true
+                    //- img.ui.medium.circular.image(src="{{c.url user.image_id width=500 height=500 gravity='face' crop='fill'}}")
+                    //- .meta @#{user.username}
+                    //- +camera
+                .column
+                    with current_doc
+                        h1.ui.huge.header.f11
+                            |#{resident_first_name} #{resident_last_name} 
+                    if adding_guests
+                        .ui.header 
+                            i.users.teal.icon
+                            |guests
+                        .ui.small.inline.header recent guests
+                        each resident_guests
+                            .ui.big.basic.teal.button.add_recent_guest #{guest_name} #{first_name} #{last_name}
+                        div
+                        .ui.big.basic.button.add_guest
+                            i.plus.icon
+                            strong new guest
+                        +multi_doc_input key='guests' ref_model='guest' title='lookup previous...' direct=true
+                        div
+                        with checking_in_doc
+                            if checking_in_doc.guest_ids
+                                .ui.inline.header guests for this session
+                                each checking_in_doc.guest_ids
+                                    +resident_guest
+                    else
+                        .ui.big.basic.fluid.button.toggle_adding_guest 
+                            i.plus.large.icon
+                            |guest
+                    with user
+                        +user_check_steps
+            .row
+                .sixteen.wide.column
+                    unless current_user.kiosk_photo
+                        .ui.disabled.massive.fluid.button
+                            |new photo required to sign in
+                        //- .ui.center.aligned.header
+                        //-     |please click 'Choose File' above, switch the camera to the front, and take photo to proceed 
+                    unless current_user.member_waiver_signed
+                        .ui.massive.fluid.red.basic.button.sign_guidelines
+                            .ui.inline.header 
+                                i.edit.icon
+                                | sign member waiver            
+                    unless current_user.rules_and_regulations_signed
+                        .ui.massive.fluid.red.basic.button.sign_rules
+                            .ui.inline.header 
+                                i.edit.icon
+                                | sign rules and regs
+                    if current_user.email_red_flagged
+                        .ui.disabled.massive.fluid.button
+                            |email verification required, please see staff
+                    if current_user.gov_red_flagged
+                        .ui.disabled.massive.fluid.button
+                            |Government Id verification required
+                    unless current_user.gov_red_flagged
+                        if current_user.kiosk_photo
+                            if user.member_waiver_signed
+                                if user.rules_and_regulations_signed
+                                    unless user.email_red_flagged
+                                        .ui.massive.fluid.basic.green.button.submit_checkin
+                                            .ui.inline.inverted.header 
+                                                | check in
+            .row
+                .sixteen.wide.column
+                    if timer_engaged
+                        .ui.small.grey.header auto check in #{timer} seconds
+                        .ui.button.cancel_auto_checkin
+                            i.ban.icon
+                            | cancel auto check in
+                
+template(name='resident_guest')
+    with guest_doc
+        .ui.big.teal.basic.button.remove_guest 
+            i.remove.icon
+            |#{guest_name} #{first_name} #{last_name}
+
+
+
+
+template(name='user_check_steps')
+    .ui.vertical.fluid.menu
+        each user_check
+            .item.recheck
+                if user_check_completed
+                    i.large.green.checkmark.icon
+                else 
+                    i.large.circle.outline.icon 
+                i.icon(name=icon)
+                //- +i name=icon classes='ui avatar image'
+                |#{title}
+    if checkins_without_gov_id
+        if is_staff
+            .ui.tiny.header #{checkins_left_without_gov_id} check in's left without government ID
+        else
+            .ui.header #{checkins_left_without_gov_id} check in's left without government ID
+    if checkins_without_email_verification
+        if is_staff
+            .ui.tiny.header #{checkins_left_without_email_verification} check in's left without email verification
+        else
+            .ui.header #{checkins_left_without_email_verification} check in's left without email verification
+        +email_validation_check
+
+
+
+
+
+template(name='checkins')
+    .ui.stackable.padded.grid
+        .sixteen.wide.column
+            .ui.inline.header 
+                +i name='bedroom'
+                |checkins
+            .ui.icon.button.add_checkin
+                i.plus.icon
+            .ui.cards
+                each checkin_docs
+                    +checkin_card
+                    
+                    
+                    
+template(name='checkin_card')
+    a.ui.card(href="/checkin/#{_id}") 
+        .content 
+            .ui.header  
+                |#{when}
+            .ui.header  
+                |#{resident_first_name} #{resident_last_name}
+            .ui.header 
+                |#{checkin_number}, #{checkin_building}
+
+
+template(name='checkin_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .twelve.wide.column
+                a.ui.big.button(href="/checkins")
+                    i.large.left.chevron.icon
+                    |checkins
+                a.ui.big.button(href="/staff")
+                    i.large.left.chevron.icon
+                    i.big.shield.icon
+                    |staff
+                    // |#{checkin.building_code}
+                .ui.header
+                    i.home.icon 
+                    //- +i name='apartment'
+                    |checkin
+                    |#{checkin.checkin_number}
+                .ui.header 
+                    |#{when}
+                .ui.header 
+                    |active: #{active}
+                .ui.header 
+                    |building #{checkin.building_number}
+                if is_dev
+                    with checkin
+                        +number_edit key='building_number' direct=true
+                .ui.header 
+                    |building #{checkin.building_code}
+                if is_dev
+                    with checkin
+                        +text_edit key='building_code' direct=true
+                        +textarea_edit key='notes' direct=true
+                +print_this
+            .four.wide.column
+                if currentUser
+                    +remove_button
+
+
+template(name='checkin_edit')         
+    with current_doc
+        .ui.padded.two.column.centered.grid
+            .column
+                +image_edit key='image_id'
+                h2.ui.center.aligned.header #{checkin_number} #{building_number} 
+                +number_edit key='checkin_number' label='checkin number' direct=true
+                +number_edit key='building_number' label='building number' direct=true
+                +text_edit key='address' label='address' direct=true
+                // +text_edit key='email' label='Email' direct=true
+            .column
+                a.ui.big.fluid.green.button(href="/resident/#{_id}")
+                    i.checkmark.icon
+                    |save

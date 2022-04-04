@@ -20,11 +20,11 @@ template(name='user_edit')
                         +password_edit
                         //- +phone_editor
                         +username_edit
-                    if is_admin
-                        with user_from_username_param
-                            .ui.orange.button.remove_user 
-                                i.remove.icon
-                                |delete user
+                    // if is_admin
+                    with user_from_username_param
+                        .ui.orange.button.remove_user 
+                            i.remove.icon
+                            |delete user
                 .column
                     .ui.header 
                         i.envelope.outline.icon

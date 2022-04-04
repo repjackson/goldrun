@@ -23,6 +23,12 @@ template(name='nav')
             // i.large.users.icon
             +i name='exchange'
             .mobile.hidden transfers 
+        .ui.icon.input 
+            i.search.icon
+            input(type='text' placeholder='...')
+        .item     
+            each searc_results
+                .ui.label #{this}
         .right.menu
             if currentUser
                 .icon.item.add_post 

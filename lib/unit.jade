@@ -11,7 +11,22 @@ template(name='units')
                     +unit_card
             
             
+template(name='unit_card')
+    a.ui.card(href="/unit/#{_id}") 
+        .content 
+            .ui.inline.header ##{title}
+            .ui.inline.header ##{unit_number}
+            .ui.header
+                |building number
+                +i name='building'
+                |#{building_number}
+            if for_sale 
+                .ui.basic.label
+                    +i name='money' 
+                    |for sale
+
             
+
 
 
 template(name='unit_view')
@@ -79,21 +94,6 @@ template(name='unit_edit')
                 if for_sale 
                     +date_edit key='date_available' label='date available' icon='calendar' direct=true
             
-            
-template(name='unit_card')
-    a.ui.card(href="/unit/#{_id}") 
-        .content 
-            .ui.inline.header ##{title}
-            .ui.inline.header ##{unit_number}
-            .ui.header
-                |building number
-                +i name='building'
-                |#{building_number}
-            if for_sale 
-                .ui.basic.label
-                    +i name='money' 
-                    |for sale
-
             
 template(name='unit_permits')            
     .ui.segment

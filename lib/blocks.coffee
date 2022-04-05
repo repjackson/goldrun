@@ -169,16 +169,16 @@ if Meteor.isClient
 
 
 
-    Template.user_field.helpers
-        key_value: ->
-            user = Docs.findOne Router.current().params.doc_id
-            user["#{@key}"]
+    # Template.user_field.helpers
+    #     key_value: ->
+    #         user = Docs.findOne Router.current().params.doc_id
+    #         user["#{@key}"]
 
-    Template.user_field.events
-        'blur .user_field': (e,t)->
-            value = t.$('.user_field').val()
-            Docs.update Router.current().params.doc_id,
-                $set:"#{@key}":value
+    # Template.user_field.events
+    #     'blur .user_field': (e,t)->
+    #         value = t.$('.user_field').val()
+    #         Docs.update Router.current().params.doc_id,
+    #             $set:"#{@key}":value
 
 
     Template.user_list_toggle.onCreated ->

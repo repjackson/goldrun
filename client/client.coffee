@@ -48,7 +48,7 @@ Template.home.events
                     title: "message sent"
                     # message: 'Please see desk staff for key.'
                     class : 'success'
-                    # position:'top center'
+                    position:'bottom center'
                     # className:
                     #     toast: 'ui massive message'
                     # displayTime: 5000
@@ -59,7 +59,11 @@ Template.home.events
                       hideDuration : 250
                     })
                     
-                
+    'click .remove_comment': ->
+        if confirm 'remove comment? cant be undone'
+            Docs.remove @_id
+    
+    
 Template.home.helpers
     homepage_data_doc: ->
         doc = 

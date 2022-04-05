@@ -77,6 +77,8 @@ template(name='home')
                         .item
                             |#{body}
                             small #{when}
+                            if currentUser.admin_mode
+                                i.remove.icon.remove_comment
                             
             .column
                 .ui.header 

@@ -1,0 +1,103 @@
+template(name='view_key')
+    .ui.padded.grid
+        .sixteen.wide.column
+            with key
+                .ui.big.breadcrumb
+                    a.section(href='/keys') Keys
+                    i.right.chevron.divider.icon
+                    .active.section #{building_code}:#{building_number} ##{apartment_number}
+                    
+                h1.ui.center.aligned.header #{building_code}:#{building_number} ##{apartment_number} Key Page
+                .ui.dividing.header Details
+                .ui.form
+                    .fields
+                        .field 
+                            label Tag Number
+                            |#{tag_number}
+                        .field 
+                            label Key Exists
+                            if key_exists
+                                i.green.large.check.icon
+                            else
+                                i.remove.icon
+                        .field
+                            label Status
+                            if checked_out
+                                .ui.blue.label Checked Out
+                            else
+                                .ui.basic.label Checked In
+                        .field
+                            label Building Code
+                            |#{building_code}
+                        .field
+                            label Building Number
+                            |#{building_number}
+                        .field
+                            label Apartment Number
+                            | ##{apartment_number}
+                        .field
+                            label Fowler
+                            if fpm
+                                .ui.basic.black.label FPM
+                        .field
+                            label Notes
+                            |#{notes}
+                        .field
+                            a.ui.basic.button(href="/key/edit/#{_id}")
+                                i.pencil.icon
+                                | Edit Key
+                .ui.dividing.header Checkout History
+                if key_exists
+                    #log_checkout.ui.basic.button
+                        i.sign.out.icon
+                        |Checkout
+                    table.ui.striped.table
+                        thead
+                            tr
+                                th Name
+                                th Phone
+                                th Company
+                                th Checkout Date/Time
+                                th Checkin Date/Time
+                                th Notes
+                                th Actions
+                        tbody
+                            each checkouts
+                                tr
+                                    unless is_editing
+                                        td #{name}
+                                        td #{phone}
+                                        td #{company}
+                                        td #{checkout_cal}
+                                        td 
+                                            if checkin_dt
+                                                |#{checkin_cal}
+                                        td #{notes}
+                                        td 
+                                            .edit_checkout.ui.basic.button 
+                                                i.pencil.icon
+                                                |Edit Checkout
+                                    else
+                                        td 
+                                            +text_edit key='name'
+                                        td
+                                            +text_edit key='phone'
+                                        td
+                                            +text_edit key='company'
+                                        td #{checkout_cal}
+                                        td 
+                                            if checkin_dt
+                                                |#{checkin_cal}
+                                            else
+                                                .check_in_key.ui.basic.blue.button 
+                                                    i.sign.in.icon
+                                                    |Check In
+                                        td
+                                            +text_edit key='notes' label='Notes'
+                                        td
+                                            .stop_editing.ui.green.icon.button
+                                                i.check.icon
+                                            #delete_checkout.ui.red.icon.button
+                                                i.trash.icon
+                else
+                    .ui.disabled.button No Key to Check Out

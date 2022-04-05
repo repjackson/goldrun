@@ -5,8 +5,8 @@ template(name='nav')
         //     .icon.item
         //         i.big.loading.grey.refresh.icon.cancel
         // else 
-        // a.icon.item.toggle_leftbar
-        //     i.large.bars.icon
+        a.icon.item.toggle_leftbar
+            i.large.bars.icon
         a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" )
             +i name='one-ring'
             // i.large.home.icon
@@ -23,9 +23,9 @@ template(name='nav')
             // i.large.calendar.icon
             +i name='calendar'
             span.mobile.hidden events
-        .ui.icon.input.mobile.hidden
-            i.search.icon
-            input(type='text' placeholder='...')
+        // .ui.icon.input.mobile.hidden
+        //     i.search.icon
+        //     input(type='text' placeholder='...')
         .item     
             each search_results
                 .ui.label #{this}
@@ -59,16 +59,16 @@ template(name='nav')
                 //     //         i.user.large.icon
                 //     // strong.mobile.hidden #{currentUser.name}
                 //     i.bars.large.grey.icon
-            // unless subs_ready
-            //     .icon.item
-            //         i.yin.yang.large.loading.icon
+            unless subs_ready
+                .icon.item
+                    i.yin.yang.large.loading.icon
             unless currentUser
                 a.item(href="/register" title='register')
                     +i name='plus'
-                    // span.mobile.hidden register            
+                    span.mobile.hidden register            
                 a.item(href='/login' title='login') 
-                    i.sign.in.large.icon
-                    // +i name='internal'
+                    // i.sign.in.large.icon
+                    +i name='internal'
                     span.mobile.hidden login
     .ui.attached.small.borderless.menu.hscroll
         a.icon.item.zoomer.fly_right(href="/chat")

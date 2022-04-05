@@ -287,6 +287,7 @@ if Meteor.isClient
                 Meteor.setTimeout =>
                     Docs.remove @_id
                 , 1000
+                Router.go "/#{@model}/#{@_id}"
 
     Template.remove_icon.events
         'click .remove_doc': (e,t)->

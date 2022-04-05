@@ -7,6 +7,16 @@ Template.registerHelper 'sort_label', () -> Session.get('sort_label')
 Template.registerHelper 'sort_icon', () -> Session.get('sort_icon')
 Template.registerHelper 'current_limit', () -> parseInt(Session.get('limit'))
 
+Template.registerHelper 'subs_ready', () -> 
+    Template.instance().subscriptionsReady()
+    
+Template.registerHelper 'user_model_docs', (model) -> 
+    username = Router.current().params.username
+    Meteor.users.findOne username:username
+    Docs.find 
+        model:model
+        _author_username:username
+
 Template.registerHelper 'is_author', () -> 
     @_author_id is Meteor.userId()
 Template.registerHelper 'current_lat', () -> 

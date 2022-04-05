@@ -2,7 +2,7 @@ template(name='rentals')
     // +map2
     .ui.stackable.padded.grid
         .sixteen.wide.column
-            .ui.header 
+            .ui.inline.header 
                 +i name='clock'
                 |rentals
             if currentUser 
@@ -244,18 +244,18 @@ template(name='rental_edit')
                         i.checkmark.big.icon
                     +text_edit key='title' icon='header' direct=true
                     +number_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
-                    .ui.icon.small.red.button.delete_rental_item 
-                        i.trash.icon
+                    +remove_button
                 .column
                     if in_dev
                         +print_this
-                    // +boolean_edit key='published' label='published' icon='checkmark'
-                    // +boolean_edit key='anonymous' label='anonymous' icon='visible'
+                    +boolean_edit key='published' label='published' icon='checkmark'
+                    +boolean_edit key='anonymous' label='anonymous' icon='visible'
                     div
-                    a.ui.header.pointer.refresh_gps(href='#') 
-                        |gps coords
-                    .ui.label #{lat}
-                    .ui.label #{long}
+                    if lat
+                        a.ui.header.pointer.refresh_gps(href='#') 
+                            |gps coords
+                        .ui.label #{lat}
+                        .ui.label #{long}
                     // +text_edit key='location' label='location text' icon='marker' direct=true
                     +html_edit key='description' label='description' icon='content' direct=true
                 .column

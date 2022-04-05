@@ -19,7 +19,9 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_deposits', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_rentals', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_orders', Router.current().params.username, ->
-
+    Template.user_posts.onCreated ->
+        @autorun -> Meteor.subscribe 'user_model_docs', 'post', Router.current().params.username, ->
+        
     Template.profile.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
@@ -93,6 +95,11 @@ if Meteor.isClient
                 })
             
 if Meteor.isServer
+    Meteor.publish 'user_model_docs', (model,username)->
+        user = Meteor.users.findOne username:username
+        Docs.find 
+            model:model
+            _author_username:username
     Meteor.publish 'user_deposits', (username)->
         user = Meteor.users.findOne username:username
         Docs.find 

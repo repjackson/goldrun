@@ -156,8 +156,8 @@ if Meteor.isServer
             # match.tags = $nin: ['wikipedia']
             sort = '_timestamp'
             # match.source = $ne:'wikipedia'
-        if Meteor.userId()
-            match._author_id = $ne:Meteor.userId()
+        # if Meteor.userId()
+        #     match._author_id = $ne:Meteor.userId()
 
         # match.tags = $all: picked_tags
         # if filter then match.model = filter

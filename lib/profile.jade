@@ -17,14 +17,14 @@ template(name='profile')
                             //- i.coins.icon
                             |#{points} pts
                     // if is_current_user
-                    a.ui.large.button(href="/user/#{username}/edit" title='profile settings')
-                        i.cog.icon
-                        |account
+                    a.ui.large.icon.button(href="/user/#{username}/edit" title='profile settings')
+                        i.cog.large.icon
+                        // |account
                     .ui.list 
                         .item 
                             i.eye.icon
                             |#{profile_views} 
-                            small profile views
+                            |profile views
                     
                     // else if is_admin
                     //     a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
@@ -58,6 +58,8 @@ template(name='profile')
                                         //- if is_dev
                                         +remove_button
                                         
+                .column
+                    +user_posts
                 .column
                     a.ui.header(href="/groups")
                         +i name='groups'
@@ -132,6 +134,15 @@ template(name='profile')
         .ui.basic.center.aligned.segment
             i.massive.loading.refresh.icon
                             
+
+template(name='user_posts')
+    .ui.header 
+        +i name='blog'
+        |user posts
+    .ui.selection.link.animated.list
+        each user_model_docs 'post'
+            a.item.fly_left(href="/post/#{_id}") #{title}
+
 
 
 template(name='logout_other_clients_button')

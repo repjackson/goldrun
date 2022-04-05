@@ -182,20 +182,20 @@ template(name='transfer_edit')
                             //         img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             //         |#{name}
                             //         small #{points}p
-                    +boolean_edit key='has_date' label='has date' icon='calendar' direct=true
-                    if has_date
-                        +date_edit key='date' label='date' direct=true   
-                    +boolean_edit key='has_time' label='has time' icon='clock' direct=true
-                    if has_time
-                        +time_edit key='time' label='time' direct=true   
+                    // +boolean_edit key='has_date' label='has date' icon='calendar' direct=true
+                    // if has_date
+                    +date_edit key='date' label='date' direct=true   
+                    // +boolean_edit key='has_time' label='has time' icon='clock' direct=true
+                    // if has_time
+                    +time_edit key='time' label='time' direct=true   
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                 .six.wide.column
-                    +boolean_edit key='has_description' label='has description' icon='content' direct=true
-                    if has_description
-                        +html_edit key='description' label='description' direct=true
-                    +boolean_edit key='has_image' label='has image' icon='image' direct=true
-                    if has_image
-                        +image_edit key='image_id' label='image' direct=true
+                    // +boolean_edit key='has_description' label='has description' icon='content' direct=true
+                    // if has_description
+                    +html_edit key='description' label='description' direct=true
+                    // +boolean_edit key='has_image' label='has image' icon='image' direct=true
+                    // if has_image
+                    +image_edit key='image_id' label='image' direct=true
                     div
                     +array_edit key='tags' label='tags'
                     // .ui.inline.header

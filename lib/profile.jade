@@ -1,4 +1,9 @@
 template(name='profile')
+    if background_image_id
+        img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+    else 
+        img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     with user_from_username_param
         .ui.stackable.padded.grid
@@ -25,6 +30,9 @@ template(name='profile')
                             i.eye.icon
                             |#{profile_views} 
                             |profile views
+                    .ui.center.aligned.inline.header(title='boops')
+                        +i name='tap-gesture'
+                        |#{boops}
                     
                     // else if is_admin
                     //     a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
@@ -231,6 +239,7 @@ template(name='user_edit')
                         i.checkmark.large.icon
                     .ui.hidden.divider
                     +image_edit key='image_id' icon='picture' title='profile image' direct=true
+                    +image_edit key='background_image_id' icon='image' title='background image' direct=true
                 .column
                     if is_current_user
                         +password_edit

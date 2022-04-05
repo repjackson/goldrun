@@ -8,6 +8,8 @@ if Meteor.isClient
 
     Template.profile.onCreated ->
         Meteor.call 'calc_user_points', Router.current().params.username, ->
+    Template.profile.onRendered ->
+        Meteor.call 'increment_profile_view', Router.current().params.username, ->
 
 
         
@@ -97,6 +99,13 @@ if Meteor.isServer
             model:'deposit'
             _author_username:username
     Meteor.methods
+        increment_profile_view: (username)->
+            user = Meteor.users.findOne username:username
+            # point_total = 10
+            if user
+                Meteor.users.update user._id, 
+                    $inc:
+                        profile_views:1
         calc_user_points: (username)->
             user = Docs.findOne username:username
             point_total = 10

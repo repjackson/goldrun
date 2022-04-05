@@ -20,6 +20,12 @@ template(name='profile')
                     a.ui.large.button(href="/user/#{username}/edit" title='profile settings')
                         i.cog.icon
                         |account
+                    .ui.list 
+                        .item 
+                            i.eye.icon
+                            |#{profile_views} 
+                            small profile views
+                    
                     // else if is_admin
                     //     a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                     //         +i name='settings' cl='ui avatar image'
@@ -53,6 +59,13 @@ template(name='profile')
                                         +remove_button
                                         
                 .column
+                    a.ui.header(href="/groups")
+                        +i name='groups'
+                        |groups
+                    .ui.list
+                        each user_groups
+                            a.item(href="/group/#{_id}") #{title}
+                .column
                     if user_is_resident
                         //- if is_staff
                         +number_view key='unit_number' label='Unit #' direct=true
@@ -66,6 +79,12 @@ template(name='profile')
                     .ui.header 
                         +i name='friends'
                         |friends
+                    .ui.selection.link.animated.list
+                        each user_friended
+                            +user_info
+                    .ui.selection.link.animated.list
+                        each user_friended_by
+                            +user_info
                 .column
                     .ui.header 
                         +i name='shopping-cart'
@@ -100,7 +119,7 @@ template(name='profile')
                             each sent_transfer_docs
                                 +transfer_item
                     .ui.header 
-                        +i name='down chevron'
+                        +i name='internal'
                         |points received
                     .ui.button.send_points
                         i.send.icon

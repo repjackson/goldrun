@@ -67,7 +67,7 @@ template(name='transfer_card')
             a.image.zoomer.fly_right(href="/transfer/#{_id}")
                 img.ui.image(src="{{c.url image_id width=600 height=600}}")
         .content
-            with recipient
+            with _recipient
                 +user_info
             with _author
                 +user_info

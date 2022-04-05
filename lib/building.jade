@@ -38,7 +38,7 @@ template(name='building_view')
                     |building
                     |#{building_number}
                 if can_edit 
-                    a.ui.button(href="/building/#{_id}/edit" title='edit')
+                    a.ui.icon.button(href="/building/#{_id}/edit" title='edit')
                         i.large.pencil.icon
                 +image_view key='image_id' direct=true
                 .ui.header 
@@ -62,7 +62,7 @@ template(name='building_permits')
     .ui.segment
         .ui.header 
             +i name='badge'
-            |building Permits
+            |permits
         .ui.cards
             each permits
                 .ui.card
@@ -76,9 +76,9 @@ template(name='building_permits')
 template(name='building_owners')            
     .ui.segment
         .ui.header 
-            //- +i name='rent'
-            i.money.icon
-            |building Owners
+            +i name='rent'
+            // i.money.icon
+            |owners
         .ui.four.cards
             each building_owner_docs
                 .ui.card
@@ -95,7 +95,7 @@ template(name='building_residents')
         .ui.header
             +i name='groups'
             // i.users.icon
-            |building residents
+            |residents
         .ui.stackable.cards
             each building_resident_docs
                 .ui.card

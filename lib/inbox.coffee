@@ -5,18 +5,18 @@ if Meteor.isClient
         ), name:'inbox'
 
     Template.inbox.onCreated ->
-        @autorun -> Meteor.subscribe 'user_model_docs', 'message', Router.current().params.username
-        @autorun => Meteor.subscribe 'my_received_messages'
-        @autorun => Meteor.subscribe 'my_sent_messages'
+        @autorun -> Meteor.subscribe 'user_model_docs', 'message', Router.current().params.username, ->
+        @autorun => Meteor.subscribe 'my_received_messages', ->
+        @autorun => Meteor.subscribe 'my_sent_messages', ->
         # @autorun => Meteor.subscribe 'inbox', Router.current().params.username
-        @autorun => Meteor.subscribe 'model_docs', 'stat'
+        @autorun => Meteor.subscribe 'model_docs', 'stat', ->
 
     Template.inbox.events
         'click .add_message': ->
             new_message_id =
                 Docs.insert
                     model:'message'
-            Router.go "/m/message/#{new_message_id}/edit"
+            Router.go "/message/#{new_message_id}/edit"
 
 
 

@@ -64,6 +64,12 @@ Template.home.events
             Docs.remove @_id
     
     
+Template.nav.onRendered ->
+    Meteor.setTimeout ->
+        $('.item').popup()
+    , 3000
+
+    
 Template.home.helpers
     homepage_data_doc: ->
         doc = 

@@ -160,14 +160,15 @@ template(name='post_edit')
                 .column.scrolling
                     .ui.inline.header 
                         +icolor name='news' cl='ui image inline pointer'
-                        |edit post
-                    a.ui.icon.green.big.button(href="/post/#{_id}/view" title='save')
+                        |editing post
+                    a.ui.green.big.button(href="/post/#{_id}/view" title='save')
                         i.checkmark.big.icon
+                        |save
                     +text_edit key='title' label='title' direct=true
                     
-                    +boolean_edit key='has_content' label='has content' icon='content' direct=true
-                    if has_content
-                        +html_edit key='content' label='content' direct=true
+                    // +boolean_edit key='has_content' label='has content' icon='content' direct=true
+                    // if has_content
+                    +html_edit key='content' label='content' direct=true
                 .column.scrolling
                     i.large.link.red.remove.icon.delete_post
                     if is_dev
@@ -176,9 +177,9 @@ template(name='post_edit')
                         .ui.header 
                             small author
                             |#{_author.username}
-                    +boolean_edit key='has_image' label='has image' icon='content' direct=true
-                    if has_image
-                        +image_edit key='image_id' label='image' direct=true
+                    // +boolean_edit key='has_image' label='has image' icon='content' direct=true
+                    // if has_image
+                    +image_edit key='image_id' label='image' direct=true
                     div 
                     +array_edit key='tags' label='tags' direct=true icon='tags'
                     +boolean_edit key='published' icon='visible' direct=true

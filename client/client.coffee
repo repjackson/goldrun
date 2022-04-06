@@ -121,10 +121,10 @@ Template.layout.events
         # console.log 'hi'
         $(e.currentTarget).closest('.card').transition('fly right', 500)
         
-    'click a': ->
-        $('.global_container')
-        .transition('fade out', 200)
-        .transition('fade in', 200)
+    # 'click a': ->
+    #     $('.global_container')
+    #     .transition('fade out', 200)
+    #     .transition('fade in', 200)
 
     'click .log_view': ->
         console.log Template.currentData()

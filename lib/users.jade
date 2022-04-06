@@ -83,8 +83,8 @@ template(name='user_cloud')
 
 template(name='user_card')
     a.card.zoomer.fly_left(href="/user/#{username}")
-        unless background_image_id
-            img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
+        // unless background_image_id
+        //     img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
         if image_id
             .ui.fade.reveal.image
                 .visible.content
@@ -130,9 +130,11 @@ template(name='user_card')
             //     i.red.gift.pointer.debit.big.icon
             //     i.teal.concierge.bell.pointer.request.big.icon
             //     i.blue.chat.pointer.message.big.disabled.icon
-            .ui.inline.header 
-                |#{views}
-                |views
+            if profile_views
+                .ui.inline.header(title='profile views') 
+                    i.eye.icon
+                    |#{profile_views}
+                    
             
             
             

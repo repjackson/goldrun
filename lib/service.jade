@@ -28,12 +28,12 @@ template(name='services')
             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
             .scrollin
-                // if subs_ready
-                .ui.centered.stackable.fluid.cards
-                    each service_docs 
-                        +service_card
-                // else 
-                //     i.massive.yin.yang.loading.icon
+                if subs_ready
+                    .ui.centered.stackable.fluid.cards
+                        each service_docs 
+                            +service_card
+                else 
+                    i.massive.yin.yang.loading.icon
 
 
 template(name='set_service_sort_key')

@@ -3,15 +3,14 @@ template(name='profile')
         img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
     else 
         img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-
-    img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+    // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     with user_from_username_param
         .ui.stackable.padded.grid
             .four.column.row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .column
                     a.item(href="/user/#{username}")
-                        img.ui.centered.rounded.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+                        img.ui.centered.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     .spacer
                     a(href="/user/#{username}")
                         .ui.header

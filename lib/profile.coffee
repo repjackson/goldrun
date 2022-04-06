@@ -44,6 +44,12 @@ if Meteor.isClient
                     recipient_id: user._id
             Router.go "/transfer/#{new_id}/edit"
             
+            
+        'click .boop': (e,t)->
+            $(e.currentTarget).closest('.boop').transition('bounce', 500)
+            user = Meteor.users.findOne username:Router.current().params.username
+            Meteor.users.update user._id, 
+                $inc:boops:1
                 
     # Template.user_section.helpers
     #     user_section_template: ->

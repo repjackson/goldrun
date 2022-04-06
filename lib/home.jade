@@ -64,8 +64,22 @@ template(name='home')
                                     |#{when}
                                     |by #{_author_username}
                                     // +author_info
-                            
-                        
+            .column
+                .ui.header 
+                    +i name='blog'
+                    |latest posts
+                .ui.large.link.selection.animated.list.smallscroll
+                    each latest_post_docs
+                        a.ui.item.fly_right(href="/post/#{_id}")
+                            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                            .content
+                                .header 
+                                    |#{title}
+                                .description 
+                                    .ui.label #{model}
+                                    |#{when}
+                                    |by #{_author_username}
+                                    // +author_info
             .column
                 .ui.header 
                     +i name='chat'

@@ -64,7 +64,10 @@ Template.color_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val
-
+        else 
+            Meteor.users.update parent._id,
+                $set:"#{@key}":val
+                
 
 
 Template.html_edit.onRendered ->

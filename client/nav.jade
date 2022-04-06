@@ -1,6 +1,6 @@
 template(name='nav')
     // https://fomantic-ui.com/elements/icon.html#/icon
-    #topnav.topnav.ui.attached.borderless.big.menu.hscroll
+    #topnav.topnav.ui.attached.borderless.big.inverted.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
         // if is_loading
         //     .icon.item
         //         i.big.loading.grey.refresh.icon.cancel
@@ -70,7 +70,7 @@ template(name='nav')
                     // i.sign.in.large.icon
                     +i name='internal'
                     span.mobile.hidden login
-    .ui.attached.large.borderless.menu.hscroll
+    .ui.attached.large.borderless.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
         a.icon.item.zoomer.fly_right(href="/chat")
             // i.large.inbox.icon
             +i name='chat'

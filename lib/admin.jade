@@ -3,15 +3,19 @@ template(name='add')
         .ui.center.aligned.massive.header 
             +i name='plus' 
             |add 
-        +add_button_big model='post' label='post' icon='blog'
-        +add_button_big model='event' label='event' icon='calendar'
-        +add_button_big model='rental' label='rental' icon='clock'
+        .ui.cards
+            +add_button_big model='post' label='post' icon='blog'
+            +add_button_big model='event' label='event' icon='calendar'
+            +add_button_big model='rental' label='rental' icon='clock'
+            +add_button_big model='product' label='product' icon='shop'
+            +add_button_big model='service' label='service' icon='wrench'
     
     
 template(name='add_button_big')
-    .ui.massive.basic.button.add_model
-        +i name=icon
-        |#{label}
+    .ui.massive.link.card.add_model
+        .content
+            +ibig name=icon
+            .ui.inline.header #{label}
     
     
 template(name='admin')

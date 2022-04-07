@@ -72,7 +72,8 @@ template(name='request_card')
             if private 
                 i.large.lock.icon
             .ui.small.grey.inline.header #{when}
-            | !{content}
+            .smallscroll
+                | !{content}
             // +comments_view_small
             |#{points}pts
             +author_info

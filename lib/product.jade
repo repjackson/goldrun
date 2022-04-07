@@ -1,6 +1,6 @@
 template(name='products')
     .ui.stackable.padded.grid 
-        .four.wide.column
+        .sixteen.wide.column
             .ui.inline.header 
                 +i name='blog'
                 |products
@@ -15,8 +15,7 @@ template(name='products')
                 a.ui.compact.button.pick_product_tag
                     |#{title} 
                     // small.ui.grey.text #{count}
-                    
-        .twelve.wide.column
+        .sixteen.wide.column
             .ui.centered.stackable.cards
                 each product_docs 
                     +product_card

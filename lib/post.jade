@@ -95,7 +95,7 @@ template(name='post_view')
         .ui.stackable.padded.grid
             .row 
                 .four.wide.column.scrolling
-                    a.ui.circular.icon.button(href="/posts" title='posts')
+                    a.ui.circular.icon.button.fly_left(href="/posts" title='posts')
                         i.chevron.left.icon
                         +i name='post'
                         |posts
@@ -103,7 +103,7 @@ template(name='post_view')
                     
                     if can_edit
                         a.ui.circular.icon.button.fly_down(href="/post/#{_id}/edit" title='edit')
-                            +i name='pencil'
+                            +ibig name='pencil'
                     .ui.segment
                         .ui.header 
                             small author
@@ -170,9 +170,8 @@ template(name='post_edit')
                     // if has_content
                     +html_edit key='content' label='content' direct=true
                 .column.scrolling
-                    i.large.link.red.remove.icon.delete_post
                     if is_dev
-                        +single_user_edit key='_author_id' label='author' direct=true
+                        +single_user_edit key='_author_id' label='author' icon='user' direct=true
                     else 
                         .ui.header 
                             small author
@@ -182,21 +181,30 @@ template(name='post_edit')
                     +image_edit key='image_id' label='image' direct=true
                     div 
                     +array_edit key='tags' label='tags' direct=true icon='tags'
-                    +boolean_edit key='published' icon='visible' direct=true
+                    .ui.header 
+                        +i name='eye'
+                        |visibility
+                    +key_value_edit key='visibility' value='published' icon='checkmark' classes='green'
+                    +key_value_edit key='visibility' value='private' icon='lock' classes='blue'
+                    +key_value_edit key='visibility' value='draft' icon='checkmark' classes='orange'
+                    // +boolean_edit key='published' icon='visible' direct=true
                     if is_dev 
                         +text_edit key='model' label='model' direct=true
                 .column.scrolling
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    unless published
-                        a.ui.fluid.green.button.submit
-                            i.checkmark.icon
-                            |publish
-                    else
-                        .ui.basic.button.unpublish 
-                            |unpublish
+                    // unless published
+                    //     a.ui.fluid.green.button.submit
+                    //         i.checkmark.icon
+                    //         |publish
+                    // else
+                    //     .ui.basic.button.unpublish 
+                    //         |unpublish
                     .ui.header
                         |audience
                     +boolean_edit key='private' label='private' 
                     if private 
                         +multi_user_edit key='access_user_ids' label='user picker' direct=true
                     +group_picker
+                    .ui.red.button.delete_post
+                        i.large.link.red.remove.icon
+                        |delete post

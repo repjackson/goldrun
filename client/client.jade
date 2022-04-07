@@ -133,23 +133,17 @@ template(name='not_found')
           |home
 
 
-// template(name='key_value_edit')
-//     .ui.compact.button.set_key_value(class=set_key_value_class)
-//         if icon 
-//             +i name=icon cl='ui avatar image'
-//             // i.icon(class=icon)
-//         if label 
-//             |#{label}
-//         else 
-//             |#{value}
 
 
 template(name='send_points_button')
-    .ui.circular.button.send_points
+    .ui.circular.button.send_points.fly_right
         +i name='donate'
         |send points
+        
+        
 template(name='request_button')
     .ui.button.request
+        +i name='hand-holding-heart'
         |request
 
 // template(name='session_key_value_edit')

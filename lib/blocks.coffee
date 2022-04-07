@@ -431,8 +431,9 @@ if Meteor.isClient
     
             
     Template.key_value_edit.helpers
-        set_key_value_class: ->
+        calculated_class: ->
             parent = Template.parentData()
+            # parent = Template.parentData()
             # console.log parent
             # if parent["#{@key}"] is @value then 'active' else ''
             if parent["#{@key}"] is @value then 'active large' else 'basic'
@@ -443,10 +444,10 @@ if Meteor.isClient
             # console.log 'hi'
             parent = Template.parentData()
             # console.log parent, @key, @value
-            if Docs.findOne parent._id
-                Docs.update parent._id,
-                    $set: "#{@key}": @value
-            else 
-                Docs.update parent._id,
-                    $set: "#{@key}": @value
+            # if Docs.findOne Router.current().params.doc_id,
+            Docs.update parent._id,
+                $set: "#{@key}": @value
+            # else 
+            #     Docs.update Router.current().params.doc_id,
+            #         $set: "#{@key}": @value
 

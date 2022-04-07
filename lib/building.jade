@@ -42,13 +42,15 @@ template(name='building_view')
                         i.large.pencil.icon
                 +image_view key='image_id' direct=true
                 .ui.header 
-                    |Building #{building_number}
+                    |building #{building_number}
                 .ui.header 
                     |building code: #{building_code}
                 +user_key
-            .twelve.wide.column
+            .four.wide.column
                 +building_residents
+            .four.wide.column
                 +building_owners
+            .four.wide.column
                 .ui.header 
                     +i name='room'
                     |building units
@@ -56,7 +58,15 @@ template(name='building_view')
                     .ui.header #{unit_number}
                 if is_springdale
                     +building_permits
-
+            .four.wide.column
+                +building_posts
+                
+                
+template(name='building_posts')
+    .ui.header 
+        +i name='blog'
+        |building posts   
+                
             
 template(name='building_permits')            
     .ui.segment

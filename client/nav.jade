@@ -24,9 +24,9 @@ template(name='nav')
             // i.large.calendar.icon
             +i name='calendar'
             // span.mobile.hidden events
-        // .ui.icon.input.mobile.hidden
-        //     i.search.icon
-        //     input(type='text' placeholder='...')
+        .ui.icon.inverted.transparent.input.mobile.hidden
+            i.search.icon
+            input.global_search(type='text' placeholder='...')
         .item     
             each search_results
                 .ui.label #{this}

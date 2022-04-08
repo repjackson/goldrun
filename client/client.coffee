@@ -95,6 +95,10 @@ Template.nav.onCreated ->
     # @autorun -> Meteor.subscribe 'users_by_role','staff'
     # @autorun -> Meteor.subscribe 'unread_messages'
 
+Template.nav.events
+    'keyup .global_search': (e,t)->
+        query = $('.global_search').val()
+        Session.set('global_query',query)
 
 $.cloudinary.config
     cloud_name:"facet"

@@ -49,6 +49,8 @@ template(name='profile')
                         +profile_deposits
                                         
                 .column
+                    +user_reviews
+                .column
                     +user_posts
                     a.ui.header(href="/groups")
                         +i name='groups'
@@ -81,7 +83,16 @@ template(name='profile')
     else 
         .ui.basic.center.aligned.segment
             i.massive.loading.refresh.icon
-                            
+               
+               
+               
+template(name="user_reviews")               
+    .ui.header 
+        +i name='star'
+        |reviews
+    .ui.list 
+        each user_review_docs
+            |#{amount}
 
 template(name='user_posts')
     .ui.header 

@@ -1,6 +1,6 @@
 template(name='posts')
     .ui.stackable.padded.grid 
-        .four.wide.column
+        .sixteen.wide.column
             .ui.inline.header 
                 +i name='blog'
                 |posts
@@ -21,19 +21,17 @@ template(name='posts')
                 a.ui.compact.button.pick_post_tag
                     |#{name} 
                     // small.ui.grey.text #{count}
-        .twelve.wide.column
             // +session_set key='view_mode' value='grid' icon='th'
             // +session_set key='view_mode' value='list' icon='list'
             i.large.sort.icon
             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
-            .scrollin
-                // if subs_ready
+            if subs_ready
                 .ui.centered.stackable.cards
                     each post_docs 
                         +post_card
-                // else 
-                //     i.massive.yin.yang.loading.icon
+            else 
+                i.massive.yin.yang.loading.icon
 
 
 template(name='set_post_sort_key')
@@ -93,7 +91,7 @@ template(name='post_item')
 template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
-            .four.wide.column.row 
+            .four.column.row 
                 .column
                     a.ui.circular.icon.button.fly_left(href="/posts" title='posts')
                         i.chevron.left.icon

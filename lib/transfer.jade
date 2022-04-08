@@ -2,8 +2,7 @@ template(name='transfers')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.inline.header 
-                // +i name='transfers'
-                i.fire.large.icon
+                +i name='exchange'
                 |#{transfer_docs.count}
                 |transfers
             if currentUser

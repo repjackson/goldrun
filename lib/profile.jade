@@ -46,28 +46,10 @@ template(name='profile')
                     // i.refresh.link.icon.calc_user_points
                 if is_current_user
                     .column
-                        .ui.header 
-                            +i name='donate'
-                            |deposits
-                        // |includes 2% points card processing fee
-                        .ui.action.fluid.input
-                            input.deposit_amount(type='number' min='1' placeholder='deposit')
-                            .ui.icon.button.add_points   
-                                i.right.chevron.icon
-                                
-                        .ui.large.bulleted.list.smallscroll
-                            each deposit_docs
-                                .item 
-                                    .content
-                                        .header 
-                                            |$#{amount}
-                                        .description #{when} {{long_date _timestamp}}
-                                        //- if is_dev
-                                        +remove_button
+                        +profile_deposits
                                         
                 .column
                     +user_posts
-                .column
                     a.ui.header(href="/groups")
                         +i name='groups'
                         |groups
@@ -83,8 +65,6 @@ template(name='profile')
                         +text_view key='building_code' label='Building Code' direct=true
                         +date_view key='start_date' label='Start Date' direct=true
                         +date_view key='expiration_date' label='Expiration Date' direct=true
-                
-                .column
                     .ui.header 
                         +i name='friends'
                         |friends
@@ -113,6 +93,27 @@ template(name='user_posts')
                 if image_id
                     img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
                 |#{title}
+
+template(name='profile_deposits')
+    .ui.header 
+        +i name='donate'
+        |deposits
+    // |includes 2% points card processing fee
+    .ui.action.fluid.input
+        input.deposit_amount(type='number' min='1' placeholder='deposit')
+        .ui.icon.button.add_points   
+            i.right.chevron.icon
+            
+    .ui.large.bulleted.list.smallscroll
+        each deposit_docs
+            .item 
+                .content
+                    .header 
+                        |$#{amount}
+                    .description #{when} {{long_date _timestamp}}
+                    //- if is_dev
+                    +remove_button
+
 
 
 template(name='user_rentals')

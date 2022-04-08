@@ -1,6 +1,6 @@
 template(name='services')
     .ui.stackable.padded.grid 
-        .four.wide.column
+        .sixteen.wide.column
             .ui.inline.header 
                 +i name='settings'
                 |services
@@ -21,19 +21,18 @@ template(name='services')
                 a.ui.compact.button.pick_service_tag
                     |#{name} 
                     // small.ui.grey.text #{count}
-        .twelve.wide.column
             // +session_set key='view_mode' value='grid' icon='th'
             // +session_set key='view_mode' value='list' icon='list'
             i.large.sort.icon
             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
-            .scrollin
-                if subs_ready
-                    .ui.centered.stackable.fluid.cards
-                        each service_docs 
-                            +service_card
-                else 
-                    i.massive.yin.yang.loading.icon
+        .sixteen.wide.column
+            if subs_ready
+                .ui.centered.stackable.fluid.cards
+                    each service_docs 
+                        +service_card
+            else 
+                i.massive.yin.yang.loading.icon
 
 
 template(name='set_service_sort_key')
@@ -147,25 +146,29 @@ template(name='service_edit')
                 .column.scrolling
                     .ui.inline.header 
                         +icolor name='news' cl='ui image inline pointer'
-                        |edit service
-                    a.ui.icon.green.big.button(href="/service/#{_id}/view" title='save')
+                        |editing service
+                    a.ui.green.big.button(href="/service/#{_id}/view" title='save')
                         i.checkmark.big.icon
+                        |save
                     +text_edit key='title' label='title' direct=true
                     
-                    +boolean_edit key='has_content' label='has content' icon='content' direct=true
-                    if has_content
-                        +html_edit key='content' label='content' direct=true
+                    // +boolean_edit key='has_content' label='has content' icon='content' direct=true
+                    // if has_content
+                    +html_edit key='content' label='content' direct=true
                 .column.scrolling
-                    i.large.link.red.remove.icon.delete_service
+                    .ui.red.button.delete_service
+                        i.large.link.red.remove.icon
+                        |remove
+                    div
                     if is_dev
                         +single_user_edit key='_author_id' label='author' direct=true
                     else 
-                        .ui.header 
+                        .ui.inline.header 
                             small author
                             |#{_author.username}
-                    +boolean_edit key='has_image' label='has image' icon='content' direct=true
-                    if has_image
-                        +image_edit key='image_id' label='image' direct=true
+                    // +boolean_edit key='has_image' label='has image' icon='content' direct=true
+                    // if has_image
+                    +image_edit key='image_id' label='image' direct=true
                     div 
                     +array_edit key='tags' label='tags' direct=true icon='tags'
                     +boolean_edit key='published' icon='visible' direct=true
@@ -173,13 +176,13 @@ template(name='service_edit')
                         +text_edit key='model' label='model' direct=true
                 .column.scrolling
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    unless published
-                        a.ui.fluid.green.button.submit
-                            i.checkmark.icon
-                            |publish
-                    else
-                        .ui.basic.button.unpublish 
-                            |unpublish
+                    // unless published
+                    //     a.ui.fluid.green.button.submit
+                    //         i.checkmark.icon
+                    //         |publish
+                    // else
+                    //     .ui.basic.button.unpublish 
+                    //         |unpublish
                     .ui.header
                         |audience
                     +boolean_edit key='private' label='private' 

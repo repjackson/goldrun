@@ -155,7 +155,7 @@ template(name='group_view')
         .ui.stackable.padded.grid
             .three.column.row
                 .column
-                    .ui.header 
+                    .ui.inline.header 
                         if icon
                             +i name=icon
                         |#{title}
@@ -186,16 +186,14 @@ template(name='group_view')
                     +multi_user_view key='member_ids' label='members' direct=true
                         
                 .column
-                    .ui.header
+                    .ui.inline.header
                         i.info.icon
                         |about
                     +html_view key='description' icon='content' label='description'
                     if watson 
                         +watson_view
-                .column
                     .ui.header
-                        // +i name='groups'
-                        i.large.users.icon
+                        +i name='groups'
                         |people
                     if leaders_id
                         .ui.inline.header 
@@ -226,14 +224,13 @@ template(name='group_view')
                 .column
                     .ui.header
                         +i name='rss'
-                        // i.large.rss.icon
                         |activity
                     .content
                         each log_items
                             +log_item
                         .ui.header 
-                            // +i name='line-chart'
-                            i.large.line.chart.icon
+                            +i name='line-chart'
+                            // i.large.line.chart.icon
                             |stats
                         i.refresh.link.icon.refresh_group_stats
                         .ui.large.list
@@ -246,8 +243,8 @@ template(name='group_view')
                 .column
                     .ui.header
                         .ui.inline.header
-                            // +i name='calendar' 
-                            i.calendar.large.icon
+                            +i name='calendar' 
+                            // i.calendar.large.icon
                             |events
                         i.dropdown.icon
                     .content

@@ -93,8 +93,8 @@ template(name='post_item')
 template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
-            .row 
-                .four.wide.column.scrolling
+            .four.wide.column.row 
+                .column
                     a.ui.circular.icon.button.fly_left(href="/posts" title='posts')
                         i.chevron.left.icon
                         +i name='post'
@@ -119,14 +119,17 @@ template(name='post_view')
                     +array_view key='location_tags' label='location_tags' direct=true
                     +visibility_settings
                     +group_widget
-                .twelve.wide.column.scrolling
+                .column
                     .ui.header #{title}
                     img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
+                .column
                     |!{content}
-                    if watson 
+                if watson 
+                    .column
                         +watson_view
+                .column
                     div 
                     .spacer
                     .spacer

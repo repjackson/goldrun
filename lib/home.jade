@@ -13,16 +13,7 @@ template(name='home')
                                 strong #{username}
                                 small #{points}pts
             .column
-                .ui.list
-                    .item 
-                        i.eye.icon
-                        |#{homepage_data_doc.homepage_views} homepage views
-                    .item 
-                        i.lock.icon
-                        |#{homepage_data_doc.homepage_anon_views} anon views
-                    .item 
-                        i.user.icon
-                        |#{homepage_data_doc.homepage_loggedin_views} logged in views
+                +homepage_stats
                 +i name='clock'
                 |latest activity
                 each latest_docs
@@ -49,21 +40,7 @@ template(name='home')
                             |closed
                 
             .column
-                .ui.header 
-                    +i name='blog'
-                    |latest posts
-                .ui.large.link.selection.animated.list.smallscroll
-                    each latest_post_docs
-                        a.ui.item.fly_right(href="/post/#{_id}")
-                            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-                            .content
-                                .header 
-                                    |#{title}
-                                .description 
-                                    .ui.label #{model}
-                                    |#{when}
-                                    |by #{_author_username}
-                                    // +author_info
+                +latest_posts
             .column
                 .ui.header 
                     +i name='blog'
@@ -104,3 +81,35 @@ template(name='home')
                         
                         
             iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12223.22752652539!2d-105.27157281318149!3d40.01276107062417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876bedcf1563c603%3A0x8a56ee2b4204da87!2sGold%20Run%20Condos!5e0!3m2!1sen!2sus!4v1649023489666!5m2!1sen!2sus" width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade")
+            
+            
+            
+template(name='latest_posts')
+    .ui.header 
+        +i name='blog'
+        |latest public posts
+    .ui.large.link.selection.animated.list.smallscroll
+        each latest_post_docs
+            a.ui.item.fly_right(href="/post/#{_id}")
+                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                .content
+                    .header 
+                        |#{title}
+                    .description 
+                        .ui.label #{model}
+                        |#{when}
+                        |by #{_author_username}
+                        // +author_info
+
+
+template(name='homepage_stats')
+    .ui.list
+        .item 
+            i.eye.icon
+            |#{homepage_data_doc.homepage_views} homepage views
+        .item 
+            i.lock.icon
+            |#{homepage_data_doc.homepage_anon_views} anon views
+        .item 
+            i.user.icon
+            |#{homepage_data_doc.homepage_loggedin_views} logged in views

@@ -268,28 +268,6 @@ template(name='rental_edit')
     
 
 
-template(name='user_rentals')
-    .scrolling
-        if is_current_user
-            .ui.button.add_rental
-                i.plus.icon
-                |rental
-        each rentals
-            +profile_rental_item
-
-template(name='profile_rental_item')
-    .ui.segment.grid
-        .row
-            .three.column
-                +image_view key='image' direct=true cl='zoom ui tiny image'
-            .twelve.wide.column
-                .ui.header #{title}
-                a.ui.header.inline.lowercase(href="/rental/#{_id}/")
-                    |#{daily_rate}p/day
-                .ui.small.inline.header #{when}
-                a.ui.button(href="/rental/#{_id}/")
-                    |view
-                    i.right.chevron.icon
 
 
 

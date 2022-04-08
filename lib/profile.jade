@@ -95,48 +95,9 @@ template(name='profile')
                         each user_friended_by
                             +user_info
                 .column
-                    .ui.header 
-                        +i name='shopping-cart'
-                        |#{user_rental_docs.count} rentals
-                    .ui.selection.animated.large.list
-                        each user_rental_docs 
-                            a.item(href="/rental/#{_id}") 
-                                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-                                .content
-                                    .title 
-                                        |#{title}
-                                        strong #{daily_rate}p/day
-                    .ui.header 
-                        +i name='order-history'
-                        |rented to
-                    .ui.items
-                        each received_orders
-                            +profile_order_item
-                    .ui.header 
-                        +i name='clock'
-                        |rented from
-                    .scrolling
-                        .ui.items
-                            each purchased_orders
-                                +profile_order_item
+                    +user_rentals
                 .column
-                    .ui.header 
-                        +i name='donate'
-                        |points sent
-                    .scrolling
-                        .ui.items
-                            each sent_transfer_docs
-                                +transfer_item
-                    .ui.header 
-                        +i name='internal'
-                        |points received
-                    .ui.button.send_points
-                        i.send.icon
-                        |send points
-                    .scrolling
-                        .ui.items
-                            each received_transfer_docs
-                                +transfer_item
+                    +user_credit
     else 
         .ui.basic.center.aligned.segment
             i.massive.loading.refresh.icon
@@ -148,7 +109,58 @@ template(name='user_posts')
         |user posts
     .ui.selection.link.animated.list
         each user_model_docs 'post'
-            a.item.fly_left(href="/post/#{_id}") #{title}
+            a.item.fly_left(href="/post/#{_id}") 
+                if image_id
+                    img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                |#{title}
+
+
+template(name='user_rentals')
+    .ui.header 
+        +i name='shopping-cart'
+        |#{user_rental_docs.count} rentals
+    .ui.selection.animated.large.list
+        each user_rental_docs 
+            a.item(href="/rental/#{_id}") 
+                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                .content
+                    .title 
+                        |#{title}
+                        strong #{daily_rate}p/day
+    .ui.header 
+        +i name='order-history'
+        |rented to
+    .ui.items
+        each received_orders
+            +profile_order_item
+    .ui.header 
+        +i name='clock'
+        |rented from
+    .smallscroll
+        .ui.items
+            each purchased_orders
+                +profile_order_item
+
+
+
+template(name='user_credit')
+    .ui.header 
+        +i name='donate'
+        |points sent
+    .scrolling
+        .ui.items
+            each sent_transfer_docs
+                +transfer_item
+    .ui.header 
+        +i name='internal'
+        |points received
+    .ui.button.send_points
+        i.send.icon
+        |send points
+    .scrolling
+        .ui.items
+            each received_transfer_docs
+                +transfer_item
 
 
 
@@ -195,6 +207,30 @@ template(name='logout_button')
 //                 if is_admin
 //                     +remove_button
 
+
+
+// template(name='user_rentals')
+//     .scrolling
+//         if is_current_user
+//             .ui.button.add_rental
+//                 i.plus.icon
+//                 |rental
+//         each rentals
+//             +profile_rental_item
+
+// template(name='profile_rental_item')
+//     .ui.segment.grid
+//         .row
+//             .three.column
+//                 +image_view key='image' direct=true cl='zoom ui tiny image'
+//             .twelve.wide.column
+//                 .ui.header #{title}
+//                 a.ui.header.inline.lowercase(href="/rental/#{_id}/")
+//                     |#{daily_rate}p/day
+//                 .ui.small.inline.header #{when}
+//                 a.ui.button(href="/rental/#{_id}/")
+//                     |view
+//                     i.right.chevron.icon
 
 
         

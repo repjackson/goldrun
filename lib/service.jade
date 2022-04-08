@@ -28,7 +28,7 @@ template(name='services')
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
         .sixteen.wide.column
             if subs_ready
-                .ui.centered.stackable.fluid.cards
+                .ui.centered.stackable.fluid.four.cards
                     each service_docs 
                         +service_card
             else 

@@ -1,6 +1,6 @@
 template(name='groups')
     .ui.stackable.padded.grid
-        .four.wide.column
+        .sixteen.wide.column
             .ui.inline.header 
                 +i name='campfire'
                 // i.fire.large.icon
@@ -23,7 +23,6 @@ template(name='groups')
                 button.ui.circular.compact.small.button.pick_group_tag(tabindex="0" class=result_class title=count)
                     |#{name}
                     //- small #{count}
-        .twelve.wide.column
             span.sorting_row
                 .ui.icon.input
                     i.search.icon
@@ -47,12 +46,13 @@ template(name='groups')
             // +session_set key='view_mode' value='grid' icon='th'
             // +session_set key='view_mode' value='list' icon='list'
             // if session_is 'view_mode' 'grid'
+        .sixteen.wide.column
             if one_result
                 .ui.stackable.one.cards.scrolling
                     each group_docs
                         +group_card
             else
-                .ui.stackable.three.cards.scrolling
+                .ui.stackable.four.cards.scrolling
                     each group_docs
                         +group_card
         

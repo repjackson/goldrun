@@ -2,7 +2,7 @@ template(name='products')
     .ui.stackable.padded.grid 
         .sixteen.wide.column
             .ui.inline.header 
-                +i name='blog'
+                +i name='shop'
                 |products
                 // if currentUser
             .ui.icon.button.add_product
@@ -16,7 +16,7 @@ template(name='products')
                     |#{title} 
                     // small.ui.grey.text #{count}
         .sixteen.wide.column
-            .ui.centered.stackable.cards
+            .ui.centered.stackable.four.cards
                 each product_docs 
                     +product_card
                     

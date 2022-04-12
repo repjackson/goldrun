@@ -23,7 +23,7 @@ template(name='profile')
                     // if is_current_user
                     a.ui.large.icon.button(href="/user/#{username}/edit" title='profile settings')
                         i.cog.large.icon
-                        // |account
+                        |account
                     .ui.list 
                         .item 
                             i.eye.icon
@@ -33,16 +33,16 @@ template(name='profile')
                         +i name='tap-gesture'
                         |#{boops}
                     
-                    // else if is_admin
-                    //     a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
-                    //         +i name='settings' cl='ui avatar image'
+                    if is_admin
+                        a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                            +i name='settings' cl='ui avatar image'
                     if is_current_user
                         +logout_button
-                        //- +logout_other_clients_button
+                        +logout_other_clients_button
                     if in_dev 
                         +print_this
                     +send_points_button
-                    // +request_button
+                    +request_button
                     // i.refresh.link.icon.calc_user_points
                 if is_current_user
                     .column

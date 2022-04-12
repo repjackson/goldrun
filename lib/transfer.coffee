@@ -271,7 +271,7 @@ if Meteor.isServer
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
-            { $transfer: _id: "$tags", count: $sum: 1 }
+            { $group: _id: "$tags", count: $sum: 1 }
             { $sort: count: -1, _id: 1 }
             { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }

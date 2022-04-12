@@ -120,8 +120,6 @@ if Meteor.isClient
                 sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
                 limit:Session.get('limit')
 
-        subs_ready: ->
-            Template.instance().subscriptionsReady()
 
 
     Template.rental_view.onCreated ->

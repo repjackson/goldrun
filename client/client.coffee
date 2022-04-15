@@ -26,7 +26,8 @@ Tracker.autorun ->
 
 Template.home.onCreated ->
     Session.setDefault 'limit', 20
-    @autorun -> Meteor.subscribe 'model_docs', 'post', ->
+    @autorun -> Meteor.subscribe 'public_posts', ->
+    # @autorun -> Meteor.subscribe 'model_docs', 'post', ->
     @autorun -> Meteor.subscribe 'model_docs', 'chat_message', ->
     @autorun -> Meteor.subscribe 'model_docs', 'stat', ->
     @autorun -> Meteor.subscribe 'all_users', ->
@@ -70,23 +71,6 @@ Template.nav.onRendered ->
     , 3000
 
     
-Template.home.helpers
-    homepage_data_doc: ->
-        doc = 
-            Docs.findOne 
-                model:'stat'
-    latest_post_docs: ->
-        Docs.find {
-            model:'post'
-        }, sort:_timestamp:-1
-    latest_chat_docs: ->
-        Docs.find {
-            model:'chat_message'
-        }, sort:_timestamp:-1
-    top_users: ->
-        Meteor.users.find {},
-            sort:points:-1
-            
         
 Template.nav.onCreated ->
     Session.setDefault 'limit', 20

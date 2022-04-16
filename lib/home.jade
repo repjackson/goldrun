@@ -1,13 +1,13 @@
 template(name='home')
     .ui.stackable.padded.grid
         .row
-            .four.wide.column
+            .four.wide.column.scrolling
                 .ui.header welcome to the unofficial goldrun community platform (beta)
                 +menu
                 +home_latest_users
-            .eight.wide.column
+            .eight.wide.column.scrolling
                 +latest_activity
-            .four.wide.column
+            .four.wide.column.scrolling
                 +public_chat
                 +healthclub_stats
                 +leaderboard

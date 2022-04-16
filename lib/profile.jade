@@ -21,7 +21,7 @@ template(name='profile')
                             //- i.coins.icon
                             |#{points} pts
                     // if is_current_user
-                    a.ui.large.icon.button(href="/user/#{username}/edit" title='profile settings')
+                    a.ui.large.icon.compact.button(href="/user/#{username}/edit" title='profile settings')
                         i.cog.large.icon
                         |account
                     .ui.list 
@@ -49,6 +49,7 @@ template(name='profile')
                         +profile_deposits
                                         
                 .column
+                    +user_messages
                     +user_reviews
                 .column
                     +user_posts
@@ -86,6 +87,29 @@ template(name='profile')
                
                
                
+template(name="user_messages")               
+    .ui.header 
+        +i name='envelope'
+        |messages
+    +send_message_button
+    .ui.small.header
+        +i name='sent'
+        |sent
+    .ui.list 
+        each user_messages_sent
+            |#{body}
+    .ui.small.header
+        +i name='internal'
+        |received
+    .ui.list 
+        each user_messages_received
+            |#{body}
+            
+            
+template(name='send_message_button')
+    .ui.button.send_message
+        |send message
+            
 template(name="user_reviews")               
     .ui.header 
         +i name='star'
@@ -184,7 +208,7 @@ template(name='logout_other_clients_button')
 
 
 template(name='logout_button')
-    .ui.large.button.logout(title='log out')
+    .ui.large.compact.button.logout(title='log out')
         // i.sign.out.alternate.icon
         +i name='exit'
         |log out

@@ -24,12 +24,12 @@ template(name='nav')
             // i.large.calendar.icon
             +i name='calendar'
             span.mobile.hidden events
-        .ui.icon.transparent.input.mobile.hidden
-            i.search.icon
-            input.global_search(type='text' placeholder='...')
-        .item     
-            each search_results
-                .ui.label #{this}
+        // .ui.icon.transparent.input.mobile.hidden
+        //     i.search.icon
+        //     input.global_search(type='text' placeholder='...')
+        // .item     
+        //     each search_results
+        //         .ui.label #{this}
         .right.menu
             if currentUser
                 a.icon.item(href="/add")
@@ -71,6 +71,16 @@ template(name='nav')
                     // i.sign.in.large.icon
                     +i name='internal'
                     span.mobile.hidden login
+            else 
+                a.icon.item.zoomer.toggle_rightbar.no_blink
+                    // .ui.avatar.image
+                    //     if currentUser.image_id
+                    //         img.ui.mini.inline.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                    //     else
+                    //         i.user.large.icon
+                    // strong.mobile.hidden #{currentUser.name}
+                    i.bars.large.grey.icon
+
     // .ui.attached.large.borderless.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
         
                 
@@ -131,7 +141,7 @@ template(name='walletbar')
         // +user_credit
         .ui.header wallet
         
-template(name='right_sidebar')
+template(name='rightbar')
     .ui.right.sidebar.vertical.borderless.menu.rightbar
         a.item.toggle_rightbar.no_blink(href="/user/#{currentUser.username}" class="{{isActiveRoute 'user_layout'}}")
             img.ui.avatar.compact.image(src="{{c.url currentUser.image_id height=200 width=200 gravity='face' crop='fill'}}")
@@ -181,17 +191,17 @@ template(name='right_sidebar')
 
 
 
-template(name='left_sidebar')
-    .ui.left.sidebar.vertical.inverted.menu
+template(name='leftbar')
+    .ui.left.sidebar.vertical.menu
         // a.item.toggle_leftbar.no_blink(href="/" class="{{isActiveRoute '/'}}")
         //     img.ui.avatar.compact.image(src="{{c.url 'one_logo' height=200 width=200 gravity='face' crop='fill'}}")
         //     |One
         // a.item.set_member.toggle_leftbar.no_blink(href="/m/member" class="{{isActivePath 'm/member'}}" title='players')
         a.item.toggle_leftbar.mobile.only(href='/' class="{{isActivePath '/'}}" title='home')
-            +i name='creek'
+            +i name='one-ring'
             // i.home.icon
             // img.ui.small.centered.image(src="https://nudefoodsmarket.com/wp-content/uploads/2021/03/logo-smaller-300x87.jpg")
-            | Riverside
+            | Goldrun Community
         .search.item(title='search')
             .ui.icon.input
                 i.search.icon

@@ -11,6 +11,21 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'inbox', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'stat', ->
 
+    Template.send_message_button.events
+        'click .send_message': ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            if Meteor.userId()
+                if Meteor.userId() is current_user._id
+                    new_message_id = 
+                        Docs.insert 
+                            model:'message'
+                else 
+                    new_message_id = 
+                        Docs.insert 
+                            model:'message'
+                            target_user_id:current_user._id
+                            target_username:current_user.username
+                    Router.go "/message/#{new_id}/edit"
     Template.inbox.events
         'click .add_message': ->
             new_message_id =

@@ -15,15 +15,15 @@ template(name='nav')
         a.icon.item.fly_right(href="/staff" class="{{isActiveRoute 'staff'}}" title='healthclub')
             // i.large.users.icon
             +i name='fitness'
-            // .mobile.hidden healthclub
+            .mobile.hidden healthclub
         a.icon.item.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title='users')
             // i.large.users.icon
             +i name='groups'
-            // .mobile.hidden people
+            .mobile.hidden people
         a.icon.item.fly_right(href="/events" class="{{isActiveRoute 'events'}}" title='events')
             // i.large.calendar.icon
             +i name='calendar'
-            // span.mobile.hidden events
+            span.mobile.hidden events
         .ui.icon.transparent.input.mobile.hidden
             i.search.icon
             input.global_search(type='text' placeholder='...')
@@ -33,7 +33,7 @@ template(name='nav')
         .right.menu
             if currentUser
                 a.icon.item(href="/add")
-                    i.large.plus.icon
+                    +i name='plus'
                 if currentUser.is_admin
                     +i name='shield'
                 a.icon.item(href="/inbox")
@@ -72,55 +72,6 @@ template(name='nav')
                     +i name='internal'
                     span.mobile.hidden login
     // .ui.attached.large.borderless.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
-    .ui.attached.borderless.small.menu.hscroll
-        a.icon.item.zoomer.fly_right(href="/chat")
-            // i.large.inbox.icon
-            +i name='chat'
-            // .mobile.hidden chat 
-        a.zoomer.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
-            // i.large.users.icon
-            +i name='task'
-            .mobile.hidden tasks 
-        a.zoomer.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
-            // i.large.users.icon
-            +i name='shop'
-            .mobile.hidden products 
-        a.icon.item.zoomer.fly_right(href="/transfers" class="{{isActiveRoute 'transfers'}}" title='transfers')
-            // i.large.users.icon
-            +i name='exchange'
-            .mobile.hidden transfers 
-        a.icon.item.zoomer.fly_right(href="/orders" class="{{isActiveRoute 'orders'}}" title='orders')
-            // i.large.users.icon
-            +i name='order-history'
-            .mobile.hidden orders 
-        a.zoomer.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
-            // i.large.users.icon
-            +i name='blog'
-            .mobile.hidden posts 
-        a.zoomer.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
-            // i.large.fire.icon
-            +i name='campfire'
-            span.mobile.hidden groups
-        a.zoomer.item.fly_right(href="/requests" class="{{isActiveRoute 'requests'}}" title='requests')
-            // i.large.fire.icon
-            +i name='hand-holding-heart'
-            span.mobile.hidden requests
-        a.zoomer.item.fly_right(href="/services" class="{{isActiveRoute 'services'}}" title='services')
-            // i.large.fire.icon
-            +i name='wrench'
-            span.mobile.hidden services
-        a.zoomer.item.fly_right(href="/buildings" class="{{isActiveRoute 'buildings'}}" title='buildings')
-            // i.large.exchange.icon
-            +i name='apartment'
-            span.mobile.hidden buildings
-        a.zoomer.item.fly_right(href="/rentals" class="{{isActiveRoute 'rentals'}}" title='rentals')
-            // i.large.exchange.icon
-            +i name='clock'
-            span.mobile.hidden rentals
-        a.zoomer.item.fly_right(href="/units" class="{{isActiveRoute 'units'}}" title='units')
-            // i.large.exchange.icon
-            +i name='room'
-            span.mobile.hidden units
         
                 
 

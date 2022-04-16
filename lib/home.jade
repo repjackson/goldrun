@@ -2,58 +2,114 @@ template(name='home')
     .ui.stackable.padded.grid
         .row
             .four.wide.column
-                .ui.header welcome to the unofficial goldrun community platform
-                +homepage_stats
+                .ui.header welcome to the unofficial goldrun community platform (beta)
+                +menu
                 +home_latest_users
-                .ui.header 
-                    +i name='jacuzzi'
-                    |hot tub status
-                with healthclub_status_doc
-                    if hottub_open
-                        .ui.large.green.label 
-                            |open
-                    else 
-                        .ui.red.basic.label 
-                            |closed
-                .ui.header 
-                    +i name='water'
-                    |pool status
-                with healthclub_status_doc
-                    if pool_open
-                        .ui.large.green.label 
-                            |open
-                    else 
-                        .ui.red.basic.label 
-                            |closed
-                
             .eight.wide.column
                 +latest_activity
             .four.wide.column
-                .ui.header 
-                    +i name='chat'
-                    |public chat
-                .ui.input
-                    input.add_public_chat(type='text' placeholder='add message...')
-                .ui.list
-                    each latest_chat_docs
-                        .item
-                            |#{body}
-                            small #{when}
-                            if currentUser.admin_mode
-                                i.remove.icon.remove_comment
-                            
-            .four.wide.column
+                +public_chat
+                +healthclub_stats
                 +leaderboard
+                +homepage_stats
                 .ui.header 
                     +i name='money'
                     |real estate available 
                 each available_properties_docs
                     .ui.header 
                         |#{title}
-                        
-                        
             iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12223.22752652539!2d-105.27157281318149!3d40.01276107062417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876bedcf1563c603%3A0x8a56ee2b4204da87!2sGold%20Run%20Condos!5e0!3m2!1sen!2sus!4v1649023489666!5m2!1sen!2sus" width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade")
           
+          
+template(name='menu')       
+    .ui.vertical.fluid.menu
+        a.icon.item.zoomer.fly_right(href="/chat")
+            // i.large.inbox.icon
+            +i name='chat'
+            span.mobile.hidden chat 
+        a.zoomer.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
+            // i.large.users.icon
+            +i name='task'
+            span.mobile.hidden tasks 
+        a.zoomer.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
+            // i.large.users.icon
+            +i name='shop'
+            span.mobile.hidden products 
+        a.icon.item.zoomer.fly_right(href="/transfers" class="{{isActiveRoute 'transfers'}}" title='transfers')
+            // i.large.users.icon
+            +i name='exchange'
+            span.mobile.hidden transfers 
+        a.icon.item.zoomer.fly_right(href="/orders" class="{{isActiveRoute 'orders'}}" title='orders')
+            // i.large.users.icon
+            +i name='order-history'
+            span.mobile.hidden orders 
+        a.zoomer.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
+            // i.large.users.icon
+            +i name='blog'
+            span.mobile.hidden posts 
+        a.zoomer.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
+            // i.large.fire.icon
+            +i name='campfire'
+            span.mobile.hidden groups
+        a.zoomer.item.fly_right(href="/requests" class="{{isActiveRoute 'requests'}}" title='requests')
+            // i.large.fire.icon
+            +i name='hand-holding-heart'
+            span.mobile.hidden requests
+        a.zoomer.item.fly_right(href="/services" class="{{isActiveRoute 'services'}}" title='services')
+            // i.large.fire.icon
+            +i name='wrench'
+            span.mobile.hidden services
+        a.zoomer.item.fly_right(href="/buildings" class="{{isActiveRoute 'buildings'}}" title='buildings')
+            // i.large.exchange.icon
+            +i name='apartment'
+            span.mobile.hidden buildings
+        a.zoomer.item.fly_right(href="/rentals" class="{{isActiveRoute 'rentals'}}" title='rentals')
+            // i.large.exchange.icon
+            +i name='clock'
+            span.mobile.hidden rentals
+        a.zoomer.item.fly_right(href="/units" class="{{isActiveRoute 'units'}}" title='units')
+            // i.large.exchange.icon
+            +i name='room'
+            span.mobile.hidden units
+        
+          
+          
+template(name='public_chat')          
+    a.ui.header.fly_right.zoomer(href="/chat")
+        +i name='chat'
+        |public chat
+    .ui.input
+        input.add_public_chat(type='text' placeholder='add message...')
+    .ui.list
+        each latest_chat_docs
+            .item
+                |#{body}
+                small #{when}
+                if currentUser.admin_mode
+                    i.remove.icon.remove_comment
+          
+          
+template(name='healthclub_stats')          
+    .ui.header 
+        +i name='jacuzzi'
+        |hot tub status
+    with healthclub_status_doc
+        if hottub_open
+            .ui.large.green.label 
+                |open
+        else 
+            .ui.red.basic.label 
+                |closed
+    .ui.header 
+        +i name='water'
+        |pool status
+    with healthclub_status_doc
+        if pool_open
+            .ui.large.green.label 
+                |open
+        else 
+            .ui.red.basic.label 
+                |closed
           
           
 template(name='latest_activity')
@@ -68,8 +124,9 @@ template(name='latest_activity')
                     .header 
                         |#{title}
                     .description 
-                        .ui.label #{model}
+                        |!{content}
                         |#{when}
+                        .ui.label #{model}
                         |by #{_author_username}
                         // +author_info
 
@@ -95,10 +152,10 @@ template(name='leaderboard')
 
 template(name='home_latest_users')
     .ui.header
-        |group
         +i name='groups'
+        |latest users
     each latest_user_docs
-        .item #{hi}
+        .item #{username}
 template(name='latest_posts')
     .ui.header 
         +i name='blog'
@@ -125,6 +182,9 @@ template(name='homepage_stats')
         .item 
             i.lock.icon
             |#{homepage_data_doc.homepage_anon_views} anon views
+        .item 
+            i.user.icon
+            |#{homepage_data_doc.homepage_loggedin_views} logged in views
         .item 
             i.user.icon
             |#{homepage_data_doc.homepage_loggedin_views} logged in views

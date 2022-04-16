@@ -15,11 +15,12 @@ if Meteor.isClient
                 model:'post'
                 private:$ne:true
             }, sort:_timestamp:-1
-        latest_chat_docs: ->
-            Docs.find {
-                model:'chat_message'
-            }, sort:_timestamp:-1
         top_users: ->
             Meteor.users.find {},
                 sort:points:-1
                 
+    Template.public_chat.helpers
+        latest_chat_docs: ->
+            Docs.find {
+                model:'chat_message'
+            }, sort:_timestamp:-1

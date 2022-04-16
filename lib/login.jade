@@ -4,8 +4,8 @@ template(name='login')
             .eight.wide.column
                 .ui.center.aligned.basic.segment
                     +ibig name='gold-hallmark' class='spinning' cl='ui inline image'
-                    // .ui.inline.big.header
-                    //     | login
+                    .ui.inline.big.header
+                        | goldrun community login
                 .ui.inline.small.header 
                     +i name='user-male'
                     |username
@@ -26,12 +26,11 @@ template(name='login')
                     strong #{username}
                     //- i.right.chevron.icon
                 .ui.center.aligned.basic.segment    
-                    a.ui.compact.small.button(href='/forgot_password')
-                        +i name='forgot-password' cl='ui mini inline image'                    
-                        |forgot password
-
+                    // a.ui.compact.small.button(href='/forgot_password')
+                    //     +i name='forgot-password' cl='ui mini inline image'                    
+                    //     |forgot password
                     a.ui.button(href='/register')
-                        i.plus.icon
+                        +i name='plus'
                         |register
 
 template(name='register')

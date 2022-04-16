@@ -1,7 +1,7 @@
 template(name='nav')
     // https://fomantic-ui.com/elements/icon.html#/icon
     // #topnav.topnav.ui.attached.borderless.big.inverted.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
-    #topnav.topnav.ui.attached.borderless.big.inverted.menu.hscroll
+    #topnav.topnav.ui.attached.borderless.menu.hscroll
         // if is_loading
         //     .icon.item
         //         i.big.loading.grey.refresh.icon.cancel
@@ -11,7 +11,7 @@ template(name='nav')
         a.header.icon.item.zoomer(href='/' class="{{isActivePath '/'}}" title='goldrun')
             +i name='one-ring'
             // i.large.home.icon
-            // span.mobile.hidden goldrun
+            span.mobile.hidden goldrun community
         a.icon.item.fly_right(href="/staff" class="{{isActiveRoute 'staff'}}" title='healthclub')
             // i.large.users.icon
             +i name='fitness'
@@ -24,7 +24,7 @@ template(name='nav')
             // i.large.calendar.icon
             +i name='calendar'
             // span.mobile.hidden events
-        .ui.icon.inverted.transparent.input.mobile.hidden
+        .ui.icon.transparent.input.mobile.hidden
             i.search.icon
             input.global_search(type='text' placeholder='...')
         .item     
@@ -72,55 +72,55 @@ template(name='nav')
                     +i name='internal'
                     span.mobile.hidden login
     // .ui.attached.large.borderless.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
-    .ui.attached.large.borderless.inverted.menu.hscroll
+    .ui.attached.borderless.small.menu.hscroll
         a.icon.item.zoomer.fly_right(href="/chat")
             // i.large.inbox.icon
             +i name='chat'
             // .mobile.hidden chat 
-        a.icon.zoomer.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
+        a.zoomer.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
             // i.large.users.icon
             +i name='task'
-            // .mobile.hidden tasks 
-        a.icon.zoomer.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
+            .mobile.hidden tasks 
+        a.zoomer.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
             // i.large.users.icon
             +i name='shop'
-            // .mobile.hidden products 
+            .mobile.hidden products 
         a.icon.item.zoomer.fly_right(href="/transfers" class="{{isActiveRoute 'transfers'}}" title='transfers')
             // i.large.users.icon
             +i name='exchange'
-            // .mobile.hidden transfers 
+            .mobile.hidden transfers 
         a.icon.item.zoomer.fly_right(href="/orders" class="{{isActiveRoute 'orders'}}" title='orders')
             // i.large.users.icon
             +i name='order-history'
-            // .mobile.hidden orders 
-        a.icon.zoomer.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
+            .mobile.hidden orders 
+        a.zoomer.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
             // i.large.users.icon
             +i name='blog'
-            // .mobile.hidden posts 
-        a.icon.zoomer.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
+            .mobile.hidden posts 
+        a.zoomer.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
             // i.large.fire.icon
             +i name='campfire'
-            // span.mobile.hidden groups
-        a.icon.zoomer.item.fly_right(href="/requests" class="{{isActiveRoute 'requests'}}" title='requests')
+            span.mobile.hidden groups
+        a.zoomer.item.fly_right(href="/requests" class="{{isActiveRoute 'requests'}}" title='requests')
             // i.large.fire.icon
             +i name='hand-holding-heart'
-            // span.mobile.hidden requests
-        a.icon.zoomer.item.fly_right(href="/services" class="{{isActiveRoute 'services'}}" title='services')
+            span.mobile.hidden requests
+        a.zoomer.item.fly_right(href="/services" class="{{isActiveRoute 'services'}}" title='services')
             // i.large.fire.icon
             +i name='wrench'
-            // span.mobile.hidden services
-        a.icon.zoomer.item.fly_right(href="/buildings" class="{{isActiveRoute 'buildings'}}" title='buildings')
+            span.mobile.hidden services
+        a.zoomer.item.fly_right(href="/buildings" class="{{isActiveRoute 'buildings'}}" title='buildings')
             // i.large.exchange.icon
             +i name='apartment'
-            // span.mobile.hidden buildings
-        a.icon.zoomer.item.fly_right(href="/rentals" class="{{isActiveRoute 'rentals'}}" title='rentals')
+            span.mobile.hidden buildings
+        a.zoomer.item.fly_right(href="/rentals" class="{{isActiveRoute 'rentals'}}" title='rentals')
             // i.large.exchange.icon
             +i name='clock'
-            // span.mobile.hidden rentals
-        a.icon.zoomer.item.fly_right(href="/units" class="{{isActiveRoute 'units'}}" title='units')
+            span.mobile.hidden rentals
+        a.zoomer.item.fly_right(href="/units" class="{{isActiveRoute 'units'}}" title='units')
             // i.large.exchange.icon
             +i name='room'
-            // span.mobile.hidden units
+            span.mobile.hidden units
         
                 
 

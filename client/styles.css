@@ -20,6 +20,17 @@ body {
   filter: drop-shadow(0px 0px 8px grey);    
   
 }
+
+#iron-router-progress {
+    background-color : #7f4400;
+    box-shadow       : 0 0 5px #7f4400;
+}
+
+#iron-router-progress.spinner:before {
+    border-color : #7f4400;
+}
+
+
  img, .label, input, .input, .green.button {
     /* filter: invert(1) !important; */
 } 

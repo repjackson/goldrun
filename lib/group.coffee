@@ -312,8 +312,6 @@ if Meteor.isClient
                 sort: "#{Session.get('group_sort_key')}":parseInt(Session.get('group_sort_direction'))
                 # limit:Session.get('group_limit')
 
-        home_subs_ready: ->
-            Template.instance().subscriptionsReady()
         users: ->
             # if picked_tags.array().length > 0
             Meteor.users.find {

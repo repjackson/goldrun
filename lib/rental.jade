@@ -100,6 +100,31 @@ template(name='rental_big_card')
                 +quickbuy day_diff=4
                 +quickbuy day_diff=5
 
+template(name='user_rentals')
+    .ui.header 
+        +i name='shopping-cart'
+        |#{user_rental_docs.count} rentals
+    .ui.selection.animated.large.list
+        each user_rental_docs 
+            a.item(href="/rental/#{_id}") 
+                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                .content
+                    .title 
+                        |#{title}
+                        strong #{daily_rate}p/day
+    .ui.header 
+        +i name='order-history'
+        |rented to
+    .ui.items
+        each received_orders
+            +profile_order_item
+    .ui.header 
+        +i name='clock'
+        |rented from
+    .smallscroll
+        .ui.items
+            each purchased_orders
+                +profile_order_item
 
 
 template(name='set_rental_sort_key')
@@ -341,3 +366,53 @@ template(name='order_segment')
             |view
             i.right.chevron.icon
                 
+                
+// template(name='user_rentals')
+//     .scrolling
+//         if is_current_user
+//             .ui.button.add_rental
+//                 i.plus.icon
+//                 |rental
+//         each rentals
+//             +profile_rental_item
+
+// template(name='profile_rental_item')
+//     .ui.segment.grid
+//         .row
+//             .three.column
+//                 +image_view key='image' direct=true cl='zoom ui tiny image'
+//             .twelve.wide.column
+//                 .ui.header #{title}
+//                 a.ui.header.inline.lowercase(href="/rental/#{_id}/")
+//                     |#{daily_rate}p/day
+//                 .ui.small.inline.header #{when}
+//                 a.ui.button(href="/rental/#{_id}/")
+//                     |view
+//                     i.right.chevron.icon
+
+
+        
+template(name='user_rental_card')
+    .ui.small.card
+        a.zoom(href="/rental/#{_id}/")
+            img.ui.centered.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+        .content
+            a.ui.inline.header(href="/rental/#{_id}/") #{title} 
+                .ui.label #{daily_rate}p/day
+            +rental_status
+        .content
+            span(title='views')
+                +ismall name='eye'
+                |#{views}
+            div
+            +ismall name='marker'
+            each location_tags
+                .ui.label #{this}
+            div
+            +ismall name='tags'
+            each tags
+                .ui.label #{this}
+            div
+            a.ui.button(href="/rental/#{_id}/")
+                |view
+                i.right.chevron.icon

@@ -1,20 +1,20 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
-        @layout 'layout'
-        @render 'profile'
+        @layout 'profile_layout'
+        @render 'user_dashboard'
         ), name:'profile'
 
 
 
-    Template.profile.onCreated ->
+    Template.profile_layout.onCreated ->
         Meteor.call 'calc_user_points', Router.current().params.username, ->
-    Template.profile.onRendered ->
+    Template.profile_layout.onRendered ->
         Meteor.call 'increment_profile_view', Router.current().params.username, ->
 
 
         
 if Meteor.isClient
-    Template.profile.onCreated ->
+    Template.profile_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_deposits', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_rentals', Router.current().params.username, ->
@@ -22,12 +22,12 @@ if Meteor.isClient
     Template.user_posts.onCreated ->
         @autorun -> Meteor.subscribe 'user_model_docs', 'post', Router.current().params.username, ->
         
-    Template.profile.onRendered ->
+    Template.profile_layout.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
         , 2000
 
-    Template.profile.events
+    Template.profile_layout.events
         'click .recalc_wage_stats': (e,t)->
             Meteor.call 'recalc_wage_stats', Router.current().params.username, ->
 
@@ -55,7 +55,7 @@ if Meteor.isClient
     #     user_section_template: ->
     #         "user_#{Router.current().params.group}"
 
-    Template.profile.helpers
+    Template.profile_layout.helpers
         user_rental_docs: ->
             Docs.find
                 model:'rental'
@@ -143,7 +143,7 @@ if Meteor.isServer
     
             
 if Meteor.isClient
-    Template.profile.onCreated ->
+    Template.profile_layout.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'deposit'
         # @autorun => Meteor.subscribe 'model_docs', 'order'
@@ -185,7 +185,7 @@ if Meteor.isClient
     	# )
 
 
-    Template.profile.events
+    Template.profile_layout.events
         'click .add_points': ->
             amount = parseInt $('.deposit_amount').val()
             # amount_times_100 = parseInt amount*100
@@ -221,7 +221,7 @@ if Meteor.isClient
 
 
 
-    Template.profile.helpers
+    Template.profile_layout.helpers
         owner_earnings: ->
             Docs.find
                 model:'order'
@@ -257,7 +257,7 @@ if Meteor.isClient
 
 
 
-    Template.profile.onCreated ->
+    Template.profile_layout.onCreated ->
         @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'rental'
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
@@ -266,7 +266,7 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
 
 
-    Template.profile.helpers
+    Template.profile_layout.helpers
         owner_earnings: ->
             Docs.find
                 model:'order'
@@ -346,17 +346,17 @@ if Meteor.isClient
 
     # Template.phone_editor.helpers
     #     'newNumber': ->
-    #         Phoneformat.formatLocal 'US', Meteor.user().profile.phone
+    #         Phoneformat.formatLocal 'US', Meteor.user().profile_layout.phone
 
     Template.phone_editor.events
         'click .remove_phone': (event, template) ->
             Meteor.call 'UpdateMobileNo'
             return
         'click .resend_verification': (event, template) ->
-            Meteor.call 'generateAuthCode', Meteor.userId(), Meteor.user().profile.phone
+            Meteor.call 'generateAuthCode', Meteor.userId(), Meteor.user().profile_layout.phone
             bootbox.prompt 'We texted you a validation code. Enter the code below:', (result) ->
                 code = result.toUpperCase()
-                if Meteor.user().profile.phone_auth == code
+                if Meteor.user().profile_layout.phone_auth == code
                     Meteor.call 'updatePhoneVerified', (err, res) ->
                         if err
                             toastr.error err.reason
@@ -379,7 +379,7 @@ if Meteor.isClient
                     else
                         bootbox.prompt result.message, (result) ->
                             code = result.toUpperCase()
-                            if Meteor.user().profile.phone_auth == code
+                            if Meteor.user().profile_layout.phone_auth == code
                                 Meteor.call 'updatePhoneVerified'
                                 toastr.success 'Your phone was successfully verified!'
                             else

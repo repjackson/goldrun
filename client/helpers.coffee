@@ -9,7 +9,7 @@ Template.registerHelper 'current_limit', () -> parseInt(Session.get('limit'))
 
 Template.registerHelper 'subs_ready', () -> 
     Template.instance().subscriptionsReady()
-    
+
 Template.registerHelper 'user_model_docs', (model) -> 
     username = Router.current().params.username
     Meteor.users.findOne username:username

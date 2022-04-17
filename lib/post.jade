@@ -92,7 +92,7 @@ template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
             .four.column.row 
-                .column
+                .four.wide.column
                     a.ui.circular.icon.button.fly_left(href="/posts" title='posts')
                         i.chevron.left.icon
                         +i name='post'
@@ -101,7 +101,7 @@ template(name='post_view')
                     
                     if can_edit
                         a.ui.circular.icon.button.fly_down(href="/post/#{_id}/edit" title='edit')
-                            +ibig name='pencil'
+                            +i name='pencil'
                     .ui.segment
                         .ui.header 
                             small author
@@ -117,17 +117,16 @@ template(name='post_view')
                     +array_view key='location_tags' label='location_tags' direct=true
                     +visibility_settings
                     +group_widget
-                .column
+                .eight.wide.column
                     .ui.header #{title}
                     img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
-                .column
                     |!{content}
-                if watson 
-                    .column
-                        +watson_view
-                .column
+                    if watson 
+                        .column
+                            +watson_view
+                .four.wide.column
                     div 
                     .spacer
                     .spacer

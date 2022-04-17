@@ -1,4 +1,5 @@
-template(name='profile')
+template(name='profile_layout')
+    +nav
     if background_image_id
         img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
     else 
@@ -6,9 +7,9 @@ template(name='profile')
     // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     with user_from_username_param
         .ui.stackable.padded.grid
-            .four.column.row
+            .row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
-                .column
+                .four.wide.column
                     a.item(href="/user/#{username}")
                         img.ui.centered.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     .spacer
@@ -44,49 +45,68 @@ template(name='profile')
                     +send_points_button
                     +request_button
                     // i.refresh.link.icon.calc_user_points
+                .twelve.wide.column
+                    +profile_menu_item key='balance' icon='money'
+                    +profile_menu_item key='friends' icon='friends'
+                    +profile_menu_item key='posts' icon='blog'
+                    +profile_menu_item key='products' icon='shop'
+                    +profile_menu_item key='rentals' icon='clock'
+                    .scrolling
+                        if subs_ready
+                            +yield
+                        else 
+                            .ui.basic.center.aligned.segment
+                                i.massive.loading.refresh.icon
+                            
+template(name='profile_menu_item')
+    a.ui.compact.button(href="/user/#{current_user}/#{key}")
+        +i name=icon
+        |#{key}
+                            
+                    
+template(name='user_dashboard')
+    .ui.padded.grid 
+        .two.column.row
+            .column
                 if is_current_user
                     .column
                         +profile_deposits
-                                        
-                .column
-                    +user_messages
-                    +user_reviews
-                .column
-                    +user_posts
-                    a.ui.header(href="/groups")
-                        +i name='groups'
-                        |groups
-                    .ui.list
-                        each user_groups
-                            a.item(href="/group/#{_id}") #{title}
-                .column
-                    if user_is_resident
-                        //- if is_staff
-                        +number_view key='unit_number' label='Unit #' direct=true
-                        +number_view key='building_number' label='Building #' direct=true
-                        +number_view key='healthclub_code' label='Healthclub Code' direct=true
-                        +text_view key='building_code' label='Building Code' direct=true
-                        +date_view key='start_date' label='Start Date' direct=true
-                        +date_view key='expiration_date' label='Expiration Date' direct=true
-                    .ui.header 
-                        +i name='friends'
-                        |friends
-                    .ui.selection.link.animated.list
-                        each user_friended
-                            +user_info
-                    .ui.selection.link.animated.list
-                        each user_friended_by
-                            +user_info
-                .column
-                    +user_rentals
-                .column
-                    +user_credit
-    else 
-        .ui.basic.center.aligned.segment
-            i.massive.loading.refresh.icon
-               
-               
-               
+            .column
+                +user_messages
+                +user_reviews
+            .column
+                +user_posts
+                a.ui.header(href="/groups")
+                    +i name='groups'
+                    |groups
+                .ui.list
+                    each user_groups
+                        a.item(href="/group/#{_id}") #{title}
+            .column
+                if user_is_resident
+                    //- if is_staff
+                    +number_view key='unit_number' label='Unit #' direct=true
+                    +number_view key='building_number' label='Building #' direct=true
+                    +number_view key='healthclub_code' label='Healthclub Code' direct=true
+                    +text_view key='building_code' label='Building Code' direct=true
+                    +date_view key='start_date' label='Start Date' direct=true
+                    +date_view key='expiration_date' label='Expiration Date' direct=true
+                .ui.header 
+                    +i name='friends'
+                    |friends
+                .ui.selection.link.animated.list
+                    each user_friended
+                        +user_info
+                .ui.selection.link.animated.list
+                    each user_friended_by
+                        +user_info
+            .column
+                +user_rentals
+            .column
+                +user_credit
+   
+   
+   
 template(name="user_messages")               
     .ui.header 
         +i name='envelope'
@@ -151,31 +171,6 @@ template(name='profile_deposits')
 
 
 
-template(name='user_rentals')
-    .ui.header 
-        +i name='shopping-cart'
-        |#{user_rental_docs.count} rentals
-    .ui.selection.animated.large.list
-        each user_rental_docs 
-            a.item(href="/rental/#{_id}") 
-                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-                .content
-                    .title 
-                        |#{title}
-                        strong #{daily_rate}p/day
-    .ui.header 
-        +i name='order-history'
-        |rented to
-    .ui.items
-        each received_orders
-            +profile_order_item
-    .ui.header 
-        +i name='clock'
-        |rented from
-    .smallscroll
-        .ui.items
-            each purchased_orders
-                +profile_order_item
 
 
 
@@ -245,55 +240,6 @@ template(name='logout_button')
 
 
 
-// template(name='user_rentals')
-//     .scrolling
-//         if is_current_user
-//             .ui.button.add_rental
-//                 i.plus.icon
-//                 |rental
-//         each rentals
-//             +profile_rental_item
-
-// template(name='profile_rental_item')
-//     .ui.segment.grid
-//         .row
-//             .three.column
-//                 +image_view key='image' direct=true cl='zoom ui tiny image'
-//             .twelve.wide.column
-//                 .ui.header #{title}
-//                 a.ui.header.inline.lowercase(href="/rental/#{_id}/")
-//                     |#{daily_rate}p/day
-//                 .ui.small.inline.header #{when}
-//                 a.ui.button(href="/rental/#{_id}/")
-//                     |view
-//                     i.right.chevron.icon
-
-
-        
-template(name='user_rental_card')
-    .ui.small.card
-        a.zoom(href="/rental/#{_id}/")
-            img.ui.centered.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-        .content
-            a.ui.inline.header(href="/rental/#{_id}/") #{title} 
-                .ui.label #{daily_rate}p/day
-            +rental_status
-        .content
-            span(title='views')
-                +ismall name='eye'
-                |#{views}
-            div
-            +ismall name='marker'
-            each location_tags
-                .ui.label #{this}
-            div
-            +ismall name='tags'
-            each tags
-                .ui.label #{this}
-            div
-            a.ui.button(href="/rental/#{_id}/")
-                |view
-                i.right.chevron.icon
 
 
 
@@ -325,6 +271,9 @@ template(name='user_edit')
                         .ui.orange.button.remove_user 
                             i.remove.icon
                             |delete user
+                    if in_dev
+                        +boolean_edit key='admin' label='admin' icon='shield'
+                    
                 .column
                     .ui.header 
                         i.envelope.outline.icon

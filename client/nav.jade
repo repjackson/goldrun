@@ -239,3 +239,39 @@ template(name='leftbar')
                 +i name='list'
                 | orders
                 
+                
+                
+template(name='footer')
+    .ui.fluid.blue.inverted.segment.stackable.grid
+        .three.column.row
+            .column
+                a.ui.header(href="/") 
+                    +i name='one-ring'
+                    |goldrun community
+                if currentUser.admin
+                    with currentUser
+                        +boolean_edit key='admin_mode' label='admin mode'
+            .column
+                .ui.dividing.inverted.header 
+                    |Customer Care
+                .ui.link.big.inverted.animated.list
+                    if currentUser
+                        a.item(href="/user/#{currentUser.username}/" class="{{isActiveRoute 'transfers'}}" ) 
+                            |My Account
+                    else    
+                        a.item(href="/login" class="{{isActiveRoute 'transfers'}}" ) 
+                            |My Account
+                    a.item(href="/privacy" class="{{isActiveRoute 'privacy'}}" ) Privacy Policy
+                    a.item(href="/terms" class="{{isActiveRoute 'terms'}}" ) Terms & Conditions
+                    a.item(href="/faqs" class="{{isActiveRoute 'faqs'}}" ) FAQs
+                    // a.item(href="https://trello.com/invite/b/0g5gAYUv/f138e7f3cdd7d8997d895818eca500b2/website" target='_window') Trello Board
+            .column
+                .ui.dividing.inverted.header
+                    |Company Information
+                .ui.link.big.inverted.animated.list
+                    a.item(href="/contact" class="{{isActiveRoute 'contact'}}" ) Contact Us
+                    a.item(href="/about" class="{{isActiveRoute 'about'}}" ) About Us
+                    a.item(href="/testimonials" class="{{isActiveRoute 'testimonials'}}" ) Testimonials
+                    a.item(href="/corporate_services" class="{{isActiveRoute 'corporate_services'}}" ) Corporate Services
+                    a.item(href="/organizations" class="{{isActiveRoute 'organizations'}}" ) Organizations
+                

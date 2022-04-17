@@ -407,6 +407,19 @@ Template.boolean_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":!parent["#{@key}"]
+        else 
+            Meteor.users.update parent._id,
+                $set:"#{@key}":!parent["#{@key}"]
+        $('body').toast(
+            showIcon: 'checkmark'
+            message: "#{@key} saved"
+            # showProgress: 'bottom'
+            class: 'success'
+            displayTime: 'auto',
+            position: "bottom center"
+        )
+
+
 
 Template.single_doc_view.onCreated ->
     # @autorun => Meteor.subscribe 'model_docs', @data.ref_model

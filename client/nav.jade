@@ -1,6 +1,6 @@
 template(name='nav')
     // https://fomantic-ui.com/elements/icon.html#/icon
-    // #topnav.topnav.ui.attached.borderless.big.inverted.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
+    // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
     #topnav.topnav.ui.attached.borderless.menu.hscroll
         // if is_loading
         //     .icon.item
@@ -24,6 +24,10 @@ template(name='nav')
             // i.large.calendar.icon
             +i name='calendar'
             span.mobile.hidden events
+        a.icon.item.fly_right.mobile.hidden(href="/products" class="{{isActiveRoute 'products'}}" title='products')
+            // i.large.calendar.icon
+            +i name='shop'
+            span products
         // .ui.icon.transparent.input.mobile.hidden
         //     i.search.icon
         //     input.global_search(type='text' placeholder='...')
@@ -43,8 +47,6 @@ template(name='nav')
                     // i.wallet.icon
                     // .ui.avatar.image.bell
                     +i name='notification'
-                // a.item(href='/user/#{currentUser.username}/credit' class="{{isActiveRoute 'user_credit'}}" title='current wallet balance')
-                // a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
                 a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile')
                     if currentUser.image_id
                         img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
@@ -52,14 +54,14 @@ template(name='nav')
                         i.user.icon
                     strong #{currentUser.name}
                     strong #{currentUser.points}p
-                // a.icon.item.toggle_rightbar.no_blink
-                //     // .ui.avatar.image
-                //     //     if currentUser.image_id
-                //     //         img.ui.mini.inline.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
-                //     //     else
-                //     //         i.user.large.icon
-                //     // strong.mobile.hidden #{currentUser.name}
-                //     i.bars.large.grey.icon
+                a.icon.item.toggle_rightbar.no_blink
+                    // .ui.avatar.image
+                    //     if currentUser.image_id
+                    //         img.ui.mini.inline.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                    //     else
+                    //         i.user.large.icon
+                    // strong.mobile.hidden #{currentUser.name}
+                    i.bars.large.grey.icon
             unless subs_ready
                 .icon.item
                     i.yin.yang.large.loading.icon
@@ -71,17 +73,6 @@ template(name='nav')
                     // i.sign.in.large.icon
                     +i name='internal'
                     span.mobile.hidden login
-            else 
-                a.icon.item.zoomer.toggle_rightbar.no_blink
-                    // .ui.avatar.image
-                    //     if currentUser.image_id
-                    //         img.ui.mini.inline.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
-                    //     else
-                    //         i.user.large.icon
-                    // strong.mobile.hidden #{currentUser.name}
-                    i.bars.large.grey.icon
-
-    // .ui.attached.large.borderless.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
         
                 
 
@@ -95,22 +86,6 @@ template(name='my_latest_activity')
                 img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
                 |#{text} #{body}
                 small #{when}
-
-
-// template(name='latest_activity')
-//     .ui.grey.header 
-//         i.grey.rss.icon
-//         |all activity
-//     .ui.list
-//         each latest_activity
-//             .item 
-//                 img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
-//                 |#{text} #{body} 
-//                 .ui.label #{log_type}
-//                 small #{when}
-
-
-
 
 
 template(name='topbar')
@@ -135,12 +110,6 @@ template(name='recent_alert')
             
             
             
-            
-template(name='walletbar')
-    .ui.right.sidebar.walletbar
-        // +user_credit
-        .ui.header wallet
-        
 template(name='rightbar')
     .ui.right.sidebar.vertical.small.menu.rightbar
         a.item.toggle_rightbar.no_blink(href="/user/#{currentUser.username}" class="{{isActiveRoute 'user_layout'}}")
@@ -248,7 +217,7 @@ template(name='leftbar')
                 
                 
 template(name='footer')
-    .ui.fluid.inverted.segment.stackable.grid
+    .ui.fluid.segment.stackable.grid
         .three.column.row
             .column
                 a.ui.header(href="/") 
@@ -258,26 +227,26 @@ template(name='footer')
                     with currentUser
                         +boolean_edit key='admin_mode' label='admin mode'
             .column
-                .ui.dividing.inverted.header 
+                .ui.dividing.header 
                     |Customer Care
-                .ui.link.big.inverted.animated.list
+                .ui.link.large.animated.list
                     if currentUser
-                        a.item(href="/user/#{currentUser.username}/" class="{{isActiveRoute 'transfers'}}" ) 
+                        a.item.zoomer(href="/user/#{currentUser.username}/" class="{{isActiveRoute 'transfers'}}" ) 
                             |My Account
                     else    
-                        a.item(href="/login" class="{{isActiveRoute 'transfers'}}" ) 
+                        a.item.zoomer(href="/login" class="{{isActiveRoute 'transfers'}}" ) 
                             |My Account
-                    a.item(href="/privacy" class="{{isActiveRoute 'privacy'}}" ) Privacy Policy
-                    a.item(href="/terms" class="{{isActiveRoute 'terms'}}" ) Terms & Conditions
-                    a.item(href="/faqs" class="{{isActiveRoute 'faqs'}}" ) FAQs
-                    // a.item(href="https://trello.com/invite/b/0g5gAYUv/f138e7f3cdd7d8997d895818eca500b2/website" target='_window') Trello Board
+                    a.item.zoomer(href="/privacy" class="{{isActiveRoute 'privacy'}}" ) Privacy Policy
+                    a.item.zoomer(href="/terms" class="{{isActiveRoute 'terms'}}" ) Terms & Conditions
+                    a.item.zoomer(href="/faqs" class="{{isActiveRoute 'faqs'}}" ) FAQs
+                    // a.item.zoomer(href="https://trello.com/invite/b/0g5gAYUv/f138e7f3cdd7d8997d895818eca500b2/website" target='_window') Trello Board
             .column
-                .ui.dividing.inverted.header
+                .ui.dividing.header
                     |Company Information
-                .ui.link.big.inverted.animated.list
-                    a.item(href="/contact" class="{{isActiveRoute 'contact'}}" ) Contact Us
-                    a.item(href="/about" class="{{isActiveRoute 'about'}}" ) About Us
-                    a.item(href="/testimonials" class="{{isActiveRoute 'testimonials'}}" ) Testimonials
-                    a.item(href="/corporate_services" class="{{isActiveRoute 'corporate_services'}}" ) Corporate Services
-                    a.item(href="/organizations" class="{{isActiveRoute 'organizations'}}" ) Organizations
+                .ui.link.large.animated.list
+                    a.item.zoomer(href="/contact" class="{{isActiveRoute 'contact'}}" ) Contact Us
+                    a.item.zoomer(href="/about" class="{{isActiveRoute 'about'}}" ) About Us
+                    a.item.zoomer(href="/testimonials" class="{{isActiveRoute 'testimonials'}}" ) Testimonials
+                    a.item.zoomer(href="/corporate_services" class="{{isActiveRoute 'corporate_services'}}" ) Corporate Services
+                    a.item.zoomer(href="/organizations" class="{{isActiveRoute 'organizations'}}" ) Organizations
                 

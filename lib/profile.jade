@@ -1,81 +1,90 @@
 template(name='profile_layout')
     +nav
-    if background_image_id
-        img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
-    else 
-        img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-    // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
-    with user_from_username_param
-        .ui.stackable.padded.grid
-            .row
-                //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
-                .four.wide.column
-                    a.item(href="/user/#{username}")
-                        img.ui.centered.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
-                    .spacer
-                    a(href="/user/#{username}")
-                        .ui.header
-                            strong @#{username}
-                            //- small @#{user.username}        
-                        a.ui.header(href="/user/#{username}/points" title='points')
-                            //- +i name='coins'
-                            //- i.coins.icon
-                            |#{points} pts
-                    if first_name
-                        .ui.inline.header #{first_name}
-                    if last_name
-                        .ui.inline.header #{last_name}
-                    div
-                    if company 
-                        .ui.header
-                            +i name='business' 
-                            |#{company}
-                    if linkedin_link
-                        .ui.circular.compact.button(href=linkedin_link target='_window')
-                            +i name='linkedin'
-                    if twitter_link
-                        .ui.circular.compact.button(href=twitter_link target='_window')
-                            +i name='twitter'
-                    a.ui.large.icon.compact.button(href="/user/#{username}/edit" title='profile settings')
-                        i.cog.large.icon
-                        |account
-                    .ui.list 
-                        .item 
-                            i.eye.icon
-                            |#{profile_views} 
-                            |profile views
-                    .ui.center.aligned.inline.header(title='boops')
-                        +i name='tap-gesture'
-                        |#{boops}
-
-                    if is_admin
-                        a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
-                            +i name='settings' cl='ui avatar image'
-                    if is_current_user
-                        +logout_button
-                        +logout_other_clients_button
-                    if in_dev 
-                        +print_this
-                    +send_points_button
-                    +request_button
-                    // i.refresh.link.icon.calc_user_points
-                .twelve.wide.column
-                    +profile_menu_item key='balance' icon='money'
-                    +profile_menu_item key='friends' icon='friends'
-                    +profile_menu_item key='posts' icon='blog'
-                    +profile_menu_item key='products' icon='shop'
-                    +profile_menu_item key='rentals' icon='clock'
-                    .scrolling
-                        if subs_ready
-                            +yield
-                        else 
-                            .ui.basic.center.aligned.segment
-                                i.massive.loading.refresh.icon
+    .ui.bottom.attached.pushable.segment.scrolling
+        +topbar
+        +leftbar
+        +rightbar
+        if background_image_id
+            img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+        else 
+            img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+        // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+        with user_from_username_param
+            .ui.stackable.padded.grid
+                .row
+                    //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
+                    .four.wide.column
+                        a.item(href="/user/#{username}")
+                            img.ui.centered.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+                        .spacer
+                        a(href="/user/#{username}")
+                            .ui.header
+                                strong @#{username}
+                                //- small @#{user.username}        
+                            a.ui.header(href="/user/#{username}/points" title='points')
+                                //- +i name='coins'
+                                //- i.coins.icon
+                                |#{points} pts
+                        if first_name
+                            .ui.inline.header #{first_name}
+                        if last_name
+                            .ui.inline.header #{last_name}
+                        div
+                        if company 
+                            .ui.header
+                                +i name='business' 
+                                |#{company}
+                        if linkedin_link
+                            .ui.circular.compact.button(href=linkedin_link target='_window')
+                                +i name='linkedin'
+                        if twitter_link
+                            .ui.circular.compact.button(href=twitter_link target='_window')
+                                +i name='twitter'
+                        a.ui.large.icon.compact.button(href="/user/#{username}/edit" title='profile settings')
+                            i.cog.large.icon
+                            |account
+                        .ui.list 
+                            .item 
+                                i.eye.icon
+                                |#{profile_views} 
+                                |profile views
+                        .ui.center.aligned.inline.header(title='boops')
+                            +i name='tap-gesture'
+                            |#{boops}
+    
+                        if is_admin
+                            a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                                +i name='settings' cl='ui avatar image'
+                        if is_current_user
+                            +logout_button
+                            +logout_other_clients_button
+                        if in_dev 
+                            +print_this
+                        +send_points_button
+                        +request_button
+                        // i.refresh.link.icon.calc_user_points
+                    .twelve.wide.column
+                        +profile_menu_item key='balance' icon='money'
+                        +profile_menu_item key='social' icon='friends'
+                        +profile_menu_item key='posts' icon='blog'
+                        +profile_menu_item key='products' icon='shop'
+                        +profile_menu_item key='rentals' icon='clock'
+                        +profile_menu_item key='services' icon='wrench'
+                        .scrolling
+                            if subs_ready
+                                +yield
+                            else 
+                                .ui.basic.center.aligned.segment
+                                    i.massive.loading.refresh.icon
                             
 template(name='profile_menu_item')
-    a.ui.compact.button(href="/user/#{current_user}/#{key}")
+    a.ui.compact.button(href="/user/#{current_user.username}/#{key}")
         +i name=icon
         |#{key}
+                 
+template(name='user_social')                 
+    .ui.header user social
+    .ui.header friends
                             
                     
 template(name='user_dashboard')

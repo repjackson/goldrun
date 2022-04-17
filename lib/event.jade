@@ -3,8 +3,8 @@ template(name='events')
         .row
             .four.wide.column
                 .ui.inline.header
-                    i.calendar.large.icon
-                    // +i name='calendar'
+                    // i.calendar.large.icon
+                    +i name='calendar'
                     |events
                 if currentUser
                     .ui.circular.icon.button.add_event(title='add event')
@@ -17,21 +17,21 @@ template(name='events')
                     |past
                 .ui.compact.button.toggle_now(class=today_button_class)
                     if viewing_today
-                        +i name='calendar'
+                        +i name='internal'
                     else
-                        +ios name='calendar'
+                        +i name='internal'
                     |now
                 .ui.compact.button.view_today(class=today_button_class)
                     if viewing_today
                         +i name='calendar'
                     else
-                        +ios name='calendar'
+                        +i name='calendar'
                     |today
                 .ui.compact.button.toggle_past(class=today_button_class)
                     if viewing_today
                         +i name='calendar'
                     else
-                        +ios name='calendar'
+                        +i name='calendar'
                     |this week
                 .ui.compact.button.toggle_repeating(class=toggle_repeating_class)
                     i.refresh.icon
@@ -444,8 +444,8 @@ template(name='event_view')
                 .sixteen.wide.column
                     a.ui.circular.big.icon.button.fly_left(href="/events")
                         i.chevron.left.large.icon
-                        // +i name='calendar'
-                        i.big.calendar.icon
+                        +i name='calendar'
+                        // i.big.calendar.icon
                     .ui.large.inline.header #{title}
                     if is_repeating
                         .ui.inline.grey.header
@@ -474,8 +474,8 @@ template(name='event_view')
                         a.ui.button(href=link target="_window")
                             i.globe.icon 
                             |#{link}
-            .three.column.row.scrolling
-                .column.scrollin
+            .row
+                .eight.wide.column
                     a(href="{{c.url image_id }}")
                         img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
@@ -487,15 +487,8 @@ template(name='event_view')
                     // div 
                     // .spacer
                     // .spacer
-                .column
+                .eight.wide.column
                     +group_widget
-
-                    if link 
-                        a.ui.big.black.basic.fluid.button(href=link target='_window' title=link)
-                            i.external.icon
-                            // |#{link}
-                            |link
-                            
                     if location
                         // +location_map
                         .ui.header(title='location')
@@ -528,7 +521,6 @@ template(name='event_view')
                             img.ui.avatar.image(src="{{c.url support.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{support.name}
                     +comments
-                .column
                     if max_attendees
                         .ui.header
                             |#{max_attendees} max attendees

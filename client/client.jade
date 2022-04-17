@@ -1,5 +1,5 @@
 head
-    title goldrun
+    title Goldrun
     meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
@@ -58,31 +58,6 @@ template(name='layout')
         +footer
 
 
-// template(name='my_latest_activity')
-//     .ui.grey.header 
-//         i.grey.rss.icon
-//         |your activity
-//     .ui.list
-//         each my_latest_activity
-//             .item 
-//                 img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
-//                 |#{text} #{body}
-//                 small #{when}
-
-
-// template(name='latest_activity')
-//     .ui.header 
-//         +i name='order-history'
-//         | activity
-//     .ui.list
-//         each latest_activity
-//             .item 
-//                 img.ui.avatar.image(src="{{c.url author.image_id width=200 height=200 gravity='face' crop='fill'}}")
-//                 |#{text} #{body} 
-//                 .ui.label(title='log type') #{log_type}
-//                 small #{when}
-
-
 
 template(name='verification_confirmation')
     .ui.text.container
@@ -114,50 +89,3 @@ template(name='request_button')
     .ui.button.request
         +i name='hand-holding-heart'
         |request
-
-// template(name='session_key_value_edit')
-//     .ui.button.set_key_value(class=set_key_value_class)
-//         if key_value_is 'key' 'sort_key'
-//             if session_is 'sort_key' value
-//                 if sorting_up
-//                     i.sort.amount.down.icon
-//                 else
-//                     i.sort.amount.up.icon
-//         if icon 
-//             +i name=icon cl='ui avatar image'
-//             // i.icon(class=icon)
-//         |#{label}
-
-
-// template(name='limit_menu')
-//     .ui.inline.small.grey.header
-//         |limit
-//     .ui.compact.menu
-//         .ui.simple.dropdown.item
-//             strong #{current_limit}
-//             i.dropdown.icon
-//             .menu
-//                 +set_limit amount=1
-//                 +set_limit amount=5
-//                 +set_limit amount=10
-//                 +set_limit amount=20
-
-
-// template(name='set_limit')
-//     .ui.button.set_limit #{amount}
-
-
-// template(name='doc_array_togggle')
-//     if currentUser
-//         .ui.button.toggle(class=doc_array_toggle_class title=label)
-//             if in_list member_ids
-//                 if remove_icon
-//                     i.large.icon(class=remove_icon)
-//                 |#{remove_label}
-//             else
-//                 if add_icon
-//                     i.large.icon(class=add_icon)
-//                 |#{add_label}
-//             |#{label}
-//         //- each list_users
-//         //-     +user_info

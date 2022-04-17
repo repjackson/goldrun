@@ -3,6 +3,30 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_dashboard'
         ), name:'profile'
+    Router.route '/user/:username/social', (->
+        @layout 'profile_layout'
+        @render 'user_social'
+        ), name:'user_social'
+    Router.route '/user/:username/balance', (->
+        @layout 'profile_layout'
+        @render 'user_balance'
+        ), name:'user_balance'
+    Router.route '/user/:username/membership', (->
+        @layout 'profile_layout'
+        @render 'user_membership'
+        ), name:'user_membership'
+    Router.route '/user/:username/messages', (->
+        @layout 'profile_layout'
+        @render 'user_messages'
+        ), name:'user_messages'
+    Router.route '/user/:username/posts', (->
+        @layout 'profile_layout'
+        @render 'user_posts'
+        ), name:'user_posts'
+    Router.route '/user/:username/events', (->
+        @layout 'profile_layout'
+        @render 'user_events'
+        ), name:'user_events'
 
 
 

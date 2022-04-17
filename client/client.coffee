@@ -92,54 +92,18 @@ Template.nav.onRendered ->
             })
             .sidebar('attach events', '.toggle_rightbar')
     , 3000
-    # Meteor.setTimeout ->
-    #     $('.ui.topbar.sidebar')
-    #         .sidebar({
-    #             context: $('.bottom.segment')
-    #             transition:'push'
-    #             mobileTransition:'push'
-    #             exclusive:true
-    #             duration:200
-    #             scrollLock:true
-    #         })
-    #         .sidebar('attach events', '.toggle_topbar')
-    # , 2000
-    # Meteor.setTimeout ->
-    #     $('.ui.secnav.sidebar')
-    #         .sidebar({
-    #             context: $('.bottom.segment')
-    #             transition:'push'
-    #             mobileTransition:'push'
-    #             exclusive:true
-    #             duration:200
-    #             scrollLock:true
-    #         })
-    #         .sidebar('attach events', '.toggle_leftbar')
-    # , 2000
-    # Meteor.setTimeout ->
-    #     $('.ui.sidebar.cartbar')
-    #         .sidebar({
-    #             context: $('.bottom.segment')
-    #             transition:'push'
-    #             mobileTransition:'push'
-    #             exclusive:true
-    #             duration:200
-    #             scrollLock:true
-    #         })
-    #         .sidebar('attach events', '.toggle_cartbar')
-    # , 3000
-    # Meteor.setTimeout ->
-    #     $('.ui.sidebar.walletbar')
-    #         .sidebar({
-    #             context: $('.bottom.segment')
-    #             transition:''
-    #             mobileTransition:'push'
-    #             exclusive:true
-    #             duration:200
-    #             scrollLock:true
-    #         })
-    #         .sidebar('attach events', '.toggle_walletbar')
-    # , 2000
+    Meteor.setTimeout ->
+        $('.ui.topbar.sidebar')
+            .sidebar({
+                context: $('.bottom.segment')
+                transition:'push'
+                mobileTransition:'push'
+                exclusive:true
+                duration:200
+                scrollLock:true
+            })
+            .sidebar('attach events', '.toggle_topbar')
+    , 2000
     
 Template.nav.events
     'click .toggle_rightbar': ->

@@ -21,7 +21,21 @@ template(name='profile_layout')
                             //- +i name='coins'
                             //- i.coins.icon
                             |#{points} pts
-                    // if is_current_user
+                    if first_name
+                        .ui.inline.header #{first_name}
+                    if last_name
+                        .ui.inline.header #{last_name}
+                    div
+                    if company 
+                        .ui.header
+                            +i name='business' 
+                            |#{company}
+                    if linkedin_link
+                        .ui.circular.compact.button(href=linkedin_link target='_window')
+                            +i name='linkedin'
+                    if twitter_link
+                        .ui.circular.compact.button(href=twitter_link target='_window')
+                            +i name='twitter'
                     a.ui.large.icon.compact.button(href="/user/#{username}/edit" title='profile settings')
                         i.cog.large.icon
                         |account
@@ -33,7 +47,7 @@ template(name='profile_layout')
                     .ui.center.aligned.inline.header(title='boops')
                         +i name='tap-gesture'
                         |#{boops}
-                    
+
                     if is_admin
                         a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             +i name='settings' cl='ui avatar image'
@@ -273,7 +287,11 @@ template(name='user_edit')
                             |delete user
                     if in_dev
                         +boolean_edit key='admin' label='admin' icon='shield'
-                    
+                    +text_edit key='first_name' label='first name'
+                    +text_edit key='last_name' label='last name'
+                    +text_edit key='display_name' label='display name'
+                    +html_edit key='bio' label='bio'
+
                 .column
                     .ui.header 
                         i.envelope.outline.icon

@@ -15,7 +15,8 @@ template(name='products')
                 a.ui.compact.button.pick_product_tag
                     |#{title} 
                     // small.ui.grey.text #{count}
-        .sixteen.wide.column
+        .four.wide.column
+        .twelve.wide.column
             .ui.centered.stackable.four.cards
                 each product_docs 
                     +product_card

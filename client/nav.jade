@@ -142,7 +142,7 @@ template(name='walletbar')
         .ui.header wallet
         
 template(name='rightbar')
-    .ui.right.sidebar.vertical.borderless.menu.rightbar
+    .ui.right.sidebar.vertical.small.menu.rightbar
         a.item.toggle_rightbar.no_blink(href="/user/#{currentUser.username}" class="{{isActiveRoute 'user_layout'}}")
             img.ui.avatar.compact.image(src="{{c.url currentUser.image_id height=200 width=200 gravity='face' crop='fill'}}")
             |#{currentUser.name}
@@ -192,57 +192,63 @@ template(name='rightbar')
 
 
 template(name='leftbar')
-    .ui.left.sidebar.vertical.menu
-        // a.item.toggle_leftbar.no_blink(href="/" class="{{isActiveRoute '/'}}")
-        //     img.ui.avatar.compact.image(src="{{c.url 'one_logo' height=200 width=200 gravity='face' crop='fill'}}")
-        //     |One
-        // a.item.set_member.toggle_leftbar.no_blink(href="/m/member" class="{{isActivePath 'm/member'}}" title='players')
-        a.item.toggle_leftbar.mobile.only(href='/' class="{{isActivePath '/'}}" title='home')
-            +i name='one-ring'
-            // i.home.icon
-            // img.ui.small.centered.image(src="https://nudefoodsmarket.com/wp-content/uploads/2021/03/logo-smaller-300x87.jpg")
-            | Goldrun Community
-        .search.item(title='search')
-            .ui.icon.input
-                i.search.icon
-                input.search_global(type='text')
-        // else 
-        //     a.item.toggle_leftbar(href='/' class="{{isActivePath '/'}}" title='food')
-        //         // +i name='home'
-        //         img.ui.avatar.image(src="https://www.lefrenchcafeboulder.com/images/logo.svg")
-        a.item.toggle_leftbar(href='/events' class="{{isActivePath '/events'}}" title='events')
-            +i name='calendar'
-            |events
-        a.item.toggle_leftbar(href='/orders' class="{{isActivePath '/orders'}}" title='orders')
-            +i name='invoice'
-            // i.large.money.icon
-            | orders
-        //         // i.newspaper.icon
-        //         strong.mobile.hidden get involved
-        if is_in_admin
-            a.icon.item.toggle_admin.toggle_leftbar.no_blink
-                |toggle admin
-                if is_admin
-                    i.shield.icon
-                else
-                    i.shield.icon
+    .ui.left.sidebar.ui.vertical.small.menu
+        a.item.zoomer.fly_right.toggle_leftbar(href="/chat")
+            // i.large.inbox.icon
+            +i name='chat'
+            span chat 
+        a.zoomer.item.fly_right.toggle_leftbar(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
+            // i.large.users.icon
+            +i name='task'
+            span tasks 
+        a.zoomer.item.fly_right.toggle_leftbar(href="/products" class="{{isActiveRoute 'products'}}" title='products')
+            // i.large.users.icon
+            +i name='shop'
+            span products 
+        a.icon.item.zoomer.fly_right.toggle_leftbar(href="/transfers" class="{{isActiveRoute 'transfers'}}" title='transfers')
+            // i.large.users.icon
+            +i name='exchange'
+            span transfers 
+        a.icon.item.zoomer.fly_right.toggle_leftbar(href="/orders" class="{{isActiveRoute 'orders'}}" title='orders')
+            // i.large.users.icon
+            +i name='order-history'
+            span orders 
+        a.zoomer.item.fly_right.toggle_leftbar(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
+            // i.large.users.icon
+            +i name='blog'
+            span posts 
+        a.zoomer.item.fly_right.toggle_leftbar(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
+            // i.large.fire.icon
+            +i name='campfire'
+            span groups
+        a.zoomer.item.fly_right.toggle_leftbar(href="/requests" class="{{isActiveRoute 'requests'}}" title='requests')
+            // i.large.fire.icon
+            +i name='hand-holding-heart'
+            span requests
+        a.zoomer.item.fly_right.toggle_leftbar(href="/services" class="{{isActiveRoute 'services'}}" title='services')
+            // i.large.fire.icon
+            +i name='wrench'
+            span services
+        a.zoomer.item.fly_right.toggle_leftbar(href="/buildings" class="{{isActiveRoute 'buildings'}}" title='buildings')
+            // i.large.exchange.icon
+            +i name='apartment'
+            span buildings
+        a.zoomer.item.fly_right.toggle_leftbar(href="/rentals" class="{{isActiveRoute 'rentals'}}" title='rentals')
+            // i.large.exchange.icon
+            +i name='clock'
+            span rentals
+        a.zoomer.item.fly_right.toggle_leftbar(href="/units" class="{{isActiveRoute 'units'}}" title='units')
+            // i.large.exchange.icon
+            +i name='room'
+            span units
+        a.item.toggle_leftbar.no_blink(href="/users" class="{{isActiveRoute '/users'}}")
+            +i name='groups'
+            | users
             
-        if is_admin
-            .divider
-            a.item.set_model.toggle_leftbar.no_blink(href="/m/model" class="{{isActivePath '/m/model'}}")
-                +i name='shield'
-                |admin
-            a.item.set_user.toggle_leftbar.no_blink(href="/users" class="{{isActiveRoute '/users'}}")
-                +i name='groups'
-                | users
-            a.item.toggle_leftbar.zoomer(href='/orders' class="{{isActivePath '/orders'}}" title='orders')
-                +i name='list'
-                | orders
-                
                 
                 
 template(name='footer')
-    .ui.fluid.blue.inverted.segment.stackable.grid
+    .ui.fluid.inverted.segment.stackable.grid
         .three.column.row
             .column
                 a.ui.header(href="/") 

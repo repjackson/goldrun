@@ -38,9 +38,16 @@ if Meteor.isClient
         'click .unpick_user_tag': -> picked_user_tags.remove @valueOf()
         'click .add_user': ->
             new_username = prompt('username')
-            Meteor.call 'add_user', new_username, (err,res)->
+            splitted = new_username.split(' ')
+            formatted = new_username.split(' ').join('_').toLowerCase()
+            console.log formatted
+            Meteor.call 'add_user', formatted, (err,res)->
                 console.log res
                 new_user = Meteor.users.findOne res
+                Meteor.users.update res,
+                    $set:
+                        first_name:splitted[0]
+                        last_name:splitted[1]
                 Router.go "/user/#{new_user.username}"
         'keyup .search_user': (e,t)->
             username_query = $('.search_user').val()

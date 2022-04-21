@@ -184,7 +184,6 @@ template(name='group_view')
                     if in_dev 
                         +print_this
                     +multi_user_view key='member_ids' label='members' direct=true
-                        
                 .column
                     .ui.inline.header
                         i.info.icon
@@ -195,6 +194,8 @@ template(name='group_view')
                     .ui.header
                         +i name='groups'
                         |people
+                    .ui.button.add_user_member
+                        |add member
                     if leaders_id
                         .ui.inline.header 
                             +i name='crown' cl='ui avatar image'

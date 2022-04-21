@@ -61,7 +61,23 @@ if Meteor.isClient
                     
             Router.go "/task/#{new_id}/edit"
             
-        
+        'click .add_group_member': ->
+            new_username = prompt('username')
+            splitted = new_username.split(' ')
+            formatted = new_username.split(' ').join('_').toLowerCase()
+            console.log formatted
+            Meteor.call 'add_user', formatted, (err,res)->
+                console.log res
+                new_user = Meteor.users.findOne res
+                Meteor.users.update res,
+                    $set:
+                        first_name:splitted[0]
+                        last_name:splitted[1]
+                    $addToSet:
+                        group_memberships:Router.current().params.doc_id
+
+
+
         'click .refresh_group_stats': ->
             Meteor.call 'calc_group_stats', Router.current().params.doc_id, ->
         'click .add_group_event': ->

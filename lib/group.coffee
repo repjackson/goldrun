@@ -1,7 +1,8 @@
 Router.route '/group/:doc_id', (->
     @layout 'group_layout'
     @render 'group_view'
-    ), name:'group_view'
+    ), name:'group_view
+    '
 Router.route '/group/:doc_id/events', (->
     @layout 'group_layout'
     @render 'group_events'
@@ -46,9 +47,22 @@ if Meteor.isClient
             Docs.find 
                 model:'event'
                 group_ids:$in:[Router.current().params.doc_id]
-        group_posts: ->
+    Template.group_posts.events 
+        'click .add_group_post': ->
+            new_id = 
+                Docs.insert 
+                    model:'post'
+                    group_id:Router.current().params.doc_id
+            Router.go "/post/#{new_id}/edit"
+    Template.group_posts.helpers
+        group_post_docs: ->
             Docs.find 
                 model:'post'
+                # group_ids:$in:[Router.current().params.doc_id]
+    Template.group_members.helpers
+        group_member_docs: ->
+            Docs.find 
+                model:'user'
                 # group_ids:$in:[Router.current().params.doc_id]
         # current_group: ->
         #     Docs.findOne

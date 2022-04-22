@@ -163,18 +163,21 @@ Template.nav.events
     #         Session.set('current_long', position.coords.longitude)
 
 Template.layout.events
+    'click .fly_down': (e,t)->
+        # console.log 'hi'
+        $(e.currentTarget).closest('.grid').transition('slide down', 500)
     'click .fly_up': (e,t)->
         # console.log 'hi'
         $(e.currentTarget).closest('.grid').transition('slide up', 500)
     'click .fly_left': (e,t)->
         # console.log 'hi'
-        $(e.currentTarget).closest('.grid').transition('fly left', 500)
+        $(e.currentTarget).closest('.grid').transition('slide left', 500)
     'click .fly_right': (e,t)->
         console.log 'hi'
-        $(e.currentTarget).closest('.grid').transition('fly right', 500)
+        $(e.currentTarget).closest('.grid').transition('slide right', 500)
     'click .card_fly_right': (e,t)->
         # console.log 'hi'
-        $(e.currentTarget).closest('.card').transition('fly right', 500)
+        $(e.currentTarget).closest('.card').transition('slide right', 500)
         
     # 'click a': ->
     #     $('.global_container')

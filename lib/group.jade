@@ -166,7 +166,7 @@ template(name='group_layout')
                         +i name='campfire' cl='ui mini inline image'
                         |groups
                     if can_edit
-                        a.ui.circular.icon.button(href="/group/#{_id}/edit")
+                        a.ui.circular.icon.button.fly_down(href="/group/#{_id}/edit")
                             i.setting.large.icon
                     +image_view key='image_id' icon='image' label='image'
                     +array_view key='tags' icon='tags'
@@ -203,9 +203,16 @@ template(name='group_nav_item')
                 
                 
 template(name='group_posts')                
-    .ui.header 
-        +i name='blog'
-        |group posts
+    .four.wide.column
+        .ui.header 
+            +i name='blog'
+            |group posts
+        .ui.icon.button.add_group_post(title='add group post')
+            i.plus.icon
+    .twelve.wide.column
+        each group_post_docs 
+            .ui.header #{title}
+        
     
 template(name='group_events')                
     .ui.header 

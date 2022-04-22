@@ -117,7 +117,7 @@ template(name='post_view')
                     +array_view key='location_tags' label='location_tags' direct=true
                     +visibility_settings
                     +group_widget
-                .eight.wide.column
+                .twelve.wide.column
                     .ui.header #{title}
                     img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
@@ -129,7 +129,6 @@ template(name='post_view')
                     if watson 
                         .column
                             +watson_view
-                .four.wide.column
                     div 
                     .spacer
                     .spacer
@@ -159,20 +158,10 @@ template(name='visibility_settings')
 template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .three.column.row 
-                .column.scrolling
-                    .ui.inline.header 
-                        +icolor name='news' cl='ui image inline pointer'
-                        |editing post
-                    a.ui.green.big.button(href="/post/#{_id}/view" title='save')
-                        i.checkmark.big.icon
-                        |save
+            .row 
+                .ten.wide.column
                     +text_edit key='title' label='title' direct=true
-                    
-                    // +boolean_edit key='has_content' label='has content' icon='content' direct=true
-                    // if has_content
                     +html_edit key='content' label='content' direct=true
-                .column.scrolling
                     if is_dev
                         +single_user_edit key='_author_id' label='author' icon='user' direct=true
                     else 
@@ -182,6 +171,13 @@ template(name='post_edit')
                     // +boolean_edit key='has_image' label='has image' icon='content' direct=true
                     // if has_image
                     +image_edit key='image_id' label='image' direct=true
+                .six.wide.column
+                    .ui.inline.header 
+                        +icolor name='news' cl='ui image inline pointer'
+                        |editing post
+                    a.ui.green.big.button(href="/post/#{_id}/view" title='save')
+                        i.checkmark.big.icon
+                        |save
                     div 
                     +array_edit key='tags' label='tags' direct=true icon='tags'
                     .ui.header 
@@ -193,7 +189,6 @@ template(name='post_edit')
                     // +boolean_edit key='published' icon='visible' direct=true
                     if is_dev 
                         +text_edit key='model' label='model' direct=true
-                .column.scrolling
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     // unless published
                     //     a.ui.fluid.green.button.submit

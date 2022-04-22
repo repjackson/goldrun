@@ -131,6 +131,7 @@ template(name='group_edit')
                 .column 
                     +text_edit key='title' direct=true
                     +html_edit key='description' label='content' icon='content' direct=true
+                    +call_watson key='description'
                 .column
                     // +single_user_edit key='leader_id' label='leader' icon='crown' direct=true
                     +multi_user_edit key='leader_ids' label='leaders' icon='crown' direct=true

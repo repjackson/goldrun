@@ -533,7 +533,7 @@ template(name='event_view')
                     with current_doc
                         +gcal_button
                     .ui.hidden.divider
-                    +array_view key='tags' label='tags' icon='tags red' direct=true
+                    +array_view key='tags' label='tags' icon='tags' direct=true
                     div
                     if currentUser
                         +voting_full
@@ -639,6 +639,7 @@ template(name='event_edit')
                             +boolean_edit key='friends_only' label='friends only' icon='campfire' direct=true
                             // div
                     +html_edit key='description' label='description' direct=true
+                    +call_watson key='description'
                     +link_edit key='link' label='link'
                     +group_picker
                     

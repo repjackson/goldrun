@@ -1,6 +1,6 @@
 template(name='posts')
     .ui.stackable.padded.grid 
-        .sixteen.wide.column
+        .four.wide.column
             .ui.inline.header 
                 +i name='blog'
                 |posts
@@ -23,15 +23,18 @@ template(name='posts')
                     // small.ui.grey.text #{count}
             // +session_set key='view_mode' value='grid' icon='th'
             // +session_set key='view_mode' value='list' icon='list'
+        .twelve.wide.column
             i.large.sort.icon
             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
-            if subs_ready
-                .ui.centered.stackable.cards
-                    each post_docs 
-                        +post_card
-            else 
-                i.massive.yin.yang.loading.icon
+            .scrolling
+                if subs_ready
+                    .ui.centered.stackable.cards
+                        each post_docs 
+                            +post_card
+                else 
+                    .ui.center.aligned.basic.segment
+                        i.massive.yin.yang.loading.grey.icon
 
 
 template(name='set_post_sort_key')
@@ -70,7 +73,8 @@ template(name='post_card')
             if private 
                 i.large.lock.icon
             .ui.small.grey.inline.header #{when}
-            | !{content}
+            .smallscroll
+                | !{content}
             // +comments_view_small
             |#{points}pts
             +author_info
@@ -119,6 +123,8 @@ template(name='post_view')
                     +group_widget
                 .twelve.wide.column
                     .ui.header #{title}
+                    if subtitle
+                        .ui.small.header #{subtitle}
                     img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
@@ -161,6 +167,7 @@ template(name='post_edit')
             .row 
                 .ten.wide.column
                     +text_edit key='title' label='title' direct=true
+                    +text_edit key='subtitle' label='subtitle' direct=true
                     +html_edit key='content' label='content' direct=true
                     if is_dev
                         +single_user_edit key='_author_id' label='author' icon='user' direct=true

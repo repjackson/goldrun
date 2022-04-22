@@ -152,48 +152,54 @@ template(name='group_edit')
                     
 template(name='group_layout')
     +nav
-    with current_doc
-        .ui.stackable.padded.grid
-            .row
-                .four.wide.column
-                    .ui.inline.header 
-                        if icon
-                            +i name=icon
-                        |#{title}
-                    a.ui.circular.button.fly_right(href="/groups")
-                        i.left.chevron.icon
-                        // i.big.fire.icon
-                        +i name='campfire' cl='ui mini inline image'
-                        |groups
-                    if can_edit
-                        a.ui.circular.icon.button.fly_down(href="/group/#{_id}/edit")
-                            i.setting.large.icon
-                    +image_view key='image_id' icon='image' label='image'
-                    +array_view key='tags' icon='tags'
-                    .spacer
-                    if link
-                        a.ui.circular.button(href=link target='_window')
-                            i.external.icon
-                            |#{link}
-                        .spacer
-                    div
-                    if address
-                        a.ui.compact.circular.button(href=address_link target='_window')
-                            i.marker.icon
-                            |#{address}
-                    +viewing
-                    if in_dev 
-                        +print_this
-                    +multi_user_view key='member_ids' label='members' direct=true
-                .twelve.wide.column
-                    a.ui.button(href="/group/#{current_doc._id}/")
-                        +i name='dashboard'
-                        |dashboard
-                    +group_nav_item key='posts' icon='blog'
-                    +group_nav_item key='events' icon='calendar'
-                    +group_nav_item key='members' icon='groups'
-                    .scrolling
-                        +yield
+    .ui.bottom.attached.pushable.segment.scrolling
+        +topbar
+        +leftbar
+        +rightbar
+        .global_container.bg
+            with current_doc
+                .ui.stackable.padded.grid
+                    .row
+                        .four.wide.column
+                            .ui.inline.header 
+                                if icon
+                                    +i name=icon
+                                |#{title}
+                            a.ui.circular.button.fly_right(href="/groups")
+                                i.left.chevron.icon
+                                // i.big.fire.icon
+                                +i name='campfire' cl='ui mini inline image'
+                                |groups
+                            if can_edit
+                                a.ui.circular.icon.button.fly_down(href="/group/#{_id}/edit")
+                                    i.setting.large.icon
+                            +image_view key='image_id' icon='image' label='image'
+                            +array_view key='tags' icon='tags'
+                            .spacer
+                            if link
+                                a.ui.circular.button(href=link target='_window')
+                                    i.external.icon
+                                    |#{link}
+                                .spacer
+                            div
+                            if address
+                                a.ui.compact.circular.button(href=address_link target='_window')
+                                    i.marker.icon
+                                    |#{address}
+                            +viewing
+                            if in_dev 
+                                +print_this
+                            +multi_user_view key='member_ids' label='members' direct=true
+                        .twelve.wide.column
+                            a.ui.button(href="/group/#{current_doc._id}/")
+                                +i name='dashboard'
+                                |dashboard
+                            +group_nav_item key='posts' icon='blog'
+                            +group_nav_item key='events' icon='calendar'
+                            +group_nav_item key='members' icon='groups'
+                            +group_nav_item key='chat' icon='chat'
+                            .scrolling
+                                +yield
 
 
 template(name='group_nav_item')
@@ -210,9 +216,16 @@ template(name='group_posts')
         .ui.icon.button.add_group_post(title='add group post')
             i.plus.icon
     .twelve.wide.column
-        each group_post_docs 
-            .ui.header #{title}
+        .ui.stackable.doubling.centered.cards
+            each group_post_docs 
+                +post_card
         
+
+template(name='group_chat')    
+    .ui.header 
+        +i name='chat'
+        |group chat
+    
     
 template(name='group_events')                
     .ui.header 

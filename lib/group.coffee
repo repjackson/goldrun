@@ -15,6 +15,10 @@ Router.route '/group/:doc_id/members', (->
     @layout 'group_layout'
     @render 'group_members'
     ), name:'group_members'
+Router.route '/group/:doc_id/chat', (->
+    @layout 'group_layout'
+    @render 'group_chat'
+    ), name:'group_chat'
 
 
 if Meteor.isClient
@@ -75,7 +79,6 @@ if Meteor.isClient
                 Docs.insert 
                     model:'product'
                     group_id:Router.current().params.doc_id
-                    
             Router.go "/product/#{new_id}/edit"
             
     Template.group_layout.events

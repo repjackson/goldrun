@@ -419,7 +419,8 @@ if Meteor.isClient
             match = {model:'product'}
             unless Meteor.userId()
                 match.private = $ne: true
-            Docs.find match
+            Docs.find match, 
+                sort:_timestamp:-1
                 
     Template.products.events
         'click .add_product': ->

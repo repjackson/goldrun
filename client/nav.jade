@@ -11,23 +11,27 @@ template(name='nav')
         a.header.icon.item.zoomer(href='/' class="{{isActivePath '/'}}" title='goldrun')
             +i name='one-ring'
             // i.large.home.icon
-            span.mobile.hidden goldrun
+            // span.mobile.hidden goldrun
         a.icon.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
             // i.large.users.icon
             +i name='campfire'
-            .mobile.hidden groups
+            // .mobile.hidden groups
+        a.icon.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
+            // i.large.users.icon
+            +i name='blog'
+            // .mobile.hidden groups
         a.icon.item.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title='users')
             // i.large.users.icon
             +i name='groups'
-            .mobile.hidden people
+            // .mobile.hidden people
         a.icon.item.fly_right(href="/events" class="{{isActiveRoute 'events'}}" title='events')
             // i.large.calendar.icon
             +i name='calendar'
-            span.mobile.hidden events
+            // span.mobile.hidden events
         a.icon.item.fly_right.mobile.hidden(href="/products" class="{{isActiveRoute 'products'}}" title='products')
             // i.large.calendar.icon
             +i name='shop'
-            span products
+            // span products
         // .ui.icon.transparent.input.mobile.hidden
         //     i.search.icon
         //     input.global_search(type='text' placeholder='...')

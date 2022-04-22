@@ -143,6 +143,17 @@ if Meteor.isServer
                 Meteor.users.update user._id, 
                     $inc:
                         profile_views:1
+            if Meteor.userId()
+                Meteor.users.update user._id, 
+                    $inc:
+                        profile_views_logged_in:1
+            else
+                Meteor.users.update user._id, 
+                    $inc:
+                        profile_views_anon:1
+                
+                        
+                        
         calc_user_points: (username)->
             user = Docs.findOne username:username
             point_total = 10

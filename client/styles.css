@@ -2,7 +2,7 @@ body {
     /* font-family: 'Raleway', sans-serif !important; */
     /* font-family: 'Roboto', sans-serif !important; */
     /* font-family: 'Ubuntu+Mono', sans-serif !important; */
-    /*font-family: 'Ubuntu', sans-serif !important;*/
+    font-family: 'Ubuntu', sans-serif !important;
     /* font-size: 110% !important; */
     /*line-height: 200% !important;*/
     /* filter: invert(.9) !important; */
@@ -690,7 +690,7 @@ input.username_search{
     /* font-family: 'Raleway', sans-serif !important; */
     /* font-family: 'Roboto', sans-serif !important; */
     /* font-family: 'Ubuntu+Mono', sans-serif !important; */
-    /*font-family: 'Ubuntu', sans-serif !important;*/
+    font-family: 'Ubuntu', sans-serif !important;
 }
 h1.ui.header{
     /* font-family: 'Ubuntu', sans-serif !important; */

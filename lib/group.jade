@@ -1,6 +1,6 @@
 template(name='groups')
     .ui.stackable.padded.grid
-        .sixteen.wide.column
+        .four.wide.column
             .ui.inline.header 
                 +i name='campfire'
                 // i.fire.large.icon
@@ -46,7 +46,7 @@ template(name='groups')
             // +session_set key='view_mode' value='grid' icon='th'
             // +session_set key='view_mode' value='list' icon='list'
             // if session_is 'view_mode' 'grid'
-        .sixteen.wide.column
+        .twelve.wide.column
             if one_result
                 .ui.stackable.one.cards.scrolling
                     each group_docs
@@ -150,11 +150,12 @@ template(name='group_edit')
                     +boolean_edit key='has_tasks' label='tasks' icon='tasks' direct=true
                     
                     
-template(name='group_view')
+template(name='group_layout')
+    +nav
     with current_doc
         .ui.stackable.padded.grid
-            .three.column.row
-                .column
+            .row
+                .four.wide.column
                     .ui.inline.header 
                         if icon
                             +i name=icon
@@ -184,121 +185,159 @@ template(name='group_view')
                     if in_dev 
                         +print_this
                     +multi_user_view key='member_ids' label='members' direct=true
-                .column
-                    .ui.inline.header
-                        i.info.icon
-                        |about
-                    +html_view key='description' icon='content' label='description'
-                    if watson 
-                        +watson_view
-                    .ui.header
-                        +i name='groups'
-                        |people
-                    .ui.button.add_user_member
-                        |add member
-                    if leaders_id
-                        .ui.inline.header 
-                            +i name='crown' cl='ui avatar image'
-                            // i.crown.icon
-                            |leaders: 
-                        each leader_ids 
-                            +user_info
-                    div
+                .twelve.wide.column
+                    a.ui.button(href="/group/#{current_doc._id}/")
+                        +i name='dashboard'
+                        |dashboard
+                    +group_nav_item key='posts' icon='blog'
+                    +group_nav_item key='events' icon='calendar'
+                    +group_nav_item key='members' icon='groups'
+                    .scrolling
+                        +yield
+
+
+template(name='group_nav_item')
+    a.ui.button(href="/group/#{current_doc._id}/#{key}")
+        +i name=icon
+        |#{key}
+                
+                
+template(name='group_posts')                
+    .ui.header 
+        +i name='blog'
+        |group posts
+    
+template(name='group_events')                
+    .ui.header 
+        +i name='calendar'
+        |group events
+    
+template(name='group_members')                
+    .ui.header 
+        +i name='groups'
+        |group members
+    
+                    
+                    
+                    
+template(name='group_view')
+    .ui.stackable.padded.grid
+        .three.column.row
+            .column
+                .ui.inline.header
+                    i.info.icon
+                    |about
+                +html_view key='description' icon='content' label='description'
+                if watson 
+                    +watson_view
+                .ui.header
+                    +i name='groups'
+                    |people
+                .ui.button.add_user_member
+                    |add member
+                if leaders_id
                     .ui.inline.header 
-                        +i name='groups'
-                        // i.users.icon
-                        |#{member_ids.length} members
-                    each member_ids
+                        +i name='crown' cl='ui avatar image'
+                        // i.crown.icon
+                        |leaders: 
+                    each leader_ids 
                         +user_info
-                    // .ui.large.selection.animated.list
-                            // a.item(href="/group/#{_id}/#{username}")
-                            //     img.ui.mini.image(src="{{c.url image_id width=200 height=200}}")
-                            //     .content
-                            //         .header
-                            //             |#{username}
-                    if currentUser
-                        +doc_array_togggle key='member_ids' value=currentUser._id add_label='join' remove_label='leave'
-                    else 
-                        a.ui.big.button(href="/login")
-                            +i name='internal'
-                            |join
-                .column
-                    .ui.header
-                        +i name='rss'
-                        |activity
-                    .content
-                        each log_items
-                            +log_item
-                        .ui.header 
-                            +i name='line-chart'
-                            // i.large.line.chart.icon
-                            |stats
-                        i.refresh.link.icon.refresh_group_stats
-                        .ui.large.list
-                            .item #{member_count} members
-                            .item #{events} events
-                            .item #{events} events
-                            // .item #{dish_count} dishes
-                            // .item #{total_credit_exchanged} credits exchanged
-                        +comments
-                .column
-                    .ui.header
-                        .ui.inline.header
-                            +i name='calendar' 
-                            // i.calendar.large.icon
-                            |events
-                        i.dropdown.icon
-                    .content
-                        if currentUser 
-                            .ui.icon.button.add_group_event(title='add group event')
-                                i.plus.icon
-                        .ui.link.animated.list
-                            each group_events
-                                a.item(href="/event/#{_id}") 
-                                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-                                    .content
-                                        .header #{title}
-                                        .description
-                                            if is_repeating
-                                                i.refresh.icon
-                                                |every #{repeating_day}
-                                            if start_datetime
-                                                |{{from_now start_datetime}}
-                .column
-                    .ui.header
-                        .ui.inline.header
-                            i.large.blog.icon
-                            |group posts
-                    .content
-                        if currentUser 
-                            .ui.icon.button.add_group_post(title='add group post')
-                                i.plus.icon
-                        .ui.large.link.animated.list
-                            each group_posts
-                                a.item(href="/post/#{_id}")
-                                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-                                    |#{title}
-                    if has_shop
-                        .four.wide.column
-                            .title
-                                i.large.shop.icon
-                                |shop
-                                i.dropdown.icon
-                            .content
-                                +group_shop
-                        .four.wide.column
-                            if has_tasks 
-                                .ui.header
-                                    i.tasks.icon
-                                    |tasks
-                                if currentUser
-                                    i.large.circular.link.plus.icon.add_group_task
-                                .ui.large.list 
-                                    each group_tasks 
-                                        a.item(href="/tasks/#{_id}")
-                                            |#{title}
-                                
-                                    
+                div
+                .ui.inline.header 
+                    +i name='groups'
+                    // i.users.icon
+                    |#{member_ids.length} members
+                each member_ids
+                    +user_info
+                // .ui.large.selection.animated.list
+                        // a.item(href="/group/#{_id}/#{username}")
+                        //     img.ui.mini.image(src="{{c.url image_id width=200 height=200}}")
+                        //     .content
+                        //         .header
+                        //             |#{username}
+                if currentUser
+                    +doc_array_togggle key='member_ids' value=currentUser._id add_label='join' remove_label='leave'
+                else 
+                    a.ui.big.button(href="/login")
+                        +i name='internal'
+                        |join
+            .column
+                .ui.header
+                    +i name='rss'
+                    |activity
+                .content
+                    each log_items
+                        +log_item
+                    .ui.header 
+                        +i name='line-chart'
+                        // i.large.line.chart.icon
+                        |stats
+                    i.refresh.link.icon.refresh_group_stats
+                    .ui.large.list
+                        .item #{member_count} members
+                        .item #{events} events
+                        .item #{events} events
+                        // .item #{dish_count} dishes
+                        // .item #{total_credit_exchanged} credits exchanged
+                    +comments
+            .column
+                .ui.header
+                    .ui.inline.header
+                        +i name='calendar' 
+                        // i.calendar.large.icon
+                        |events
+                    i.dropdown.icon
+                .content
+                    if currentUser 
+                        .ui.icon.button.add_group_event(title='add group event')
+                            i.plus.icon
+                    .ui.link.animated.list
+                        each group_events
+                            a.item(href="/event/#{_id}") 
+                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                                .content
+                                    .header #{title}
+                                    .description
+                                        if is_repeating
+                                            i.refresh.icon
+                                            |every #{repeating_day}
+                                        if start_datetime
+                                            |{{from_now start_datetime}}
+            .column
+                .ui.header
+                    .ui.inline.header
+                        i.large.blog.icon
+                        |group posts
+                .content
+                    if currentUser 
+                        .ui.icon.button.add_group_post(title='add group post')
+                            i.plus.icon
+                    .ui.large.link.animated.list
+                        each group_posts
+                            a.item(href="/post/#{_id}")
+                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                                |#{title}
+                if has_shop
+                    .four.wide.column
+                        .title
+                            i.large.shop.icon
+                            |shop
+                            i.dropdown.icon
+                        .content
+                            +group_shop
+                    .four.wide.column
+                        if has_tasks 
+                            .ui.header
+                                i.tasks.icon
+                                |tasks
+                            if currentUser
+                                i.large.circular.link.plus.icon.add_group_task
+                            .ui.large.list 
+                                each group_tasks 
+                                    a.item(href="/tasks/#{_id}")
+                                        |#{title}
+                            
+                                            
                                 
                                 
                                 

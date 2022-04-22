@@ -2,7 +2,6 @@ template(name='home')
     .ui.stackable.padded.grid
         .row
             .four.wide.column.scrolling
-                .ui.header welcome to the unofficial goldrun community platform (beta)
                 +menu
                 +home_latest_users
             .eight.wide.column.scrolling
@@ -22,7 +21,7 @@ template(name='home')
           
           
 template(name='menu')       
-    .ui.vertical.fluid.menu
+    .ui.vertical.fluid.small.menu
         a.icon.item.zoomer.fly_right(href="/chat")
             // i.large.inbox.icon
             +i name='chat'

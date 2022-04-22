@@ -48,11 +48,11 @@ template(name='groups')
             // if session_is 'view_mode' 'grid'
         .twelve.wide.column
             if one_result
-                .ui.stackable.one.cards.scrolling
+                .ui.stackable.one.centered.cards.scrolling
                     each group_docs
                         +group_card
             else
-                .ui.stackable.four.cards.scrolling
+                .ui.stackable.centered.cards.scrolling
                     each group_docs
                         +group_card
         

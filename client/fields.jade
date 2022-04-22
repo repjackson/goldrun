@@ -90,7 +90,6 @@ template(name='html_edit')
         .field.testsun
             textarea#sample.sun-editor-editable
                 |#{field_value}
-    // +call_watson mode='html' key='content'
     //- div
     //- //- +tone mode='html'
     if watson
@@ -205,6 +204,8 @@ template(name='link_edit')
     div
     if icon
         +i name=icon
+    else 
+        +i name='link'
     .ui.inline.header
         |#{title} #{label}
     .ui.fluid.input

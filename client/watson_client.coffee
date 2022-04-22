@@ -114,10 +114,10 @@ Template.tone.helpers
             when 'analytical' then ' purple'
 
 
-Template.call_watson.events
-    'click .pull': -> 
-        Meteor.call 'call_watson', Router.current().params.doc_id, 'url','url', ->
-        # Meteor.call 'search_stack', picked_tags.array(), ->
+# Template.call_watson.events
+#     'click .call': -> 
+#         Meteor.call 'call_watson', Router.current().params.doc_id, 'html',@key, ->
+#         # Meteor.call 'search_stack', picked_tags.array(), ->
        
 
 
@@ -141,7 +141,7 @@ Template.call_watson.events
         
         doc = Template.parentData()
         # Meteor.call 'call_watson', Template.parentData()._id, parent.key, @mode, ->
-        Meteor.call 'call_watson', Router.current().params.doc_id, 'content', @mode, ->
+        Meteor.call 'call_watson', Router.current().params.doc_id, @key, 'html', ->
         # Meteor.call 'call_watson', doc._id, @key, @mode, ->
 
 

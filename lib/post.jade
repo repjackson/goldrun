@@ -130,8 +130,8 @@ template(name='post_view')
                     //     |#{target.username}
                     if youtube_id
                         +youtube_view key='youtube_id'
-                    
-                    |!{content}
+                    .scrolling
+                        |!{content}
                     if watson 
                         .column
                             +watson_view
@@ -169,6 +169,8 @@ template(name='post_edit')
                     +text_edit key='title' label='title' direct=true
                     +text_edit key='subtitle' label='subtitle' direct=true
                     +html_edit key='content' label='content' direct=true
+                    +call_watson mode='html' key='content'
+                
                     if is_dev
                         +single_user_edit key='_author_id' label='author' icon='user' direct=true
                     else 

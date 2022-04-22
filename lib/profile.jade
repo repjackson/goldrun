@@ -45,9 +45,17 @@ template(name='profile_layout')
                             |account
                         .ui.list 
                             .item 
-                                i.eye.icon
+                                i.eye.grey.icon
                                 |#{profile_views} 
                                 |profile views
+                            .item 
+                                i.lock.grey.icon
+                                |#{profile_views_anon} 
+                                |anon views
+                            .item 
+                                i.user.grey.icon
+                                |#{profile_views_logged_in} 
+                                |logged in views
                         .ui.center.aligned.inline.header(title='boops')
                             +i name='tap-gesture'
                             |#{boops}
@@ -81,6 +89,11 @@ template(name='profile_menu_item')
     a.ui.compact.button(href="/user/#{current_user.username}/#{key}")
         +i name=icon
         |#{key}
+                 
+                 
+template(name='user_balance')                 
+    .ui.header 
+        |user balance
                  
 template(name='user_social')                 
     .ui.header user social

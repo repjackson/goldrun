@@ -14,63 +14,7 @@ template(name='profile_layout')
                 .row
                     //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                     .four.wide.column
-                        a.item(href="/user/#{username}")
-                            img.ui.centered.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
-                        .spacer
-                        a(href="/user/#{username}")
-                            .ui.header
-                                strong @#{username}
-                                //- small @#{user.username}        
-                            a.ui.header(href="/user/#{username}/points" title='points')
-                                //- +i name='coins'
-                                //- i.coins.icon
-                                |#{points} pts
-                        if first_name
-                            .ui.inline.header #{first_name}
-                        if last_name
-                            .ui.inline.header #{last_name}
-                        div
-                        if company 
-                            .ui.header
-                                +i name='business' 
-                                |#{company}
-                        if linkedin_link
-                            .ui.circular.compact.button(href=linkedin_link target='_window')
-                                +i name='linkedin'
-                        if twitter_link
-                            .ui.circular.compact.button(href=twitter_link target='_window')
-                                +i name='twitter'
-                        a.ui.large.icon.compact.button(href="/user/#{username}/edit" title='profile settings')
-                            i.cog.large.icon
-                            |account
-                        .ui.list 
-                            .item 
-                                i.eye.grey.icon
-                                |#{profile_views} 
-                                |profile views
-                            .item 
-                                i.lock.grey.icon
-                                |#{profile_views_anon} 
-                                |anon views
-                            .item 
-                                i.user.grey.icon
-                                |#{profile_views_logged_in} 
-                                |logged in views
-                        .ui.center.aligned.inline.header(title='boops')
-                            +i name='tap-gesture'
-                            |#{boops}
-    
-                        if is_admin
-                            a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
-                                +i name='settings' cl='ui avatar image'
-                        if is_current_user
-                            +logout_button
-                            +logout_other_clients_button
-                        if in_dev 
-                            +print_this
-                        +send_points_button
-                        +request_button
-                        // i.refresh.link.icon.calc_user_points
+                        +profile_left_column
                     .twelve.wide.column
                         +profile_menu_item key='balance' icon='money'
                         +profile_menu_item key='social' icon='friends'
@@ -84,6 +28,67 @@ template(name='profile_layout')
                             else 
                                 .ui.basic.center.aligned.segment
                                     i.massive.loading.refresh.icon
+                          
+template(name='profile_left_column')                          
+    a.item(href="/user/#{username}")
+        img.ui.centered.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+    .spacer
+    a(href="/user/#{username}")
+        .ui.header
+            strong @#{username}
+            //- small @#{user.username}        
+        a.ui.header(href="/user/#{username}/points" title='points')
+            //- +i name='coins'
+            //- i.coins.icon
+            |#{points} pts
+    if first_name
+        .ui.inline.header #{first_name}
+    if last_name
+        .ui.inline.header #{last_name}
+    div
+    if company 
+        .ui.header
+            +i name='business' 
+            |#{company}
+    if linkedin_link
+        .ui.circular.compact.button(href=linkedin_link target='_window')
+            +i name='linkedin'
+    if twitter_link
+        .ui.circular.compact.button(href=twitter_link target='_window')
+            +i name='twitter'
+    a.ui.large.icon.compact.button(href="/user/#{username}/edit" title='profile settings')
+        i.cog.large.icon
+        |account
+    .ui.list 
+        .item 
+            i.eye.grey.icon
+            |#{profile_views} 
+            |profile views
+        .item 
+            i.lock.grey.icon
+            |#{profile_views_anon} 
+            |anon views
+        .item 
+            i.user.grey.icon
+            |#{profile_views_logged_in} 
+            |logged in views
+    .ui.center.aligned.inline.header(title='boops')
+        +i name='tap-gesture'
+        |#{boops}
+
+    if is_admin
+        a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+            +i name='settings' cl='ui avatar image'
+    if is_current_user
+        +logout_button
+        +logout_other_clients_button
+    if in_dev 
+        +print_this
+    +send_points_button
+    +request_button
+    // i.refresh.link.icon.calc_user_points
+                          
+                          
                             
 template(name='profile_menu_item')
     a.ui.compact.button(href="/user/#{current_user.username}/#{key}")
@@ -95,8 +100,15 @@ template(name='user_balance')
     .ui.header 
         |user balance
                  
-template(name='user_social')                 
-    .ui.header user social
+template(name='user_products')                 
+    .ui.header 
+        +i name='shop'
+        |user products
+                 
+template(name='user_social')
+    .ui.header 
+        +i name='friends'
+        |user social
     .ui.header friends
                             
                     
@@ -104,11 +116,11 @@ template(name='user_dashboard')
     .ui.padded.grid 
         .two.column.row
             .column
+                +user_messages
                 if is_current_user
                     .column
                         +profile_deposits
             .column
-                +user_messages
                 +user_reviews
             .column
                 +user_posts

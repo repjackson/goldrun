@@ -140,6 +140,8 @@ template(name='post_view')
                     if watson 
                         .column
                             +watson_view
+                    if tone 
+                        +tone
                     div 
                     .spacer
                     .spacer
@@ -175,7 +177,7 @@ template(name='post_edit')
                     +text_edit key='subtitle' label='subtitle' direct=true
                     +html_edit key='content' label='content' direct=true
                     +call_watson mode='html' key='content'
-                
+                    +call_tone key='content'
                     if is_dev
                         +single_user_edit key='_author_id' label='author' icon='user' direct=true
                     else 
@@ -189,7 +191,7 @@ template(name='post_edit')
                     .ui.inline.header 
                         +icolor name='news' cl='ui image inline pointer'
                         |editing post
-                    a.ui.green.big.button(href="/post/#{_id}/view" title='save')
+                    a.ui.green.big.button.fly_up(href="/post/#{_id}/view" title='save')
                         i.checkmark.big.icon
                         |save
                     div 

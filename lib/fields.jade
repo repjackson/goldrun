@@ -695,24 +695,23 @@ template(name='child_view')
         //     .ui.divider
 template(name='boolean_edit')
     //- div
-    .ui.big.button.toggle_boolean(class="#{boolean_toggle_class} #{cl}" title=tooltip)
-        if field_value
-            i.green.checkmark.icon
-        else
-            i.circle.outline.icon
+    .ui.button.toggle_boolean(class="#{boolean_toggle_class} #{cl}" title=tooltip)
+        // if field_value
+        //     i.green.checkmark.icon
+        // else
+        //     i.circle.outline.icon
         //- .ui.compact.button.toggle_boolean(class=boolean_toggle_class)
         if icon
-            +i name=icon cl='ui avatar image'
-        .inline
-            //- if field_value
-            //-     i.checkmark.icon
-            if label
-                |#{label}
-            else if key
-                |#{key}
-            else
-                |#{this}
-        div
+            // +i name=icon
+            i.icon(class=icon)
+        //- if field_value
+        //-     i.checkmark.icon
+        if label
+            |#{label}
+        else if key
+            |#{key}
+        else
+            |#{this}
         //- 
         //- if field_value
         //-     if true_icon

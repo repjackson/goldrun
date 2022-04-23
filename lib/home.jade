@@ -121,7 +121,8 @@ template(name='latest_activity')
                 if youtube_id
                     +youtube_view key='youtube_id'
                 else if image_id
-                    img.ui.small.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                    // .image
+                    img.ui.rounded.inline.image(src="{{c.url image_id gravity='face' crop='fill'}}")
                 .content
                     .header 
                         |#{title}

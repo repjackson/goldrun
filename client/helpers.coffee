@@ -42,8 +42,16 @@ Template.registerHelper 'sorting_up', () ->
 
 Template.registerHelper 'user_from_id', (id)->
     Docs.findOne id
+    
+    
 Template.registerHelper 'skv_is', (key,value)->
     Session.equals(key,value)
+
+
+Template.registerHelper 'group_doc', () ->
+    Docs.findOne 
+        model:'group'
+        _id:@group_id
 
 Template.registerHelper 'gs', () ->
     Docs.findOne

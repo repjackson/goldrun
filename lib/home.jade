@@ -26,10 +26,10 @@ template(name='menu')
             // i.large.inbox.icon
             +i name='chat'
             span chat 
-        a.zoomer.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
-            // i.large.users.icon
-            +i name='task'
-            span tasks 
+        // a.zoomer.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
+        //     // i.large.users.icon
+        //     +i name='task'
+        //     span tasks 
         a.zoomer.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
             // i.large.users.icon
             +i name='shop'
@@ -118,17 +118,23 @@ template(name='latest_activity')
     .ui.large.link.selection.animated.divided.list.medscroll
         each latest_docs
             a.ui.item.fly_right(href="/post/#{_id}")
-                img.ui.tiny.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                if youtube_id
+                    +youtube_view key='youtube_id'
+                else if image_id
+                    img.ui.small.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                 .content
                     .header 
                         |#{title}
                     .description 
-                        |!{content}
+                        .smallscroll
+                            |!{content}
                         |#{when}
                         if is model 'post'
                             +i name='blog'
                         else if is model 'product'
                             +i name='shop'
+                        else if is model 'event'
+                            +i name='calendar'
                         else 
                             .ui.label #{model}
                         +author_info
@@ -159,6 +165,8 @@ template(name='home_latest_users')
         |latest users
     each latest_user_docs
         .item #{username}
+        
+        
 template(name='latest_posts')
     .ui.header 
         +i name='blog'

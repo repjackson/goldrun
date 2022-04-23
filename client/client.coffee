@@ -165,19 +165,19 @@ Template.nav.events
 Template.layout.events
     'click .fly_down': (e,t)->
         # console.log 'hi'
-        $(e.currentTarget).closest('.grid').transition('swing down', 500)
+        $(e.currentTarget).closest('.grid').transition('fade down', 500)
     'click .fly_up': (e,t)->
         # console.log 'hi'
-        $(e.currentTarget).closest('.grid').transition('swing up', 500)
+        $(e.currentTarget).closest('.grid').transition('fade up', 500)
     'click .fly_left': (e,t)->
         # console.log 'hi'
-        $(e.currentTarget).closest('.grid').transition('swing left', 500)
+        $(e.currentTarget).closest('.grid').transition('fade left', 500)
     'click .fly_right': (e,t)->
         console.log 'hi'
-        $(e.currentTarget).closest('.grid').transition('swing right', 500)
+        $(e.currentTarget).closest('.grid').transition('fade right', 500)
     'click .card_fly_right': (e,t)->
         # console.log 'hi'
-        $(e.currentTarget).closest('.card').transition('swing right', 500)
+        $(e.currentTarget).closest('.card').transition('fade right', 500)
         
     # 'click a': ->
     #     $('.global_container')

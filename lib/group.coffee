@@ -115,12 +115,6 @@ if Meteor.isClient
                     model:'event'
                     group_ids:[Router.current().params.doc_id]
             Router.go "/event/#{new_id}/edit"
-        'click .add_group_post': ->
-            new_id = 
-                Docs.insert 
-                    model:'post'
-                    group_ids:[Router.current().params.doc_id]
-            Router.go "/post/#{new_id}/edit"
         # 'click .join': ->
         #     Docs.update
         #         model:'group'
@@ -422,6 +416,8 @@ if Meteor.isServer
         #     match.is_image = $ne:false
         # if view_videos
         #     match.is_video = $ne:false
+        unless Meteor.userId()
+            match.private = $ne:true
 
         # match.tags = $all: picked_tags
         # if filter then match.model = filter

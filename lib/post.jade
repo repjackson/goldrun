@@ -67,7 +67,10 @@ template(name='set_view_mode_post')
 
 template(name='post_card')
     .ui.link.card.view_post.pointer.fly_right
-        img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        if youtube_id
+            +youtube_view key='youtube_id'
+        else if image_id
+            img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
             a.ui.header.zoomer(href="/post/#{_id}") #{title}
             if private 
@@ -75,9 +78,11 @@ template(name='post_card')
             .ui.small.grey.inline.header #{when}
             .smallscroll
                 | !{content}
-            // +comments_view_small
-            |#{points}pts
+            +voting_full
+            if views
+                |#{views} views
             +author_info
+            // +comments_view_small
             if group_id     
                 +group_info
             

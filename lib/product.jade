@@ -80,7 +80,7 @@ template(name='product_view')
                         //- small viewing
                         | #{title}
                     div
-                    if in_dev
+                    if can_edit
                         a(href="/product/#{_id}/edit")
                             i.pencil.blue.large.link.circular.icon
                     // a(href="{{c.url image_id}}" target="_window")

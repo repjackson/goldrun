@@ -214,13 +214,19 @@ template(name='group_posts')
         .ui.header 
             +i name='blog'
             |group posts
+    if currentUser 
         .ui.icon.button.add_group_post(title='add group post')
             i.plus.icon
     .twelve.wide.column
         .ui.stackable.doubling.centered.cards
             each group_post_docs 
                 +post_card
-        
+        .ui.large.link.animated.list
+            each group_posts
+                a.item(href="/post/#{_id}")
+                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                    |#{title}
+
 
 template(name='group_chat')    
     .ui.header 
@@ -243,8 +249,8 @@ template(name='group_members')
                     
 template(name='group_view')
     .ui.stackable.padded.grid
-        .three.column.row
-            .column
+        .row
+            .eight.wide.column
                 .ui.inline.header
                     i.info.icon
                     |about
@@ -282,7 +288,7 @@ template(name='group_view')
                     a.ui.big.button(href="/login")
                         +i name='internal'
                         |join
-            .column
+            .four.wide.column
                 .ui.header
                     +i name='rss'
                     |activity
@@ -297,11 +303,9 @@ template(name='group_view')
                     .ui.large.list
                         .item #{member_count} members
                         .item #{events} events
-                        .item #{events} events
-                        // .item #{dish_count} dishes
-                        // .item #{total_credit_exchanged} credits exchanged
+                        .item #{total_credit_exchanged} credits exchanged
                     +comments
-            .column
+            .eight.wide.column
                 .ui.header
                     .ui.inline.header
                         +i name='calendar' 
@@ -324,46 +328,35 @@ template(name='group_view')
                                             |every #{repeating_day}
                                         if start_datetime
                                             |{{from_now start_datetime}}
-            .column
-                .ui.header
-                    .ui.inline.header
-                        i.large.blog.icon
-                        |group posts
-                .content
-                    if currentUser 
-                        .ui.icon.button.add_group_post(title='add group post')
-                            i.plus.icon
-                    .ui.large.link.animated.list
-                        each group_posts
-                            a.item(href="/post/#{_id}")
-                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-                                |#{title}
+                +group_posts
                 if has_shop
                     .four.wide.column
-                        .title
-                            i.large.shop.icon
-                            |shop
-                            i.dropdown.icon
-                        .content
-                            +group_shop
-                    .four.wide.column
-                        if has_tasks 
-                            .ui.header
-                                i.tasks.icon
-                                |tasks
-                            if currentUser
-                                i.large.circular.link.plus.icon.add_group_task
-                            .ui.large.list 
-                                each group_tasks 
-                                    a.item(href="/tasks/#{_id}")
-                                        |#{title}
+                        +group_shop
+                if has_tasks 
+                    +group_tasks
                             
                                             
+               
+               
+template(name='group_tasks')
+    .ui.header
+        i.tasks.icon
+        |tasks
+    if currentUser
+        i.large.circular.link.plus.icon.add_group_task
+    .ui.large.list 
+        each group_tasks 
+            a.item(href="/tasks/#{_id}")
+                |#{title}
+
                                 
+             
+
                                 
                                 
 template(name='group_shop')
     .ui.header 
+        +i name='shop'
         |shop
     if currentUser
         .ui.button.add_product  

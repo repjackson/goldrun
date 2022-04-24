@@ -451,3 +451,31 @@ if Meteor.isClient
             #     Docs.update Router.current().params.doc_id,
             #         $set: "#{@key}": @value
 
+
+if Meteor.isClient
+    Template.flat_tag_selector.onCreated ->
+        # @autorun => Meteor.subscribe('doc_by_title_small', @data.valueOf().toLowerCase())
+    Template.flat_tag_selector.helpers
+        selector_class: ()->
+            term = 
+                Docs.findOne 
+                    title:@valueOf().toLowerCase()
+            if term
+                if term.max_emotion_name
+                    switch term.max_emotion_name
+                        when 'joy' then " basic green"
+                        when "anger" then " basic red"
+                        when "sadness" then " basic blue"
+                        when "disgust" then " basic orange"
+                        when "fear" then " basic grey"
+                        else "basic grey"
+        term: ->
+            Docs.findOne 
+                title:@valueOf().toLowerCase()
+    Template.flat_tag_selector.events
+        'click .select_flat_tag': -> 
+            # results.update
+            # window.speechSynthesis.cancel()
+            # window.speechSynthesis.speak new SpeechSynthesisUtterance @valueOf()
+            selected_tags.push @valueOf()
+            $('.search_group').val('')

@@ -46,16 +46,135 @@ template(name='groups')
             // +session_set key='view_mode' value='grid' icon='th'
             // +session_set key='view_mode' value='list' icon='list'
             // if session_is 'view_mode' 'grid'
+            i.big.clock.grey.icon(title='when tags')
+            if selected_time_tags
+                each selected_time_tags
+                    a.unselect_time_tag.ui.active.large.compact.button(href='#')
+                        strong #{this}
+            each time_tags
+                a.ui.basic.large.label.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    strong #{name}
+            div
+            i.big.smile.grey.icon(title='where tags')
+            if picked_emotion
+                each picked_emotion
+                    a.unpick_emotion.ui.active.large.compact.button(href='#')
+                        strong #{this}
+            each emotion_results
+                if name
+                    a.ui.basic.large.label.zoomer.pick_emotion(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                        strong #{name}
+            div
+            div
+            i.big.marker.grey.icon(title='where tags')
+            if selected_location_tags
+                each selected_location_tags
+                    a.unselect_location_tag.ui.active.large.compact.button(href='#')
+                        strong #{this}
+            each location_tags
+                a.ui.basic.large.label.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    strong #{name}
+            div
+            i.big.users.grey.icon(title='where tags')
+            if selected_people_tags
+                each selected_people_tags
+                    a.unselect_people_tag.ui.active.large.compact.button(href='#')
+                        strong #{this}
+            each people_tags
+                a.ui.basic.large.label.zoomer.select_people_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    strong #{name}
+            div
+            i.big.marker.grey.icon(title='where tags')
+            if selected_timestamp_tags
+                each selected_timestamp_tags
+                    a.unselect_timestamp_tag.ui.active.large.compact.button(href='#')
+                        strong #{this}
+            each timestamp_tags
+                a.ui.basic.large.label.zoomer.select_timestamp_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+                    strong #{name}
+            .ui.hidden.divider
+            with emotion_avg
+                // .ui.list
+                //     .item {{ to_percent avg_sent_score}}% sentiment
+                //     .item {{ to_percent avg_joy_score}}% joy
+                //     .item {{ to_percent avg_anger_score}}% anger
+                //     .item {{ to_percent avg_sadness_score}}% sad
+                //     .item {{ to_percent avg_disgust_score}}% disgust
+                //     .item {{ to_percent avg_fear_score}}% fear
+                if kv_is 'doc_sentiment_label' 'positive'
+                    span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+                else if kv_is 'doc_sentiment_label' 'negative'
+                    span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
+                        |&nbsp;
+                    div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+                    
+                span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% joy 
+                    |&nbsp;
+                div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
+      
+                span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
+                    |&nbsp;
+                div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
+                //- if above_50 'avg_sadness_score'
+                    //- .spacer
+                span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
+                    |&nbsp;
+                div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
+                //- if above_50 'avg_fear_score'
+                    //- .spacer
+                span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
+                    |&nbsp;
+                div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
+                //- if above_50 'avg_disgust_score'
+                    //- .spacer
+                span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
+                    |&nbsp;
+                div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
+                //- if above_50 'avg_anger_score'
+                    //- .spacer
+                span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
+                    |&nbsp;
+                div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
         .twelve.wide.column
-            if one_result
-                .ui.stackable.one.centered.cards.scrolling
-                    each group_docs
-                        +group_card
+            |sort by
+            if skv_is 'group_sort_key' 'points'
+                .ui.circular.black.icon.button.set_sort_points
+                    i.large.thumbs.up.icon
             else
-                .ui.stackable.centered.cards.scrolling
-                    each group_docs
-                        +group_card
-        
+                .ui.circular.basic.icon.button.set_sort_points
+                    i.large.thumbs.up.icon
+            if skv_is 'group_sort_key' '_timestamp'
+                .ui.circular.black.icon.button.set_sort_timestamp
+                    i.clock.large.icon
+            else
+                .ui.circular.basic.icon.button.set_sort_timestamp
+                    i.clock.large.icon
+            if skv_is 'group_sort_key' 'views'
+                .ui.circular.black.icon.button.set_sort_views
+                    i.eye.large.icon
+            else
+                .ui.circular.basic.icon.button.set_sort_views
+                    i.eye.large.icon
+            .scrolling    
+                .ui.hidden.divider
+                if subs_ready
+                    if one_result
+                        .ui.one.cards
+                            each group_docs
+                                +group_card_med
+                    else if two_results
+                        .ui.two.cards
+                            each group_docs
+                                +group_card_med
+                    else 
+                        .ui.stackable.three.cards
+                            if group_docs.count
+                                each group_docs
+                                    +group_card
+                else
+                    i.massive.grey.loading.yin.yang.icon
 
 template(name='group_card')
     .ui.card.zoomer
@@ -162,37 +281,9 @@ template(name='group_layout')
                 .ui.stackable.padded.grid
                     .row
                         .four.wide.column
-                            .ui.inline.header 
-                                if icon
-                                    +i name=icon
-                                |#{title}
-                            a.ui.circular.button.fly_right(href="/groups")
-                                i.left.chevron.icon
-                                // i.big.fire.icon
-                                +i name='campfire' cl='ui mini inline image'
-                                |groups
-                            if can_edit
-                                a.ui.circular.icon.button.fly_down(href="/group/#{_id}/edit")
-                                    i.setting.large.icon
-                            +image_view key='image_id' icon='image' label='image'
-                            +array_view key='tags' icon='tags'
-                            .spacer
-                            if link
-                                a.ui.circular.button(href=link target='_window')
-                                    i.external.icon
-                                    |#{link}
-                                .spacer
-                            div
-                            if address
-                                a.ui.compact.circular.button(href=address_link target='_window')
-                                    i.marker.icon
-                                    |#{address}
-                            +viewing
-                            if in_dev 
-                                +print_this
-                            +multi_user_view key='member_ids' label='members' direct=true
+                            +group_sidebar
                         .twelve.wide.column
-                            a.ui.button(href="/group/#{current_doc._id}/")
+                            a.ui.circular.compact.button(href="/group/#{current_doc._id}/")
                                 +i name='dashboard'
                                 |dashboard
                             +group_nav_item key='posts' icon='blog'
@@ -202,9 +293,40 @@ template(name='group_layout')
                             .scrolling
                                 +yield
 
+template(name='group_sidebar')
+    .ui.inline.header 
+        if icon
+            +i name=icon
+        |#{title}
+    a.ui.circular.button.fly_right(href="/groups")
+        i.left.chevron.icon
+        // i.big.fire.icon
+        +i name='campfire' cl='ui mini inline image'
+        |groups
+    if can_edit
+        a.ui.circular.icon.button.fly_down(href="/group/#{_id}/edit")
+            i.setting.large.icon
+    +image_view key='image_id' icon='image' label='image'
+    +array_view key='tags' icon='tags'
+    .spacer
+    if link
+        a.ui.circular.button(href=link target='_window')
+            i.external.icon
+            |#{link}
+        .spacer
+    div
+    if address
+        a.ui.compact.circular.button(href=address_link target='_window')
+            i.marker.icon
+            |#{address}
+    +viewing
+    if in_dev 
+        +print_this
+    +multi_user_view key='member_ids' label='members' direct=true
+
 
 template(name='group_nav_item')
-    a.ui.button(href="/group/#{current_doc._id}/#{key}")
+    a.ui.circular.compact.button(href="/group/#{current_doc._id}/#{key}")
         +i name=icon
         |#{key}
                 
@@ -234,48 +356,15 @@ template(name='group_chat')
         |group chat
     +comments
     
-template(name='group_events')                
-    .ui.header 
-        +i name='calendar'
-        |group events
-    
-template(name='group_members')                
-    .ui.header 
-        +i name='groups'
-        |group members
-    
                     
                     
                     
 template(name='group_view')
     .ui.stackable.padded.grid
         .row
-            .eight.wide.column
-                .ui.inline.header
-                    i.info.icon
-                    |about
-                +html_view key='description' icon='content' label='description'
-                if watson 
-                    +watson_view
-                .ui.header
-                    +i name='groups'
-                    |people
-                .ui.button.add_user_member
-                    |add member
-                if leaders_id
-                    .ui.inline.header 
-                        +i name='crown' cl='ui avatar image'
-                        // i.crown.icon
-                        |leaders: 
-                    each leader_ids 
-                        +user_info
-                div
-                .ui.inline.header 
-                    +i name='groups'
-                    // i.users.icon
-                    |#{member_ids.length} members
-                each member_ids
-                    +user_info
+            .ten.wide.column
+                +group_about
+                +group_members
                 // .ui.large.selection.animated.list
                         // a.item(href="/group/#{_id}/#{username}")
                         //     img.ui.mini.image(src="{{c.url image_id width=200 height=200}}")
@@ -288,55 +377,93 @@ template(name='group_view')
                     a.ui.big.button(href="/login")
                         +i name='internal'
                         |join
-            .four.wide.column
-                .ui.header
-                    +i name='rss'
-                    |activity
-                .content
-                    each log_items
-                        +log_item
-                    .ui.header 
-                        +i name='line-chart'
-                        // i.large.line.chart.icon
-                        |stats
-                    i.refresh.link.icon.refresh_group_stats
-                    .ui.large.list
-                        .item #{member_count} members
-                        .item #{events} events
-                        .item #{total_credit_exchanged} credits exchanged
+            .six.wide.column
+                +group_activity
                     +comments
             .eight.wide.column
-                .ui.header
-                    .ui.inline.header
-                        +i name='calendar' 
-                        // i.calendar.large.icon
-                        |events
-                    i.dropdown.icon
-                .content
-                    if currentUser 
-                        .ui.icon.button.add_group_event(title='add group event')
-                            i.plus.icon
-                    .ui.link.animated.list
-                        each group_events
-                            a.item(href="/event/#{_id}") 
-                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-                                .content
-                                    .header #{title}
-                                    .description
-                                        if is_repeating
-                                            i.refresh.icon
-                                            |every #{repeating_day}
-                                        if start_datetime
-                                            |{{from_now start_datetime}}
+                +group_events
                 +group_posts
                 if has_shop
                     .four.wide.column
                         +group_shop
                 if has_tasks 
                     +group_tasks
-                            
+               
+template(name='group_members')
+    .ui.header
+        +i name='groups'
+        |people
+    .ui.button.add_user_member
+        |add member
+    if leaders_id
+        .ui.inline.header 
+            +i name='crown' cl='ui avatar image'
+            // i.crown.icon
+            |leaders: 
+        each leader_ids 
+            +user_info
+    div
+    .ui.inline.header 
+        +i name='groups'
+        // i.users.icon
+        |#{member_ids.length} members
+    each member_ids
+        +user_info
+
+               
+               
+template(name='group_about')
+    .ui.inline.header
+        i.info.icon
+        |about
+    +html_view key='description' icon='content' label='description'
+    if watson 
+        +watson_view
+
                                             
                
+template(name='group_activity')
+    .ui.header
+        +i name='rss'
+        |activity
+    .content
+        each log_items
+            +log_item
+        .ui.header 
+            +i name='line-chart'
+            // i.large.line.chart.icon
+            |stats
+        i.refresh.link.icon.refresh_group_stats
+        .ui.large.list
+            .item #{member_count} members
+            .item #{events} events
+            .item #{total_credit_exchanged} credits exchanged
+
+              
+              
+template(name='group_events')              
+    .ui.header
+        .ui.inline.header
+            +i name='calendar' 
+            // i.calendar.large.icon
+            |group events
+    .content
+        if currentUser 
+            .ui.icon.button.add_group_event(title='add group event')
+                i.plus.icon
+        .ui.link.animated.list
+            each group_events
+                a.item(href="/event/#{_id}") 
+                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                    .content
+                        .header #{title}
+                        .description
+                            if is_repeating
+                                i.refresh.icon
+                                |every #{repeating_day}
+                            if start_datetime
+                                |{{from_now start_datetime}}
+              
                
 template(name='group_tasks')
     .ui.header

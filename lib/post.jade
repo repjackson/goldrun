@@ -107,7 +107,6 @@ template(name='post_view')
                         +i name='post'
                         |posts
                     .ui.inline.grey.header {{from_now start_datetime}}
-                    
                     if can_edit
                         a.ui.circular.icon.button.fly_down(href="/post/#{_id}/edit" title='edit')
                             +i name='pencil'
@@ -140,8 +139,8 @@ template(name='post_view')
                     if watson 
                         .column
                             +watson_view
-                    if tone 
-                        +tone
+                    // if tone 
+                    //     +tone
                     div 
                     .spacer
                     .spacer
@@ -177,7 +176,7 @@ template(name='post_edit')
                     +text_edit key='subtitle' label='subtitle' direct=true
                     +html_edit key='content' label='content' direct=true
                     +call_watson mode='html' key='content'
-                    +call_tone key='content'
+                    // +call_tone key='content'
                     if is_dev
                         +single_user_edit key='_author_id' label='author' icon='user' direct=true
                     else 

@@ -534,7 +534,7 @@ template(name='print_this')
 template(name='group_picker')
     .ui.header 
         +i name='campfire'
-        |groups
+        |group
     // if is_admin
     .ui.icon.large.input 
         if group_search_value
@@ -552,13 +552,13 @@ template(name='group_picker')
     .ui.button.create_group
         |add #{group_search_value}
     
-    if product_groups
+    if group_doc
         .ui.header 
             |#{product_groups.length}
             |picked groups
         .ui.list
-            each product_groups
-                .ui.item
+            with group_doc
+                a.ui.item(href="/group/#{_id}")
                     |#{title}
                     i.remove.link.icon.zoomer.remove_group
                     
@@ -573,3 +573,15 @@ template(name='friend_button')
         .ui.button.friend
             i.minus.icon
             |unfriend
+            
+            
+template(name='flat_tag_selector')
+    // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
+    a.ui.compact.tiny.basic.image.label.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
+        if term
+            if term.metadata.image
+                img.ui.mini.rounded.inline.image.superzoom(src=term.metadata.image )    
+        | #{this}
+        // if in_dev
+        //     small #{count}
+            

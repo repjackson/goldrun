@@ -1,0 +1,84 @@
+template(name='alpha')
+    // +i n='brain'
+        // a.ui.header.toggle_alpha.pointer
+        // i.large.brain.icon
+        // | wolfram alpha
+    // unless viewing_alpha
+    // each alphas
+    //     with response.queryresult
+    //         each split_datatypes
+    //             .ui.button.basic.compact.buton.select_datatype
+    //                 |#{this}
+        
+        // if viewing_alpha
+    // if skv_is 'loading_alpha' true
+    //     .ui.header 
+    //         i.large.brain.loading.icon 
+    //         |alpha...
+    // else
+    each alphas
+        // i.large.brain.icon
+        if response.queryresult
+            with response.queryresult
+                // .ui.inline.header #{datatypes}
+                // each split_datatypes
+                //     .ui.basic.compact.button.select_datatype
+                //         |#{this}
+                // .ui.list
+                //     .item success: #{success}
+                //     .item error: #{error}
+                //     .item numpods: #{numpods}
+                //     .item datatypes: #{datatypes}
+                        // each datatypes
+                        //     .ui.button
+                        //         |#{this}
+                    // .item timedout: #{timedout}
+                    // .item timedoutpods: #{timedoutpods}
+                    // .item timing: #{timing}
+                    // .item parsetiming: #{parsetiming}
+                    // .item parsetimedout: #{parsetimedout}
+                    // .item recalculate: #{recalculate}
+                    // .item id: #{id}
+                    // .item host: #{host}
+                    // .item server: #{server}
+                    // .item related: #{related}
+                    // .item version: #{version}
+                each pods
+                    // .ui.compact.inline.basic.segment
+                    // div
+                    // .ui.small.inline.middle.aligned.header.middled #{title}
+                    // .ui.small.inline.header #{title}
+                    // div
+                    // .item #{scanner}
+                    // .item id #{id}
+                    // .item position #{position}
+                    // .item error #{error}
+                    // .item numsubpods #{numsubpods}
+                    // .item subpods
+                    // .ui.list
+                    each subpods
+                        // .ui.small.inline.header #{title}
+                        img.ui.pointer.image.inline.alphatemp(src=img.src)
+                    // .item.alphatemp
+                    // |#{plaintext}
+                    // .item title: #{title}
+                    // .item primary: #{primary}
+                    // each tags
+                    //     .ui.label #{this}
+                    // .alphatemp voice: #{voice}
+                    //   div assumptions": {
+                    //     "type": "Clash",
+                    //     "word": "time",
+                    //     "template": "Assuming \"${word}\" is ${desc1}. Use as ${desc2} instead",
+                    //     "count": 4,
+                    //     "values": [
+                    //       {
+                    //         "name": "CalendarWord",
+                    //         "desc": " referring to a calendar computation",
+                    //         "input": "*C.time-_*CalendarWord-"
+                    
+                    
+            // if many_tags
+            //     each alpha_singles
+            //         if response.queryresult
+            //             +alpha 

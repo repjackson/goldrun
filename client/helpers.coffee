@@ -16,6 +16,7 @@ Template.registerHelper 'user_model_docs', (model) ->
     Docs.find 
         model:model
         _author_username:username
+Template.registerHelper 'connected', () -> Meteor.status().connected
 
 Template.registerHelper 'is_author', () -> 
     @_author_id is Meteor.userId()

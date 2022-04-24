@@ -22,6 +22,7 @@ template(name='profile_layout')
                         +profile_menu_item key='products' icon='shop'
                         +profile_menu_item key='rentals' icon='clock'
                         +profile_menu_item key='services' icon='wrench'
+                        +profile_menu_item key='comments' icon='chat'
                         .scrolling
                             if subs_ready
                                 +yield
@@ -91,7 +92,7 @@ template(name='profile_left_column')
                           
                             
 template(name='profile_menu_item')
-    a.ui.compact.button(href="/user/#{current_user.username}/#{key}")
+    a.ui.compact.circular.button(href="/user/#{current_user.username}/#{key}")
         +i name=icon
         |#{key}
                  

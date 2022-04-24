@@ -13,24 +13,24 @@ template(name='nav')
             // i.large.home.icon
             // span.mobile.hidden goldrun
         a.icon.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
-            i.fire.big.icon
-            // +i name='campfire'
+            // i.fire.big.icon
+            +i name='campfire'
             // .mobile.hidden groups
         a.icon.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
-            i.blog.big.icon
-            // +i name='blog'
+            // i.blog.big.icon
+            +i name='blog'
             // .mobile.hidden groups
         a.icon.item.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title='users')
-            i.users.big.icon
-            // +i name='groups'
+            // i.users.big.icon
+            +i name='groups'
             // .mobile.hidden people
         a.icon.item.fly_right(href="/events" class="{{isActiveRoute 'events'}}" title='events')
-            i.calendar.big.icon
-            // +i name='calendar'
+            // i.calendar.big.icon
+            +i name='calendar'
             // span.mobile.hidden events
         a.icon.item.fly_right.mobile.hidden(href="/products" class="{{isActiveRoute 'products'}}" title='products')
-            i.shop.big.icon
-            // +i name='shop'
+            // i.shop.big.icon
+            +i name='shop'
             // span products
         // .ui.icon.transparent.input.mobile.hidden
         //     i.search.icon
@@ -41,18 +41,18 @@ template(name='nav')
         .right.menu
             if currentUser
                 a.icon.item(href="/add")
-                    // +i name='plus'
-                    i.plus.big.icon
+                    +i name='plus'
+                    // i.plus.big.icon
                 if currentUser.is_admin
-                    i.plus.shield.icon
-                    // +i name='shield'
+                    // i.plus.shield.icon
+                    +i name='shield'
                 a.icon.item(href="/inbox")
-                    i.inbox.big.icon
-                    // +i name='inbox'
+                    // i.inbox.big.icon
+                    +i name='inbox'
                 a.item.toggle_topbar.mobile.hidden(title='alerts')
-                    i.bell.big.icon
+                    // i.bell.big.icon
                     // .ui.avatar.image.bell
-                    // +i name='notification'
+                    +i name='notification'
                 a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile')
                     if currentUser.image_id
                         img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")

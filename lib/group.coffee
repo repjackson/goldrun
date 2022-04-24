@@ -341,8 +341,8 @@ if Meteor.isClient
         picked_tags_plural: -> picked_tags.array().length > 1
         searching: -> Session.get('searching')
 
-        one_post: ->
-            Docs.find().count() is 1
+        one_result: -> Docs.find().count() is 1
+        two_result: -> Docs.find().count() is 2
         group_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {
@@ -497,25 +497,8 @@ if Meteor.isServer
 #     ), name:'group_edit'
 
 
-if Meteor.isClient
-    Meteor.methods
-        calc_group_stats: ->
-            group_stat_doc = Docs.findOne(model:'group_stats')
-            unless group_stat_doc
-                new_id = Docs.insert
-                    model:'group_stats'
-                group_stat_doc = Docs.findOne(model:'group_stats')
-            console.log group_stat_doc
-            total_count = Docs.find(model:'group').count()
-            complete_count = Docs.find(model:'group', complete:true).count()
-            incomplete_count = Docs.find(model:'group', complete:$ne:true).count()
-            Docs.update group_stat_doc._id,
-                $set:
-                    total_count:total_count
-                    complete_count:complete_count
-                    incomplete_count:incomplete_count
-
 if Meteor.isServer
+    Meteor.methods
     Meteor.publish 'user_groups', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
@@ -588,3 +571,20 @@ if Meteor.isServer
                     dish_count:dish_count
                     total_credit_exchanged:total_credit_exchanged
                     dish_ids:dish_ids
+                    
+        # calc_group_stats: ->
+        #     group_stat_doc = Docs.findOne(model:'group_stats')
+        #     unless group_stat_doc
+        #         new_id = Docs.insert
+        #             model:'group_stats'
+        #         group_stat_doc = Docs.findOne(model:'group_stats')
+        #     console.log group_stat_doc
+        #     total_count = Docs.find(model:'group').count()
+        #     complete_count = Docs.find(model:'group', complete:true).count()
+        #     incomplete_count = Docs.find(model:'group', complete:$ne:true).count()
+        #     Docs.update group_stat_doc._id,
+        #         $set:
+        #             total_count:total_count
+        #             complete_count:complete_count
+        #             incomplete_count:incomplete_count
+                    

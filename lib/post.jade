@@ -117,15 +117,17 @@ template(name='post_view')
                             img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{_author.username}
                     .ui.list
-                        .item #{views} views
+                        .item 
+                            i.grey.eye.icon
+                            |#{views} views
                     each viewers
-                        .ui.label #{username
-                    +array_view key='tags' label='tags' direct=true
+                        .ui.label #{username}
+                    +array_view key='tags' label='tags' icon='tag' direct=true
                     +voting_full
                     +array_view key='location_tags' label='location_tags' direct=true
                     +visibility_settings
                     +group_widget
-                .twelve.wide.column
+                .twelve.wide.column.scrolling
                     .ui.header #{title}
                     if subtitle
                         .ui.small.header #{subtitle}

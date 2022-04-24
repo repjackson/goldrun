@@ -135,9 +135,9 @@ Template.rightbar.helpers
         
 Template.nav.onCreated ->
     Session.setDefault 'limit', 20
-    @autorun -> Meteor.subscribe 'me'
-    @autorun -> Meteor.subscribe 'users'
-    # @autorun -> Meteor.subscribe 'users_by_role','staff'
+    @autorun -> Meteor.subscribe 'me', ->
+    @autorun -> Meteor.subscribe 'users', ->
+    @autorun -> Meteor.subscribe 'model_docs','group', ->
     # @autorun -> Meteor.subscribe 'unread_messages'
 
 Template.nav.events

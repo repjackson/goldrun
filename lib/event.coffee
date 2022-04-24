@@ -205,14 +205,6 @@ if Meteor.isServer
                 _id:$in:event.group_ids
             }
             
-    Meteor.publish 'related_groups', (doc_id)->
-        doc = Docs.findOne doc_id
-        if doc
-            Docs.find {
-                model:'group'
-                _id:$in:doc.group_ids
-            }
-            
             
             
     Meteor.publish 'future_events', ()->

@@ -23,6 +23,19 @@ template(name='key_value_edit')
             
 
 
+template(name='group_widget')
+    if current_doc.group_ids.length
+        .ui.header 
+            +i name='campfire'
+            |associated group
+        with related_group_doc
+            a.ui.card.fly_right(href="/group/#{_id}")
+                img.ui.image(src="{{c.url image_id width=500 height=500}}")
+                .content
+                    .ui.header 
+                        |#{title}
+
+
 template(name='favorite_icon_toggle')
     i.large.favorite.link.circular.icon.toggle_fav(class=icon_class)
 

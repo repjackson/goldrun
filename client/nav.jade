@@ -155,7 +155,6 @@ template(name='rightbar')
             a.item.toggle_rightbar.no_blink(href="/user/#{currentUser.username}/edit" title='edit your account')
                 +i name='settings' cl='ui avatar image'
                 |settings
-        else 
             a.item.logout
                 if is_logging_out
                     i.refresh.loading.icon

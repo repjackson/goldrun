@@ -498,12 +498,21 @@ if Meteor.isServer
 
 
 if Meteor.isServer
-    Meteor.methods
     Meteor.publish 'user_groups', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
             model:'group'
             _author_id: user._id
+
+    Meteor.publish 'related_group', (doc_id)->
+        doc = Docs.findOne doc_id
+        if doc
+            Docs.find {
+                model:'group'
+                _id:doc.group_id
+            }
+            
+
 
     Meteor.publish 'group_by_slug', (group_slug)->
         Docs.find

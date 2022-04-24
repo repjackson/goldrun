@@ -10,6 +10,11 @@ Template.registerHelper 'current_limit', () -> parseInt(Session.get('limit'))
 Template.registerHelper 'subs_ready', () -> 
     Template.instance().subscriptionsReady()
 
+Template.registerHelper 'related_group_doc', () -> 
+    Docs.findOne 
+        model:'group'
+        _id:@group_id
+
 Template.registerHelper 'user_model_docs', (model) -> 
     username = Router.current().params.username
     Meteor.users.findOne username:username

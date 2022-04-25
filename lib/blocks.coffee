@@ -1,4 +1,11 @@
 if Meteor.isClient
+    Template.toggle_sort_direction.events 
+        'click .toggle': ->
+            if Session.equals 'sort_direction', -1
+                Session.set 'sort_direction', 1
+            else
+                Session.set 'sort_direction', -1
+    
     Template.comments.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion()

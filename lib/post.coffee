@@ -64,8 +64,8 @@ if Meteor.isClient
         post_docs: ->
             Docs.find {
                 model:'post'
-            }, sort:_timestamp:-1
-            # }, sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+            }, sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+            # }, sort:_timestamp:-1
         tag_results: ->
             Results.find {
                 model:'post_tag'

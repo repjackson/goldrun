@@ -36,11 +36,19 @@ template(name='group_widget')
                         |#{title}
 
 
+
+
 template(name='favorite_icon_toggle')
     i.large.favorite.link.circular.icon.toggle_fav(class=icon_class)
 
 
-template(name='sort_direction_button')
+template(name='toggle_sort_direction')
+    if session_is 'sort_direction' -1
+        .ui.icon.compact.button.toggle(title='toggle sort direction')
+            i.sort.direction.down.large.icon
+    if session_is 'sort_direction' 1
+        .ui.icon.compact.button.toggle(title='toggle sort direction')
+            i.sort.direction.up.large.icon
 
 template(name='limit_menu')
     .ui.inline.small.grey.header

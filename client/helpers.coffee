@@ -18,9 +18,13 @@ Template.registerHelper 'related_group_doc', () ->
 Template.registerHelper 'user_model_docs', (model) -> 
     username = Router.current().params.username
     Meteor.users.findOne username:username
-    Docs.find 
+    Docs.find {
         model:model
         _author_username:username
+    }, sort:_timestamp:-1
+    
+    
+    
 Template.registerHelper 'connected', () -> Meteor.status().connected
 
 Template.registerHelper 'is_author', () -> 

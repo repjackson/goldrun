@@ -148,7 +148,7 @@ body {
 }
 
 .rounded {
-    /* border-radius: 10px !important; */
+    border-radius: 20px !important; 
 }
 
 .spacer{

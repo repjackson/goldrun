@@ -230,7 +230,8 @@ template(name='group_item')
 
 template(name='group_info')
     with group_doc
-        .ui.large.image.label 
+        .ui.large.image.label(title='group') 
+            +i name='campfire'
             img.ui.image(src="{{c.url image_id width=200 height=200}}")
             |#{title}
 

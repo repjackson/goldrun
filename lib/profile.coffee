@@ -7,10 +7,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_social'
         ), name:'user_social'
-    Router.route '/user/:username/balance', (->
+    Router.route '/user/:username/points', (->
         @layout 'profile_layout'
-        @render 'user_balance'
-        ), name:'user_balance'
+        @render 'user_points'
+        ), name:'user_points'
     Router.route '/user/:username/rentals', (->
         @layout 'profile_layout'
         @render 'user_rentals'

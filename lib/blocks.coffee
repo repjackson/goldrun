@@ -79,6 +79,22 @@ if Meteor.isClient
             $(e.currentTarget).closest('.button').transition('pulse',200)
             Meteor.call 'downvote', @, ->
 
+    Template.voting_full.events
+        'click .upvote': (e,t)->
+            if Meteor.userId()
+                $(e.currentTarget).closest('.button').transition('pulse',200)
+                Meteor.call 'upvote', @
+            else
+                $(e.currentTarget).closest('.grid').transition('fade down', 500)
+                Router.go "/login"
+        'click .downvote': (e,t)->
+            if Meteor.user
+                $(e.currentTarget).closest('.button').transition('pulse',200)
+                Meteor.call 'downvote', @
+            else 
+                $(e.currentTarget).closest('.grid').transition('fade down', 500)
+                Router.go "/login"
+
 
     # Template.doc_card.onCreated ->
     #     @autorun => Meteor.subscribe 'doc', Template.currentData().doc_id
@@ -89,14 +105,6 @@ if Meteor.isClient
 
 
 
-
-    Template.voting_full.events
-        'click .upvote': (e,t)->
-            $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'upvote', @
-        'click .downvote': (e,t)->
-            $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'downvote', @
 
 
 

@@ -13,12 +13,20 @@ template(name='posts')
                 else
                     i.circle.outline.icon
                 |yours
+            .ui.compact.button.toggle_private
+                if viewing_private
+                    i.lock.green.icon
+                else
+                    i.circle.outline.icon
+                |private
+            div
+            +i name='tag'
             each picked_tags
                 a.ui.blue.button.unpick_post_tag
                     |#{this}
             each tag_results
                 // if title
-                a.ui.compact.button.pick_post_tag
+                a.ui.compact.circular.button.pick_post_tag(title="#{count} results")
                     |#{name} 
                     // small.ui.grey.text #{count}
             // +session_set key='view_mode' value='grid' icon='th'
@@ -106,7 +114,6 @@ template(name='post_view')
                         i.chevron.left.icon
                         +i name='post'
                         |posts
-                    .ui.inline.grey.header {{from_now start_datetime}}
                     if can_edit
                         a.ui.circular.icon.button.fly_down(href="/post/#{_id}/edit" title='edit')
                             +i name='pencil'
@@ -123,21 +130,24 @@ template(name='post_view')
                     each viewers
                         .ui.label #{username}
                     +array_view key='tags' label='tags' icon='tag' direct=true
+                    div
                     +voting_full
                     +array_view key='location_tags' label='location_tags' direct=true
                     +visibility_settings
                     +group_widget
+                    if in_dev 
+                        +print_this
                 .twelve.wide.column.scrolling
                     .ui.header #{title}
                     if subtitle
                         .ui.small.header #{subtitle}
-                    img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
                     if youtube_id
                         +youtube_view key='youtube_id'
                     .scrolling
                         |!{content}
+                    img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     if watson 
                         .column
                             +watson_view

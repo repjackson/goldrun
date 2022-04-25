@@ -67,8 +67,9 @@ if Meteor.isClient
             }, sort:_timestamp:-1
             # }, sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
         tag_results: ->
-            Results.find 
+            Results.find {
                 model:'post_tag'
+            }, limit:10
         picked_post_tags: -> picked_tags.array()
         
                 

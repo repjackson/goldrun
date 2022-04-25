@@ -16,7 +16,7 @@ template(name='profile_layout')
                     .four.wide.column
                         +profile_left_column
                     .twelve.wide.column
-                        +profile_menu_item key='balance' icon='money'
+                        +profile_menu_item key='points' icon='coins'
                         +profile_menu_item key='social' icon='friends'
                         +profile_menu_item key='posts' icon='blog'
                         +profile_menu_item key='products' icon='shop'
@@ -97,9 +97,24 @@ template(name='profile_menu_item')
         |#{key}
                  
                  
-template(name='user_balance')                 
+template(name='user_points')                 
     .ui.header 
+        +i name='coins'
         |user balance
+    .ui.header
+        |points in
+    .ui.list
+        each points_in_docs
+            .ui.inline.header #{body} 
+            |{amount}pts
+    .ui.header
+        |points out
+    .ui.list
+        each points_out_docs
+            .ui.inline.header #{body} 
+            |{amount}pts
+    
+    
                  
 template(name='user_products')                 
     .ui.header 
@@ -110,8 +125,7 @@ template(name='user_social')
     .ui.header 
         +i name='friends'
         |user social
-    .ui.header friends
-                            
+    +user_friends   
                     
 template(name='user_dashboard')
     .ui.padded.grid 
@@ -133,28 +147,33 @@ template(name='user_dashboard')
                         a.item(href="/group/#{_id}") #{title}
             .column
                 if user_is_resident
-                    //- if is_staff
-                    +number_view key='unit_number' label='Unit #' direct=true
-                    +number_view key='building_number' label='Building #' direct=true
-                    +number_view key='healthclub_code' label='Healthclub Code' direct=true
-                    +text_view key='building_code' label='Building Code' direct=true
-                    +date_view key='start_date' label='Start Date' direct=true
-                    +date_view key='expiration_date' label='Expiration Date' direct=true
-                .ui.header 
-                    +i name='friends'
-                    |friends
-                .ui.selection.link.animated.list
-                    each user_friended
-                        +user_info
-                .ui.selection.link.animated.list
-                    each user_friended_by
-                        +user_info
+                    +user_resident_info
+                +user_friends
             .column
                 +user_rentals
             .column
                 +user_credit
    
    
+template(name='user_friends')
+    .ui.header 
+        +i name='friends'
+        |friends
+    .ui.selection.link.animated.list
+        each user_friended
+            +user_info
+    .ui.selection.link.animated.list
+        each user_friended_by
+            +user_info
+  
+template(name='user_resident_info')   
+    //- if is_staff
+    +number_view key='unit_number' label='Unit #' direct=true
+    +number_view key='building_number' label='Building #' direct=true
+    +number_view key='healthclub_code' label='Healthclub Code' direct=true
+    +text_view key='building_code' label='Building Code' direct=true
+    +date_view key='start_date' label='Start Date' direct=true
+    +date_view key='expiration_date' label='Expiration Date' direct=true
    
 template(name="user_messages")               
     .ui.header 
@@ -191,12 +210,16 @@ template(name='user_posts')
     .ui.header 
         +i name='blog'
         |user posts
-    .ui.selection.link.animated.list
+    .ui.selection.link.animated.large.divided.list
         each user_model_docs 'post'
             a.item.fly_left(href="/post/#{_id}") 
                 if image_id
-                    img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                |#{title}
+                    img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                .content 
+                    .header
+                        |#{title}
+                    .description
+                        |#{when}
 
 template(name='profile_deposits')
     .ui.header 

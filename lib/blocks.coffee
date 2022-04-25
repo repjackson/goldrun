@@ -1,4 +1,60 @@
 if Meteor.isClient
+    Template.group_picker.onCreated ->
+        @autorun => @subscribe 'group_search_results', Session.get('group_search'), ->
+        @autorun => @subscribe 'model_docs', 'group', ->
+    Template.group_picker.helpers
+        group_results: ->
+            Docs.find 
+                model:'group'
+                title: {$regex:"#{Session.get('group_search')}",$options:'i'}
+                
+        group_search_value: ->
+            Session.get('group_search')
+        
+    Template.group_picker.events
+        'click .clear_search': (e,t)->
+            Session.set('group_search', null)
+            t.$('.group_search').val('')
+
+            
+        'click .remove_group': (e,t)->
+            if confirm "remove #{@title} group?"
+                Docs.update Router.current().params.doc_id,
+                    $unset:
+                        group_id:@_id
+                        group_title:@title
+        'click .pick_group': (e,t)->
+            Docs.update Router.current().params.doc_id,
+                $set:
+                    group_id:@_id
+                    group_title:@title
+            Session.set('group_search',null)
+            t.$('.group_search').val('')
+                    
+        'keyup .group_search': (e,t)->
+            # if e.which is '13'
+            val = t.$('.group_search').val()
+            console.log val
+            Session.set('group_search', val)
+
+        'click .create_group': ->
+            new_id = 
+                Docs.insert 
+                    model:'group'
+                    title:Session.get('group_search')
+            Router.go "/group/#{new_id}/edit"
+
+
+if Meteor.isServer 
+    Meteor.publish 'group_search_results', (group_title_queary)->
+        Docs.find 
+            model:'group'
+            title: {$regex:"#{group_title_queary}",$options:'i'}
+        
+        
+
+
+if Meteor.isClient
     Template.toggle_sort_direction.events 
         'click .toggle': ->
             if Session.equals 'sort_direction', -1
@@ -58,7 +114,7 @@ if Meteor.isClient
                 parent_id:parent._id
                 model:'comment'
     Template.print_this.events
-        'click .print_this': -> console.log @
+        'click .print': -> console.log @
     Template.comments.events
         'keyup .add_comment': (e,t)->
             if e.which is 13
@@ -154,6 +210,8 @@ if Meteor.isClient
 
     Template.group_widget.onCreated ->
         @autorun => Meteor.subscribe 'user_from_username', @data
+    Template.group_widget.helpers
+        
 
 
     Template.big_user_card.onCreated ->

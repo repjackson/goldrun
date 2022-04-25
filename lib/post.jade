@@ -82,7 +82,7 @@ template(name='post_card')
         else if image_id
             img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
-            a.ui.header.zoomer(href="/post/#{_id}") #{title}
+            a.ui.large_text.zoomer(href="/post/#{_id}" class=emotion_color) #{title}
             if private 
                 i.large.lock.icon
             .ui.small.grey.inline.header #{when}
@@ -99,7 +99,7 @@ template(name='post_card')
         
 template(name='post_item')
     .ui.fluid.segment.view_post.pointer
-        a.ui.header(href="/post/#{_id}/view") #{title}
+        a.ui.header(href="/post/#{_id}/view" class=emotion_color) #{title}
         div
         .ui.small.grey.inline.header #{when}
         | #{content}
@@ -140,7 +140,7 @@ template(name='post_view')
                     if in_dev 
                         +print_this
                 .twelve.wide.column.scrolling
-                    .ui.header #{title}
+                    .ui.header(class=emotion_color) #{title}
                     if subtitle
                         .ui.small.header #{subtitle}
                     // a.ui.header(href="/user/#{target.username}")

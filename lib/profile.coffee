@@ -7,6 +7,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_social'
         ), name:'user_social'
+    Router.route '/user/:username/groups', (->
+        @layout 'profile_layout'
+        @render 'user_groups'
+        ), name:'user_groups'
     Router.route '/user/:username/points', (->
         @layout 'profile_layout'
         @render 'user_points'
@@ -51,6 +55,8 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_deposits', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_rentals', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_orders', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_groups_member', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_groups_owner', Router.current().params.username, ->
     Template.user_posts.onCreated ->
         @autorun -> Meteor.subscribe 'user_model_docs', 'post', Router.current().params.username, ->
         
@@ -86,6 +92,13 @@ if Meteor.isClient
     # Template.user_section.helpers
     #     user_section_template: ->
     #         "user_#{Router.current().params.group}"
+
+    Template.user_groups.helpers
+        group_memberships: ->   
+            current_user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                model:'group'
+                _id:$in:user.group_memberships
 
     Template.profile_layout.helpers
         user_rental_docs: ->
@@ -133,6 +146,11 @@ if Meteor.isClient
                 })
             
 if Meteor.isServer
+    Meteor.publish 'user_groups_member', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find 
+            model:'group'
+            _id:$in:user.group_memberships
     Meteor.publish 'user_model_docs', (model,username)->
         user = Meteor.users.findOne username:username
         Docs.find 

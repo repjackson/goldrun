@@ -611,6 +611,19 @@ template(name='flat_tag_selector')
         //     small #{count}
             
             
+       
+       
+template(name='facet')
+    +i name='tag'
+    each picked_tags
+        button.ui.blue.compact.circular.small.button.unpick_tag(tabindex='0')
+            //- i.remove.icon
+            | #{this}
+    each tag_results
+        button.ui.circular.compact.small.button.pick_tag(tabindex="0" class=result_class title=count)
+            |#{name}
+            //- small #{count}
+
             
 // template(name='comments')
 //     // .ui.hidden.divider

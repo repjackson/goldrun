@@ -4,24 +4,29 @@ template(name='profile_layout')
         +topbar
         +leftbar
         +rightbar
-        if background_image_id
-            img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
-        else 
-            img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-        // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
         with user_from_username_param
+            if background_image_id
+                img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+            else 
+                img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+            // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
             .ui.stackable.padded.grid
                 .row
                     //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                     .four.wide.column
                         +profile_left_column
                     .twelve.wide.column
+                        a.ui.compact.circular.button(href="/user/#{username}")
+                            +i name='dashboard'
+                            |dashboard
+                        +profile_menu_item key='points' icon='coins'
                         +profile_menu_item key='points' icon='coins'
                         +profile_menu_item key='social' icon='friends'
                         +profile_menu_item key='posts' icon='blog'
                         +profile_menu_item key='products' icon='shop'
                         +profile_menu_item key='rentals' icon='clock'
                         +profile_menu_item key='services' icon='wrench'
+                        +profile_menu_item key='groups' icon='groups'
                         +profile_menu_item key='comments' icon='chat'
                         .scrolling
                             if subs_ready
@@ -120,6 +125,18 @@ template(name='user_products')
     .ui.header 
         +i name='shop'
         |user products
+                 
+                 
+template(name='user_groups')                 
+    .ui.header 
+        +i name='groups'
+        |user groups
+    a.ui.button.fly_right(href="/groups")
+        +i name='campfire'
+        |groups
+    .ui.list    
+        each group_memberships
+            a.item(href="/group/#{_id}") #{title}
                  
 template(name='user_social')
     .ui.header 
@@ -351,12 +368,34 @@ template(name='user_edit')
                     +html_edit key='bio' label='bio'
 
                 .column
+                    .ui.dividing.header 
+                        +i name='money'
+                        |preferred payment received method
+                        .ui.button
+                            +i name='apple-pay'
+                            |apple pay
+                        .ui.button
+                            +i name='paypal'
+                            |paypal
+                        .ui.button 
+                            +i name='venmo'
+                            |venmo
+                
                     .ui.header 
                         i.envelope.outline.icon
                         |emails
                     +emails_edit
                     +phone_edit key='phone' label='phone' icon='phone' direct=true
                     +color_edit key='theme_color_main' label='main theme color' direct=true
+                    +text_edit key='address' label='address' icon='marker' 
+                    +text_edit key='city' label='city' icon='marker' 
+                    +text_edit key='state' label='state' icon='marker' 
+                    +phone_edit key='phone' label='phone' icon='phone' 
+                    +text_edit key='company' label='company' icon='business'
+                    +text_edit key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
+                    +text_edit key='twitter_link' label='twitter profile ' icon='twitter'
+                    +text_edit key='facebook_link' label='facebook profile ' icon='facebook'
+
 
 template(name='user_single_doc_ref_editor')
     .ui.header #{label}

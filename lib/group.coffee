@@ -221,30 +221,35 @@ if Meteor.isClient
             Session.get('view_open')
 
 
+    Template.search_input.events
+        'keyup .search': _.throttle((e,t)->
+            query = $('.search').val()
+            Session.set('current_search', query)
+            
+            console.log Session.get('group_title_search')
+            if e.which is 13
+                search = $('.search').val().trim().toLowerCase()
+                if search.length > 0
+                    picked_tags.push search
+                    console.log 'search', search
+                    # Meteor.call 'log_term', search, ->
+                    $('.search').val('')
+                    Session.set('current_search', null)
+                    # # $( "p" ).blur();
+                    # Meteor.setTimeout ->
+                    #     Session.set('dummy', !Session.get('dummy'))
+                    # , 10000
+        , 500)
+    
+
+
     Template.groups.events
         'click .add_group': ->
             new_id =
                 Docs.insert
                     model:'group'
             Router.go("/group/#{new_id}/edit")
-        'keyup .search_group': _.throttle((e,t)->
-            query = $('.search_group').val()
-            Session.set('group_title_search', query)
             
-            console.log Session.get('group_title_search')
-            if e.which is 13
-                search = $('.search_group').val().trim().toLowerCase()
-                if search.length > 0
-                    picked_tags.push search
-                    console.log 'search', search
-                    # Meteor.call 'log_term', search, ->
-                    $('.search_group').val('')
-                    Session.set('group_title_search', null)
-                    # # $( "p" ).blur();
-                    # Meteor.setTimeout ->
-                    #     Session.set('dummy', !Session.get('dummy'))
-                    # , 10000
-        , 500)
 
 
         'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))

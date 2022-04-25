@@ -124,7 +124,9 @@ if Meteor.isClient
             if doc
                 Docs.update parent._id,
                     $set:"#{@key}":html
-    
+            else 
+                Meteor.users.update parent._id, 
+                    $set:"#{@key}":html
     
     Template.html_edit.helpers
             

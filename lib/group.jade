@@ -9,20 +9,17 @@ template(name='groups')
             if currentUser
                 a.ui.icon.circular.button.add_group(title='add')
                     i.plus.green.large.icon
-            // .ui.left.icon.search.small.input
-            //     i.search.icon.refresh_tags
-            //     input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
+            .ui.button.toggle_my_groups
+                i.user.icon
+                |mine
+            .ui.button.toggle_private_groups
+                i.lock.icon
+                |private
+            +search_input key='title'
             // if selected_tag_plural
             //     .ui.icon.circular.black.compact.button.clear_picked_tags
             //         i.remove.icon
-            each picked_group_tags
-                button.ui.blue.compact.circular.small.button.unpick_tag(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
-            each group_tag_results
-                button.ui.circular.compact.small.button.pick_group_tag(tabindex="0" class=result_class title=count)
-                    |#{name}
-                    //- small #{count}
+            +facet key='tag'
             span.sorting_row
                 .ui.icon.input
                     i.search.icon
@@ -179,6 +176,17 @@ template(name='groups')
                                     +group_card
                 else
                     i.massive.grey.loading.yin.yang.icon
+
+template(name='search_input')
+    .ui.left.icon.search.input
+        if current_query
+            i.remove.red.circular.link.icon.zoomer.clear_search
+        else 
+            i.search.icon
+        input.search.prompt(type='text' autocomplete="off" placeholder='tags')
+
+
+
 
 template(name='group_card')
     .ui.card.zoomer

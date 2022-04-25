@@ -19,7 +19,7 @@ template(name='profile_layout')
                         a.ui.compact.circular.button(href="/user/#{username}")
                             +i name='dashboard'
                             |dashboard
-                        +profile_menu_item key='points' icon='coins'
+                        +profile_menu_item key='about' icon='info'
                         +profile_menu_item key='points' icon='coins'
                         +profile_menu_item key='social' icon='friends'
                         +profile_menu_item key='posts' icon='blog'
@@ -147,7 +147,11 @@ template(name='user_social')
 template(name='user_dashboard')
     .ui.padded.grid 
         .two.column.row
-            .column
+            .column 
+                if bio
+                    |!{bio}
+                if watson
+                    +watson_view
                 +user_messages
                 if is_current_user
                     .column
@@ -366,18 +370,18 @@ template(name='user_edit')
                     +text_edit key='last_name' label='last name'
                     +text_edit key='display_name' label='display name'
                     +html_edit key='bio' label='bio'
-
+                    +call_watson key='bio'
                 .column
                     .ui.dividing.header 
                         +i name='money'
                         |preferred payment received method
-                        .ui.button
+                        .ui.compact.circular.button
                             +i name='apple-pay'
                             |apple pay
-                        .ui.button
+                        .ui.compact.circular.button
                             +i name='paypal'
                             |paypal
-                        .ui.button 
+                        .ui.compact.circular.button 
                             +i name='venmo'
                             |venmo
                 

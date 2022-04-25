@@ -134,6 +134,8 @@ Meteor.methods
         # console.log key
         # console.log mode
         doc = Docs.findOne doc_id
+        # unless doc 
+        #     doc = Meteor.users.findOne doc_id
         # console.log 'calling watson on', doc.title
         # if doc.skip_watson is false
         #     console.log 'skipping flagged doc', doc.title

@@ -304,6 +304,9 @@ if Meteor.isClient
             if doc
                 Docs.update parent._id,
                     $set:"#{@key}":textarea_val
+            else 
+                Meteor.users.update parent._id, 
+                    $set:"#{@key}":textarea_val
     
     
     Template.raw_edit.events
@@ -318,6 +321,9 @@ if Meteor.isClient
             if doc
                 Docs.update parent._id,
                     $set:"#{@key}":textarea_val
+            else 
+                Meteor.users.update parent._id, 
+                    $set:"#{@key}":textarea_val
     
     
     
@@ -330,7 +336,9 @@ if Meteor.isClient
             if doc
                 Docs.update parent._id,
                     $set:"#{@key}":val
-    
+            else 
+                Meteor.users.update parent._id, 
+                    $set:"#{@key}":val
     
     
     Template.location_edit.events
@@ -341,6 +349,9 @@ if Meteor.isClient
             doc = Docs.findOne parent._id
             if doc
                 Docs.update parent._id,
+                    $set:"#{@key}":val
+            else 
+                Meteor.users.update parent._id, 
                     $set:"#{@key}":val
     
     

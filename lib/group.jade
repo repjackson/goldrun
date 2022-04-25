@@ -139,6 +139,10 @@ template(name='groups')
                 div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
         .twelve.wide.column
             |sort by
+            +toggle_sort_direction
+            +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+            +session_set key='sort_key' value='points' label='points' icon='hashtag'
+            
             if skv_is 'group_sort_key' 'points'
                 .ui.circular.black.icon.button.set_sort_points
                     i.large.thumbs.up.icon

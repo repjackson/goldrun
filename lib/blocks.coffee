@@ -3,8 +3,39 @@ if Meteor.isClient
         'click .toggle': ->
             if Session.equals 'sort_direction', -1
                 Session.set 'sort_direction', 1
+                $('body').toast({
+                    title: "sort direction set up"
+                    # message: 'Please see desk staff for key.'
+                    class : 'success'
+                    icon:'sort direction up'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
+                
             else
                 Session.set 'sort_direction', -1
+                $('body').toast({
+                    title: "sort direction set down"
+                    # message: 'Please see desk staff for key.'
+                    class : 'success'
+                    icon:'sort direction down'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
     
     Template.comments.onRendered ->
         Meteor.setTimeout ->
@@ -326,24 +357,38 @@ if Meteor.isClient
             Router.go "/user/#{username}"
 
 
-    # Template.session_edit_value_button.events
-    #     'click .set_session_value': ->
-    #         # console.log @key
-    #         # console.log @value
-    #         Session.set(@key, @value)
+    Template.session_set.events
+        'click .set_session_value': ->
+            # console.log @key
+            # console.log @value
+            Session.set(@key, @value)
+            $('body').toast({
+                title: "session set #{@key} #{@value}"
+                # message: 'Please see desk staff for key.'
+                class : 'success'
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
 
-    # Template.session_edit_value_button.helpers
-    #     calculated_class: ->
-    #         res = ''
-    #         # console.log @
-    #         if @cl
-    #             res += @cl
-    #         if Session.equals(@key,@value)
-    #             res += ' active'
-    #         else 
-    #             res += ' basic'
-    #         # console.log res
-    #         res
+    Template.session_set.helpers
+        set_button_class: ->
+            res = ''
+            # console.log @
+            if @cl
+                res += @cl
+            if Session.equals(@key,@value)
+                res += ' active'
+            else 
+                res += ' basic'
+            # console.log res
+            res
 
 
 
@@ -351,6 +396,20 @@ if Meteor.isClient
         'click .toggle_session_key': ->
             console.log @key
             Session.set(@key, !Session.get(@key))
+            $('body').toast({
+                title: "session toggled #{@key}"
+                # message: 'Please see desk staff for key.'
+                class : 'success'
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
 
     Template.session_boolean_toggle.helpers
         calculated_class: ->

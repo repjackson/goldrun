@@ -20,7 +20,8 @@ template(name='posts')
                     i.circle.outline.icon
                 |private
             div
-            +i name='tag'
+            +search_input key='title'
+            +i name='tags'
             each picked_tags
                 a.ui.blue.button.unpick_post_tag
                     |#{this}
@@ -120,9 +121,9 @@ template(name='post_view')
                         a.ui.circular.icon.button.fly_down(href="/post/#{_id}/edit" title='edit')
                             +i name='pencil'
                     .ui.segment
-                        .ui.header 
+                        .ui.inline.header   
                             small author
-                        a.ui.header(href="/user/#{_author.username}") 
+                        a.ui.inline.header(href="/user/#{_author.username}") 
                             img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{_author.username}
                     .ui.list
@@ -131,7 +132,7 @@ template(name='post_view')
                             |#{views} views
                     each viewers
                         .ui.label #{username}
-                    +array_view key='tags' label='tags' icon='tag' direct=true
+                    +array_view key='tags' label='tags' icon='tags' direct=true
                     div
                     +voting_full
                     +array_view key='location_tags' label='location_tags' direct=true

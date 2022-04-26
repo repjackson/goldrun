@@ -423,13 +423,13 @@ body {
 .checkin_banner {
     background-attachment: fixed !important;
     position: absolute !important;
-    /*max-height: 100% !important;*/
+    background-size: cover !important;
     width: 100% !important;
-    background-repeat: no-repeat !important ;
+    /*background-repeat: no-repeat !important ;*/
     /* max-height: 1000px !important; */
     /* top:0px; */
     /* filter: invert(1); */
-    /*opacity: 0.1;*/
+    opacity: .4 !important;
     -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
     mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
 }
@@ -557,7 +557,7 @@ input.username_search{
     /*box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important;*/
     /* background-color: rgba(50, 50, 50, .9) !important; */
     /*color: white !important;*/
-    transform: translate(0, 4px); 
+    transform: translate(0, 4px) !important; 
 }
 .button.green {
     /* background-color: rgba(200, 200, 200, 0.5) !important; */
@@ -776,6 +776,10 @@ h1.ui.header{
 
 .menu > .ui.button{
 	 margin_top: 2em !important;
+}
+
+.menu > .item:active{
+    transform: translate(0, 4px); 
 }
 
 

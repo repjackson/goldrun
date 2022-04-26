@@ -97,7 +97,7 @@ template(name='profile_left_column')
                           
                             
 template(name='profile_menu_item')
-    a.ui.compact.circular.button(href="/user/#{current_user.username}/#{key}")
+    a.ui.compact.circular.button(href="/user/#{current_user.username}/#{key}" class="{{isActiveRoute regex=key}}" )
         +i name=icon
         |#{key}
                  
@@ -125,6 +125,17 @@ template(name='user_products')
     .ui.header 
         +i name='shop'
         |user products
+                 
+template(name='user_about')                 
+    .ui.header 
+        +i name='info'
+        |user info
+                 
+                 
+template(name='user_comments')                 
+    .ui.header 
+        +i name='chat'
+        |user comments
                  
                  
 template(name='user_groups')                 

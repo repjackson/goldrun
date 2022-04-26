@@ -62,7 +62,7 @@ if Meteor.isClient
         group_post_docs: ->
             Docs.find 
                 model:'post'
-                # group_ids:$in:[Router.current().params.doc_id]
+                group_id:Router.current().params.doc_id
     Template.group_members.helpers
         group_member_docs: ->
             Docs.find 
@@ -149,7 +149,7 @@ if Meteor.isServer
         #     _id:group_id
         Docs.find
             model:'post'
-            group_ids:$in: [group_id]
+            group_id:group_id
 
 
     Meteor.publish 'group_leaders', (group_id)->
@@ -221,26 +221,6 @@ if Meteor.isClient
             Session.get('view_open')
 
 
-    Template.search_input.events
-        'keyup .search': _.throttle((e,t)->
-            query = $('.search').val()
-            Session.set('current_search', query)
-            
-            console.log Session.get('group_title_search')
-            if e.which is 13
-                search = $('.search').val().trim().toLowerCase()
-                if search.length > 0
-                    picked_tags.push search
-                    console.log 'search', search
-                    # Meteor.call 'log_term', search, ->
-                    $('.search').val('')
-                    Session.set('current_search', null)
-                    # # $( "p" ).blur();
-                    # Meteor.setTimeout ->
-                    #     Session.set('dummy', !Session.get('dummy'))
-                    # , 10000
-        , 500)
-    
 
 
     Template.groups.events

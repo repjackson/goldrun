@@ -51,10 +51,30 @@ if Meteor.isServer
             model:'group'
             title: {$regex:"#{group_title_queary}",$options:'i'}
         
+if Meteor.isClient
+    Template.search_input.events
+        'keyup .search': _.throttle((e,t)->
+            query = $('.query').val()
+            Session.set('current_search', query)
+            
+            console.log Session.get('current_search')
+            if e.which is 13
+                search = $('.query').val().trim().toLowerCase()
+                if search.length > 0
+                    picked_tags.push search
+                    console.log 'search', search
+                    # Meteor.call 'log_term', search, ->
+                    $('.search').val('')
+                    Session.set('current_search', null)
+                    # # $( "p" ).blur();
+                    # Meteor.setTimeout ->
+                    #     Session.set('dummy', !Session.get('dummy'))
+                    # , 10000
+        , 500)
+    
         
 
 
-if Meteor.isClient
     Template.toggle_sort_direction.events 
         'click .toggle': ->
             if Session.equals 'sort_direction', -1

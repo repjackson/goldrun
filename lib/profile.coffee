@@ -7,6 +7,18 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_social'
         ), name:'user_social'
+    Router.route '/user/:username/about', (->
+        @layout 'profile_layout'
+        @render 'user_about'
+        ), name:'user_about'
+    Router.route '/user/:username/orders', (->
+        @layout 'profile_layout'
+        @render 'user_orders'
+        ), name:'user_orders'
+    Router.route '/user/:username/friends', (->
+        @layout 'profile_layout'
+        @render 'user_friends'
+        ), name:'user_friends'
     Router.route '/user/:username/groups', (->
         @layout 'profile_layout'
         @render 'user_groups'
@@ -35,6 +47,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_posts'
         ), name:'user_posts'
+    Router.route '/user/:username/comments', (->
+        @layout 'profile_layout'
+        @render 'user_comments'
+        ), name:'user_comments'
     Router.route '/user/:username/events', (->
         @layout 'profile_layout'
         @render 'user_events'

@@ -610,7 +610,16 @@ template(name='flat_tag_selector')
         // if in_dev
         //     small #{count}
             
-            
+template(name='search_input')
+    .ui.left.icon.search.input
+        if current_query
+            i.remove.red.circular.link.icon.zoomer.clear_search
+        else 
+            i.search.icon
+        input.query(type='text' autocomplete="off" placeholder="search #{title}")
+
+
+
        
        
 template(name='facet')

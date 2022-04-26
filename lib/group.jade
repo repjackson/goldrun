@@ -21,69 +21,20 @@ template(name='groups')
             //         i.remove.icon
             +facet key='tag'
             span.sorting_row
-                .ui.icon.input
-                    i.search.icon
-                    input.search_group(type='text' placeholder='search...' value=current_group_search)
-                // |sort by
-                // .ui.compact.small.menu
-                //     .ui.simple.dropdown.item
-                //         strong #{current_group_sort_label}
-                //         i.dropdown.icon
-                //         .menu
-                //             +set_sort_key key='member_ids' label='$/serving' icon='money'
-                //             +set_sort_key key='private' label='available' icon='clock'
-                //             +set_sort_key key='_timestamp' label='added' icon='clock'
-                //             +set_sort_key key='comment_count' label='comment count' icon='chat'
+                +search_input key='title'
+                +set_sort_key key='member_ids' label='$/serving' icon='money'
+                +set_sort_key key='private' label='available' icon='clock'
+                +set_sort_key key='_timestamp' label='added' icon='clock'
+                +set_sort_key key='comment_count' label='comment count' icon='chat'
                 +toggle_sort_direction
             // +session_set key='view_mode' value='grid' icon='th'
             // +session_set key='view_mode' value='list' icon='list'
             // if session_is 'view_mode' 'grid'
-            i.big.clock.grey.icon(title='when tags')
-            if selected_time_tags
-                each selected_time_tags
-                    a.unselect_time_tag.ui.active.large.compact.button(href='#')
-                        strong #{this}
-            each time_tags
-                a.ui.basic.large.label.zoomer.select_time_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
-                    strong #{name}
-            div
-            i.big.smile.grey.icon(title='where tags')
-            if picked_emotion
-                each picked_emotion
-                    a.unpick_emotion.ui.active.large.compact.button(href='#')
-                        strong #{this}
-            each emotion_results
-                if name
-                    a.ui.basic.large.label.zoomer.pick_emotion(title="#{count} results" class="#{selector_class} #{thinking_class}")
-                        strong #{name}
-            div
-            div
-            i.big.marker.grey.icon(title='where tags')
-            if selected_location_tags
-                each selected_location_tags
-                    a.unselect_location_tag.ui.active.large.compact.button(href='#')
-                        strong #{this}
-            each location_tags
-                a.ui.basic.large.label.zoomer.select_location_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
-                    strong #{name}
-            div
-            i.big.users.grey.icon(title='where tags')
-            if selected_people_tags
-                each selected_people_tags
-                    a.unselect_people_tag.ui.active.large.compact.button(href='#')
-                        strong #{this}
-            each people_tags
-                a.ui.basic.large.label.zoomer.select_people_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
-                    strong #{name}
-            div
-            i.big.marker.grey.icon(title='where tags')
-            if selected_timestamp_tags
-                each selected_timestamp_tags
-                    a.unselect_timestamp_tag.ui.active.large.compact.button(href='#')
-                        strong #{this}
-            each timestamp_tags
-                a.ui.basic.large.label.zoomer.select_timestamp_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")
-                    strong #{name}
+            +facet key='time_tag'
+            +facet key='emotion_tag'
+            +facet key='location_tag'
+            +facet key='people_tag'
+            +facet key='timestamp_tag'
             .ui.hidden.divider
             with emotion_avg
                 // .ui.list
@@ -93,11 +44,11 @@ template(name='groups')
                 //     .item {{ to_percent avg_sadness_score}}% sad
                 //     .item {{ to_percent avg_disgust_score}}% disgust
                 //     .item {{ to_percent avg_fear_score}}% fear
-                if kv_is 'doc_sentiment_label' 'positive'
+                if is 'doc_sentiment_label' 'positive'
                     span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
                         |&nbsp;
                     div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
-                else if kv_is 'doc_sentiment_label' 'negative'
+                else if is 'doc_sentiment_label' 'negative'
                     span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
                         |&nbsp;
                     div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
@@ -135,19 +86,19 @@ template(name='groups')
             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
             
-            if skv_is 'group_sort_key' 'points'
+            if session_is 'group_sort_key' 'points'
                 .ui.circular.black.icon.button.set_sort_points
                     i.large.thumbs.up.icon
             else
                 .ui.circular.basic.icon.button.set_sort_points
                     i.large.thumbs.up.icon
-            if skv_is 'group_sort_key' '_timestamp'
+            if session_is 'group_sort_key' '_timestamp'
                 .ui.circular.black.icon.button.set_sort_timestamp
                     i.clock.large.icon
             else
                 .ui.circular.basic.icon.button.set_sort_timestamp
                     i.clock.large.icon
-            if skv_is 'group_sort_key' 'views'
+            if session_is 'group_sort_key' 'views'
                 .ui.circular.black.icon.button.set_sort_views
                     i.eye.large.icon
             else
@@ -231,7 +182,7 @@ template(name='group_info')
         .ui.large.image.label(title='group') 
             +i name='campfire'
             img.ui.image(src="{{c.url image_id width=200 height=200}}")
-            |#{title}
+            // |#{title}
 
 
 template(name='group_edit')

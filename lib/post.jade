@@ -21,22 +21,14 @@ template(name='posts')
                 |private
             div
             +search_input key='title'
-            +i name='tags'
-            each picked_tags
-                a.ui.blue.button.unpick_post_tag
-                    |#{this}
-            each tag_results
-                // if title
-                a.ui.compact.circular.button.pick_post_tag(title="#{count} results")
-                    |#{name} 
-                    // small.ui.grey.text #{count}
-            // +session_set key='view_mode' value='grid' icon='th'
-            // +session_set key='view_mode' value='list' icon='list'
+            +facet key='tag'
         .twelve.wide.column
             i.large.sort.icon
             +toggle_sort_direction
             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
+            +session_set key='view_mode' value='grid' icon='th'
+            +session_set key='view_mode' value='list' icon='list'
             .scrolling
                 if subs_ready
                     .ui.centered.stackable.cards
@@ -96,7 +88,8 @@ template(name='post_card')
             // +comments_view_small
             if group_id     
                 +group_info
-            
+            if watson 
+                +doc_emotion
         
 template(name='post_item')
     .ui.fluid.segment.view_post.pointer

@@ -1,22 +1,21 @@
 template(name='products')
     .ui.stackable.padded.grid 
-        .sixteen.wide.column
+        .four.wide.column
             .ui.inline.header 
                 +i name='shop'
                 |products
                 // if currentUser
             .ui.icon.button.add_product
                 i.plus.icon
-            each picked_tags
-                a.ui.blue.button.unpick_product_tag
-                    |#{this}
-            each tag_results
-                // if title
-                a.ui.compact.button.pick_product_tag
-                    |#{title} 
-                    // small.ui.grey.text #{count}
-        .four.wide.column
+            +facet key='tag' icon='tags'
         .twelve.wide.column
+            i.large.sort.icon
+            +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+            +session_set key='sort_key' value='points' label='points' icon='hashtag'
+            +toggle_sort_direction
+            +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+            +session_set key='sort_key' value='points' label='points' icon='hashtag'
+        
             .ui.centered.stackable.four.cards
                 each product_docs 
                     +product_card
@@ -65,6 +64,9 @@ template(name='product_card')
                 i.eye.icon
             .ui.inline.inline.small.grey.header #{points} 
                 i.line.chart.icon
+            if group_id     
+                +group_info
+
 
 
 template(name='product_view')
@@ -89,6 +91,7 @@ template(name='product_view')
                     if image_id2
                         img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
                     +message_author_button
+                    +group_widget
                 .column
                     +html_view key='description' direct=true
                     // +text_view key='size_description' label='size description'  direct=true
@@ -333,7 +336,7 @@ template(name='product_edit')
                     +print_this
                     +image_edit key='image_id' label='image' direct=true
                     +image_edit key='image_id2' label='alt image' direct=true
-                    +link_edit key='product_link' label='old site link' direct=true
+                    +link_edit key='link' label='external link' direct=true
                     // div
                 .column
                     +float_edit key='price_usd' label='$ price' direct=true
@@ -389,6 +392,6 @@ template(name='product_edit')
                             
                             
 template(name='message_author_button')
-    .ui.teal.large.button.message_author
-        +i name='message'
+    .ui.circular.large.button.message_author
+        +i name='envelope'
         |message #{_author_username}

@@ -423,7 +423,9 @@ body {
 .checkin_banner {
     background-attachment: fixed !important;
     position: absolute !important;
-    max-height: 100% !important;
+    /*max-height: 100% !important;*/
+    width: 100% !important;
+    background-repeat: no-repeat !important ;
     /* max-height: 1000px !important; */
     /* top:0px; */
     /* filter: invert(1); */

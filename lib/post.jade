@@ -133,6 +133,8 @@ template(name='post_view')
                     +group_widget
                     if in_dev 
                         +print_this
+                    if link
+                        +link_view key='link' label='link'
                 .twelve.wide.column.scrolling
                     .ui.header(class=emotion_color) #{title}
                     if subtitle
@@ -220,6 +222,7 @@ template(name='post_edit')
                     // else
                     //     .ui.basic.button.unpublish 
                     //         |unpublish
+                    +link_edit key='link' label='link'
                     +youtube_edit key='youtube_id' label='youtube id'
                     .ui.header
                         |audience

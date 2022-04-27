@@ -52,6 +52,8 @@ if Meteor.isServer
             title: {$regex:"#{group_title_queary}",$options:'i'}
         
 if Meteor.isClient
+    Template.search_input.helpers
+        current_search: -> Session.get('current_search')
     Template.search_input.events
         'keyup .search': _.throttle((e,t)->
             query = $('.query').val()

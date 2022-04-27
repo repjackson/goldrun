@@ -9,6 +9,7 @@ template(name='groups')
             if currentUser
                 a.ui.icon.circular.button.add_group(title='add')
                     i.plus.green.large.icon
+            div
             .ui.button.toggle_my_groups
                 i.user.icon
                 |mine
@@ -20,13 +21,13 @@ template(name='groups')
             //     .ui.icon.circular.black.compact.button.clear_picked_tags
             //         i.remove.icon
             +facet key='tag'
-            span.sorting_row
-                +search_input key='title'
-                +set_sort_key key='member_ids' label='$/serving' icon='money'
-                +set_sort_key key='private' label='available' icon='clock'
-                +set_sort_key key='_timestamp' label='added' icon='clock'
-                +set_sort_key key='comment_count' label='comment count' icon='chat'
-                +toggle_sort_direction
+            // span.sorting_row
+            //     +search_input key='title'
+            //     +set_sort_key key='member_ids' label='$/serving' icon='money'
+            //     +set_sort_key key='private' label='available' icon='clock'
+            //     +set_sort_key key='_timestamp' label='added' icon='clock'
+            //     +set_sort_key key='comment_count' label='comment count' icon='chat'
+            //     +toggle_sort_direction
             // +session_set key='view_mode' value='grid' icon='th'
             // +session_set key='view_mode' value='list' icon='list'
             // if session_is 'view_mode' 'grid'
@@ -147,6 +148,28 @@ template(name='group_card')
                 a.ui.circular.icon.button(href="/group/#{_id}/edit")
                     i.pencil.blue.icon
             +print_this
+template(name='group_card_med')
+    .ui.card.zoomer
+        if image_id
+            a.image.zoomer.fly_right(href="/group/#{_id}")
+                img.ui.image(src="{{c.url image_id width=600 height=600}}")
+        .content
+            a.ui.header.zoomer.fly_right(href="/group/#{_id}")
+                |#{title}
+            |#{member_ids.length} members
+            .smallscroll
+                |!{description}
+            //+ismall name='tags' cl='ui inline image'
+            each seven_tags
+                .ui.label #{this}
+            a.zoomer(href="/group/#{_id}")
+                i.chevron.right.large.circular.icon
+            // if is_admin
+            //     .ui.small.header slug: #{slug}
+            if can_edit
+                a.ui.circular.icon.button(href="/group/#{_id}/edit")
+                    i.pencil.blue.icon
+            +print_this
                     
 template(name='group_item')
     a.item.zoomer(href="/group/#{_id}")
@@ -218,6 +241,7 @@ template(name='group_edit')
                     +boolean_edit key='has_shop' label='shop' icon='shop' direct=true
                     +boolean_edit key='has_posts' label='posts' icon='blog' direct=true
                     +boolean_edit key='has_tasks' label='tasks' icon='tasks' direct=true
+                    +boolean_edit key='has_chat' label='chat' icon='chat' direct=true
                     
                     
 template(name='group_layout')
@@ -236,8 +260,12 @@ template(name='group_layout')
                             a.ui.circular.compact.button.fly_up(href="/group/#{current_doc._id}/")
                                 +i name='dashboard'
                                 |dashboard
-                            +group_nav_item key='posts' icon='blog'
-                            +group_nav_item key='events' icon='calendar'
+                            if has_posts
+                                +group_nav_item key='posts' icon='blog'
+                            if has_events
+                                +group_nav_item key='events' icon='calendar'
+                            if has_tasks
+                                +group_nav_item key='tasks' icon='tasks'
                             +group_nav_item key='members' icon='groups'
                             +group_nav_item key='chat' icon='chat'
                             .scrolling

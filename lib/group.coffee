@@ -15,6 +15,10 @@ Router.route '/group/:doc_id/members', (->
     @layout 'group_layout'
     @render 'group_members'
     ), name:'group_members'
+Router.route '/group/:doc_id/tasks', (->
+    @layout 'group_layout'
+    @render 'group_tasks'
+    ), name:'group_tasks'
 Router.route '/group/:doc_id/chat', (->
     @layout 'group_layout'
     @render 'group_chat'
@@ -113,7 +117,7 @@ if Meteor.isClient
             new_id = 
                 Docs.insert 
                     model:'event'
-                    group_ids:[Router.current().params.doc_id]
+                    group_id:Router.current().params.doc_id
             Router.go "/event/#{new_id}/edit"
         # 'click .join': ->
         #     Docs.update
@@ -200,9 +204,9 @@ if Meteor.isClient
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
 
-    Template.groups.onCreated ->
         @autorun => @subscribe 'group_facets',
             picked_tags.array()
+            Session.get('current_search')
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
@@ -212,7 +216,7 @@ if Meteor.isClient
 
         @autorun => @subscribe 'group_results',
             picked_tags.array()
-            Session.get('group_title_search')
+            Session.get('current_search')
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
@@ -362,7 +366,7 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'group_results', (
         picked_tags
-        title_search=''
+        title_search=null
         doc_limit
         doc_sort_key
         doc_sort_direction
@@ -376,7 +380,7 @@ if Meteor.isServer
             limit = doc_limit
         else
             limit = 42
-        if title_search.length > 0
+        if title_search
             match.title = {$regex:"#{title_search}", $options: 'i'}
 
         if doc_sort_key
@@ -423,6 +427,7 @@ if Meteor.isServer
 
     Meteor.publish 'group_facets', (
         picked_tags=[]
+        title_search=null
         picked_timestamp_tags
         query
         doc_limit
@@ -447,7 +452,8 @@ if Meteor.isServer
         # if view_pickup
         #     match.pickup = $ne:false
         if picked_tags.length > 0 then match.tags = $all: picked_tags
-            # match.$regex:"#{current_group_search}", $options: 'i'}
+        if title_search
+            match.title = $regex:{"#{title_search}", $options: 'i'}
 
         tag_cloud = Docs.aggregate [
             { $match: match }

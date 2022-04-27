@@ -261,4 +261,9 @@ template(name='footer')
                     a.item.zoomer(href="/testimonials" class="{{isActiveRoute 'testimonials'}}" ) Testimonials
                     a.item.zoomer(href="/corporate_services" class="{{isActiveRoute 'corporate_services'}}" ) Corporate Services
                     a.item.zoomer(href="/organizations" class="{{isActiveRoute 'organizations'}}" ) Organizations
-                
+    if in_dev 
+        .ui.segment 
+            .ui.header admin
+            .ui.list
+                each all_docs 
+                    .item #{title}, #{model}

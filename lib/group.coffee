@@ -330,8 +330,6 @@ if Meteor.isClient
         picked_tags_plural: -> picked_tags.array().length > 1
         searching: -> Session.get('searching')
 
-        one_result: -> Docs.find().count() is 1
-        two_result: -> Docs.find().count() is 2
         group_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {

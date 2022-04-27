@@ -31,16 +31,17 @@ if Meteor.isClient
         # @autorun => @subscribe 'model_docs', 'post', ->
         @autorun => @subscribe 'post_facets',
             picked_tags.array()
-            # Session.get('limit')
-            # Session.get('sort_key')
-            # Session.get('sort_direction')
-            # Session.get('view_delivery')
-            # Session.get('view_pickup')
-            # Session.get('view_open')
+            Session.get('current_search')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('view_delivery')
+            Session.get('view_pickup')
+            Session.get('view_open')
 
         @autorun => @subscribe 'post_results',
             picked_tags.array()
-            Session.get('group_title_search')
+            Session.get('current_search')
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
@@ -80,6 +81,9 @@ if Meteor.isClient
                     model:'post'
             Router.go "/post/#{new_id}/edit"
     Template.post_card.events
+        'click .view_post': ->
+            Router.go "/post/#{@_id}"
+    Template.post_card_med.events
         'click .view_post': ->
             Router.go "/post/#{@_id}"
     Template.post_item.events
@@ -189,12 +193,20 @@ if Meteor.isClient
             
 if Meteor.isServer
     Meteor.publish 'post_results', (
+        picked_tags
+        current_search=null
+        doc_limit
+        doc_sort_key
+        doc_sort_direction
+        view_delivery
+        view_pickup
+        view_open
         )->
         # console.log picked_ingredients
         # if doc_limit
         #     limit = doc_limit
         # else
-        limit = 42
+        limit = 20
         # if doc_sort_key
         #     sort_key = doc_sort_key
         # if doc_sort_direction
@@ -216,9 +228,9 @@ if Meteor.isServer
         #     match.vegan = true
         # if view_gf
         #     match.gluten_free = true
-        # if post_query and post_query.length > 1
+        if current_search
+            match.title = {$regex:"#{current_search}", $options: 'i'}
         #     console.log 'searching post_query', post_query
-        #     match.title = {$regex:"#{post_query}", $options: 'i'}
         #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
 
         # match.tags = $all: picked_ingredients
@@ -238,7 +250,7 @@ if Meteor.isServer
         Docs.find match,
             # sort:"#{sort_key}":sort_direction
             # sort:_timestamp:-1
-            limit: 42
+            limit: limit
             
             
     Meteor.publish 'post_count', (

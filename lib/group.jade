@@ -266,8 +266,10 @@ template(name='group_layout')
                                 +group_nav_item key='events' icon='calendar'
                             if has_tasks
                                 +group_nav_item key='tasks' icon='tasks'
-                            +group_nav_item key='members' icon='groups'
-                            +group_nav_item key='chat' icon='chat'
+                            if has_members
+                                +group_nav_item key='members' icon='groups'
+                            if has_chat
+                                +group_nav_item key='chat' icon='chat'
                             .scrolling
                                 +yield
 
@@ -342,7 +344,8 @@ template(name='group_view')
         .row
             .ten.wide.column
                 +group_about
-                +group_members
+                if has_members
+                    +group_members
                 // .ui.large.selection.animated.list
                         // a.item(href="/group/#{_id}/#{username}")
                         //     img.ui.mini.image(src="{{c.url image_id width=200 height=200}}")
@@ -350,17 +353,19 @@ template(name='group_view')
                         //         .header
                         //             |#{username}
                 if currentUser
-                    +doc_array_togggle key='member_ids' value=currentUser._id add_label='join' remove_label='leave'
+                    +doc_array_toggle key='member_ids' value=currentUser._id add_label='join' remove_label='leave'
                 else 
                     a.ui.big.button(href="/login")
                         +i name='internal'
                         |join
             .six.wide.column
                 +group_activity
-                    +comments
+                +comments
             .eight.wide.column
-                +group_events
-                +group_posts
+                if has_events
+                    +group_events
+                if has_posts
+                    +group_posts
                 if has_shop
                     .four.wide.column
                         +group_shop

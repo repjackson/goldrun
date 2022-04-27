@@ -1,6 +1,6 @@
 Template.registerHelper 'emotion_color', () ->
     if @max_emotion_name
-        console.log @max_emotion_name
+        # console.log @max_emotion_name
         switch @max_emotion_name
             when 'sadness' then 'blue'
             when 'joy' then 'green'
@@ -8,9 +8,15 @@ Template.registerHelper 'emotion_color', () ->
             when 'analytical' then 'orange'
             when 'tentative' then 'yellow'
     else if @doc_sentiment_label
-        console.log @doc_sentiment_label
+        # console.log @doc_sentiment_label
         if @doc_sentiment_label is 'positive' then 'green'
         else if @doc_sentiment_label is 'negative' then 'red'
+
+
+
+Template.registerHelper 'all_docs', () -> Docs.find()
+Template.registerHelper 'one_result', () -> Docs.find().count() is 1
+Template.registerHelper 'two_results', () -> Docs.find().count() is 2
 
 
 Template.registerHelper 'parent', () -> Template.parentData()

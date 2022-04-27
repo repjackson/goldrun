@@ -55,6 +55,26 @@ if Meteor.isClient
     Template.search_input.helpers
         current_search: -> Session.get('current_search')
     Template.search_input.events
+        'click .clear_search': (e,t)->
+            Session.set('current_search', null)
+            t.$('.current_search').val('')
+            $('body').toast({
+                title: "search cleared"
+                # message: 'Please see desk staff for key.'
+                class : 'info'
+                icon:'remove'
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+    
+    
         'keyup .search': _.throttle((e,t)->
             query = $('.query').val()
             Session.set('current_search', query)
@@ -96,7 +116,6 @@ if Meteor.isClient
                       hideMethod   : 'fade',
                       hideDuration : 250
                     })
-                
             else
                 Session.set 'sort_direction', -1
                 $('body').toast({
@@ -336,7 +355,7 @@ if Meteor.isClient
             Docs.find _id:$in:parent["#{@key}"]
 
 
-    Template.doc_array_togggle.helpers
+    Template.doc_array_toggle.helpers
         user_list_toggle_class: ->
             if Session.get('current_user')
                 parent = Template.parentData()
@@ -517,12 +536,12 @@ if Meteor.isServer
         
         
 if Meteor.isClient
-    Template.doc_array_togggle.helpers
+    Template.doc_array_toggle.helpers
         doc_array_toggle_class: ->
             parent = Template.parentData()
             # user = Docs.findOne Router.current().params.username
             if parent["#{@key}"] and @value in parent["#{@key}"] then 'active' else 'basic'
-    Template.doc_array_togggle.events
+    Template.doc_array_toggle.events
         'click .toggle': (e,t)->
             parent = Template.parentData()
             console.log 'key', @key, @value

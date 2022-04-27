@@ -31,9 +31,18 @@ template(name='posts')
             +session_set key='view_mode' value='list' icon='list'
             .scrolling
                 if subs_ready
-                    .ui.centered.stackable.cards
-                        each post_docs 
-                            +post_card
+                    if one_result
+                        .ui.one.cards
+                            each post_docs
+                                +post_card_med
+                    else if two_results
+                        .ui.two.cards
+                            each post_docs
+                                +post_card_med
+                    else                 
+                        .ui.centered.stackable.cards
+                            each post_docs 
+                                +post_card
                 else 
                     .ui.center.aligned.basic.segment
                         i.massive.yin.yang.loading.grey.icon
@@ -69,6 +78,28 @@ template(name='set_view_mode_post')
 
 
 template(name='post_card')
+    .ui.link.card.view_post.pointer.fly_right
+        if youtube_id
+            +youtube_view key='youtube_id'
+        else if image_id
+            img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        .content
+            a.ui.large_text.zoomer(href="/post/#{_id}" class=emotion_color) #{title}
+            if private 
+                i.large.lock.icon
+            .ui.small.grey.inline.header #{when}
+            .smallscroll
+                | !{content}
+            +voting_full
+            if views
+                |#{views} views
+            +author_info
+            // +comments_view_small
+            if group_id     
+                +group_info
+            if watson 
+                +doc_emotion
+template(name='post_card_med')
     .ui.link.card.view_post.pointer.fly_right
         if youtube_id
             +youtube_view key='youtube_id'

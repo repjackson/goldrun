@@ -1,4 +1,12 @@
 if Meteor.isClient
+    Template.facet.helpers
+        facet_results: ->
+            Results.find {
+                model:@key
+            }, limit:10
+        picked_tags: -> picked_tags.array()
+    
+    
     Template.group_picker.onCreated ->
         @autorun => @subscribe 'group_search_results', Session.get('group_search'), ->
         @autorun => @subscribe 'model_docs', 'group', ->

@@ -35,9 +35,6 @@ if Meteor.isClient
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
 
         @autorun => @subscribe 'post_results',
             picked_tags.array()
@@ -45,9 +42,6 @@ if Meteor.isClient
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
 
     Template.post_view.onCreated ->
         @autorun => @subscribe 'related_group',Router.current().params.doc_id, ->
@@ -67,11 +61,6 @@ if Meteor.isClient
                 model:'post'
             }, sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
             # }, sort:_timestamp:-1
-        tag_results: ->
-            Results.find {
-                model:'post_tag'
-            }, limit:10
-        picked_post_tags: -> picked_tags.array()
         
                 
     Template.posts.events
@@ -98,29 +87,6 @@ if Meteor.isClient
                     post_ids:[@_id]
             Router.go "/recipe/#{new_id}/edit"
 
-    # Template.favorite_icon_toggle.helpers
-    #     icon_class: ->
-    #         if @favorite_ids and Meteor.userId() in @favorite_ids
-    #             'red'
-    #         else
-    #             'outline'
-    # Template.favorite_icon_toggle.events
-    #     'click .toggle_fav': ->
-    #         if @favorite_ids and Meteor.userId() in @favorite_ids
-    #             Docs.update @_id, 
-    #                 $pull:favorite_ids:Meteor.userId()
-    #         else
-    #             $('body').toast(
-    #                 showIcon: 'heart'
-    #                 message: "marked favorite"
-    #                 showProgress: 'bottom'
-    #                 class: 'success'
-    #                 # displayTime: 'auto',
-    #                 position: "bottom right"
-    #             )
-
-    #             Docs.update @_id, 
-    #                 $addToSet:favorite_ids:Meteor.userId()
     
     
     Template.post_edit.events

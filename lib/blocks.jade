@@ -624,12 +624,12 @@ template(name='search_input')
        
 template(name='facet')
     div
-    +i name='tags'
+    +i name=icon
     each picked_tags
         button.ui.blue.compact.circular.small.button.unpick_tag(tabindex='0')
             //- i.remove.icon
             | #{this}
-    each tag_results
+    each facet_results
         button.ui.circular.compact.small.button.pick_tag(tabindex="0" class=result_class title=count)
             |#{name}
             //- small #{count}

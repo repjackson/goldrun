@@ -59,10 +59,11 @@ tone_analyzer = new ToneAnalyzerV3(
 # https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/b5195ac7-a729-46ea-b099-deb37d1dc65b
 
 Meteor.methods
-    call_tone: (doc_id)->
+    call_tone: (doc_id, key)->
         # @unblock()
         self = @
         doc = Docs.findOne doc_id
+        console.log key, 'key'
         # if doc.html or doc.body
         #     # stringed = JSON.stringify(doc.html, null, 2)
         # if mode is 'html'
@@ -71,20 +72,40 @@ Meteor.methods
         #         content_type:'text/html'
         # if mode is 'text'
         params =
-            toneInput: { 'text': doc.watson.analyzed_text }
-            contentType: 'application/json'
+            # toneInput: { 'text': doc.watson.analyzed_text }
+            # contentType: 'application/json'
+            {
+              "language": "en",
+              "text": doc.watson.analyzed_text,
+              "features": {
+                "classifications": {
+                  "model": "tone-classifications-en-v1"
+                }
+              }
+            }
+            
         # console.log 'params', params
-        tone_analyzer.tone params, Meteor.bindEnvironment((err, response)->
+        natural_language_understanding.analyze params, Meteor.bindEnvironment((err, response)=>
             if err
-                console.log err
+                console.log 'watson error for', params.content
+                # console.log err
+                if err.code is 400
+                    console.log 'crawl rejected by server'
+                unless err.code is 403
+                    # Docs.update doc_id,
+                    #     $set:skip_watson:false
+                    console.log 'not html, flaggged doc for future skip', params.url, err
+                else
+                    console.log '403 error api key'
             else
-                # console.dir response
-                Docs.update { _id: doc_id},
-                    $set:
-                        tone: response
-                # console.log(JSON.stringify(response, null, 2))
-            )
+                console.log 'analy text', response.analyzed_text
+                console.log response.result
+                # console.log(JSON.stringify(response, null, 2));
+                # console.log 'adding watson info', doc.title
+                # response = response.result
         # else return
+        )
+
 
     call_visual: (doc_id, field)->
         # @unblock()

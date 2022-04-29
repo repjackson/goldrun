@@ -156,7 +156,7 @@ if Meteor.isClient
             # console.log Template.parentData(2)
             # console.log Template.parentData(3)
             # doc = Template.parentData()
-            Meteor.call 'call_tone', Router.current().params.doc_id, ->
+            Meteor.call 'call_tone', Router.current().params.doc_id, @key, ->
             # Meteor.call 'call_watson', doc._id, @key, @mode, ->
     
     

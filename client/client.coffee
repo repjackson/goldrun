@@ -150,6 +150,7 @@ $.cloudinary.config
 # Router.notFound =
     # action: 'not_found'
 
+
 Template.nav.events
     'click .add_rental': ->
         new_id = 

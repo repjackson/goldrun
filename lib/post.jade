@@ -21,8 +21,8 @@ template(name='posts')
                 |private
             div
             +search_input key='title'
-            +facet key='tag'
-            +facet key='doc_sentiment_label'
+            +facet key='tag' icon='tags'
+            +facet key='doc_sentiment_label' icon='happy'
         .twelve.wide.column
             i.large.sort.icon
             +toggle_sort_direction
@@ -218,7 +218,12 @@ template(name='post_edit')
                     +text_edit key='subtitle' label='subtitle' direct=true
                     +html_edit key='content' label='content' direct=true
                     +call_watson mode='html' key='content'
-                    // +call_tone key='content'
+                    .ui.header analyzed text
+                    if watson.analyzed_text
+                        |!{watson.analyzed_text}
+                    if in_dev 
+                        +print_this
+                    +call_tone key='content'
                     if is_dev
                         +single_user_edit key='_author_id' label='author' icon='user' direct=true
                     else 

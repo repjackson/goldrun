@@ -166,7 +166,7 @@ template(name='post_view')
                         .ui.header tone
                         each tone.classifications
                             .ui.header 
-                                |#{confidence}:#{class_name}
+                                |{{to_percent confidence}}% #{class_name}
                     
                     +group_widget
                     if in_dev 

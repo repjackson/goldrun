@@ -36,14 +36,17 @@ template(name='doc_sentiment')
     //- .ui.tiny.disabled.progress(data-percent=sentiment_score_percent class=sentiment_bar_class)
     //-     .bar
     //-     .progress
-    //- .label
-    //-     |{{ to_percent doc_sentiment_score }}%
-    //-     if is_positive
-    //-         | positive
-    //-     else
-    //-         | negative
-    |#{doc_sentiment_label}
-    |#{sentiment_score_percent}
+    .label
+        if is doc_sentiment_label 'positive'
+            .ui.green.big.basic.label
+                |{{ to_percent doc_sentiment_score }}%
+                | positive
+        else
+            .ui.red.big.basic.label
+                |{{ to_percent doc_sentiment_score }}%
+                | negative
+    // |#{doc_sentiment_label}
+    // |#{sentiment_score_percent}
 
 
 template(name='small_sentiment') 

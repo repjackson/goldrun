@@ -127,7 +127,7 @@ Meteor.methods
         )
 
     call_watson: (doc_id, key, mode) ->
-        console.log 'calling watson', doc_id, key, mode
+        # console.log 'calling watson', doc_id, key, mode
         # @unblock()
         self = @
         # console.log doc_id

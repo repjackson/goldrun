@@ -124,7 +124,7 @@ template(name='comments')
 template(name='doc_comment')            
     .comment
         .content
-            .ui.small.header #{body}
+            .ui.small.inline.header #{body}
             if can_edit 
                 +session_boolean_toggle key='editing_mode' icon='pencil' 
                 if session_is 'editing_mode' true

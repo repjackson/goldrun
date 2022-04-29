@@ -171,6 +171,7 @@ if Meteor.isClient
                     parent_model:parent.model
                     body:comment
                 t.$('.add_comment').val('')
+                $(e.currentTarget).closest('.add_comment').transition('bounce',250)
 
         'click .remove_comment': ->
             if confirm 'Confirm remove comment'

@@ -99,6 +99,9 @@ template(name='person_card')
                 +group_info
             if watson 
                 +doc_emotion
+                
+                
+                
 template(name='person_card_med')
     .ui.link.card.view_person.pointer.fly_right
         if youtube_id
@@ -192,20 +195,6 @@ template(name='person_view')
                     //-     i.checkmark.icon
                     //-     |submit
 
-
-
-template(name='visibility_settings')
-    .ui.header 
-        i.eye.icon
-        |visibility settings
-    if private 
-        .ui.header 
-            i.lock.icon
-            |private
-    if friends_only
-        .ui.header 
-            +i name='friends'
-            |friends only
 
 
 template(name='person_edit')

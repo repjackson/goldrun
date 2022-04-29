@@ -22,6 +22,7 @@ template(name='posts')
             div
             +search_input key='title'
             +facet key='tag'
+            +facet key='doc_sentiment_label'
         .twelve.wide.column
             i.large.sort.icon
             +toggle_sort_direction

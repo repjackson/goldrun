@@ -162,6 +162,12 @@ template(name='post_view')
                     +voting_full
                     +array_view key='location_tags' label='location_tags' direct=true
                     +visibility_settings
+                    if tone 
+                        .ui.header tone
+                        each tone.classifications
+                            .ui.header 
+                                |#{confidence}:#{class_name}
+                    
                     +group_widget
                     if in_dev 
                         +print_this
@@ -221,6 +227,11 @@ template(name='post_edit')
                     .ui.header analyzed text
                     if watson.analyzed_text
                         |!{watson.analyzed_text}
+                    if tone 
+                        .ui.header tone
+                        each tone.classifications
+                            .ui.header 
+                                |#{confidence}:#{class_name}
                     if in_dev 
                         +print_this
                     +call_tone key='content'

@@ -100,6 +100,9 @@ Meteor.methods
             else
                 console.log 'analy text', response.analyzed_text
                 console.log response.result
+                Docs.update doc_id, 
+                    $set:
+                        tone:response.result
                 # console.log(JSON.stringify(response, null, 2));
                 # console.log 'adding watson info', doc.title
                 # response = response.result

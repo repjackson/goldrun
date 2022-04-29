@@ -80,6 +80,16 @@ if Meteor.isClient
     Template.user_posts.onCreated ->
         @autorun -> Meteor.subscribe 'user_model_docs', 'post', Router.current().params.username, ->
         
+    Template.user_posts.events 
+        'click .add_user_post': ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            new_id = 
+                Docs.insert 
+                    model:'post'
+                    _author_id:user._id
+                    _author_username:user.username
+            Router.go "/post/#{new_id}/edit"
+        
     Template.profile_layout.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()

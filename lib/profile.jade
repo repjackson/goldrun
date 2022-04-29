@@ -239,9 +239,11 @@ template(name="user_reviews")
             |#{amount}
 
 template(name='user_posts')
-    .ui.header 
+    .ui.inline.header 
         +i name='blog'
         |user posts
+    .ui.circular.button.add_user_post
+        i.large.plus.icon
     .ui.selection.link.animated.large.divided.list
         each user_model_docs 'post'
             a.item.fly_left(href="/post/#{_id}") 

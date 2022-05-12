@@ -48,6 +48,7 @@ template(name='profile_left_column')
             //- +i name='coins'
             //- i.coins.icon
             |#{points} pts
+    div
     if first_name
         .ui.inline.header #{first_name}
     if last_name
@@ -108,7 +109,8 @@ template(name='user_mail')
 template(name='profile_menu_item')
     a.ui.compact.circular.button(href="/user/#{current_user.username}/#{key}" class="{{isActiveRoute regex=key}}" )
         +i name=icon
-        |#{key}
+        unless currentUser.hide_menu_labels
+            |#{key}
                  
                  
 template(name='user_points')                 

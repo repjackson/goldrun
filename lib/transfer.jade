@@ -66,7 +66,7 @@ template(name='transfer_card')
             a.image.zoomer.fly_right(href="/transfer/#{_id}")
                 img.ui.image(src="{{c.url image_id width=600 height=600}}")
         .content
-            with _recipient
+            with _target
                 +user_info
             with _author
                 +user_info
@@ -121,11 +121,12 @@ template(name='transfer_view')
                 .five.wide.column
                     .ui.huge.center.aligned.header
                         |#{amount}pts
-                    if is_dev
+                    if in_dev
                         +remove_button
                     .f14
                         |!{description}
                     .spacer
+                    
                     +image_view key='image_id' label='image' direct=true
                     div 
                     if tags
@@ -133,6 +134,7 @@ template(name='transfer_view')
                         each tags 
                             .ui.big.basic.circular.label #{this}
                     +voting_full
+                    +print_this
                     .ui.small.header
                         i.clock.icon
                         | #{when}
@@ -141,10 +143,10 @@ template(name='transfer_view')
                     +comments
                     //- +array_view key='location_tags' label='location_tags' direct=true
                 .five.wide.column
-                    a.fly_right(href="/user/#{recipient.username}")
-                        img.ui.circular.centered.fluid.pointer.zoom.image(src="{{c.url recipient.image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                    a.fly_right(href="/user/#{_target.username}")
+                        img.ui.circular.centered.fluid.pointer.zoom.image(src="{{c.url _target.image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         .ui.large.center.aligned.header.pointer.zoom
-                            |#{recipient.name}
+                            |#{_target.name}
                             
 
 template(name='transfer_edit')
@@ -161,22 +163,22 @@ template(name='transfer_edit')
                             img.ui.small.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{_author.name}
                     .ui.segment
-                        .ui.header recipient
-                        with recipient
-                            i.large.remove.link.icon.remove_recipient
+                        .ui.header _target
+                        with _target
+                            i.large.remove.link.icon.remove__target
                             a.pointer(href="/user/#{name}")
                                 img.ui.tiny.inline.image(src="{{c.url profile_image_id height=400 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                                 .ui.inline.header #{name}
                                 .ui.small.grey.inline.header #{points}
-                        unless recipient
+                        unless _target
                             .ui.divider
                             // i.large.user.plus.icon
-                            +single_user_edit key='recipient_id' label='search member' icon='user plus' direct=true
+                            +single_user_edit key='_target_id' label='search member' icon='user plus' direct=true
                             // .ui.icon.input
                             //     i.search.icon
                             //     input.search_username(type='text' placeholder='username')
                             // each members
-                            //     .ui.compact.basic.circular.button.add_recipient
+                            //     .ui.compact.basic.circular.button.add__target
                             //         // i.plus.icon
                             //         img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             //         |#{name}

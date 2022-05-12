@@ -61,11 +61,13 @@ Template.registerHelper 'rental', () ->
     # Template.parentData()
 
 
-Template.registerHelper '_recipient', () ->
-    if @recipient_id
+Template.registerHelper '_target', () ->
+    if @target_id
+        Meteor.users.findOne
+            _id: @target_id
+    else if @recipient_id
         Meteor.users.findOne
             _id: @recipient_id
-
 
 Template.registerHelper 'sorting_up', () ->
     parseInt(Session.get('sort_direction')) is 1

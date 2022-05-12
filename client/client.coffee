@@ -96,7 +96,7 @@ Template.rightbar.helpers
 Template.nav.onCreated ->
     Session.setDefault 'limit', 20
     @autorun -> Meteor.subscribe 'me', ->
-    @autorun -> Meteor.subscribe 'users', ->
+    @autorun -> Meteor.subscribe 'all_users', ->
     # @autorun -> Meteor.subscribe 'model_docs','group', ->
     # @autorun -> Meteor.subscribe 'unread_messages'
 

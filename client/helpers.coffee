@@ -62,9 +62,9 @@ Template.registerHelper 'rental', () ->
 
 
 Template.registerHelper '_target', () ->
-    if @target_id
+    if @target_user_id
         Meteor.users.findOne
-            _id: @target_id
+            _id: @target_user_id
     else if @recipient_id
         Meteor.users.findOne
             _id: @recipient_id

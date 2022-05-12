@@ -123,6 +123,8 @@ template(name='transfer_view')
                         |#{amount}pts
                     if in_dev
                         +remove_button
+                        a.ui.icon.button(href="/transfer/#{_id}/edit")
+                            i.pencil.icon
                     .f14
                         |!{description}
                     .spacer
@@ -157,23 +159,25 @@ template(name='transfer_edit')
                     .ui.large.fluid.basic.circular.button.cancel_transfer
                         i.large.remove.red.icon
                         |cancel
+                    if in_dev
+                        +print_this
                     .ui.segment
                         .ui.inline.grey.header sender
                         .ui.inline.header
-                            img.ui.small.image(src="{{c.url _author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            img.ui.small.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{_author.name}
                     .ui.segment
                         .ui.header _target
                         with _target
-                            i.large.remove.link.icon.remove__target
+                            i.large.remove.link.icon.remove_target
                             a.pointer(href="/user/#{name}")
-                                img.ui.tiny.inline.image(src="{{c.url profile_image_id height=400 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                                img.ui.tiny.inline.image(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                                 .ui.inline.header #{name}
                                 .ui.small.grey.inline.header #{points}
                         unless _target
                             .ui.divider
                             // i.large.user.plus.icon
-                            +single_user_edit key='_target_id' label='search member' icon='user plus' direct=true
+                            +single_user_edit key='target_user_id' label='search member' icon='user plus' direct=true
                             // .ui.icon.input
                             //     i.search.icon
                             //     input.search_username(type='text' placeholder='username')

@@ -625,15 +625,16 @@ if Meteor.isClient
     
     Template.key_value_edit.events
         'click .set_key_value': ->
-            # console.log 'hi'
+            console.log 'hi'
             parent = Template.parentData()
             # console.log parent, @key, @value
-            # if Docs.findOne Router.current().params.doc_id,
-            Docs.update parent._id,
-                $set: "#{@key}": @value
-            # else 
-            #     Docs.update Router.current().params.doc_id,
-            #         $set: "#{@key}": @value
+            user = Meteor.users.findOne username:Router.current().params.username
+            if Docs.findOne Router.current().params.doc_id
+                Docs.update parent._id,
+                    $set: "#{@key}": @value
+            else if user
+                Meteor.users.update user._id,
+                    $set: "#{@key}": @value
 
 
 if Meteor.isClient

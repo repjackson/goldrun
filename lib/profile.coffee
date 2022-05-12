@@ -59,6 +59,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_events'
         ), name:'user_events'
+    Router.route '/user/:username/mail', (->
+        @layout 'profile_layout'
+        @render 'user_mail'
+        ), name:'user_mail'
 
 
 

@@ -28,6 +28,7 @@ template(name='profile_layout')
                         +profile_menu_item key='services' icon='wrench'
                         +profile_menu_item key='groups' icon='groups'
                         +profile_menu_item key='comments' icon='chat'
+                        +profile_menu_item key='mail' icon='envelope'
                         .scrolling
                             if subs_ready
                                 +yield
@@ -94,7 +95,15 @@ template(name='profile_left_column')
     +request_button
     // i.refresh.link.icon.calc_user_points
                           
-                          
+                    
+template(name='user_mail')                    
+    .ui.header 
+        +i name='envelope'
+        |user mail  
+    if is_current_user
+        +inbox
+    else 
+        +comments
                             
 template(name='profile_menu_item')
     a.ui.compact.circular.button(href="/user/#{current_user.username}/#{key}" class="{{isActiveRoute regex=key}}" )

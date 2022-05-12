@@ -7,6 +7,10 @@ Router.route '/group/:doc_id/events', (->
     @layout 'group_layout'
     @render 'group_events'
     ), name:'group_events'
+Router.route '/group/:doc_id/about', (->
+    @layout 'group_layout'
+    @render 'group_about'
+    ), name:'group_about'
 Router.route '/group/:doc_id/posts', (->
     @layout 'group_layout'
     @render 'group_posts'
@@ -15,16 +19,40 @@ Router.route '/group/:doc_id/members', (->
     @layout 'group_layout'
     @render 'group_members'
     ), name:'group_members'
-Router.route '/group/:doc_id/tasks', (->
+Router.route '/group/:doc_id/related', (->
     @layout 'group_layout'
-    @render 'group_tasks'
-    ), name:'group_tasks'
+    @render 'group_related'
+    ), name:'group_related'
+Router.route '/group/:doc_id/products', (->
+    @layout 'group_layout'
+    @render 'group_products'
+    ), name:'group_products'
 Router.route '/group/:doc_id/chat', (->
     @layout 'group_layout'
     @render 'group_chat'
     ), name:'group_chat'
 
 
+
+if Meteor.isClient
+    Template.group_widget.onCreated ->
+        @autorun => Meteor.subscribe 'user_from_username', @data
+    Template.group_widget.helpers
+        
+    Template.related_groups.onCreated ->
+        @autorun => Meteor.subscribe 'related_groups', @data._id, ->
+    Template.related_groups.helpers
+        related_group_docs: ->
+            Docs.find 
+                model:'group'
+                _id: $nin:[Router.current().params.doc_id]
+                
+if Meteor.isServer 
+    Meteor.publish 'related_groups', (group_id)->
+        Docs.find 
+            model:'group'
+            _id:$nin:[group_id]
+            
 if Meteor.isClient
     Template.group_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
@@ -77,7 +105,7 @@ if Meteor.isClient
         #         model:'group'
         #         slug: Router.current().params.doc_id
 
-    Template.group_shop.events
+    Template.group_products.events
         'click .add_product': ->
             new_id = 
                 Docs.insert 
@@ -199,7 +227,7 @@ if Meteor.isClient
 
     Template.groups.onCreated ->
         Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'sort_key', 'member_count'
+        Session.setDefault 'sort_key', 'views'
         Session.setDefault 'sort_label', 'available'
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
@@ -254,24 +282,24 @@ if Meteor.isClient
             Session.set('current_group_search',null)
             picked_tags.clear()
 
-        'keyup #search': _.throttle((e,t)->
-            query = $('#search').val()
-            Session.set('current_group_search', query)
-            # console.log Session.get('current_group_search')
-            if e.which is 13
-                search = $('#search').val().trim().toLowerCase()
-                if search.length > 0
-                    picked_tags.push search
-                    console.log 'search', search
-                    # Meteor.call 'log_term', search, ->
-                    $('#search').val('')
-                    Session.set('current_group_search', null)
-                    # # $('#search').val('').blur()
-                    # # $( "p" ).blur();
-                    # Meteor.setTimeout ->
-                    #     Session.set('dummy', !Session.get('dummy'))
-                    # , 10000
-        , 1000)
+        # 'keyup #search': _.throttle((e,t)->
+        #     query = $('#search').val()
+        #     Session.set('current_group_search', query)
+        #     # console.log Session.get('current_group_search')
+        #     if e.which is 13
+        #         search = $('#search').val().trim().toLowerCase()
+        #         if search.length > 0
+        #             picked_tags.push search
+        #             console.log 'search', search
+        #             # Meteor.call 'log_term', search, ->
+        #             $('#search').val('')
+        #             Session.set('current_group_search', null)
+        #             # # $('#search').val('').blur()
+        #             # # $( "p" ).blur();
+        #             # Meteor.setTimeout ->
+        #             #     Session.set('dummy', !Session.get('dummy'))
+        #             # , 10000
+        # , 1000)
 
         'click .calc_group_count': ->
             Meteor.call 'calc_group_count', ->
@@ -291,15 +319,8 @@ if Meteor.isClient
             Meteor.reconnect()
 
 
-        'click .set_sort_direction': ->
-            if Session.get('group_sort_direction') is -1
-                Session.set('group_sort_direction', 1)
-            else
-                Session.set('group_sort_direction', -1)
-
 
     Template.groups.helpers
-        sorting_up: -> parseInt(Session.get('group_sort_direction')) is 1
 
         # toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
         # connection: ->
@@ -335,7 +356,7 @@ if Meteor.isClient
             Docs.find {
                 model:'group'
             },
-                sort: "#{Session.get('group_sort_key')}":parseInt(Session.get('group_sort_direction'))
+                sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
                 # limit:Session.get('group_limit')
 
         users: ->

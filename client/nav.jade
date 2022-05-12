@@ -8,30 +8,12 @@ template(name='nav')
         // else 
         a.icon.item.toggle_leftbar
             i.large.bars.grey.icon
+            
         a.header.icon.item.zoomer(href='/' class="{{isActivePath '/'}}" title='goldrun')
             +ibig name='one-ring'
             // i.large.home.icon
             span.mobile.hidden goldrun
-        a.icon.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
-            // i.fire.big.icon
-            +i name='campfire'
-            .mobile.hidden groups
-        a.icon.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
-            // i.blog.big.icon
-            +i name='blog'
-            .mobile.hidden posts
-        a.icon.item.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title='users')
-            // i.users.big.icon
-            +i name='groups'
-            .mobile.hidden people
-        a.icon.item.fly_right(href="/events" class="{{isActiveRoute 'events'}}" title='events')
-            // i.calendar.big.icon
-            +i name='calendar'
-            span.mobile.hidden events
-        a.icon.item.fly_right.mobile.hidden(href="/products" class="{{isActiveRoute 'products'}}" title='products')
-            // i.shop.big.icon
-            +i name='shop'
-            span products
+        +top_nav_item key='users' icon='groups' label='users'
         // .ui.icon.transparent.input.mobile.hidden
         //     i.search.icon
         //     input.global_search(type='text' placeholder='...')
@@ -79,7 +61,27 @@ template(name='nav')
                     // i.sign.in.big.icon
                     +i name='internal'
                     span.mobile.hidden login
-        
+    .ui.attached.borderless.small.menu.hscroll
+        +top_nav_item key='users' icon='groups' label='users'
+        +top_nav_item key='posts' icon='blog' label='posts'
+        +top_nav_item key='groups' icon='campfire' label='groups'
+        +top_nav_item key='transfers' icon='exchange' label='transfers'
+        // +top_nav_item key='requests' icon='horn' label='requests'
+        +top_nav_item key='products' icon='shop' label='products'
+        // +top_nav_item key='services' icon='service' label='services'
+        // +top_nav_item key='rentals' icon='clock' label='rentals'
+        +top_nav_item key='events' icon='calendar' label='events'
+        // +top_nav_item key='reviews' icon='megaphone' label='reviews'
+            
+                
+template(name='top_nav_item')
+    a.icon.item.zoomer.fly_right(href="/#{key}" class="{{isActiveRoute key}}" title=key)
+        // i.large.users.icon
+        +i name=icon
+        unless currentUser.hide_menu_labels
+            .mobile.hidden #{label} 
+
+
                 
 
 template(name='my_latest_activity')
@@ -238,29 +240,30 @@ template(name='footer')
                 if currentUser.admin
                     with currentUser
                         +boolean_edit key='admin_mode' label='admin mode'
-            .column
-                .ui.dividing.header 
-                    |Customer Care
-                .ui.link.large.animated.list
-                    if currentUser
-                        a.item.zoomer(href="/user/#{currentUser.username}/" class="{{isActiveRoute 'transfers'}}" ) 
-                            |My Account
-                    else    
-                        a.item.zoomer(href="/login" class="{{isActiveRoute 'transfers'}}" ) 
-                            |My Account
-                    a.item.zoomer(href="/privacy" class="{{isActiveRoute 'privacy'}}" ) Privacy Policy
-                    a.item.zoomer(href="/terms" class="{{isActiveRoute 'terms'}}" ) Terms & Conditions
-                    a.item.zoomer(href="/faqs" class="{{isActiveRoute 'faqs'}}" ) FAQs
-                    // a.item.zoomer(href="https://trello.com/invite/b/0g5gAYUv/f138e7f3cdd7d8997d895818eca500b2/website" target='_window') Trello Board
-            .column
-                .ui.dividing.header
-                    |Company Information
-                .ui.link.large.animated.list
-                    a.item.zoomer(href="/contact" class="{{isActiveRoute 'contact'}}" ) Contact Us
-                    a.item.zoomer(href="/about" class="{{isActiveRoute 'about'}}" ) About Us
-                    a.item.zoomer(href="/testimonials" class="{{isActiveRoute 'testimonials'}}" ) Testimonials
-                    a.item.zoomer(href="/corporate_services" class="{{isActiveRoute 'corporate_services'}}" ) Corporate Services
-                    a.item.zoomer(href="/organizations" class="{{isActiveRoute 'organizations'}}" ) Organizations
+            unless currentUser
+                .column.mobile.hidden
+                    .ui.dividing.header 
+                        |Customer Care
+                    .ui.link.large.animated.list
+                        if currentUser
+                            a.item.zoomer(href="/user/#{currentUser.username}/" class="{{isActiveRoute 'transfers'}}" ) 
+                                |My Account
+                        else    
+                            a.item.zoomer(href="/login" class="{{isActiveRoute 'transfers'}}" ) 
+                                |My Account
+                        a.item.zoomer(href="/privacy" class="{{isActiveRoute 'privacy'}}" ) Privacy Policy
+                        a.item.zoomer(href="/terms" class="{{isActiveRoute 'terms'}}" ) Terms & Conditions
+                        a.item.zoomer(href="/faqs" class="{{isActiveRoute 'faqs'}}" ) FAQs
+                        // a.item.zoomer(href="https://trello.com/invite/b/0g5gAYUv/f138e7f3cdd7d8997d895818eca500b2/website" target='_window') Trello Board
+                .column.mobile.hidden
+                    .ui.dividing.header
+                        |Company Information
+                    .ui.link.large.animated.list
+                        a.item.zoomer(href="/contact" class="{{isActiveRoute 'contact'}}" ) Contact Us
+                        a.item.zoomer(href="/about" class="{{isActiveRoute 'about'}}" ) About Us
+                        a.item.zoomer(href="/testimonials" class="{{isActiveRoute 'testimonials'}}" ) Testimonials
+                        a.item.zoomer(href="/corporate_services" class="{{isActiveRoute 'corporate_services'}}" ) Corporate Services
+                        a.item.zoomer(href="/organizations" class="{{isActiveRoute 'organizations'}}" ) Organizations
     if in_dev 
         .ui.segment 
             .ui.header admin

@@ -24,46 +24,6 @@ Tracker.autorun ->
     #                     long:position.coords.longitude
  
 
-Template.home.onCreated ->
-    Session.setDefault 'limit', 20
-    @autorun -> Meteor.subscribe 'public_posts', ->
-    # @autorun -> Meteor.subscribe 'model_docs', 'post', ->
-    @autorun -> Meteor.subscribe 'model_docs', 'chat_message', ->
-    @autorun -> Meteor.subscribe 'model_docs', 'stat', ->
-    @autorun -> Meteor.subscribe 'all_users', ->
-        
-Template.home.onRendered ->
-    Meteor.call 'log_homepage_view', ->        
-Template.home.events 
-    'keyup .add_public_chat': (e,t)->
-        val = t.$('.add_public_chat').val()
-        if e.which is 13
-            if val.length > 0
-                new_id = 
-                    Docs.insert 
-                        model:'chat_message'
-                        chat_type:'public'
-                        body:val
-                val = t.$('.add_public_chat').val('')
-                $('body').toast({
-                    title: "message sent"
-                    # message: 'Please see desk staff for key.'
-                    class : 'success'
-                    position:'bottom center'
-                    # className:
-                    #     toast: 'ui massive message'
-                    # displayTime: 5000
-                    transition:
-                      showMethod   : 'zoom',
-                      showDuration : 250,
-                      hideMethod   : 'fade',
-                      hideDuration : 250
-                    })
-                    
-    'click .remove_comment': ->
-        if confirm 'remove comment? cant be undone'
-            Docs.remove @_id
-    
     
 Template.nav.onRendered ->
     Meteor.setTimeout ->

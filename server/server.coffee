@@ -51,10 +51,10 @@ Meteor.publish 'model_from_child_id', (child_id)->
         slug:child.type
 
 Meteor.publish 'public_posts', (child_id)->
-    Docs.find 
+    Docs.find {
         model:'post'
         private:$ne:true
-
+    }, limit:20
 
 Meteor.publish 'model_fields_from_child_id', (child_id)->
     child = Docs.findOne child_id

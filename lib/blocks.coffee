@@ -431,7 +431,7 @@ if Meteor.isClient
 
     Template.remove_button.events
         'click .remove_doc': (e,t)->
-            if confirm "remove #{@model}?"
+            if confirm "remove #{@doc.model}?"
                 if $(e.currentTarget).closest('.card')
                     $(e.currentTarget).closest('.card').transition('fly right', 1000)
                 else
@@ -443,7 +443,8 @@ if Meteor.isClient
                 Meteor.setTimeout =>
                     Docs.remove @_id
                 , 1000
-                Router.go "/#{@model}/#{@_id}"
+                if @doc.redirect
+                    Router.go "/#{@model}/#{@_id}"
 
     Template.remove_icon.events
         'click .remove_doc': (e,t)->

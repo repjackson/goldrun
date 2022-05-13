@@ -154,9 +154,10 @@ template(name='post_layout')
                     a.ui.button(href="/post/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
                         +i name='home'
                         |home
-                    a.ui.button(href="/post/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
-                        +i name='dna-helix'
-                        |emotion
+                    if watson
+                        a.ui.button(href="/post/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
+                            +i name='dna-helix'
+                            |emotion
                     a.ui.button(href="/post/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
                         +i name='chat'
                         |comments
@@ -196,10 +197,20 @@ template(name='post_tips')
         |tips
     .ui.button.tip_post
         |tip 10pts
-    .ui.large.list
+    .ui.large.divided.list
         each post_tip_docs
             .item #{when} #{amount}
+                if in_dev
+                    +remove_button doc=this redirect=false
         
+template(name='post_stats')
+    .ui.dividing.header 
+        +i name='line-chart'
+        |post stats
+    .ui.big.list
+        .item #{views} views
+        .item #{views_ranking} view ranking
+        .item #{post_views_ranking} post views ranking
         
 template(name='post_comments')
     .ui.header post chat

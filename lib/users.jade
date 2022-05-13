@@ -62,20 +62,20 @@ template(name='users')
             +i name='tag'
             +i name='campfire'
             .scrollin
-                // if session_is 'view_mode' 'grid'
-                if one_result
-                    .ui.stackable.centered.one.cards
+                if session_is 'view_mode' 'grid'
+                    if one_result
+                        .ui.stackable.centered.one.cards
+                            each user_docs
+                                +user_card
+                    else
+                        .ui.stackable.centered.four.cards
+                            each user_docs
+                                +user_card
+                else if session_is 'view_mode' 'list'
+                    .ui.divided.selection.animated.list
                         each user_docs
-                            +user_card
-                else
-                    .ui.stackable.centered.four.cards
-                        each user_docs
-                            +user_card
-            //     else if session_is 'view_mode' 'list'
-            //         .ui.divided.selection.animated.list
-            //             each user_docs
-            //                 +user_item
-            // //             div
+                            +user_item
+            //             div
 
 template(name='user_cloud')
 

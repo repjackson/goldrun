@@ -49,10 +49,10 @@ if Meteor.isClient
                 
 if Meteor.isServer 
     Meteor.publish 'related_groups', (group_id)->
-        Docs.find 
+        Docs.find {
             model:'group'
             _id:$nin:[group_id]
-            
+        }, limit:10
 if Meteor.isClient
     Template.group_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->

@@ -1022,7 +1022,8 @@ h1.ui.header{
 	max-height:250px;
 	/*max-height:85vh;*/
 	padding-top: 1em;
-	/*padding-left: 1em;*/
+	padding-left: 1em;
+    /*background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.33, rgb(0,0,0)), color-stop(0.67, rgb(0,255,255)));*/
 }
 
 .smallcolumn{

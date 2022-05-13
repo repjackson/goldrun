@@ -282,12 +282,12 @@ Meteor.methods
                 lowered_keywords = keyword_array.map (keyword)-> keyword.toLowerCase()
 
                 keywords_concepts = lowered_keywords.concat lowered_keywords
-                Docs.update { _id: doc_id },
-                    $addToSet:
-                        tags:$each:lowered_concepts
-                Docs.update { _id: doc_id },
-                    $addToSet:
-                        tags:$each:lowered_keywords
+                if Docs.findOne doc_id
+                    Docs.update { _id: doc_id },{$addToSet:tags:$each:lowered_concepts}
+                    Docs.update { _id: doc_id },{$addToSet:tags:$each:lowered_keywords}
+                else if Meteor.users.findOne doc_id
+                    Meteor.users.update { _id: doc_id },{$addToSet:tags:$each:lowered_concepts}
+                    Meteor.users.update { _id: doc_id },{$addToSet:tags:$each:lowered_keywords}
                 # final_doc = Docs.findOne doc_id
                 # console.log 'FINAL DOC tags',final_doc.tags
 

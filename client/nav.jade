@@ -28,7 +28,7 @@ template(name='nav')
                 if currentUser.is_admin
                     // i.plus.shield.icon
                     +i name='shield'
-                a.icon.item(href="/inbox")
+                a.icon.item(href="/mail/inbox")
                     // i.inbox.big.icon
                     +i name='inbox'
                 a.item.toggle_topbar.mobile.hidden(title='alerts')
@@ -66,12 +66,13 @@ template(name='nav')
         +top_nav_item key='posts' icon='blog' label='posts'
         +top_nav_item key='groups' icon='campfire' label='groups'
         +top_nav_item key='transfers' icon='exchange' label='transfers'
-        // +top_nav_item key='requests' icon='horn' label='requests'
+        +top_nav_item key='requests' icon='horn' label='requests'
         +top_nav_item key='products' icon='shop' label='products'
-        // +top_nav_item key='services' icon='service' label='services'
-        // +top_nav_item key='rentals' icon='clock' label='rentals'
+        +top_nav_item key='services' icon='service' label='services'
+        +top_nav_item key='rentals' icon='clock' label='rentals'
         +top_nav_item key='events' icon='calendar' label='events'
-        // +top_nav_item key='reviews' icon='megaphone' label='reviews'
+        +top_nav_item key='reviews' icon='megaphone' label='reviews'
+        +top_nav_item key='task' icon='tasks' label='tasks'
             
                 
 template(name='top_nav_item')
@@ -97,7 +98,7 @@ template(name='my_latest_activity')
 
 
 template(name='topbar')
-    .ui.fluid.attached.segment.topbar.top.sidebar
+    .ui.fluid.attached.segment.topbar.top.sidebar(class=darkmode_class)
         .ui.middle.aligned.divided.list
         .ui.list
             each recent_alerts
@@ -169,7 +170,7 @@ template(name='rightbar')
 
 
 template(name='right_nav_item')
-    a.item.toggle_rightbar(href="/user/#{currentUser.username}/#{route}" class="{{isActiveRoute regex='user_dashboard'}}")
+    a.item.toggle_rightbar.zoomer(href="/user/#{currentUser.username}/#{route}" class="{{isActiveRoute regex='user_dashboard'}}")
         +i name=icon cl='ui avatar image'
         // i.dashboard.icon
         |#{label}

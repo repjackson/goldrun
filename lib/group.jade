@@ -111,7 +111,7 @@ template(name='group_card')
             .ui.basic.label
                 i.grey.eye.icon 
                 |#{views}
-            .smallscroll
+            .smallcut
                 |!{description}
             //+ismall name='tags' cl='ui inline image'
             each seven_tags
@@ -133,7 +133,7 @@ template(name='group_card_med')
             a.ui.header.zoomer.fly_right(href="/group/#{_id}")
                 |#{title}
             |#{member_ids.length} members
-            .smallscroll
+            .smallcut
                 |!{description}
             //+ismall name='tags' cl='ui inline image'
             each seven_tags
@@ -233,10 +233,10 @@ template(name='group_posts')
     div
         .ui.stackable.doubling.centered.cards
             each group_post_docs 
-                +post_card
+                +group_card
         .ui.large.link.animated.list
             each group_posts
-                a.item(href="/post/#{_id}")
+                a.item.fly_right(href="/post/#{_id}")
                     img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
                     |#{title}
 

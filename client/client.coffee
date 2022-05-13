@@ -65,6 +65,10 @@ Template.nav.onRendered ->
             .sidebar('attach events', '.toggle_topbar')
     , 2000
     
+Template.footer.helpers
+    all_users: -> Meteor.users.find()
+    all_docs: -> Docs.find()
+
 Template.nav.events
     'click .toggle_rightbar': ->
         $('.ui.rightbar')

@@ -229,12 +229,22 @@ template(name='footer')
     .ui.fluid.segment.stackable.grid
         .three.column.row
             .column
-                a.ui.header(href="/") 
-                    +i name='one-ring'
-                    |goldrun community
                 if currentUser.admin
                     with currentUser
                         +boolean_edit key='admin_mode' label='admin mode'
+                if in_dev
+                    .column
+                        .ui.header 
+                            i.document.icon
+                            |docs
+                        each all_docs 
+                            .ui.label #{title} #{model}
+                    .column
+                        .ui.header 
+                            i.users.icon
+                            |users
+                        each all_users
+                            .ui.label #{username}
             unless currentUser
                 .column.mobile.hidden
                     .ui.dividing.header 

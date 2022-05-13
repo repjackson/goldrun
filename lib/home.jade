@@ -1,11 +1,11 @@
 template(name='home')
     .ui.stackable.padded.grid
         .row
-            .four.wide.column.scrolling
+            .four.wide.column.scrollin
                 +latest_users
-            .eight.wide.column.scrolling
+            .eight.wide.column.scrollin
                 +latest_activity
-            .four.wide.column.scrolling
+            .four.wide.column.scrollin
                 +public_chat
                 +leaderboard
                 +homepage_stats
@@ -32,14 +32,14 @@ template(name='public_chat')
 template(name='latest_activity')
     .ui.header 
         +i name='clock'
-        |latest activity
-    .ui.large.link.selection.animated.divided.list.medscroll
+        |#{latest_docs.count} latest activity
+    .ui.link.cards.scrolling
         each latest_docs
             +home_doc_item
 
 
 template(name='home_doc_item')
-    a.ui.item.fly_right.zoomer(href="/post/#{_id}")
+    a.ui.fluid.card.fly_right(href="/post/#{_id}")
         if youtube_id
             +youtube_view key='youtube_id'
         else if image_id
@@ -75,7 +75,7 @@ template(name='home_doc_item')
 template(name='leaderboard')
     .ui.header 
         +i name='leaderboard'
-        |leaderboard
+        |top #{top_users.count} users
     .ui.animated.selection.link.list.smallscroll
         each top_users
             a.item(href="/user/#{username}")
@@ -87,18 +87,19 @@ template(name='leaderboard')
 template(name='latest_users')
     .ui.header
         +i name='clock'
-        |latest users
-    each latest_user_docs
-        .item
-            img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-            #{username}
-            small #{createdAt}
+        |#{latest_user_docs.count} latest users
+    .ui.selection.animated.link.list
+        each latest_user_docs
+            a.item.fly_right(href="/user/#{username}")
+                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                strong #{username}
+                small {{from_now createdAt}}
         
         
 template(name='latest_posts')
     .ui.header 
         +i name='blog'
-        |latest public posts
+        |#{latest_docs.count} latest public posts
     .ui.large.link.selection.animated.list.smallscroll
         each latest_docs
             a.ui.item.fly_right(href="/post/#{_id}")

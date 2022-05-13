@@ -48,36 +48,6 @@ template(name='posts')
                     .ui.center.aligned.basic.segment
                         i.massive.yin.yang.loading.grey.icon
 
-
-
-template(name='set_post_sort_key')
-    .item.set_sort
-        if color
-            .ui.label(class=color) #{label}
-        else 
-            if emoji
-                em(data-emoji=emoji)
-            else if icon
-                i.icon(class=icon)
-            |#{label}
-        
-        
-                
-                
-        
-        
-
-template(name='set_view_mode_post')
-    .item.set_view
-        i.icon(class=icon)
-        |#{title}
-
-
-// template(name='set_limit')
-    .ui.compact.small.basic.button.set_limit #{amount}
-
-
-
 template(name='post_card')
     .ui.link.card.view_post.pointer.fly_right
         if youtube_id
@@ -89,13 +59,13 @@ template(name='post_card')
             if private 
                 i.large.lock.icon
             .ui.small.grey.inline.header #{when}
-            .smallscroll
+            .smallcut
                 | !{content}
             +voting_full
             if views
                 |#{views} views
             +author_info
-            // +comments_view_small
+            +comments
             if group_id     
                 +group_info
             if watson 
@@ -115,7 +85,9 @@ template(name='post_card_med')
                 | !{content}
             +voting_full
             if views
-                |#{views} views
+                .ui.basic.label(title='views')
+                    i.grey.eye.icon
+                    |#{views}
             +author_info
             // +comments_view_small
             if group_id     
@@ -128,22 +100,25 @@ template(name='post_item')
         a.ui.header(href="/post/#{_id}/view" class=emotion_color) #{title}
         div
         .ui.small.grey.inline.header #{when}
-        | #{content}
+        .smallcut
+            | !{content}
+        +author_info
         each tags 
             .ui.basic.small.label #{this}
         
 
-template(name='post_view')
+template(name='post_layout')
+    +nav
     with current_doc
         .ui.stackable.padded.grid
             .four.column.row 
                 .four.wide.column.scrolling
-                    a.ui.circular.icon.button.fly_left(href="/posts" title='posts')
+                    a.ui.icon.button.fly_left(href="/posts" title='posts')
                         i.chevron.left.icon
                         +i name='post'
                         |posts
                     if can_edit
-                        a.ui.circular.icon.button.fly_down(href="/post/#{_id}/edit" title='edit')
+                        a.ui.icon.button.fly_down(href="/post/#{_id}/edit" title='edit')
                             +i name='pencil'
                     .ui.segment
                         .ui.inline.header   
@@ -155,6 +130,12 @@ template(name='post_view')
                         .item 
                             i.grey.eye.icon
                             |#{views} views
+                        .item 
+                            |#{points}
+                            |points
+                        .item 
+                            |#{tip_total}
+                            |tip total
                     each viewers
                         .ui.label #{username}
                     +array_view key='tags' label='tags' icon='tags' direct=true
@@ -162,11 +143,6 @@ template(name='post_view')
                     +voting_full
                     +array_view key='location_tags' label='location_tags' direct=true
                     +visibility_settings
-                    if tone 
-                        .ui.header tone
-                        each tone.classifications
-                            .ui.header 
-                                |{{to_percent confidence}}% #{class_name}
                     
                     +group_widget
                     if in_dev 
@@ -174,31 +150,60 @@ template(name='post_view')
                     if link
                         +link_view key='link' label='link'
                 .twelve.wide.column.scrolling
-                    .ui.header(class=emotion_color) #{title}
-                    if subtitle
-                        .ui.small.header #{subtitle}
-                    // a.ui.header(href="/user/#{target.username}")
-                    //     |#{target.username}
-                    if youtube_id
-                        +youtube_view key='youtube_id'
-                    .scrolling
-                        |!{content}
-                    img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                    if watson 
-                        .column
-                            +watson_view
-                    // if tone 
-                    //     +tone
-                    div 
-                    .spacer
-                    .spacer
-                    +comments
-                // .four.wide.column
-                
-                    //- .ui.fluid.green.button.submit
-                    //-     i.checkmark.icon
-                    //-     |submit
+                    .ui.big.center.aligned.header(class=emotion_color) #{title}
+                    a.ui.button(href="/post/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
+                        +i name='home'
+                        |home
+                    a.ui.button(href="/post/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
+                        +i name='dna-helix'
+                        |emotion
+                    a.ui.button(href="/post/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
+                        +i name='chat'
+                        |comments
+                    a.ui.button(href="/post/#{_id}/tips" class="{{isActiveRoute regex='tips'}}" )
+                        +i name='coins'
+                        |tips
+                    a.ui.button(href="/post/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
+                        +i name='pie-chart'
+                        |stats
+                    +yield
+                    
+template(name='post_home')                    
+    if subtitle
+        .ui.small.header #{subtitle}
+    // a.ui.header(href="/user/#{target.username}")
+    //     |#{target.username}
+    if youtube_id
+        +youtube_view key='youtube_id'
+    .scrolling
+        |!{content}
+    img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+    if watson 
+        .column
+            +watson_view
+    // if tone 
+    //     +tone
+    div 
+    .spacer
+    .spacer
+    +comments
 
+
+template(name='post_comments')
+    .ui.header post chat
+    +comments
+template(name='post_emotion')
+    .ui.header 
+        +i name='dna-helix'
+        |post emotion
+    +watson_view
+    if tone 
+        .ui.header 
+            +i name='smile'
+            |tone
+        each tone.classifications
+            .ui.header 
+                |{{to_percent confidence}}% #{class_name}
 
 
 template(name='visibility_settings')

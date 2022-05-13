@@ -8,13 +8,21 @@ if Meteor.isClient
         @render 'post_edit'
         ), name:'post_edit'
     Router.route '/post/:doc_id', (->
-        @layout 'layout'
-        @render 'post_view'
-        ), name:'post_view'
-    Router.route '/post/:doc_id/view', (->
-        @layout 'layout'
-        @render 'post_view'
-        ), name:'post_view_long'
+        @layout 'post_layout'
+        @render 'post_home'
+        ), name:'post_home'
+    Router.route '/post/:doc_id/emotion', (->
+        @layout 'post_layout'
+        @render 'post_emotion'
+        ), name:'post_emotion'
+    Router.route '/post/:doc_id/stats', (->
+        @layout 'post_layout'
+        @render 'post_stats'
+        ), name:'post_stats'
+    Router.route '/post/:doc_id/comments', (->
+        @layout 'post_layout'
+        @render 'post_comments'
+        ), name:'post_comments'
     
     
     # Template.posts.onCreated ->
@@ -43,10 +51,10 @@ if Meteor.isClient
             Session.get('sort_key')
             Session.get('sort_direction')
 
-    Template.post_view.onCreated ->
+    Template.post_layout.onCreated ->
         @autorun => @subscribe 'related_group',Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-    Template.post_view.onCreated ->
+    Template.post_layout.onCreated ->
         Meteor.call 'log_view', Router.current().params.doc_id, ->
 
     Template.post_edit.onCreated ->
@@ -79,7 +87,7 @@ if Meteor.isClient
         'click .view_post': ->
             Router.go "/post/#{@_id}"
 
-    Template.post_view.events
+    Template.post_layout.events
         'click .add_post_recipe': ->
             new_id = 
                 Docs.insert 

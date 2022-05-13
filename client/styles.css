@@ -18,7 +18,6 @@ body {
 #mapid { 
   height: 500px !important;
   filter: drop-shadow(0px 0px 8px grey);    
-  
 }
 
 #iron-router-progress {
@@ -219,10 +218,10 @@ body {
     /* border-radius:10px !important; */
 }
 .ui.segment {
-    /*border-radius:10px !important;*/
+    border-radius:20px !important;
 }
 .ui.card {
-    /*border-radius:10px !important;*/
+    border-radius:20px !important;
 }
 /* .menu > .item:hover { */
     /* filter: drop-shadow(0px 0px 5px rgba(100,100,100,.9)) !important; */
@@ -355,7 +354,25 @@ body {
     /*color: black !important;*/
     /*background-color: darkgrey !important; */
     /*box-shadow: inset 5px 5px 10px #333 !important; */
+    /*transition: all 5s ease !important;*/
+    border-radius: 15px !important;
     box-shadow: 2px 2px 2px 2px lightgrey !important; 
+}
+.item:active, .card:active {
+    /*color: black !important;*/
+    /*background-color: darkgrey !important; */
+    /*box-shadow: inset 5px 5px 10px #333 !important; */
+    /*transition: all 5s ease !important;*/
+     transform: translate(0, 4px); 
+    
+    border-radius: 20px !important;
+    box-shadow: 5px 5px 5px 5px grey !important; 
+}
+.button {
+    border-radius: 20px !important;
+    /*color: black !important;*/
+    /*background-color: darkgrey !important; */
+    /*box-shadow: inset 5px 5px 10px #333 !important; */
 }
 
 .home_segment{

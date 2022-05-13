@@ -137,6 +137,8 @@ template(name='user_products')
     .ui.dividing.header 
         +i name='shop'
         |user products
+    each user_product_docs 
+        .ui.header #{title}
                  
 template(name='user_about')                 
     .ui.dividing.header 
@@ -166,6 +168,7 @@ template(name='user_comments')
     .ui.header 
         +i name='chat'
         |user comments
+    +comments
                  
                  
 template(name='user_groups')                 
@@ -173,6 +176,7 @@ template(name='user_groups')
         +i name='groups'
         |user groups
     a.ui.button.fly_right(href="/groups")
+        i.chevron.up.icon
         +i name='campfire'
         |groups
     .ui.list    
@@ -183,6 +187,9 @@ template(name='user_social')
     .ui.header 
         +i name='friends'
         |user social
+    if can_add_friend
+        .ui.button.add_friend
+            |add friend
     +user_friends   
                     
 template(name='user_dashboard')
@@ -201,15 +208,8 @@ template(name='user_dashboard')
                 +user_reviews
             .column
                 +user_posts
-                a.ui.header(href="/groups")
-                    +i name='groups'
-                    |groups
-                .ui.list
-                    each user_groups
-                        a.item(href="/group/#{_id}") #{title}
+                +user_groups
             .column
-                if user_is_resident
-                    +user_resident_info
                 +user_friends
             .column
                 +user_rentals
@@ -218,7 +218,7 @@ template(name='user_dashboard')
    
    
 template(name='user_friends')
-    .ui.header 
+    .ui.dividing.header 
         +i name='friends'
         |friends
     .ui.selection.link.animated.list
@@ -228,20 +228,13 @@ template(name='user_friends')
         each user_friended_by
             +user_info
   
-template(name='user_resident_info')   
-    //- if is_staff
-    +number_view key='unit_number' label='Unit #' direct=true
-    +number_view key='building_number' label='Building #' direct=true
-    +number_view key='healthclub_code' label='Healthclub Code' direct=true
-    +text_view key='building_code' label='Building Code' direct=true
-    +date_view key='start_date' label='Start Date' direct=true
-    +date_view key='expiration_date' label='Expiration Date' direct=true
-   
 template(name="user_messages")               
-    .ui.header 
+    .ui.dividing.header 
         +i name='envelope'
         |messages
-    +send_message_button
+    if currentUser
+        unless is_current_user
+            +send_message_button
     .ui.small.header
         +i name='sent'
         |sent
@@ -261,19 +254,20 @@ template(name='send_message_button')
         |send message
             
 template(name="user_reviews")               
-    .ui.header 
+    .ui.dividing.header 
         +i name='star'
         |reviews
-    .ui.list 
+    .ui.link.selection.animated.list 
         each user_review_docs
             |#{amount}
 
 template(name='user_posts')
-    .ui.inline.header 
+    .ui.inline.dividing.header 
         +i name='blog'
         |user posts
-    .ui.circular.button.add_user_post
-        i.large.plus.icon
+    if is_current_user
+        .ui.circular.button.add_user_post
+            i.large.plus.icon
     .ui.selection.link.animated.large.divided.list
         each user_model_docs 'post'
             a.item.fly_left(href="/post/#{_id}") 

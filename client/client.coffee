@@ -98,9 +98,6 @@ Template.rightbar.events
 Template.rightbar.helpers
     
 
-Template.layout.helpers
-    darkmode_class: ->
-        if Meteor.user().darkmode then 'invert' else ''
     
         
 Template.nav.onCreated ->

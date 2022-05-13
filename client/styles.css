@@ -384,7 +384,7 @@ body {
     margin: 0px !important;
 }
 
- .invert:not(.button){
+ .invert{
     filter: invert(100%) !important; 
      /*background-color:white; */
      /*height: 100%; */

@@ -177,58 +177,22 @@ template(name='right_nav_item')
 
 template(name='leftbar')
     .ui.left.sidebar.ui.vertical.small.menu
-        a.item.zoomer.fly_right.toggle_leftbar(href="/chat")
-            // i.large.inbox.icon
-            +i name='chat'
-            span chat 
-        a.zoomer.item.fly_right.toggle_leftbar(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
-            // i.large.users.icon
-            +i name='task'
-            span tasks 
-        a.zoomer.item.fly_right.toggle_leftbar(href="/products" class="{{isActiveRoute 'products'}}" title='products')
-            // i.large.users.icon
-            +i name='shop'
-            span products 
-        a.icon.item.zoomer.fly_right.toggle_leftbar(href="/transfers" class="{{isActiveRoute 'transfers'}}" title='transfers')
-            // i.large.users.icon
-            +i name='exchange'
-            span transfers 
-        a.icon.item.zoomer.fly_right.toggle_leftbar(href="/orders" class="{{isActiveRoute 'orders'}}" title='orders')
-            // i.large.users.icon
-            +i name='order-history'
-            span orders 
-        a.zoomer.item.fly_right.toggle_leftbar(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
-            // i.large.users.icon
-            +i name='blog'
-            span posts 
-        a.zoomer.item.fly_right.toggle_leftbar(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
-            // i.large.fire.icon
-            +i name='campfire'
-            span groups
-        a.zoomer.item.fly_right.toggle_leftbar(href="/requests" class="{{isActiveRoute 'requests'}}" title='requests')
-            // i.large.fire.icon
-            +i name='hand-holding-heart'
-            span requests
-        a.zoomer.item.fly_right.toggle_leftbar(href="/services" class="{{isActiveRoute 'services'}}" title='services')
-            // i.large.fire.icon
-            +i name='wrench'
-            span services
-        a.zoomer.item.fly_right.toggle_leftbar(href="/buildings" class="{{isActiveRoute 'buildings'}}" title='buildings')
-            // i.large.exchange.icon
-            +i name='apartment'
-            span buildings
-        a.zoomer.item.fly_right.toggle_leftbar(href="/rentals" class="{{isActiveRoute 'rentals'}}" title='rentals')
-            // i.large.exchange.icon
-            +i name='clock'
-            span rentals
-        a.zoomer.item.fly_right.toggle_leftbar(href="/units" class="{{isActiveRoute 'units'}}" title='units')
-            // i.large.exchange.icon
-            +i name='room'
-            span units
-        a.item.toggle_leftbar.no_blink(href="/users" class="{{isActiveRoute '/users'}}")
-            +i name='groups'
-            | users
+        +leftbar_item key='chat' icon='chat'
+        +leftbar_item key='products' icon='shop'
+        +leftbar_item key='transfers' icon='exchange'
+        +leftbar_item key='orders' icon='order-history'
+        +leftbar_item key='posts' icon='blog'
+        +leftbar_item key='groups' icon='campfire'
+        +leftbar_item key='requests' icon='hand-holding-heart'
+        +leftbar_item key='services' icon='wrench'
+        +leftbar_item key='rentals' icon='clock'
+        +leftbar_item key='users' icon='groups'
             
+template(name='leftbar_item')    
+    a.item.zoomer.fly_right.toggle_leftbar(href="/#{key}")
+        // i.large.inbox.icon
+        +i name=icon
+        span #{key}
                 
                 
 template(name='footer')

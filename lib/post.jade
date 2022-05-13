@@ -112,7 +112,7 @@ template(name='post_layout')
     with current_doc
         .ui.stackable.padded.grid
             .four.column.row 
-                .four.wide.column.scrolling
+                .four.wide.column.scrollin
                     a.ui.icon.button.fly_left(href="/posts" title='posts')
                         i.chevron.left.icon
                         +i name='post'
@@ -149,7 +149,7 @@ template(name='post_layout')
                         +print_this
                     if link
                         +link_view key='link' label='link'
-                .twelve.wide.column.scrolling
+                .twelve.wide.column.scrollin
                     .ui.big.center.aligned.header(class=emotion_color) #{title}
                     a.ui.button(href="/post/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
                         +i name='home'
@@ -167,6 +167,7 @@ template(name='post_layout')
                         +i name='pie-chart'
                         |stats
                     +yield
+    +footer
                     
 template(name='post_home')                    
     if subtitle
@@ -189,6 +190,17 @@ template(name='post_home')
     +comments
 
 
+template(name='post_tips')
+    .ui.dividing.header 
+        +i name='money'
+        |tips
+    .ui.button.tip_post
+        |tip 10pts
+    .ui.large.list
+        each post_tip_docs
+            .item #{when} #{amount}
+        
+        
 template(name='post_comments')
     .ui.header post chat
     +comments

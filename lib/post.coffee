@@ -19,6 +19,10 @@ if Meteor.isClient
         @layout 'post_layout'
         @render 'post_stats'
         ), name:'post_stats'
+    Router.route '/post/:doc_id/tips', (->
+        @layout 'post_layout'
+        @render 'post_tips'
+        ), name:'post_tips'
     Router.route '/post/:doc_id/comments', (->
         @layout 'post_layout'
         @render 'post_comments'
@@ -63,6 +67,31 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
 
 
+    Template.post_tips.onCreated ->
+        @autorun => @subscribe 'post_tips',Router.current().params.doc_id, ->
+    Template.post_tips.events 
+        'click .tip_post': ->
+            console.log 'hi'
+            new_id = 
+                Docs.insert 
+                    model:'transfer'
+                    post_id:Router.current().params.doc_id
+                    complete:true
+                    amount:10
+                    tags:['tip']
+    Template.post_tips.helpers 
+        post_tip_docs: ->
+            Docs.find 
+                model:'transfer'
+                
+                
+if Meteor.isServer 
+    Meteor.publish 'post_tips', (post_id)->
+        Docs.find 
+            model:'transfer'
+            post_id:post_id
+                
+if Meteor.isClient
     Template.posts.helpers
         post_docs: ->
             Docs.find {

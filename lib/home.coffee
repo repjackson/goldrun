@@ -6,6 +6,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'model_docs', 'chat_message', ->
         @autorun -> Meteor.subscribe 'model_docs', 'stat', ->
         @autorun -> Meteor.subscribe 'all_users', ->
+        @autorun -> Meteor.subscribe 'latest_users', ->
             
     Template.home.onRendered ->
         Meteor.call 'log_homepage_view', ->        
@@ -63,8 +64,18 @@ if Meteor.isClient
             Meteor.users.find {},
                 sort:points:-1
                 
+    Template.latest_users.helpers
+        latest_user_docs: ->
+            Meteor.users.find {},
+                sort:createdAt:-1
+                limit:10
     Template.public_chat.helpers
         latest_chat_docs: ->
             Docs.find {
                 model:'chat_message'
             }, sort:_timestamp:-1
+
+if Meteor.isServer 
+    Meteor.publish 'latest_users', ->
+        Meteor.users.find {},
+            sort:-createdAt:-1

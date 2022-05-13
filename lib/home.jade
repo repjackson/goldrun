@@ -2,74 +2,16 @@ template(name='home')
     .ui.stackable.padded.grid
         .row
             .four.wide.column.scrolling
-                +menu
-                +home_latest_users
+                +latest_users
             .eight.wide.column.scrolling
                 +latest_activity
             .four.wide.column.scrolling
                 +public_chat
                 +leaderboard
                 +homepage_stats
-                .ui.header 
-                    +i name='money'
-                    |real estate available 
-                each available_properties_docs
-                    .ui.header 
-                        |#{title}
             // iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12223.22752652539!2d-105.27157281318149!3d40.01276107062417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876bedcf1563c603%3A0x8a56ee2b4204da87!2sGold%20Run%20Condos!5e0!3m2!1sen!2sus!4v1649023489666!5m2!1sen!2sus" width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade")
           
           
-template(name='menu')       
-    .ui.vertical.fluid.small.menu
-        a.icon.item.zoomer.fly_right(href="/chat")
-            // i.large.inbox.icon
-            +i name='chat'
-            span chat 
-        // a.zoomer.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
-        //     // i.large.users.icon
-        //     +i name='task'
-        //     span tasks 
-        a.zoomer.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
-            // i.large.users.icon
-            +i name='shop'
-            span products 
-        a.icon.item.zoomer.fly_right(href="/transfers" class="{{isActiveRoute 'transfers'}}" title='transfers')
-            // i.large.users.icon
-            +i name='exchange'
-            span transfers 
-        a.icon.item.zoomer.fly_right(href="/orders" class="{{isActiveRoute 'orders'}}" title='orders')
-            // i.large.users.icon
-            +i name='order-history'
-            span orders 
-        a.zoomer.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
-            // i.large.users.icon
-            +i name='blog'
-            span posts 
-        a.zoomer.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
-            // i.large.fire.icon
-            +i name='campfire'
-            span groups
-        a.zoomer.item.fly_right(href="/requests" class="{{isActiveRoute 'requests'}}" title='requests')
-            // i.large.fire.icon
-            +i name='hand-holding-heart'
-            span requests
-        a.zoomer.item.fly_right(href="/services" class="{{isActiveRoute 'services'}}" title='services')
-            // i.large.fire.icon
-            +i name='wrench'
-            span services
-        a.zoomer.item.fly_right(href="/buildings" class="{{isActiveRoute 'buildings'}}" title='buildings')
-            // i.large.exchange.icon
-            +i name='apartment'
-            span buildings
-        a.zoomer.item.fly_right(href="/rentals" class="{{isActiveRoute 'rentals'}}" title='rentals')
-            // i.large.exchange.icon
-            +i name='clock'
-            span rentals
-        a.zoomer.item.fly_right(href="/units" class="{{isActiveRoute 'units'}}" title='units')
-            // i.large.exchange.icon
-            +i name='room'
-            span units
-        
           
           
 template(name='public_chat')          
@@ -142,12 +84,15 @@ template(name='leaderboard')
                     strong #{username}
                     small #{points}pts
 
-template(name='home_latest_users')
+template(name='latest_users')
     .ui.header
-        +i name='groups'
+        +i name='clock'
         |latest users
     each latest_user_docs
-        .item #{username}
+        .item
+            img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+            #{username}
+            small #{createdAt}
         
         
 template(name='latest_posts')

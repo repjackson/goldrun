@@ -18,7 +18,8 @@ template(name='profile_layout')
                     .twelve.wide.column
                         a.ui.compact.circular.button(href="/user/#{username}")
                             +i name='dashboard'
-                            |dashboard
+                            unless currentUser.hide_menu_labels
+                                |dashboard
                         +profile_menu_item key='about' icon='info'
                         +profile_menu_item key='points' icon='coins'
                         +profile_menu_item key='social' icon='friends'
@@ -98,7 +99,7 @@ template(name='profile_left_column')
                           
                     
 template(name='user_mail')                    
-    .ui.header 
+    .ui.dividing.header 
         +i name='envelope'
         |user mail  
     if is_current_user
@@ -114,7 +115,7 @@ template(name='profile_menu_item')
                  
                  
 template(name='user_points')                 
-    .ui.header 
+    .ui.dividing.header 
         +i name='coins'
         |user balance
     .ui.header
@@ -133,14 +134,32 @@ template(name='user_points')
     
                  
 template(name='user_products')                 
-    .ui.header 
+    .ui.dividing.header 
         +i name='shop'
         |user products
                  
 template(name='user_about')                 
-    .ui.header 
+    .ui.dividing.header 
         +i name='info'
         |user info
+    |!{bio}
+    +text_view key='first_name' label='first name' icon='user'
+    div
+    +text_view key='last_name' label='last name' icon='user'
+    div
+    +text_view key='display_name' label='display name'
+    div
+    +html_view key='bio' label='bio'
+    +text_view key='status' label='status' icon='clock'
+    +text_view key='address' label='address' icon='marker' 
+    +text_view key='city' label='city' icon='marker' 
+    +text_view key='state' label='state' icon='marker' 
+    +phone_view key='phone' label='phone' icon='phone' 
+    +text_view key='company' label='company' icon='business'
+    +text_view key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
+    +text_view key='twitter_link' label='twitter profile ' icon='twitter'
+    +text_view key='facebook_link' label='facebook profile ' icon='facebook'
+   
                  
                  
 template(name='user_comments')                 

@@ -129,6 +129,12 @@ template(name='rightbar')
                 +i name='dashboard' cl='ui avatar image'
                 // i.dashboard.icon
                 |dashboard
+            a.item.zoomer.toggle_darkmode
+                if darkmode
+                    +i name='checkmark'
+                else
+                    +i name='light'
+                |dark mode
             +right_nav_item route='credit' label='credit' icon='money'
             +right_nav_item route='orders' label='orders' icon='check'
             +right_nav_item route='subscriptions' label='subscriptions' icon='check'

@@ -91,10 +91,16 @@ Template.rightbar.events
             Session.set('logging_out', false)
             
             
+    'click .toggle_darkmode': ->
+        Meteor.users.update Meteor.userId(),
+            $set:darkmode:!Meteor.user().darkmode
     
 Template.rightbar.helpers
     
 
+Template.layout.helpers
+    darkmode_class: ->
+        if Meteor.user().darkmode then 'invert' else ''
     
         
 Template.nav.onCreated ->

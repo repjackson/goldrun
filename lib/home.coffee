@@ -78,4 +78,5 @@ if Meteor.isClient
 if Meteor.isServer 
     Meteor.publish 'latest_users', ->
         Meteor.users.find {},
-            sort:-createdAt:-1
+        sort:
+            -createdAt:-1

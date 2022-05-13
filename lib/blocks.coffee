@@ -408,12 +408,12 @@ if Meteor.isClient
 
     Template.email_validation_check.events
         'click .send_verification': ->
-            console.log @
+            # console.log @
             if confirm 'send verification email?'
                 Meteor.call 'verify_email', @_id, ->
                     alert 'verification email sent'
         'click .toggle_email_verified': ->
-            console.log @emails[0].verified
+            # console.log @emails[0].verified
             if @emails[0]
                 Docs.update @_id,
                     $set:"emails.0.verified":true
@@ -423,7 +423,7 @@ if Meteor.isClient
         sort_key_class: -> if Session.equals('sort_key',@key) then 'blue' else ''
     Template.set_sort_key.events
         'click .set_key': (e,t)->
-            console.log @
+            # console.log @
             Session.set('sort_key', @key)
             Session.set('sort_label', @label)
             Session.set('sort_icon', @icon)

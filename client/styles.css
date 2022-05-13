@@ -384,8 +384,8 @@ body {
     margin: 0px !important;
 }
 
- .invert {
-    /*filter: invert(100%) !important; */
+ .invert:not(.image){
+    filter: invert(100%) !important; 
      /*background-color:white; */
      /*height: 100%; */
  } 

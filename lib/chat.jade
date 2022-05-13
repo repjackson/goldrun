@@ -140,8 +140,9 @@ template(name='chat_message')
                     else
                         i.mail.link.outline.large.icon.mark_read(title='mark read')
                 each readers
-                    .ui.tiny.label(title="read by #{username}") #{username}
-                    // img.ui.avatar.image(src="{{c.url image_id width=50 height=50 gravity='face' crop='fill'}}")
+                    a.ui.tiny.label.zoomer.fly_right(href="/user/#{username}" title="read by #{username}") 
+                        // img.ui.avatar.image(src="{{c.url image_id width=50 height=50 gravity='face' crop='fill'}}")
+                        |#{username}
                                                 
 
                                                         

@@ -178,6 +178,13 @@ template(name='user_comments')
     .ui.header 
         +i name='chat'
         |user comments
+    .ui.comments
+        each user_comment_docs
+            a.comment(href="/#{parent_model}/#{parent_id}")
+                .meta
+                    |#{when}
+                .description #{body}
+                +print_this
     +comments
                  
                  

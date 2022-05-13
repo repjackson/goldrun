@@ -134,22 +134,22 @@ template(name='product_view')
                         i.cart.plus.large.icon
                         |add to cart
                     +bookmark_button
-                .column
                     // .ui.large.button.generate_qrcode
                     //     i.large.qrcode.icon
                     //     |generate qr code
                     // #qrcode(width='400px')
-                    .ui.segment
-                        +product_inventory
+                    if is_managing_inventory
+                        .ui.segment
+                            +product_inventory
                     .ui.list
-                        .item #{product_link}
+                        a.item(href=product_link title=product_link target='_window') 
+                            i.external.icon
+                            |external link
                         .item calculated inventory
                         .item #{total_units_sold} total units sold
                         .item $#{total_revenue} total revenue
-                        .item expected inventory
-                        .item query params: #{query_params}
-                        .item #{last_inventory_boh_record} most recent BOH record
-                        .item #{last_inventory_foh_record} most recent FOH record
+                        // .item expected inventory
+                        // .item query params: #{query_params}
                     i.refresh.large.link.icon.calc_stats(title='refresh_stats')
                 .column
                     +product_reviews
@@ -365,33 +365,40 @@ template(name='product_edit')
                 .column
                     div
                     +html_edit key='description' label='description' direct=true
+                    +call_watson key='description'
+                    +boolean_edit key='is_managing_inventory' label='manage inventory' icon='inventory'
                     if can_delete
                         .ui.red.button.delete_product
                             i.remove.icon   
                             | delete
-                    .ui.header 
-                        +i name='field-and-tractor'
-                        |source
-                        with product_source
-                            a.ui.header.pointer.zoomer(href="/source/#{_id}")
-                                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-                                |#{title}
-                            i.remove.link.circular.red.icon.remove_source
-                            // if is_admin
-                            
-                    unless source_id
-                        // if is_admin
-                        .ui.icon.input 
-                            i.building.icon
-                            input.source_search(type='text' placeholder='search source title')
-                        .ui.selection.link.animated.list
-                            each search_results
-                                .ui.item.pick_source.zoomer
-                                    img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-                                    |#{title}
+                    +source_picker
                             
                             
 template(name='message_author_button')
     .ui.circular.large.button.message_author
         +i name='envelope'
         |message #{_author_username}
+
+
+
+template(name='source_picker')
+    .ui.header 
+        +i name='field-and-tractor'
+        |source
+        with product_source
+            a.ui.header.pointer.zoomer(href="/source/#{_id}")
+                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                |#{title}
+            i.remove.link.circular.red.icon.remove_source
+            // if is_admin
+            
+    unless source_id
+        // if is_admin
+        .ui.icon.input 
+            i.building.icon
+            input.source_search(type='text' placeholder='search source title')
+        .ui.selection.link.animated.list
+            each search_results
+                .ui.item.pick_source.zoomer
+                    img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                    |#{title}

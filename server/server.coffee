@@ -202,19 +202,6 @@ Meteor.methods
                 views:1
             $set:
                 last_viewed_timestamp:Date.now()
-    log_homepage_view: ()->
-        doc = Docs.findOne model:'stat'
-        if Meteor.user()
-            Docs.update doc._id,
-                $inc:
-                    homepage_loggedin_views:1
-        else 
-            Docs.update doc._id,
-                $inc:
-                    homepage_anon_views:1
-        Docs.update doc._id,
-            $inc:
-                homepage_views:1
 
     insert_log: (type, user_id)->
         if type

@@ -83,6 +83,15 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_groups_owner', Router.current().params.username, ->
     Template.user_posts.onCreated ->
         @autorun -> Meteor.subscribe 'user_model_docs', 'post', Router.current().params.username, ->
+    Template.user_comments.onCreated ->
+        @autorun -> Meteor.subscribe 'user_model_docs', 'comment', Router.current().params.username, ->
+        
+    Template.user_comments.helpers
+        user_comment_docs: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                model:'comment'
+                _author_id:user._id
         
     Template.user_posts.events 
         'click .add_user_post': ->

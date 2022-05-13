@@ -40,11 +40,27 @@ if Meteor.isClient
             if confirm 'remove comment? cant be undone'
                 Docs.remove @_id
         
+if Meteor.isServer 
+    Meteor.methods 
+        log_homepage_view: ->
+            stat_doc = Docs.findOne model:'stat'
+            console.log stat_doc
+            unless stat_doc
+                Docs.insert 
+                    model:'stat'
+            Docs.update stat_doc._id, 
+                $inc:homepage_views:1
+            if Meteor.user()
+                Docs.update stat_doc._id,
+                    $inc:homepage_loggedin_views:1
+            else 
+                Docs.update stat_doc._id,
+                    $inc:homepage_anon_views:1
 
-
-    Template.top_users.helpers
+if Meteor.isClient
+    Template.top_users_points.helpers
         top_user_docs: ->
-            Meteor.users.find {},
+            Meteor.users.find {points:$exists:true},
                 sort:points:-1
     Template.latest_activity.helpers
         latest_docs: ->
@@ -52,11 +68,12 @@ if Meteor.isClient
                 model:$ne:'chat_message'
                 # private:$ne:true
             }, sort:_timestamp:-1
-    Template.home.helpers
+    Template.homepage_stats.helpers
         homepage_data_doc: ->
             doc = 
                 Docs.findOne 
                     model:'stat'
+    Template.home.helpers
         latest_post_docs: ->
             Docs.find {
                 model:'post'

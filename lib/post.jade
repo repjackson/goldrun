@@ -124,15 +124,8 @@ template(name='post_layout')
                         if can_edit
                             a.ui.icon.button.fly_down(href="/post/#{_id}/edit" title='edit')
                                 +i name='pencil'
-                        a.ui.link.card(href="/user/#{_author.username}")
-                            img.ui.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                            .content
-                                small 
-                                    i.edit.icon
-                                    |author
-                                a.ui.inline.header
-                                    |#{_author.username}
-                                    |#{points}pts
+                        +group_widget
+                        +author_block
                         .ui.list
                             .item 
                                 i.grey.eye.icon
@@ -151,13 +144,15 @@ template(name='post_layout')
                         +array_view key='location_tags' label='location_tags' direct=true
                         +visibility_settings
                         
-                        +group_widget
                         if in_dev 
                             +print_this
                         if link
                             +link_view key='link' label='link'
                     .twelve.wide.column.scrollin
-                        .ui.big.center.aligned.header(class=emotion_color) #{title}
+                        .ui.big.center.aligned.header(class=emotion_color) 
+                            if private 
+                                i.large.lock.icon(title='private')
+                            |#{title}
                         a.ui.button(href="/post/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
                             +i name='home'
                             |home
@@ -248,21 +243,24 @@ template(name='post_edit')
         .ui.stackable.padded.grid
             .row 
                 .ten.wide.column
-                    +text_edit key='title' label='title' direct=true
-                    +text_edit key='subtitle' label='subtitle' direct=true
-                    +html_edit key='content' label='content' direct=true
+                    +text_edit key='title' label='title' direct=true icon='header'
+                    +text_edit key='subtitle' label='subtitle' direct=true icon='header'
+                    +html_edit key='content' label='content' direct=true icon='content'
                     +call_watson mode='html' key='content'
-                    .ui.header analyzed text
                     if watson.analyzed_text
+                        .ui.header
+                            i.calculator.icon
+                            |analyzed text
                         |!{watson.analyzed_text}
+                        +call_tone key='content'
                     if tone 
                         .ui.header tone
-                        each tone.classifications
-                            .ui.header 
-                                |#{confidence}:#{class_name}
+                        .ui.large.list
+                            each tone.classifications
+                                .item
+                                    |#{confidence}: #{class_name}
                     if in_dev 
                         +print_this
-                    +call_tone key='content'
                     if is_dev
                         +single_user_edit key='_author_id' label='author' icon='user' direct=true
                     else 

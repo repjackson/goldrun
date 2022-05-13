@@ -263,8 +263,9 @@ template(name='image_view')
     
 template(name='image_edit')
     .ui.form
-        if icon
-            i.icon(class=icon)
+        // if icon
+        //     i.icon(class=icon)
+        +i name='image'
         .ui.inline.header
             if title
                 |#{title}

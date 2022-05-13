@@ -390,18 +390,6 @@ template(name='group_widget')
                     .ui.header 
                         |#{title}
                     |!{description}
-// template(name='group_widget')
-//     if current_doc.group_id
-//         .ui.header 
-//             +i name='campfire'
-//             |related group
-//         with related_group_doc
-//             a.ui.card.fly_right(href="/group/#{_id}")
-//                 img.ui.image(src="{{c.url image_id width=500 height=500}}")
-//                 .content
-//                     .ui.header 
-//                         |#{title}
-
                
                 
 template(name='group_picker')
@@ -414,12 +402,13 @@ template(name='group_picker')
             .ui.header 
                 |#{product_groups.length}
                 |picked groups
-            .ui.list
-                with group_doc
-                    a.ui.item(href="/group/#{_id}")
-                        img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-                        |#{title}
-                    i.remove.link.circular.icon.zoomer.remove_group
+            with group_doc
+                a.ui.big.basic.label(href="/group/#{_id}")
+                    img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                    |#{title}
+                .ui.compact.button.remove_group.zoomer(title='clear selection')
+                    i.remove.large.icon
+                    |remove
         else 
             .ui.icon.large.input 
                 if group_search_value
@@ -433,6 +422,8 @@ template(name='group_picker')
                         .ui.item.pick_group.zoomer
                             img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                             |#{title}
+                            if private 
+                                i.lock.icon(title='private group')
             // else if group_search_value
             .ui.button.create_group
                 |add #{group_search_value}

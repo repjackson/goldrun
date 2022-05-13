@@ -258,10 +258,6 @@ if Meteor.isClient
     #     'click .set_limit': ->
     #         Session.set('limit',parseInt(@amount))
 
-    Template.group_widget.onCreated ->
-        @autorun => Meteor.subscribe 'user_from_username', @data
-    Template.group_widget.helpers
-        
 
 
     Template.big_user_card.onCreated ->

@@ -42,6 +42,10 @@ if Meteor.isClient
         
 
 
+    Template.top_users.helpers
+        top_user_docs: ->
+            Meteor.users.find {},
+                sort:points:-1
     Template.latest_activity.helpers
         latest_docs: ->
             Docs.find {

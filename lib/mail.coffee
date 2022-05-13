@@ -1,47 +1,75 @@
 if Meteor.isClient
-    Router.route '/inbox', (->
+    Router.route '/mail/inbox', (->
         @layout 'layout'
         @render 'inbox'
         ), name:'inbox'
+    Router.route 'mail/drafts', (->
+        @layout 'layout'
+        @render 'inbox'
+        ), name:'drafts'
+    Router.route 'mail/sent', (->
+        @layout 'layout'
+        @render 'inbox'
+        ), name:'sent'
+    Router.route 'mail/archive', (->
+        @layout 'layout'
+        @render 'inbox'
+        ), name:'archive'
 
-    Template.mail.onCreated ->
-        # @autorun -> Meteor.subscribe 'user_model_docs', 'message', Router.current().params.username, ->
+    Template.inbox.onCreated ->
+        @autorun -> Meteor.subscribe 'user_model_docs', 'message', Router.current().params.username, ->
         @autorun => Meteor.subscribe 'my_received_messages', ->
         @autorun => Meteor.subscribe 'my_sent_messages', ->
         # @autorun => Meteor.subscribe 'inbox', Router.current().params.username
         @autorun => Meteor.subscribe 'model_docs', 'stat', ->
 
-    Template.send_message_button.events
-        'click .send_message': ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            if Meteor.userId()
-                if Meteor.userId() is current_user._id
-                    new_message_id = 
-                        Docs.insert 
-                            model:'message'
-                else 
-                    new_message_id = 
-                        Docs.insert 
-                            model:'message'
-                            target_user_id:current_user._id
-                            target_username:current_user.username
-                    Router.go "/message/#{new_id}/edit"
-    Template.mail.events
+if Meteor.isServer 
+    Meteor.publish 'my_received_messages', ->
+        Docs.find 
+            model:'message'
+            target_user_id:Meteor.userId()
+    Meteor.publish 'my_sent_messages', ->
+        Docs.find 
+            model:'message'
+            _author_id:Meteor.userId()
+
+if Meteor.isClient
+    Template.inbox.events
         'click .add_message': ->
             new_message_id =
                 Docs.insert
                     model:'message'
+                    cost:10
+                    sent:false
             Router.go "/message/#{new_message_id}/edit"
 
+    Template.recent_logs.onCreated ->
+        @autorun => @subscribe 'recent_logs', ->
+            
+if Meteor.isServer
+    Meteor.publish 'recent_logs', ->
+        Docs.find 
+            model:'log'
+            
+if Meteor.isClient            
+    Template.recent_logs.helpers
+        unread_log_count: ->
+            Docs.find(
+                model:'log'
+                read_user_ids:$nin:[Meteor.userId()]
+            ).count()
 
-
-    Template.mail.helpers
+        logs: ->
+            Docs.find {
+                model:'log'
+            }, sort:_timestamp:-1
+    Template.inbox.helpers
         my_sent_messages: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {
                 model:'message'
                 _author_id: Meteor.userId()
-                # recipient: target_user._id
+                # target: target_user._id
             },
                 sort:_timestamp:-1
 
@@ -50,27 +78,19 @@ if Meteor.isClient
             Docs.find {
                 model:'message'
                 target_user_id: Meteor.userId()
-                # recipient: target_user._id
+                # target: target_user._id
             },
                 sort:_timestamp:-1
 
     Template.toggle_view_icon.helpers
-        is_read: ->
-            @read_ids and Meteor.userId() in @read_ids
+        has_read: ->
+            @read_user_ids and Meteor.userId() in @read_user_ids
     Template.toggle_view_icon.events
         'click .mark_read': ->
             Meteor.call 'mark_read', @_id, ->
         'click .mark_unread': ->
             Meteor.call 'mark_unread', @_id, ->
             
-if Meteor.isServer
-    Meteor.publish 'inbox', (username)->
-        Docs.find
-            model:'offer'
-
-
-
-
 
 if Meteor.isClient
     Router.route '/messages/', (->
@@ -79,7 +99,7 @@ if Meteor.isClient
         ), name:'messages'
     
 
-    Router.route '/message/:doc_id/view', (->
+    Router.route '/message/:doc_id', (->
         @layout 'layout'
         @render 'message_view'
         ), name:'message_view'
@@ -93,12 +113,6 @@ if Meteor.isClient
 
 
 
-if Meteor.isServer
-    Meteor.publish 'product_from_message_id', (message_id)->
-        message = Docs.findOne message_id
-        Docs.find 
-            _id:message.product_id
-            
             
 if Meteor.isClient
     Router.route '/message/:doc_id/edit', (->
@@ -108,18 +122,18 @@ if Meteor.isClient
         
         
     Template.message_edit.onCreated ->
-        @autorun => Meteor.subscribe 'recipient_from_message_id', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'target_from_message_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
 
 
     Template.message_edit.helpers
-        recipient: ->
+        _target: ->
             message = Docs.findOne Router.current().params.doc_id
             if message.target_user_id
                 Meteor.users.findOne
                     _id: message.target_user_id
-        members: ->
+        available_targets: ->
             message = Docs.findOne Router.current().params.doc_id
             Meteor.users.find 
                 # levels: $in: ['member']
@@ -134,16 +148,18 @@ if Meteor.isClient
             else 
                 Meteor.user().points
         
-        can_submit: ->
+        can_send: ->
             true
             message = Docs.findOne Router.current().params.doc_id
             message.description and message.target_user_id
+            
+            
     Template.message_edit.events
-        'click .add_recipient': ->
+        'click .add_target': ->
             Docs.update Router.current().params.doc_id,
                 $set:
                     target_user_id:@_id
-        'click .remove_recipient': ->
+        'click .remove_target': ->
             Docs.update Router.current().params.doc_id,
                 $unset:
                     target_user_id:1
@@ -179,16 +195,16 @@ if Meteor.isClient
         #     # , 7000
 
     
-        'blur .edit_description': (e,t)->
-            textarea_val = t.$('.edit_textarea').val()
-            Docs.update Router.current().params.doc_id,
-                $set:description:textarea_val
+        # 'blur .edit_description': (e,t)->
+        #     textarea_val = t.$('.edit_textarea').val()
+        #     Docs.update Router.current().params.doc_id,
+        #         $set:description:textarea_val
     
     
-        'blur .edit_text': (e,t)->
-            val = t.$('.edit_text').val()
-            Docs.update Router.current().params.doc_id,
-                $set:"#{@key}":val
+        # 'blur .edit_text': (e,t)->
+        #     val = t.$('.edit_text').val()
+        #     Docs.update Router.current().params.doc_id,
+        #         $set:"#{@key}":val
     
     
 
@@ -196,7 +212,7 @@ if Meteor.isClient
 if Meteor.isClient
     Template.message_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'recipient_from_message_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'target_from_message_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
     Template.message_edit.onRendered ->
 
@@ -221,16 +237,16 @@ if Meteor.isClient
                         Swal.fire(
                             title:"message sent"
                             icon:'success'
-                            showClass:
-                                popup: 'swal2-noanimation',
-                                backdrop: 'swal2-noanimation'
-                            hideClass:
-                                popup: '',
-                                backdrop: ''
+                            # showClass:
+                            #     popup: 'swal2-noanimation',
+                            #     backdrop: 'swal2-noanimation'
+                            # hideClass:
+                            #     popup: '',
+                            #     backdrop: ''
                             showConfirmButton: false
                             timer: 1000
                         )
-                        Router.go "/message/#{@_id}/view"
+                        Router.go "/message/#{@_id}"
             )
 
 
@@ -241,7 +257,7 @@ if Meteor.isServer
     Meteor.methods
         send_message: (message_id)->
             message = Docs.findOne message_id
-            recipient = Meteor.users.findOne message.target_user_id
+            target = Meteor.users.findOne message.target_user_id
             sender = Meteor.users.findOne message._author_id
 
             console.log 'sending message', message

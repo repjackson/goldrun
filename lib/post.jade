@@ -185,18 +185,11 @@ template(name='post_home')
     //     |#{target.username}
     if youtube_id
         +youtube_view key='youtube_id'
-    .scrolling
-        |!{content}
+    // .scrolling
+    |!{content}
     img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-    if watson 
-        .column
-            +watson_view
     // if tone 
     //     +tone
-    div 
-    .spacer
-    .spacer
-    +comments
 
 
 template(name='post_tips')

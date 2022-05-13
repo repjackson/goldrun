@@ -5,6 +5,7 @@ body {
     font-family: 'Ubuntu', sans-serif !important;
     /* font-size: 110% !important; */
     /*line-height: 200% !important;*/
+    transition: all .5s !important;
     /* filter: invert(.9) !important; */
     /* background: rgba(0,0,0,.9) !important; */
     /* background: rgba(200, 200, 200, .2) !important */
@@ -386,6 +387,11 @@ body {
 
  .invert{
     filter: invert(100%) !important; 
+     /*background-color:white; */
+     /*height: 100%; */
+ } 
+ .invert > img {
+    filter: invert(0%) !important; 
      /*background-color:white; */
      /*height: 100%; */
  } 

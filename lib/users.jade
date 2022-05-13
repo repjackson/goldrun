@@ -79,8 +79,6 @@ template(name='users')
 
 template(name='user_cloud')
 
-
-
 template(name='user_card')
     a.card.zoomer.fly_left(href="/user/#{username}")
         // unless background_image_id
@@ -137,9 +135,6 @@ template(name='user_card')
                 .ui.inline.header(title='profile views') 
                     i.eye.icon
                     |#{profile_views}
-                    
-            
-            
             
 template(name='user_item')
     a.item.fly_left.zoomer(href="/user/#{username}")
@@ -185,183 +180,6 @@ template(name='user_item')
             //     i.teal.concierge.bell.pointer.request.big.icon
             //     i.blue.chat.pointer.message.big.disabled.icon
                     
-                    
 template(name='addtoset_user')
     // .ui.small.compact.button.toggle_value(class=ats_class) #{key} #{value}
     .ui.small.compact.button.toggle_value(class=ats_class) +#{value}
-    
-    
-    
-template(name='residents') 
-    .ui.padded.grid
-        .row
-            .four.wide.column
-                .ui.inline.header
-                    +i name='groups'
-                    |residents
-                i.plus.large.circular.link.icon.add_resident
-            .twelve.wide.column
-                .ui.left.icon.huge.input
-                    i.search.icon
-                    input.name_search(type='text' placeholder='lookup resident...')
-                .ui.centered.four.stackable.cards
-                    each resident_docs
-                        +resident_card
-                
-                
-template(name='resident_card')                
-    .ui.card
-        .image
-            //- a(href="/user/#{username}/")
-            //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
-            if kiosk_photo
-                img.ui.image(src="{{c.url kiosk_photo width=400 height=400 crop='fit'}}")
-            else if image_id
-                img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
-        .content
-            a(href="/resident/#{_id}/")
-                h2.ui.center.aligned.header #{first_name} #{last_name} 
-                .ui.small.header @#{username}
-            +text_view key='first_name' label='First Name'
-            +text_view key='last_name' label='Last Name'
-            +text_view key='address' label='Address'
-            +number_view key='unit_number' label='Unit #'
-            +number_view key='building_number' label='Building #'
-            +text_view key='email' label='Email'
-            +phone_view key='phone' label='Phone'
-            +date_view key='start_date' label='Start Date'
-            +date_view key='expiration_date' label='Expiration Date'
-            +user_check_steps            
-            +boolean_edit key='checked_in' label='currently checked in' direct=true
-
-
-            
-template(name='resident_edit')         
-    with current_doc
-        .ui.padded.two.column.centered.stackable.grid
-            .column
-                .image
-                    //- a(href="/user/#{username}/")
-                    //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
-                    if kiosk_photo
-                        img.ui.image(src="{{c.url kiosk_photo width=400 height=400 crop='fit'}}")
-                    else if image_id
-                        img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
-                a(href="/user/#{username}/")
-                    h2.ui.center.aligned.header #{first_name} #{last_name} 
-                    .ui.small.header @#{username}
-                +text_edit key='first_name' label='First Name' direct=true
-                +text_edit key='last_name' label='Last Name' direct=true
-                +boolean_edit key='checked_in' label='currently checked in' direct=true
-                // +text_edit key='address' label='Address' direct=true
-                +number_edit key='unit_number' label='Unit #' direct=true
-                +number_edit key='building_number' label='Building #' direct=true
-                +text_edit key='email' label='Email' direct=true
-            .column
-                +phone_edit key='phone' label='Phone' direct=true
-                +date_edit key='start_date' label='Start Date' direct=true
-                +date_edit key='expiration_date' label='Expiration Date' direct=true
-                +array_edit key='roles' label='roles' icon='shield' direct=true
-                +user_check_steps    
-                a.ui.big.fluid.green.button(href="/resident/#{_id}")
-                    i.checkmark.icon
-                    |save
-                    
-                    
-                    
-template(name='resident_view')         
-    with current_doc
-        .ui.padded.three.column.stackable.grid
-            .column
-                a.ui.button(href="/residents")
-                    i.chevron.left.icon
-                    i.large.users.icon
-                    |residents
-                .image
-                    //- a(href="/user/#{username}/")
-                    //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
-                    if kiosk_photo
-                        img.ui.image(src="{{c.url kiosk_photo width=400 height=400 crop='fit'}}")
-                    else if image_id
-                        img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
-                h2.ui.center.aligned.header #{first_name} #{last_name} 
-                // .ui.small.header @#{username}
-                +text_view key='first_name' label='first name' direct=true
-                +text_view key='last_name' label='last name' direct=true
-                +text_view key='address' label='address' direct=true
-                // +boolean_edit key='checked_in' label='currently checked in' direct=true
-                if checked_in
-                    .ui.big.green.label 
-                        |checked in
-                if last_checkout_timestamp
-                    .ui.header last checkout: {{from_now last_checkout_timestamp}}
-                if can_edit
-                    a.ui.big.button(href="/resident/#{_id}/edit")
-                        i.pencil.icon
-                        |edit
-            .column
-                +number_view key='unit_number' label='unit #' direct=true
-                +number_view key='building_number' label='building #' direct=true
-                +text_view key='email' label='email' direct=true
-                +phone_view key='phone' label='phone' direct=true
-            .column
-                +date_view key='start_date' label='start date' direct=true
-                +date_view key='expiration_date' label='expiration date' direct=true
-                +user_check_steps    
-                unless checked_in
-                    .ui.big.button.checkin
-                        i.green.checkmark.icon
-                        |checkin
-                if checked_in
-                    .ui.big.button.checkout
-                        i.red.checkmark.icon
-                        |checkout
-                .ui.header 
-                    +i name='treadmill'
-                    |health club checkins 
-                .ui.list 
-                    each resident_checkins
-                        .item 
-                            .ui.header #{when}
-                            if active
-                                .ui.green.label #{active}
-                            if checkout_timestamp
-                                .ui.label checked out {{from_now checkout_timestamp}}
-                            +print_this
-
-            
-// template(name='users') 
-//     .ui.padded.grid
-//         .row
-//             .sixteen.wide.column
-//                 //- .ui.center.aligned.header 
-//                 //-     +i name='groups'
-//                 //-     //- i.users.icon
-//                 //-     |users
-//                 .ui.left.icon.huge.fluid.input
-//                     i.search.icon
-//                     input.username_search(type='text' placeholder='lookup user...')
-//                 .ui.centered.four.stackable.cards
-//                     each users
-//                         +user
-// template(name='user')                
-//     .ui.card
-//         .image
-//             //- a(href="/user/#{username}/")
-//             //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
-//             if kiosk_photo
-//                 img.ui.image(src="{{c.url kiosk_photo width=400 height=400 crop='fit'}}")
-//             else if image_id
-//                 img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
-//         .content
-//             a(href="/user/#{username}/")
-//                 h2.ui.center.aligned.header #{first_name} #{last_name} 
-//                 .ui.small.header @#{username}
-//             each five_tags
-//                 .ui.compact.small.circular.basic.button.person_tag(class=tag_class) 
-//                     strong #{this}
-//             +text_view key='first_name' label='First Name'
-//             +text_view key='last_name' label='Last Name'    
-
-
-

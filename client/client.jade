@@ -82,10 +82,12 @@ template(name='not_found')
 template(name='send_points_button')
     .ui.circular.button.send_points.fly_right
         +i name='donate'
-        |send points
+        unless currentUser.hide_menu_labels
+            |send points
         
         
 template(name='request_button')
     .ui.button.request
         +i name='hand-holding-heart'
-        |request
+        unless currentUser.hide_menu_labels
+            |request

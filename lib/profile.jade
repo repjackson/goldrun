@@ -68,9 +68,10 @@ template(name='profile_left_column')
     if twitter_link
         .ui.circular.compact.button(href=twitter_link target='_window')
             +i name='twitter'
-    a.ui.large.icon.compact.button(href="/user/#{username}/edit" title='profile settings')
+    a.ui.large.icon.compact.button.fly_up(href="/user/#{username}/edit" title='profile settings')
         i.cog.large.icon
-        |account
+        unless currentUser.hide_menu_labels
+            |account
     .ui.list 
         .item 
             i.eye.grey.icon
@@ -152,7 +153,6 @@ template(name='user_about')
     .ui.dividing.header 
         +i name='info'
         |user info
-    |!{bio}
     +text_view key='first_name' label='first name' icon='user'
     div
     +text_view key='last_name' label='last name' icon='user'

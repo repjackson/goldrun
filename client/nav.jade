@@ -8,11 +8,11 @@ template(name='nav')
         // else 
         a.icon.item.toggle_leftbar
             i.large.bars.grey.icon
-            
         a.header.icon.item.zoomer(href='/' class="{{isActivePath '/'}}" title='goldrun')
             +ibig name='one-ring'
             // i.large.home.icon
-            span.mobile.hidden goldrun
+            unless currentUser.hide_menu_labels
+                span.mobile.hidden goldrun
         +top_nav_item key='users' icon='groups' label='users'
         // .ui.icon.transparent.input.mobile.hidden
         //     i.search.icon
@@ -61,7 +61,7 @@ template(name='nav')
                     // i.sign.in.big.icon
                     +i name='internal'
                     span.mobile.hidden login
-    .ui.attached.borderless.small.menu.hscroll(class=darkmode_class))
+    .ui.attached.borderless.small.menu.hscroll(class=darkmode_class)
         +top_nav_item key='users' icon='groups' label='users'
         +top_nav_item key='posts' icon='blog' label='posts'
         +top_nav_item key='groups' icon='campfire' label='groups'
@@ -197,51 +197,21 @@ template(name='leftbar_item')
                 
 template(name='footer')
     .ui.fluid.segment.stackable.grid
-        .three.column.row
+        .two.column.row
             .column
                 if currentUser.admin
                     with currentUser
                         +boolean_edit key='admin_mode' label='admin mode'
                 if in_dev
-                    .column
-                        .ui.header 
-                            i.document.icon
-                            |docs
-                        each all_docs 
-                            .ui.label #{title} #{model}
-                    .column
-                        .ui.header 
-                            i.users.icon
-                            |users
-                        each all_users
-                            .ui.label #{username}
-            unless currentUser
-                .column.mobile.hidden
-                    .ui.dividing.header 
-                        |Customer Care
-                    .ui.link.large.animated.list
-                        if currentUser
-                            a.item.zoomer(href="/user/#{currentUser.username}/" class="{{isActiveRoute 'transfers'}}" ) 
-                                |My Account
-                        else    
-                            a.item.zoomer(href="/login" class="{{isActiveRoute 'transfers'}}" ) 
-                                |My Account
-                        a.item.zoomer(href="/privacy" class="{{isActiveRoute 'privacy'}}" ) Privacy Policy
-                        a.item.zoomer(href="/terms" class="{{isActiveRoute 'terms'}}" ) Terms & Conditions
-                        a.item.zoomer(href="/faqs" class="{{isActiveRoute 'faqs'}}" ) FAQs
-                        // a.item.zoomer(href="https://trello.com/invite/b/0g5gAYUv/f138e7f3cdd7d8997d895818eca500b2/website" target='_window') Trello Board
-                .column.mobile.hidden
-                    .ui.dividing.header
-                        |Company Information
-                    .ui.link.large.animated.list
-                        a.item.zoomer(href="/contact" class="{{isActiveRoute 'contact'}}" ) Contact Us
-                        a.item.zoomer(href="/about" class="{{isActiveRoute 'about'}}" ) About Us
-                        a.item.zoomer(href="/testimonials" class="{{isActiveRoute 'testimonials'}}" ) Testimonials
-                        a.item.zoomer(href="/corporate_services" class="{{isActiveRoute 'corporate_services'}}" ) Corporate Services
-                        a.item.zoomer(href="/organizations" class="{{isActiveRoute 'organizations'}}" ) Organizations
-    if in_dev 
-        .ui.segment 
-            .ui.header admin
-            .ui.list
-                each all_docs 
-                    .item #{title}, #{model}
+                    .ui.header 
+                        i.blog.icon
+                        |docs
+                    each all_docs 
+                        .ui.label #{title} #{model}
+            if in_dev
+                .column
+                    .ui.header 
+                        i.users.icon
+                        |users
+                    each all_users
+                        a.ui.label.fly_down(href="/user/#{username}") #{username}

@@ -108,76 +108,75 @@ template(name='post_item')
         
 
 template(name='post_layout')
-    div(class=darkmode_class)
-        +nav
-        .ui.bottom.attached.pushable.segment.scrolling
-            +topbar
-            +leftbar
-            +rightbar
-            with current_doc
-                .ui.stackable.padded.grid
-                    .four.column.row 
-                        .four.wide.column.scrollin
-                            a.ui.icon.button.fly_left(href="/posts" title='posts')
-                                i.chevron.left.icon
-                                +i name='post'
-                                |posts
-                            if can_edit
-                                a.ui.icon.button.fly_down(href="/post/#{_id}/edit" title='edit')
-                                    +i name='pencil'
-                            a.ui.link.card(href="/user/#{_author.username}")
-                                img.ui.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                                .content
-                                    small 
-                                        i.edit.icon
-                                        |author
-                                    a.ui.inline.header
-                                        |#{_author.username}
-                                        |#{points}pts
-                            .ui.list
-                                .item 
-                                    i.grey.eye.icon
-                                    |#{views} views
-                                .item 
-                                    |#{points}
-                                    |points
-                                .item 
-                                    |#{tip_total}
-                                    |tip total
-                            each viewers
-                                .ui.label #{username}
-                            +array_view key='tags' label='tags' icon='tags' direct=true
-                            div
-                            +voting_full
-                            +array_view key='location_tags' label='location_tags' direct=true
-                            +visibility_settings
-                            
-                            +group_widget
-                            if in_dev 
-                                +print_this
-                            if link
-                                +link_view key='link' label='link'
-                        .twelve.wide.column.scrollin
-                            .ui.big.center.aligned.header(class=emotion_color) #{title}
-                            a.ui.button(href="/post/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
-                                +i name='home'
-                                |home
-                            if watson
-                                a.ui.button(href="/post/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
-                                    +i name='dna-helix'
-                                    |emotion
-                            a.ui.button(href="/post/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
-                                +i name='chat'
-                                |comments
-                            a.ui.button(href="/post/#{_id}/tips" class="{{isActiveRoute regex='tips'}}" )
-                                +i name='coins'
-                                |tips
-                            a.ui.button(href="/post/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
-                                +i name='pie-chart'
-                                |stats
-                            +yield
-        +footer
-                    
+    +nav
+    .ui.bottom.attached.pushable.segment.scrolling(class=darkmode_class)
+        +topbar
+        +leftbar
+        +rightbar
+        with current_doc
+            .ui.stackable.padded.grid
+                .four.column.row 
+                    .four.wide.column.scrollin
+                        a.ui.icon.button.fly_left(href="/posts" title='posts')
+                            i.chevron.left.icon
+                            +i name='post'
+                            |posts
+                        if can_edit
+                            a.ui.icon.button.fly_down(href="/post/#{_id}/edit" title='edit')
+                                +i name='pencil'
+                        a.ui.link.card(href="/user/#{_author.username}")
+                            img.ui.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            .content
+                                small 
+                                    i.edit.icon
+                                    |author
+                                a.ui.inline.header
+                                    |#{_author.username}
+                                    |#{points}pts
+                        .ui.list
+                            .item 
+                                i.grey.eye.icon
+                                |#{views} views
+                            .item 
+                                |#{points}
+                                |points
+                            .item 
+                                |#{tip_total}
+                                |tip total
+                        each viewers
+                            .ui.label #{username}
+                        +array_view key='tags' label='tags' icon='tags' direct=true
+                        div
+                        +voting_full
+                        +array_view key='location_tags' label='location_tags' direct=true
+                        +visibility_settings
+                        
+                        +group_widget
+                        if in_dev 
+                            +print_this
+                        if link
+                            +link_view key='link' label='link'
+                    .twelve.wide.column.scrollin
+                        .ui.big.center.aligned.header(class=emotion_color) #{title}
+                        a.ui.button(href="/post/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
+                            +i name='home'
+                            |home
+                        if watson
+                            a.ui.button(href="/post/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
+                                +i name='dna-helix'
+                                |emotion
+                        a.ui.button(href="/post/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
+                            +i name='chat'
+                            |comments
+                        a.ui.button(href="/post/#{_id}/tips" class="{{isActiveRoute regex='tips'}}" )
+                            +i name='coins'
+                            |tips
+                        a.ui.button(href="/post/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
+                            +i name='pie-chart'
+                            |stats
+                        +yield
+    +footer
+                
 template(name='post_home')                    
     if subtitle
         .ui.small.header #{subtitle}

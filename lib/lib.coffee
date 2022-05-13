@@ -234,7 +234,7 @@ Meteor.methods
                     anon_upvotes:1
             Docs.update doc._author_id,
                 $inc:anon_karma:1
-
+        Meteor.call 'calc_user_points', doc._author_id, ->
     downvote: (doc)->
         if Meteor.userId()
             if doc.upvoter_ids and Meteor.userId() in doc.upvoter_ids
@@ -266,6 +266,7 @@ Meteor.methods
                     anon_downvotes:1
             Docs.update doc._author_id,
                 $inc:anon_karma:-1
+        Meteor.call 'calc_user_points', doc._author_id, ->
 
 
 

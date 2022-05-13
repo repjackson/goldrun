@@ -40,6 +40,9 @@ template(name='profile_layout')
 template(name='profile_left_column')                          
     a.item(href="/user/#{username}")
         img.ui.centered.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+    .ui.center.aligned.inline.small.header(title='boops')
+        +i name='tap-gesture'
+        |#{boops}
     .spacer
     a(href="/user/#{username}")
         .ui.header
@@ -81,9 +84,14 @@ template(name='profile_left_column')
             i.user.grey.icon
             |#{profile_views_logged_in} 
             |logged in views
-    .ui.center.aligned.inline.header(title='boops')
-        +i name='tap-gesture'
-        |#{boops}
+        .item 
+            i.thumbs.up.grey.icon
+            |#{upvote_total} 
+            |upvoted points
+        .item 
+            i.thumbs.down.grey.icon
+            |#{downvote_total} 
+            |downvoted points
 
     if is_admin
         a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')

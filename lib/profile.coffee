@@ -132,7 +132,7 @@ if Meteor.isClient
             current_user = Meteor.users.findOne username:Router.current().params.username
             Docs.find 
                 model:'group'
-                _id:$in:user.group_memberships
+                _id:$in:current_user.group_memberships
 
     Template.profile_layout.helpers
         user_rental_docs: ->
@@ -225,6 +225,7 @@ if Meteor.isServer
                 for deposit in deposits.fetch()
                     if deposit.amount
                         point_total += deposit.amount
+
                 orders = 
                     Docs.find
                         model:'order'
@@ -232,10 +233,29 @@ if Meteor.isServer
                 for order in orders.fetch()
                     if order.total_amount
                         point_total += order.total_amount
+                
+                upvote_total = 0
+                upvotes = 
+                    Docs.find
+                        upvoter_ids:$in:[user._id]
+                for upvote in upvotes.fetch()
+                    point_total += -1
+                    upvote_total += -1
+                
+                downvote_total = 0
+                downvotes = 
+                    Docs.find
+                        downvoter_ids:$in:[user._id]
+                for downvote in downvotes.fetch()
+                    point_total += -1
+                    downvote_total += -1
+                
                 console.log 'calc user points', username, point_total
                 Docs.update user._id,   
-                    $set:points:point_total
-    
+                    $set:
+                        points:point_total
+                        upvote_total:upvote_total
+                        downvote_total:downvote_total
             
 if Meteor.isClient
     Template.profile_layout.onCreated ->

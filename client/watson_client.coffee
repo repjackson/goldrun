@@ -141,8 +141,13 @@ if Meteor.isClient
             #             parsed_selftext_html:dom.value
             
             doc = Template.parentData()
+            doc = Docs.findOne Template.parentData()._id
+            unless doc 
+                doc = Meteor.users.findOne username:Router.current().params.username
             # Meteor.call 'call_watson', Template.parentData()._id, parent.key, @mode, ->
-            Meteor.call 'call_watson', Router.current().params.doc_id, @key, 'html', ->
+            if doc 
+                console.log doc
+                Meteor.call 'call_watson', doc._id, @key, 'html', ->
             # Meteor.call 'call_watson', doc._id, @key, @mode, ->
     
     

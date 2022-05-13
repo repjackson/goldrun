@@ -17,7 +17,6 @@ template(name='account_layout')
                             i.checkmark.large.icon
                         .ui.hidden.divider
                         +image_edit key='image_id' icon='picture' title='profile image' 
-                    
                     .twelve.wide.column
                         +account_menu_item key='profile' icon='info'
                         +account_menu_item key='appearance' icon='paint' 
@@ -47,6 +46,8 @@ template(name='account_profile')
                 +text_edit key='display_name' label='display name'
                 div
                 +html_edit key='bio' label='bio'
+                +call_watson key='bio'
+                +array_edit key='tags' label='tags' icon='tagss'
                 .ui.segment
                     .ui.header 
                         +i name='money'

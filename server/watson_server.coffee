@@ -22,23 +22,6 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
 # });
 
 
-tone_analyzer = new ToneAnalyzerV3(
-    version: '2017-09-21'
-    authenticator: new IamAuthenticator({
-        apikey: Meteor.settings.private.tone.apikey
-    })
-    url: Meteor.settings.private.tone.url)
-
-
-# visual_recognition = new VisualRecognitionV3({
-#   version: '2018-03-19',
-#   authenticator: new IamAuthenticator({
-#     apikey: Meteor.settings.private.visual.apikey,
-#   }),
-#   url: Meteor.settings.private.visual.url,
-# });
-
-
 # kevin lang
 # bsbqj-_iQaA-ZwGUBK7NbGqZTaLvPHJgZW2OEXoN5C6P
 # https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/5556901d-0bb1-4283-a2e3-d4cd8c42d15c
@@ -110,46 +93,6 @@ Meteor.methods
         )
 
 
-    call_visual: (doc_id, field)->
-        # @unblock()
-        self = @
-        doc = Docs.findOne doc_id
-        # link = doc["#{field}"]
-        # visual_recognition.classify(classify_params)
-        #   .then(response => {
-        #     const classifiedImages = response.result;
-        #     console.log(JSON.stringify(classifiedImages, null, 2));
-        #   })
-        #   .catch(err => {
-        #     console.log('error:', err);
-        #   });
-        if doc.watson
-            if doc.watson.metadata.image
-                params =
-                    url:doc.watson.metadata.image
-        else
-            params =
-                url:doc.thumbnail
-                # url:doc.url
-            # images_file: images_file
-            # classifier_ids: classifier_ids
-        visual_recognition.classify params, Meteor.bindEnvironment((err, response)->
-            if err
-                console.log err
-            else
-                visual_tags = []
-                for tag in response.result.images[0].classifiers[0].classes
-                    visual_tags.push tag.class.toLowerCase()
-                console.log(JSON.stringify(response, null, 2))
-                # console.log visual_tags
-                Docs.update { _id: doc_id},
-                    $set:
-                        visual_classes: response.result.images[0].classifiers[0].classes
-                        visual_tags:visual_tags
-                    $addToSet:
-                        tags:$each:visual_tags
-        )
-
     call_watson: (doc_id, key, mode) ->
         # console.log 'calling watson', doc_id, key, mode
         # @unblock()
@@ -158,6 +101,8 @@ Meteor.methods
         # console.log key
         # console.log mode
         doc = Docs.findOne doc_id
+        unless doc 
+            doc = Meteor.users.findOne doc_id
         # unless doc 
         #     doc = Meteor.users.findOne doc_id
         # console.log 'calling watson on', doc.title
@@ -266,21 +211,38 @@ Meteor.methods
                 # console.log 'main_emotion', max_emotion_name
                 # console.log 'max_emotion_percent', max_emotion_percent
                 # if mode is 'url'
-                Docs.update { _id: doc_id },
-                    $set:
-                        # analyzed_text:response.analyzed_text
-                        watson: response
-                        max_emotion_name:max_emotion_name
-                        max_emotion_percent:max_emotion_percent
-                        sadness_percent: sadness_percent
-                        joy_percent: joy_percent
-                        fear_percent: fear_percent
-                        anger_percent: anger_percent
-                        disgust_percent: disgust_percent
-                        watson_concepts: concept_array
-                        watson_keywords: keyword_array
-                        doc_sentiment_score: response.sentiment.document.score
-                        doc_sentiment_label: response.sentiment.document.label
+                if Docs.findOne doc_id
+                    Docs.update { _id: doc_id },
+                        $set:
+                            # analyzed_text:response.analyzed_text
+                            watson: response
+                            max_emotion_name:max_emotion_name
+                            max_emotion_percent:max_emotion_percent
+                            sadness_percent: sadness_percent
+                            joy_percent: joy_percent
+                            fear_percent: fear_percent
+                            anger_percent: anger_percent
+                            disgust_percent: disgust_percent
+                            watson_concepts: concept_array
+                            watson_keywords: keyword_array
+                            doc_sentiment_score: response.sentiment.document.score
+                            doc_sentiment_label: response.sentiment.document.label
+                else 
+                    Meteor.users.update doc_id,
+                        $set:
+                            # analyzed_text:response.analyzed_text
+                            watson: response
+                            max_emotion_name:max_emotion_name
+                            max_emotion_percent:max_emotion_percent
+                            sadness_percent: sadness_percent
+                            joy_percent: joy_percent
+                            fear_percent: fear_percent
+                            anger_percent: anger_percent
+                            disgust_percent: disgust_percent
+                            watson_concepts: concept_array
+                            watson_keywords: keyword_array
+                            doc_sentiment_score: response.sentiment.document.score
+                            doc_sentiment_label: response.sentiment.document.label
 
 
 
@@ -294,10 +256,15 @@ Meteor.methods
                                 # adding_tags.push category
                                 Docs.update doc_id,
                                     $addToSet: categories: category
-                Docs.update { _id: doc_id },
-                    $addToSet:
-                        tags:$each:adding_tags
-                
+                if Docs.findOne doc_id
+                    Docs.update { _id: doc_id },
+                        $addToSet:
+                            tags:$each:adding_tags
+                else 
+                    Meteor.users.update doc_id,
+                        $addToSet:
+                            tags:$each:adding_tags
+                        
                 if response.entities and response.entities.length > 0
                     for entity in response.entities
                         # console.log entity.type, entity.text

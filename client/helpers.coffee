@@ -13,7 +13,9 @@ Template.registerHelper 'emotion_color', () ->
         else if @doc_sentiment_label is 'negative' then 'red'
 
 
-Template.registerHelper 'darkmode_class', () -> if Meteor.user().darkmode then 'invert' else ''
+Template.registerHelper 'darkmode_class', () -> 
+    if Meteor.user()
+        if Meteor.user().darkmode then 'invert' else ''
 
 
 

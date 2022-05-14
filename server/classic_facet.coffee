@@ -333,3 +333,53 @@ Meteor.publish 'facet', (
 # #                 name: tag.doc_id
 # #                 count: tag.count
 # #                 index: i
+Meteor.publish 'results', (
+    model='post'
+    picked_tags=[]
+    current_query=''
+    picked_timestamp_tags=[]
+    picked_location_tags=[]
+    sort_key='_timestamp'
+    sort_direction=-1
+    limit=42
+    )->
+    self = @
+    match = {model:model}
+    # if picked_ingredients.length > 0
+    #     match.ingredients = $all: picked_ingredients
+    #     # sort = 'price_per_serving'
+    # if picked_sections.length > 0
+    #     match.menu_section = $all: picked_sections
+        # sort = 'price_per_serving'
+    # else
+        # match.tags = $nin: ['wikipedia']
+    # match.published = true
+        # match.source = $ne:'wikipedia'
+    # if view_vegan
+    #     match.vegan = true
+    # if view_gf
+    #     match.gluten_free = true
+    if current_query.length > 1
+    #     console.log 'searching org_query', org_query
+        match.title = {$regex:"#{current_query}", $options: 'i'}
+    #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
+
+    # match.tags = $all: picked_ingredients
+    # if filter then match.model = filter
+    # keys = _.keys(prematch)
+    # for key in keys
+    #     key_array = prematch["#{key}"]
+    #     if key_array and key_array.length > 0
+    #         match["#{key}"] = $all: key_array
+        # console.log 'current facet filter array', current_facet_filter_array
+
+    # console.log 'sort key', sort_key
+    # console.log 'sort direction', sort_direction
+    unless Meteor.userId()
+        match.private = $ne:true
+        
+    # console.log 'results match', match
+    Docs.find match,
+        sort:"#{sort_key}":sort_direction
+        limit: limit
+        # sort:_timestamp:-1

@@ -20,14 +20,14 @@ template(name='groups')
             // if selected_tag_plural
             //     .ui.icon.circular.black.compact.button.clear_picked_tags
             //         i.remove.icon
-            +facet key='tag'
+            +facet key='tag' icon='tags'
             // +facet key='time_tag'
             // +facet key='emotion_tag'
             // +facet key='location_tag'
             // +facet key='people_tag'
             // +facet key='timestamp_tag'
             .ui.hidden.divider
-            with emotion_avg
+            // with emotion_avg
                 // .ui.list
                 //     .item {{ to_percent avg_sent_score}}% sentiment
                 //     .item {{ to_percent avg_joy_score}}% joy
@@ -72,11 +72,11 @@ template(name='groups')
                 //     |&nbsp;
                 // div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
         .twelve.wide.column
-            |sort by
             +toggle_sort_direction
             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
             +session_set key='sort_key' value='views' label='views' icon='eye'
+            +session_set key='sort_key' value='member_count' label='members' icon='users'
             
             .scrolling    
                 .ui.hidden.divider
@@ -107,7 +107,10 @@ template(name='group_card')
         .content
             a.ui.header.zoomer.fly_right(href="/group/#{_id}")
                 |#{title}
-            |#{member_ids.length} members
+            .ui.basic.label(title='member count')
+                i.users.icon
+                |#{member_count}
+                // |members
             .ui.basic.label
                 i.grey.eye.icon 
                 |#{views}

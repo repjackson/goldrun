@@ -15,10 +15,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_orders'
         ), name:'user_orders'
-    Router.route '/user/:username/friends', (->
-        @layout 'profile_layout'
-        @render 'user_friends'
-        ), name:'user_friends'
     Router.route '/user/:username/groups', (->
         @layout 'profile_layout'
         @render 'user_groups'
@@ -187,6 +183,17 @@ if Meteor.isClient
                   hideMethod   : 'fade',
                   hideDuration : 250
                 })
+                
+                
+    Template.user_friends.helpers
+        user_friended_by_docs: ->
+            Meteor.users.find 
+                _id:$in:@user_friended_by
+                
+        friends_of_docs: ->
+            Meteor.users.find 
+                _id:$in:@user_friended_by
+                
             
 if Meteor.isServer
     Meteor.publish 'user_groups_member', (username)->

@@ -52,15 +52,9 @@ template(name='account_profile')
                     .ui.header 
                         +i name='money'
                         |preferred payment received method
-                .ui.button
-                    +i name='apple-pay'
-                    |apple pay
-                .ui.button
-                    +i name='paypal'
-                    |paypal
-                .ui.button 
-                    +i name='venmo'
-                    |venmo
+                +key_value_edit key='preferred_payment_method' value='apple_pay' label='apple pay' icon='apple-pay'
+                +key_value_edit key='preferred_payment_method' value='paypal' label='paypal' icon='paypal'
+                +key_value_edit key='preferred_payment_method' value='venmo' label='venmo' icon='venmo'
             .column
                 .ui.header 
                     i.envelope.outline.icon

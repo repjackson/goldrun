@@ -259,11 +259,41 @@ if Meteor.isClient
         'click .add_friend': ->
             Meteor.users.update @_id, 
                 $addToSet:
-                    friend_user_ids:Meteor.userId()
+                    friended_by_user_ids:Meteor.userId()
         'click .remove_friend': ->
             Meteor.users.update @_id, 
                 $pull:
-                    friend_user_ids:Meteor.userId()
+                    friended_by_user_ids:Meteor.userId()
+    
+    
+    Template.follow_button.helpers
+        is_following: ->
+            @followed_by_user_ids  and Meteor.userId() in @followed_by_user_ids
+
+    Template.follow_button.events 
+        'click .follow': ->
+            Meteor.users.update @_id, 
+                $addToSet:
+                    followed_by_user_ids:Meteor.userId()
+        'click .unfollow': ->
+            Meteor.users.update @_id, 
+                $pull:
+                    followed_by_user_ids:Meteor.userId()
+    
+    
+    Template.join_button.helpers
+        is_following: ->
+            @followed_by_user_ids  and Meteor.userId() in @followed_by_user_ids
+
+    Template.join_button.events 
+        'click .follow': ->
+            Meteor.users.update @_id, 
+                $addToSet:
+                    followed_by_user_ids:Meteor.userId()
+        'click .unfollow': ->
+            Meteor.users.update @_id, 
+                $pull:
+                    followed_by_user_ids:Meteor.userId()
 
     # Template.set_limit.events
     #     'click .set_limit': ->

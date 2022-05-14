@@ -570,6 +570,30 @@ template(name='friend_button')
             |unfriend
             
             
+
+template(name='follow_button')
+    if is_following
+        .ui.button.unfollow
+            i.plus.icon
+            |follow
+    else 
+        .ui.button.follow
+            i.minus.icon
+            |unfollow
+            
+            
+
+template(name='join_button')
+    if is_member
+        .ui.button.unjoin
+            i.plus.icon
+            |join
+    else 
+        .ui.button.join
+            i.minus.icon
+            |unfollow
+            
+            
 template(name='flat_tag_selector')
     // a.ui.big.image.rounded.label.zoomer.pointer.select_tag.select_term(href='#' title="#{count} results" class="#{selector_class} #{thinking_class}")
     a.ui.compact.tiny.basic.image.label.zoomer.select_flat_tag(title="#{count} results" class="#{selector_class} #{thinking_class}")

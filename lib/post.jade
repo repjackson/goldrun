@@ -115,7 +115,29 @@ template(name='post_layout')
         +rightbar
         with current_doc
             .ui.stackable.padded.grid
-                .four.column.row 
+                .row 
+                    .twelve.wide.column.scrollin
+                        .ui.big.center.aligned.header(class=emotion_color) 
+                            if private 
+                                i.large.lock.icon(title='private')
+                            |#{title}
+                        a.ui.compact.button(href="/post/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
+                            +i name='home'
+                            |home
+                        if watson
+                            a.ui.compact.button(href="/post/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
+                                +i name='dna-helix'
+                                |emotion
+                        a.ui.compact.button(href="/post/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
+                            +i name='chat'
+                            |comments
+                        a.ui.compact.button(href="/post/#{_id}/tips" class="{{isActiveRoute regex='tips'}}" )
+                            +i name='coins'
+                            |tips
+                        a.ui.compact.button(href="/post/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
+                            +i name='pie-chart'
+                            |stats
+                        +yield
                     .four.wide.column.scrollin
                         a.ui.icon.button.fly_left(href="/posts" title='posts')
                             i.chevron.left.icon
@@ -148,28 +170,6 @@ template(name='post_layout')
                             +print_this
                         if link
                             +link_view key='link' label='link'
-                    .twelve.wide.column.scrollin
-                        .ui.big.center.aligned.header(class=emotion_color) 
-                            if private 
-                                i.large.lock.icon(title='private')
-                            |#{title}
-                        a.ui.button(href="/post/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
-                            +i name='home'
-                            |home
-                        if watson
-                            a.ui.button(href="/post/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
-                                +i name='dna-helix'
-                                |emotion
-                        a.ui.button(href="/post/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
-                            +i name='chat'
-                            |comments
-                        a.ui.button(href="/post/#{_id}/tips" class="{{isActiveRoute regex='tips'}}" )
-                            +i name='coins'
-                            |tips
-                        a.ui.button(href="/post/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
-                            +i name='pie-chart'
-                            |stats
-                        +yield
     +footer
                 
 template(name='post_home')                    

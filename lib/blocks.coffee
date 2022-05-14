@@ -251,8 +251,19 @@ if Meteor.isClient
 
 
 
+    Template.friend_button.helpers
+        is_friend: ->
+            @friend_user_ids  and Meteor.userId() in @friend_user_ids
 
-
+    Template.friend_button.events 
+        'click .add_friend': ->
+            Meteor.users.update @_id, 
+                $addToSet:
+                    friend_user_ids:Meteor.userId()
+        'click .remove_friend': ->
+            Meteor.users.update @_id, 
+                $pull:
+                    friend_user_ids:Meteor.userId()
 
     # Template.set_limit.events
     #     'click .set_limit': ->

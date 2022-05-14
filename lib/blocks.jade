@@ -561,11 +561,11 @@ template(name='print_this')
 
 template(name='friend_button')
     if is_friend
-        .ui.button.unfriend
+        .ui.button.remove_friend
             i.plus.icon
             |friend
     else 
-        .ui.button.friend
+        .ui.button.add_friend
             i.minus.icon
             |unfriend
             

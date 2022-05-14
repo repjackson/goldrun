@@ -155,8 +155,6 @@ if Meteor.isClient
                 sort: "#{Session.get('transfer_sort_key')}":parseInt(Session.get('transfer_sort_direction'))
                 # limit:Session.get('transfer_limit')
 
-        home_subs_ready: ->
-            Template.instance().subscriptionsReady()
         users: ->
             # if picked_tags.array().length > 0
             Meteor.users.find {

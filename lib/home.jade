@@ -20,23 +20,29 @@ template(name='public_chat')
         |public chat
     .ui.input
         input.add_public_chat(type='text' placeholder='add message...')
-    .ui.list
-        each latest_chat_docs
-            .item
-                |#{body}
-                small #{when}
-                if currentUser.admin_mode
-                    i.remove.link.icon.remove_comment
-          
+    if subs_ready 
+        .ui.list
+            each latest_chat_docs
+                .item
+                    |#{body}
+                    small #{when}
+                    if currentUser.admin_mode
+                        i.remove.link.icon.remove_comment
+    else 
+        i.big.grey.yin.yang.loading.icon
+        .ui.header loading
           
 template(name='latest_activity')
     .ui.header 
         +i name='clock'
         |#{latest_docs.count} latest activity
-    .ui.link.cards.scrolling
-        each latest_docs
-            +home_doc_item
-
+        
+    if subs_ready 
+        .ui.link.cards.scrolling
+            each latest_docs
+                +home_doc_item
+    else 
+        i.big.loading.yin.yang.icon
 
 template(name='home_doc_item')
     a.ui.fluid.card.fly_right(href="/post/#{_id}")
@@ -77,7 +83,7 @@ template(name='top_users_points')
         .active.title
             .ui.header 
                 +i name='leaderboard'
-                |top #{top_user_docs.count} users
+                |point leaders
         .active.content
             .ui.animated.selection.link.list.smallscroll
                 each top_user_docs

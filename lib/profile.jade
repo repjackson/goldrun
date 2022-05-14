@@ -1,4 +1,9 @@
 template(name='profile_layout')
+    with user_from_username_param
+        if background_image_id
+            img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+        else 
+            img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
     +nav
     .ui.bottom.attached.pushable.segment.scrolling(class=darkmode_class)
         +topbar
@@ -62,6 +67,7 @@ template(name='profile_left_column')
         .ui.header
             +i name='business' 
             |#{company}
+    +link_view key='link' icon='globe'
     if linkedin_link
         .ui.circular.compact.button(href=linkedin_link target='_window')
             +i name='linkedin'
@@ -110,7 +116,7 @@ template(name='profile_left_column')
     +follow_button
     if has_membership
         +join_button
-    i.refresh.link.icon.calc_user_points(title='refresh stats')
+    i.refresh.link.circular.icon.calc_user_points(title='refresh stats')
     +friend_button
                           
                     

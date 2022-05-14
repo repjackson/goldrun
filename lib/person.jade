@@ -24,7 +24,7 @@ template(name='persons')
             +facet key='tag'
         .twelve.wide.column
             i.large.sort.icon
-            +toggle_sort_direction
+            +sort_direction_toggle
             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
             +session_set key='view_mode' value='grid' icon='th'

@@ -23,7 +23,7 @@ template(name='search')
                 i.large.remove.red.icon.clear_query
             else 
                 i.search.icon
-            input.global_search(type='text' placeholder='search title...')
+            input.global_search(type='text' placeholder='search title...' autofocus='')
         .ui.large.list 
             each result_docs
                 a.item.fly_down(href="/#{model}/#{_id}") #{title}

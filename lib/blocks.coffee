@@ -105,7 +105,7 @@ if Meteor.isClient
         
 
 
-    Template.toggle_sort_direction.events 
+    Template.sort_direction_toggle.events 
         'click .toggle': ->
             if Session.equals 'sort_direction', -1
                 Session.set 'sort_direction', 1

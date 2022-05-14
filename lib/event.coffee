@@ -810,8 +810,9 @@ if Meteor.isClient
 
     Template.event_edit.events
         'click .delete_item': ->
-            if confirm 'delete item?'
+            if confirm 'delete event?'
                 Docs.remove @_id
+            Router.go "/events"
 
         'click .select_room': ->
             reservation_exists = 

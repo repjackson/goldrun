@@ -15,11 +15,31 @@ if Meteor.isClient
             Router.go "/#{@model}/#{new_id}/edit"
 
 
+    Router.route '/search', -> @render 'search'
+    Template.search.onCreated ->
+        @autorun ->  Meteor.subscribe 'search_results', Session.get('global_query'), ->
+    Template.search.events
+        'keyup .global_search': (e,t)->
+            query = $('.global_search').val()
+            Session.set('global_query',query)
+    Template.search.helpers
+        current_search: -> Session.get('global_query')
+        result_docs: ->
+            Docs.find {
+                title: {$regex:"#{Session.get('global_query')}",$options:'i'}
+            }, 
+            
+if Meteor.isServer 
+    Meteor.publish 'search_results', (global_query)->
+        Docs.find {
+            title: {$regex:"#{global_query}",$options:'i'}
+        }, 
+            limit:10
+            sort:points:-1
 
+if Meteor.isClient            
     Template.user_table.helpers
         users: -> Meteor.users.find {}
-
-
     Template.user_table.events
         'click #add_user': ->
 

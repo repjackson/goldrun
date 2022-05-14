@@ -18,6 +18,9 @@ Template.registerHelper 'darkmode_class', () ->
         if Meteor.user().darkmode then 'invert' else ''
 
 
+Template.registerHelper 'following_users', () -> 
+    Meteor.users.find 
+        _id:$in:@following_user_ids
 
 Template.registerHelper 'all_docs', () -> Docs.find()
 Template.registerHelper 'one_result', () -> Docs.find().count() is 1

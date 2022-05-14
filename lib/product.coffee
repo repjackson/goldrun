@@ -413,7 +413,7 @@ if Meteor.isClient
 
 
     Template.products.onCreated ->
-        @autorun  => @subscribe 'model_docs', 'product', ->
+        # @autorun  => @subscribe 'model_docs', 'product', ->
     Template.products.helpers
         product_docs: ->
             match = {model:'product'}

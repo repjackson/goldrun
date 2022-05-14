@@ -274,13 +274,6 @@ template(name='events_column')
 
 
 
-template(name='follow')
-    .ui.segment
-        .ui.header
-            i.user.plus.icon
-            |follow
-        +user_list_toggle key='follower_ids' icon='rss' add_label='Follow' remove_label='Unfollow' color='black'
-
 
 template(name='toggle_edit')
     .ui.button.toggle_edit
@@ -575,9 +568,11 @@ template(name='follow_button')
     if is_following
         .ui.button.unfollow
             i.plus.icon
+            +i name='add-user-male'
             |follow
     else 
         .ui.button.follow
+            +i name='checked-user-male'
             i.minus.icon
             |unfollow
             

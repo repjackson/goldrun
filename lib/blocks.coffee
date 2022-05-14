@@ -191,19 +191,7 @@ if Meteor.isClient
 
 
 
-    Template.follow.helpers
-        followers: ->
-            Docs.find
-                _id: $in: @follower_ids
-        following: -> @follower_ids and Meteor.userId() in @follower_ids
-    Template.follow.events
-        'click .follow': ->
-            Docs.update @_id,
-                $addToSet:follower_ids:Meteor.userId()
-        'click .unfollow': ->
-            Docs.update @_id,
-                $pull:follower_ids:Meteor.userId()
-   
+
    
 
     Template.voting.events
@@ -275,11 +263,49 @@ if Meteor.isClient
             Meteor.users.update @_id, 
                 $addToSet:
                     followed_by_user_ids:Meteor.userId()
+            Meteor.users.update Meteor.userId(),
+                $addToSet:
+                    following_user_ids:Meteor.userId()
+            $('body').toast({
+                title: "following"
+                # message: 'Please see desk staff for key.'
+                class: 'success'
+                icon: 'checkmark' 
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+                    
         'click .unfollow': ->
             Meteor.users.update @_id, 
                 $pull:
                     followed_by_user_ids:Meteor.userId()
-    
+            Meteor.users.update Meteor.userId(),
+                $pull:
+                    following_user_ids:Meteor.userId()
+
+            $('body').toast({
+                title: "unfollowing"
+                # message: 'Please see desk staff for key.'
+                class: 'info'
+                icon: 'checkmark' 
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+                    
     
     Template.join_button.helpers
         is_following: ->

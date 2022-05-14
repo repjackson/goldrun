@@ -1,4 +1,3 @@
-@selected_rental_tags = new ReactiveArray []
 @picked_tags = new ReactiveArray []
 @picked_user_tags = new ReactiveArray []
 @picked_location_tags = new ReactiveArray []
@@ -107,10 +106,6 @@ Template.nav.onCreated ->
     # @autorun -> Meteor.subscribe 'model_docs','group', ->
     # @autorun -> Meteor.subscribe 'unread_messages'
 
-Template.nav.events
-    'keyup .global_search': (e,t)->
-        query = $('.global_search').val()
-        Session.set('global_query',query)
 
 $.cloudinary.config
     cloud_name:"facet"
@@ -119,16 +114,11 @@ $.cloudinary.config
 
 
 Template.nav.events
-    'click .add_rental': ->
-        new_id = 
-            Docs.insert 
-                model:'rental'
-        Router.go "/rental/#{new_id}/edit"
-    # 'click .locate': ->
-    #     navigator.geolocation.getCurrentPosition (position) =>
-    #         console.log 'navigator position', position
-    #         Session.set('current_lat', position.coords.latitude)
-    #         Session.set('current_long', position.coords.longitude)
+    'click .locate': ->
+        navigator.geolocation.getCurrentPosition (position) =>
+            console.log 'navigator position', position
+            Session.set('current_lat', position.coords.latitude)
+            Session.set('current_long', position.coords.longitude)
 
 Template.layout.events
     'click .fly_down': (e,t)->

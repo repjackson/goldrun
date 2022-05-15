@@ -244,10 +244,10 @@ if Meteor.isClient
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
 
-        @autorun => @subscribe 'facets',
-            'group'
-            picked_tags.array()
-            Session.get('current_search')
+        # @autorun => @subscribe 'facets',
+        #     'group'
+        #     picked_tags.array()
+        #     Session.get('current_search')
 
         @autorun => @subscribe 'doc_results',
             'group'
@@ -256,12 +256,6 @@ if Meteor.isClient
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('limit')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
-
-
-
 
     Template.groups.helpers
         group_docs: ->
@@ -271,22 +265,6 @@ if Meteor.isClient
             },
                 sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
                 # limit:Session.get('group_limit')
-
-        users: ->
-            # if picked_tags.array().length > 0
-            Meteor.users.find {
-            },
-                sort: count:-1
-                # limit:1
-
-
-        # timestamp_tags: ->
-        #     # if picked_tags.array().length > 0
-        #     Timestamp_tags.find {
-        #         # model:'reddit'
-        #     },
-        #         sort: count:-1
-        #         # limit:1
 
 
 if Meteor.isServer

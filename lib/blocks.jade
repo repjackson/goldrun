@@ -4,6 +4,21 @@ template(name='send_points_button')
         unless currentUser.hide_menu_labels
             |send points
         
+
+template(name='publish_button')
+    if published
+        .ui.animated.button.unpublish
+            .visible.content
+                |published
+            .hidden.content
+                i.undo.icon
+                |unpublish
+    else 
+        .ui.button.publish 
+            i.eye.icon
+            |publish  
+    
+        
         
 template(name='request_button')
     .ui.button.request

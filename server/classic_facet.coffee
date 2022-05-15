@@ -19,7 +19,7 @@ Meteor.publish 'facet_sub', (
         match = {}
 
         # match.tags = $all: picked_tags
-        if model then match.model = model
+        match.model = model
         # if parent_id then match.parent_id = parent_id
 
         # if view_private is true
@@ -94,7 +94,7 @@ Meteor.publish 'facet_sub', (
             { $group: _id: '$tags', count: $sum: 1 }
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 15 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         # console.log 'theme tag_cloud, ', tag_cloud
@@ -351,8 +351,8 @@ Meteor.publish 'doc_results', (
     # if picked_ingredients.length > 0
     #     match.ingredients = $all: picked_ingredients
     #     # sort = 'price_per_serving'
-    # if picked_sections.length > 0
-    #     match.menu_section = $all: picked_sections
+    if picked_tags.length > 0
+        match.tags = $all: picked_tags
         # sort = 'price_per_serving'
     # else
         # match.tags = $nin: ['wikipedia']

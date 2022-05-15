@@ -8,6 +8,52 @@ if Meteor.isClient
             Router.go "/#{@model}/#{new_id}/edit"
             
             
+    Template.publish_button.events 
+        'click .publish': ->
+            Swal.fire({
+                title: "publish service?"
+                text: "point bounty will be held from your account"
+                icon: 'question'
+                confirmButtonText: 'publish'
+                confirmButtonColor: 'green'
+                showCancelButton: true
+                cancelButtonText: 'cancel'
+                reverseButtons: true
+            }).then((result)=>
+                if result.value
+                    Meteor.call 'publish_service', @_id, =>
+                        Swal.fire(
+                            position: 'bottom-end',
+                            icon: 'success',
+                            title: 'service published',
+                            showConfirmButton: false,
+                            timer: 1000
+                        )
+            )
+
+        'click .unpublish': ->
+            Swal.fire({
+                title: "unpublish service?"
+                text: "point bounty will be returned to your account"
+                icon: 'question'
+                confirmButtonText: 'unpublish'
+                confirmButtonColor: 'orange'
+                showCancelButton: true
+                cancelButtonText: 'cancel'
+                reverseButtons: true
+            }).then((result)=>
+                if result.value
+                    Meteor.call 'unpublish_service', @_id, =>
+                        Swal.fire(
+                            position: 'bottom-end',
+                            icon: 'success',
+                            title: 'service unpublished',
+                            showConfirmButton: false,
+                            timer: 1000
+                        )
+            )
+
+            
     Template.favorite_icon_toggle.helpers
         icon_class: ->
             if Meteor.user().favorite_ids and @_id in Meteor.user().favorite_ids
@@ -43,7 +89,7 @@ if Meteor.isClient
             
             
     Template.facet.onCreated ->
-        console.log 'facet', @model
+        console.log 'facet', @
         @autorun => @subscribe 'facet_sub',
             @data.model
             picked_tags.array()

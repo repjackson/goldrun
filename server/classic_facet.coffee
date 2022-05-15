@@ -63,7 +63,7 @@ Meteor.publish 'facet_sub', (
 
         # match.site = Meteor.settings.public.site
 
-        console.log 'match:', match
+        # console.log 'match:', match
         # if view_images? then match.components?.image = view_images
 
         # lightbank models
@@ -97,9 +97,9 @@ Meteor.publish 'facet_sub', (
             { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
-        console.log 'theme tag_cloud, ', tag_cloud
+        # console.log 'theme tag_cloud, ', tag_cloud
         tag_cloud.forEach (tag, i) ->
-            console.log tag
+            # console.log tag
             self.added 'results', Random.id(),
                 name: tag.name
                 count: tag.count
@@ -340,11 +340,11 @@ Meteor.publish 'doc_results', (
     model='post'
     picked_tags=[]
     current_query=''
-    picked_timestamp_tags=[]
-    picked_location_tags=[]
     sort_key='_timestamp'
     sort_direction=-1
     limit=20
+    # picked_timestamp_tags=[]
+    # picked_location_tags=[]
     )->
     self = @
     match = {model:model}
@@ -382,6 +382,8 @@ Meteor.publish 'doc_results', (
         match.private = $ne:true
         
     # console.log 'results match', match
+    console.log 'sort_key', sort_key
+    console.log 'sort_direction', sort_direction
     Docs.find match,
         sort:"#{sort_key}":sort_direction
         limit: limit

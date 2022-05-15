@@ -90,6 +90,10 @@ template(name='post_card_med')
                 +doc_emotion
 template(name='post_item')
     .ui.fluid.segment.view_post.pointer
+        if youtube_id
+            +youtube_view key='youtube_id'
+        else if image_id
+            img.ui.fluid.rounded.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         a.ui.inline.header(href="/post/#{_id}/view" class=emotion_color) #{title}
         .ui.small.basic.label(title='created when')
             |#{when}
@@ -97,6 +101,10 @@ template(name='post_item')
             i.grey.eye.icon
             |#{views}
         +author_info
+        if group_id     
+            +group_info
+        if watson 
+            +doc_emotion
         each tags 
             .ui.basic.small.label #{this}
         

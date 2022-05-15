@@ -41,25 +41,22 @@ if Meteor.isClient
 
     Template.posts.events
         'click .view_post': ->
-            Router.go "/post/#{_id}/"
+            Router.go "/post/#{@_id}/"
 
     Template.posts.onCreated ->
         # @autorun => @subscribe 'model_docs', 'post', ->
-        @autorun => @subscribe 'facets',
+        @autorun => @subscribe 'facet_sub',
             'post'
             picked_tags.array()
             Session.get('current_search')
-            Session.get('limit')
-            Session.get('sort_key')
-            Session.get('sort_direction')
 
         @autorun => @subscribe 'doc_results',
             'post'
             picked_tags.array()
             Session.get('current_search')
-            Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
+            Session.get('limit')
 
     Template.post_layout.onCreated ->
         @autorun => @subscribe 'related_group',Router.current().params.doc_id, ->

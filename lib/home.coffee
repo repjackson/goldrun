@@ -44,7 +44,7 @@ if Meteor.isServer
     Meteor.methods 
         log_homepage_view: ->
             stat_doc = Docs.findOne model:'stat'
-            console.log stat_doc
+            # console.log stat_doc
             unless stat_doc
                 Docs.insert 
                     model:'stat'
@@ -66,21 +66,13 @@ if Meteor.isClient
         latest_docs: ->
             Docs.find {
                 model:$ne:'chat_message'
-                # private:$ne:true
-            }, sort:_timestamp:-1
-    Template.homepage_stats.helpers
-        homepage_data_doc: ->
-            doc = 
-                Docs.findOne 
-                    model:'stat'
-    Template.home.helpers
-        latest_post_docs: ->
-            Docs.find {
-                model:'post'
                 private:$ne:true
             }, 
                 sort:_timestamp:-1
-                limit:20
+                limit:10
+    Template.homepage_stats.helpers
+        homepage_data_doc: -> Docs.findOne model:'stat'
+    Template.home.helpers
         top_users: ->
             Meteor.users.find {},
                 sort:points:-1

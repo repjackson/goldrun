@@ -39,6 +39,10 @@ if Meteor.isClient
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
 
+    Template.posts.events
+        'click .view_post': ->
+            Router.go "/post/#{_id}/"
+
     Template.posts.onCreated ->
         # @autorun => @subscribe 'model_docs', 'post', ->
         @autorun => @subscribe 'facets',

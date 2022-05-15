@@ -90,19 +90,23 @@ template(name='post_card_med')
                 +doc_emotion
 template(name='post_item')
     .ui.fluid.segment.view_post.pointer
-        a.ui.header(href="/post/#{_id}/view" class=emotion_color) #{title}
-        div
-        .ui.small.grey.inline.header #{when}
-        .smallcut
-            | !{content}
+        a.ui.inline.header(href="/post/#{_id}/view" class=emotion_color) #{title}
+        .ui.small.basic.label(title='created when')
+            |#{when}
+        span(title='views')
+            i.grey.eye.icon
+            |#{views}
         +author_info
         each tags 
             .ui.basic.small.label #{this}
         
+        .smallcut
+            | !{content}
+        
 
 template(name='post_layout')
     +nav
-    .ui.bottom.attached.pushable.segment.scrolling(class=darkmode_class)
+    .ui.bottom.attached.pushable.segment.scroling(class=darkmode_class)
         +topbar
         +leftbar
         +rightbar

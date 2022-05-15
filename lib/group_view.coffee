@@ -34,8 +34,3 @@ if Meteor.isClient
                 active:true
         
         
-if Meteor.isServer 
-    Meteor.publish 'child_docs', (model,parent_id)->
-        Docs.find 
-            model:model
-            parent_id:parent_id

@@ -81,12 +81,12 @@ Meteor.publish 'document_by_slug', (slug)->
         model: 'document'
         slug:slug
 
-Meteor.publish 'child_docs', (id)->
-    Docs.find
-        parent_id:id
+Meteor.publish 'child_docs', (model,parent_id)->
+    Docs.find 
+        model:model
+        parent_id:parent_id
 
-Meteor.publish 'me', (id)->
-    Meteor.users.find Meteor.userId()
+Meteor.publish 'me', ()-> Meteor.users.find Meteor.userId()
 
 
 Meteor.publish 'facet_doc', (tags)->

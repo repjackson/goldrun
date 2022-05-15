@@ -94,7 +94,6 @@ template(name='post_card_med')
                 +group_info
             if watson 
                 +doc_emotion
-        
 template(name='post_item')
     .ui.fluid.segment.view_post.pointer
         a.ui.header(href="/post/#{_id}/view" class=emotion_color) #{title}
@@ -118,6 +117,8 @@ template(name='post_layout')
                 .row 
                     .twelve.wide.column.scrollin
                         .ui.big.center.aligned.header(class=emotion_color) 
+                            if price
+                                i.large.coins.icon(title='price')
                             if private 
                                 i.large.lock.icon(title='private')
                             |#{title}
@@ -148,6 +149,8 @@ template(name='post_layout')
                                 +i name='pencil'
                         +group_widget
                         +author_block
+                        if has_price
+                            +post_orders
                         .ui.list
                             .item 
                                 i.grey.eye.icon
@@ -171,6 +174,18 @@ template(name='post_layout')
                         if link
                             +link_view key='link' label='link'
     +footer
+                
+template(name='post_orders')
+    .ui.segment 
+        .ui.header 
+            |post price: #{price}
+        if has_access 
+            with access_doc 
+                .ui.header purchased access #{when}
+        else 
+            .ui.button.purchase_access
+                |purchase access
+                
                 
 template(name='post_home')                    
     if subtitle
@@ -208,7 +223,9 @@ template(name='post_stats')
         .item #{post_views_ranking} post views ranking
         
 template(name='post_comments')
-    .ui.header post chat
+    .ui.header 
+        +i name='chat'
+        |post chat
     +comments
 template(name='post_emotion')
     .ui.header 
@@ -279,7 +296,13 @@ template(name='post_edit')
                         |save
                     div 
                     +array_edit key='tags' label='tags' direct=true icon='tags'
-                    .ui.header 
+                    +boolean_edit key='has_price' label='has price' icon='coins'
+                    if has_price
+                        .ui.segment 
+                            .ui.header 
+                                |premium settings 
+                            +number_edit key='price' label='price (points)' icon='money'
+                    .ui.small.dividing.header 
                         +i name='eye'
                         |visibility
                     +key_value_edit key='visibility' value='published' icon='checkmark' classes='green'

@@ -1,9 +1,9 @@
 template(name='profile_layout')
     with user_from_username_param
         if background_image_id
-            img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+            img.ui.image.nav_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
         else 
-            img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+            img.ui.image.nav_banner(src="{{c.url image_id height=1000 crop='crop'}}")
     +nav
     .ui.bottom.attached.pushable.segment.scrolling(class=darkmode_class)
         +topbar
@@ -78,7 +78,7 @@ template(name='profile_left_column')
         i.cog.large.icon
         unless currentUser.hide_menu_labels
             |account
-    .ui.small.grey.header 
+    a.ui.small.grey.header.zoomer.calc_user_points
         i.line.chart.icon
         |stats
     .ui.list 
@@ -102,6 +102,9 @@ template(name='profile_left_column')
             i.thumbs.down.grey.icon
             |#{downvote_total} 
             |downvoted points
+        .item 
+            i.coins.icon 
+            |#{tip_count} tips totalling #{tip_total}pts
 
     if is_admin
         a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
@@ -116,7 +119,6 @@ template(name='profile_left_column')
     +follow_button
     if has_membership
         +join_button
-    i.refresh.link.circular.icon.calc_user_points(title='refresh stats')
     +friend_button
                           
                     
@@ -140,18 +142,28 @@ template(name='user_points')
     .ui.dividing.header 
         +i name='coins'
         |user balance
-    .ui.header
+    .ui.dividing.header
+        +i name='internal'
         |points in
     .ui.list
         each points_in_docs
             .ui.inline.header #{body} 
             |{amount}pts
-    .ui.header
+    .ui.dividing.header
+        +i name='donate'
         |points out
     .ui.list
         each points_out_docs
             .ui.inline.header #{body} 
             |{amount}pts
+    .ui.dividing.header
+        +i name='donate'
+        |tips
+    .ui.list
+        each tips_docs
+            a.item.fly_left(href="/#{_parent.model}/#{parent_id}")
+                strong #{_parent.title} 
+                small {amount}pts
     
     
                  

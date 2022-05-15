@@ -231,8 +231,12 @@ if Meteor.isServer
                         
                         
         calc_user_points: (username)->
-            user = Docs.findOne username:username
-            point_total = 10
+            console.log 'calculating points'
+            if username
+                user = Docs.findOne username:username
+            else 
+                user = Meteor.user()
+            point_total = 100
             if user
                 deposits = 
                     Docs.find 
@@ -258,6 +262,16 @@ if Meteor.isServer
                     point_total += -1
                     upvote_total += -1
                 
+                
+                tip_total = 0
+                tip_docs = 
+                    Docs.find
+                        model:'tip'
+                        _author_id:user._id
+                for tip in tip_docs.fetch()
+                    point_total += -10
+                    upvote_total += -10
+                    
                 downvote_total = 0
                 downvotes = 
                     Docs.find
@@ -272,7 +286,8 @@ if Meteor.isServer
                         points:point_total
                         upvote_total:upvote_total
                         downvote_total:downvote_total
-            
+                        tip_total:tip_total
+                        tip_count: tip_docs.count()
 if Meteor.isClient
     Template.profile_layout.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username

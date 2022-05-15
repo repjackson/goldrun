@@ -430,8 +430,9 @@ if Meteor.isClient
                 # showProgress: 'bottom'
                 class: 'success'
                 displayTime: 'auto',
-                position: "bottom center"
+                position: "bottom right"
             )
+            Meteor.call 'calc_user_points', ->
     
     
     

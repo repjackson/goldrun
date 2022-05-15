@@ -73,7 +73,7 @@ if Meteor.isClient
         @autorun => @subscribe 'post_tips',Router.current().params.doc_id, ->
     Template.post_tips.events 
         'click .tip_post': ->
-            console.log 'hi'
+            # console.log 'hi'
             new_id = 
                 Docs.insert 
                     model:'transfer'
@@ -81,6 +81,7 @@ if Meteor.isClient
                     complete:true
                     amount:10
                     tags:['tip']
+            Meteor.call 'calc_user_points', ->
     Template.post_tips.helpers 
         post_tip_docs: ->
             Docs.find 

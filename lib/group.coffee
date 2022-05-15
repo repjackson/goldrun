@@ -96,14 +96,6 @@ if Meteor.isClient
                 model:'post'
                 group_id:Router.current().params.doc_id
     Template.group_members.helpers
-        group_member_docs: ->
-            Docs.find 
-                model:'user'
-                # group_ids:$in:[Router.current().params.doc_id]
-        # current_group: ->
-        #     Docs.findOne
-        #         model:'group'
-        #         slug: Router.current().params.doc_id
 
     Template.group_products.events
         'click .add_product': ->
@@ -114,14 +106,6 @@ if Meteor.isClient
             Router.go "/product/#{new_id}/edit"
             
     Template.group_layout.events
-        'click .add_group_task': ->
-            new_id = 
-                Docs.insert 
-                    model:'task'
-                    group_id:Router.current().params.doc_id
-                    
-            Router.go "/task/#{new_id}/edit"
-            
         'click .add_group_member': ->
             new_username = prompt('username')
             splitted = new_username.split(' ')
@@ -197,6 +181,44 @@ if Meteor.isServer
 
 
 
+if Meteor.isClient 
+    Template.checkin_widget.onCreated ->
+        @autorun => @subscribe 'child_docs', 'checkin', Router.current().params.doc_id, ->
+    Template.checkin_widget.events 
+        'click .checkin': ->
+            Docs.insert 
+                model:'checkin'
+                active:true
+                group_id:Router.current().params.doc_id
+                parent_id:Router.current().params.doc_id
+        'click .checkout': ->
+            active_doc =
+                Docs.findOne 
+                    model:'checkin'
+                    active:true
+                    parent_id:Router.current().params.doc_id
+            if active_doc
+                Docs.update active_doc._id, 
+                    $set:
+                        active:false
+                        checkout_timestamp:Date.now()
+                    
+                    
+    Template.checkin_widget.helpers
+        checkin_docs: ->
+            Docs.find {
+                model:'checkin'
+                parent_id:Router.current().params.doc_id
+            }, sort:_timestamp:-1
+        checked_in: ->
+            Docs.findOne 
+                model:'checkin'
+                _author_id:Meteor.userId()
+                active:true
+        
+        
+
+
 
 Router.route '/group/:doc_id/edit', -> @render 'group_edit'
 
@@ -206,16 +228,6 @@ if Meteor.isClient
     Template.group_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'group_options', Router.current().params.doc_id
-    Template.group_edit.events
-        'click .add_option': ->
-            Docs.insert
-                model:'group_option'
-                ballot_id: Router.current().params.doc_id
-    Template.group_edit.helpers
-        options: ->
-            Docs.find
-                model:'group_option'
-
 
 # groups
 if Meteor.isClient
@@ -257,102 +269,7 @@ if Meteor.isClient
 
 
 
-    Template.groups.events
-        'click .add_group': ->
-            new_id =
-                Docs.insert
-                    model:'group'
-            Router.go("/group/#{new_id}/edit")
-            
-
-
-        'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
-        'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
-        'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
-
-        'click .tag_result': -> picked_tags.push @title
-        'click .unselect_tag': ->
-            picked_tags.remove @valueOf()
-            # console.log picked_tags.array()
-            # if picked_tags.array().length is 1
-                # Meteor.call 'call_wiki', search, ->
-
-            # if picked_tags.array().length > 0
-                # Meteor.call 'search_reddit', picked_tags.array(), ->
-
-        'click .clear_picked_tags': ->
-            Session.set('current_group_search',null)
-            picked_tags.clear()
-
-        # 'keyup #search': _.throttle((e,t)->
-        #     query = $('#search').val()
-        #     Session.set('current_group_search', query)
-        #     # console.log Session.get('current_group_search')
-        #     if e.which is 13
-        #         search = $('#search').val().trim().toLowerCase()
-        #         if search.length > 0
-        #             picked_tags.push search
-        #             console.log 'search', search
-        #             # Meteor.call 'log_term', search, ->
-        #             $('#search').val('')
-        #             Session.set('current_group_search', null)
-        #             # # $('#search').val('').blur()
-        #             # # $( "p" ).blur();
-        #             # Meteor.setTimeout ->
-        #             #     Session.set('dummy', !Session.get('dummy'))
-        #             # , 10000
-        # , 1000)
-
-        'click .calc_group_count': ->
-            Meteor.call 'calc_group_count', ->
-
-        # 'keydown #search': _.throttle((e,t)->
-        #     if e.which is 8
-        #         search = $('#search').val()
-        #         if search.length is 0
-        #             last_val = picked_tags.array().slice(-1)
-        #             console.log last_val
-        #             $('#search').val(last_val)
-        #             picked_tags.pop()
-        #             Meteor.call 'search_reddit', picked_tags.array(), ->
-        # , 1000)
-
-        'click .reconnect': ->
-            Meteor.reconnect()
-
-
-
     Template.groups.helpers
-
-        # toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
-        # connection: ->
-        #     console.log Meteor.status()
-        #     Meteor.status()
-        # connected: ->
-        #     Meteor.status().connected
-        group_tag_results: ->
-            # if Session.get('current_group_search') and Session.get('current_group_search').length > 1
-            #     Terms.find({}, sort:count:-1)
-            # else
-            group_count = Docs.find().count()
-            # console.log 'group count', group_count
-            # if group_count < 3
-            #     Results.find({count: $lt: group_count})
-            # else
-            Results.find()
-
-        current_group_search: -> Session.get('current_group_search')
-
-        result_class: ->
-            if Template.instance().subscriptionsReady()
-                ''
-            else
-                'disabled'
-
-        picked_tags: -> picked_tags.array()
-        picked_tags_plural: -> picked_tags.array().length > 1
-        searching: -> Session.get('searching')
-
         group_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {
@@ -377,21 +294,6 @@ if Meteor.isClient
         #         sort: count:-1
         #         # limit:1
 
-        group_limit: ->
-            Session.get('group_limit')
-
-        current_group_sort_label: ->
-            Session.get('group_sort_label')
-
-
-
-# Router.route '/group/:doc_id/', (->
-#     @render 'group_layout'
-#     ), name:'group_layout'
-# Router.route '/group/:doc_id/edit', (->
-#     @render 'group_edit'
-#     ), name:'group_edit'
-
 
 if Meteor.isServer
     Meteor.publish 'user_groups', (username)->
@@ -415,10 +317,10 @@ if Meteor.isServer
             model:'group'
             slug:group_slug
     Meteor.methods
-        calc_group_stats: (group_slug)->
+        calc_group_stats: (group_id)->
             group = Docs.findOne
                 model:'group'
-                slug: group_slug
+                _id:group_id
 
             member_count =
                 group.member_ids.length
@@ -426,24 +328,31 @@ if Meteor.isServer
             group_members =
                 Meteor.users.find
                     _id: $in: group.member_ids
+            group_posts =
+                Docs.users.find
+                    group_id:group_id
+            # dish_count = 0
+            # for member in group_members.fetch()
+            #     member_dishes =
+            #         Docs.find(
+            #             model:'dish'
+            #             _author_id:member._id
+            #         ).fetch()
 
-            dish_count = 0
-            dish_ids = []
-            for member in group_members.fetch()
-                member_dishes =
-                    Docs.find(
-                        model:'dish'
-                        _author_id:member._id
-                    ).fetch()
-                for dish in member_dishes
-                    console.log 'dish', dish.title
-                    dish_ids.push dish._id
-                    dish_count++
-            # dish_count =
-            #     Docs.find(
-            #         model:'dish'
-            #         group_id:group._id
-            #     ).count()
+            post_ids = []
+            group_posts =
+                Docs.find
+                    model:'post'
+                    group_id:group_id
+            post_count = 0
+            
+            for post in group_posts.fetch()
+                console.log 'group post', post.title
+                post_ids.push post._id
+                post_count++
+                
+                
+                
             group_count =
                 Docs.find(
                     model:'group'
@@ -473,10 +382,10 @@ if Meteor.isServer
                 $set:
                     member_count:member_count
                     group_count:group_count
-                    dish_count:dish_count
+                    event_count:event_count
                     total_credit_exchanged:total_credit_exchanged
-                    dish_ids:dish_ids
-                    
+                    post_count:post_count
+                    post_ids:post_ids
         # calc_group_stats: ->
         #     group_stat_doc = Docs.findOne(model:'group_stats')
         #     unless group_stat_doc

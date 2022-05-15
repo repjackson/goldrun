@@ -15,35 +15,12 @@ template(name='events')
                     else
                         i.circle.outline.large.icon
                     |past
-                .ui.compact.button.toggle_now(class=today_button_class)
-                    if viewing_today
-                        +i name='internal'
-                    else
-                        +i name='internal'
-                    |now
-                .ui.compact.button.view_today(class=today_button_class)
-                    if viewing_today
-                        +i name='calendar'
-                    else
-                        +i name='calendar'
-                    |today
-                .ui.compact.button.toggle_past(class=today_button_class)
-                    if viewing_today
-                        +i name='calendar'
-                    else
-                        +i name='calendar'
-                    |this week
-                .ui.compact.button.toggle_repeating(class=toggle_repeating_class)
-                    i.refresh.icon
-                    |repeating
+                +session_set key='event_time_filter' value='now' icon='internal'
+                +session_set key='event_time_filter' value='today' icon='day'
+                +session_set key='event_time_filter' value='week' icon='week'
+                +session_boolean_toggle key='view_repeating' value='repeating' icon='refresh'
                 div
-                i.large.tag.icon
-                each picked_event_tags 
-                    .ui.blue.button.unpick_tag
-                        |#{this}
-                each event_tags 
-                    .ui.compact.button.pick_tag #{title}
-                div
+                +facet key='tag' model='event'
             .twelve.wide.column
                 +search_input key='title'
                 +session_set key='view_mode' value='grid' icon='th'
@@ -51,7 +28,6 @@ template(name='events')
                 +session_set key='view_attending' value='going' label='going' icon='checkmark'
                 +session_set key='view_attending' value='maybe' label='maybe' icon='question'
                 +session_set key='view_attending' value='not' label='not going' icon='cancel'
-                .ui.inline.header sort
                 +sort_direction_toggle
                 +session_set key='sort_key' value='start_datetime' label='start time/date' icon='calendar'
                 +session_set key='sort_key' value='price' label='price' icon='money'

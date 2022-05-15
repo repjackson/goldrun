@@ -248,20 +248,14 @@ if Meteor.isClient
             'group'
             picked_tags.array()
             Session.get('current_search')
-            Session.get('limit')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
 
         @autorun => @subscribe 'doc_results',
             'group'
             picked_tags.array()
             Session.get('current_search')
-            Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
+            Session.get('limit')
             Session.get('view_delivery')
             Session.get('view_pickup')
             Session.get('view_open')

@@ -34,6 +34,9 @@ body {
 .invert .image {
      filter: invert(1) !important; 
 }
+/*.image {*/
+/*     filter: invert(1) !important; */
+/*}*/
 
  img, .label, input, .input, .green.button {
     /* filter: invert(1) !important; */

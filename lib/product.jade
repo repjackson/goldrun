@@ -170,47 +170,47 @@ template(name='product_view')
         
         
             
-template(name='product_inventory')      
-    .ui.inline.header 
-        +i name='shield'
-        |inventory
-    div 
-    .ui.list #{last_inventory_record} most recent record
-    a.ui.icon.basic.button.add_inventory
-        i.plus.icon
-    .ui.large.selection.list
-        each inventory_items
-            .item
-                .content
-                    // unless editing_this
-                    img.ui.rounded.small.inline.image(src="{{c.url image_id gravity='face' crop='fit'}}" class=cl)
+// template(name='product_inventory')      
+//     .ui.inline.header 
+//         +i name='shield'
+//         |inventory
+//     div 
+//     .ui.list #{last_inventory_record} most recent record
+//     a.ui.icon.basic.button.add_inventory
+//         i.plus.icon
+//     .ui.large.selection.list
+//         each inventory_items
+//             .item
+//                 .content
+//                     // unless editing_this
+//                     img.ui.rounded.small.inline.image(src="{{c.url image_id gravity='face' crop='fit'}}" class=cl)
                     
-                    // +image_view key='image_id' cl='ui tiny inline image'
-                    .ui.basic.label ##{amount}
-                    .ui.basic.label #{location}
-                    if notes
-                        .ui.basic.label notes: #{notes}
-                    .ui.basic.label
-                        i.user.icon
-                        |#{staff}
-                    i.edit.link.icon.edit_inventory_item
-                    if editing_this
-                        +number_edit key='amount' label='amount'
-                        +key_value_edit key='location' value='boh' label='boh'
-                        +key_value_edit key='location' value='foh' label='foh'
-                        // +text_edit key='location' label='location' icon='marker'
-                        +text_edit key='notes' label='notes' icon='pencil'
-                        // +text_edit key='staff' label='staff' icon='user'
-                        +image_edit key='image_id'
-                        // +key_value_edit key='staff' value='matt'
-                        // +key_value_edit key='staff' value='nena'
-                        // +key_value_edit key='staff' value='rachel'
-                        // +key_value_edit key='staff' value='jimmy'
-                        // +key_value_edit key='staff' value='elena'
-                        // +key_value_edit key='staff' value='eric'
-                        // +key_value_edit key='staff' value='luke'
-                        // +key_value_edit key='staff' value='mateo'
-                        i.checkmark.green.link.circular.large.icon.save_inventory_item
+//                     // +image_view key='image_id' cl='ui tiny inline image'
+//                     .ui.basic.label ##{amount}
+//                     .ui.basic.label #{location}
+//                     if notes
+//                         .ui.basic.label notes: #{notes}
+//                     .ui.basic.label
+//                         i.user.icon
+//                         |#{staff}
+//                     i.edit.link.icon.edit_inventory_item
+//                     if editing_this
+//                         +number_edit key='amount' label='amount'
+//                         +key_value_edit key='location' value='boh' label='boh'
+//                         +key_value_edit key='location' value='foh' label='foh'
+//                         // +text_edit key='location' label='location' icon='marker'
+//                         +text_edit key='notes' label='notes' icon='pencil'
+//                         // +text_edit key='staff' label='staff' icon='user'
+//                         +image_edit key='image_id'
+//                         // +key_value_edit key='staff' value='matt'
+//                         // +key_value_edit key='staff' value='nena'
+//                         // +key_value_edit key='staff' value='rachel'
+//                         // +key_value_edit key='staff' value='jimmy'
+//                         // +key_value_edit key='staff' value='elena'
+//                         // +key_value_edit key='staff' value='eric'
+//                         // +key_value_edit key='staff' value='luke'
+//                         // +key_value_edit key='staff' value='mateo'
+//                         i.checkmark.green.link.circular.large.icon.save_inventory_item
 
 template(name='product_reviews')
     .ui.inline.header 
@@ -363,6 +363,20 @@ template(name='product_edit')
                     +html_edit key='description' label='description'
                     +call_watson key='description'
                     +boolean_edit key='is_managing_inventory' label='manage inventory' icon='inventory'
+                    if is_managing_inventory
+                        .ui.segment 
+                            .ui.header 
+                                +i name='inventory'
+                                |inventory
+                            +number_edit key='inventory_amount' label='inventory amount' icon='hashtag'
+                    +boolean_edit key='can_subscribe' label='can subscribe' icon='calendar'
+                    if can_subscribe
+                        .ui.segment 
+                            .ui.header 
+                                +i name='inventory'
+                                |subscription settings
+                            +key_value_edit key='subscription_frequency' value='weekly' label='weekly'
+                            +key_value_edit key='subscription_frequency' value='monthly' label='monthly'
                     if can_delete
                         .ui.red.button.delete_product
                             i.remove.icon   

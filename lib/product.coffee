@@ -54,42 +54,6 @@ if Meteor.isClient
                 Router.go "/source/#{product.source_id}"
             , 240
         
-        'click .goto_ingredient': (e,t)->
-            # $(e.currentTarget).closest('.pushable').transition('fade right', 240)
-            product = Docs.findOne Router.current().params.doc_id
-            console.log @
-            found_ingredient = 
-                Docs.findOne 
-                    model:'ingredient'
-                    title:@valueOf()
-            if found_ingredient
-                Router.go "/ingredient/#{found_ingredient._id}"
-            else 
-                new_id = 
-                    Docs.insert 
-                        model:'ingredient'
-                        title:@valueOf()
-                Router.go "/ingredient/#{new_id}/edit"
-                
-            # found_ingredient = 
-            #     Docs.findOne 
-            #         model:'ingredient'
-            #         title:@valueOf()
-            # Meteor.setTimeout =>
-            #     Router.go "/source/#{product.source_id}"
-            # , 240
-        
-        'click .add_to_cart': ->
-            Meteor.call 'add_to_cart', @_id, =>
-                $('body').toast(
-                    showIcon: 'cart plus'
-                    message: "#{@title} added"
-                    # showProgress: 'bottom'
-                    class: 'success'
-                    # displayTime: 'auto',
-                    position: "bottom right"
-                )
-
 
     Template.product_subscriptions.events
         'click .subscribe': ->
@@ -124,29 +88,29 @@ if Meteor.isClient
                         ready:false
                         ready_timestamp:null
 
-    Template.product_inventory.onCreated ->
-        @autorun => Meteor.subscribe 'inventory_from_product_id', Router.current().params.doc_id
+    # Template.product_inventory.onCreated ->
+    #     @autorun => Meteor.subscribe 'inventory_from_product_id', Router.current().params.doc_id
             
-    Template.product_inventory.events
-        'click .add_inventory': ->
-            count = Docs.find(model:'inventory_item').count()
-            new_id = Docs.insert 
-                model:'inventory_item'
-                product_id:@_id
-                id:count++
-            Session.set('editing_inventory_id', @_id)
-        'click .edit_inventory_item': -> 
-            Session.set('editing_inventory_id', @_id)
-        'click .save_inventory_item': -> 
-            Session.set('editing_inventory_id', null)
+    # Template.product_inventory.events
+    #     'click .add_inventory': ->
+    #         count = Docs.find(model:'inventory_item').count()
+    #         new_id = Docs.insert 
+    #             model:'inventory_item'
+    #             product_id:@_id
+    #             id:count++
+    #         Session.set('editing_inventory_id', @_id)
+    #     'click .edit_inventory_item': -> 
+    #         Session.set('editing_inventory_id', @_id)
+    #     'click .save_inventory_item': -> 
+    #         Session.set('editing_inventory_id', null)
         
-    Template.product_inventory.helpers
-        editing_this: -> Session.equals('editing_inventory_id', @_id)
-        inventory_items: ->
-            Docs.find({
-                model:'inventory_item'
-                product_id:@_id
-            }, sort:'_timestamp':-1)
+    # Template.product_inventory.helpers
+    #     editing_this: -> Session.equals('editing_inventory_id', @_id)
+    #     inventory_items: ->
+    #         Docs.find({
+    #             model:'inventory_item'
+    #             product_id:@_id
+    #         }, sort:'_timestamp':-1)
 
 
     Template.product_subscriptions.helpers
@@ -259,17 +223,6 @@ if Meteor.isClient
         # )
 
 if Meteor.isServer
-    Meteor.publish 'ingredients_from_product_id', (product_id)->
-        product = Docs.findOne product_id
-        Docs.find 
-            model:'ingredient'  
-            _id:$in:product.ingredient_ids
-    Meteor.publish 'product_source', (product_id)->
-        product = Docs.findOne product_id
-        # console.log 'need source from this product', product
-        Docs.find
-            model:'source'
-            _id:product.source_id
     Meteor.publish 'orders_from_product_id', (product_id)->
         # product = Docs.findOne product_id
         Docs.find
@@ -417,17 +370,17 @@ if Meteor.isClient
             'product'
             picked_tags.array()
             Session.get('current_search')
-            Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
+            Session.get('limit')
 
         @autorun => @subscribe 'doc_results',
             'product'
             picked_tags.array()
             Session.get('current_search')
-            Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
+            Session.get('limit')
     Template.products.helpers
         product_docs: ->
             match = {model:'product'}

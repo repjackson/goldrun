@@ -128,6 +128,14 @@ Template.registerHelper 'downvote_class', () ->
         if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline'
     else ''
 
+Template.registerHelper '_upvoters', () ->
+    Meteor.users.find 
+        _id:$in:@upvoter_ids
+Template.registerHelper '_downvoters', () ->
+    Meteor.users.find 
+        _id:$in:@downvoter_ids
+
+
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 

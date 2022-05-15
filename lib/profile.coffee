@@ -23,10 +23,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_points'
         ), name:'user_points'
-    Router.route '/user/:username/rentals', (->
-        @layout 'profile_layout'
-        @render 'user_rentals'
-        ), name:'user_rentals'
+    # Router.route '/user/:username/rentals', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_rentals'
+    #     ), name:'user_rentals'
     Router.route '/user/:username/membership', (->
         @layout 'profile_layout'
         @render 'user_membership'
@@ -59,6 +59,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_mail'
         ), name:'user_mail'
+    Router.route '/user/:username/voting', (->
+        @layout 'profile_layout'
+        @render 'user_voting'
+        ), name:'user_voting'
 
 
 

@@ -10,10 +10,8 @@ template(name='users')
                     i.plus.large.icon
             div
             if currentUser
-                a.ui.compact.button.toggle_friends(class=toggle_friends_class)
-                    +i name='friends'
-                    |friends
-                
+                +session_boolean_toggle key='view_friends' label='friends' icon='friends'
+            div
             +i name='campfire'
             if picked_user_groups
                 #clear_groups.ui.primary.icon.compact.button
@@ -25,8 +23,7 @@ template(name='users')
                 .ui.compact.basic.button.select_group(class=cloud_tag_class) 
                     strong #{this.name}
             div
-            // i.tags.large.icon
-            +i name='tag'
+            +i name='tags'
             if picked_user_tags
                 // #clear_tags.ui.primary.icon.compact.button
                 //     i.remove.icon

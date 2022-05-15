@@ -86,6 +86,8 @@ Meteor.publish 'facet_sub', (
         #         name: ancestor_id.name
         #         count: ancestor_id.count
         #         index: i
+        count = Docs.find(match).count()
+
 
         tag_cloud = Docs.aggregate [
             { $match: match }
@@ -94,6 +96,7 @@ Meteor.publish 'facet_sub', (
             { $group: _id: '$tags', count: $sum: 1 }
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
+            { $match: count: $lte: count }
             { $limit: 15 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]

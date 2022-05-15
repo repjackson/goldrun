@@ -27,6 +27,10 @@ if Meteor.isClient
         @layout 'post_layout'
         @render 'post_comments'
         ), name:'post_comments'
+    Router.route '/post/:doc_id/related', (->
+        @layout 'post_layout'
+        @render 'post_related'
+        ), name:'post_related'
     
     
     # Template.posts.onCreated ->

@@ -144,6 +144,9 @@ template(name='post_layout')
                         a.ui.compact.button(href="/post/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
                             +i name='pie-chart'
                             |stats
+                        a.ui.compact.button(href="/post/#{_id}/related" class="{{isActiveRoute regex='related'}}" )
+                            +i name='clone'
+                            |related
                         +yield
                     .four.wide.column.scrollin
                         a.ui.icon.button.fly_left(href="/posts" title='posts')
@@ -192,6 +195,10 @@ template(name='post_orders')
             .ui.button.purchase_access
                 |purchase access
                 
+                
+template(name='post_related')
+    .ui.header 
+        |related posts
                 
                 
 template(name='post_home')                    

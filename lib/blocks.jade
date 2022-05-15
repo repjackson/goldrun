@@ -233,8 +233,8 @@ template(name='user_info')
 
 template(name='session_boolean_toggle')
     .ui.compact.button.toggle_session_key(class=calculated_class)
-        // +i name=icon cl='ui avatar image'
-        i.icon(class=icon)
+        if icon
+            +i name=icon cl='ui avatar image'
         |#{label}
         //- if icon_view 
         //- else 
@@ -486,15 +486,40 @@ template(name='voting_full')
         .ui.small.inline.green.header 
             i.thumbs.up.outline.icon
             |upvoters
-        each upvoter_ids
+        each _upvoters
             +user_info
     if downvoter_ids
         div
         .ui.small.inline.red.header 
             i.thumbs.down.outline.icon
             |downvoters
-        each downvoter_ids
+        each _downvoters
             +user_info
+// template(name='voting_full')
+//     // +ismall name='elections'
+//     // .ui.inline.header 
+//     //     |voting
+//     // ..upvote(title='upvote')
+//     i.thumbs.up.big.circular.link.icon.upvote(class=upvote_class)
+//         //- |like
+//     // .ui.large.icon.circular.button.downvote(title='downvote')
+//     i.thumbs.down.big.circular.link.icon.downvote(class=downvote_class)
+//         //- |dislike
+//     if points
+//         .ui.large.label(title='points') #{points} pts
+//         .ui.large.label(title='anon points') #{anon_points} anon pts
+//     if upvoter_ids
+//         .ui.small.header 
+//             i.thumbs.up.icon
+//             |upvoters
+//         each upvoter_ids
+//             +user_info
+//     if downvoter_ids
+//         .ui.small.header 
+//             i.thumbs.up.icon
+//             |downvoters
+//         each downvoter_ids
+//             +user_info
 
 
 
@@ -950,31 +975,6 @@ template(name='facet')
 
 
 
-// template(name='voting_full')
-//     // +ismall name='elections'
-//     // .ui.inline.header 
-//     //     |voting
-//     // ..upvote(title='upvote')
-//     i.thumbs.up.big.circular.link.icon.upvote(class=upvote_class)
-//         //- |like
-//     // .ui.large.icon.circular.button.downvote(title='downvote')
-//     i.thumbs.down.big.circular.link.icon.downvote(class=downvote_class)
-//         //- |dislike
-//     if points
-//         .ui.large.label(title='points') #{points} pts
-//         .ui.large.label(title='anon points') #{anon_points} anon pts
-//     if upvoter_ids
-//         .ui.small.header 
-//             i.thumbs.up.icon
-//             |upvoters
-//         each upvoter_ids
-//             +user_info
-//     if downvoter_ids
-//         .ui.small.header 
-//             i.thumbs.up.icon
-//             |downvoters
-//         each downvoter_ids
-//             +user_info
 
 
 

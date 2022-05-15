@@ -126,9 +126,6 @@ if Meteor.isClient
             
             
     Template.events.events
-        'click .pick_tag': -> picked_tags.push @title
-        'click .pick_flat_tag': -> picked_tags.push @valueOf()
-        'click .unpick_tag': -> picked_tags.remove @valueOf()
         'click .toggle_past': ->
             Session.set('viewing_past', !Session.get('viewing_past'))
         'click .select_room': ->
@@ -136,45 +133,14 @@ if Meteor.isClient
                 Session.set('viewing_room_id', null)
             else
                 Session.set('viewing_room_id', @_id)
-        'click .add_event': ->
-            new_id = 
-                Docs.insert 
-                    model:'event'
-                    published:false
-                    # purchased:false
-            Router.go "/event/#{new_id}/edit"
-        'keyup .event_search': _.throttle((e,t)->
-            query = $('.event_search').val()
-            Session.set('event_search', query)
-            
-            console.log Session.get('event_search')
-            if e.which is 13
-                search = $('.event_search').val().trim().toLowerCase()
-                if search.length > 0
-                    picked_event_tags.push search
-                    console.log 'event_search', search
-                    # Meteor.call 'log_term', search, ->
-                    $('.event_search').val('')
-                    Session.set('event_search', null)
-                    # # $( "p" ).blur();
-                    # Meteor.setTimeout ->
-                    #     Session.set('dummy', !Session.get('dummy'))
-                    # , 10000
-        , 500)
 
             
     Template.events.helpers
-        event_tags: ->
-            Results.find 
-                model:'event_tag'
-        picked_event_tags: -> picked_tags.array()
-        
         one_result: ->
             Docs.find({model:'event'}).count() is 1
         
         room_button_class: -> 
             if Session.equals('viewing_room_id', @_id) then 'blue' else 'basic'
-        viewing_past: -> Session.get('viewing_past')
         event_docs: ->
             # console.log moment().format()
             match = {}

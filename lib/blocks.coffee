@@ -10,16 +10,11 @@ if Meteor.isClient
             
             
     Template.facet.onCreated ->
-        @autorun => @subscribe 'facets',
+        console.log 'facet', @model
+        @autorun => @subscribe 'facet_sub',
             @data.model
             picked_tags.array()
             Session.get('current_search')
-            Session.get('limit')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
         
     Template.facet.helpers
         facet_results: ->
@@ -27,6 +22,10 @@ if Meteor.isClient
                 model:@key
             }, limit:10
         picked_tags: -> picked_tags.array()
+    Template.facet.events 
+        'click .pick_tag': -> picked_tags.push @name
+        'click .pick_flat_tag': -> picked_tags.push @valueOf()
+        'click .unpick_tag': -> picked_tags.remove @valueOf()
     
     
     Template.group_picker.onCreated ->

@@ -67,6 +67,7 @@ Template.nav.onRendered ->
 Template.footer.helpers
     all_users: -> Meteor.users.find()
     all_docs: -> Docs.find()
+    result_docs: -> Results.find()
 
 Template.nav.events
     'click .toggle_rightbar': ->

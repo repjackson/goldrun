@@ -633,8 +633,9 @@ template(name='search_input')
        
        
 template(name='facet')
-    div
     +i name=icon
+    if label 
+        |#{label}
     each picked_tags
         button.ui.blue.compact.circular.small.button.unpick_tag(tabindex='0')
             //- i.remove.icon

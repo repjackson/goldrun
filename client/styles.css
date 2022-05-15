@@ -223,7 +223,7 @@ body {
     /* border-radius:10px !important; */
 }
 .ui.segment {
-    border-radius:20px !important;
+    /*border-radius:20px !important;*/
 }
 .ui.card {
     border-radius:20px !important;
@@ -390,7 +390,7 @@ body {
 }
 
  .invert{
-    filter: invert(100%) !important; 
+    filter: invert(.9) !important; 
      /*background-color:white; */
      /*height: 100%; */
  } 

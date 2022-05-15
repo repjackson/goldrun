@@ -7,18 +7,8 @@ template(name='posts')
             if currentUser
                 .ui.icon.button.add_post
                     i.plus.large.icon
-            .ui.compact.button.toggle_yours
-                if viewing_yours
-                    i.undo.green.icon
-                else
-                    i.circle.outline.icon
-                |yours
-            .ui.compact.button.toggle_private
-                if viewing_private
-                    i.lock.green.icon
-                else
-                    i.circle.outline.icon
-                |private
+            +session_boolean_toggle key='view_mine' label='mine' icon='user'
+            +session_boolean_toggle key='view_private' label='private' icon='lock'
             div
             +search_input key='title'
             +facet key='tag' icon='tags'

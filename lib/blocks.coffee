@@ -1,4 +1,26 @@
 if Meteor.isClient
+    Template.add_doc_button.events 
+        'click .add_doc': ->
+            new_id = 
+                Docs.insert 
+                    model:@model
+                    published:false
+            Router.go "/#{@model}/#{new_id}/edit"
+            
+            
+            
+    Template.facet.onCreated ->
+        @autorun => @subscribe 'facets',
+            @data.model
+            picked_tags.array()
+            Session.get('current_search')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('view_delivery')
+            Session.get('view_pickup')
+            Session.get('view_open')
+        
     Template.facet.helpers
         facet_results: ->
             Results.find {

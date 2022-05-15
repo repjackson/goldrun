@@ -77,10 +77,4 @@ if Meteor.isClient
     #     'click .delete_article': ->
     #         if confirm 'Delete article?'
     #             Docs.remove @_id
-if Meteor.isServer
-    Meteor.publish 'users', (limit)->
-        if limit
-            Meteor.users.find({},limit:limit)
-        else
-            Meteor.users.find()
     

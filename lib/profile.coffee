@@ -105,6 +105,8 @@ if Meteor.isClient
         , 2000
 
     Template.profile_layout.events
+        'click .login_as_user': ->
+            
         'click .recalc_wage_stats': (e,t)->
             Meteor.call 'recalc_wage_stats', Router.current().params.username, ->
 
@@ -118,7 +120,7 @@ if Meteor.isClient
             new_id = 
                 Docs.insert 
                     model:'transfer'
-                    recipient_id: user._id
+                    target_user_id: user._id
             Router.go "/transfer/#{new_id}/edit"
             
             

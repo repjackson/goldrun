@@ -7,8 +7,7 @@ template(name='groups')
                 |#{group_docs.count}
                 |groups
             if currentUser
-                a.ui.icon.circular.button.add_group(title='add')
-                    i.plus.green.large.icon
+                +add_doc_button model='group'
             div
             .ui.button.toggle_my_groups
                 i.user.icon
@@ -236,12 +235,7 @@ template(name='group_posts')
     div
         .ui.stackable.doubling.centered.cards
             each group_post_docs 
-                +group_card
-        .ui.large.link.animated.list
-            each group_posts
-                a.item.fly_right(href="/post/#{_id}")
-                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-                    |#{title}
+                +post_card
 
 
 template(name='group_chat')    

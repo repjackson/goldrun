@@ -421,7 +421,7 @@ if Meteor.isClient
             Session.get('sort_key')
             Session.get('sort_direction')
 
-        @autorun => @subscribe 'results',
+        @autorun => @subscribe 'doc_results',
             'product'
             picked_tags.array()
             Session.get('current_search')
@@ -434,14 +434,9 @@ if Meteor.isClient
             unless Meteor.userId()
                 match.private = $ne: true
             Docs.find match, 
-                sort:_timestamp:-1
+                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
                 
     Template.products.events
-        'click .add_product': ->
-            new_id = 
-                Docs.insert 
-                    model:'product'
-            Router.go "/product/#{new_id}/edit"
 
     
     Template.product_card.events

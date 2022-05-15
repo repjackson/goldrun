@@ -17,6 +17,30 @@ if Meteor.isClient
             ->
         @autorun => Meteor.subscribe 'user_tags', picked_user_tags.array(), ->
     Template.users.helpers
+        users: ->
+            username_search = Session.get('username_search')
+            Meteor.users.find({
+                username: {$regex:"#{username_search}", $options: 'i'}
+                # healthclub_checkedin:$ne:true
+                # roles:$in:['resident','owner']
+                },{ limit:20 }).fetch()
+    Template.users.events
+        # 'click #add_user': ->
+        #     id = Docs.insert model:'person'
+        #     Router.go "/person/edit/#{id}"
+        'keyup .username_search': (e,t)->
+            username_search = $('.username_search').val()
+            if e.which is 8
+                if username_search.length is 0
+                    Session.set 'username_search',null
+                    Session.set 'checking_in',false
+                else
+                    Session.set 'username_search',username_search
+            else
+                Session.set 'username_search',username_search
+            
+            
+    Template.users.helpers
         toggle_friends_class: -> if Session.get('view_friends',true) then 'blue large' else ''
         picked_user_tags: -> picked_user_tags.array()
         all_user_tags: -> Results.find model:'user_tag'
@@ -147,10 +171,11 @@ if Meteor.isServer
 
     Meteor.publish 'users', (
         username, 
-        picked_user_tags, 
-        view_friends
+        picked_user_tags=[], 
+        view_friends=false
         sort_key='points'
         sort_direction=-1
+        limit=20
     )->
         match = {}
         if view_friends
@@ -159,7 +184,7 @@ if Meteor.isServer
         if username
             match.username = {$regex:"#{username}", $options: 'i'}
         Meteor.users.find(match,{ 
-            limit:100, 
+            limit:limit, 
             sort:
                 "#{sort_key}":sort_direction
             fields:
@@ -171,8 +196,7 @@ if Meteor.isServer
                 credit:1
                 first_name:1
                 last_name:1
-        }
-        )
+        })
     
     Meteor.publish 'user_tags', (picked_tags)->
         # user = Meteor.users.findOne @userId
@@ -192,7 +216,7 @@ if Meteor.isServer
             { $group: _id: '$tags', count: $sum: 1 }
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         cloud.forEach (tag, i) ->
@@ -274,32 +298,6 @@ if Meteor.isServer
             
             
             
-if Meteor.isClient
-    Template.users.onCreated ->
-        # @autorun -> Meteor.subscribe('users')
-        @autorun => Meteor.subscribe 'user_search', Session.get('username_search'), 'user'
-    Template.users.helpers
-        users: ->
-            username_search = Session.get('username_search')
-            Meteor.users.find({
-                username: {$regex:"#{username_search}", $options: 'i'}
-                # healthclub_checkedin:$ne:true
-                # roles:$in:['resident','owner']
-                },{ limit:20 }).fetch()
-    Template.users.events
-        # 'click #add_user': ->
-        #     id = Docs.insert model:'person'
-        #     Router.go "/person/edit/#{id}"
-        'keyup .username_search': (e,t)->
-            username_search = $('.username_search').val()
-            if e.which is 8
-                if username_search.length is 0
-                    Session.set 'username_search',null
-                    Session.set 'checking_in',false
-                else
-                    Session.set 'username_search',username_search
-            else
-                Session.set 'username_search',username_search
 
 
 if Meteor.isServer

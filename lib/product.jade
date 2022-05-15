@@ -4,9 +4,8 @@ template(name='products')
             .ui.inline.header 
                 +i name='shop'
                 |products
-                // if currentUser
-            .ui.icon.button.add_product
-                i.plus.icon
+            if currentUser
+                +add_doc_button model='product'
             +facet key='tag' icon='tags'
         .twelve.wide.column
             +sort_direction_toggle

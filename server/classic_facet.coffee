@@ -333,7 +333,7 @@ Meteor.publish 'facet', (
 # #                 name: tag.doc_id
 # #                 count: tag.count
 # #                 index: i
-Meteor.publish 'results', (
+Meteor.publish 'doc_results', (
     model='post'
     picked_tags=[]
     current_query=''

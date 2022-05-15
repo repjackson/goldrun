@@ -4,8 +4,8 @@ template(name='account_layout')
         +topbar
         +leftbar
         +rightbar
-        img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
         with user_from_username_param          
+            img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")
             //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
             .ui.stackable.padded.grid
                 .row
@@ -36,6 +36,19 @@ template(name='account_menu_item')
             |#{key}
 
 
+template(name='account_points')
+    .ui.container
+        .ui.segment
+            .ui.header 
+                +i name='money'
+                |preferred payment received method
+        +key_value_edit key='preferred_payment_method' value='apple_pay' label='apple pay' icon='apple-pay'
+        +key_value_edit key='preferred_payment_method' value='paypal' label='paypal' icon='paypal'
+        +key_value_edit key='preferred_payment_method' value='venmo' label='venmo' icon='venmo'
+        if in_dev 
+            +number_edit key='points' label='points'
+
+
 template(name='account_profile')
     .ui.stackable.grid 
         .two.column.row
@@ -49,13 +62,6 @@ template(name='account_profile')
                 +html_edit key='bio' label='bio'
                 +call_watson key='bio'
                 +array_edit key='tags' label='tags' icon='tagss'
-                .ui.segment
-                    .ui.header 
-                        +i name='money'
-                        |preferred payment received method
-                +key_value_edit key='preferred_payment_method' value='apple_pay' label='apple pay' icon='apple-pay'
-                +key_value_edit key='preferred_payment_method' value='paypal' label='paypal' icon='paypal'
-                +key_value_edit key='preferred_payment_method' value='venmo' label='venmo' icon='venmo'
             .column
                 .ui.header 
                     i.envelope.outline.icon
@@ -68,9 +74,6 @@ template(name='account_profile')
                 +phone_edit key='phone' label='phone' icon='phone' 
                 +link_edit key='link' label='external link' icon='globe'
                 +text_edit key='company' label='company' icon='business'
-                +text_edit key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
-                +text_edit key='twitter_link' label='twitter profile ' icon='twitter'
-                +text_edit key='facebook_link' label='facebook profile ' icon='facebook'
                 if is_current_user
                     +password_edit
                     //- +phone_editor
@@ -87,6 +90,11 @@ template(name='account_profile')
                 +boolean_edit key='admin' label='admin' icon='shield' 
                 +link_edit key='link' label='profile link' icon='globe'
 
+template(name='account_social')
+    .ui.container
+        +text_edit key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
+        +text_edit key='twitter_link' label='twitter profile ' icon='twitter'
+        +text_edit key='facebook_link' label='facebook profile ' icon='facebook'
 
 template(name='account_appearance')
     .ui.segment 
@@ -119,8 +127,6 @@ template(name='username_edit')
         input.new_username(type='text' placeholder='new username...')
         i.play.link.icon.change_username
 
-
-     
 template(name='phone_editor')
     .ui.small.header    
         i.phone.icon
@@ -141,8 +147,6 @@ template(name='phone_editor')
     else
         .ui.fluid.button.update_phone add phone
 
-
-
 template(name='password_edit')
     .ui.small.grey.header
         +i name='password'
@@ -161,17 +165,6 @@ template(name='password_edit')
         +i name='password' cl='ui mini inline image'
         | set password
             
-            
-            
-         
-         
-template(name='user_field')         
-    .ui.form
-        .field  
-            label #{label}
-            input.user_field(type='text' value=key_value)
-                        
-                        
             
 template(name='emails_edit')
     //- .ui.small.grey.header 

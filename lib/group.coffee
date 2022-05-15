@@ -243,7 +243,7 @@ if Meteor.isClient
             Session.get('view_pickup')
             Session.get('view_open')
 
-        @autorun => @subscribe 'results',
+        @autorun => @subscribe 'doc_results',
             'group'
             picked_tags.array()
             Session.get('current_search')

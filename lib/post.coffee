@@ -49,7 +49,7 @@ if Meteor.isClient
             Session.get('sort_key')
             Session.get('sort_direction')
 
-        @autorun => @subscribe 'results',
+        @autorun => @subscribe 'doc_results',
             'post'
             picked_tags.array()
             Session.get('current_search')

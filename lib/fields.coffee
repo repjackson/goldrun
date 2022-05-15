@@ -409,7 +409,7 @@ if Meteor.isClient
     Template.boolean_edit.helpers
         boolean_toggle_class: ->
             parent = Template.parentData()
-            if parent["#{@key}"] then 'active' else 'basic'
+            if parent["#{@key}"] then 'active large' else 'basic compact'
     
     
     Template.boolean_edit.events
@@ -432,8 +432,9 @@ if Meteor.isClient
                 displayTime: 'auto',
                 position: "bottom right"
             )
+            $(e.currentTarget).closest('.button').transition('bounce', 500)
             Meteor.call 'calc_user_points', ->
-    
+
     
     
     Template.single_doc_view.onCreated ->

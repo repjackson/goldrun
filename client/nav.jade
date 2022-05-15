@@ -35,6 +35,7 @@ template(name='nav')
                     else
                         i.user.icon
                     strong.mobile.hidden #{currentUser.name}
+                a.item(href="/user/#{currentUser.username}/points" class=user_nav_button_class title='points')
                     strong #{currentUser.points}p
                 a.icon.item.toggle_rightbar.no_blink
                     // .ui.avatar.image

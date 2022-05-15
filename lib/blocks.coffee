@@ -8,6 +8,39 @@ if Meteor.isClient
             Router.go "/#{@model}/#{new_id}/edit"
             
             
+    Template.favorite_icon_toggle.helpers
+        icon_class: ->
+            if Meteor.user().favorite_ids and @_id in Meteor.user().favorite_ids
+                'red'
+            else
+                'outline'
+            # if @favorite_ids and Meteor.userId() in @favorite_ids
+    Template.favorite_icon_toggle.events
+        'click .toggle_fav': ->
+            if Meteor.user().favorite_ids and @_id in Meteor.user().favorite_ids
+                Meteor.users.update Meteor.userId(),
+                    $pull:favorite_ids:@_id
+            else
+                Meteor.users.update Meteor.userId(),
+                    $addToSet:favorite_ids:@_id
+                
+            # if @favorite_ids and Meteor.userId() in @favorite_ids
+            #     Docs.update @_id, 
+            #         $pull:favorite_ids:Meteor.userId()
+                $('body').toast(
+                    showIcon: 'heart'
+                    message: "marked favorite"
+                    showProgress: 'bottom'
+                    class: 'success'
+                    # displayTime: 'auto',
+                    position: "bottom right"
+                )
+
+    #             Docs.update @_id, 
+    #                 $addToSet:favorite_ids:Meteor.userId()
+    
+
+            
             
     Template.facet.onCreated ->
         console.log 'facet', @model

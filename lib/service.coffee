@@ -28,7 +28,8 @@ if Meteor.isClient
 
     Template.services.onCreated ->
         # @autorun => @subscribe 'model_docs', 'service', ->
-        @autorun => @subscribe 'service_facets',
+        @autorun => @subscribe 'facets',
+            'service'
             picked_tags.array()
             # Session.get('limit')
             # Session.get('sort_key')
@@ -37,15 +38,13 @@ if Meteor.isClient
             # Session.get('view_pickup')
             # Session.get('view_open')
 
-        @autorun => @subscribe 'service_results',
+        @autorun => @subscribe 'doc_results',
+            'service'
             picked_tags.array()
             Session.get('group_title_search')
-            Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
+            Session.get('limit')
 
     Template.service_view.onCreated ->
         @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
@@ -62,18 +61,7 @@ if Meteor.isClient
             Docs.find {
                 model:'service'
             }, sort:_timestamp:-1
-        tag_results: ->
-            Results.find 
-                model:'service_tag'
-        picked_service_tags: -> picked_tags.array()
-        
                 
-    Template.services.events
-        'click .add_service': ->
-            new_id = 
-                Docs.insert 
-                    model:'service'
-            Router.go "/service/#{new_id}/edit"
     Template.service_card.events
         'click .view_service': ->
             Router.go "/service/#{@_id}"
@@ -81,39 +69,7 @@ if Meteor.isClient
         'click .view_service': ->
             Router.go "/service/#{@_id}"
 
-    Template.service_view.events
-        'click .add_service_recipe': ->
-            new_id = 
-                Docs.insert 
-                    model:'recipe'
-                    service_ids:[@_id]
-            Router.go "/recipe/#{new_id}/edit"
 
-    # Template.favorite_icon_toggle.helpers
-    #     icon_class: ->
-    #         if @favorite_ids and Meteor.userId() in @favorite_ids
-    #             'red'
-    #         else
-    #             'outline'
-    # Template.favorite_icon_toggle.events
-    #     'click .toggle_fav': ->
-    #         if @favorite_ids and Meteor.userId() in @favorite_ids
-    #             Docs.update @_id, 
-    #                 $pull:favorite_ids:Meteor.userId()
-    #         else
-    #             $('body').toast(
-    #                 showIcon: 'heart'
-    #                 message: "marked favorite"
-    #                 showProgress: 'bottom'
-    #                 class: 'success'
-    #                 # displayTime: 'auto',
-    #                 position: "bottom right"
-    #             )
-
-    #             Docs.update @_id, 
-    #                 $addToSet:favorite_ids:Meteor.userId()
-    
-    
     Template.service_edit.events
         'click .delete_service': ->
             Swal.fire({

@@ -30,7 +30,7 @@ template(name='profile_layout')
                         +profile_menu_item key='social' icon='friends'
                         +profile_menu_item key='posts' icon='blog'
                         +profile_menu_item key='products' icon='shop'
-                        +profile_menu_item key='rentals' icon='clock'
+                        // +profile_menu_item key='rentals' icon='clock'
                         +profile_menu_item key='services' icon='wrench'
                         +profile_menu_item key='groups' icon='groups'
                         +profile_menu_item key='comments' icon='chat'
@@ -145,38 +145,42 @@ template(name='profile_menu_item')
             |#{key}
                  
                  
-template(name='user_points')                 
-    .ui.dividing.header 
-        +i name='coins'
-        |user balance
-    .ui.dividing.header
-        +i name='internal'
-        |points in
-    .ui.list
-        each points_in_docs
-            .ui.inline.header #{body} 
-            |{amount}pts
-    .ui.dividing.header
-        +i name='donate'
-        |points out
-    .ui.list
-        each points_out_docs
-            .ui.inline.header #{body} 
-            |{amount}pts
-    .ui.dividing.header
-        +i name='donate'
-        |tips
-    .ui.list
-        each tips_docs
-            a.item.fly_left(href="/#{_parent.model}/#{parent_id}")
-                strong #{_parent.title} 
-                small {amount}pts
-    .ui.dividing.header 
-        +i name='blog'
-        |posts
-    .ui.small.header publish costs
-    .ui.small.header earned points
-    
+template(name='user_points')        
+    .ui.stackable.padded.grid
+        .two.column.row
+            .column
+                .ui.dividing.header 
+                    +i name='coins'
+                    |user balance
+                .ui.dividing.header
+                    +i name='internal'
+                    |points in
+                .ui.list
+                    each points_in_docs
+                        .ui.inline.header #{body} 
+                        |{amount}pts
+                .ui.dividing.header
+                    +i name='donate'
+                    |points out
+                .ui.list
+                    each points_out_docs
+                        .ui.inline.header #{body} 
+                        |{amount}pts
+            .column
+                .ui.dividing.header
+                    +i name='donate'
+                    |tips
+                .ui.list
+                    each tips_docs
+                        a.item.fly_left(href="/#{_parent.model}/#{parent_id}")
+                            strong #{_parent.title} 
+                            small {amount}pts
+                .ui.dividing.header 
+                    +i name='blog'
+                    |posts
+                .ui.small.header publish costs
+                .ui.small.header earned points
+                
     
                  
 template(name='user_products')                 

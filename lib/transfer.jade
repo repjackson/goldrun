@@ -63,30 +63,25 @@ template(name='view_span')
         |#{views}
                     
 template(name='transfer_item')
-    a.item.zoomer(href="/transfer/#{_id}")
+    .item
         if image_id
-            img.ui.tiny.image(src="{{c.url image_id width=300 height=300}}")
-        //     a.image.zoomer.fly_right(href="/transfer/#{_id}")
-        .middle.aligned.content
-            a.ui.header.zoomer.fly_right(href="/transfer/#{_id}")
-                |#{title}
-            |#{member_ids.length} members
-            // .smallscroll
-            //     |!{description}
-            //+ismall name='tags' cl='ui inline image'
-        .middle.aligned.content
-            each seven_tags
+            a.image.zoomer.fly_right(href="/transfer/#{_id}")
+                img.ui.image(src="{{c.url image_id width=600 height=600}}")
+        .content
+            with _target
+                +user_info
+            with _author
+                +user_info
+            each tags
                 .ui.label #{this}
-            if location 
-                i.red.marker.icon 
-                |#{location}
-            // a.zoomer(href="/transfer/#{_id}")
-            //     i.chevron.right.large.circular.icon
+            span.smallscroll
+                |!{description}
+            // +ismall name='tags' cl='ui inline image'
+            a.ui.icon.button.zoomer.fly_right(href="/transfer/#{_id}")
+                i.chevron.right.icon
+            +view_span
             // if is_admin
             //     .ui.small.header slug: #{slug}
-            // if can_edit
-            //     a.ui.circular.icon.button(href="/transfer/#{_id}/edit")
-            //         i.pencil.blue.icon
             +print_this
                     
 

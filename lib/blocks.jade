@@ -211,8 +211,8 @@ template(name='viewing')
 template(name='user_info')
     // with user_from_id this
     a.ui.big.link.image.zoomer.label.fly_up(href="/user/#{username}")
-        img.ui.inline.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-        |#{username}
+        img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+        |#{name}
     // .ui.header #{this}
 
 

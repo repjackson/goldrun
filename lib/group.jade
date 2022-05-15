@@ -182,38 +182,39 @@ template(name='group_item')
 
 
 template(name='group_layout')
-    +nav
-    .ui.bottom.attached.pushable.segment.scrollin(class=darkmode_class)
-        +topbar
-        +leftbar
-        +rightbar
-        .global_container
-            with current_doc
+    with current_doc
+        img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+        +nav
+        .ui.bottom.attached.pushable.segment.scrollin(class=darkmode_class)
+            +topbar
+            +leftbar
+            +rightbar
+            .global_container
                 img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
                 .ui.stackable.padded.grid
-                    .row
-                        .four.wide.column
-                            +group_sidebar
-                        .twelve.wide.column
-                            a.ui.circular.compact.button.fly_up(href="/group/#{current_doc._id}/")
-                                +i name='dashboard'
-                                |dashboard
-                            +group_nav_item key='about' icon='info'
-                            if has_posts
-                                +group_nav_item key='posts' icon='blog'
-                            if has_events
-                                +group_nav_item key='events' icon='calendar'
-                            // if has_tasks
-                            //     +group_nav_item key='tasks' icon='tasks'
-                            if has_members
-                                +group_nav_item key='members' icon='groups'
-                            if has_chat
-                                +group_nav_item key='chat' icon='chat'
-                            if has_shop
-                                +group_nav_item key='products' icon='shop'
-                            +group_nav_item key='related' icon='connect'
-                            .scrolling
-                                +yield
+                        .row
+                            .four.wide.column
+                                +group_sidebar
+                            .twelve.wide.column
+                                a.ui.circular.compact.button.fly_up(href="/group/#{current_doc._id}/")
+                                    +i name='dashboard'
+                                    |dashboard
+                                +group_nav_item key='about' icon='info'
+                                if has_posts
+                                    +group_nav_item key='posts' icon='blog'
+                                if has_events
+                                    +group_nav_item key='events' icon='calendar'
+                                // if has_tasks
+                                //     +group_nav_item key='tasks' icon='tasks'
+                                if has_members
+                                    +group_nav_item key='members' icon='groups'
+                                if has_chat
+                                    +group_nav_item key='chat' icon='chat'
+                                if has_shop
+                                    +group_nav_item key='products' icon='shop'
+                                +group_nav_item key='related' icon='connect'
+                                .scrolling
+                                    +yield
 
 template(name='group_sidebar')
     .ui.inline.header 
@@ -225,6 +226,11 @@ template(name='group_sidebar')
         // i.big.fire.icon
         +i name='campfire' cl='ui mini inline image'
         |groups
+    if premium_membership
+        .ui.header 
+            |premium membership: #{membership_cost}pts
+        .ui.button.purchase_membership
+            |purchase membership
     if can_edit
         a.ui.circular.icon.button.fly_down(href="/group/#{_id}/edit")
             i.setting.large.icon
@@ -310,6 +316,7 @@ template(name='group_info')
 
 template(name='group_edit')
     with current_doc
+        img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
             .row
                 .six.wide.column
@@ -321,6 +328,24 @@ template(name='group_edit')
                     if in_dev
                         +remove_button
                     +image_edit key='image_id' label='image' direct=true
+                    .ui.header 
+                        i.cubes.icon
+                        |modules
+                    +boolean_edit key='has_checkin' label='checkin' icon='clock' direct=true
+                    +boolean_edit key='has_shop' label='shop' icon='shop' direct=true
+                    +boolean_edit key='has_posts' label='posts' icon='blog' direct=true
+                    +boolean_edit key='has_events' label='events' icon='calendar' direct=true
+                    +boolean_edit key='has_chat' label='chat' icon='chat' direct=true
+                    +boolean_edit key='has_members' label='membership' icon='groups' direct=true
+                    if has_members 
+                        .ui.segment 
+                            .ui.header 
+                                +i name='groups'
+                                |membership settings
+                            +boolean_edit key='premium_membership' label='premium' icon='membership-card'
+                            if premium_membership
+                                +number_edit key='membership_cost' label='cost (points)' icon='coins'
+                    
                 .ten.wide.column
                     +text_edit key='title' direct=true
                     +html_edit key='description' label='content' icon='content' direct=true
@@ -333,15 +358,6 @@ template(name='group_edit')
                     +multi_user_edit key='member_ids' label='members' direct=true
                     +boolean_edit key='private' label='private' direct=true
                     +link_edit key='link' label='link' direct=true
-                    .ui.header 
-                        i.cubes.icon
-                        |modules
-                    +boolean_edit key='has_checkin' label='checkin' icon='clock' direct=true
-                    +boolean_edit key='has_shop' label='shop' icon='shop' direct=true
-                    +boolean_edit key='has_posts' label='posts' icon='blog' direct=true
-                    +boolean_edit key='has_events' label='events' icon='calendar' direct=true
-                    +boolean_edit key='has_chat' label='chat' icon='chat' direct=true
-                    
                     
                 
 template(name='group_posts')                

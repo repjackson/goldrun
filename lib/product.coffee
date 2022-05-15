@@ -413,7 +413,21 @@ if Meteor.isClient
 
 
     Template.products.onCreated ->
-        # @autorun  => @subscribe 'model_docs', 'product', ->
+        @autorun => @subscribe 'facets',
+            'product'
+            picked_tags.array()
+            Session.get('current_search')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+
+        @autorun => @subscribe 'results',
+            'product'
+            picked_tags.array()
+            Session.get('current_search')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
     Template.products.helpers
         product_docs: ->
             match = {model:'product'}

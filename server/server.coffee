@@ -132,59 +132,6 @@ Meteor.publish 'page', (slug)->
         slug:slug
 
 
-Meteor.publish 'results', (
-    query=''
-    picked_tags=[]
-    picked_location_tags=[]
-    limit=42
-    sort_key='_timestamp'
-    sort_direction=-1
-    view_delivery
-    view_pickup
-    view_open
-    )->
-    console.log picked_tags
-    self = @
-    match = {}
-    match.model = 'rental'
-    
-    match.app = 'goldrun'
-    # if view_open
-    #     match.open = $ne:false
-    # if view_delivery
-    #     match.delivery = $ne:false
-    # if view_pickup
-    #     match.pickup = $ne:false
-    # if Meteor.userId()
-    #     if Meteor.user().downvoted_ids
-    #         match._id = $nin:Meteor.user().downvoted_ids
-    if query
-        match.title = {$regex:"#{query}", $options: 'i'}
-    
-    if picked_tags.length > 0
-        match.tags = $all: picked_tags
-        # sort = 'price_per_serving'
-    # if view_images
-    #     match.is_image = $ne:false
-    # if view_videos
-    #     match.is_video = $ne:false
-
-    # match.tags = $all: picked_tags
-    # if filter then match.model = filter
-    # keys = _.keys(prematch)
-    # for key in keys
-    #     key_array = prematch["#{key}"]
-    #     if key_array and key_array.length > 0
-    #         match["#{key}"] = $all: key_array
-        # console.log 'current facet filter array', current_facet_filter_array
-
-    # console.log 'product match', match
-    # console.log 'sort key', sort_key
-    # console.log 'sort direction', sort_direction
-    Docs.find match,
-        sort:"#{sort_key}":sort_direction
-        # sort:_timestamp:-1
-        limit: limit
 
 
 Meteor.publish 'some_rentals', ->

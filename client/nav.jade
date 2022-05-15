@@ -126,26 +126,17 @@ template(name='rightbar')
             //     +i name='dashboard' cl='ui avatar image'
             //     // i.dashboard.icon
             //     |dashboard
-            a.item.zoomer.toggle_darkmode
+            a.item.zoomer.toggle_darkmode.toggle_rightbar
                 if darkmode
                     +i name='checkmark'
                 else
                     +i name='light'
                 |dark mode
-            +right_nav_item route='credit' label='credit' icon='money'
+            +right_nav_item route='points' label='points' icon='coins'
             +right_nav_item route='orders' label='orders' icon='check'
             +right_nav_item route='subscriptions' label='subscriptions' icon='check'
             +right_nav_item route='social' label='social' icon='friends'
-            // a.item.toggle_rightbar(href="/user/#{username}/pantry" class="{{isActiveRoute 'user_pantry'}}")
-            //     +i name='cupboard' cl='ui avatar image'
-            //     |pantry
             +right_nav_item route='cart' label='cart' icon='shopping-cart'
-            // a.item.toggle_rightbar(href="/work" class="{{isActiveRoute 'work'}}")
-            //     +i name='trust' cl='ui avatar image'
-            //     |work
-            // a.item.toggle_rightbar(href="/user/#{username}/trips" class="{{isActiveRoute 'user_trips'}}")
-            //     +i name='bicycle' cl='ui avatar image'
-            //     |trips
             // .ui.divider
             +right_nav_item route='edit' label='account' icon='settings'
             a.item.logout

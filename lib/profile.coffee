@@ -259,16 +259,20 @@ if Meteor.isServer
                     Docs.find
                         upvoter_ids:$in:[user._id]
                 for upvote in upvotes.fetch()
+                    console.log 'upvote', upvote
                     point_total += -1
                     upvote_total += -1
                 
                 
                 tip_total = 0
+                console.log 'tip'
                 tip_docs = 
                     Docs.find
-                        model:'tip'
+                        model:'transfer'
+                        transfer_type:'tip'
                         _author_id:user._id
                 for tip in tip_docs.fetch()
+                    console.log 'tip', tip
                     point_total += -10
                     upvote_total += -10
                     
@@ -277,6 +281,7 @@ if Meteor.isServer
                     Docs.find
                         downvoter_ids:$in:[user._id]
                 for downvote in downvotes.fetch()
+                    console.log 'downvote', downvote
                     point_total += -1
                     downvote_total += -1
                 

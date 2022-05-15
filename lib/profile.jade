@@ -74,10 +74,11 @@ template(name='profile_left_column')
     if twitter_link
         .ui.circular.compact.button(href=twitter_link target='_window')
             +i name='twitter'
-    a.ui.large.icon.compact.button.fly_up(href="/user/#{username}/edit" title='profile settings')
+    a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
         i.cog.large.icon
         unless currentUser.hide_menu_labels
             |account
+    div
     a.ui.small.grey.header.zoomer.calc_user_points
         i.line.chart.icon
         |stats

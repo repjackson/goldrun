@@ -341,7 +341,7 @@ Meteor.publish 'results', (
     picked_location_tags=[]
     sort_key='_timestamp'
     sort_direction=-1
-    limit=42
+    limit=20
     )->
     self = @
     match = {model:model}

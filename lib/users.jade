@@ -39,28 +39,15 @@ template(name='users')
         .twelve.wide.column
             +session_icon_button key='view_mode' value='grid' icon='grid' 
             +session_icon_button key='view_mode' value='list' icon='list'
-            +session_set key='sort_users_direction' value='-1' icon='chevron down'
-            +session_set key='sort_users_direction' value='1' icon='chevron up'
-            +session_set key='sort_users_key' value='points' icon='coins'
-            +session_set key='sort_users_key' value='created_date' icon='clock'
+            +sort_direction_toggle
+            +session_set key='sort_key' value='points' icon='coins'
+            +session_set key='sort_key' value='created_date' icon='clock'
+            +session_set key='sort_key' value='views' icon='eye'
             // +session_set key='view_limit' value=1
-            +session_set key='view_limit' value=10
-            +session_set key='view_limit' value=20
-            +session_set key='view_limit' value=50
-            .ui.icon.input
-                if username_query
-                    i.remove.link.red.circular.icon.zoomer.clear_query
-                else
-                    i.search.icon.link.submit_query
-                input.search_user(type='text' placeholder='search...' autofocus='' value=username_query)
-            +i name='sort'
-            +session_set key='sort_by' value='points' label='points' icon='hashtag'
-            +session_set key='sort_by' value='views' label='views' icon='eye'
-            +session_set key='sort_by' value='nearest' label='nearest' icon='marker'
-            +session_set key='sort_by' value='name' label='name' icon='user'
-            // .ui.header
-            +i name='tag'
-            +i name='campfire'
+            +session_set key='view_limit' value=10 label='10'
+            +session_set key='view_limit' value=20 label='20'
+            +session_set key='view_limit' value=50 label='30'
+            +search_input key='title'
             .scrollin
                 if session_is 'view_mode' 'grid'
                     if one_result

@@ -80,6 +80,7 @@ if Meteor.isClient
                     post_id:Router.current().params.doc_id
                     complete:true
                     amount:10
+                    transfer_type:'tip'
                     tags:['tip']
             Meteor.call 'calc_user_points', ->
     Template.post_tips.helpers 

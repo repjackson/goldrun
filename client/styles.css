@@ -31,6 +31,10 @@ body {
 }
 
 
+.invert .image {
+     filter: invert(1) !important; 
+}
+
  img, .label, input, .input, .green.button {
     /* filter: invert(1) !important; */
 } 
@@ -387,11 +391,6 @@ body {
 
  .invert{
     filter: invert(100%) !important; 
-     /*background-color:white; */
-     /*height: 100%; */
- } 
- .invert > img {
-    filter: invert(0%) !important; 
      /*background-color:white; */
      /*height: 100%; */
  } 

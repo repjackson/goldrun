@@ -4,11 +4,16 @@ if Meteor.isClient
     Template.users.onCreated ->
         Session.set('view_friends', false)
         # @autorun -> Meteor.subscribe('users')
+        Session.setDefault 'limit', 20
+        Session.setDefault 'sort_key', 'points'
         Session.setDefault('view_mode','grid')
-        @autorun => Meteor.subscribe 'search_user', 
+        @autorun => Meteor.subscribe 'users', 
             Session.get('username_query')
             picked_user_tags.array()
             Session.get('view_friends')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('limit')
             ->
         @autorun => Meteor.subscribe 'user_tags', picked_user_tags.array(), ->
     Template.users.helpers
@@ -30,7 +35,10 @@ if Meteor.isClient
             match._id = $ne:Meteor.userId()
             Meteor.users.find(match
                 # roles:$in:['resident','owner']
-            ,{ limit:100 }).fetch()
+            ,
+                limit:Session.get('limit')
+                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+            )
 
     Template.users.events
         'click .toggle_friends': -> Session.set('view_friends', !Session.get('view_friends'))
@@ -49,6 +57,22 @@ if Meteor.isClient
                         first_name:splitted[0]
                         last_name:splitted[1]
                 Router.go "/user/#{new_user.username}"
+                $('body').toast({
+                    title: "user created"
+                    # message: 'Please see desk staff for key.'
+                    class : 'success'
+                    icon:'user'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
+                
         'keyup .search_user': (e,t)->
             username_query = $('.search_user').val()
             if e.which is 8
@@ -65,13 +89,6 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'users', (limit)->
-        if limit
-            Meteor.users.find({},limit:limit)
-        else
-            Meteor.users.find()
-            
-            
     Meteor.publish 'user_results', (
         picked_tags
         doc_limit
@@ -128,7 +145,13 @@ if Meteor.isServer
             limit: limit
 
 
-    Meteor.publish 'search_user', (username, picked_user_tags, view_friends)->
+    Meteor.publish 'users', (
+        username, 
+        picked_user_tags, 
+        view_friends
+        sort_key='points'
+        sort_direction=-1
+    )->
         match = {}
         if view_friends
             match._id = $in: Meteor.user().friend_ids
@@ -136,12 +159,15 @@ if Meteor.isServer
         if username
             match.username = {$regex:"#{username}", $options: 'i'}
         Meteor.users.find(match,{ 
-            limit:200, 
+            limit:100, 
+            sort:
+                "#{sort_key}":sort_direction
             fields:
                 roles:1
                 username:1
                 image_id:1
                 tags:1
+                points:1
                 credit:1
                 first_name:1
                 last_name:1

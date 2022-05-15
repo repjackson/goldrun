@@ -33,16 +33,19 @@ template(name='public_chat')
         .ui.header loading
           
 template(name='latest_activity')
-    .ui.header 
-        +i name='clock'
-        |#{latest_docs.count} latest activity
-        
-    if subs_ready 
-        .ui.link.cards.scrolling
-            each latest_docs
-                +home_doc_item
-    else 
-        i.big.loading.yin.yang.icon
+    .ui.accordion
+        .active.title
+            a.ui.header 
+                +i name='clock'
+                |#{latest_docs.count} latest activity
+                // i.sort.icon
+        .active.content
+            if subs_ready 
+                .ui.link.cards.scrolling
+                    each latest_docs
+                        +home_doc_item
+            else 
+                i.big.loading.yin.yang.icon
 
 template(name='home_doc_item')
     a.ui.fluid.card.fly_right(href="/post/#{_id}")
@@ -81,7 +84,7 @@ template(name='home_doc_item')
 template(name='top_users_points')
     .ui.fluid.accordion
         .active.title
-            .ui.header 
+            a.ui.header 
                 +i name='leaderboard'
                 |point leaders
         .active.content
@@ -96,7 +99,7 @@ template(name='top_users_points')
 template(name='latest_users')
     .ui.fluid.accordion
         .active.title
-            .ui.header
+            a.ui.header
                 +i name='clock'
                 |#{latest_user_docs.count} latest users
         .active.content

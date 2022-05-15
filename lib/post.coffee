@@ -79,7 +79,7 @@ if Meteor.isClient
                     model:'transfer'
                     post_id:Router.current().params.doc_id
                     complete:true
-                    amount:10
+                    amount:@amount
                     transfer_type:'tip'
                     tags:['tip']
             Meteor.call 'calc_user_points', ->
@@ -100,36 +100,10 @@ if Meteor.isClient
         post_docs: ->
             Docs.find {
                 model:'post'
-            }, sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
-            # }, sort:_timestamp:-1
-        
+            }, 
+                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+                limit:Session.get('limit')        
                 
-    Template.posts.events
-        'click .add_post': ->
-            new_id = 
-                Docs.insert 
-                    model:'post'
-            Router.go "/post/#{new_id}/edit"
-    Template.post_card.events
-        'click .view_post': ->
-            Router.go "/post/#{@_id}"
-    Template.post_card_med.events
-        'click .view_post': ->
-            Router.go "/post/#{@_id}"
-    Template.post_item.events
-        'click .view_post': ->
-            Router.go "/post/#{@_id}"
-
-    Template.post_layout.events
-        'click .add_post_recipe': ->
-            new_id = 
-                Docs.insert 
-                    model:'recipe'
-                    post_ids:[@_id]
-            Router.go "/recipe/#{new_id}/edit"
-
-    
-    
     Template.post_edit.events
         'click .delete_post': ->
             Swal.fire({
@@ -197,48 +171,4 @@ if Meteor.isClient
                             timer: 1000
                         )
             )
-            
-
-if Meteor.isClient
-    Template.post_card.onCreated ->
-        # @autorun => Meteor.subscribe 'model_docs', 'food'
-    Template.post_card.events
-        'click .quickbuy': ->
-            console.log @
-            Session.set('quickbuying_id', @_id)
-            # $('.ui.dimmable')
-            #     .dimmer('show')
-            # $('.special.cards .image').dimmer({
-            #   on: 'hover'
-            # });
-            # $('.card')
-            #   .dimmer('toggle')
-            $('.ui.modal')
-              .modal('show')
-
-        'click .goto_food': (e,t)->
-            # $(e.currentTarget).closest('.card').transition('zoom',420)
-            # $('.global_container').transition('scale', 500)
-            Router.go("/food/#{@_id}")
-            # Meteor.setTimeout =>
-            # , 100
-
-        # 'click .view_card': ->
-        #     $('.container_')
-
-    Template.post_card.helpers
-        post_card_class: ->
-            # if Session.get('quickbuying_id')
-            #     if Session.equals('quickbuying_id', @_id)
-            #         'raised'
-            #     else
-            #         'active medium dimmer'
-        is_quickbuying: ->
-            Session.equals('quickbuying_id', @_id)
-
-        food: ->
-            # console.log Meteor.user().roles
-            Docs.find {
-                model:'food'
-            }, sort:title:1
             

@@ -3,10 +3,9 @@ template(name='posts')
         .four.wide.column
             .ui.inline.header 
                 +i name='blog'
-                |posts
+                |#{post_docs.count} posts
             if currentUser
-                .ui.icon.button.add_post
-                    i.plus.large.icon
+                +add_doc_button model='post'
             +session_boolean_toggle key='view_mine' label='mine' icon='user'
             +session_boolean_toggle key='view_private' label='private' icon='lock'
             div

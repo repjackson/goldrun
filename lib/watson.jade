@@ -55,7 +55,7 @@ template(name='small_sentiment')
         .progress
 //- 
 template(name='doc_emotion') 
-    .spacer
+    // .spacer
     // .ui.dividing.inline.header 
     //     | emotion
     //- with watson.emotion
@@ -85,7 +85,7 @@ template(name='doc_emotion')
     span.ui.large.red.text(class="{{calculated_size anger_percent}}") {{ to_percent anger_percent }}% anger 
         |&nbsp;
     //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent anger_percent}}%;background-color:red" title="{{to_percent anger_percent}}% anger")
-    .spacer
+    // .spacer
 
 // template(name='call_watson')
 //     button.ui.large.icon.circular.button.autotag

@@ -171,6 +171,11 @@ template(name='user_points')
             a.item.fly_left(href="/#{_parent.model}/#{parent_id}")
                 strong #{_parent.title} 
                 small {amount}pts
+    .ui.dividing.header 
+        +i name='blog'
+        |posts
+    .ui.small.header publish costs
+    .ui.small.header earned points
     
     
                  
@@ -252,9 +257,7 @@ template(name='user_dashboard')
             .column
                 +user_friends
             .column
-                +user_rentals
-            .column
-                +user_credit
+                +user_points
                     
 template(name='user_social')
     .ui.stackable.padded.two.column.grid 
@@ -313,7 +316,10 @@ template(name="user_messages")
             
 template(name='send_message_button')
     .ui.button.send_message
-        |send message
+        +i name='envelope'
+        span.mobile.hidden
+            unless currentUser.hide_menu_labels
+                |send message
             
 template(name="user_reviews")               
     .ui.dividing.header 
@@ -330,7 +336,7 @@ template(name='user_posts')
     if is_current_user
         .ui.circular.button.add_user_post
             i.large.plus.icon
-    .ui.selection.link.animated.large.divided.list
+    .ui.selection.link.animated.divided.list
         each user_model_docs 'post'
             a.item.fly_left(href="/post/#{_id}") 
                 if image_id
@@ -342,7 +348,7 @@ template(name='user_posts')
                         |#{when}
 
 template(name='profile_deposits')
-    .ui.header 
+    .ui.dividing.header 
         +i name='donate'
         |deposits
     // |includes 2% points card processing fee
@@ -351,7 +357,7 @@ template(name='profile_deposits')
         .ui.icon.button.add_points   
             i.right.chevron.icon
             
-    .ui.large.bulleted.list.smallscroll
+    .ui.large.bulleted.list.smallscrol
         each deposit_docs
             .item 
                 .content
@@ -366,31 +372,14 @@ template(name='profile_deposits')
 
 
 
-template(name='user_credit')
-    .ui.header 
-        +i name='donate'
-        |points sent
-    .scrolling
-        .ui.items
-            each sent_transfer_docs
-                +transfer_item
-    .ui.header 
-        +i name='internal'
-        |points received
-    .ui.button.send_points
-        i.send.icon
-        |send points
-    .scrolling
-        .ui.items
-            each received_transfer_docs
-                +transfer_item
-
 
 
 template(name='logout_other_clients_button')
     .ui.compact.button.logout_other_clients(title='logout other clients')
         +i name='globe'
-        |log out other clients
+        span.mobile.hidden
+            unless currentUser.hide_menu_labels
+                |log out other clients
 
 
 
@@ -398,34 +387,6 @@ template(name='logout_button')
     .ui.large.compact.button.logout(title='log out')
         // i.sign.out.alternate.icon
         +i name='exit'
-        |log out
-
-
-// template(name='profile_order_item')
-//     .ui.segment.grid
-//         .row
-//             .column
-//                 .ui.header #{rental.title}
-//         .row
-//             .column
-//                 with rental
-//                     //- img.ui.mini.image(src=image)
-//                     +image_view key='image_id' direct=true cl='zoom ui tiny image'
-//             .column
-//                 a.ui.header.inline.lowercase(href="/order/#{_id}/")
-//                     small from 
-//                     |{{cal_time start_datetime}}
-//                 a.ui.header.inline.lowercase(href="/order/#{_id}/")
-//                     small to 
-//                     |{{cal_time end_datetime}}
-//                 div
-//                 .ui.grey.inline.header #{hour_duration} hrs
-//                 .ui.grey.inline.header(title='pointss')
-//                     i.coins.icon
-//                     | #{cost}
-//                 .ui.small.inline.header #{when} by #{_author_username}
-//                 a.ui.large.button(href="/order/#{_id}/")
-//                     |view
-//                     i.right.chevron.icon
-//                 if is_admin
-//                     +remove_button
+        span.mobile.hidden
+            unless currentUser.hide_menu_labels
+                |log out

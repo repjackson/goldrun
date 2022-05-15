@@ -235,7 +235,7 @@ if Meteor.isServer
         calc_user_points: (username)->
             console.log 'calculating points'
             if username
-                user = Docs.findOne username:username
+                user = Meteor.users.findOne username:username
             else 
                 user = Meteor.user()
             point_total = 100
@@ -261,7 +261,7 @@ if Meteor.isServer
                     Docs.find
                         upvoter_ids:$in:[user._id]
                 for upvote in upvotes.fetch()
-                    console.log 'upvote', upvote
+                    # console.log 'upvote', upvote
                     point_total += -1
                     upvote_total += -1
                 
@@ -283,12 +283,12 @@ if Meteor.isServer
                     Docs.find
                         downvoter_ids:$in:[user._id]
                 for downvote in downvotes.fetch()
-                    console.log 'downvote', downvote
+                    # console.log 'downvote', downvote
                     point_total += -1
                     downvote_total += -1
                 
                 console.log 'calc user points', username, point_total
-                Docs.update user._id,   
+                Meteor.users.update user._id,   
                     $set:
                         points:point_total
                         upvote_total:upvote_total

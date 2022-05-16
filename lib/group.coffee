@@ -84,7 +84,7 @@ if Meteor.isClient
                 Docs.insert 
                     model:'post'
                     group_id:Router.current().params.doc_id
-            Router.go "/post/#{new_id}/edit"
+            Router.go "/doc/#{new_id}/edit"
     Template.group_posts.helpers
         group_post_docs: ->
             Docs.find 
@@ -225,41 +225,35 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'group_options', Router.current().params.doc_id
 
 # groups
-if Meteor.isClient
-    Router.route '/groups', (->
-        @layout 'layout'
-        @render 'groups'
-        ), name:'groups'
+# if Meteor.isClient
+    # Template.groups.onCreated ->
+    #     Session.setDefault 'view_mode', 'list'
+    #     Session.setDefault 'sort_key', 'views'
+    #     Session.setDefault 'sort_label', 'available'
+    #     Session.setDefault 'limit', 20
+    #     Session.setDefault 'view_open', true
 
+    #     # @autorun => @subscribe 'facets',
+    #     #     'group'
+    #     #     picked_tags.array()
+    #     #     Session.get('current_search')
 
-    Template.groups.onCreated ->
-        Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'sort_key', 'views'
-        Session.setDefault 'sort_label', 'available'
-        Session.setDefault 'limit', 20
-        Session.setDefault 'view_open', true
+    #     @autorun => @subscribe 'doc_results',
+    #         'group'
+    #         picked_tags.array()
+    #         Session.get('current_search')
+    #         Session.get('sort_key')
+    #         Session.get('sort_direction')
+    #         Session.get('limit')
 
-        # @autorun => @subscribe 'facets',
-        #     'group'
-        #     picked_tags.array()
-        #     Session.get('current_search')
-
-        @autorun => @subscribe 'doc_results',
-            'group'
-            picked_tags.array()
-            Session.get('current_search')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('limit')
-
-    Template.groups.helpers
-        group_docs: ->
-            # if picked_tags.array().length > 0
-            Docs.find {
-                model:'group'
-            },
-                sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
-                # limit:Session.get('group_limit')
+    # Template.groups.helpers
+    #     group_docs: ->
+    #         # if picked_tags.array().length > 0
+    #         Docs.find {
+    #             model:'group'
+    #         },
+    #             sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+    #             # limit:Session.get('group_limit')
 
 
 if Meteor.isServer

@@ -343,41 +343,31 @@ if Meteor.isServer
 
         
 if Meteor.isClient
-    Router.route '/products', (->
-        @layout 'layout'
-        @render 'products'
-        ), name:'products'
-    Router.route '/shop', (->
-        @layout 'layout'
-        @render 'products'
-        ), name:'shop'
+    # Template.products.onCreated ->
+    #     @autorun => @subscribe 'facets',
+    #         'product'
+    #         picked_tags.array()
+    #         Session.get('current_search')
+    #         Session.get('sort_key')
+    #         Session.get('sort_direction')
+    #         Session.get('limit')
 
-
-    Template.products.onCreated ->
-        @autorun => @subscribe 'facets',
-            'product'
-            picked_tags.array()
-            Session.get('current_search')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('limit')
-
-        @autorun => @subscribe 'doc_results',
-            'product'
-            picked_tags.array()
-            Session.get('current_search')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('limit')
-    Template.products.helpers
-        product_docs: ->
-            match = {model:'product'}
-            unless Meteor.userId()
-                match.private = $ne: true
-            Docs.find match, 
-                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+    #     @autorun => @subscribe 'doc_results',
+    #         'product'
+    #         picked_tags.array()
+    #         Session.get('current_search')
+    #         Session.get('sort_key')
+    #         Session.get('sort_direction')
+    #         Session.get('limit')
+    # Template.products.helpers
+    #     product_docs: ->
+    #         match = {model:'product'}
+    #         unless Meteor.userId()
+    #             match.private = $ne: true
+    #         Docs.find match, 
+    #             sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
                 
-    Template.products.events
+    # Template.products.events
 
     
     Template.product_card.events

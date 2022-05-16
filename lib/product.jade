@@ -1,25 +1,25 @@
-template(name='products')
-    .ui.stackable.padded.grid 
-        .four.wide.column
-            .ui.inline.header 
-                +i name='shop'
-                |products
-            if currentUser
-                +add_doc_button model='product'
-            div
-            +session_boolean_toggle key='is_food' label='food' icon='food'
-            +session_boolean_toggle key='available' label='available' icon='checkmark'
-            div
-            +facet key='tag' icon='tags' model='product'
-        .twelve.wide.column
-            +sort_direction_toggle
-            +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
-            +session_set key='sort_key' value='points' label='points' icon='hashtag'
-            +session_set key='sort_key' value='price' label='price' icon='coins'
+// template(name='products')
+//     .ui.stackable.padded.grid 
+//         .four.wide.column
+//             .ui.inline.header 
+//                 +i name='shop'
+//                 |products
+//             if currentUser
+//                 +add_doc_button model='product'
+//             div
+//             +session_boolean_toggle key='is_food' label='food' icon='food'
+//             +session_boolean_toggle key='available' label='available' icon='checkmark'
+//             div
+//             +facet key='tag' icon='tags' model='product'
+//         .twelve.wide.column
+//             +sort_direction_toggle
+//             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+//             +session_set key='sort_key' value='points' label='points' icon='hashtag'
+//             +session_set key='sort_key' value='price' label='price' icon='coins'
         
-            .ui.centered.stackable.four.cards
-                each product_docs 
-                    +product_card
+//             .ui.centered.stackable.four.cards
+//                 each product_docs 
+//                     +product_card
                     
 
 template(name='product_card')

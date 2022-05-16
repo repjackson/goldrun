@@ -362,7 +362,7 @@ template(name='user_posts')
             i.large.plus.icon
     .ui.selection.link.animated.divided.list
         each user_model_docs 'post'
-            a.item.fly_left(href="/post/#{_id}") 
+            a.item.fly_left(href="/doc/#{_id}") 
                 if image_id
                     img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
                 .content 

@@ -65,7 +65,7 @@ template(name='latest_activity')
                 i.big.loading.yin.yang.icon
 
 template(name='home_doc_item')
-    a.ui.fluid.card.fly_right(href="/post/#{_id}")
+    a.ui.fluid.card.fly_right(href="/doc/#{_id}")
         if youtube_id
             +youtube_view key='youtube_id'
         else if image_id
@@ -134,7 +134,7 @@ template(name='latest_posts')
         |#{latest_docs.count} latest public posts
     .ui.large.link.selection.animated.list.smallscroll
         each latest_docs
-            a.ui.item.fly_right(href="/post/#{_id}")
+            a.ui.item.fly_right(href="/doc/#{_id}")
                 img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                 .content
                     .header 

@@ -1,97 +1,97 @@
-template(name='groups')
-    // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
-    .ui.stackable.padded.grid.alpha
-        .four.wide.column
-            .ui.inline.header 
-                +i name='campfire'
-                // i.fire.large.icon
-                |#{group_docs.count}
-                |groups
-            if currentUser
-                +add_doc_button model='group'
-            div
-            +session_boolean_toggle key='view_my_groups' label='mine' icon='user'
-            +session_boolean_toggle key='view_private_groups' label='private' icon='lock'
-            +search_input key='title'
-            +facet key='tag' icon='tags' model='group'
-            // +facet key='time_tag'
-            // +facet key='emotion_tag'
-            // +facet key='location_tag'
-            // +facet key='people_tag'
-            // +facet key='timestamp_tag'
-            .ui.hidden.divider
-            // with emotion_avg
-                // .ui.list
-                //     .item {{ to_percent avg_sent_score}}% sentiment
-                //     .item {{ to_percent avg_joy_score}}% joy
-                //     .item {{ to_percent avg_anger_score}}% anger
-                //     .item {{ to_percent avg_sadness_score}}% sad
-                //     .item {{ to_percent avg_disgust_score}}% disgust
-                //     .item {{ to_percent avg_fear_score}}% fear
-                // if is 'doc_sentiment_label' 'positive'
-                //     span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
-                //         |&nbsp;
-                //     div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
-                // else if is 'doc_sentiment_label' 'negative'
-                //     span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
-                //         |&nbsp;
-                //     div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+// template(name='groups')
+//     // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+//     .ui.stackable.padded.grid.alpha
+//         .four.wide.column
+//             .ui.inline.header 
+//                 +i name='campfire'
+//                 // i.fire.large.icon
+//                 |#{group_docs.count}
+//                 |groups
+//             if currentUser
+//                 +add_doc_button model='group'
+//             div
+//             +session_boolean_toggle key='view_my_groups' label='mine' icon='user'
+//             +session_boolean_toggle key='view_private_groups' label='private' icon='lock'
+//             +search_input key='title'
+//             +facet key='tag' icon='tags' model='group'
+//             // +facet key='time_tag'
+//             // +facet key='emotion_tag'
+//             // +facet key='location_tag'
+//             // +facet key='people_tag'
+//             // +facet key='timestamp_tag'
+//             .ui.hidden.divider
+//             // with emotion_avg
+//                 // .ui.list
+//                 //     .item {{ to_percent avg_sent_score}}% sentiment
+//                 //     .item {{ to_percent avg_joy_score}}% joy
+//                 //     .item {{ to_percent avg_anger_score}}% anger
+//                 //     .item {{ to_percent avg_sadness_score}}% sad
+//                 //     .item {{ to_percent avg_disgust_score}}% disgust
+//                 //     .item {{ to_percent avg_fear_score}}% fear
+//                 // if is 'doc_sentiment_label' 'positive'
+//                 //     span.say.ui.green.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}% #{doc_sentiment_label}
+//                 //         |&nbsp;
+//                 //     div.rounded(style="height:5px;width:{{to_percent doc_sentiment_score}}%;background-color:green" title="{{to_percent doc_sentiment_score}}% #{doc_sentiment_label}")
+//                 // else if is 'doc_sentiment_label' 'negative'
+//                 //     span.say.ui.red.text(class="{{calculated_size doc_sentiment_score}}") {{ to_percent doc_sentiment_score }}%  #{doc_sentiment_label} 
+//                 //         |&nbsp;
+//                 //     div.rounded(style="height:5px;width:{{abs_percent doc_sentiment_score}}%;background-color:red" title="{{abs_percent doc_sentiment_score}}% #{doc_sentiment_label}")
                     
-                // span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% joy 
-                //     |&nbsp;
-                // div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
+//                 // span.say.ui.green.text(class="{{calculated_size avg_sent_score}}") {{ to_percent avg_sent_score }}% joy 
+//                 //     |&nbsp;
+//                 // div.rounded(style="height:5px;width:{{to_percent avg_sent_score}}%;background-color:green" title="{{to_percent avg_sent_score}}% joy")
       
-                // span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
-                //     |&nbsp;
-                // div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
-                // //- if above_50 'avg_sadness_score'
-                //     //- .spacer
-                // span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
-                //     |&nbsp;
-                // div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
-                // //- if above_50 'avg_fear_score'
-                //     //- .spacer
-                // span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
-                //     |&nbsp;
-                // div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
-                // //- if above_50 'avg_disgust_score'
-                //     //- .spacer
-                // span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
-                //     |&nbsp;
-                // div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
-                // //- if above_50 'avg_anger_score'
-                //     //- .spacer
-                // span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
-                //     |&nbsp;
-                // div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
-        .twelve.wide.column
-            +session_set key='view_mode' value='grid' icon='th'
-            +session_set key='view_mode' value='list' icon='list'
+//                 // span.say.ui.green.text(class="{{calculated_size avg_joy_score}}") {{ to_percent avg_joy_score }}% joy 
+//                 //     |&nbsp;
+//                 // div.rounded(style="height:5px;width:{{to_percent avg_joy_score}}%;background-color:green" title="{{to_percent avg_joy_score}}% joy")
+//                 // //- if above_50 'avg_sadness_score'
+//                 //     //- .spacer
+//                 // span.say.ui.blue.text(class="{{calculated_size avg_sadness_score}}") {{ to_percent avg_sadness_score}}% sad 
+//                 //     |&nbsp;
+//                 // div.rounded(style="height:5px;width:{{to_percent avg_sadness_score}}%;background-color:blue" title="{{to_percent avg_sadness_score}}% sad")
+//                 // //- if above_50 'avg_fear_score'
+//                 //     //- .spacer
+//                 // span.say.ui.grey.text(class="{{calculated_size avg_fear_score}}") {{ to_percent avg_fear_score }}% fear 
+//                 //     |&nbsp;
+//                 // div.rounded(style="height:5px;width:{{to_percent avg_fear_score}}%;background-color:grey" title="{{to_percent avg_fear_score}}% fear")
+//                 // //- if above_50 'avg_disgust_score'
+//                 //     //- .spacer
+//                 // span.say.ui.orange.text(class="{{calculated_size avg_disgust_score}}") {{ to_percent avg_disgust_score }}% disgust 
+//                 //     |&nbsp;
+//                 // div.rounded(style="height:5px;width:{{to_percent avg_disgust_score}}%;background-color:orange" title="{{to_percent avg_disgust_score}}% disgust")
+//                 // //- if above_50 'avg_anger_score'
+//                 //     //- .spacer
+//                 // span.say.ui.red.text(class="{{calculated_size avg_anger_score}}") {{ to_percent avg_anger_score }}% anger 
+//                 //     |&nbsp;
+//                 // div.rounded(style="height:5px;width:{{to_percent avg_anger_score}}%;background-color:red" title="{{to_percent avg_anger_score}}% anger")
+//         .twelve.wide.column
+//             +session_set key='view_mode' value='grid' icon='th'
+//             +session_set key='view_mode' value='list' icon='list'
         
-            +sort_direction_toggle
-            +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
-            +session_set key='sort_key' value='points' label='points' icon='hashtag'
-            +session_set key='sort_key' value='views' label='views' icon='eye'
-            +session_set key='sort_key' value='member_count' label='members' icon='users'
+//             +sort_direction_toggle
+//             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+//             +session_set key='sort_key' value='points' label='points' icon='hashtag'
+//             +session_set key='sort_key' value='views' label='views' icon='eye'
+//             +session_set key='sort_key' value='member_count' label='members' icon='users'
             
-            .scrolling    
-                .ui.hidden.divider
-                if subs_ready
-                    if one_result
-                        .ui.one.cards
-                            each group_docs
-                                +group_card_med
-                    else if two_results
-                        .ui.two.cards
-                            each group_docs
-                                +group_card_med
-                    else 
-                        .ui.stackable.three.cards
-                            if group_docs.count
-                                each group_docs
-                                    +group_card
-                else
-                    i.massive.grey.loading.yin.yang.icon
+//             .scrolling    
+//                 .ui.hidden.divider
+//                 if subs_ready
+//                     if one_result
+//                         .ui.one.cards
+//                             each group_docs
+//                                 +group_card_med
+//                     else if two_results
+//                         .ui.two.cards
+//                             each group_docs
+//                                 +group_card_med
+//                     else 
+//                         .ui.stackable.three.cards
+//                             if group_docs.count
+//                                 each group_docs
+//                                     +group_card
+//                 else
+//                     i.massive.grey.loading.yin.yang.icon
 
 
 
@@ -478,7 +478,7 @@ template(name='group_products')
         .ui.button.add_product  
             i.plus.icon
     each group_products 
-        a.item(href="/post/#{_id}")
+        a.item(href="/doc/#{_id}")
             img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
             |#{title}
                                                         

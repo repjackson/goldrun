@@ -1,27 +1,27 @@
-template(name='services')
-    .ui.stackable.padded.grid 
-        .four.wide.column
-            .ui.inline.header 
-                +i name='settings'
-                |services
-            if currentUser
-                +add_doc_button model='service'
-            +session_boolean_toggle key='view_mine' label='mine' icon='user'
-            div
-            +facet key='tag' model='service' icon='tags'
-        .twelve.wide.column
-            +session_set key='view_mode' value='grid' icon='th'
-            +session_set key='view_mode' value='list' icon='list'
-            i.large.sort.icon
-            +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
-            +session_set key='sort_key' value='points' label='points' icon='hashtag'
-            .scrolling
-                if subs_ready
-                    .ui.centered.stackable.cards
-                        each service_docs 
-                            +service_card
-                else 
-                    +loading_icon
+// template(name='services')
+//     .ui.stackable.padded.grid 
+//         .four.wide.column
+//             .ui.inline.header 
+//                 +i name='settings'
+//                 |services
+//             if currentUser
+//                 +add_doc_button model='service'
+//             +session_boolean_toggle key='view_mine' label='mine' icon='user'
+//             div
+//             +facet key='tag' model='service' icon='tags'
+//         .twelve.wide.column
+//             +session_set key='view_mode' value='grid' icon='th'
+//             +session_set key='view_mode' value='list' icon='list'
+//             i.large.sort.icon
+//             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+//             +session_set key='sort_key' value='points' label='points' icon='hashtag'
+//             .scrolling
+//                 if subs_ready
+//                     .ui.centered.stackable.cards
+//                         each service_docs 
+//                             +service_card
+//                 else 
+//                     +loading_icon
 
 
 template(name='user_services')

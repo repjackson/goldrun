@@ -107,7 +107,7 @@ if Meteor.isClient
                     model:'post'
                     _author_id:user._id
                     _author_username:user.username
-            Router.go "/post/#{new_id}/edit"
+            Router.go "/doc/#{new_id}/edit"
         
     Template.profile_layout.onRendered ->
         Meteor.setTimeout ->

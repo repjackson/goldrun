@@ -35,32 +35,32 @@ if Meteor.isClient
     
     # Template.posts.onCreated ->
     #     @autorun => Meteor.subscribe 'model_docs', 'post', ->
-    Template.posts.onCreated ->
-        Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'sort_key', '_timestamp'
-        Session.setDefault 'sort_label', 'available'
-        Session.setDefault 'sort_direction', 1
-        Session.setDefault 'limit', 20
-        Session.setDefault 'view_open', true
+    # Template.posts.onCreated ->
+    #     Session.setDefault 'view_mode', 'list'
+    #     Session.setDefault 'sort_key', '_timestamp'
+    #     Session.setDefault 'sort_label', 'available'
+    #     Session.setDefault 'sort_direction', 1
+    #     Session.setDefault 'limit', 20
+    #     Session.setDefault 'view_open', true
 
-    Template.posts.events
-        'click .view_post': ->
-            Router.go "/post/#{@_id}/"
+    # Template.posts.events
+    #     'click .view_post': ->
+    #         Router.go "/doc/#{@_id}/"
 
-    Template.posts.onCreated ->
-        # @autorun => @subscribe 'model_docs', 'post', ->
-        @autorun => @subscribe 'facet_sub',
-            'post'
-            picked_tags.array()
-            Session.get('current_search')
+    # Template.posts.onCreated ->
+    #     # @autorun => @subscribe 'model_docs', 'post', ->
+    #     @autorun => @subscribe 'facet_sub',
+    #         'post'
+    #         picked_tags.array()
+    #         Session.get('current_search')
 
-        @autorun => @subscribe 'doc_results',
-            'post'
-            picked_tags.array()
-            Session.get('current_search')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('limit')
+    #     @autorun => @subscribe 'doc_results',
+    #         'post'
+    #         picked_tags.array()
+    #         Session.get('current_search')
+    #         Session.get('sort_key')
+    #         Session.get('sort_direction')
+    #         Session.get('limit')
 
     Template.post_layout.onCreated ->
         @autorun => @subscribe 'related_group',Router.current().params.doc_id, ->
@@ -101,13 +101,13 @@ if Meteor.isServer
             post_id:post_id
                 
 if Meteor.isClient
-    Template.posts.helpers
-        post_docs: ->
-            Docs.find {
-                model:'post'
-            }, 
-                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
-                limit:Session.get('limit')        
+    # Template.posts.helpers
+    #     post_docs: ->
+    #         Docs.find {
+    #             model:'post'
+    #         }, 
+    #             sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+    #             limit:Session.get('limit')        
                 
     Template.post_edit.events
         'click .delete_post': ->

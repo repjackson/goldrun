@@ -14,15 +14,15 @@ template(name='nav')
             unless currentUser.hide_menu_labels
                 span.mobile.hidden goldrun
         
-        a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
-            +i name='search'
-            span.mobile.hidden
-                unless currentUser.hide_menu_labels
-                    |search
+        +top_nav_item key='docs' icon='cube' label='docs'
+        +top_nav_item key='users' icon='groups' label='users'
+        // a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
+        //     +i name='search'
+        //     span.mobile.hidden
+        //         unless currentUser.hide_menu_labels
+        //             |search
         .right.menu
             if currentUser
-                a.icon.item(href="/add")
-                    +i name='plus'
                 if currentUser.is_admin
                     +i name='shield'
                 a.icon.item(href="/mail/inbox")
@@ -56,19 +56,6 @@ template(name='nav')
                     // i.sign.in.big.icon
                     +i name='internal'
                     span.mobile.hidden login
-    .ui.attached.borderless.small.menu.hscroll(class=darkmode_class)
-        +top_nav_item key='docs' icon='cube' label='docs'
-        +top_nav_item key='users' icon='groups' label='users'
-        +top_nav_item key='events' icon='calendar' label='events'
-        +top_nav_item key='posts' icon='blog' label='posts'
-        +top_nav_item key='groups' icon='campfire' label='groups'
-        +top_nav_item key='transfers' icon='exchange' label='transfers'
-        // +top_nav_item key='requests' icon='megaphone' label='requests'
-        +top_nav_item key='products' icon='shop' label='products'
-        +top_nav_item key='services' icon='service' label='services'
-        // +top_nav_item key='rentals' icon='clock' label='rentals'
-        // +top_nav_item key='reviews' icon='megaphone' label='reviews'
-        // +top_nav_item key='tasks' icon='tasks' label='tasks'
             
                 
 template(name='top_nav_item')

@@ -1,5 +1,5 @@
 Meteor.publish 'facet_sub', (
-    model='post'
+    model=null
     picked_tags
     title_search=''
     # picked_author_ids=[]

@@ -87,34 +87,6 @@ Template.nav.events
 
 
 
-# Template.rightbar.events
-#     'click .logout': ->
-#         Session.set('logging_out', true)
-#         Meteor.logout ->
-#             Session.set('logging_out', false)
-            
-            
-#     'click .toggle_darkmode': ->
-#         Meteor.users.update Meteor.userId(),
-#             $set:darkmode:!Meteor.user().darkmode
-#         $('body').toast({
-#             title: "dark mode toggled"
-#             # message: 'Please see desk staff for key.'
-#             class : 'info'
-#             icon:'remove'
-#             position:'bottom right'
-#             # className:
-#             #     toast: 'ui massive message'
-#             # displayTime: 5000
-#             transition:
-#               showMethod   : 'zoom',
-#               showDuration : 250,
-#               hideMethod   : 'fade',
-#               hideDuration : 250
-#             })
-            
-
-    
         
 Template.nav.onCreated ->
     Session.setDefault 'limit', 20

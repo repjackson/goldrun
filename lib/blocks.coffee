@@ -5,7 +5,7 @@ if Meteor.isClient
                 Docs.insert 
                     model:@model
                     published:false
-            Router.go "/#{@model}/#{new_id}/edit"
+            Router.go "/doc/#{new_id}/edit"
             
             
     Template.publish_button.events 
@@ -88,13 +88,6 @@ if Meteor.isClient
 
             
             
-    Template.facet.onCreated ->
-        console.log 'facet', @
-        @autorun => @subscribe 'facet_sub',
-            @data.model
-            picked_tags.array()
-            Session.get('current_search')
-        
     Template.facet.helpers
         facet_results: ->
             Results.find {

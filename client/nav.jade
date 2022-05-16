@@ -8,10 +8,6 @@ template(name='nav')
         // else 
         // a.icon.item.toggle_leftbar
         //     i.large.bars.grey.icon
-        a.header.icon.item.zoomer(href='/' class="{{isActivePath '/'}}" title='goldrun')
-            +ibig name='one-ring'
-            // i.large.home.icon
-        
         +top_nav_item key='docs' icon='cube' label='docs'
         +top_nav_item key='users' icon='groups' label='users'
         // a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
@@ -55,9 +51,10 @@ template(name='nav')
             
                 
 template(name='top_nav_item')
-    a.icon.item.zoomer.fly_right(href="/#{key}" class="{{isActiveRoute key}}" title=key)
+    a.item.zoomer.fly_right(href="/#{key}" class="{{isActiveRoute key}}" title=key)
         // i.large.users.icon
         +i name=icon
+        |#{label}
 
 
                 

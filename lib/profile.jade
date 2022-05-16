@@ -36,7 +36,7 @@ template(name='profile_layout')
                         +profile_menu_item key='comments' icon='chat'
                         +profile_menu_item key='mail' icon='envelope'
                         +profile_menu_item key='voting' icon='elections'
-                        .scrolling
+                        .scrollin
                             if subs_ready
                                 +yield
                             else 
@@ -64,6 +64,7 @@ template(name='profile_left_column')
     if last_name
         .ui.inline.header #{last_name}
     div
+    +user_pill
     if company 
         .ui.header
             +i name='business' 
@@ -197,7 +198,7 @@ template(name='user_points')
                     |comments
                 .ui.small.header 
                     small comment amount:
-                    strong #{comment_amount}
+                    strong #{comment_count}
                 .ui.small.header 
                     small spent points:
                     strong #{comment_total}
@@ -240,9 +241,9 @@ template(name='user_comments')
     .ui.header 
         +i name='chat'
         |user comments
-    .ui.comments
+    .ui.divided.animated.link.list
         each user_comment_docs
-            a.comment(href="/#{parent_model}/#{parent_id}")
+            a.item(href="/#{parent_model}/#{parent_id}")
                 .meta
                     |#{when}
                 .description #{body}

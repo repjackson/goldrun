@@ -149,7 +149,7 @@ if Meteor.isClient
             current_user = Meteor.users.findOne username:Router.current().params.username
             Docs.find 
                 model:'group'
-                _id:$in:current_user.group_memberships
+                _id:current_user.group_memberships
 
     Template.profile_layout.helpers
         user_rental_docs: ->

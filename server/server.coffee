@@ -42,6 +42,15 @@ Cloudinary.config
     api_key: Meteor.settings.private.cloudinary_key
     api_secret: Meteor.settings.private.cloudinary_secret
 
+Meteor.publish "userStatus", ()->
+    Meteor.users.find({ "status.online": true }
+        # fields:
+        #     image_id:1
+        #     username:1
+        #     tags:1
+        #     online:1
+        #     status:1
+    )
 
 
 Meteor.publish 'model_from_child_id', (child_id)->

@@ -1,18 +1,9 @@
 if Meteor.isClient
     # Router.route '/admin', -> @render 'admin'
     Router.route '/admin', -> @render 'admin'
-    Router.route '/add', -> @render 'add'
     
     Template.user_table.onCreated ->
         @autorun ->  Meteor.subscribe 'users'
-
-
-    Template.add_button_big.events
-        'click .add_model': ->
-            new_id = 
-                Docs.insert 
-                    model:@model
-            Router.go "/#{@model}/#{new_id}/edit"
 
 
     Router.route '/search', -> @render 'search'

@@ -70,6 +70,9 @@ Template.footer.helpers
     result_docs: -> Results.find()
 
 Template.nav.events
+    'click .add': ->
+        new_id = Docs.insert {}
+        Router.go "/doc/#{new_id}/edit"
     'click .toggle_rightbar': ->
         $('.ui.rightbar')
             .sidebar({

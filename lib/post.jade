@@ -277,12 +277,21 @@ template(name='doc_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row 
-                .ten.wide.column
-                    .ui.header
-                        +i name='cube'
-                        |model
-                    +key_value_edit key='model' value='post' label='post' icon='blog'
-                    +key_value_edit key='model' value='event' label='event' icon='calendar'
+                .sixteen.wide.column
+                    .ui.segment
+                        .ui.inline.header
+                            +i name='cube'
+                            |model
+                        +key_value_edit key='model' value='post' label='post' icon='blog'
+                        +key_value_edit key='model' value='event' label='event' icon='calendar'
+                        +key_value_edit key='model' value='product' label='product' icon='shopping-cart'
+                        +key_value_edit key='model' value='service' label='service' icon='wrench'
+                        +key_value_edit key='model' value='transfer' label='transfer' icon='exchange'
+                        +key_value_edit key='model' value='review' label='review' icon='megaphone'
+                        +key_value_edit key='model' value='checkin' label='checkin' icon='checkmark'
+                        // +key_value_edit model='task' label='task' icon='tasks'
+                        +key_value_edit key='model' value='message' label='message' icon='envelope'
+                    
                     +Template.dynamic template=model_template
 
 template(name='post_edit')

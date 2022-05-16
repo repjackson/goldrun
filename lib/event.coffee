@@ -1,45 +1,40 @@
 if Meteor.isClient
 
     @picked_event_tags = new ReactiveArray []
-
-    Router.route '/events', (->
-        @layout 'layout'
-        @render 'events'
-        ), name:'events'
         
-    Template.events.onCreated ->
-        # @autorun => Meteor.subscribe 'model_docs', 'event', ->
-        # @autorun => Meteor.subscribe 'event_tags',picked_tags.array(), ->
-        Session.setDefault('event_search',null)
-        Session.setDefault('view_mode','grid')
-        Session.setDefault('sort_key','start_datetime')
-        Session.setDefault('sort_direction',-1)
+    # Template.events.onCreated ->
+    #     # @autorun => Meteor.subscribe 'model_docs', 'event', ->
+    #     # @autorun => Meteor.subscribe 'event_tags',picked_tags.array(), ->
+    #     Session.setDefault('event_search',null)
+    #     Session.setDefault('view_mode','grid')
+    #     Session.setDefault('sort_key','start_datetime')
+    #     Session.setDefault('sort_direction',-1)
 
-        @autorun => @subscribe 'facets',
-            'event'
-            picked_tags.array()
-            Session.get('limit')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
+    #     @autorun => @subscribe 'facets',
+    #         'event'
+    #         picked_tags.array()
+    #         Session.get('limit')
+    #         Session.get('sort_key')
+    #         Session.get('sort_direction')
+    #         Session.get('view_delivery')
+    #         Session.get('view_pickup')
+    #         Session.get('view_open')
 
-        @autorun => @subscribe 'doc_results',
-            'event'
-            picked_tags.array()
-            Session.get('event_search')
-            Session.get('limit')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
+    #     @autorun => @subscribe 'doc_results',
+    #         'event'
+    #         picked_tags.array()
+    #         Session.get('event_search')
+    #         Session.get('limit')
+    #         Session.get('sort_key')
+    #         Session.get('sort_direction')
+    #         Session.get('view_delivery')
+    #         Session.get('view_pickup')
+    #         Session.get('view_open')
         
-    # Router.route '/e/:doc_slug/', (->
-    #     @layout 'layout'
-    #     @render 'event_view'
-    #     ), name:'event_view_by_slug'
+    # # Router.route '/e/:doc_slug/', (->
+    # #     @layout 'layout'
+    # #     @render 'event_view'
+    # #     ), name:'event_view_by_slug'
         
     Template.registerHelper 'host', () ->    
         Meteor.users.findOne @host_id
@@ -122,41 +117,41 @@ if Meteor.isClient
             Session.set(@key,@value)
             
             
-    Template.events.events
-        'click .toggle_past': ->
-            Session.set('viewing_past', !Session.get('viewing_past'))
-        'click .select_room': ->
-            if Session.equals('viewing_room_id', @_id)
-                Session.set('viewing_room_id', null)
-            else
-                Session.set('viewing_room_id', @_id)
+    # Template.events.events
+    #     'click .toggle_past': ->
+    #         Session.set('viewing_past', !Session.get('viewing_past'))
+    #     'click .select_room': ->
+    #         if Session.equals('viewing_room_id', @_id)
+    #             Session.set('viewing_room_id', null)
+    #         else
+    #             Session.set('viewing_room_id', @_id)
 
             
-    Template.events.helpers
-        one_result: ->
-            Docs.find({model:'event'}).count() is 1
+    # Template.events.helpers
+    #     one_result: ->
+    #         Docs.find({model:'event'}).count() is 1
         
-        room_button_class: -> 
-            if Session.equals('viewing_room_id', @_id) then 'blue' else 'basic'
-        event_docs: ->
-            # console.log moment().format()
-            match = {}
-            match.model = 'event'
-            # published:true
-            if picked_tags.array().length > 0
-                match.tags = $all: picked_tags
+    #     room_button_class: -> 
+    #         if Session.equals('viewing_room_id', @_id) then 'blue' else 'basic'
+    #     event_docs: ->
+    #         # console.log moment().format()
+    #         match = {}
+    #         match.model = 'event'
+    #         # published:true
+    #         if picked_tags.array().length > 0
+    #             match.tags = $all: picked_tags
             
-            # if Session.get('viewing_past')
-            #     # match.date = $gt:moment().subtract(1,'days').format("YYYY-MM-DD")
-            #     match.start_datetime = $lt:moment().subtract(1,'days').format()
-            # else if Session.get('view_mode', 'all')
-            #     match.start_datetime = $gt:moment().subtract(1,'days').format()
-            # else
-            #     match.date = $lt:moment().subtract(1,'days').format("YYYY-MM-DD")
-            if Session.get('event_search')
-                match.title = {$regex:"#{Session.get('event_search')}", $options: 'i'}
-            Docs.find match,
-                sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
+    #         # if Session.get('viewing_past')
+    #         #     # match.date = $gt:moment().subtract(1,'days').format("YYYY-MM-DD")
+    #         #     match.start_datetime = $lt:moment().subtract(1,'days').format()
+    #         # else if Session.get('view_mode', 'all')
+    #         #     match.start_datetime = $gt:moment().subtract(1,'days').format()
+    #         # else
+    #         #     match.date = $lt:moment().subtract(1,'days').format("YYYY-MM-DD")
+    #         if Session.get('event_search')
+    #             match.title = {$regex:"#{Session.get('event_search')}", $options: 'i'}
+    #         Docs.find match,
+    #             sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
     
 
 if Meteor.isServer

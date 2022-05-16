@@ -51,12 +51,12 @@ template(name='public_chat')
           
 template(name='latest_activity')
     .ui.accordion
-        .active.title
+        .title
             a.ui.header 
                 +i name='clock'
                 |#{latest_docs.count} latest activity
                 // i.sort.icon
-        .active.content
+        .content
             if subs_ready 
                 .ui.link.cards.scrolling
                     each latest_docs
@@ -100,11 +100,11 @@ template(name='home_doc_item')
 
 template(name='top_users_points')
     .ui.fluid.accordion
-        .active.title
+        .title
             a.ui.header 
                 +i name='leaderboard'
                 |point leaders
-        .active.content
+        .content
             .ui.animated.selection.link.list.smallscroll
                 each top_user_docs
                     a.item.fly_right(href="/user/#{username}")
@@ -115,11 +115,11 @@ template(name='top_users_points')
 
 template(name='latest_users')
     .ui.fluid.accordion
-        .active.title
+        .title
             a.ui.header
                 +i name='clock'
                 |#{latest_user_docs.count} latest users
-        .active.content
+        .content
             .ui.selection.animated.link.list
                 each latest_user_docs
                     a.item.fly_right(href="/user/#{username}")
@@ -148,11 +148,11 @@ template(name='latest_posts')
 
 template(name='homepage_stats')
     .ui.fluid.accordion
-        .active.title
+        .title
             .ui.header 
                 +i name='line-chart'
                 |homepage stats
-        .active.content
+        .content
             .ui.list
                 .item 
                     i.eye.icon

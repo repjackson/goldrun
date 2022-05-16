@@ -25,44 +25,44 @@ Tracker.autorun ->
 
     
 Template.nav.onRendered ->
-    Meteor.setTimeout ->
-        $('.menu .item')
-            .popup()
-        $('.ui.left.sidebar')
-            .sidebar({
-                context: $('.bottom.segment')
-                transition:'push'
-                mobileTransition:'push'
-                exclusive:true
-                duration:200
-                scrollLock:true
-            })
-            .sidebar('attach events', '.toggle_leftbar')
-    , 3000
-    Meteor.setTimeout ->
-        $('.ui.rightbar')
-            .sidebar({
-                context: $('.bottom.segment')
-                transition:'push'
-                mobileTransition:'push'
-                exclusive:true
-                duration:200
-                scrollLock:true
-            })
-            .sidebar('attach events', '.toggle_rightbar')
-    , 3000
-    Meteor.setTimeout ->
-        $('.ui.topbar.sidebar')
-            .sidebar({
-                context: $('.bottom.segment')
-                transition:'push'
-                mobileTransition:'push'
-                exclusive:true
-                duration:200
-                scrollLock:true
-            })
-            .sidebar('attach events', '.toggle_topbar')
-    , 2000
+    # Meteor.setTimeout ->
+    #     $('.menu .item')
+    #         .popup()
+    #     # $('.ui.left.sidebar')
+    #     #     .sidebar({
+    #     #         context: $('.bottom.segment')
+    #     #         transition:'push'
+    #     #         mobileTransition:'push'
+    #     #         exclusive:true
+    #     #         duration:200
+    #     #         scrollLock:true
+    #     #     })
+    #     #     .sidebar('attach events', '.toggle_leftbar')
+    # , 3000
+    # Meteor.setTimeout ->
+    #     $('.ui.rightbar')
+    #         .sidebar({
+    #             context: $('.bottom.segment')
+    #             transition:'push'
+    #             mobileTransition:'push'
+    #             exclusive:true
+    #             duration:200
+    #             scrollLock:true
+    #         })
+    #         .sidebar('attach events', '.toggle_rightbar')
+    # , 3000
+    # Meteor.setTimeout ->
+    #     $('.ui.topbar.sidebar')
+    #         .sidebar({
+    #             context: $('.bottom.segment')
+    #             transition:'push'
+    #             mobileTransition:'push'
+    #             exclusive:true
+    #             duration:200
+    #             scrollLock:true
+    #         })
+    #         .sidebar('attach events', '.toggle_topbar')
+    # , 2000
     
 Template.footer.helpers
     all_users: -> Meteor.users.find()
@@ -73,17 +73,17 @@ Template.nav.events
     'click .add': ->
         new_id = Docs.insert {}
         Router.go "/doc/#{new_id}/edit"
-    'click .toggle_rightbar': ->
-        $('.ui.rightbar')
-            .sidebar({
-                context: $('.bottom.segment')
-                transition:'push'
-                mobileTransition:'push'
-                exclusive:true
-                duration:200
-                scrollLock:true
-            })
-            .sidebar('attach events', '.toggle_rightbar')
+    # 'click .toggle_rightbar': ->
+    #     $('.ui.rightbar')
+    #         .sidebar({
+    #             context: $('.bottom.segment')
+    #             transition:'push'
+    #             mobileTransition:'push'
+    #             exclusive:true
+    #             duration:200
+    #             scrollLock:true
+    #         })
+    #         .sidebar('attach events', '.toggle_rightbar')
 
 
 
@@ -220,9 +220,13 @@ Template.doc_view.onCreated ->
     @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
 Template.doc_view.helpers
     model_template: -> "#{@model}_view"
+    # current_doc: -> Docs.findOne Router.current().params.doc_id
+    current_doc: -> Docs.findOne {}
     
-    
-    
+Template.doc_card.helpers
+    card_template: -> "#{@model}_card"
+Template.doc_item.helpers
+    item_template: -> "#{@model}_item"
     
 Template.docs.onCreated ->
     # @autorun => @subscribe 'model_docs', 'post', ->
@@ -241,7 +245,8 @@ Template.docs.onCreated ->
 
 
 Template.docs.helpers
-    doc_results: ->
+    current_model: -> Session.get('model')
+    result_docs: ->
         Docs.find {
             model:Session.get('model')
         }, 

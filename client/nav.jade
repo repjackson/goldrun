@@ -6,8 +6,8 @@ template(name='nav')
         //     .icon.item
         //         i.big.loading.grey.refresh.icon.cancel
         // else 
-        a.icon.item.toggle_leftbar
-            i.large.bars.grey.icon
+        // a.icon.item.toggle_leftbar
+        //     i.large.bars.grey.icon
         a.header.icon.item.zoomer(href='/' class="{{isActivePath '/'}}" title='goldrun')
             +ibig name='one-ring'
             // i.large.home.icon
@@ -37,14 +37,14 @@ template(name='nav')
                     strong.mobile.hidden #{currentUser.name}
                 a.item(href="/user/#{currentUser.username}/points" class=user_nav_button_class title='points')
                     strong #{currentUser.points}p
-                a.icon.item.toggle_rightbar.no_blink
-                    // .ui.avatar.image
-                    //     if currentUser.image_id
-                    //         img.ui.mini.inline.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
-                    //     else
-                    //         i.user.big.icon
-                    // strong.mobile.hidden #{currentUser.name}
-                    i.bars.large.grey.icon
+                // a.icon.item.toggle_rightbar.no_blink
+                //     // .ui.avatar.image
+                //     //     if currentUser.image_id
+                //     //         img.ui.mini.inline.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                //     //     else
+                //     //         i.user.big.icon
+                //     // strong.mobile.hidden #{currentUser.name}
+                //     i.bars.large.grey.icon
             unless subs_ready
                 .icon.item
                     i.yin.yang.large.loading.icon

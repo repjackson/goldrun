@@ -1,53 +1,53 @@
-template(name='events')
-    .ui.stackable.padded.grid 
-        .row
-            .four.wide.column
-                .ui.inline.header
-                    // i.calendar.large.icon
-                    +i name='calendar'
-                    |events
-                if currentUser
-                    .ui.circular.icon.button.add_event(title='add event')
-                        i.plus.big.icon
-                .ui.compact.button.toggle_past
-                    if viewing_past
-                        i.undo.green.large.icon
-                    else
-                        i.circle.outline.large.icon
-                    |past
-                +session_set key='event_time_filter' value='now' icon='internal'
-                +session_set key='event_time_filter' value='today' icon='day'
-                +session_set key='event_time_filter' value='week' icon='week'
-                +session_boolean_toggle key='view_repeating' value='repeating' icon='refresh'
-                div
-                +facet key='tag' model='event'
-            .twelve.wide.column
-                +search_input key='title'
-                +session_set key='view_mode' value='grid' icon='th'
-                +session_set key='view_mode' value='list' icon='list'
-                +session_set key='view_attending' value='going' label='going' icon='checkmark'
-                +session_set key='view_attending' value='maybe' label='maybe' icon='question'
-                +session_set key='view_attending' value='not' label='not going' icon='cancel'
-                +sort_direction_toggle
-                +session_set key='sort_key' value='start_datetime' label='start time/date' icon='calendar'
-                +session_set key='sort_key' value='price' label='price' icon='money'
-                .spacer
-                if subs_ready
-                    if session_is 'view_mode' 'grid'
-                        if one_result
-                            .ui.stackable.one.cards.scrolling
-                                each event_docs
-                                    +event_card
-                        else
-                            .ui.stackable.three.cards.scrolling
-                                each event_docs
-                                    +event_card
-                    if session_is 'view_mode' 'list'
-                        .ui.selection.divided.animated.list.scrolling
-                            each event_docs 
-                                +event_item
-                else 
-                    i.massive.loading.yin.yang.icon
+// template(name='events')
+//     .ui.stackable.padded.grid 
+//         .row
+//             .four.wide.column
+//                 .ui.inline.header
+//                     // i.calendar.large.icon
+//                     +i name='calendar'
+//                     |events
+//                 if currentUser
+//                     .ui.circular.icon.button.add_event(title='add event')
+//                         i.plus.big.icon
+//                 .ui.compact.button.toggle_past
+//                     if viewing_past
+//                         i.undo.green.large.icon
+//                     else
+//                         i.circle.outline.large.icon
+//                     |past
+//                 +session_set key='event_time_filter' value='now' icon='internal'
+//                 +session_set key='event_time_filter' value='today' icon='day'
+//                 +session_set key='event_time_filter' value='week' icon='week'
+//                 +session_boolean_toggle key='view_repeating' value='repeating' icon='refresh'
+//                 div
+//                 +facet key='tag' model='event'
+//             .twelve.wide.column
+//                 +search_input key='title'
+//                 +session_set key='view_mode' value='grid' icon='th'
+//                 +session_set key='view_mode' value='list' icon='list'
+//                 +session_set key='view_attending' value='going' label='going' icon='checkmark'
+//                 +session_set key='view_attending' value='maybe' label='maybe' icon='question'
+//                 +session_set key='view_attending' value='not' label='not going' icon='cancel'
+//                 +sort_direction_toggle
+//                 +session_set key='sort_key' value='start_datetime' label='start time/date' icon='calendar'
+//                 +session_set key='sort_key' value='price' label='price' icon='money'
+//                 .spacer
+//                 if subs_ready
+//                     if session_is 'view_mode' 'grid'
+//                         if one_result
+//                             .ui.stackable.one.cards.scrolling
+//                                 each event_docs
+//                                     +event_card
+//                         else
+//                             .ui.stackable.three.cards.scrolling
+//                                 each event_docs
+//                                     +event_card
+//                     if session_is 'view_mode' 'list'
+//                         .ui.selection.divided.animated.list.scrolling
+//                             each event_docs 
+//                                 +event_item
+//                 else 
+//                     i.massive.loading.yin.yang.icon
 
 
 template(name='event_card')
@@ -453,8 +453,13 @@ template(name='event_view')
                         img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
-                    .scrolling
-                        |!{description}
+                    .ui.accordion 
+                        .title  
+                            .ui.header  
+                                +i name='about'
+                                |about
+                        .content
+                            |!{description}
                     if watson
                         +watson_view
                     // div 

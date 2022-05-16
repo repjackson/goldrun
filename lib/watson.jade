@@ -218,13 +218,13 @@ template(name='categories')
 //- 
 template(name='watson_view')
     // +tone
-    .ui.styled.fluid.active.accordion
-        .active.title 
+    .ui.styled.fluid.accordion
+        .title 
             .ui.inline.header
                 +i name='pie-chart'
                 |emotional analysis
                 // i.dropdown.icon
-        .active.content
+        .content
             +doc_sentiment
             +doc_emotion
             .ui.stackable.grid 

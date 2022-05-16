@@ -110,6 +110,12 @@ template(name='profile_left_column')
                 .item 
                     i.coins.icon 
                     |#{tip_count} tips totalling #{tip_total}pts
+                .item 
+                    i.chat.icon
+                    |comment amount: #{comment_count}
+                .item
+                    i.chat.icon
+                    |spent points:#{comment_total}
 
     if is_admin
         a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
@@ -129,6 +135,9 @@ template(name='profile_left_column')
         +join_button
     +friend_button
                           
+
+template(name='user_section')                          
+    +Template.dynamic template=current_section
                     
 template(name='user_mail')                    
     .ui.dividing.header 
@@ -182,6 +191,17 @@ template(name='user_points')
                 .ui.small.header publish costs
                 .ui.small.header earned points
                 
+    
+                .ui.dividing.header 
+                    +i name='chat'
+                    |comments
+                .ui.small.header 
+                    small comment amount:
+                    strong #{comment_amount}
+                .ui.small.header 
+                    small spent points:
+                    strong #{comment_total}
+                    
     
                  
 template(name='user_products')                 

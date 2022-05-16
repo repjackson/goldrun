@@ -150,9 +150,14 @@ template(name='comments')
         |comments
     div
     // if currentUser
-    .ui.fluid.icon.large.input
-        i.plus.icon
-        input.add_comment(model='text' placeholder='add')
+    if can_add
+        .ui.fluid.icon.large.input
+            i.plus.icon
+            input.add_comment(model='text' placeholder='add...(-2pt)')
+    else 
+        .ui.fluid.icon.large.disabled.input
+            i.plus.icon
+            input.add_comment(model='text' placeholder='not enough points (-2pt)')
     .ui.comments
         each doc_comments
             +doc_comment
@@ -164,7 +169,7 @@ template(name='doc_comment')
         .content
             .ui.small.inline.header #{body}
             if can_edit 
-                +session_boolean_toggle key='editing_mode' icon='pencil' 
+                +session_boolean_toggle_icon key='editing_mode' icon='pencil' 
                 if session_is 'editing_mode' true
                     +text_edit key='body' direct=true
             .meta #{when}
@@ -179,7 +184,7 @@ template(name='doc_comment')
                     +voting_small
                 if can_edit
                     +remove_button
-                    +boolean_edit key='anon' icon='lock' label='anon' direct=true
+                    +boolean_edit_icon key='anon' icon='lock' tooltip='anonymous'
                 if currentUser.admin_mode 
                     +single_user_edit key='_author_id' direct=true
                                 
@@ -231,6 +236,8 @@ template(name='user_info')
     // .ui.header #{this}
 
 
+template(name='session_boolean_toggle_icon')
+    i.link.circular.icon(class="#{icon} #{calculated_class}")
 template(name='session_boolean_toggle')
     .ui.compact.button.toggle_session_key(class=calculated_class)
         if icon

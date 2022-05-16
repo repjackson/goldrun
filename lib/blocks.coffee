@@ -254,6 +254,7 @@ if Meteor.isClient
         #     parent = Docs.findOne Template.parentData()._id
         # if parent
     Template.comments.helpers
+        can_add: -> Meteor.user().points > 2
         doc_comments: ->
             if Router.current().params.doc_id
                 parent = Docs.findOne Router.current().params.doc_id
@@ -279,6 +280,7 @@ if Meteor.isClient
                     parent_model:parent.model
                     body:comment
                 t.$('.add_comment').val('')
+                Meteor.call 'calc_user_points', ->
                 $(e.currentTarget).closest('.add_comment').transition('bounce',250)
 
         'click .remove_comment': ->
@@ -683,6 +685,39 @@ if Meteor.isClient
                   hideDuration : 250
                 })
 
+    Template.session_boolean_toggle.helpers
+        calculated_class: ->
+            res = ''
+            # console.log @
+            if @cl
+                res += @cl
+            if Session.get(@key)
+                res += ' blue'
+            else
+                res += ' '
+
+            # console.log res
+            res
+            
+            
+    Template.session_boolean_toggle.events
+        'click .toggle_session_key': ->
+            console.log @key
+            Session.set(@key, !Session.get(@key))
+            $('body').toast({
+                title: "session toggled #{@key}"
+                # message: 'Please see desk staff for key.'
+                class : 'success'
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
     Template.session_boolean_toggle.helpers
         calculated_class: ->
             res = ''

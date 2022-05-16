@@ -7,62 +7,66 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_social'
         ), name:'user_social'
-    Router.route '/user/:username/about', (->
+    Router.route '/user/:username/:section', (->
         @layout 'profile_layout'
-        @render 'user_about'
-        ), name:'user_about'
-    Router.route '/user/:username/orders', (->
-        @layout 'profile_layout'
-        @render 'user_orders'
-        ), name:'user_orders'
-    Router.route '/user/:username/groups', (->
-        @layout 'profile_layout'
-        @render 'user_groups'
-        ), name:'user_groups'
-    Router.route '/user/:username/points', (->
-        @layout 'profile_layout'
-        @render 'user_points'
-        ), name:'user_points'
-    # Router.route '/user/:username/rentals', (->
+        @render 'user_section'
+        ), name:'user_section'
+    # Router.route '/user/:username/about', (->
     #     @layout 'profile_layout'
-    #     @render 'user_rentals'
-    #     ), name:'user_rentals'
-    Router.route '/user/:username/membership', (->
-        @layout 'profile_layout'
-        @render 'user_membership'
-        ), name:'user_membership'
-    Router.route '/user/:username/messages', (->
-        @layout 'profile_layout'
-        @render 'user_messages'
-        ), name:'user_messages'
-    Router.route '/user/:username/products', (->
-        @layout 'profile_layout'
-        @render 'user_products'
-        ), name:'user_products'
-    Router.route '/user/:username/services', (->
-        @layout 'profile_layout'
-        @render 'user_services'
-        ), name:'user_services'
-    Router.route '/user/:username/posts', (->
-        @layout 'profile_layout'
-        @render 'user_posts'
-        ), name:'user_posts'
-    Router.route '/user/:username/comments', (->
-        @layout 'profile_layout'
-        @render 'user_comments'
-        ), name:'user_comments'
-    Router.route '/user/:username/events', (->
-        @layout 'profile_layout'
-        @render 'user_events'
-        ), name:'user_events'
-    Router.route '/user/:username/mail', (->
-        @layout 'profile_layout'
-        @render 'user_mail'
-        ), name:'user_mail'
-    Router.route '/user/:username/voting', (->
-        @layout 'profile_layout'
-        @render 'user_voting'
-        ), name:'user_voting'
+    #     @render 'user_about'
+    #     ), name:'user_about'
+    # Router.route '/user/:username/orders', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_orders'
+    #     ), name:'user_orders'
+    # Router.route '/user/:username/groups', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_groups'
+    #     ), name:'user_groups'
+    # Router.route '/user/:username/points', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_points'
+    #     ), name:'user_points'
+    # # Router.route '/user/:username/rentals', (->
+    # #     @layout 'profile_layout'
+    # #     @render 'user_rentals'
+    # #     ), name:'user_rentals'
+    # Router.route '/user/:username/membership', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_membership'
+    #     ), name:'user_membership'
+    # Router.route '/user/:username/messages', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_messages'
+    #     ), name:'user_messages'
+    # Router.route '/user/:username/products', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_products'
+    #     ), name:'user_products'
+    # Router.route '/user/:username/services', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_services'
+    #     ), name:'user_services'
+    # Router.route '/user/:username/posts', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_posts'
+    #     ), name:'user_posts'
+    # Router.route '/user/:username/comments', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_comments'
+    #     ), name:'user_comments'
+    # Router.route '/user/:username/events', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_events'
+    #     ), name:'user_events'
+    # Router.route '/user/:username/mail', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_mail'
+    #     ), name:'user_mail'
+    # Router.route '/user/:username/voting', (->
+    #     @layout 'profile_layout'
+    #     @render 'user_voting'
+    #     ), name:'user_voting'
 
 
 
@@ -71,6 +75,8 @@ if Meteor.isClient
     Template.profile_layout.onRendered ->
         Meteor.call 'increment_profile_view', Router.current().params.username, ->
 
+    Template.user_section.helpers
+        current_section: -> "user_#{Router.current().params.section}"
 
         
 if Meteor.isClient
@@ -252,13 +258,15 @@ if Meteor.isServer
                     if deposit.amount
                         point_total += deposit.amount
 
-                orders = 
+                comment_total = 0
+                comments = 
                     Docs.find
-                        model:'order'
+                        model:'comment'
                         _author_id:user._id
-                for order in orders.fetch()
-                    if order.total_amount
-                        point_total += order.total_amount
+                for comment in comments.fetch()
+                    point_total += -2
+                
+                
                 
                 upvote_total = 0
                 upvotes = 
@@ -299,6 +307,8 @@ if Meteor.isServer
                         downvote_total:downvote_total
                         tip_total:tip_total
                         tip_count: tip_docs.count()
+                        comment_total: comment_total
+                        comment_count: tip_docs.count()
 if Meteor.isClient
     Template.profile_layout.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username

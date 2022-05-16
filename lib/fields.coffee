@@ -435,6 +435,33 @@ if Meteor.isClient
             $(e.currentTarget).closest('.button').transition('bounce', 500)
             Meteor.call 'calc_user_points', ->
 
+    Template.boolean_edit_icon.helpers
+        boolean_toggle_class: ->
+            parent = Template.parentData()
+            if parent["#{@key}"] then 'large black' else 'grey'
+    Template.boolean_edit_icon.events
+        'click .toggle_boolean': (e,t)->
+            parent = Template.parentData()
+            # $(e.currentTarget).closest('.button').transition('pulse', 100)
+    
+            doc = Docs.findOne parent._id
+            if doc
+                Docs.update parent._id,
+                    $set:"#{@key}":!parent["#{@key}"]
+            else 
+                Meteor.users.update parent._id,
+                    $set:"#{@key}":!parent["#{@key}"]
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
+            $(e.currentTarget).closest('.button').transition('bounce', 500)
+            Meteor.call 'calc_user_points', ->
+
     
     
     Template.single_doc_view.onCreated ->

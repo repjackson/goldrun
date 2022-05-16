@@ -72,7 +72,9 @@ template(name='transfer_item')
                 +user_info
             with _author
                 +user_info
-            each tags
+            .ui.label 
+                |#{when}
+            each seven_tags
                 .ui.label #{this}
             span.smallscroll
                 |!{description}

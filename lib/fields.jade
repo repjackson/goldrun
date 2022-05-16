@@ -705,6 +705,11 @@ template(name='child_view')
     
         //     +single_doc_edit key='ref_model' ref_model='model' ref_key='slug' label='Referenced model (if ref)'
         //     .ui.divider
+template(name='boolean_edit_icon')
+    //- div
+    i.link.circular.icon.toggle_boolean(class="#{boolean_toggle_class} #{icon}" title=tooltip)
+
+
 template(name='boolean_edit')
     //- div
     .ui.button.toggle_boolean(class="#{boolean_toggle_class} #{cl}" title=tooltip)

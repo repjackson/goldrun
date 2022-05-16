@@ -148,7 +148,9 @@ Meteor.users.helpers
         if @nickname
             "#{@nickname}"
         else if @first_name
-            "#{@first_name} #{@last_name}"
+            "#{@first_name}"
+            if @last_name 
+                "#{@last_name}"
         else
             "#{@username}"
     shortname: ->
@@ -170,9 +172,9 @@ Docs.helpers
     _author: -> Meteor.users.findOne @_author_id
 
     when: -> moment(@_timestamp).fromNow()
-    ten_tags: -> if @tags then @tags[..10]
-    five_tags: -> if @tags then @tags[..4]
     three_tags: -> if @tags then @tags[..2]
+    five_tags: -> if @tags then @tags[..4]
+    seven_tags: -> if @tags then @tags[..7]
     is_visible: -> @published in [0,1]
     is_published: -> @published is 1
     is_anonymous: -> @published is 0

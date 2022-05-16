@@ -21,11 +21,11 @@ template(name='account_layout')
                     .twelve.wide.column
                         +account_menu_item key='profile' icon='info'
                         +account_menu_item key='appearance' icon='paint' 
-                        +account_menu_item key='finance' icon='money'
+                        +account_menu_item key='points' icon='money'
                         +account_menu_item key='social' icon='friends'
-                        +account_menu_item key='posts' icon='blog'
+                        // +account_menu_item key='posts' icon='blog'
                         +account_menu_item key='shop' icon='shop'
-                        +account_menu_item key='rentals' icon='clock'
+                        // +account_menu_item key='rentals' icon='clock'
                         // +account_menu_item key='services' icon='wrench'
                         +yield
                     
@@ -42,11 +42,11 @@ template(name='account_points')
             .ui.header 
                 +i name='money'
                 |preferred payment received method
-        +key_value_edit key='preferred_payment_method' value='apple_pay' label='apple pay' icon='apple-pay'
-        +key_value_edit key='preferred_payment_method' value='paypal' label='paypal' icon='paypal'
-        +key_value_edit key='preferred_payment_method' value='venmo' label='venmo' icon='venmo'
-        if in_dev 
-            +number_edit key='points' label='points'
+            +key_value_edit key='preferred_payment_method' value='apple_pay' label='apple pay' icon='apple-pay'
+            +key_value_edit key='preferred_payment_method' value='paypal' label='paypal' icon='paypal'
+            +key_value_edit key='preferred_payment_method' value='venmo' label='venmo' icon='venmo'
+            if in_dev 
+                +number_edit key='points' label='points'
 
 
 template(name='account_profile')

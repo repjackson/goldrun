@@ -262,7 +262,7 @@ template(name='image_view')
     //- +call_visual
     
 template(name='image_edit')
-    .ui.form
+    .ui.inline.form
         // if icon
         //     i.icon(class=icon)
         +i name='image'
@@ -276,8 +276,8 @@ template(name='image_edit')
             else
                 |#{this}
             a(href="https://www.google.com/search?tbm=isch&q=#{../title}" target='_window' title='search google for image from title')
-                i.google.grey.circular.link.icon.zoomer
-        .field
+                i.search.grey.circular.link.icon.zoomer
+        .inline.field
             if field_value
                 //- label Image
                 a(href="{{c.url field_value }}" target='_window')

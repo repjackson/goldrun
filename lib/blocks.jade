@@ -4,6 +4,21 @@ template(name='send_points_button')
         unless currentUser.hide_menu_labels
             |send points
         
+        
+template(name='audience_settings')
+    .ui.header
+        +i name='audience'
+        |audience
+    +boolean_edit key='private' label='private' 
+    if private 
+        +multi_user_edit key='access_user_ids' label='user picker' direct=true
+        
+        
+template(name='loading_icon')
+    .ui.center.aligned.basic.segment
+        i.massive.yin.yang.loading.grey.icon
+
+
 
 template(name='publish_button')
     if published
@@ -697,7 +712,7 @@ template(name='facet')
     each facet_results
         button.ui.circular.compact.small.button.pick_tag(tabindex="0" class=result_class title=count)
             |#{name}
-            //- small #{count}
+            // small #{count}
 
             
 // template(name='comments')

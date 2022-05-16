@@ -44,19 +44,17 @@ template(name='profile_layout')
                                     i.massive.loading.refresh.icon
                           
 template(name='profile_left_column')                          
-    a(href="/user/#{username}")
-        img.ui.centered.rounded.image.boop.mobile.hidden(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
-    a(href="/user/#{username}")
-        img.ui.small.rounded.image.inline.boop.mobile.only(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+    // a(href="/user/#{username}")
+    img.ui.medium.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+    // a(href="/user/#{username}")
+    //     img.ui.small.rounded.image.inline.boop.mobile.only(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
     .ui.inline.small.header(title='boops')
         +i name='tap-gesture'
         |#{boops}
     a(href="/user/#{username}")
         .ui.inline.header
             |#{name}
-        .ui.label
-            | @#{username}
-            //- small @#{user.username}        
+        +user_pill
     a.ui.large.label(href="/user/#{username}/points" title='points')
         //- +i name='coins'
         //- i.coins.icon
@@ -65,7 +63,6 @@ template(name='profile_left_column')
         .ui.inline.header #{first_name}
     if last_name
         .ui.inline.header #{last_name}
-    +user_pill
     if company 
         .ui.header
             +i name='business' 

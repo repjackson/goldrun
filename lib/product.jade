@@ -33,13 +33,6 @@ template(name='product_card')
                 //- |#{_author.name}'s
                 | #{title}
             //- if session_is 'view_ingredients' true
-            // +ismall name='ingredients'
-            // each ingredients
-            //     .ui.small.label #{this}
-            if gluten_free
-                +i name='no-gluten' cl='ui mini inline image' title='gluten free'
-            if vegan
-                +i name='vegan-food' cl='ui mini inline image' title='vegan'
             //- .ui.inline.small.header tags
             // .content
             //     .right.floated.meta

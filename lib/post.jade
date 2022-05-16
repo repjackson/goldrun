@@ -257,8 +257,8 @@ template(name='post_emotion')
 
 
 template(name='visibility_settings')
-    .ui.header 
-        i.eye.icon
+    .ui.dividing.header 
+        +i name='eye'
         |visibility settings
     if private 
         .ui.header 
@@ -268,6 +268,9 @@ template(name='visibility_settings')
         .ui.header 
             +i name='friends'
             |friends only
+    +key_value_edit key='visibility' value='published' icon='checkmark' classes='green'
+    +key_value_edit key='visibility' value='private' icon='lock' classes='blue'
+    +key_value_edit key='visibility' value='draft' icon='checkmark' classes='orange'
 
 
 template(name='post_edit')
@@ -277,20 +280,22 @@ template(name='post_edit')
                 .ten.wide.column
                     +text_edit key='title' label='title' direct=true icon='header'
                     +text_edit key='subtitle' label='subtitle' direct=true icon='header'
-                    +html_edit key='content' label='content' direct=true icon='content'
-                    +call_watson mode='html' key='content'
-                    if watson.analyzed_text
-                        .ui.header
-                            i.calculator.icon
-                            |analyzed text
-                        |!{watson.analyzed_text}
-                        +call_tone key='content'
-                    if tone 
-                        .ui.header tone
-                        .ui.large.list
-                            each tone.classifications
-                                .item
-                                    |#{confidence}: #{class_name}
+                    +boolean_edit key='has_content' label='content (-1p)' icon='content'
+                    if has_content
+                        +html_edit key='content' label='content' direct=true icon='content'
+                        +call_watson mode='html' key='content'
+                        if watson.analyzed_text
+                            .ui.header
+                                i.calculator.icon
+                                |analyzed text
+                            |!{watson.analyzed_text}
+                            +call_tone key='content'
+                        if tone 
+                            .ui.header tone
+                            .ui.large.list
+                                each tone.classifications
+                                    .item
+                                        |#{confidence}: #{class_name}
                     if in_dev 
                         +print_this
                     if is_dev
@@ -299,9 +304,15 @@ template(name='post_edit')
                         .ui.header 
                             small author
                             |#{_author.username}
-                    // +boolean_edit key='has_image' label='has image' icon='content' direct=true
-                    // if has_image
-                    +image_edit key='image_id' label='image' direct=true
+                    .ui.dividing.header 
+                        +i name='cube'
+                        |sections
+                    +boolean_edit key='has_image' label='has image (-1p)' icon='content' direct=true
+                    if has_image
+                        +image_edit key='image_id' label='image' direct=true
+                    +boolean_edit key='has_youtube' label='has youtube (-1p)' icon='youtube'
+                    if has_youtube
+                        +youtube_edit key='youtube_id' label='youtube id'
                 .six.wide.column
                     .ui.inline.header 
                         +icolor name='news' cl='ui image inline pointer'
@@ -311,37 +322,24 @@ template(name='post_edit')
                         |save
                     div 
                     +array_edit key='tags' label='tags' direct=true icon='tags'
-                    +boolean_edit key='has_price' label='has price' icon='coins'
-                    if has_price
-                        .ui.segment 
-                            .ui.header 
-                                |premium settings 
-                            +number_edit key='price' label='price (points)' icon='money'
-                    .ui.small.dividing.header 
-                        +i name='eye'
-                        |visibility
-                    +key_value_edit key='visibility' value='published' icon='checkmark' classes='green'
-                    +key_value_edit key='visibility' value='private' icon='lock' classes='blue'
-                    +key_value_edit key='visibility' value='draft' icon='checkmark' classes='orange'
+                    +premium_settings
+                    +visibility_settings
                     // +boolean_edit key='published' icon='visible' direct=true
                     if is_dev 
                         +text_edit key='model' label='model' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    // unless published
-                    //     a.ui.fluid.green.button.submit
-                    //         i.checkmark.icon
-                    //         |publish
-                    // else
-                    //     .ui.basic.button.unpublish 
-                    //         |unpublish
+                    +publish_button
                     +link_edit key='link' label='link'
-                    +youtube_edit key='youtube_id' label='youtube id'
-                    .ui.header
-                        |audience
-                    +boolean_edit key='private' label='private' 
-                    if private 
-                        +multi_user_edit key='access_user_ids' label='user picker' direct=true
                     +group_picker
                     .ui.red.button.delete_post
                         i.large.link.red.remove.icon
                         |delete post
+                        
+                        
+template(name='premium_settings')
+    +boolean_edit key='has_price' label='has price' icon='coins'
+    if has_price
+        .ui.segment 
+            .ui.header 
+                |premium settings 
+            +number_edit key='price' label='price (points)' icon='money'

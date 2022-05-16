@@ -78,7 +78,7 @@ if Meteor.isClient
     Template.latest_activity.helpers
         latest_docs: ->
             Docs.find {
-                model:$ne:'chat_message'
+                model:$nin:['chat_message','log']
                 private:$ne:true
             }, 
                 sort:_timestamp:-1

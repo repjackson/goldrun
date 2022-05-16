@@ -30,10 +30,10 @@ template(name='product_card')
         if local 
             .ui.top.right.attached.corner.green.label(title='local')
                 i.marker.icon
-        a.zoomer.fly_right(href="/product/#{_id}") 
+        a.zoomer.fly_right(href="/doc/#{_id}") 
             img.ui.centered.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
-            a.ui.header.fly_right(href="/product/#{_id}") 
+            a.ui.header.fly_right(href="/doc/#{_id}") 
                 //- |#{_author.name}'s
                 | #{title}
             //- if session_is 'view_ingredients' true
@@ -42,14 +42,14 @@ template(name='product_card')
             //     .right.floated.meta
             //         | {{from_now datetime_available}}
             //     //- if session_is 'view_users' true
-            // //- a.image(href="/product/#{_id}")
+            // //- a.image(href="/doc/#{_id}")
                 
         .content    
             .ui.inline.header 
                 |${{fixed price_usd}}
             i.big.link.cart.plus.green.icon.add_to_cart
             if is_admin
-                a(href="/product/#{_id}/edit")
+                a(href="/doc/#{_id}/edit")
                     i.pencil.link.icon
             .ui.inline.small.header 
                 |(#{menu_section}) 
@@ -77,7 +77,7 @@ template(name='product_view')
                         | #{title}
                     div
                     if can_edit
-                        a(href="/product/#{_id}/edit")
+                        a(href="/doc/#{_id}/edit")
                             i.pencil.blue.large.link.circular.icon
                     // a(href="{{c.url image_id}}" target="_window")
                     // .four.wide.column
@@ -162,7 +162,7 @@ template(name='product_view')
                         i.fork.icon
                         |related products
                     each related_products
-                        a.ui.header(href="/product/#{_id}") #{title}
+                        a.ui.header(href="/doc/#{_id}") #{title}
                             
         
         

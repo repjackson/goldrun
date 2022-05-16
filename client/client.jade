@@ -104,9 +104,64 @@ template(name='doc_edit')
                         +key_value_edit key='model' value='message' label='message' icon='envelope'
                     
                     +Template.dynamic template=model_template
+
+
 template(name='doc_view')
     with current_doc
         .ui.stackable.padded.grid
             .row 
                 .sixteen.wide.column
                     +Template.dynamic template=model_template
+                if in_dev
+                    .ui.segment 
+                        .ui.header admin
+                        +print_this
+
+
+
+template(name='docs')
+    .ui.stackable.padded.grid 
+        .four.wide.column
+            .ui.inline.header 
+                +i name='cube'
+                |#{post_docs.count} docs
+            if currentUser
+                +add_doc_button model='post'
+            +session_set key='model' value='post' label='post' icon='blog'
+            +session_set key='model' value='event' label='event' icon='calendar'
+            +session_set key='model' value='transfer' label='transfer' icon='exchange'
+            +session_boolean_toggle key='view_mine' label='mine' icon='user'
+            +session_boolean_toggle key='view_private' label='private' icon='lock'
+            div
+            +facet key='tag' icon='tags' model='post' label='tags'
+            // +facet key='doc_sentiment_label' icon='happy'
+        .twelve.wide.column
+            +search_input key='title'
+            +session_set key='view_mode' value='grid' icon='th'
+            +session_set key='view_mode' value='list' icon='list'
+            +sort_direction_toggle
+            +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+            +session_set key='sort_key' value='points' label='points' icon='hashtag'
+            +session_set key='sort_key' value='views' label='views' icon='eye'
+            .scrolling
+                if subs_ready
+                    if session_is 'view_mode' 'grid'
+                        if one_result
+                            .ui.one.cards
+                                each doc_results
+                                    +post_card_med
+                        else if two_results
+                            .ui.two.cards
+                                each doc_results
+                                    +post_card_med
+                        else                 
+                            .ui.centered.stackable.cards
+                                each doc_results 
+                                    +post_card
+                    else 
+                        .ui.large.list 
+                            each doc_results 
+                                +post_item
+                else 
+                    .ui.center.aligned.basic.segment
+                        i.massive.yin.yang.loading.grey.icon

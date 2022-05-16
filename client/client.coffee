@@ -197,6 +197,12 @@ Router.route '/', (->
     ), name:'home'
 
 
+Router.route '/docs', (->
+    @layout 'layout'
+    @render 'docs'
+    ), name:'docs'
+    
+    
 Router.route '/doc/:doc_id/edit', (->
     @layout 'layout'
     @render 'doc_edit'
@@ -216,3 +222,29 @@ Template.doc_view.helpers
     model_template: -> "#{@model}_view"
     
     
+    
+    
+Template.docs.onCreated ->
+    # @autorun => @subscribe 'model_docs', 'post', ->
+    @autorun => @subscribe 'facet_sub',
+        Session.get('model')
+        picked_tags.array()
+        Session.get('current_search')
+
+    @autorun => @subscribe 'doc_results',
+        Session.get('model')
+        picked_tags.array()
+        Session.get('current_search')
+        Session.get('sort_key')
+        Session.get('sort_direction')
+        Session.get('limit')
+
+
+Template.docs.helpers
+    doc_results: ->
+        Docs.find {
+            model:Session.get('model')
+        }, 
+            sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+            limit:Session.get('limit')        
+            

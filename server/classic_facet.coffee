@@ -88,7 +88,7 @@ Meteor.publish 'facet_sub', (
         #         index: i
         total_count = Docs.find(match).count()
         console.log 'total count', total_count
-
+        console.log 'facet match', match
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: tags: 1 }
@@ -384,9 +384,10 @@ Meteor.publish 'doc_results', (
     unless Meteor.userId()
         match.private = $ne:true
         
-    # console.log 'results match', match
+    console.log 'results match', match
     console.log 'sort_key', sort_key
     console.log 'sort_direction', sort_direction
+    
     Docs.find match,
         sort:"#{sort_key}":sort_direction
         limit: limit

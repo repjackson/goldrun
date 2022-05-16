@@ -5,43 +5,43 @@ template(name='profile_layout')
         else 
             img.ui.image.nav_banner(src="{{c.url image_id height=1000 crop='crop'}}")
     +nav
-    .ui.bottom.attached.pushable.segment.scrolling(class=darkmode_class)
-        +topbar
-        +leftbar
-        +rightbar
-        with user_from_username_param
-            if background_image_id
-                img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
-            else 
-                img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-            // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
-            .ui.stackable.padded.grid
-                .row
-                    //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
-                    .four.wide.column
-                        +profile_left_column
-                    .twelve.wide.column
-                        a.ui.compact.circular.button(href="/user/#{username}")
-                            +i name='dashboard'
-                            unless currentUser.hide_menu_labels
-                                |dashboard
-                        +profile_menu_item key='about' icon='info'
-                        +profile_menu_item key='points' icon='coins'
-                        +profile_menu_item key='social' icon='friends'
-                        +profile_menu_item key='posts' icon='blog'
-                        +profile_menu_item key='products' icon='shop'
-                        // +profile_menu_item key='rentals' icon='clock'
-                        +profile_menu_item key='services' icon='wrench'
-                        +profile_menu_item key='groups' icon='groups'
-                        +profile_menu_item key='comments' icon='chat'
-                        +profile_menu_item key='mail' icon='envelope'
-                        +profile_menu_item key='voting' icon='elections'
-                        .scrollin
-                            if subs_ready
-                                +yield
-                            else 
-                                .ui.basic.center.aligned.segment
-                                    i.massive.loading.refresh.icon
+    // .ui.bottom.attached.pushable.segment.scrolling(class=darkmode_class)
+    //     +topbar
+    //     +leftbar
+    //     +rightbar
+    with user_from_username_param
+        if background_image_id
+            img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+        else 
+            img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+        // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+        .ui.stackable.padded.grid
+            .row
+                //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
+                .four.wide.column
+                    +profile_left_column
+                .twelve.wide.column
+                    a.ui.compact.circular.button(href="/user/#{username}")
+                        +i name='dashboard'
+                        unless currentUser.hide_menu_labels
+                            |dashboard
+                    +profile_menu_item key='about' icon='info'
+                    +profile_menu_item key='points' icon='coins'
+                    +profile_menu_item key='social' icon='friends'
+                    +profile_menu_item key='posts' icon='blog'
+                    +profile_menu_item key='products' icon='shop'
+                    // +profile_menu_item key='rentals' icon='clock'
+                    +profile_menu_item key='services' icon='wrench'
+                    +profile_menu_item key='groups' icon='groups'
+                    +profile_menu_item key='comments' icon='chat'
+                    +profile_menu_item key='mail' icon='envelope'
+                    +profile_menu_item key='voting' icon='elections'
+                    .scrollin
+                        if subs_ready
+                            +yield
+                        else 
+                            .ui.basic.center.aligned.segment
+                                i.massive.loading.refresh.icon
                           
 template(name='profile_left_column')                          
     // a(href="/user/#{username}")

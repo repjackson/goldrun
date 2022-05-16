@@ -31,23 +31,27 @@ template(name='global_activity')
    
           
           
-template(name='public_chat')          
-    a.ui.header.fly_right.zoomer(href="/chat")
-        +i name='chat'
-        |public chat
-    .ui.input
-        input.add_public_chat(type='text' placeholder='add message...')
-    if subs_ready 
-        .ui.list
-            each latest_chat_docs
-                .item
-                    |#{body}
-                    small #{when}
-                    if currentUser.admin_mode
-                        i.remove.link.icon.remove_comment
-    else 
-        i.big.grey.yin.yang.loading.icon
-        .ui.header loading
+template(name='public_chat')
+    .ui.accordion 
+        .title
+            .ui.header 
+                +i name='chat'
+                |public chat
+        .content
+            // a.ui.header.fly_right.zoomer(href="/chat")
+            .ui.input
+                input.add_public_chat(type='text' placeholder='add message...')
+            if subs_ready 
+                .ui.list
+                    each latest_chat_docs
+                        .item
+                            |#{body}
+                            small #{when}
+                            if currentUser.admin_mode
+                                i.remove.link.icon.remove_comment
+            else 
+                i.big.grey.yin.yang.loading.icon
+                .ui.header loading
           
 template(name='latest_activity')
     .ui.accordion

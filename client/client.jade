@@ -49,13 +49,13 @@ head
 template(name='layout')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     +nav
-    .ui.bottom.attached.pushable.segment.scrollin(class=darkmode_class)
-        +topbar
+    +yield
+    +footer
+    // .ui.bottom.attached.pushable.segment.scrollin(class=darkmode_class)
+        // +topbar
         // +leftbar
         // +rightbar
         // .global_container.bg
-        +yield
-        +footer
 
 
 

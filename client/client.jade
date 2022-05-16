@@ -108,7 +108,7 @@ template(name='doc_edit')
 
 template(name='doc_view')
     with current_doc
-        .ui.stackable.padded.grid
+        .ui.stackable.grid
             .row 
                 .sixteen.wide.column
                     +Template.dynamic template=model_template data=current_doc

@@ -97,6 +97,8 @@ template(name='user_card')
                 i.chevron.down.icon(title='received gift tags')
                 each credit_tags
                     .ui.small.basic.label #{title}
+            if bio 
+                |!{bio}
             if tags 
                 each five_tags 
                     .ui.basic.label #{this}

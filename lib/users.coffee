@@ -208,7 +208,7 @@ if Meteor.isServer
         # picked_tags.push current_herd
         if picked_tags.length > 0
             match.tags = $all: picked_tags
-    
+        count = Meteor.users.find(match).count()
         cloud = Meteor.users.aggregate [
             { $match: match }
             { $project: tags: 1 }
@@ -216,6 +216,7 @@ if Meteor.isServer
             { $group: _id: '$tags', count: $sum: 1 }
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: count }
             { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]

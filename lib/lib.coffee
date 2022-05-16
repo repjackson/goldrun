@@ -145,14 +145,15 @@ if Meteor.isServer
 
 Meteor.users.helpers
     name: ->
-        if @nickname
-            "#{@nickname}"
-        else if @first_name
-            "#{@first_name}"
-            if @last_name 
-                "#{@last_name}"
-        else
             "#{@username}"
+        # if @nickname
+        #     "#{@nickname}"
+        # else if @first_name
+        #     "#{@first_name}"
+        #     if @last_name 
+        #         "#{@last_name}"
+        # else
+        #     "#{@username}"
     shortname: ->
         if @nickname
             "#{@nickname}"

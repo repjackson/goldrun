@@ -1,33 +1,29 @@
 template(name='account_layout')
     +nav
-    .ui.bottom.attached.pushable.segment.scrollin(class=darkmode_class)
-        +topbar
-        +leftbar
-        +rightbar
-        with user_from_username_param          
-            img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")
-            //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
-            .ui.stackable.padded.grid
-                .row
-                    .four.wide.column
-                        .ui.center.aligned.large.inline.grey.header
-                        //- +i name='pencil'
-                        .ui.small.inline.header @#{username}
-                        a.ui.green.fluid.icon.button.fly_down(href="/user/#{username}/") 
-                            i.checkmark.large.icon
-                        .ui.hidden.divider
-                        +image_edit key='image_id' icon='picture' title='profile image' 
-                        +image_edit key='background_image_id' icon='picture' title='background image' 
-                    .twelve.wide.column
-                        +account_menu_item key='profile' icon='info'
-                        +account_menu_item key='appearance' icon='paint' 
-                        +account_menu_item key='points' icon='money'
-                        +account_menu_item key='social' icon='friends'
-                        // +account_menu_item key='posts' icon='blog'
-                        +account_menu_item key='shop' icon='shop'
-                        // +account_menu_item key='rentals' icon='clock'
-                        // +account_menu_item key='services' icon='wrench'
-                        +yield
+    with user_from_username_param          
+        img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")
+        //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    .ui.center.aligned.large.inline.grey.header
+                    //- +i name='pencil'
+                    .ui.small.inline.header @#{username}
+                    a.ui.green.fluid.icon.button.fly_down(href="/user/#{username}/") 
+                        i.checkmark.large.icon
+                    .ui.hidden.divider
+                    +image_edit key='image_id' icon='picture' title='profile image' 
+                    +image_edit key='background_image_id' icon='picture' title='background image' 
+                .twelve.wide.column
+                    +account_menu_item key='profile' icon='info'
+                    +account_menu_item key='appearance' icon='paint' 
+                    +account_menu_item key='points' icon='money'
+                    +account_menu_item key='social' icon='friends'
+                    // +account_menu_item key='posts' icon='blog'
+                    +account_menu_item key='shop' icon='shop'
+                    // +account_menu_item key='rentals' icon='clock'
+                    // +account_menu_item key='services' icon='wrench'
+                    +yield
                     
 template(name='account_menu_item')
     a.ui.compact.large.circular.button(href="/user/#{current_user.username}/edit/#{key}" title=key)

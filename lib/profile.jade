@@ -18,7 +18,7 @@ template(name='profile_layout')
         .ui.stackable.padded.grid
             .row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
-                .four.wide.column
+                .four.wide.column.scrolling
                     +profile_left_column
                 .twelve.wide.column
                     a.ui.compact.circular.button(href="/user/#{username}")
@@ -36,7 +36,7 @@ template(name='profile_layout')
                     +profile_menu_item key='comments' icon='chat'
                     +profile_menu_item key='mail' icon='envelope'
                     +profile_menu_item key='voting' icon='elections'
-                    .scrollin
+                    .scrolling
                         if subs_ready
                             +yield
                         else 

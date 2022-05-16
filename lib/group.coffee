@@ -1,34 +1,3 @@
-Router.route '/group/:doc_id/events', (->
-    @layout 'group_view'
-    @render 'group_events'
-    ), name:'group_events'
-Router.route '/group/:doc_id/about', (->
-    @layout 'group_view'
-    @render 'group_about'
-    ), name:'group_about'
-Router.route '/group/:doc_id/posts', (->
-    @layout 'group_view'
-    @render 'group_posts'
-    ), name:'group_posts'
-Router.route '/group/:doc_id/members', (->
-    @layout 'group_view'
-    @render 'group_members'
-    ), name:'group_members'
-Router.route '/group/:doc_id/related', (->
-    @layout 'group_view'
-    @render 'group_related'
-    ), name:'group_related'
-Router.route '/group/:doc_id/products', (->
-    @layout 'group_view'
-    @render 'group_products'
-    ), name:'group_products'
-Router.route '/group/:doc_id/chat', (->
-    @layout 'group_view'
-    @render 'group_chat'
-    ), name:'group_chat'
-
-
-
 if Meteor.isClient
     Template.group_widget.onCreated ->
         @autorun => Meteor.subscribe 'user_from_username', @data

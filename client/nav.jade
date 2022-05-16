@@ -1,7 +1,7 @@
 template(name='nav')
     // https://fomantic-ui.com/elements/icon.html#/icon
     // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
-    #topnav.topnav.ui.attached.borderless.menu.hscroll(class=darkmode_class)
+    #topnav.topnav.ui.attached.borderless.big.menu.hscroll(class=darkmode_class)
         // if is_loading
         //     .icon.item
         //         i.big.loading.grey.refresh.icon.cancel
@@ -11,8 +11,6 @@ template(name='nav')
         a.header.icon.item.zoomer(href='/' class="{{isActivePath '/'}}" title='goldrun')
             +ibig name='one-ring'
             // i.large.home.icon
-            unless currentUser.hide_menu_labels
-                span.mobile.hidden goldrun
         
         +top_nav_item key='docs' icon='cube' label='docs'
         +top_nav_item key='users' icon='groups' label='users'
@@ -60,8 +58,6 @@ template(name='top_nav_item')
     a.icon.item.zoomer.fly_right(href="/#{key}" class="{{isActiveRoute key}}" title=key)
         // i.large.users.icon
         +i name=icon
-        unless currentUser.hide_menu_labels
-            .mobile.hidden #{label} 
 
 
                 

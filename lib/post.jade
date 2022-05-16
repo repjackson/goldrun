@@ -1,47 +1,3 @@
-// template(name='posts')
-//     .ui.stackable.padded.grid 
-//         .four.wide.column
-//             .ui.inline.header 
-//                 +i name='blog'
-//                 |#{post_docs.count} posts
-//             if currentUser
-//                 +add_doc_button model='post'
-//             +session_boolean_toggle key='view_mine' label='mine' icon='user'
-//             +session_boolean_toggle key='view_private' label='private' icon='lock'
-//             div
-//             +search_input key='title'
-//             +facet key='tag' icon='tags' model='post' label='tags'
-//             // +facet key='doc_sentiment_label' icon='happy'
-//         .twelve.wide.column
-//             +session_set key='view_mode' value='grid' icon='th'
-//             +session_set key='view_mode' value='list' icon='list'
-//             +sort_direction_toggle
-//             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
-//             +session_set key='sort_key' value='points' label='points' icon='hashtag'
-//             +session_set key='sort_key' value='views' label='views' icon='eye'
-//             .scrolling
-//                 if subs_ready
-//                     if session_is 'view_mode' 'grid'
-//                         if one_result
-//                             .ui.one.cards
-//                                 each post_docs
-//                                     +post_card_med
-//                         else if two_results
-//                             .ui.two.cards
-//                                 each post_docs
-//                                     +post_card_med
-//                         else                 
-//                             .ui.centered.stackable.cards
-//                                 each post_docs 
-//                                     +post_card
-//                     else 
-//                         .ui.large.list 
-//                             each post_docs 
-//                                 +post_item
-//                 else 
-//                     .ui.center.aligned.basic.segment
-//                         i.massive.yin.yang.loading.grey.icon
-
 template(name='post_card')
     .ui.link.card.view_post.pointer.fly_right
         if youtube_id
@@ -112,77 +68,70 @@ template(name='post_item')
             | !{content}
         
 
-template(name='post_layout')
-    +nav
-    .ui.bottom.attached.pushable.segment.scroling(class=darkmode_class)
-        +topbar
-        +leftbar
-        +rightbar
-        with current_doc
-            .ui.stackable.padded.grid
-                .row 
-                    .twelve.wide.column.scrollin
-                        .ui.big.center.aligned.header(class=emotion_color) 
-                            if price
-                                i.large.coins.icon(title='price')
-                            if private 
-                                i.large.lock.icon(title='private')
-                            |#{title}
-                        a.ui.compact.button(href="/doc/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
-                            +i name='home'
-                            |home
-                        if watson
-                            a.ui.compact.button(href="/doc/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
-                                +i name='dna-helix'
-                                |emotion
-                        a.ui.compact.button(href="/doc/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
-                            +i name='chat'
-                            |comments
-                        a.ui.compact.button(href="/doc/#{_id}/tips" class="{{isActiveRoute regex='tips'}}" )
-                            +i name='coins'
-                            |tips
-                        a.ui.compact.button(href="/doc/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
-                            +i name='pie-chart'
-                            |stats
-                        a.ui.compact.button(href="/doc/#{_id}/related" class="{{isActiveRoute regex='related'}}" )
-                            +i name='clone'
-                            |related
-                        +yield
-                    .four.wide.column.scrollin
-                        a.ui.icon.button.fly_left(href="/docs" title='posts')
-                            i.chevron.left.icon
-                            +i name='post'
-                            |posts
-                        if can_edit
-                            a.ui.icon.button.fly_down(href="/doc/#{_id}/edit" title='edit')
-                                +i name='pencil'
-                        +group_widget
-                        +author_block
-                        if has_price
-                            +post_orders
-                        .ui.list
-                            .item 
-                                i.grey.eye.icon
-                                |#{views} views
-                            .item 
-                                |#{points}
-                                |points
-                            .item 
-                                |#{tip_total}
-                                |tip total
-                        each viewers
-                            .ui.label #{username}
-                        +array_view key='tags' label='tags' icon='tags' direct=true
-                        div
-                        +voting_full
-                        +array_view key='location_tags' label='location_tags' direct=true
-                        +visibility_settings
-                        
-                        if in_dev 
-                            +print_this
-                        if link
-                            +link_view key='link' label='link'
-    +footer
+template(name='post_view')
+    .ui.stackable.padded.grid
+        .row 
+            .twelve.wide.column.scrollin
+                .ui.big.center.aligned.header(class=emotion_color) 
+                    if price
+                        i.large.coins.icon(title='price')
+                    if private 
+                        i.large.lock.icon(title='private')
+                    |#{title}
+                a.ui.compact.button(href="/doc/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
+                    +i name='home'
+                    |home
+                if watson
+                    a.ui.compact.button(href="/doc/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
+                        +i name='dna-helix'
+                        |emotion
+                a.ui.compact.button(href="/doc/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
+                    +i name='chat'
+                    |comments
+                a.ui.compact.button(href="/doc/#{_id}/tips" class="{{isActiveRoute regex='tips'}}" )
+                    +i name='coins'
+                    |tips
+                a.ui.compact.button(href="/doc/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
+                    +i name='pie-chart'
+                    |stats
+                a.ui.compact.button(href="/doc/#{_id}/related" class="{{isActiveRoute regex='related'}}" )
+                    +i name='clone'
+                    |related
+                +yield
+            .four.wide.column.scrollin
+                a.ui.icon.button.fly_left(href="/docs" title='posts')
+                    i.chevron.left.icon
+                    +i name='post'
+                    |posts
+                if can_edit
+                    a.ui.icon.button.fly_down(href="/doc/#{_id}/edit" title='edit')
+                        +i name='pencil'
+                +group_widget
+                +author_block
+                if has_price
+                    +post_orders
+                .ui.list
+                    .item 
+                        i.grey.eye.icon
+                        |#{views} views
+                    .item 
+                        |#{points}
+                        |points
+                    .item 
+                        |#{tip_total}
+                        |tip total
+                each viewers
+                    .ui.label #{username}
+                +array_view key='tags' label='tags' icon='tags' direct=true
+                div
+                +voting_full
+                +array_view key='location_tags' label='location_tags' direct=true
+                +visibility_settings
+                
+                if in_dev 
+                    +print_this
+                if link
+                    +link_view key='link' label='link'
                 
 template(name='post_orders')
     .ui.segment 

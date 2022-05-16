@@ -192,3 +192,16 @@ Router.route '/', (->
     @layout 'layout'
     @render 'home'
     ), name:'home'
+
+
+Router.route '/doc/:doc_id/edit', (->
+    @layout 'layout'
+    @render 'doc_edit'
+    ), name:'doc_edit'
+
+
+Template.doc_edit.onCreated ->
+    @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
+
+Template.doc_edit.helpers
+    model_template: -> "#{@model}_edit"

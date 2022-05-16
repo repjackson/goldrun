@@ -6,6 +6,10 @@ template(name='products')
                 |products
             if currentUser
                 +add_doc_button model='product'
+            div
+            +session_boolean_toggle key='is_food' label='food' icon='food'
+            +session_boolean_toggle key='available' label='available' icon='checkmark'
+            div
             +facet key='tag' icon='tags' model='product'
         .twelve.wide.column
             +sort_direction_toggle

@@ -273,6 +273,18 @@ template(name='visibility_settings')
     +key_value_edit key='visibility' value='draft' icon='checkmark' classes='orange'
 
 
+template(name='doc_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row 
+                .ten.wide.column
+                    .ui.header
+                        +i name='cube'
+                        |model
+                    +key_value_edit key='model' value='post' label='post' icon='blog'
+                    +key_value_edit key='model' value='event' label='event' icon='calendar'
+                    +Template.dynamic template=model_template
+
 template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid

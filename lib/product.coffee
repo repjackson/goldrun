@@ -245,14 +245,7 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-    Router.route '/product/:doc_id/edit', (->
-        @layout 'layout'
-        @render 'product_edit'
-        ), name:'product_edit'
-
-
     Template.product_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
         # @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'source'
         @autorun => Meteor.subscribe 'target_by_transfer_id', Router.current().params.doc_id, ->

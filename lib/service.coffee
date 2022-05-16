@@ -3,18 +3,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'services'
         ), name:'services'
-    Router.route '/service/:doc_id/edit', (->
-        @layout 'layout'
-        @render 'service_edit'
-        ), name:'service_edit'
     Router.route '/service/:doc_id', (->
         @layout 'layout'
         @render 'service_view'
         ), name:'service_view'
-    Router.route '/service/:doc_id/view', (->
-        @layout 'layout'
-        @render 'service_view'
-        ), name:'service_view_long'
     
     
     # Template.services.onCreated ->
@@ -48,10 +40,6 @@ if Meteor.isClient
 
     Template.service_view.onCreated ->
         @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
-
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-    Template.service_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.service_card.onCreated ->
         @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
 

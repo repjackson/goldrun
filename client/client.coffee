@@ -201,10 +201,18 @@ Router.route '/doc/:doc_id/edit', (->
     @layout 'layout'
     @render 'doc_edit'
     ), name:'doc_edit'
-
-
 Template.doc_edit.onCreated ->
     @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-
 Template.doc_edit.helpers
     model_template: -> "#{@model}_edit"
+    
+Router.route '/doc/:doc_id/view', (->
+    @layout 'layout'
+    @render 'doc_view'
+    ), name:'doc_view'
+Template.doc_view.onCreated ->
+    @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
+Template.doc_view.helpers
+    model_template: -> "#{@model}_view"
+    
+    

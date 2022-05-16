@@ -40,6 +40,19 @@ if Meteor.isClient
             if confirm 'remove comment? cant be undone'
                 Docs.remove @_id
         
+    Template.global_activity.onCreated ->
+        @autorun => @subscribe 'model_docs','log',20,->
+    
+    Template.global_activity.helpers
+        latest_log_docs: ->
+            Docs.find {
+                # model:$ne:'chat_message'
+                model:'log'
+                # private:$ne:true
+            }, sort:_timestamp:-1
+        
+        
+        
 if Meteor.isServer 
     Meteor.methods 
         log_homepage_view: ->

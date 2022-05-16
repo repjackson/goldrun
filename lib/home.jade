@@ -10,8 +10,25 @@ template(name='home')
                 +top_users_points
                 +homepage_stats
             // iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12223.22752652539!2d-105.27157281318149!3d40.01276107062417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876bedcf1563c603%3A0x8a56ee2b4204da87!2sGold%20Run%20Condos!5e0!3m2!1sen!2sus!4v1649023489666!5m2!1sen!2sus" width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade")
-          
-          
+            .four.wide.column
+                +global_activity
+            .four.wide.column
+                +user_posts
+            .four.wide.column
+                +user_points
+            .four.wide.column
+                +user_social
+
+       
+template(name='global_activity')        
+    .ui.header 
+        +i name='clock'
+        |#{latest_log_docs.count} latest activity
+    .ui.link.selection.animated.divided.list.smallscroll
+        each latest_log_docs
+            .item
+                |#{body} #{when} #{_author_username} #{parent_model}
+   
           
           
 template(name='public_chat')          

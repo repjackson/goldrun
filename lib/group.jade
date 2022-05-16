@@ -180,7 +180,7 @@ template(name='group_item')
 
 template(name='group_layout')
     with current_doc
-        img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+        // img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         +nav
         .ui.bottom.attached.pushable.segment.scrollin(class=darkmode_class)
             +topbar
@@ -284,12 +284,7 @@ template(name='group_view')
                         //     .content
                         //         .header
                         //             |#{username}
-                if currentUser
-                    +doc_array_toggle key='member_ids' value=currentUser._id add_label='join' remove_label='leave'
-                else 
-                    a.ui.big.button(href="/login")
-                        +i name='internal'
-                        |join
+                +join_button
             .eight.wide.column
                 +checkin_widget
                 +group_activity

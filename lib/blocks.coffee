@@ -410,18 +410,28 @@ if Meteor.isClient
                     
     
     Template.join_button.helpers
-        is_following: ->
-            @followed_by_user_ids  and Meteor.userId() in @followed_by_user_ids
+        is_member: ->
+            @member_user_ids  and Meteor.userId() in @member_user_ids
 
     Template.join_button.events 
-        'click .follow': ->
-            Meteor.users.update @_id, 
+        'click .join': ->
+            Docs.update @_id, 
                 $addToSet:
-                    followed_by_user_ids:Meteor.userId()
-        'click .unfollow': ->
-            Meteor.users.update @_id, 
+                    member_user_ids:Meteor.userId()
+            Docs.insert 
+                model:'log'
+                body:"#{Meteor.user().username} joined #{@title}"
+                parent_id:@_id
+                parent_model:'group'
+        'click .leave': ->
+            Docs.update @_id, 
                 $pull:
-                    followed_by_user_ids:Meteor.userId()
+                    member_user_ids:Meteor.userId()
+            Docs.insert 
+                model:'log'
+                body:"#{Meteor.user().username} left #{@title}"
+                parent_id:@_id
+                parent_model:'group'
 
     # Template.set_limit.events
     #     'click .set_limit': ->

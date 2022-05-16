@@ -49,7 +49,7 @@ template(name='post_card')
         else if image_id
             img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
-            a.ui.large_text.zoomer(href="/post/#{_id}" class=emotion_color) #{title}
+            a.ui.large_text.zoomer(href="/doc/#{_id}" class=emotion_color) #{title}
             if private 
                 i.large.lock.icon
             .ui.small.grey.inline.header #{when}
@@ -71,7 +71,7 @@ template(name='post_card_med')
         else if image_id
             img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
-            a.ui.large_text.zoomer(href="/post/#{_id}" class=emotion_color) #{title}
+            a.ui.large_text.zoomer(href="/doc/#{_id}" class=emotion_color) #{title}
             if private 
                 i.large.lock.icon
             .ui.small.grey.inline.header #{when}
@@ -94,7 +94,7 @@ template(name='post_item')
             +youtube_view key='youtube_id'
         else if image_id
             img.ui.fluid.rounded.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        a.ui.inline.header(href="/post/#{_id}/view" class=emotion_color) #{title}
+        a.ui.inline.header(href="/doc/#{_id}/view" class=emotion_color) #{title}
         .ui.small.basic.label(title='created when')
             |#{when}
         span(title='views')
@@ -128,33 +128,33 @@ template(name='post_layout')
                             if private 
                                 i.large.lock.icon(title='private')
                             |#{title}
-                        a.ui.compact.button(href="/post/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
+                        a.ui.compact.button(href="/doc/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
                             +i name='home'
                             |home
                         if watson
-                            a.ui.compact.button(href="/post/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
+                            a.ui.compact.button(href="/doc/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
                                 +i name='dna-helix'
                                 |emotion
-                        a.ui.compact.button(href="/post/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
+                        a.ui.compact.button(href="/doc/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
                             +i name='chat'
                             |comments
-                        a.ui.compact.button(href="/post/#{_id}/tips" class="{{isActiveRoute regex='tips'}}" )
+                        a.ui.compact.button(href="/doc/#{_id}/tips" class="{{isActiveRoute regex='tips'}}" )
                             +i name='coins'
                             |tips
-                        a.ui.compact.button(href="/post/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
+                        a.ui.compact.button(href="/doc/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
                             +i name='pie-chart'
                             |stats
-                        a.ui.compact.button(href="/post/#{_id}/related" class="{{isActiveRoute regex='related'}}" )
+                        a.ui.compact.button(href="/doc/#{_id}/related" class="{{isActiveRoute regex='related'}}" )
                             +i name='clone'
                             |related
                         +yield
                     .four.wide.column.scrollin
-                        a.ui.icon.button.fly_left(href="/posts" title='posts')
+                        a.ui.icon.button.fly_left(href="/docs" title='posts')
                             i.chevron.left.icon
                             +i name='post'
                             |posts
                         if can_edit
-                            a.ui.icon.button.fly_down(href="/post/#{_id}/edit" title='edit')
+                            a.ui.icon.button.fly_down(href="/doc/#{_id}/edit" title='edit')
                                 +i name='pencil'
                         +group_widget
                         +author_block
@@ -317,7 +317,7 @@ template(name='post_edit')
                     .ui.inline.header 
                         +icolor name='news' cl='ui image inline pointer'
                         |editing post
-                    a.ui.green.big.button.fly_up(href="/post/#{_id}" title='save')
+                    a.ui.green.big.button.fly_up(href="/doc/#{_id}" title='save')
                         i.checkmark.big.icon
                         |save
                     div 

@@ -2,11 +2,6 @@ if Meteor.isClient
 
     @picked_event_tags = new ReactiveArray []
 
-    Router.route '/event/:doc_id', (->
-        @layout 'layout'
-        @render 'event_view'
-        ), name:'event_view'
-        
     Router.route '/events', (->
         @layout 'layout'
         @render 'events'
@@ -20,7 +15,8 @@ if Meteor.isClient
         Session.setDefault('sort_key','start_datetime')
         Session.setDefault('sort_direction',-1)
 
-        @autorun => @subscribe 'event_facets',
+        @autorun => @subscribe 'facets',
+            'event'
             picked_tags.array()
             Session.get('limit')
             Session.get('sort_key')
@@ -29,7 +25,8 @@ if Meteor.isClient
             Session.get('view_pickup')
             Session.get('view_open')
 
-        @autorun => @subscribe 'event_results',
+        @autorun => @subscribe 'doc_results',
+            'event'
             picked_tags.array()
             Session.get('event_search')
             Session.get('limit')
@@ -200,191 +197,6 @@ if Meteor.isServer
         Docs.find match, 
             sort:date:1
             
-            
-    Meteor.publish 'event_tags', (picked_tags)->
-        # user = Meteor.users.findOne @userId
-        # current_herd = user.profile.current_herd
-    
-        self = @
-        match = {model:'event'}
-    
-        # picked_tags.push current_herd
-        if picked_tags.length > 0
-            match.tags = $all: picked_tags
-    
-        tag_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: tags: 1 }
-            { $unwind: "$tags" }
-            { $group: _id: '$tags', count: $sum: 1 }
-            { $match: _id: $nin: picked_tags }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        tag_cloud.forEach (tag, i) ->
-            self.added 'results', Random.id(),
-                name: tag.name
-                count: tag.count
-                model:'event_tag'
-                index: i
-                
-        group_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: group_title: 1 }
-            # { $unwind: "$group_title" }
-            { $group: _id: '$group_title', count: $sum: 1 }
-            { $match: _id: $nin: picked_tags }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        group_cloud.forEach (tag, i) ->
-            self.added 'results', Random.id(),
-                name: tag.name
-                count: tag.count
-                model:'group_tag'
-                index: i
-    
-        self.ready()
-
-    Meteor.publish 'event_results', (
-        picked_tags
-        event_search=''
-        doc_limit
-        doc_sort_key
-        doc_sort_direction
-        view_delivery
-        view_pickup
-        view_open
-        )->
-        # console.log picked_tags
-        if doc_limit
-            limit = doc_limit
-        else
-            limit = 42
-        if doc_sort_key
-            sort_key = doc_sort_key
-        if doc_sort_direction
-            sort_direction = parseInt(doc_sort_direction)
-        self = @
-        match = {model:'event'}
-        # if view_open
-        #     match.open = $ne:false
-        # if view_delivery
-        #     match.delivery = $ne:false
-        # if view_pickup
-        #     match.pickup = $ne:false
-        if picked_tags.length > 0
-            match.tags = $all: picked_tags
-            # sort = 'member_count'
-        else
-            sort = '_timestamp'
-        if event_search.length > 0
-            match.title = {$regex: "#{event_search}", $options: 'i'}
-    
-        # if view_images
-        #     match.is_image = $ne:false
-        # if view_videos
-        #     match.is_video = $ne:false
-
-        # match.tags = $all: picked_tags
-        # if filter then match.model = filter
-        # keys = _.keys(prematch)
-        # for key in keys
-        #     key_array = prematch["#{key}"]
-        #     if key_array and key_array.length > 0
-        #         match["#{key}"] = $all: key_array
-            # console.log 'current facet filter array', current_facet_filter_array
-
-        # console.log 'group match', match
-        # console.log 'sort key', sort_key
-        # console.log 'sort direction', sort_direction
-        Docs.find match,
-            sort:"#{sort_key}":sort_direction
-            # sort:_timestamp:-1
-            limit: limit
-
-    Meteor.publish 'event_facets', (
-        picked_tags
-        event_search=''
-        picked_timestamp_tags
-        doc_limit
-        doc_sort_key
-        doc_sort_direction
-        view_delivery
-        view_pickup
-        view_open
-        )->
-        # console.log 'dummy', dummy
-        # console.log 'query', query
-        console.log 'selected tags', picked_tags
-
-        self = @
-        match = {}
-        match.model = 'event'
-        # if view_open
-        #     match.open = $ne:false
-
-        # if view_delivery
-        #     match.delivery = $ne:false
-        # if view_pickup
-        #     match.pickup = $ne:false
-        if picked_tags.length > 0 then match.tags = $all: picked_tags
-        if event_search.length > 0
-            match.title = {$regex: "#{event_search}", $options: 'i'}
-        # else
-        # unless query and query.length > 2
-        # if picked_tags.length > 0 then match.tags = $all: picked_tags
-        # # match.tags = $all: picked_tags
-        # # console.log 'match for tags', match
-        # tag_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "tags": 1 }
-        #     { $unwind: "$tags" }
-        #     { $group: _id: "$tags", count: $sum: 1 }
-        #     { $match: _id: $nin: picked_tags }
-        #     # { $match: _id: {$regex:"#{event_search}", $options: 'i'} }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $limit: 20 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ], {
-        #     allowDiskUse: true
-        # }
-        #
-        # tag_cloud.forEach (tag, i) =>
-        #     # console.log 'queried tag ', tag
-        #     # console.log 'key', key
-        #     self.added 'tags', Random.id(),
-        #         title: tag.name
-        #         count: tag.count
-        #         # category:key
-        #         # index: i
-
-
-        tag_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "tags": 1 }
-            { $unwind: "$tags" }
-            { $group: _id: "$tags", count: $sum: 1 }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
-            { $project: _id: 0, title: '$_id', count: 1 }
-        ], {
-            allowDiskUse: true
-        }
-
-        tag_cloud.forEach (tag, i) =>
-            # console.log 'tag result ', tag
-            self.added 'results', Random.id(),
-                title: tag.title
-                count: tag.count
-                model:'event_tag'
-                # category:key
-                # index: i
-
-
-        self.ready()
 
     # Meteor.publish 'doc_by_slug', (slug)->
     #     Docs.find
@@ -411,31 +223,6 @@ if Meteor.isServer
     #         _id:doc._author_id
 
 
-#     Meteor.methods
-        # send_event: (event_id)->
-        #     event = Docs.findOne event_id
-        #     target = Meteor.users.findOne event.recipient_id
-        #     gifter = Meteor.users.findOne event._author_id
-        #
-        #     console.log 'sending event', event
-        #     Meteor.users.update target._id,
-        #         $inc:
-        #             points: event.amount
-        #     Meteor.users.update gifter._id,
-        #         $inc:
-        #             points: -event.amount
-        #     Docs.update event_id,
-        #         $set:
-        #             submitted:true
-        #             submitted_timestamp:Date.now()
-        #
-        #
-        #
-        #     Docs.update Router.current().params.doc_id,
-        #         $set:
-        #             submitted:true
-
-
  if Meteor.isClient
     Template.registerHelper 'ticket_event', () ->
         Docs.findOne @event_id
@@ -445,7 +232,6 @@ if Meteor.isServer
     Template.ticket_view.onCreated ->
         @autorun => Meteor.subscribe 'event_from_ticket_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'all_users'
         
     Template.ticket_view.onRendered ->
@@ -498,7 +284,6 @@ if Meteor.isServer
             
 if Meteor.isClient
     Template.event_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc_by_slug', Router.current().params.doc_slug
         @autorun => Meteor.subscribe 'author_by_doc_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'author_by_doc_slug', Router.current().params.doc_slug
@@ -757,13 +542,7 @@ if Meteor.isServer
                 
                 
 if Meteor.isClient
-    Router.route '/event/:doc_id/edit', (->
-        @layout 'layout'
-        @render 'event_edit'
-        ), name:'event_edit'
-
     Template.event_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'room_reservation'
     Template.event_edit.onRendered ->
     Template.event_edit.onCreated ->
@@ -873,28 +652,3 @@ if Meteor.isClient
                 date:event.date
                 slot:@slot
                 payment:'points'
-
-if Meteor.isServer
-    Meteor.methods
-        send_event: (event_id)->
-            event = Docs.findOne event_id
-            target = Meteor.users.findOne event.recipient_id
-            gifter = Meteor.users.findOne event._author_id
-
-            console.log 'sending event', event
-            Meteor.users.update target._id,
-                $inc:
-                    points: event.amount
-            Meteor.users.update gifter._id,
-                $inc:
-                    points: -event.amount
-            Docs.update event_id,
-                $set:
-                    submitted:true
-                    submitted_timestamp:Date.now()
-
-
-
-            Docs.update Router.current().params.doc_id,
-                $set:
-                    submitted:true

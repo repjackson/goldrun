@@ -1,8 +1,4 @@
 if Meteor.isClient
-    Router.route '/product/:doc_id', (->
-        @layout 'layout'
-        @render 'product_view'
-        ), name:'product_view'
     Router.route '/product/:doc_id/orders', (->
         @layout 'product_layout'
         @render 'product_orders'
@@ -27,7 +23,6 @@ if Meteor.isClient
 
     Template.product_view.onCreated ->
         @autorun => Meteor.subscribe 'product_source', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'ingredients_from_product_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'orders_from_product_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'subs_from_product_id', Router.current().params.doc_id, ->

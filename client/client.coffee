@@ -206,7 +206,7 @@ Template.doc_edit.onCreated ->
 Template.doc_edit.helpers
     model_template: -> "#{@model}_edit"
     
-Router.route '/doc/:doc_id/view', (->
+Router.route '/doc/:doc_id/', (->
     @layout 'layout'
     @render 'doc_view'
     ), name:'doc_view'

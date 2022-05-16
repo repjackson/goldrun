@@ -229,7 +229,7 @@ template(name='group_sidebar')
         .ui.button.purchase_membership
             |purchase membership
     if can_edit
-        a.ui.circular.icon.button.fly_down(href="/group/#{_id}/edit")
+        a.ui.circular.icon.button.fly_down(href="/doc/#{_id}/edit")
             i.setting.large.icon
     +image_view key='image_id' icon='image' label='image'
     +array_view key='tags' icon='tags'

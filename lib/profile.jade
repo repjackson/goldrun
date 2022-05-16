@@ -119,9 +119,6 @@ template(name='profile_left_column')
     if is_admin
         a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
             +i name='settings' cl='ui avatar image'
-    if in_dev 
-        .ui.button.login_as_user 
-            |login as #{username}
     if is_current_user
         +logout_button
         +logout_other_clients_button

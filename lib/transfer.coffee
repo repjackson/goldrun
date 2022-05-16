@@ -1,58 +1,54 @@
+# if Meteor.isClient
+    # Router.route '/transfers', (->
+    #     @layout 'layout'
+    #     @render 'transfers'
+    #     ), name:'transfers'
+    # Template.transfers.onCreated ->
+    #     Session.setDefault 'view_mode', 'list'
+    #     Session.setDefault 'sort_key', 'member_count'
+    #     Session.setDefault 'sort_label', 'available'
+    #     Session.setDefault 'limit', 20
+    #     Session.setDefault 'view_open', true
+    #     @autorun => @subscribe 'all_users',->
+    #     @autorun => @subscribe 'facets',
+    #         'transfer'
+    #         picked_tags.array()
+    #         Session.get('search')
+
+    #     @autorun => @subscribe 'doc_results',
+    #         'transfer'
+    #         picked_tags.array()
+    #         Session.get('search')
+    #         Session.get('sort_key')
+    #         Session.get('sort_direction')
+    #         Session.get('limit')
+    #         Session.get('view_delivery')
+    #         Session.get('view_pickup')
+    #         Session.get('view_open')
+    # Template.transfers.events
+    #     'click .calc_transfer_count': ->
+    #         Meteor.call 'calc_transfer_count', ->
+
+    # Template.transfers.helpers
+    #     transfer_docs: ->
+    #         # if picked_tags.array().length > 0
+    #         Docs.find {
+    #             model:'transfer'
+    #         },
+    #             sort: "#{Session.get('transfer_sort_key')}":parseInt(Session.get('transfer_sort_direction'))
+    #             # limit:Session.get('transfer_limit')
+
+    #     users: ->
+    #         # if picked_tags.array().length > 0
+    #         Meteor.users.find {
+    #         },
+    #             sort: count:-1
+    #             # limit:1
+
+
+
+
 if Meteor.isClient
-    Router.route '/transfers', (->
-        @layout 'layout'
-        @render 'transfers'
-        ), name:'transfers'
-    Template.transfers.onCreated ->
-        Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'sort_key', 'member_count'
-        Session.setDefault 'sort_label', 'available'
-        Session.setDefault 'limit', 20
-        Session.setDefault 'view_open', true
-        @autorun => @subscribe 'all_users',->
-        @autorun => @subscribe 'facets',
-            'transfer'
-            picked_tags.array()
-            Session.get('search')
-
-        @autorun => @subscribe 'doc_results',
-            'transfer'
-            picked_tags.array()
-            Session.get('search')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('limit')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
-    Template.transfers.events
-        'click .calc_transfer_count': ->
-            Meteor.call 'calc_transfer_count', ->
-
-    Template.transfers.helpers
-        transfer_docs: ->
-            # if picked_tags.array().length > 0
-            Docs.find {
-                model:'transfer'
-            },
-                sort: "#{Session.get('transfer_sort_key')}":parseInt(Session.get('transfer_sort_direction'))
-                # limit:Session.get('transfer_limit')
-
-        users: ->
-            # if picked_tags.array().length > 0
-            Meteor.users.find {
-            },
-                sort: count:-1
-                # limit:1
-
-
-
-
-if Meteor.isClient
-    Router.route '/transfer/:doc_id/', (->
-        @render 'transfer_view'
-        ), name:'transfer_view'
-
     Template.transfer_view.onCreated ->
         @autorun => Meteor.subscribe 'product_from_transfer_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id, ->
@@ -201,43 +197,61 @@ if Meteor.isClient
 
 
         'click .cancel_transfer': ->
-            Swal.fire({
-                title: "confirm cancel?"
-                text: ""
-                icon: 'question'
-                showCancelButton: true,
-                confirmButtonColor: 'red'
-                confirmButtonText: 'confirm'
-                cancelButtonText: 'cancel'
-                reverseButtons: true
-            }).then((result)=>
-                if result.value
-                    Docs.remove @_id
-                    Router.go '/'
-            )
+            # if confirm 'cancel
+            # Swal.fire({
+            #     title: "confirm cancel?"
+            #     text: ""
+            #     icon: 'question'
+            #     showCancelButton: true,
+            #     confirmButtonColor: 'red'
+            #     confirmButtonText: 'confirm'
+            #     cancelButtonText: 'cancel'
+            #     reverseButtons: true
+            # }).then((result)=>
+            #     if result.value
+            # )
+            Docs.remove @_id
+            Router.go '/docs'
             
         'click .submit': ->
-            Swal.fire({
-                title: "confirm send #{@amount}pts?"
-                text: ""
-                icon: 'question'
-                showCancelButton: true,
-                confirmButtonColor: 'green'
-                confirmButtonText: 'confirm'
-                cancelButtonText: 'cancel'
-                reverseButtons: true
-            }).then((result)=>
-                if result.value
-                    Meteor.call 'send_transfer', @_id, =>
-                        Swal.fire(
-                            title:"#{@amount} sent"
-                            icon:'success'
-                            showConfirmButton: false
-                            position: 'top-end',
-                            timer: 1000
-                        )
-                        Router.go "/transfer/#{@_id}"
-            )
+            # Swal.fire({
+            #     title: "confirm send #{@amount}pts?"
+            #     text: ""
+            #     icon: 'question'
+            #     showCancelButton: true,
+            #     confirmButtonColor: 'green'
+            #     confirmButtonText: 'confirm'
+            #     cancelButtonText: 'cancel'
+            #     reverseButtons: true
+            # }).then((result)=>
+            #     if result.value
+            Meteor.call 'send_transfer', @_id, =>
+                $('body').toast({
+                    title: "dark mode toggled"
+                    # message: 'Please see desk staff for key.'
+                    class : 'info'
+                    icon:'remove'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
+
+                
+                        # Swal.fire(
+                        #     title:"#{@amount} sent"
+                        #     icon:'success'
+                        #     showConfirmButton: false
+                        #     position: 'top-end',
+                        #     timer: 1000
+                        # )
+                Router.go "/transfer/#{@_id}"
+            # )
 
 
 

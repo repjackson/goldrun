@@ -87,35 +87,32 @@ Template.nav.events
 
 
 
-Template.rightbar.events
-    'click .logout': ->
-        Session.set('logging_out', true)
-        Meteor.logout ->
-            Session.set('logging_out', false)
+# Template.rightbar.events
+#     'click .logout': ->
+#         Session.set('logging_out', true)
+#         Meteor.logout ->
+#             Session.set('logging_out', false)
             
             
-    'click .toggle_darkmode': ->
-        Meteor.users.update Meteor.userId(),
-            $set:darkmode:!Meteor.user().darkmode
-        $('body').toast({
-            title: "dark mode toggled"
-            # message: 'Please see desk staff for key.'
-            class : 'info'
-            icon:'remove'
-            position:'bottom right'
-            # className:
-            #     toast: 'ui massive message'
-            # displayTime: 5000
-            transition:
-              showMethod   : 'zoom',
-              showDuration : 250,
-              hideMethod   : 'fade',
-              hideDuration : 250
-            })
+#     'click .toggle_darkmode': ->
+#         Meteor.users.update Meteor.userId(),
+#             $set:darkmode:!Meteor.user().darkmode
+#         $('body').toast({
+#             title: "dark mode toggled"
+#             # message: 'Please see desk staff for key.'
+#             class : 'info'
+#             icon:'remove'
+#             position:'bottom right'
+#             # className:
+#             #     toast: 'ui massive message'
+#             # displayTime: 5000
+#             transition:
+#               showMethod   : 'zoom',
+#               showDuration : 250,
+#               hideMethod   : 'fade',
+#               hideDuration : 250
+#             })
             
-    
-Template.rightbar.helpers
-    
 
     
         
@@ -140,7 +137,7 @@ Template.nav.events
             Session.set('current_lat', position.coords.latitude)
             Session.set('current_long', position.coords.longitude)
 
-Template.body.events
+Template.layout.events
     'click .fly_down': (e,t)->
         # console.log 'hi'
         $(e.currentTarget).closest('.grid').transition('fade down', 500)

@@ -26,7 +26,6 @@ zimme:active-route
 lepozepo:cloudinary
 momentjs:moment
 reactive-var@1.0.11
-raix:handlebar-helpers
 matb33:collection-hooks
 mquandalle:jade
 underscore@1.0.10
@@ -37,4 +36,3 @@ tmeasday:publish-counts
 mdg:geolocation
 reywood:publish-composite
 multiply:iron-router-progress
-mizzao:user-status

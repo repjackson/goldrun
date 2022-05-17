@@ -79,25 +79,25 @@ Template.layout.events
     #     .transition('fade in', 200)
 
 
-Template.layout.helpers
-    usersOnline:()->
-        Meteor.users.find({ "status.online": true })
+# Template.layout.helpers
+#     usersOnline:()->
+#         Meteor.users.find({ "status.online": true })
 
-Template.user_pill.helpers
-    labelClass:->
-        if @status.idle 
-            "yellow"
-        else if @status.online
-            "green"
-        else
-            ""
+# Template.user_pill.helpers
+#     labelClass:->
+#         if @status.idle 
+#             "yellow"
+#         else if @status.online
+#             "green"
+#         else
+#             ""
 
-Meteor.users.find({ "status.online": true }).observe({
-    added: (id)->
-        console.log id, 'just came online'
-    removed: (id)->
-        console.log id, 'just went offline'
-})
+# Meteor.users.find({ "status.online": true }).observe({
+#     added: (id)->
+#         console.log id, 'just came online'
+#     removed: (id)->
+#         console.log id, 'just went offline'
+# })
 
 
 # Stripe.setPublishableKey Meteor.settings.public.stripe_publishable

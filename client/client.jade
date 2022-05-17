@@ -77,9 +77,9 @@ template(name='not_found')
           |home
 
 
-template(name="user_pill")
-    .ui.label(class=labelClass)
-        |#{username}
+// template(name="user_pill")
+//     .ui.label(class=labelClass)
+//         |#{username}
 
 
 
@@ -131,18 +131,18 @@ template(name='docs')
             // +session_boolean_toggle key='view_mine' label='mine' icon='user'
             // +session_boolean_toggle key='view_private' label='private' icon='lock'
             div
-            +facet key='tag' icon='tags' model='post' label='tags'
             // +facet key='doc_sentiment_label' icon='happy'
-        .twelve.wide.column
             +session_set key='model' value='post' label='post' icon='blog'
             +session_set key='model' value='event' label='event' icon='calendar'
             +session_set key='model' value='group' label='group' icon='campfire'
             +session_set key='model' value='product' label='product' icon='shopping-cart'
             +session_set key='model' value='service' label='service' icon='wrench'
             +session_set key='model' value='transfer' label='transfer' icon='exchange'
-            +session_set key='model' value='review' label='review' icon='megaphone'
-            +session_set key='model' value='checkin' label='checkin' icon='checkmark'
+            // +session_set key='model' value='review' label='review' icon='megaphone'
+            // +session_set key='model' value='checkin' label='checkin' icon='checkmark'
             div
+            +facet key='tag' icon='tags' model='post' label='tags'
+        .twelve.wide.column
             +search_input key='title'
             +session_set key='view_mode' value='grid' icon='grid'
             +session_set key='view_mode' value='list' icon='list'
@@ -166,7 +166,7 @@ template(name='docs')
                                 each result_docs 
                                     +doc_card
                     else 
-                        .ui.large.divided.list 
+                        .ui.large.divided.selection.animated.list 
                             each result_docs 
                                 +doc_item
                 else 
@@ -178,4 +178,5 @@ template(name='docs')
 template(name='doc_card')
     +Template.dynamic template=card_template
 template(name='doc_item')
-    +Template.dynamic template=item_template
+    a.item.fly_down(href="/doc/#{_id}")
+        +Template.dynamic template=item_template

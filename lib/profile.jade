@@ -18,7 +18,7 @@ template(name='profile')
         .ui.stackable.padded.grid
             .row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
-                .four.wide.column.scrolling
+                .four.wide.column.scrollin
                     +profile_left_column
                 .twelve.wide.column
                     if subs_ready
@@ -38,7 +38,7 @@ template(name='profile_left_column')
     a(href="/user/#{username}")
         .ui.inline.header
             |#{name}
-        +user_pill
+        // +user_pill
     a.ui.large.label(href="/user/#{username}/points" title='points')
         //- +i name='coins'
         //- i.coins.icon

@@ -1,27 +1,3 @@
-// template(name='products')
-//     .ui.stackable.padded.grid 
-//         .four.wide.column
-//             .ui.inline.header 
-//                 +i name='shop'
-//                 |products
-//             if currentUser
-//                 +add_doc_button model='product'
-//             div
-//             +session_boolean_toggle key='is_food' label='food' icon='food'
-//             +session_boolean_toggle key='available' label='available' icon='checkmark'
-//             div
-//             +facet key='tag' icon='tags' model='product'
-//         .twelve.wide.column
-//             +sort_direction_toggle
-//             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
-//             +session_set key='sort_key' value='points' label='points' icon='hashtag'
-//             +session_set key='sort_key' value='price' label='price' icon='coins'
-        
-//             .ui.centered.stackable.four.cards
-//                 each product_docs 
-//                     +product_card
-                    
-
 template(name='product_card')
     .ui.card.zoomer.fly_right(class=product_card_class title=ingredients)
         if rescued 
@@ -60,12 +36,29 @@ template(name='product_card')
                 i.line.chart.icon
             if group_id     
                 +group_info
+                
+                
+template(name='product_item')
+    img.ui.small.inline.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+    .ui.inline.header
+        //- |#{_author.name}'s
+        | #{title}
+    .ui.big.label 
+        |#{price}pts
+    // i.big.link.cart.plus.green.icon.add_to_cart
+    .ui.label
+        i.eye.icon
+        |#{views}
+    .ui.label   
+        i.line.chart.icon
+        |#{points} 
+    if group_id     
+        +group_info
 
 
 
 template(name='product_view')
-    with current_doc
-        .ui.stackable.padded.four.column.grid
+    .ui.stackable.padded.four.column.grid
             .three.column.row
                 .column
                     a.ui.basic.icon.button.fly_left(href="/shop")

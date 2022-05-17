@@ -34,34 +34,33 @@ template(name='group_card_med')
                 .ui.label #{this}
                     
 template(name='group_item')
-    a.item.zoomer(href="/doc/#{_id}")
-        if image_id
-            img.ui.tiny.image(src="{{c.url image_id width=300 height=300}}")
-        //     a.image.zoomer.fly_right(href="/doc/#{_id}")
-        .middle.aligned.content
-            a.ui.header.zoomer.fly_right(href="/doc/#{_id}")
-                |#{title}
-            |#{member_ids.length} members
-            // .smallscroll
-            //     |!{description}
-            //+ismall name='tags' cl='ui inline image'
-        .middle.aligned.content
-            each seven_tags
-                .ui.label #{this}
-            if location 
-                i.red.marker.icon 
-                |#{location}
-            .ui.label 
-                i.grey.eye.icon 
-                |#{views}
-            // a.zoomer(href="/doc/#{_id}")
-            //     i.chevron.right.large.circular.icon
-            // if is_admin
-            //     .ui.small.header slug: #{slug}
-            // if can_edit
-            //     a.ui.circular.icon.button(href="/doc/#{_id}/edit")
-            //         i.pencil.blue.icon
-            +print_this
+    if image_id
+        img.ui.tiny.image(src="{{c.url image_id width=300 height=300}}")
+    //     a.image.zoomer.fly_right(href="/doc/#{_id}")
+    .middle.aligned.content
+        a.ui.header.zoomer.fly_right(href="/doc/#{_id}")
+            |#{title}
+        |#{member_ids.length} members
+        // .smallscroll
+        //     |!{description}
+        //+ismall name='tags' cl='ui inline image'
+    .middle.aligned.content
+        each seven_tags
+            .ui.label #{this}
+        if location 
+            i.red.marker.icon 
+            |#{location}
+        .ui.label 
+            i.grey.eye.icon 
+            |#{views}
+        // a.zoomer(href="/doc/#{_id}")
+        //     i.chevron.right.large.circular.icon
+        // if is_admin
+        //     .ui.small.header slug: #{slug}
+        // if can_edit
+        //     a.ui.circular.icon.button(href="/doc/#{_id}/edit")
+        //         i.pencil.blue.icon
+        +print_this
                     
 
 
@@ -74,14 +73,8 @@ template(name='group_view')
         .row
             .four.wide.column
                 .ui.inline.header 
-                    if icon
-                        +i name=icon
+                    +i name='campfire'
                     |#{title}
-                a.ui.circular.button.fly_right(href="/groups")
-                    i.left.chevron.icon
-                    // i.big.fire.icon
-                    +i name='campfire' cl='ui mini inline image'
-                    |groups
                 if premium_membership
                     .ui.header 
                         |premium membership: #{membership_cost}pts

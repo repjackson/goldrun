@@ -35,7 +35,6 @@ template(name='post_card_med')
                     i.grey.eye.icon
                     |#{views}
             +author_info
-            // +comments_view_small
             if group_id     
                 +group_info
 template(name='post_item')
@@ -108,7 +107,6 @@ template(name='post_view')
                     .title
                         .ui.header comments
                     .content
-                        +comments
                 if has_price
                     +post_orders
                 .ui.list
@@ -311,7 +309,6 @@ template(name='product_view')
                 +voting_full
                 +link_view key='amazon_referral_link' label='amazon link' icon='amazon'
                 +link_view key='external_link' label='external link' icon='globe'
-                +comments
                 
                 // +product_orders
             .column
@@ -585,7 +582,6 @@ template(name='service_card')
                 i.large.lock.icon
             .ui.small.grey.inline.header #{when}
             | !{content}
-            // +comments_view_small
             +author_info
             if group_id     
                 +group_info
@@ -972,7 +968,6 @@ template(name='ticket_view')
                             .ui.big.label #{this}
                     .spacer
                     .spacer
-                    +comments
                     // +voting_full
                     //- +array_view key='location_tags' label='location_tags' 
                 .four.wide.column
@@ -1060,7 +1055,6 @@ template(name='event_view')
                     a.ui.header(href="/user/#{support.username}") 
                         img.ui.avatar.image(src="{{c.url support.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         |#{support.name}
-                +comments
                 if max_attendees
                     .ui.header
                         |#{max_attendees} max attendees
@@ -1319,7 +1313,6 @@ template(name='group_view')
                                 +i name='chat'
                                 |chat
                         .content
-                            +comments
                     .title
                         .ui.header related groups
                     .content
@@ -1717,7 +1710,6 @@ template(name='rental_view')
                 +rental_stats
                 // +last_viewed
                 +creation_info
-                +comments
 template(name='quickbuy')
     .ui.basic.green.button.buy(class=button_class)
         i.lightning.icon
@@ -1940,7 +1932,6 @@ template(name='transfer_view')
                     | #{when}
                 .spacer
                 .spacer
-                +comments
                 //- +array_view key='location_tags' label='location_tags' direct=true
             .five.wide.column
                 a.fly_right(href="/user/#{_target.username}")
@@ -2009,3 +2000,82 @@ template(name='transfer_edit')
                                 
                                 
                         
+                        
+template(name='task_card')
+    .ui.card.view_task.pointer.fly_right
+        img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        .content
+            a.ui.header(href="/doc/#{_id}") #{title}
+            if private 
+                i.large.lock.icon
+            .ui.small.grey.header #{when}
+            .smallscroll
+                | !{content}
+            +author_info
+            if group_id     
+                +group_info
+            
+        
+template(name='task_item')
+    a.ui.inline.header(href="/doc/#{_id}/view") #{title}
+    .ui.small.grey.inline.header #{when}
+    | !{content}
+    each tags 
+        .ui.basic.small.label #{this}
+        
+
+template(name='task_view')
+    .ui.stackable.padded.grid
+        .row 
+            .four.wide.column
+                .ui.inline.grey.header {{from_now start_datetime}}
+                
+                if can_edit
+                    a.ui.circular.icon.button.edit_task(href="/doc/#{_id}/edit" title='edit')
+                        +i name='pencil'
+                .ui.segment
+                    .ui.header 
+                        small author
+                    a.ui.header(href="/user/#{_author.username}") 
+                        img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                        |#{_author.username}
+                .ui.list
+                    .item #{views} views
+                each viewers
+                    .ui.label #{username
+                +array_view key='tags' label='tags' direct=true
+                +voting_full
+                +array_view key='location_tags' label='location_tags' direct=true
+                +visibility_settings
+                +group_widget
+            .twelve.wide.column.scrolling
+                .ui.header #{title}
+                img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                // a.ui.header(href="/user/#{target.username}")
+                //     |#{target.username}
+                |!{content}
+                div 
+                .spacer
+                .spacer
+            // .four.wide.column
+            
+                //- .ui.fluid.green.button.submit
+                //-     i.checkmark.icon
+                //-     |submit
+
+
+
+
+
+template(name='task_edit')
+    .ui.stackable.padded.grid
+        .row 
+            .sixteen.wide.column
+                .ui.header
+                    |audience
+                +boolean_edit key='private' label='private' 
+                if private 
+                    +multi_user_edit key='access_user_ids' label='user picker' direct=true
+                // +boolean_edit key='has_content' icon='content' direct=true
+                // if has_content
+                +array_edit key='location_tags' label='location tags' icon='marker' direct=true

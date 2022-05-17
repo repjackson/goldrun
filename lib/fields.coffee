@@ -263,7 +263,10 @@ if Meteor.isClient
                     if doc
                         Docs.update parent._id,
                             $addToSet:"#{@key}":element_val
-                            
+                    else 
+                        Meteor.users.update parent._id,
+                            $addToSet:"#{@key}":element_val
+                        
                     # window.speechSynthesis.speak new SpeechSynthesisUtterance element_val
                     t.$('.new_element').val('')
     
@@ -281,7 +284,10 @@ if Meteor.isClient
             if doc
                 Docs.update parent._id,
                     $pull:"#{field.key}":element
-    
+            else 
+                Meteor.users.update parent._id, 
+                    $pull:"#{field.key}":element
+                    
             t.$('.new_element').focus()
             t.$('.new_element').val(element)
     
@@ -373,7 +379,9 @@ if Meteor.isClient
             if doc
                 Docs.update parent._id,
                     $set:"#{@key}":val
-    
+            else 
+                Meteor.users.update parent._id,
+                    $set:"#{@key}":val
     
     Template.float_edit.events
         'blur .edit_float': (e,t)->
@@ -382,6 +390,9 @@ if Meteor.isClient
             doc = Docs.findOne parent._id
             if doc
                 Docs.update parent._id,
+                    $set:"#{@key}":val
+            else 
+                Meteor.users.update parent._id,
                     $set:"#{@key}":val
     
     
@@ -528,11 +539,17 @@ if Meteor.isClient
                 if doc
                     Docs.update parent._id,
                         $unset:"#{ref_field.key}":1
+                else 
+                        Meteor.users.update parent._id,
+                            $set: "#{ref_field.key}": @slug
             else
                 doc = Docs.findOne parent._id
     
                 if doc
                     Docs.update parent._id,
+                        $set: "#{ref_field.key}": @slug
+                else 
+                    Meteor.users.update parent._id,
                         $set: "#{ref_field.key}": @slug
     
     

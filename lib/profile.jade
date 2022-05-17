@@ -4,7 +4,6 @@ template(name='profile')
             img.ui.image.nav_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
         else 
             img.ui.image.nav_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-    +nav
     // .ui.bottom.attached.pushable.segment.scrolling(class=darkmode_class)
     //     +topbar
     //     +leftbar
@@ -19,106 +18,116 @@ template(name='profile')
             .row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .four.wide.column.scrollin
-                    +profile_left_column
+                    // a(href="/user/#{username}")
+                    img.ui.medium.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+                    // a(href="/user/#{username}")
+                    //     img.ui.small.rounded.image.inline.boop.mobile.only(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+                    .ui.inline.small.header(title='boops')
+                        +i name='tap-gesture'
+                        |#{boops}
+                    a(href="/user/#{username}")
+                        .ui.inline.header
+                            |#{name}
+                        // +user_pill
+                    a.ui.large.label(href="/user/#{username}/points" title='points')
+                        //- +i name='coins'
+                        //- i.coins.icon
+                        |#{points} pts
+                    if first_name
+                        .ui.inline.header #{first_name}
+                    if last_name
+                        .ui.inline.header #{last_name}
+                    if company 
+                        .ui.header
+                            +i name='business' 
+                            |#{company}
+                    +link_view key='link' icon='globe'
+                    if linkedin_link
+                        .ui.circular.compact.button(href=linkedin_link target='_window')
+                            +i name='linkedin'
+                    if twitter_link
+                        .ui.circular.compact.button(href=twitter_link target='_window')
+                            +i name='twitter'
+                    a.ui.large.icon.fluid.button.fly_up(href="/user/#{username}/edit" title='profile settings')
+                        i.cog.large.icon
+                        unless currentUser.hide_menu_labels
+                            |account
+                    div
+                    .ui.accordion
+                        .active.title
+                            a.ui.small.grey.header.zoomer.calc_user_points
+                                i.line.chart.icon
+                                |stats
+                        .active.content
+                            .ui.list 
+                                .item 
+                                    i.eye.grey.icon
+                                    |#{profile_views} 
+                                    |profile views
+                                .item 
+                                    i.lock.grey.icon
+                                    |#{profile_views_anon} 
+                                    |anon views
+                                .item 
+                                    i.user.grey.icon
+                                    |#{profile_views_logged_in} 
+                                    |logged in views
+                                .item 
+                                    i.thumbs.up.grey.icon
+                                    |#{upvote_total} 
+                                    |upvoted points
+                                .item 
+                                    i.thumbs.down.grey.icon
+                                    |#{downvote_total} 
+                                    |downvoted points
+                                .item 
+                                    i.coins.icon 
+                                    |#{tip_count} tips totalling #{tip_total}pts
+                                .item 
+                                    i.chat.icon
+                                    |comment amount: #{comment_count}
+                                .item
+                                    i.chat.icon
+                                    |spent points:#{comment_total}
+                
+                    if is_admin
+                        a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                            +i name='settings' cl='ui avatar image'
+                    if is_current_user
+                        +logout_button
+                        +logout_other_clients_button
+                    if in_dev 
+                        +print_this
+                    +send_points_button
+                    +request_button
+                    +follow_button
+                    if has_membership
+                        +join_button
+                    +friend_button
                 .twelve.wide.column
                     if subs_ready
-                        +user_dashboard
+                        .ui.padded.grid 
+                            .one.column.row
+                                .column 
+                                    if bio
+                                        |!{bio}
+                                    +user_messages
+                                    if is_current_user
+                                        .column
+                                            +profile_deposits
+                                .column
+                                    +user_reviews
+                                .column
+                                    +user_posts
+                                    +user_groups
+                                .column
+                                    +user_friends
+                                .column
+                                    +user_points
                     else 
                         .ui.basic.center.aligned.segment
                             i.massive.loading.refresh.icon
                           
-template(name='profile_left_column')                          
-    // a(href="/user/#{username}")
-    img.ui.medium.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
-    // a(href="/user/#{username}")
-    //     img.ui.small.rounded.image.inline.boop.mobile.only(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
-    .ui.inline.small.header(title='boops')
-        +i name='tap-gesture'
-        |#{boops}
-    a(href="/user/#{username}")
-        .ui.inline.header
-            |#{name}
-        // +user_pill
-    a.ui.large.label(href="/user/#{username}/points" title='points')
-        //- +i name='coins'
-        //- i.coins.icon
-        |#{points} pts
-    if first_name
-        .ui.inline.header #{first_name}
-    if last_name
-        .ui.inline.header #{last_name}
-    if company 
-        .ui.header
-            +i name='business' 
-            |#{company}
-    +link_view key='link' icon='globe'
-    if linkedin_link
-        .ui.circular.compact.button(href=linkedin_link target='_window')
-            +i name='linkedin'
-    if twitter_link
-        .ui.circular.compact.button(href=twitter_link target='_window')
-            +i name='twitter'
-    a.ui.large.icon.fluid.button.fly_up(href="/user/#{username}/edit" title='profile settings')
-        i.cog.large.icon
-        unless currentUser.hide_menu_labels
-            |account
-    div
-    .ui.accordion
-        .active.title
-            a.ui.small.grey.header.zoomer.calc_user_points
-                i.line.chart.icon
-                |stats
-        .active.content
-            .ui.list 
-                .item 
-                    i.eye.grey.icon
-                    |#{profile_views} 
-                    |profile views
-                .item 
-                    i.lock.grey.icon
-                    |#{profile_views_anon} 
-                    |anon views
-                .item 
-                    i.user.grey.icon
-                    |#{profile_views_logged_in} 
-                    |logged in views
-                .item 
-                    i.thumbs.up.grey.icon
-                    |#{upvote_total} 
-                    |upvoted points
-                .item 
-                    i.thumbs.down.grey.icon
-                    |#{downvote_total} 
-                    |downvoted points
-                .item 
-                    i.coins.icon 
-                    |#{tip_count} tips totalling #{tip_total}pts
-                .item 
-                    i.chat.icon
-                    |comment amount: #{comment_count}
-                .item
-                    i.chat.icon
-                    |spent points:#{comment_total}
-
-    if is_admin
-        a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
-            +i name='settings' cl='ui avatar image'
-    if is_current_user
-        +logout_button
-        +logout_other_clients_button
-    if in_dev 
-        +print_this
-    +send_points_button
-    +request_button
-    +follow_button
-    if has_membership
-        +join_button
-    +friend_button
-                          
-
-template(name='user_section')                          
-    +Template.dynamic template=current_section
-                    
 template(name='user_mail')                    
     .ui.dividing.header 
         +i name='envelope'
@@ -128,12 +137,6 @@ template(name='user_mail')
     else 
         +comments
                             
-template(name='profile_menu_item')
-    a.ui.compact.circular.button(href="/user/#{current_user.username}/#{key}" class="{{isActiveRoute regex=key}}" )
-        +i name=icon
-        unless currentUser.hide_menu_labels
-            |#{key}
-                 
                  
 template(name='user_points')        
     .ui.stackable.padded.grid
@@ -232,33 +235,12 @@ template(name='user_groups')
     .ui.header 
         +i name='groups'
         |user groups
-    a.ui.button.fly_right(href="/groups")
-        i.chevron.up.icon
-        +i name='campfire'
-        |groups
     .ui.list    
-        each group_memberships
-            a.item(href="/group/#{_id}") #{title}
+        each user_group_memberships
+            a.item(href="/doc/#{_id}")
+                img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                |#{title}
                  
-template(name='user_dashboard')
-    .ui.padded.grid 
-        .two.column.row
-            .column 
-                if bio
-                    |!{bio}
-                +user_messages
-                if is_current_user
-                    .column
-                        +profile_deposits
-            .column
-                +user_reviews
-            .column
-                +user_posts
-                +user_groups
-            .column
-                +user_friends
-            .column
-                +user_points
                     
 template(name='user_social')
     .ui.stackable.padded.two.column.grid 

@@ -1,7 +1,7 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
-        @layout 'profile'
-        @render 'user_dashboard'
+        @layout 'layout'
+        @render 'profile'
         ), name:'profile'
 
 
@@ -10,9 +10,6 @@ if Meteor.isClient
         Meteor.call 'calc_user_points', Router.current().params.username, ->
     Template.profile.onRendered ->
         Meteor.call 'increment_profile_view', Router.current().params.username, ->
-
-    Template.user_section.helpers
-        current_section: -> "user_#{Router.current().params.section}"
 
         
 if Meteor.isClient
@@ -23,6 +20,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_orders', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_groups_member', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_groups_owner', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'model_docs', 'group', ->
     Template.user_posts.onCreated ->
         @autorun -> Meteor.subscribe 'user_model_docs', 'post', Router.current().params.username, ->
     Template.user_comments.onCreated ->
@@ -148,12 +146,13 @@ if Meteor.isServer
         user = Meteor.users.findOne username:username
         Docs.find 
             model:'group'
-            _id:$in:user.group_memberships
+            _id:$in:[user.member_user_ids]
     Meteor.publish 'user_model_docs', (model,username)->
         user = Meteor.users.findOne username:username
-        Docs.find 
+        Docs.find {
             model:model
             _author_username:username
+        }, limit:20
     Meteor.publish 'user_deposits', (username)->
         user = Meteor.users.findOne username:username
         Docs.find 

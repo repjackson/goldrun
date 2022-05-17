@@ -217,7 +217,8 @@ template(name='footer')
                         i.blog.icon
                         |docs
                     each all_docs 
-                        .ui.label #{title} #{model}
+                        .ui.basic.label #{title}
+                            |(#{model})
                             +print_this
             if in_dev
                 .column

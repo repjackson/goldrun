@@ -14,7 +14,12 @@ if Meteor.isClient
         #     # console.log @doc_sentiment_label
         #     if @doc_sentiment_label is 'positive' then 'green'
         #     else if @doc_sentiment_label is 'negative' then 'red'
-    
+    Template.registerHelper 'user_group_memberships', () -> 
+        user = Meteor.users.findOne username:@username
+        Docs.find
+            model:'group'
+            member_user_ids: $in:[Meteor.user()._id]
+
     
     Template.registerHelper 'darkmode_class', () -> 
         if Meteor.user()

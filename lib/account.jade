@@ -14,11 +14,6 @@ template(name='account')
                     +image_edit key='image_id' icon='picture' title='profile image' 
                     +image_edit key='background_image_id' icon='picture' title='background image' 
                 .column
-                    .ui.container
-                        .ui.segment
-                            if in_dev 
-                                +number_edit key='points' label='points'
-                .column
                     +text_edit key='first_name' label='first name' icon='user'
                     div
                     +text_edit key='last_name' label='last name' icon='user'
@@ -28,16 +23,24 @@ template(name='account')
                     +text_edit key='status' label='status' icon='clock'
                     div
                     +array_edit key='tags' label='tags' icon='tags'
+                    div
+                    if in_dev 
+                        +number_edit key='points' label='points'
                 .column
                     +boolean_edit key='has_bio' label='has bio (-1p)' icon='content'
                     if has_bio
                         +html_edit key='bio' label='bio'
                 .column
                     +text_edit key='address' label='address' icon='marker' 
+                    div
                     +text_edit key='city' label='city' icon='marker' 
+                    div
                     +text_edit key='state' label='state' icon='marker' 
+                    div
                     +phone_edit key='phone' label='phone' icon='phone' 
+                    div
                     +link_edit key='link' label='external link' icon='globe'
+                    div
                     +text_edit key='company' label='company' icon='business'
                 .column
                     if is_current_user

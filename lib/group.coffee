@@ -182,6 +182,11 @@ if Meteor.isServer
         Docs.find
             model:'group'
             _author_id: user._id
+    Meteor.publish 'user_group_memberships', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find
+            model:'group'
+            member_user_ids: $in:[user._id]
 
     Meteor.publish 'related_group', (doc_id)->
         doc = Docs.findOne doc_id

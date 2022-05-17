@@ -97,10 +97,7 @@ template(name='toggle_view_icon')
 template(name='message_edit')
     .ui.stackable.padded.grid
         .row 
-            .five.wide.column
-                .ui.large.fluid.basic.red.button.delete_item
-                    i.large.remove.icon
-                    |cancel
+            .sixteen.wide.column
                 .ui.segment
                     .ui.header sender
                     .ui.header
@@ -131,24 +128,6 @@ template(name='message_edit')
                         //         |#{name}
                         //         small #{points}p
                                 
-            .six.wide.column
-                +image_edit key='image_id' label='image' direct=true
-                +html_edit key='description' label='description' direct=true
-                div 
-                div
-                // .ui.inline.header
-                //     i.tags.icon
-                //     |tags
-                // .ui.input
-                //     input.new_element(type='text' placeholder='+' autocomplete="off")
-                //     //- +clear_value                
-                // each tags
-                //     .ui.big.basic.label
-                //         i.delete.icon.remove_element
-                //         |#{this}
-                
-                //- +array_edit key='location_tags' label='location_tags' direct=true
-            .five.wide.column
                 .ui.center.aligned.basic.segment
                     if can_send
                         .ui.green.big.icon.button.submit

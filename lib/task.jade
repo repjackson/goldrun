@@ -69,45 +69,12 @@ template(name='task_view')
 template(name='task_edit')
     .ui.stackable.padded.grid
         .row 
-            .four.wide.column
-                .ui.inline.header 
-                    +icolor name='news' cl='ui image inline pointer'
-                    |edit task
-                a.ui.icon.green.big.button(href="/doc/#{_id}" title='save')
-                    i.checkmark.big.icon
-                +text_edit key='title' label='title' direct=true
+            .sixteen.wide.column
                 .ui.header
                     |audience
                 +boolean_edit key='private' label='private' 
                 if private 
                     +multi_user_edit key='access_user_ids' label='user picker' direct=true
-                +group_picker
-                
-            .twelve.wide.column
                 // +boolean_edit key='has_content' icon='content' direct=true
                 // if has_content
-                +html_edit key='content' label='content' direct=true
-                i.large.link.red.remove.circular.icon.delete_task
-                .ui.header 
-                    small 
-                        i.user.icon
-                        |author
-                    |#{_author.username}
-                if is_dev
-                    +single_user_edit key='_author_id' label='author' direct=true
-                // +boolean_edit key='has_image' icon='image' direct=true
-                // if has_image[]
-                +image_edit key='image_id' label='image' direct=true
-                div 
-                +array_edit key='tags' label='tags' direct=true icon='tags'
-                +boolean_edit key='published' icon='visible' direct=true
-                if is_dev 
-                    +text_edit key='model' label='model' direct=true
                 +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                unless published
-                    a.ui.fluid.green.button.submit
-                        i.checkmark.icon
-                        |publish
-                else
-                    .ui.basic.button.unpublish 
-                        |unpublish

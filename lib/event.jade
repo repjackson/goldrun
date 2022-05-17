@@ -470,16 +470,8 @@ template(name='location_map')
 
 template(name='event_edit')
     .ui.stackable.padded.grid
-        .two.column.row 
+        .one.column.row 
             .column
-                .ui.inline.header 
-                    // i.large.calendar.icon
-                    +icolor name='tear-off-calendar'
-                    |editing event
-                .ui.header 
-                    small author
-                    |#{_author.name}
-                // +slug_edit key='slug' label='slug' icon='slug' 
                 // if reservation_exists
                 //     .ui.header date: #{date}
                 //     .ui.header time: #{time}
@@ -489,7 +481,7 @@ template(name='event_edit')
                 +number_edit key='hour_duration' label='hours' 
                 // +range_edit label='time range' 
                 // +single_user_edit key='facilitator_id' label='facilitator' icon='chess king' 
-                .ui.segment
+                .ui.basic.segment
                     +boolean_edit key='manage_attendance' label='manage attendance' icon='settings' 
                     if manage_attendance
                         .ui.header
@@ -498,8 +490,7 @@ template(name='event_edit')
                         +number_edit key='max_attendees' label='max attendees' min='0' max='100' 
                         +boolean_edit key='friends_only' label='friends only' icon='campfire' 
                         // div
-            .column
-                .ui.segment
+                .ui.basic.segment
                     +boolean_edit key='is_repeating' label='is repeating' icon='refresh' 
                     if is_repeating
                         .ui.inline.header repeating day
@@ -514,8 +505,8 @@ template(name='event_edit')
                         +time_edit key='start_time' label='start time' 
                         +time_edit key='end_time' label='end time' 
                 unless is_repeating 
-                    +datetime_edit key='start_datetime' label='start datetime' 
-                    +datetime_edit key='end_datetime' label='end datetime' 
+                    +datetime_edit key='start_datetime' label='start datetime' icon='calendar'
+                    +datetime_edit key='end_datetime' label='end datetime' icon='calendar'
                 
                 +boolean_edit key='has_host' label='has host' icon='king' 
                 if has_host

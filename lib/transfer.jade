@@ -95,7 +95,7 @@ template(name='transfer_view')
 template(name='transfer_edit')
     .ui.stackable.padded.grid
         .row 
-            .eight.wide.column
+            .sixteen.wide.column
                 .ui.segment
                     .ui.inline.grey.header sender
                     .ui.inline.header
@@ -129,7 +129,6 @@ template(name='transfer_edit')
                 // if has_time
                 +time_edit key='time' label='time' direct=true   
                 +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-            .eight.wide.center.aligned.column
                 .ui.big.header #{amount}pts
                 .ui.big.input
                     input.point_amount(type='number' value=amount min='1' max=point_max)

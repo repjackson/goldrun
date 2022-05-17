@@ -63,11 +63,11 @@ template(name='key_value_edit')
         if icon 
             +i name=icon cl='ui avatar image'
             // i.icon(class=icon)
-        if is_selected
-            if label
-                |#{label}
-            else 
-                |#{value}
+        // if is_selected
+        if label
+            |#{label}
+        else 
+            |#{value}
             
 
 
@@ -547,9 +547,9 @@ template(name='view_button')
 
 
 template(name='remove_button')
-    .ui.icon.basic.button.remove_doc(title='delete')
-        i.remove.red.icon
-        //- |Delete
+    .ui.red.button.remove_doc(title='delete')
+        i.remove.large.icon
+        |delete
 
 template(name='remove_icon')
     i.remove.icon.remove_doc(title='delete')

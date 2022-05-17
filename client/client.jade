@@ -93,7 +93,10 @@ template(name='doc_edit')
                         +key_value_edit key='model' value='message' label='message' icon='envelope'
                     // .ui.header #{model}
                     // .ui.header #{model_template}
-                .six.wide.column
+                .eight.wide.column.scrolling
+                    .ui.header 
+                        +i name='pencil'
+                        |editing #{model}
                     +save_button
                     +text_edit key='title' label='title' 
                     +image_edit key='image_id' label='image' 
@@ -107,7 +110,7 @@ template(name='doc_edit')
                     +link_edit key='link' label='link'
 
                     +remove_button
-                .ten.wide.column
+                .eight.wide.column
                     +Template.dynamic template=model_template
 
 template(name='doc_view')

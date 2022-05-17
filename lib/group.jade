@@ -33,7 +33,6 @@ template(name='group_card_med')
             each seven_tags
                 .ui.label #{this}
                     
-template(name='call_watson')
 
 template(name='group_item')
     if image_id
@@ -196,17 +195,10 @@ template(name='group_info')
 template(name='group_edit')
     .ui.stackable.padded.grid
         .row
-            .six.wide.column
+            .sixteen.wide.column
                 .ui.header 
                     i.pencil.icon
                     |editing group
-                +save_button
-                if in_dev
-                    +remove_button
-                +boolean_edit key='has_image' label='image (-1p)' icon='image'
-                if has_image
-                    div
-                    +image_edit key='image_id' label='image' direct=true
                 .ui.header 
                     i.cubes.icon
                     |modules
@@ -225,15 +217,8 @@ template(name='group_edit')
                         if premium_membership
                             +number_edit key='membership_cost' label='cost (points)' icon='coins'
                 
-            .ten.wide.column
-                +text_edit key='title' direct=true
-                +boolean_edit key='has_content' label='content -1p' icon='content'
-                if has_content
-                    +html_edit key='description' label='content' icon='content' direct=true
                 // +single_user_edit key='leader_id' label='leader' icon='crown' direct=true
                 +multi_user_edit key='leader_ids' label='leaders' icon='crown' direct=true
-                div
-                +array_edit key='tags' label='tags' icon='tags' direct=true
                 div
                 +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                 div

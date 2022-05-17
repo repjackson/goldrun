@@ -100,100 +100,99 @@ template(name='user_rentals')
 
 template(name='rental_view')
     // .ui.header rental view
-    with data_doc
-        .ui.stackable.padded.grid
-            //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
-            .three.column.row
-                .column
-                    // .ui.header 
-                    //     small viewing
-                    //     |#{title}
-                    //     small rental
-                    .ui.big.inline.header #{title}
-                    if can_edit
-                        a.zoomer(href="/doc/#{_id}/edit")
-                            i.pencil.big.circular.icon
-                    div
-                    +text_view key='location' icon='marker' label='location' direct=true
-                    .ui.hidden.divider
-                    if image_id
-                        img.ui.centered.rounded.shadowed.fluid.image(src="{{c.url image_id crop='fit'}}")
-                    if image_link
-                        img.ui.centered.rounded.shadowed.fluid.image(src=image_link)
- 
-                    .ui.hidden.divider
-                    i.large.tag.icon        
-                    each tags 
-                        a.ui.compact.button.goto_tag
-                            |#{this}
-                    div
-                    .ui.header 
-                        +i name='order-history'
-                        |#{past_order_docs.count}
-                        |past orders
-                    .ui.selection.animated.large.middle.aligned.divided.list
-                        each past_order_docs
-                            .item
-                                .right.floated.content
-                                    a(href="/order/#{_id}")
-                                        i.chevron.right.circular.icon
-                                .content
-                                    a(href="user/#{_author_username}")
-                                        | #{_author_username}
-                                        small for
-                                        |#{order_date}
-                .column
-                    .ui.header #{daily_rate}p/day
-                    //- unless is_author
-                    // .ui.big.green.fluid.button.new_order 
-                    //     i.large.clock.icon
-                    //     small reserve for 
-                    //     strong #{daily_rate}p/day
-                    // +quickbuy day_diff=0
-                    +quickbuy day_diff=1
-                    +quickbuy day_diff=2
-                    +quickbuy day_diff=3
-                    +quickbuy day_diff=4
-                    +quickbuy day_diff=5
-                    div
-                    if description.length
-                        +html_view key='description' label='description' icon='content' direct=true
-                    div
-                    .ui.small.list
-                        .item total earnings
-                        .item rental ranking #orders
-                        .item rental ranking $ earned
-                        .item # different renters
-                        .item avg rental time
-                        .item avg daily earnings
-                        .item avg weekly earnings
-                        .item avg monthly earnings
-                        .item biggest renter
-                        .item predicted payback duration
-                        .item predicted payback date
-                .column
-                    .ui.header 
-                        +i name='clock'
-                        |#{future_order_docs.count}
-                        |future orders
-                    .ui.link.large.divided.middle.aligned.list
-                        each future_order_docs
-                            .item
-                                .right.floated.content
-                                    a(href="/order/#{_id}")
-                                        i.chevron.right.circular.icon
-                                    if can_edit
-                                        i.red.circular.cancel.link.icon.zoomer.cancel_order
-                                .content
-                                    a(href="/user/#{_author_username}")
-                                        img.ui.avatar.image(src="{{c.url _author.image_id width=200 height=200 crop='crop'}}")
-                                        | #{_author_username}
+    .ui.stackable.padded.grid
+        //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+        .three.column.row
+            .column
+                // .ui.header 
+                //     small viewing
+                //     |#{title}
+                //     small rental
+                .ui.big.inline.header #{title}
+                if can_edit
+                    a.zoomer(href="/doc/#{_id}/edit")
+                        i.pencil.big.circular.icon
+                div
+                +text_view key='location' icon='marker' label='location' direct=true
+                .ui.hidden.divider
+                if image_id
+                    img.ui.centered.rounded.shadowed.fluid.image(src="{{c.url image_id crop='fit'}}")
+                if image_link
+                    img.ui.centered.rounded.shadowed.fluid.image(src=image_link)
+
+                .ui.hidden.divider
+                i.large.tag.icon        
+                each tags 
+                    a.ui.compact.button.goto_tag
+                        |#{this}
+                div
+                .ui.header 
+                    +i name='order-history'
+                    |#{past_order_docs.count}
+                    |past orders
+                .ui.selection.animated.large.middle.aligned.divided.list
+                    each past_order_docs
+                        .item
+                            .right.floated.content
+                                a(href="/order/#{_id}")
+                                    i.chevron.right.circular.icon
+                            .content
+                                a(href="user/#{_author_username}")
+                                    | #{_author_username}
                                     small for
-                                    |#{order_date}, {{from_now order_date}}
-                    +rental_stats
-                    // +last_viewed
-                    +creation_info
-                    +comments
+                                    |#{order_date}
+            .column
+                .ui.header #{daily_rate}p/day
+                //- unless is_author
+                // .ui.big.green.fluid.button.new_order 
+                //     i.large.clock.icon
+                //     small reserve for 
+                //     strong #{daily_rate}p/day
+                // +quickbuy day_diff=0
+                +quickbuy day_diff=1
+                +quickbuy day_diff=2
+                +quickbuy day_diff=3
+                +quickbuy day_diff=4
+                +quickbuy day_diff=5
+                div
+                if description.length
+                    +html_view key='description' label='description' icon='content' direct=true
+                div
+                .ui.small.list
+                    .item total earnings
+                    .item rental ranking #orders
+                    .item rental ranking $ earned
+                    .item # different renters
+                    .item avg rental time
+                    .item avg daily earnings
+                    .item avg weekly earnings
+                    .item avg monthly earnings
+                    .item biggest renter
+                    .item predicted payback duration
+                    .item predicted payback date
+            .column
+                .ui.header 
+                    +i name='clock'
+                    |#{future_order_docs.count}
+                    |future orders
+                .ui.link.large.divided.middle.aligned.list
+                    each future_order_docs
+                        .item
+                            .right.floated.content
+                                a(href="/order/#{_id}")
+                                    i.chevron.right.circular.icon
+                                if can_edit
+                                    i.red.circular.cancel.link.icon.zoomer.cancel_order
+                            .content
+                                a(href="/user/#{_author_username}")
+                                    img.ui.avatar.image(src="{{c.url _author.image_id width=200 height=200 crop='crop'}}")
+                                    | #{_author_username}
+                                small for
+                                |#{order_date}, {{from_now order_date}}
+                +rental_stats
+                // +last_viewed
+                +creation_info
+                +comments
 template(name='quickbuy')
     .ui.basic.green.button.buy(class=button_class)
         i.lightning.icon
@@ -203,37 +202,19 @@ template(name='quickbuy')
 
 template(name='rental_edit')
     .ui.stackable.padded.grid
-            .three.column.row
-                .column
-                    .ui.inline.header
-                        small editing
-                        |'#{title}'
-                        small rental
-                    a.ui.big.icon.green.fluid.button(href="/doc/#{_id}/")
-                        i.checkmark.big.icon
-                    +text_edit key='title' icon='header' direct=true
-                    +number_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
-                    +remove_button
-                .column
-                    if in_dev
-                        +print_this
-                    +boolean_edit key='published' label='published' icon='checkmark'
-                    +boolean_edit key='anonymous' label='anonymous' icon='visible'
-                    div
-                    if lat
-                        a.ui.header.pointer.refresh_gps(href='#') 
-                            |gps coords
-                        .ui.label #{lat}
-                        .ui.label #{long}
-                    // +text_edit key='location' label='location text' icon='marker' direct=true
-                    +html_edit key='description' label='description' icon='content' direct=true
-                .column
-                    +array_edit key='tags' icon='tags' label='tags' direct=true
-                    +array_edit key='location_tags' label='public location tags' icon='marker' direct=true
-                    // +array_edit key='private_location_tags' label='private location tags' icon='marker' direct=true tooltip='for handlers and buyers who are picking up'
-                    +image_edit key='image_id' label='image' direct=true
-                    +image_link_edit key='image_link' label='image link' direct=true
-
+        .one.column.row
+            .column
+                +number_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
+                div
+                if lat
+                    a.ui.header.pointer.refresh_gps(href='#') 
+                        |gps coords
+                    .ui.label #{lat}
+                    .ui.label #{long}
+                // +text_edit key='location' label='location text' icon='marker' direct=true
+            .column
+                +array_edit key='location_tags' label='public location tags' icon='marker' direct=true
+                // +array_edit key='private_location_tags' label='private location tags' icon='marker' direct=true tooltip='for handlers and buyers who are picking up'
     
                     
 template(name='last_viewed')

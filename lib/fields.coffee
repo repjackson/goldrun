@@ -74,7 +74,7 @@ if Meteor.isClient
     Template.html_edit.onRendered ->
         @editor = SUNEDITOR.create((document.getElementById('sample') || 'sample'),{
         # 	"tabDisable": false
-            # "minHeight": "500px"
+            "minHeight": "500px"
             buttonList: [
                 [
                     'undo' 

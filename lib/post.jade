@@ -70,7 +70,39 @@ template(name='post_view')
                     if private 
                         i.large.lock.icon(title='private')
                     |#{title}
-                +post_home
+                    if sentiment 
+                        if is sentiment 'positive'
+                            +i name='happy'
+                        else 
+                            +i name='sad'
+                if subtitle
+                    .ui.small.header #{subtitle}
+                // a.ui.header(href="/user/#{target.username}")
+                //     |#{target.username}
+                if youtube_id
+                    +youtube_view key='youtube_id'
+                .scrolling
+                    |!{content}
+                img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                .ui.dividing.header 
+                    +i name='line-chart'
+                    |post stats
+                .ui.big.list
+                    .item #{views} views
+                    .item #{views_ranking} view ranking
+                    .item #{post_views_ranking} post views ranking
+                    
+                .ui.dividing.header 
+                    +i name='money'
+                    |tips
+                .ui.button.tip_post
+                    |tip 10pts
+                .ui.large.divided.list
+                    each post_tip_docs
+                        .item #{when} #{amount}
+                            if in_dev
+                                +remove_button doc=this redirect=false
+                +comments
             .four.wide.column.scrollin
                 .ui.header #{when}
                 a.ui.icon.button.fly_left(href="/docs" title='posts')
@@ -124,37 +156,6 @@ template(name='post_related')
         |related posts
                 
                 
-template(name='post_home')                    
-    if subtitle
-        .ui.small.header #{subtitle}
-    // a.ui.header(href="/user/#{target.username}")
-    //     |#{target.username}
-    if youtube_id
-        +youtube_view key='youtube_id'
-    .scrolling
-        |!{content}
-    img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-    .ui.dividing.header 
-        +i name='line-chart'
-        |post stats
-    .ui.big.list
-        .item #{views} views
-        .item #{views_ranking} view ranking
-        .item #{post_views_ranking} post views ranking
-        
-    .ui.dividing.header 
-        +i name='money'
-        |tips
-    .ui.button.tip_post
-        |tip 10pts
-    .ui.large.divided.list
-        each post_tip_docs
-            .item #{when} #{amount}
-                if in_dev
-                    +remove_button doc=this redirect=false
-    +comments
-
-
 
 template(name='visibility_settings')
     .ui.dividing.header 
@@ -189,13 +190,6 @@ template(name='post_edit')
                 +boolean_edit key='has_content' label='content (-1p)' icon='content'
                 if has_content
                     +html_edit key='content' label='content' direct=true icon='content'
-                    +call_watson mode='html' key='content'
-                    if watson.analyzed_text
-                        .ui.header
-                            i.calculator.icon
-                            |analyzed text
-                        |!{watson.analyzed_text}
-                        +call_tone key='content'
                     if tone 
                         .ui.header tone
                         .ui.large.list
@@ -205,18 +199,20 @@ template(name='post_edit')
                 +boolean_edit key='has_image' label='has image (-1p)' icon='content' direct=true
                 if has_image
                     +image_edit key='image_id' label='image' direct=true
+                // +boolean_edit key='has_sentiment' label='has youtube (-1p)' icon='youtube'
                 +boolean_edit key='has_youtube' label='has youtube (-1p)' icon='youtube'
                 if has_youtube
                     +youtube_edit key='youtube_id' label='youtube id'
+                +boolean_edit key='has_price' label='has price' icon='coins'
+                if has_price
+                    .ui.segment 
+                        .ui.header 
+                            |premium settings 
+                        +number_edit key='price' label='price (points)' icon='money'
             .six.wide.column
-                if in_dev 
-                    +print_this
-                if is_dev
-                    +single_user_edit key='_author_id' label='author' icon='user' direct=true
-                else 
-                    .ui.header 
-                        small author
-                        |#{_author.username}
+                .ui.inline.header 
+                    small author
+                    |#{_author.username}
                 .ui.inline.header 
                     +icolor name='news' cl='ui image inline pointer'
                     |editing post
@@ -224,8 +220,15 @@ template(name='post_edit')
                     i.checkmark.big.icon
                     |save
                 div 
+                .ui.inline.header 
+                    +i name='happy'
+                    |sentiment
+                +key_value_edit key='sentiment' value='positive' label='positive' icon='happy' cl='green'
+                +key_value_edit key='sentiment' value='negative' label='negative' icon='sad' cl='red'
+                div 
+                if in_dev 
+                    +print_this
                 +array_edit key='tags' label='tags' direct=true icon='tags'
-                +premium_settings
                 +visibility_settings
                 // +boolean_edit key='published' icon='visible' direct=true
                 if is_dev 
@@ -237,12 +240,3 @@ template(name='post_edit')
                 .ui.red.button.delete_post
                     i.large.link.red.remove.icon
                     |delete post
-                        
-                        
-template(name='premium_settings')
-    +boolean_edit key='has_price' label='has price' icon='coins'
-    if has_price
-        .ui.segment 
-            .ui.header 
-                |premium settings 
-            +number_edit key='price' label='price (points)' icon='money'

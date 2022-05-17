@@ -351,7 +351,8 @@ if Meteor.isClient
     
     Template.follow_button.helpers
         is_following: ->
-            @followed_by_user_ids  and Meteor.userId() in @followed_by_user_ids
+            if @followed_by_user_ids
+                Meteor.userId() in @followed_by_user_ids
 
     Template.follow_button.events 
         'click .follow': ->
@@ -822,7 +823,7 @@ if Meteor.isClient
             # parent = Template.parentData()
             # console.log parent
             # if parent["#{@key}"] is @value then 'active' else ''
-            if parent["#{@key}"] is @value then 'active large' else 'basic'
+            if parent["#{@key}"] is @value then "#{@cl} active large" else "#{cl} basic"
     
     
     Template.key_value_edit.events

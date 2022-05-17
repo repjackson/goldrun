@@ -122,7 +122,7 @@ Template.doc_edit.onCreated ->
 Template.doc_edit.helpers
     model_template: -> "#{@model}_edit"
     doc_data: -> 
-        console.log 'hi'
+        # console.log 'hi'
         Docs.findOne Router.current().params.doc_id
 
 Router.route '/doc/:doc_id/', (->

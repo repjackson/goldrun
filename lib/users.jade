@@ -45,7 +45,7 @@ template(name='users')
             +session_set key='view_limit' value=20 label='20'
             +session_set key='view_limit' value=50 label='30'
             +search_input key='title'
-            .scrollin
+            .scrolling
                 if session_is 'view_mode' 'grid'
                     if one_result
                         .ui.stackable.centered.one.cards
@@ -98,7 +98,8 @@ template(name='user_card')
                 each credit_tags
                     .ui.small.basic.label #{title}
             if bio 
-                |!{bio}
+                .smallcut
+                    |!{bio}
             if tags 
                 each five_tags 
                     .ui.basic.label #{this}

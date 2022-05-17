@@ -33,6 +33,8 @@ template(name='group_card_med')
             each seven_tags
                 .ui.label #{this}
                     
+template(name='call_watson')
+
 template(name='group_item')
     if image_id
         img.ui.tiny.image(src="{{c.url image_id width=300 height=300}}")
@@ -284,8 +286,6 @@ template(name='group_about')
         +i name='info'
         |about
     +html_view key='description' icon='content' label='description'
-    if watson 
-        +watson_view
 
                                             
                

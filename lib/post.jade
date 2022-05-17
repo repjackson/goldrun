@@ -11,15 +11,11 @@ template(name='post_card')
             .ui.small.grey.inline.header #{when}
             .smallcut
                 | !{content}
-            +voting_full
             if views
                 |#{views} views
             +author_info
-            +comments
             if group_id     
                 +group_info
-            if watson 
-                +doc_emotion
 template(name='post_card_med')
     a.ui.link.card.fly_right(href="/doc/#{_id}")
         if youtube_id
@@ -42,8 +38,6 @@ template(name='post_card_med')
             // +comments_view_small
             if group_id     
                 +group_info
-            if watson 
-                +doc_emotion
 template(name='post_item')
     a.ui.link.item.fly_right(href="/doc/#{_id}")
         if youtube_id
@@ -59,8 +53,6 @@ template(name='post_item')
         +author_info
         if group_id     
             +group_info
-        if watson 
-            +doc_emotion
         each seven_tags 
             .ui.basic.small.label #{this}
         
@@ -80,6 +72,7 @@ template(name='post_view')
                     |#{title}
                 +post_home
             .four.wide.column.scrollin
+                .ui.header #{when}
                 a.ui.icon.button.fly_left(href="/docs" title='posts')
                     i.chevron.left.icon
                     +i name='post'
@@ -159,20 +152,7 @@ template(name='post_home')
             .item #{when} #{amount}
                 if in_dev
                     +remove_button doc=this redirect=false
-    if tone 
-        +tone
     +comments
-    .ui.header 
-        +i name='dna-helix'
-        |post emotion
-    +watson_view
-    if tone 
-        .ui.header 
-            +i name='smile'
-            |tone
-        each tone.classifications
-            .ui.header 
-                |{{to_percent confidence}}% #{class_name}
 
 
 

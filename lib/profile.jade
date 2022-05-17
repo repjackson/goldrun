@@ -212,8 +212,6 @@ template(name='user_about')
     +text_view key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
     +text_view key='twitter_link' label='twitter profile ' icon='twitter'
     +text_view key='facebook_link' label='facebook profile ' icon='facebook'
-    if watson 
-        +watson_view
                  
                  
 template(name='user_comments')                 
@@ -248,8 +246,6 @@ template(name='user_dashboard')
             .column 
                 if bio
                     |!{bio}
-                if watson
-                    +watson_view
                 +user_messages
                 if is_current_user
                     .column

@@ -95,7 +95,7 @@ template(name='toggle_view_icon')
         
         
 template(name='message_edit')
-    with current_doc
+    with data_doc
         .ui.stackable.padded.grid
             .row 
                 .five.wide.column
@@ -204,7 +204,7 @@ template(name='message_item')
 
 
 template(name='message_view')
-    with current_doc
+    with data_doc
         .ui.stackable.padded.grid
             .centered.row 
                 .five.wide.column

@@ -41,38 +41,8 @@ force_loggedin =  ()->
 # });
 
 
-Router.route('enroll', {
-    path: '/enroll-account/:token'
-    template: 'reset_password'
-    onBeforeAction: ()=>
-        Meteor.logout()
-        Session.set('_resetPasswordToken', this.params.token)
-        @subscribe('enrolledUser', this.params.token).wait()
-})
 
-
-Router.route('verify-email', {
-    path:'/verify-email/:token',
-    onBeforeAction: ->
-        console.log @
-        # Session.set('_resetPasswordToken', this.params.token)
-        # @subscribe('enrolledUser', this.params.token).wait()
-        console.log @params
-        Accounts.verifyEmail(@params.token, (err) =>
-            if err
-                console.log err
-                alert err
-                @next()
-            else
-                # alert 'email verified'
-                # @next()
-                Router.go "/verification_confirmation/"
-        )
-})
-
-
-Router.route '/verification_confirmation', -> @render 'verification_confirmation'
-Router.route '*', -> @render 'not_found'
+Router.route '*', -> @render 'docs'
 
 # Router.route '/user/:username/m/:type', -> @render 'user_layout', 'user_section'
 Router.route '/forgot_password', -> @render 'forgot_password'

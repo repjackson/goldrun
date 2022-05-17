@@ -67,7 +67,7 @@ template(name='group_item')
 
 
 template(name='group_view')
-    // with current_doc
+    // with data_doc
         // img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
     // .global_container
     img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
@@ -361,7 +361,7 @@ template(name='groups_small')
                 
                
 template(name='group_widget')
-    if current_doc.group_id
+    if data_doc.group_id
         .ui.header 
             +i name='campfire'
             |related group

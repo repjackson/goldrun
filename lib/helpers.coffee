@@ -236,7 +236,7 @@ if Meteor.isClient
     
     Template.registerHelper 'publish_when', () -> moment(@publish_date).fromNow()
     
-    # Template.registerHelper 'current_doc', ->
+    # Template.registerHelper 'data_doc', ->
     #     if Router.current().params.doc_id
     #         doc = Docs.findOne Router.current().params.doc_id
     #         # if doc then doc

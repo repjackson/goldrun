@@ -86,6 +86,8 @@ template(name='account')
                         .ui.header hide menu labels
                         +key_value_edit key='hide_menu_labels' value=true label='yes'
                         +key_value_edit key='hide_menu_labels' value=false label='no'
+                        .ui.header invert 
+                        +boolean_edit key='darkmode' label='darkmode' icon='lightbulb'
 
 template(name='user_single_doc_ref_editor')
     .ui.header #{label}

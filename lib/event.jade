@@ -222,12 +222,12 @@ template(name='rsvp')
     +attendance
     // .ui.modal
     //     i.close.icon
-    //     .header buy ticket for #{current_doc.point_price}pts?
+    //     .header buy ticket for #{data_doc.point_price}pts?
     //     .content
     //         .description
-    //             .ui.header event title: #{current_doc.title}
+    //             .ui.header event title: #{data_doc.title}
     //             .ui.input
-    //                 input(type='number' min=current_doc.point_price)
+    //                 input(type='number' min=data_doc.point_price)
     //     .actions
     //         .ui.red.cancel.button cancel
     //         .ui.green.big.ok.button ok
@@ -303,7 +303,7 @@ template(name='attendance')
 
 
 template(name='ticket_view')
-    with current_doc
+    with data_doc
         .ui.stackable.padded.grid
             .row 
                 .four.wide.column
@@ -358,7 +358,7 @@ template(name='ticket_view')
 template(name='event_view')
     if image_id
         img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")    
-    with current_doc
+    with data_doc
         .ui.stackable.padded.grid
             .middle.aligned.row 
                 .sixteen.wide.column
@@ -453,7 +453,7 @@ template(name='event_view')
                     .ui.small.header #{views} views
                     each viewers
                         .ui.label #{username}
-                    with current_doc
+                    with data_doc
                         +gcal_button
                     .ui.hidden.divider
                     +array_view key='tags' label='tags' icon='tags' 
@@ -472,7 +472,7 @@ template(name='location_map')
 
 
 template(name='event_edit')
-    with current_doc
+    with data_doc
         .ui.stackable.padded.grid
             .three.column.row 
                 .column

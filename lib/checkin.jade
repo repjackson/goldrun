@@ -248,7 +248,7 @@ template(name='session')
                     //- .meta @#{user.username}
                     //- +camera
                 .column
-                    with current_doc
+                    with data_doc
                         h1.ui.huge.header.f11
                             |#{resident_first_name} #{resident_last_name} 
                     if adding_guests
@@ -376,7 +376,7 @@ template(name='checkin_card')
 
 
 template(name='checkin_view')
-    with current_doc
+    with data_doc
         .ui.stackable.padded.grid
             .twelve.wide.column
                 a.ui.big.button(href="/checkins")
@@ -414,7 +414,7 @@ template(name='checkin_view')
 
 
 template(name='checkin_edit')         
-    with current_doc
+    with data_doc
         .ui.padded.two.column.centered.grid
             .column
                 +image_edit key='image_id'

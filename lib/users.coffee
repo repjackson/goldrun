@@ -7,8 +7,8 @@ if Meteor.isClient
         Session.setDefault 'limit', 20
         Session.setDefault 'sort_key', 'points'
         Session.setDefault('view_mode','grid')
-        @autorun => Meteor.subscribe 'users', 
-            Session.get('username_query')
+        @autorun => Meteor.subscribe 'users_pub', 
+            Session.get('current_search')
             picked_user_tags.array()
             Session.get('view_friends')
             Session.get('sort_key')
@@ -169,7 +169,7 @@ if Meteor.isServer
             limit: limit
 
 
-    Meteor.publish 'users', (
+    Meteor.publish 'users_pub', (
         username, 
         picked_user_tags=[], 
         view_friends=false

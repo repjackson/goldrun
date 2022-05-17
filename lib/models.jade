@@ -29,7 +29,6 @@ template(name='post_card_med')
             .ui.small.grey.inline.header #{when}
             .smallscroll
                 | !{content}
-            +voting_full
             if views
                 .ui.basic.label(title='views')
                     i.grey.eye.icon
@@ -306,7 +305,6 @@ template(name='product_view')
                     each ingredients
                         .ui.large.basic.label.goto_ingredient #{this}
                     div
-                +voting_full
                 +link_view key='amazon_referral_link' label='amazon link' icon='amazon'
                 +link_view key='external_link' label='external link' icon='globe'
                 
@@ -357,47 +355,47 @@ template(name='product_view')
         
         
             
-// template(name='product_inventory')      
-//     .ui.inline.header 
-//         +i name='shield'
-//         |inventory
-//     div 
-//     .ui.list #{last_inventory_record} most recent record
-//     a.ui.icon.basic.button.add_inventory
-//         i.plus.icon
-//     .ui.large.selection.list
-//         each inventory_items
-//             .item
-//                 .content
-//                     // unless editing_this
-//                     img.ui.rounded.small.inline.image(src="{{c.url image_id gravity='face' crop='fit'}}" class=cl)
+template(name='product_inventory')      
+    .ui.inline.header 
+        +i name='shield'
+        |inventory
+    div 
+    .ui.list #{last_inventory_record} most recent record
+    a.ui.icon.basic.button.add_inventory
+        i.plus.icon
+    .ui.large.selection.list
+        each inventory_items
+            .item
+                .content
+                    // unless editing_this
+                    img.ui.rounded.small.inline.image(src="{{c.url image_id gravity='face' crop='fit'}}" class=cl)
                     
-//                     // +image_view key='image_id' cl='ui tiny inline image'
-//                     .ui.basic.label ##{amount}
-//                     .ui.basic.label #{location}
-//                     if notes
-//                         .ui.basic.label notes: #{notes}
-//                     .ui.basic.label
-//                         i.user.icon
-//                         |#{staff}
-//                     i.edit.link.icon.edit_inventory_item
-//                     if editing_this
-//                         +number_edit key='amount' label='amount'
-//                         +key_value_edit key='location' value='boh' label='boh'
-//                         +key_value_edit key='location' value='foh' label='foh'
-//                         // +text_edit key='location' label='location' icon='marker'
-//                         +text_edit key='notes' label='notes' icon='pencil'
-//                         // +text_edit key='staff' label='staff' icon='user'
-//                         +image_edit key='image_id'
-//                         // +key_value_edit key='staff' value='matt'
-//                         // +key_value_edit key='staff' value='nena'
-//                         // +key_value_edit key='staff' value='rachel'
-//                         // +key_value_edit key='staff' value='jimmy'
-//                         // +key_value_edit key='staff' value='elena'
-//                         // +key_value_edit key='staff' value='eric'
-//                         // +key_value_edit key='staff' value='luke'
-//                         // +key_value_edit key='staff' value='mateo'
-//                         i.checkmark.green.link.circular.large.icon.save_inventory_item
+                    // +image_view key='image_id' cl='ui tiny inline image'
+                    .ui.basic.label ##{amount}
+                    .ui.basic.label #{location}
+                    if notes
+                        .ui.basic.label notes: #{notes}
+                    .ui.basic.label
+                        i.user.icon
+                        |#{staff}
+                    i.edit.link.icon.edit_inventory_item
+                    if editing_this
+                        +number_edit key='amount' label='amount'
+                        +key_value_edit key='location' value='boh' label='boh'
+                        +key_value_edit key='location' value='foh' label='foh'
+                        // +text_edit key='location' label='location' icon='marker'
+                        +text_edit key='notes' label='notes' icon='pencil'
+                        // +text_edit key='staff' label='staff' icon='user'
+                        +image_edit key='image_id'
+                        // +key_value_edit key='staff' value='matt'
+                        // +key_value_edit key='staff' value='nena'
+                        // +key_value_edit key='staff' value='rachel'
+                        // +key_value_edit key='staff' value='jimmy'
+                        // +key_value_edit key='staff' value='elena'
+                        // +key_value_edit key='staff' value='eric'
+                        // +key_value_edit key='staff' value='luke'
+                        // +key_value_edit key='staff' value='mateo'
+                        i.checkmark.green.link.circular.large.icon.save_inventory_item
 
 template(name='product_reviews')
     .ui.inline.header 
@@ -968,7 +966,6 @@ template(name='ticket_view')
                             .ui.big.label #{this}
                     .spacer
                     .spacer
-                    // +voting_full
                     //- +array_view key='location_tags' label='location_tags' 
                 .four.wide.column
                     //- .ui.fluid.green.button.submit
@@ -1068,8 +1065,6 @@ template(name='event_view')
                     +gcal_button
                 .ui.hidden.divider
                 div
-                if currentUser
-                    +voting_full
                 +array_view key='location_tags' label='location tags' icon='marker' 
                 +rsvp
 
@@ -1082,7 +1077,7 @@ template(name='location_map')
 
 
 template(name='event_edit')
-    .ui.stackable.padded.grid
+    .ui.stackable.grid
         .one.column.row 
             .column
                 // if reservation_exists
@@ -1925,7 +1920,6 @@ template(name='transfer_view')
                     i.tags.icon
                     each tags 
                         .ui.big.basic.circular.label #{this}
-                +voting_full
                 +print_this
                 .ui.small.header
                     i.clock.icon
@@ -2044,7 +2038,6 @@ template(name='task_view')
                 each viewers
                     .ui.label #{username
                 +array_view key='tags' label='tags' direct=true
-                +voting_full
                 +array_view key='location_tags' label='location_tags' direct=true
                 +visibility_settings
                 +group_widget

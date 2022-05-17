@@ -160,20 +160,22 @@ if Meteor.isServer
             _author_username:username
     Meteor.methods
         increment_profile_view: (username)->
-            user = Meteor.users.findOne username:username
+            target_user = Meteor.users.findOne username:username
             # point_total = 10
-            if user
-                Meteor.users.update user._id, 
-                    $inc:
-                        profile_views:1
-            if Meteor.userId()
-                Meteor.users.update user._id, 
-                    $inc:
-                        profile_views_logged_in:1
-            else
-                Meteor.users.update user._id, 
-                    $inc:
-                        profile_views_anon:1
+            if target_user
+                if Meteor.userId()
+                    unless Meteor.user().username is username
+                        Meteor.users.update target_user._id, 
+                            $inc:
+                                profile_views:1
+                        Meteor.users.update target_user._id, 
+                            $inc:
+                                profile_views_logged_in:1
+                else
+                    Meteor.users.update target_user._id, 
+                        $inc:
+                            profile_views_anon:1
+                            profile_views:1
                 
                         
                         

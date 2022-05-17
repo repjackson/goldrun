@@ -86,8 +86,8 @@ template(name='doc_edit')
                         +key_value_edit key='model' value='product' label='product' icon='shopping-cart'
                         +key_value_edit key='model' value='service' label='service' icon='wrench'
                         +key_value_edit key='model' value='transfer' label='transfer' icon='exchange'
-                        +key_value_edit key='model' value='review' label='review' icon='megaphone'
-                        +key_value_edit key='model' value='checkin' label='checkin' icon='checkmark'
+                        // +key_value_edit key='model' value='review' label='review' icon='megaphone'
+                        // +key_value_edit key='model' value='checkin' label='checkin' icon='checkmark'
                         +key_value_edit key='model' value='task' label='task' icon='tasks'
                         +key_value_edit key='model' value='rental' label='rental' icon='clock'
                         +key_value_edit key='model' value='message' label='message' icon='envelope'
@@ -181,11 +181,11 @@ template(name='nav')
         a.item.zoomer.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title=users)
             +i name='groups'
         if currentUser
-            .item.add_doc 
+            a.item.zoomer.fly_down.add_doc 
                 +i name='plus'
             // a.icon.item(href="/mail/inbox")
             //     +i name='inbox'
-            a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile')
+            a.fly_up.zoomer.item(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile')
                 if currentUser.image_id
                     img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
                 else
@@ -215,15 +215,17 @@ template(name='footer')
                 if currentUser.admin
                     with currentUser
                         +boolean_edit key='admin_mode' label='admin mode'
-                if in_dev
+                if currentUser.admin_mode
                     .ui.inline.header 
                         i.blog.icon
                         |docs
                     each all_docs 
-                        .ui.basic.label #{title}
+                        .ui.basic.image.label 
+                            img.ui.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                            |#{title}
                             |(#{model})
                             +print_this
-            if in_dev
+            if currentUser.admin_mode
                 .column
                     .ui.inline.header 
                         |results

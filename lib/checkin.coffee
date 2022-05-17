@@ -1,36 +1,4 @@
-Router.route '/checkins', -> @render 'checkins'
-Router.route '/checkin/:doc_id', -> @render 'checkin_view'
-Router.route '/checkin/:doc_id/edit', -> @render 'checkin_edit'
-Router.route '/staff', -> @render 'staff'
-Router.route '/frontdesk', -> @render 'frontdesk'
-
-
-
 if Meteor.isClient
-    Template.checkins.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'checkin', ->
-    Template.checkin_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-    Template.checkin_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-            
-
-    Template.checkins.events
-        'click .add_checkin': ->
-            new_id = 
-                Docs.insert 
-                    model:'checkin'
-            Router.go "/checkin/#{new_id}/edit"
-            
-            
-    Template.checkins.helpers
-        checkin_docs: ->
-            Docs.find 
-                model:'checkin'
-                
-                
-                
-
     Template.checkin_view.helpers
         checkin: ->
             Docs.findOne

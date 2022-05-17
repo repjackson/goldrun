@@ -95,70 +95,69 @@ template(name='toggle_view_icon')
         
         
 template(name='message_edit')
-    with data_doc
-        .ui.stackable.padded.grid
-            .row 
-                .five.wide.column
-                    .ui.large.fluid.basic.red.button.delete_item
-                        i.large.remove.icon
-                        |cancel
-                    .ui.segment
-                        .ui.header sender
-                        .ui.header
-                            img.ui.small.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}")
-                            |#{_author.name}
-                    .ui.segment
-                        if cost 
-                            .ui.header cost: #{cost}pts
-                        .ui.header target
-                        with _target
-                            i.large.remove.link.icon.remove_target
-                            a.pointer(href="/user/#{name}")
-                                img.ui.tiny.inline.image(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}")
-                                .ui.inline.header #{name}
-                                .ui.small.grey.inline.header #{points}
-                        unless _target
-                            .ui.divider
-                            +single_user_edit key='target_user_id' label='search member' icon='user plus' direct=true
+    .ui.stackable.padded.grid
+        .row 
+            .five.wide.column
+                .ui.large.fluid.basic.red.button.delete_item
+                    i.large.remove.icon
+                    |cancel
+                .ui.segment
+                    .ui.header sender
+                    .ui.header
+                        img.ui.small.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        |#{_author.name}
+                .ui.segment
+                    if cost 
+                        .ui.header cost: #{cost}pts
+                    .ui.header target
+                    with _target
+                        i.large.remove.link.icon.remove_target
+                        a.pointer(href="/user/#{name}")
+                            img.ui.tiny.inline.image(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}")
+                            .ui.inline.header #{name}
+                            .ui.small.grey.inline.header #{points}
+                    unless _target
+                        .ui.divider
+                        +single_user_edit key='target_user_id' label='search member' icon='user plus' direct=true
 
-                            // i.large.user.plus.icon
-                            // // .ui.icon.input
-                            // //     i.search.icon
-                            // //     input.search_username(type='text' placeholder='username')
-                            // each members
-                            //     .ui.compact.basic.button.add_target
-                            //         // i.plus.icon
-                            //         img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
-                            //         |#{name}
-                            //         small #{points}p
-                                    
-                .six.wide.column
-                    +image_edit key='image_id' label='image' direct=true
-                    +html_edit key='description' label='description' direct=true
-                    div 
-                    div
-                    // .ui.inline.header
-                    //     i.tags.icon
-                    //     |tags
-                    // .ui.input
-                    //     input.new_element(type='text' placeholder='+' autocomplete="off")
-                    //     //- +clear_value                
-                    // each tags
-                    //     .ui.big.basic.label
-                    //         i.delete.icon.remove_element
-                    //         |#{this}
-                    
-                    //- +array_edit key='location_tags' label='location_tags' direct=true
-                .five.wide.column
-                    .ui.center.aligned.basic.segment
-                        if can_send
-                            .ui.green.big.icon.button.submit
-                                i.big.checkmark.icon
-                                |send (-#{cost}pts)
-                        else 
-                            .ui.big.green.big.icon.disabled.button
-                                i.checkmark.big.icon
-                                |send (-#{cost}pts) (add message)
+                        // i.large.user.plus.icon
+                        // // .ui.icon.input
+                        // //     i.search.icon
+                        // //     input.search_username(type='text' placeholder='username')
+                        // each members
+                        //     .ui.compact.basic.button.add_target
+                        //         // i.plus.icon
+                        //         img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        //         |#{name}
+                        //         small #{points}p
+                                
+            .six.wide.column
+                +image_edit key='image_id' label='image' direct=true
+                +html_edit key='description' label='description' direct=true
+                div 
+                div
+                // .ui.inline.header
+                //     i.tags.icon
+                //     |tags
+                // .ui.input
+                //     input.new_element(type='text' placeholder='+' autocomplete="off")
+                //     //- +clear_value                
+                // each tags
+                //     .ui.big.basic.label
+                //         i.delete.icon.remove_element
+                //         |#{this}
+                
+                //- +array_edit key='location_tags' label='location_tags' direct=true
+            .five.wide.column
+                .ui.center.aligned.basic.segment
+                    if can_send
+                        .ui.green.big.icon.button.submit
+                            i.big.checkmark.icon
+                            |send (-#{cost}pts)
+                    else 
+                        .ui.big.green.big.icon.disabled.button
+                            i.checkmark.big.icon
+                            |send (-#{cost}pts) (add message)
 
 
 template(name='message_item')

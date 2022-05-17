@@ -202,8 +202,7 @@ template(name='quickbuy')
         
 
 template(name='rental_edit')
-    with data_doc
-        .ui.stackable.padded.grid
+    .ui.stackable.padded.grid
             .three.column.row
                 .column
                     .ui.inline.header
@@ -236,19 +235,6 @@ template(name='rental_edit')
                     +image_link_edit key='image_link' label='image link' direct=true
 
     
-
-
-
-
-
-
-template(name='sort_item')
-    .item.set_sort #{label}
-    
-    
-    
-
-                    
                     
 template(name='last_viewed')
     i.large.grey.eye.icon

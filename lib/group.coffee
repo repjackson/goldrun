@@ -3,9 +3,9 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'user_from_username', @data
     Template.group_widget.helpers
         
-    Template.related_groups.onCreated ->
-        @autorun => Meteor.subscribe 'related_groups', @data._id, ->
-    Template.related_groups.helpers
+    Template.profile.onCreated ->
+        @autorun => Meteor.subscribe 'related_groups', Router.current().params.doc_id, ->
+    Template.profile.helpers
         related_group_docs: ->
             Docs.find {
                 model:'group'

@@ -67,7 +67,7 @@ if Meteor.isClient
                 Docs.insert 
                     model:'transfer'
                     target_user_id: user._id
-            Router.go "/transfer/#{new_id}/edit"
+            Router.go "/doc/#{new_id}/edit"
             
             
         'click .boop': (e,t)->

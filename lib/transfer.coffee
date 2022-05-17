@@ -130,7 +130,7 @@ if Meteor.isClient
                       hideMethod   : 'fade',
                       hideDuration : 250
                     })
-                Router.go "/transfer/#{@_id}"
+                Router.go "/doc/#{@_id}"
 
 
 

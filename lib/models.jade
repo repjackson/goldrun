@@ -978,11 +978,6 @@ template(name='event_view')
     .ui.stackable.padded.grid
         .middle.aligned.row 
             .sixteen.wide.column
-                a.ui.circular.big.icon.button.fly_left(href="/docs")
-                    i.chevron.left.large.icon
-                    +i name='calendar'
-                    // i.big.calendar.icon
-                .ui.large.inline.header #{title}
                 if is_repeating
                     .ui.inline.grey.header
                         +i name='refresh'
@@ -1012,8 +1007,6 @@ template(name='event_view')
                         |#{link}
         .row
             .ten.wide.column
-                a(href="{{c.url image_id }}")
-                    img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                 // a.ui.header(href="/user/#{target.username}")
                 //     |#{target.username}
                 .ui.fluid.styled.accordion 
@@ -1089,29 +1082,27 @@ template(name='event_edit')
                 +number_edit key='hour_duration' label='hours' 
                 // +range_edit label='time range' 
                 // +single_user_edit key='facilitator_id' label='facilitator' icon='chess king' 
-                .ui.basic.segment
-                    +boolean_edit key='manage_attendance' label='manage attendance' icon='settings' 
-                    if manage_attendance
-                        .ui.header
-                            i.users.icon
-                            |audience
-                        +number_edit key='max_attendees' label='max attendees' min='0' max='100' 
-                        +boolean_edit key='friends_only' label='friends only' icon='campfire' 
-                        // div
-                .ui.basic.segment
-                    +boolean_edit key='is_repeating' label='is repeating' icon='refresh' 
-                    if is_repeating
-                        .ui.inline.header repeating day
-                        +key_value_edit key='repeating_day' value='monday'
-                        +key_value_edit key='repeating_day' value='tuesday'
-                        +key_value_edit key='repeating_day' value='wednesday'
-                        +key_value_edit key='repeating_day' value='thursday'
-                        +key_value_edit key='repeating_day' value='friday'
-                        +key_value_edit key='repeating_day' value='saturday'
-                        +key_value_edit key='repeating_day' value='sunday'
-                        div
-                        +time_edit key='start_time' label='start time' 
-                        +time_edit key='end_time' label='end time' 
+                +boolean_edit key='manage_attendance' label='manage attendance' icon='settings' 
+                if manage_attendance
+                    .ui.header
+                        i.users.icon
+                        |audience
+                    +number_edit key='max_attendees' label='max attendees' min='0' max='100' 
+                    +boolean_edit key='friends_only' label='friends only' icon='campfire' 
+                    // div
+                +boolean_edit key='is_repeating' label='is repeating' icon='refresh' 
+                if is_repeating
+                    .ui.inline.header repeating day
+                    +key_value_edit key='repeating_day' value='monday'
+                    +key_value_edit key='repeating_day' value='tuesday'
+                    +key_value_edit key='repeating_day' value='wednesday'
+                    +key_value_edit key='repeating_day' value='thursday'
+                    +key_value_edit key='repeating_day' value='friday'
+                    +key_value_edit key='repeating_day' value='saturday'
+                    +key_value_edit key='repeating_day' value='sunday'
+                    div
+                    +time_edit key='start_time' label='start time' 
+                    +time_edit key='end_time' label='end time' 
                 unless is_repeating 
                     +datetime_edit key='start_datetime' label='start datetime' icon='calendar'
                     +datetime_edit key='end_datetime' label='end datetime' icon='calendar'

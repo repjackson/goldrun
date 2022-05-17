@@ -52,7 +52,7 @@ $.cloudinary.config
 Template.nav.events
     'click .add_doc': ->
         new_id = 
-            Docs.insert {}
+            Docs.insert {model:Session.get('model')}
         Router.go "/doc/#{new_id}/edit"
     'click .locate': ->
         navigator.geolocation.getCurrentPosition (position) =>

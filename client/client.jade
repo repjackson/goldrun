@@ -102,9 +102,6 @@ template(name='doc_edit')
                     +image_edit key='image_id' label='image' 
                     +html_edit key='description' label='description'
                     +boolean_edit key='published' label='published (-10)' 
-                    .ui.icon.circular.button.delete_item(title='delete')
-                        i.remove.red.icon
-                    
                     +array_edit key='tags' label='tags' icon='tags'
                     +group_picker
                     +link_edit key='link' label='link'
@@ -115,6 +112,7 @@ template(name='doc_edit')
 
 template(name='doc_view')
     with doc_data
+        img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         .ui.stackable.grid
             .row 
                 .sixteen.wide.column

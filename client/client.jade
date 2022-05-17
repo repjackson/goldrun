@@ -102,7 +102,8 @@ template(name='doc_edit')
                         +key_value_edit key='model' value='checkin' label='checkin' icon='checkmark'
                         // +key_value_edit model='task' label='task' icon='tasks'
                         +key_value_edit key='model' value='message' label='message' icon='envelope'
-                    
+                    // .ui.header #{model}
+                    // .ui.header #{model_template}
                     +Template.dynamic template=model_template
 
 
@@ -112,10 +113,10 @@ template(name='doc_view')
             .row 
                 .sixteen.wide.column
                     +Template.dynamic template=model_template 
-                if in_dev
-                    .ui.segment 
-                        .ui.header admin
-                        +print_this
+                // if in_dev
+                //     .ui.segment 
+                //         .ui.header admin
+                //         +print_this
 
 
 
@@ -127,8 +128,8 @@ template(name='docs')
             //     |#{post_docs.count} docs
             if currentUser
                 +add_doc_button model=current_model
-            +session_boolean_toggle key='view_mine' label='mine' icon='user'
-            +session_boolean_toggle key='view_private' label='private' icon='lock'
+            // +session_boolean_toggle key='view_mine' label='mine' icon='user'
+            // +session_boolean_toggle key='view_private' label='private' icon='lock'
             div
             +facet key='tag' icon='tags' model='post' label='tags'
             // +facet key='doc_sentiment_label' icon='happy'

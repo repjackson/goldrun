@@ -212,14 +212,14 @@ template(name='iflat')
 //- template(name='ioffice')
 //-     img.ui.image(src="https://img.icons8.com/office/30/000000/#{name}.png" class=cl)
 template(name='link_edit')
-    div
+    // div
     if icon
         +i name=icon
     else 
         +i name='link'
     .ui.inline.header
         |#{title} #{label}
-    .ui.fluid.input
+    .ui.input
         input.edit_url(type='url' value=field_value placeholder='url' autocomplete="off")
 
 
@@ -380,7 +380,7 @@ template(name='textarea_edit')
 
         
 template(name='text_edit')
-    div
+    // div
     if icon
         //- i.grey.icon(class=icon)
         +i name=icon cl='ui avatar image'
@@ -392,7 +392,7 @@ template(name='text_edit')
         else if key
             |#{key}
             //- +clear_value
-    .ui.icon.large.fluid.input
+    .ui.icon.large.input
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         
 
@@ -568,8 +568,6 @@ template(name='datetime_view')
     strong &nbsp; #{field_value}
 
 template(name='array_edit')
-    .spacer
-    .spacer
     if icon
         +i name=icon cl='ui avatar image'
     .ui.inline.header
@@ -580,7 +578,7 @@ template(name='array_edit')
             |#{label}
         else if key
             |#{key}
-    .ui.icon.large.fluid.input
+    .ui.icon.large.input
         i.icon
             +i name=icon cl='ui inline image'
         input.new_element(type='text' placeholder="#{field_value.length} #{label}" autocomplete="off")

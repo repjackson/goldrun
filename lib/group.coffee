@@ -7,10 +7,10 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'related_groups', @data._id, ->
     Template.related_groups.helpers
         related_group_docs: ->
-            Docs.find 
+            Docs.find {
                 model:'group'
                 _id: $nin:[Router.current().params.doc_id]
-                
+            }, limit:3
 if Meteor.isServer 
     Meteor.publish 'related_groups', (group_id)->
         Docs.find {

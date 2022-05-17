@@ -71,81 +71,43 @@ template(name='group_view')
     // .global_container
     img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
     .ui.stackable.padded.grid
-            .row
-                .four.wide.column
-                    .ui.inline.header 
-                        if icon
-                            +i name=icon
-                        |#{title}
-                    a.ui.circular.button.fly_right(href="/groups")
-                        i.left.chevron.icon
-                        // i.big.fire.icon
-                        +i name='campfire' cl='ui mini inline image'
-                        |groups
-                    if premium_membership
-                        .ui.header 
-                            |premium membership: #{membership_cost}pts
-                        .ui.button.purchase_membership
-                            |purchase membership
-                    if can_edit
-                        a.ui.circular.icon.button.fly_down(href="/doc/#{_id}/edit")
-                            i.setting.large.icon
-                    +image_view key='image_id' icon='image' label='image'
-                    +array_view key='tags' icon='tags'
-                    .spacer
-                    if link
-                        a.ui.circular.button(href=link target='_window')
-                            i.external.icon
-                            |#{link}
-                        .spacer
-                    div
-                    if address
-                        a.ui.compact.circular.button(href=address_link target='_window')
-                            i.marker.icon
-                            |#{address}
-                    +viewing
-                    if in_dev 
-                        +print_this
-                    +multi_user_view key='member_ids' label='members' direct=true
-                .twelve.wide.column
-                    a.ui.circular.compact.button.fly_up(href="/doc/#{current_doc._id}/")
-                        +i name='dashboard'
-                        |dashboard
-                    +group_nav_item key='about' icon='info'
-                    if has_posts
-                        +group_posts
-                    if has_events
-                        +group_events
-                    // if has_tasks
-                    //     +group_nav_item key='tasks' icon='tasks'
-                    if has_members
-                        +group_members
-                    if has_chat
-                        +group_chat
-                    if has_shop
-                        +group_products
-                    +group_related
-                    +group_home
-
-
-
-        
-template(name='group_related')
-    +related_groups
-template(name='related_groups')
-    .ui.header 
-        +i name='connect'
-        |related groups 
-    .ui.cards
-        each related_group_docs
-            +group_card
-                
-
-
-template(name='group_home')
-    .ui.stackable.padded.grid
         .row
-            .eight.wide.column
+            .four.wide.column
+                .ui.inline.header 
+                    if icon
+                        +i name=icon
+                    |#{title}
+                a.ui.circular.button.fly_right(href="/groups")
+                    i.left.chevron.icon
+                    // i.big.fire.icon
+                    +i name='campfire' cl='ui mini inline image'
+                    |groups
+                if premium_membership
+                    .ui.header 
+                        |premium membership: #{membership_cost}pts
+                    .ui.button.purchase_membership
+                        |purchase membership
+                if can_edit
+                    a.ui.circular.icon.button.fly_down(href="/doc/#{_id}/edit")
+                        i.setting.large.icon
+                +image_view key='image_id' icon='image' label='image'
+                +array_view key='tags' icon='tags'
+                .spacer
+                if link
+                    a.ui.circular.button(href=link target='_window')
+                        i.external.icon
+                        |#{link}
+                    .spacer
+                div
+                if address
+                    a.ui.compact.circular.button(href=address_link target='_window')
+                        i.marker.icon
+                        |#{address}
+                +viewing
+                if in_dev 
+                    +print_this
+                +multi_user_view key='member_ids' label='members' direct=true
+            .six.wide.column
                 if in_dev 
                     i.circular.link.large.refresh.icon.refresh_group_stats
                 +group_about
@@ -158,7 +120,7 @@ template(name='group_home')
                         //         .header
                         //             |#{username}
                 +join_button
-            .eight.wide.column
+            .six.wide.column
                 +checkin_widget
                 +group_activity
                 +comments
@@ -169,6 +131,30 @@ template(name='group_home')
                 if has_shop
                     .four.wide.column
                         +group_products
+            
+                // if has_tasks
+                //     +group_nav_item key='tasks' icon='tasks'
+                if has_members
+                    +group_members
+                if has_chat
+                    +group_chat
+                +group_related
+
+
+
+        
+template(name='group_related')
+    +related_groups
+template(name='related_groups')
+    .ui.header 
+        +i name='connect'
+        |related groups 
+    .ui.list
+        each related_group_docs
+            +group_item
+                
+
+
 
 
 template(name='group_info')
@@ -180,49 +166,55 @@ template(name='group_info')
 
 
 template(name='group_edit')
-    with current_doc
-        img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-        .ui.stackable.padded.grid
-            .row
-                .six.wide.column
-                    .ui.header 
-                        i.pencil.icon
-                        |editing group
-                    a.ui.big.icon.fluid.green.button.fly_up(href="/doc/#{_id}" title='save')
-                        i.checkmark.large.icon
-                    if in_dev
-                        +remove_button
+    img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+    .ui.stackable.padded.grid
+        .row
+            .six.wide.column
+                .ui.header 
+                    i.pencil.icon
+                    |editing group
+                a.ui.big.icon.fluid.green.button.fly_up(href="/doc/#{_id}" title='save')
+                    i.checkmark.large.icon
+                if in_dev
+                    +remove_button
+                +boolean_edit key='has_image' label='has image (-1p)' icon='image'
+                if has_image
                     +image_edit key='image_id' label='image' direct=true
-                    .ui.header 
-                        i.cubes.icon
-                        |modules
-                    +boolean_edit key='has_checkin' label='checkin' icon='clock' direct=true
-                    +boolean_edit key='has_shop' label='shop' icon='shop' direct=true
-                    +boolean_edit key='has_posts' label='posts' icon='blog' direct=true
-                    +boolean_edit key='has_events' label='events' icon='calendar' direct=true
-                    +boolean_edit key='has_chat' label='chat' icon='chat' direct=true
-                    +boolean_edit key='has_members' label='membership' icon='groups' direct=true
-                    if has_members 
-                        .ui.segment 
-                            .ui.header 
-                                +i name='groups'
-                                |membership settings
-                            +boolean_edit key='premium_membership' label='premium' icon='membership-card'
-                            if premium_membership
-                                +number_edit key='membership_cost' label='cost (points)' icon='coins'
-                    
-                .ten.wide.column
-                    +text_edit key='title' direct=true
+                .ui.header 
+                    i.cubes.icon
+                    |modules
+                +boolean_edit key='has_checkin' label='checkin' icon='clock' direct=true
+                +boolean_edit key='has_shop' label='shop' icon='shop' direct=true
+                +boolean_edit key='has_posts' label='posts' icon='blog' direct=true
+                +boolean_edit key='has_events' label='events' icon='calendar' direct=true
+                +boolean_edit key='has_chat' label='chat' icon='chat' direct=true
+                +boolean_edit key='has_members' label='membership' icon='groups' direct=true
+                if has_members 
+                    .ui.segment 
+                        .ui.header 
+                            +i name='groups'
+                            |membership settings
+                        +boolean_edit key='premium_membership' label='premium' icon='membership-card'
+                        if premium_membership
+                            +number_edit key='membership_cost' label='cost (points)' icon='coins'
+                
+            .ten.wide.column
+                +text_edit key='title' direct=true
+                +boolean_edit key='has_content' label='has content (-1p)' icon='content'
+                if has_content
                     +html_edit key='description' label='content' icon='content' direct=true
                     +call_watson key='description'
-                    // +single_user_edit key='leader_id' label='leader' icon='crown' direct=true
-                    +multi_user_edit key='leader_ids' label='leaders' icon='crown' direct=true
-                    +array_edit key='tags' label='tags' icon='tags' direct=true
-                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    +text_edit key='contact_info' label='contact info' icon='info' direct=true
-                    +multi_user_edit key='member_ids' label='members' direct=true
-                    +boolean_edit key='private' label='private' direct=true
-                    +link_edit key='link' label='link' direct=true
+                // +single_user_edit key='leader_id' label='leader' icon='crown' direct=true
+                +multi_user_edit key='leader_ids' label='leaders' icon='crown' direct=true
+                div
+                +array_edit key='tags' label='tags' icon='tags' direct=true
+                div
+                +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                div
+                +text_edit key='contact_info' label='contact info' icon='info' direct=true
+                +multi_user_edit key='member_ids' label='members' direct=true
+                +boolean_edit key='private' label='private' direct=true
+                +link_edit key='link' label='link' direct=true
                     
                 
 template(name='group_posts')                
@@ -308,18 +300,18 @@ template(name='group_activity')
     .ui.header
         +i name='rss'
         |activity
-    .content
-        each log_items
-            +log_item
-        .ui.header 
-            +i name='line-chart'
-            // i.large.line.chart.icon
-            |stats
-        i.refresh.link.icon.refresh_group_stats
-        .ui.large.list
-            .item #{member_count} members
-            .item #{events} events
-            .item #{total_credit_exchanged} credits exchanged
+    // .content
+    //     each log_items
+    //         +log_item
+    //     .ui.header 
+    //         +i name='line-chart'
+    //         // i.large.line.chart.icon
+    //         |stats
+    //     i.refresh.link.icon.refresh_group_stats
+    //     .ui.large.list
+    //         .item #{member_count} members
+    //         .item #{events} events
+    //         .item #{total_credit_exchanged} credits exchanged
 
               
               

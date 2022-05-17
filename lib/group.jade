@@ -101,11 +101,11 @@ template(name='group_view')
                 +viewing
                 if in_dev 
                     +print_this
-                +multi_user_view key='member_ids' label='members' direct=true
-            .six.wide.column
+                +multi_user_view key='member_user_ids' label='members' direct=true
+                +join_button
+            .twelve.wide.column
                 if in_dev 
                     i.circular.link.large.refresh.icon.refresh_group_stats
-                +group_about
                 if has_members
                     +group_members
                 // .ui.large.selection.animated.list
@@ -114,26 +114,78 @@ template(name='group_view')
                         //     .content
                         //         .header
                         //             |#{username}
-                +join_button
-            .six.wide.column
                 +checkin_widget
                 +group_activity
-                +comments
-                if has_events
-                    +group_events
-                if has_posts
-                    +group_posts
-                if has_shop
-                    .four.wide.column
-                        +group_products
+
             
                 // if has_tasks
                 //     +group_nav_item key='tasks' icon='tasks'
-                if has_members
-                    +group_members
-                if has_chat
-                    +group_chat
-                +group_related
+                .ui.fluid.styled.accordion
+                    if has_events
+                        .title
+                            .ui.header
+                                .ui.inline.header
+                                    +i name='calendar' 
+                                    // i.calendar.large.icon
+                                    |group events
+                        .content
+                            if currentUser 
+                                .ui.icon.button.add_group_event(title='add group event')
+                                    i.plus.icon
+                            .ui.link.animated.list
+                                each group_events
+                                    a.item(href="/event/#{_id}") 
+                                        img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                                        .content
+                                            .header #{title}
+                                            .description
+                                                if is_repeating
+                                                    i.refresh.icon
+                                                    |every #{repeating_day}
+                                                if start_datetime
+                                                    |{{from_now start_datetime}}
+                    if has_shop
+                        .title
+                            .ui.header 
+                                +i name='shop'
+                                |shop
+                        .content
+                            .ui.list 
+                                each group_products 
+                                    a.item(href="/doc/#{_id}")
+                                        img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                                        |#{title}
+                    
+                    if has_posts
+                        .title
+                            .ui.inline.header 
+                                +i name='blog'
+                                |group posts
+                            if currentUser 
+                                .ui.icon.button.add_group_post(title='add group post')
+                                    i.plus.icon
+                        .content
+                            .ui.selection.animated.list
+                                each group_post_docs 
+                                    +post_item
+                    .title
+                        .ui.inline.header
+                            // i.info.icon
+                            +i name='info'
+                            |about
+                    .content
+                        +html_view key='description' icon='content' label='description'
+                    if has_chat
+                        .title
+                            .ui.header 
+                                +i name='chat'
+                                |chat
+                        .content
+                            +comments
+                    .title
+                        .ui.header related groups
+                    .content
+                        +group_related
 
 
 
@@ -161,7 +213,6 @@ template(name='group_info')
 
 
 template(name='group_edit')
-    img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
     .ui.stackable.padded.grid
         .row
             .six.wide.column
@@ -171,8 +222,9 @@ template(name='group_edit')
                 +save_button
                 if in_dev
                     +remove_button
-                +boolean_edit key='has_image' label='has image (-1p)' icon='image'
+                +boolean_edit key='has_image' label='image (-1p)' icon='image'
                 if has_image
+                    div
                     +image_edit key='image_id' label='image' direct=true
                 .ui.header 
                     i.cubes.icon
@@ -194,10 +246,9 @@ template(name='group_edit')
                 
             .ten.wide.column
                 +text_edit key='title' direct=true
-                +boolean_edit key='has_content' label='has content (-1p)' icon='content'
+                +boolean_edit key='has_content' label='content -1p' icon='content'
                 if has_content
                     +html_edit key='description' label='content' icon='content' direct=true
-                    +call_watson key='description'
                 // +single_user_edit key='leader_id' label='leader' icon='crown' direct=true
                 +multi_user_edit key='leader_ids' label='leaders' icon='crown' direct=true
                 div
@@ -216,49 +267,31 @@ template(name='save_button')
         i.checkmark.big.icon
                     
                 
-template(name='group_posts')                
-    .ui.inline.header 
-        +i name='blog'
-        |group posts
-    if currentUser 
-        .ui.icon.button.add_group_post(title='add group post')
-            i.plus.icon
-    div
-        .ui.stackable.doubling.centered.cards
-            each group_post_docs 
-                +post_card
-
-
-template(name='group_chat')    
-    .ui.header 
-        +i name='chat'
-        |group chat
-    +comments
-    
-                    
-                    
                     
                
 template(name='group_members')
-    .ui.header
-        +i name='groups'
-        |people
-    .ui.button.add_user_member
-        |add member
-    if leaders_id
-        .ui.inline.header 
-            +i name='crown' cl='ui avatar image'
-            // i.crown.icon
-            |leaders: 
-        each leader_ids 
-            +user_info
-    div
-    .ui.inline.header 
-        +i name='groups'
-        // i.users.icon
-        |#{member_ids.length} members
-    each member_ids
-        +user_info
+    .ui.accordion
+        .title
+            .ui.header
+                +i name='groups'
+                |people
+                .ui.button.add_user_member
+                    |add member
+        .content
+            if leaders_id
+                .ui.inline.header 
+                    +i name='crown' cl='ui avatar image'
+                    // i.crown.icon
+                    |leaders: 
+                each leader_ids 
+                    +user_info
+            div
+            .ui.inline.header 
+                +i name='groups'
+                // i.users.icon
+                |#{member_ids.length} members
+            each member_ids
+                +user_info
 
                
 template(name='checkin_widget')
@@ -284,19 +317,15 @@ template(name='checkin_widget')
                 small #{when}
 
                
-template(name='group_about')
-    .ui.inline.header
-        // i.info.icon
-        +i name='info'
-        |about
-    +html_view key='description' icon='content' label='description'
 
                                             
                
 template(name='group_activity')
-    .ui.header
-        +i name='rss'
-        |activity
+    .ui.fluid.styled.accordion 
+        .title
+            .ui.header
+                +i name='rss'
+                |activity
     // .content
     //     each log_items
     //         +log_item
@@ -312,44 +341,6 @@ template(name='group_activity')
 
               
               
-template(name='group_events')              
-    .ui.header
-        .ui.inline.header
-            +i name='calendar' 
-            // i.calendar.large.icon
-            |group events
-    .content
-        if currentUser 
-            .ui.icon.button.add_group_event(title='add group event')
-                i.plus.icon
-        .ui.link.animated.list
-            each group_events
-                a.item(href="/event/#{_id}") 
-                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-                    .content
-                        .header #{title}
-                        .description
-                            if is_repeating
-                                i.refresh.icon
-                                |every #{repeating_day}
-                            if start_datetime
-                                |{{from_now start_datetime}}
-              
-               
-                                
-template(name='group_products')
-    .ui.header 
-        +i name='shop'
-        |shop
-    if currentUser
-        .ui.button.add_product  
-            i.plus.icon
-    each group_products 
-        a.item(href="/doc/#{_id}")
-            img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-            |#{title}
-                                                        
-    
     
     
 template(name='groups_small')

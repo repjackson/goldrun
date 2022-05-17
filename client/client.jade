@@ -58,10 +58,11 @@ template(name='layout')
 
 template(name='not_found')
     // +docs
-    .ui.header not found 
-    a.ui.big.button(href="/docs")
-        +i name='home'
-        |home
+    .ui.center.aligned.basic.segment
+        .ui.header not found 
+        a.ui.big.button(href="/docs")
+            +i name='home'
+            |home
 // template(name="user_pill")
 //     .ui.label(class=labelClass)
 //         |#{username}
@@ -70,6 +71,8 @@ template(name='not_found')
 
 template(name='doc_edit')
     with doc_data
+        img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+    
         .ui.stackable.padded.grid
             .row 
                 .sixteen.wide.column

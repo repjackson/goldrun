@@ -143,7 +143,7 @@ Template.doc_view.helpers
     model_template: -> "#{@model}_view"
     # current_doc: -> Docs.findOne Router.current().params.doc_id
     doc_data: -> 
-        console.log 'hi'
+        # console.log 'hi'
         Docs.findOne Router.current().params.doc_id
     
 Template.doc_card.helpers

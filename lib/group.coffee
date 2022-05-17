@@ -36,32 +36,32 @@ if Meteor.isClient
                 
                 
                 
-    Template.group_events.helpers
+    Template.profile.helpers
         group_event_docs: ->
             Docs.find 
                 model:'event'
                 group_ids:Router.current().params.doc_id
-    Template.group_posts.events 
+    Template.profile.events 
         'click .add_group_post': ->
             new_id = 
                 Docs.insert 
                     model:'post'
                     group_id:Router.current().params.doc_id
             Router.go "/doc/#{new_id}/edit"
-    Template.group_posts.helpers
+    Template.profile.helpers
         group_post_docs: ->
             Docs.find 
                 model:'post'
                 group_id:Router.current().params.doc_id
     Template.group_members.helpers
 
-    Template.group_products.events
-        'click .add_product': ->
-            new_id = 
-                Docs.insert 
-                    model:'product'
-                    group_id:Router.current().params.doc_id
-            Router.go "/doc/#{new_id}/edit"
+    # Template.group_products.events
+    #     'click .add_product': ->
+    #         new_id = 
+    #             Docs.insert 
+    #                 model:'product'
+    #                 group_id:Router.current().params.doc_id
+    #         Router.go "/doc/#{new_id}/edit"
             
     Template.group_view.events
         'click .add_group_member': ->

@@ -443,7 +443,7 @@ if Meteor.isClient
                 displayTime: 'auto',
                 position: "bottom right"
             )
-            $(e.currentTarget).closest('.button').transition('bounce', 500)
+            $(e.currentTarget).closest('.button').transition('pulse', 500)
             Meteor.call 'calc_user_points', ->
 
     Template.boolean_edit_icon.helpers

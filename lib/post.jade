@@ -180,7 +180,7 @@ template(name='visibility_settings')
 template(name='post_edit')
     .ui.stackable.padded.grid
         .row 
-            .ten.wide.column
+            .eight.wide.column
                 .ui.inline.header 
                     +i name='cube'
                     |sections
@@ -199,9 +199,9 @@ template(name='post_edit')
                             each tone.classifications
                                 .item
                                     |#{confidence}: #{class_name}
-                +boolean_edit key='has_image' label='image (-1p)' icon='content' direct=true
-                if has_image
-                    +image_edit key='image_id' label='image' direct=true
+                // +boolean_edit key='has_image' label='image (-1p)' icon='content' direct=true
+                // if has_image
+                //     +image_edit key='image_id' label='image' direct=true
                 // +boolean_edit key='has_sentiment' label='has youtube (-1p)' icon='youtube'
                 +boolean_edit key='has_youtube' label='youtube (-1p)' icon='youtube'
                 if has_youtube
@@ -212,11 +212,10 @@ template(name='post_edit')
                         .ui.header 
                             |premium settings 
                         +number_edit key='price' label='price (points)' icon='money'
-            .six.wide.column
+            .eight.wide.column
                 .ui.inline.header 
                     +icolor name='news' cl='ui image inline pointer'
                     |editing post
-                +save_button
                 div 
                 .ui.inline.header 
                     +i name='happy'

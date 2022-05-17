@@ -63,10 +63,11 @@ template(name='key_value_edit')
         if icon 
             +i name=icon cl='ui avatar image'
             // i.icon(class=icon)
-        if label
-            |#{label}
-        else 
-            |#{value}
+        if is_selected
+            if label
+                |#{label}
+            else 
+                |#{value}
             
 
 

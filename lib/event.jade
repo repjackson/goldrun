@@ -356,112 +356,109 @@ template(name='ticket_view')
 
 
 template(name='event_view')
-    if image_id
-        img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")    
-    with data_doc
-        .ui.stackable.padded.grid
-            .middle.aligned.row 
-                .sixteen.wide.column
-                    a.ui.circular.big.icon.button.fly_left(href="/docs")
-                        i.chevron.left.large.icon
-                        +i name='calendar'
-                        // i.big.calendar.icon
-                    .ui.large.inline.header #{title}
-                    if is_repeating
-                        .ui.inline.grey.header
-                            +i name='refresh'
-                            |repeating on #{repeating_day} at 
-                            |#{start_time}
-                    // div
-                    if can_edit
-                        if published 
-                            i.big.eye.green.icon(title='published')
-                        else 
-                            i.big.eye.red.slash.icon(title='unpublished')
-                    // div
-                    // .ui.inline.header {{medium_date date}}
-                    if start_datetime
-                        .ui.inline.header {{long_date start_datetime}}
-                        |&nbsp;
-                        .ui.inline.grey.header {{from_now start_datetime}}
-                    
-                    if time 
-                        .ui.inline.grey.header {{time}}
-                    if can_edit
-                        a.edit_event.fly_left(href="/doc/#{_id}/edit" title='edit')
-                            i.large.link.pencil.circular.icon
-                    if link 
-                        a.ui.button(href=link target="_window")
-                            i.globe.icon 
-                            |#{link}
-            .row
-                .ten.wide.column
-                    a(href="{{c.url image_id }}")
-                        img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                    // a.ui.header(href="/user/#{target.username}")
-                    //     |#{target.username}
-                    .ui.accordion 
-                        .title  
-                            .ui.header  
-                                +i name='about'
-                                |about
-                        .content
-                            |!{description}
-                    // div 
-                    // .spacer
-                    // .spacer
-                .six.wide.column
-                    +group_widget
-                    if location
-                        // +location_map
-                        .ui.header(title='location')
-                            +i name='marker'
-                            |#{location}
-                    .spacer
-                    // a(href="/m/room/#{event_room._id}")
-                    //     img.ui.small.circular.inline.image.pointer.zoom(src="{{c.url event_room.image_id }}" class=currentUser.invert_class)
-                    //     .ui.inline.header.pointer.zoom
-                    //         |#{event_room.title}
-                    // if is_admin
+    .ui.stackable.padded.grid
+        .middle.aligned.row 
+            .sixteen.wide.column
+                a.ui.circular.big.icon.button.fly_left(href="/docs")
+                    i.chevron.left.large.icon
+                    +i name='calendar'
+                    // i.big.calendar.icon
+                .ui.large.inline.header #{title}
+                if is_repeating
+                    .ui.inline.grey.header
+                        +i name='refresh'
+                        |repeating on #{repeating_day} at 
+                        |#{start_time}
+                // div
+                if can_edit
+                    if published 
+                        i.big.eye.green.icon(title='published')
+                    else 
+                        i.big.eye.red.slash.icon(title='unpublished')
+                // div
+                // .ui.inline.header {{medium_date date}}
+                if start_datetime
+                    .ui.inline.header {{long_date start_datetime}}
+                    |&nbsp;
+                    .ui.inline.grey.header {{from_now start_datetime}}
+                
+                if time 
+                    .ui.inline.grey.header {{time}}
+                if can_edit
+                    a.edit_event.fly_left(href="/doc/#{_id}/edit" title='edit')
+                        i.large.link.pencil.circular.icon
+                if link 
+                    a.ui.button(href=link target="_window")
+                        i.globe.icon 
+                        |#{link}
+        .row
+            .ten.wide.column
+                a(href="{{c.url image_id }}")
+                    img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                // a.ui.header(href="/user/#{target.username}")
+                //     |#{target.username}
+                .ui.accordion 
+                    .title  
+                        .ui.header  
+                            +i name='about'
+                            |about
+                    .content
+                        |!{description}
+                // div 
+                // .spacer
+                // .spacer
+            .six.wide.column
+                +group_widget
+                if location
+                    // +location_map
+                    .ui.header(title='location')
+                        +i name='marker'
+                        |#{location}
+                .spacer
+                // a(href="/m/room/#{event_room._id}")
+                //     img.ui.small.circular.inline.image.pointer.zoom(src="{{c.url event_room.image_id }}" class=currentUser.invert_class)
+                //     .ui.inline.header.pointer.zoom
+                //         |#{event_room.title}
+                // if is_admin
+                .ui.dividing.header 
+                    i.shield.icon
+                    | author
+                a.ui.header.zoomer(href="/user/#{_author.username}") 
+                    img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                    |#{_author.name}
+                if host
                     .ui.dividing.header 
-                        i.shield.icon
-                        | author
-                    a.ui.header.zoomer(href="/user/#{_author.username}") 
-                        img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                        |#{_author.name}
-                    if host
-                        .ui.dividing.header 
-                            i.chess.king.grey.icon
-                            |host
-                        a.ui.header.zoomer(href="/user/#{host.username}") 
-                            img.ui.avatar.image(src="{{c.url host.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                            |#{host.name}
-                    if support
-                        .ui.dividing.header 
-                            i.chess.queen.grey.icon
-                            |support
-                        a.ui.header(href="/user/#{support.username}") 
-                            img.ui.avatar.image(src="{{c.url support.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                            |#{support.name}
-                    +comments
-                    if max_attendees
-                        .ui.header
-                            |#{max_attendees} max attendees
-                    // .ui.small.grey.header 
-                    //     i.line.chart.icon
-                    //     |stats
-                    .ui.small.header #{views} views
-                    each viewers
-                        .ui.label #{username}
-                    with data_doc
-                        +gcal_button
-                    .ui.hidden.divider
-                    +array_view key='tags' label='tags' icon='tags' 
-                    div
-                    if currentUser
-                        +voting_full
-                    +array_view key='location_tags' label='location tags' icon='marker' 
-                    +rsvp
+                        i.chess.king.grey.icon
+                        |host
+                    a.ui.header.zoomer(href="/user/#{host.username}") 
+                        img.ui.avatar.image(src="{{c.url host.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                        |#{host.name}
+                if support
+                    .ui.dividing.header 
+                        i.chess.queen.grey.icon
+                        |support
+                    a.ui.header(href="/user/#{support.username}") 
+                        img.ui.avatar.image(src="{{c.url support.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                        |#{support.name}
+                +comments
+                if max_attendees
+                    .ui.header
+                        |#{max_attendees} max attendees
+                // .ui.small.grey.header 
+                //     i.line.chart.icon
+                //     |stats
+                .ui.small.header #{views} views
+                each viewers
+                    .ui.label #{username}
+                with data_doc
+                    +gcal_button
+                .ui.hidden.divider
+                +array_view key='tags' label='tags' icon='tags' 
+                div
+                if currentUser
+                    +voting_full
+                +array_view key='location_tags' label='location tags' icon='marker' 
+                +rsvp
 
 
 
@@ -473,19 +470,12 @@ template(name='location_map')
 
 template(name='event_edit')
     .ui.stackable.padded.grid
-        .three.column.row 
+        .two.column.row 
             .column
-                a.ui.icon.green.big.button.fly_left(href="/doc/#{_id}" title='save')
-                    i.checkmark.big.icon
                 .ui.inline.header 
-                    i.large.calendar.icon
-                    // +icolor name='tear-off-calendar'
-                    |edit event
-                +boolean_edit key='published' label='published (-10)' 
-                .ui.icon.circular.button.delete_item(title='delete')
-                    i.remove.red.icon
-                +text_edit key='title' label='title' 
-                +image_edit key='image_id' label='image' 
+                    // i.large.calendar.icon
+                    +icolor name='tear-off-calendar'
+                    |editing event
                 .ui.header 
                     small author
                     |#{_author.name}
@@ -499,6 +489,15 @@ template(name='event_edit')
                 +number_edit key='hour_duration' label='hours' 
                 // +range_edit label='time range' 
                 // +single_user_edit key='facilitator_id' label='facilitator' icon='chess king' 
+                .ui.segment
+                    +boolean_edit key='manage_attendance' label='manage attendance' icon='settings' 
+                    if manage_attendance
+                        .ui.header
+                            i.users.icon
+                            |audience
+                        +number_edit key='max_attendees' label='max attendees' min='0' max='100' 
+                        +boolean_edit key='friends_only' label='friends only' icon='campfire' 
+                        // div
             .column
                 .ui.segment
                     +boolean_edit key='is_repeating' label='is repeating' icon='refresh' 
@@ -538,18 +537,3 @@ template(name='event_edit')
                             unless free
                                 +number_edit key='price_points' label='point price' min='0' max='100' 
                             +number_edit key='price_usd' label='dollar price' min='0' max='100' 
-            .column
-                .ui.segment
-                    +boolean_edit key='manage_attendance' label='manage attendance' icon='settings' 
-                    if manage_attendance
-                        .ui.header
-                            i.users.icon
-                            |audience
-                        +number_edit key='max_attendees' label='max attendees' min='0' max='100' 
-                        +boolean_edit key='friends_only' label='friends only' icon='campfire' 
-                        // div
-                +html_edit key='description' label='description' 
-                +call_watson key='description'
-                +link_edit key='link' label='link'
-                +group_picker
-                    

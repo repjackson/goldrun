@@ -1,39 +1,3 @@
-template(name='transfers')
-    .ui.stackable.padded.grid
-        .four.wide.column
-            .ui.inline.header 
-                +i name='exchange'
-                |#{transfer_docs.count}
-                |transfers
-            if currentUser
-                +add_doc_button model='transfer'
-            +facet key='tag' model='transfer'
-        .twelve.wide.column
-            span.sorting_row
-                +session_set key='view_mode' value='grid' icon='th'
-                +session_set key='view_mode' value='list' icon='list'
-                +search_input key='title' model='transfer'
-                +sort_direction_toggle
-                +set_sort_key key='member_ids' label='$/serving' icon='money'
-                +set_sort_key key='private' label='available' icon='clock'
-                +set_sort_key key='_timestamp' label='added' icon='clock'
-                +set_sort_key key='comment_count' label='comment count' icon='chat'
-                |&nbsp;
-            if session_is 'view_mode' 'grid'
-                if one_result
-                    .ui.stackable.one.cards.scrolling
-                        each transfer_docs
-                            +transfer_card
-                else
-                    .ui.stackable.three.cards.scrolling
-                        each transfer_docs
-                            +transfer_card
-            else
-                .ui.selection.divided.animated.list.scrolling
-                    each transfer_docs 
-                        +transfer_item
-
-
 template(name='transfer_card')
     .ui.card.zoomer
         if image_id
@@ -131,12 +95,7 @@ template(name='transfer_view')
 template(name='transfer_edit')
     .ui.stackable.padded.grid
         .row 
-            .five.wide.column
-                .ui.large.fluid.basic.circular.button.cancel_transfer
-                    i.large.remove.red.icon
-                    |cancel
-                if in_dev
-                    +print_this
+            .eight.wide.column
                 .ui.segment
                     .ui.inline.grey.header sender
                     .ui.inline.header
@@ -170,38 +129,7 @@ template(name='transfer_edit')
                 // if has_time
                 +time_edit key='time' label='time' direct=true   
                 +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-            .six.wide.column
-                // +boolean_edit key='has_description' label='has description' icon='content' direct=true
-                // if has_description
-                +html_edit key='description' label='description' direct=true
-                // +boolean_edit key='has_image' label='has image' icon='image' direct=true
-                // if has_image
-                +image_edit key='image_id' label='image' direct=true
-                div
-                +array_edit key='tags' label='tags'
-                // .ui.inline.header
-                //     i.tag.red.icon
-                //     |tags
-                // .ui.input
-                //     input.new_tag(type='text' placeholder='+' autocomplete="off")
-                //     //- +clear_value                
-                // each terms 
-                //     a.ui.large.circular.basic.button.select_term(href='#')
-                //         if image
-                //             img.ui.mini.rounded.inline.image(src="{{c.url image height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                //         |#{title}
-                each tags
-                    .ui.big.basic.circular.label
-                        i.delete.icon.remove_element
-                        |#{this}
-                // if suggestions
-                //     .ui.small.inline.header suggestions
-                // each suggestions
-                //     a.ui.large.circular.basic.button.select_term(href='#')
-                //         // if image
-                //         //     img.ui.mini.rounded.inline.image(src="{{c.url image height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                //         |#{title}
-            .five.wide.center.aligned.column
+            .eight.wide.center.aligned.column
                 .ui.big.header #{amount}pts
                 .ui.big.input
                     input.point_amount(type='number' value=amount min='1' max=point_max)

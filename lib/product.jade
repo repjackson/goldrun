@@ -304,15 +304,13 @@ template(name='order_button')
 
 
 template(name='product_edit')
-    .ui.stackable.padded.three.column.grid
+    .ui.stackable.padded.two.column.grid
             .row
                 .column
                     .ui.inline.header
                         i.pencil.icon
                         | #{title}
                         small product
-                    .ui.large.icon.fluid.green.button.save_product.fly_up(title='save product')
-                        i.checkmark.large.icon   
                     +text_edit key='title' label='title' icon='header' direct=true
                     // +text_edit key='slug' label='slug' icon='slug' direct=true
                     +print_this
@@ -322,9 +320,7 @@ template(name='product_edit')
                     // div
                 .column
                     +float_edit key='price_usd' label='price' icon='us-dollar-circled'
-                    +array_edit key='tags' label='tags'
                     +number_edit key='price_points' label='point price' icon='coins'
-                    +group_picker
                     +text_edit key='size_description' label='size description' icon='content'
                     .ui.inline.header food
                     +boolean_edit key='is_food' label='is food' icon='food'
@@ -345,8 +341,6 @@ template(name='product_edit')
                         +number_edit key='calories' label='calories' icon='food'
                 .column
                     div
-                    +html_edit key='description' label='description'
-                    +call_watson key='description'
                     +boolean_edit key='is_managing_inventory' label='manage inventory' icon='inventory'
                     if is_managing_inventory
                         .ui.segment 
@@ -362,11 +356,6 @@ template(name='product_edit')
                                 |subscription settings
                             +key_value_edit key='subscription_frequency' value='weekly' label='weekly'
                             +key_value_edit key='subscription_frequency' value='monthly' label='monthly'
-                    if can_delete
-                        .ui.red.button.delete_product
-                            i.remove.icon   
-                            | delete
-                            
                             
 template(name='message_author_button')
     .ui.circular.large.button.message_author

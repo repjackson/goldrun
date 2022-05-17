@@ -3,6 +3,12 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'user_from_username', @data
     Template.group_widget.helpers
         
+    Template.profile.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 1000
+        
+        
     Template.profile.onCreated ->
         @autorun => Meteor.subscribe 'related_groups', Router.current().params.doc_id, ->
     Template.profile.helpers

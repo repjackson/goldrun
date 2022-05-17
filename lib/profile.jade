@@ -98,31 +98,48 @@ template(name='profile')
                         +logout_other_clients_button
                     if in_dev 
                         +print_this
+                    unless is_current_user
+                        +request_button
+                        +follow_button
+                        +friend_button
                     +send_points_button
-                    +request_button
-                    +follow_button
-                    if has_membership
-                        +join_button
-                    +friend_button
                 .twelve.wide.column
                     if subs_ready
                         .ui.padded.grid 
-                            .one.column.row
-                                .column 
+                            .ui.fluid.styled.accordion
+                                .title
+                                    .ui.header about
+                                .content
                                     if bio
                                         |!{bio}
+                                .title
+                                    .ui.header about
+                                .content
                                     +user_messages
-                                    if is_current_user
-                                        .column
-                                            +profile_deposits
-                                .column
+                                if is_current_user
+                                    .title
+                                        .ui.header deposits
+                                    .content
+                                        +profile_deposits
+                                .title
+                                    .ui.header reviews
+                                .content
                                     +user_reviews
-                                .column
+                                .title
+                                    .ui.header posts
+                                .content
                                     +user_posts
+                                .title
+                                    .ui.header groups
+                                .content
                                     +user_groups
-                                .column
+                                .title
+                                    .ui.header friends
+                                .content
                                     +user_friends
-                                .column
+                                .title
+                                    .ui.header points
+                                .content
                                     +user_points
                     else 
                         .ui.basic.center.aligned.segment

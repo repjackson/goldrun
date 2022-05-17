@@ -73,7 +73,7 @@ template(name='doc_edit')
     with doc_data
         img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
     
-        .ui.stackable.padded.grid
+        .ui.stackable.padded.divided.grid
             .row 
                 .sixteen.wide.column
                     .ui.segment.rounded
@@ -93,8 +93,22 @@ template(name='doc_edit')
                         +key_value_edit key='model' value='message' label='message' icon='envelope'
                     // .ui.header #{model}
                     // .ui.header #{model_template}
-                    +Template.dynamic template=model_template
+                .six.wide.column
+                    +save_button
+                    +text_edit key='title' label='title' 
+                    +image_edit key='image_id' label='image' 
+                    +html_edit key='description' label='description'
+                    +boolean_edit key='published' label='published (-10)' 
+                    .ui.icon.circular.button.delete_item(title='delete')
+                        i.remove.red.icon
+                    
+                    +array_edit key='tags' label='tags' icon='tags'
+                    +group_picker
+                    +link_edit key='link' label='link'
 
+                    +remove_button
+                .ten.wide.column
+                    +Template.dynamic template=model_template
 
 template(name='doc_view')
     with doc_data
@@ -204,9 +218,6 @@ template(name='nav')
                 // i.sign.in.big.icon
                 +i name='internal'
                 span.mobile.hidden login
-        
-                
-
                 
 template(name='footer')
     .ui.fluid.segment.stackable.grid

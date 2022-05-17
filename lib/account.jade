@@ -1,5 +1,4 @@
-template(name='account_layout')
-    +nav
+template(name='account')
     with user_from_username_param          
         img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")
         //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
@@ -14,102 +13,79 @@ template(name='account_layout')
                     .ui.hidden.divider
                     +image_edit key='image_id' icon='picture' title='profile image' 
                     +image_edit key='background_image_id' icon='picture' title='background image' 
-                .twelve.wide.column
-                    +account_menu_item key='profile' icon='info'
-                    +account_menu_item key='appearance' icon='paint' 
-                    +account_menu_item key='points' icon='money'
-                    +account_menu_item key='social' icon='friends'
-                    // +account_menu_item key='posts' icon='blog'
-                    +account_menu_item key='shop' icon='shop'
-                    // +account_menu_item key='rentals' icon='clock'
-                    // +account_menu_item key='services' icon='wrench'
-                    +yield
-                    
-template(name='account_menu_item')
-    a.ui.compact.large.circular.button(href="/user/#{current_user.username}/edit/#{key}" title=key)
-        +i name=icon cl='ui avatar image'
-        unless currentUser.hide_menu_labels
-            |#{key}
-
-
-template(name='account_points')
-    .ui.container
-        .ui.segment
-            .ui.header 
-                +i name='money'
-                |preferred payment received method
-            +key_value_edit key='preferred_payment_method' value='apple_pay' label='apple pay' icon='apple-pay'
-            +key_value_edit key='preferred_payment_method' value='paypal' label='paypal' icon='paypal'
-            +key_value_edit key='preferred_payment_method' value='venmo' label='venmo' icon='venmo'
-            if in_dev 
-                +number_edit key='points' label='points'
-
-
-template(name='account_profile')
-    .ui.stackable.grid 
-        .two.column.row
-            .column
-                +text_edit key='first_name' label='first name' icon='user'
-                div
-                +text_edit key='last_name' label='last name' icon='user'
-                div
-                +text_edit key='display_name' label='display name'
-                div
-                +html_edit key='bio' label='bio'
-                +call_watson key='bio'
-                +array_edit key='tags' label='tags' icon='tagss'
-            .column
-                .ui.header 
-                    i.envelope.outline.icon
-                    |emails
-                +text_edit key='status' label='status' icon='clock'
-                +emails_edit
-                +text_edit key='address' label='address' icon='marker' 
-                +text_edit key='city' label='city' icon='marker' 
-                +text_edit key='state' label='state' icon='marker' 
-                +phone_edit key='phone' label='phone' icon='phone' 
-                +link_edit key='link' label='external link' icon='globe'
-                +text_edit key='company' label='company' icon='business'
-                if is_current_user
-                    +password_edit
-                    //- +phone_editor
-                    +username_edit
-                else if in_dev
-                    +password_edit
-                    //- +phone_editor
-                    +username_edit
-                if currentUser.admin
-                    with user_from_username_param
-                        .ui.orange.button.remove_user 
-                            i.remove.icon
-                            |delete user
-                +boolean_edit key='admin' label='admin' icon='shield' 
-                +link_edit key='link' label='profile link' icon='globe'
-
-template(name='account_social')
-    .ui.container
-        +text_edit key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
-        +text_edit key='twitter_link' label='twitter profile ' icon='twitter'
-        +text_edit key='facebook_link' label='facebook profile ' icon='facebook'
-
-template(name='account_appearance')
-    .ui.segment 
-        .ui.header
-            +i name='paint'
-            |appearance 
-        .ui.header icon theme
-        // +text_edit key='icon_class' label='icon class'
-        +key_value_edit key='icon_class' value=null label='none'
-        +key_value_edit key='icon_class' value='ios' label='outline'
-        +key_value_edit key='icon_class' value='color' label='color'
-        +key_value_edit key='icon_class' value='ultraviolet' label='blue'
-        +key_value_edit key='icon_class' value='stickers' label='stickers'
-        +key_value_edit key='icon_class' value='dotty' label='dots'
-        +key_value_edit key='icon_class' value='office' label='office'
-        +key_value_edit key='icon_class' value='simple' label='simple'
-        .ui.header hide menu labels
-        +key_value_edit key='hide_menu_labels' value=true label='yes'
-        +key_value_edit key='hide_menu_labels' value=false label='no'
+                .four.wide.column
+                    .ui.container
+                        .ui.segment
+                            .ui.header 
+                                +i name='money'
+                                |preferred payment received method
+                            +key_value_edit key='preferred_payment_method' value='apple_pay' label='apple pay' icon='apple-pay'
+                            +key_value_edit key='preferred_payment_method' value='paypal' label='paypal' icon='paypal'
+                            +key_value_edit key='preferred_payment_method' value='venmo' label='venmo' icon='venmo'
+                            if in_dev 
+                                +number_edit key='points' label='points'
+                .four.wide.column
+                    +text_edit key='first_name' label='first name' icon='user'
+                    div
+                    +text_edit key='last_name' label='last name' icon='user'
+                    div
+                    +text_edit key='display_name' label='display name'
+                    div
+                .four.wide.column
+                    +boolean_edit key='has_bio' label='has bio (-1p)' icon='content'
+                    if has_bio
+                        +html_edit key='bio' label='bio'
+                .four.wide.column
+                    +array_edit key='tags' label='tags' icon='tagss'
+                    .ui.header 
+                        i.envelope.outline.icon
+                        |emails
+                    +text_edit key='status' label='status' icon='clock'
+                    +emails_edit
+                    +text_edit key='address' label='address' icon='marker' 
+                    +text_edit key='city' label='city' icon='marker' 
+                    +text_edit key='state' label='state' icon='marker' 
+                    +phone_edit key='phone' label='phone' icon='phone' 
+                    +link_edit key='link' label='external link' icon='globe'
+                    +text_edit key='company' label='company' icon='business'
+                .four.wide.column
+                    if is_current_user
+                        +password_edit
+                        //- +phone_editor
+                        +username_edit
+                    else if in_dev
+                        +password_edit
+                        //- +phone_editor
+                        +username_edit
+                    if currentUser.admin
+                        with user_from_username_param
+                            .ui.orange.button.remove_user 
+                                i.remove.icon
+                                |delete user
+                    +boolean_edit key='admin' label='admin' icon='shield' 
+                    +link_edit key='link' label='profile link' icon='globe'
+                    .ui.container
+                        +text_edit key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
+                        +text_edit key='twitter_link' label='twitter profile ' icon='twitter'
+                        +text_edit key='facebook_link' label='facebook profile ' icon='facebook'
+                .four.wide.column
+                    .ui.segment 
+                        .ui.header
+                            +i name='paint'
+                            |appearance 
+                        .ui.header icon theme
+                        // +text_edit key='icon_class' label='icon class'
+                        +key_value_edit key='icon_class' value=null label='none'
+                        +key_value_edit key='icon_class' value='ios' label='outline'
+                        +key_value_edit key='icon_class' value='color' label='color'
+                        +key_value_edit key='icon_class' value='ultraviolet' label='blue'
+                        +key_value_edit key='icon_class' value='stickers' label='stickers'
+                        +key_value_edit key='icon_class' value='dotty' label='dots'
+                        +key_value_edit key='icon_class' value='office' label='office'
+                        +key_value_edit key='icon_class' value='simple' label='simple'
+                        .ui.header hide menu labels
+                        +key_value_edit key='hide_menu_labels' value=true label='yes'
+                        +key_value_edit key='hide_menu_labels' value=false label='no'
 
 template(name='user_single_doc_ref_editor')
     .ui.header #{label}

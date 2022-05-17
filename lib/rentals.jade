@@ -1,44 +1,30 @@
-template(name='rentals')
-    // +map2
-    .ui.stackable.padded.grid
-        .four.wide.column
-            .ui.inline.header 
-                +i name='clock'
-                |rentals
-            if currentUser 
-                +add_doc_button model='rental'
-            //- .ui.inline.header current lat: #{current_lat}, long: #{current_long}
-            .sorting_row
-                +facet key='tag' model='rental'
-            .spacer 
-        .twelve.wide.column
-            if subs_ready
-                if one_rental
-                    each rental_docs
-                        +rental_big_card
-                else
-                    .ui.stackable.four.centered.cards.scrolling
-                        each rental_docs
-                            +rental_card
-                        unless rental_docs.count
-                            .ui.button.request_rental
-                                |request
-            else 
-                .ui.center.aligned.basic.segment
-                    i.massive.grey.notched.circle.loading.icon
-            //- +mapgl
-
+template(name='rental_item')
+    if image_id
+        img.ui.zoomer.small.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+    .content
+        a.header.zoomer.fly_right(href="/doc/#{_id}/") 
+            | #{title}
+        div
+        .ui.inline.header 
+            |#{daily_rate}
+            small p/day
+        // if tags
+        //     i.tag.icon
+        // each tags
+        //     a.ui.small.link.black.label.flat_pick_tag.spaced #{this}
+        // .right.floated.meta
+        //     | added #{when}
+        unless anonymous
+            a(href="/user/#{_author_username}")
+                img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
+                |#{_author_username}
 template(name='rental_card')
     .ui.card(class=rental_card_class)
-        a.image.fly_right(href="/rental/#{_id}/") 
+        a.image.fly_right(href="/doc/#{_id}/") 
             if image_id
                 img.ui.zoomer.pointer.goto_rental.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
-            if image_link
-                img.ui.zoomer.pointer.goto_rental.image(src=image_link)
-
-
         .content
-            a.header.zoomer.fly_right(href="/rental/#{_id}/") 
+            a.header.zoomer.fly_right(href="/doc/#{_id}/") 
                 | #{title}
             div
             .ui.inline.header 
@@ -58,15 +44,11 @@ template(name='rental_big_card')
     .ui.fluid.segment
         .ui.fluid.two.column.grid(class=rental_card_class)
             .column
-                a.image.fly_right(href="/rental/#{_id}/") 
+                a.image.fly_right(href="/doc/#{_id}/") 
                     if image_id
                         img.ui.zoomer.pointer.goto_rental.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
-                    if image_link
-                        img.ui.zoomer.pointer.goto_rental.image(src=image_link)
-    
-    
             .column
-                a.header.zoomer.fly_right(href="/rental/#{_id}/") 
+                a.header.zoomer.fly_right(href="/doc/#{_id}/") 
                     | #{title}
                 div
                 .ui.inline.header 
@@ -95,7 +77,7 @@ template(name='user_rentals')
         |#{user_rental_docs.count} rentals
     .ui.selection.animated.large.list
         each user_rental_docs 
-            a.item(href="/rental/#{_id}") 
+            a.item(href="/doc/#{_id}") 
                 img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                 .content
                     .title 
@@ -118,7 +100,7 @@ template(name='user_rentals')
 
 template(name='rental_view')
     // .ui.header rental view
-    with current_doc
+    with data_doc
         .ui.stackable.padded.grid
             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
             .three.column.row
@@ -127,12 +109,9 @@ template(name='rental_view')
                     //     small viewing
                     //     |#{title}
                     //     small rental
-                    a.ui.big.basic.button.fly_left(href="/" title='shop')
-                        i.left.chevron.icon
-                        +i name='shop' cl='ui inline image'
                     .ui.big.inline.header #{title}
                     if can_edit
-                        a.zoomer(href="/rental/#{_id}/edit")
+                        a.zoomer(href="/doc/#{_id}/edit")
                             i.pencil.big.circular.icon
                     div
                     +text_view key='location' icon='marker' label='location' direct=true
@@ -231,7 +210,7 @@ template(name='rental_edit')
                         small editing
                         |'#{title}'
                         small rental
-                    a.ui.big.icon.green.fluid.button(href="/rental/#{_id}/")
+                    a.ui.big.icon.green.fluid.button(href="/doc/#{_id}/")
                         i.checkmark.big.icon
                     +text_edit key='title' icon='header' direct=true
                     +number_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
@@ -349,10 +328,10 @@ template(name='order_segment')
 //                 +image_view key='image' direct=true cl='zoom ui tiny image'
 //             .twelve.wide.column
 //                 .ui.header #{title}
-//                 a.ui.header.inline.lowercase(href="/rental/#{_id}/")
+//                 a.ui.header.inline.lowercase(href="/doc/#{_id}/")
 //                     |#{daily_rate}p/day
 //                 .ui.small.inline.header #{when}
-//                 a.ui.button(href="/rental/#{_id}/")
+//                 a.ui.button(href="/doc/#{_id}/")
 //                     |view
 //                     i.right.chevron.icon
 
@@ -360,10 +339,10 @@ template(name='order_segment')
         
 template(name='user_rental_card')
     .ui.small.card
-        a.zoom(href="/rental/#{_id}/")
+        a.zoom(href="/doc/#{_id}/")
             img.ui.centered.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
         .content
-            a.ui.inline.header(href="/rental/#{_id}/") #{title} 
+            a.ui.inline.header(href="/doc/#{_id}/") #{title} 
                 .ui.label #{daily_rate}p/day
             +rental_status
         .content
@@ -379,6 +358,6 @@ template(name='user_rental_card')
             each tags
                 .ui.label #{this}
             div
-            a.ui.button(href="/rental/#{_id}/")
+            a.ui.button(href="/doc/#{_id}/")
                 |view
                 i.right.chevron.icon

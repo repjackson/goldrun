@@ -78,25 +78,6 @@ template(name='post_view')
                     if private 
                         i.large.lock.icon(title='private')
                     |#{title}
-                // a.ui.compact.button(href="/doc/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
-                //     +i name='home'
-                //     |home
-                // if watson
-                //     a.ui.compact.button(href="/doc/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
-                //         +i name='dna-helix'
-                //         |emotion
-                // a.ui.compact.button(href="/doc/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
-                //     +i name='chat'
-                //     |comments
-                // a.ui.compact.button(href="/doc/#{_id}/tips" class="{{isActiveRoute regex='tips'}}" )
-                //     +i name='coins'
-                //     |tips
-                // a.ui.compact.button(href="/doc/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
-                //     +i name='pie-chart'
-                //     |stats
-                // a.ui.compact.button(href="/doc/#{_id}/related" class="{{isActiveRoute regex='related'}}" )
-                //     +i name='clone'
-                //     |related
                 +post_home
             .four.wide.column.scrollin
                 a.ui.icon.button.fly_left(href="/docs" title='posts')
@@ -157,15 +138,17 @@ template(name='post_home')
     //     |#{target.username}
     if youtube_id
         +youtube_view key='youtube_id'
-    // .scrolling
-    |!{content}
+    .scrolling
+        |!{content}
     img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-    // if tone 
-    //     +tone
-    +comments
-
-
-template(name='post_tips')
+    .ui.dividing.header 
+        +i name='line-chart'
+        |post stats
+    .ui.big.list
+        .item #{views} views
+        .item #{views_ranking} view ranking
+        .item #{post_views_ranking} post views ranking
+        
     .ui.dividing.header 
         +i name='money'
         |tips
@@ -176,22 +159,9 @@ template(name='post_tips')
             .item #{when} #{amount}
                 if in_dev
                     +remove_button doc=this redirect=false
-        
-template(name='post_stats')
-    .ui.dividing.header 
-        +i name='line-chart'
-        |post stats
-    .ui.big.list
-        .item #{views} views
-        .item #{views_ranking} view ranking
-        .item #{post_views_ranking} post views ranking
-        
-template(name='post_comments')
-    .ui.header 
-        +i name='chat'
-        |post chat
+    if tone 
+        +tone
     +comments
-template(name='post_emotion')
     .ui.header 
         +i name='dna-helix'
         |post emotion
@@ -203,6 +173,7 @@ template(name='post_emotion')
         each tone.classifications
             .ui.header 
                 |{{to_percent confidence}}% #{class_name}
+
 
 
 template(name='visibility_settings')

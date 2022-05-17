@@ -5,9 +5,9 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
 
 
-    Template.post_tips.onCreated ->
+    Template.post_view.onCreated ->
         @autorun => @subscribe 'post_tips',Router.current().params.doc_id, ->
-    Template.post_tips.events 
+    Template.post_view.events 
         'click .tip_post': ->
             # console.log 'hi'
             new_id = 
@@ -19,7 +19,7 @@ if Meteor.isClient
                     transfer_type:'tip'
                     tags:['tip']
             Meteor.call 'calc_user_points', ->
-    Template.post_tips.helpers 
+    Template.post_view.helpers 
         post_tip_docs: ->
             Docs.find 
                 model:'transfer'
@@ -42,24 +42,6 @@ if Meteor.isClient
                 
     Template.post_edit.events
         'click .delete_post': ->
-            Swal.fire({
-                title: "delete post?"
-                text: "cannot be undone"
-                icon: 'question'
-                confirmButtonText: 'delete'
-                confirmButtonColor: 'red'
-                showCancelButton: true
-                cancelButtonText: 'cancel'
-                reverseButtons: true
-            }).then((result)=>
-                if result.value
-                    Docs.remove @_id
-                    Swal.fire(
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'post removed',
-                        showConfirmButton: false,
-                        timer: 1500
-                    )
-                    Router.go "/docs"
-            )
+            if confirm 'delete post?'
+                Docs.remove @_id
+                Router.go "/docs"

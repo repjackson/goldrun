@@ -1,10 +1,6 @@
 if Meteor.isClient
     Template.post_view.onCreated ->
         @autorun => @subscribe 'related_group',Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-    Template.post_view.onCreated ->
-        Meteor.call 'log_view', Router.current().params.doc_id, ->
-
     Template.post_card.onCreated ->
         @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
 

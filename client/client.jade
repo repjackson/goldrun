@@ -84,11 +84,11 @@ template(name="user_pill")
 
 
 template(name='doc_edit')
-    with current_doc
+    with doc_data
         .ui.stackable.padded.grid
             .row 
                 .sixteen.wide.column
-                    .ui.segment
+                    .ui.segment.rounded
                         .ui.inline.header
                             +i name='cube'
                             |model
@@ -107,11 +107,11 @@ template(name='doc_edit')
 
 
 template(name='doc_view')
-    with current_doc
+    with doc_data
         .ui.stackable.grid
             .row 
                 .sixteen.wide.column
-                    +Template.dynamic template=model_template data=current_doc
+                    +Template.dynamic template=model_template 
                 if in_dev
                     .ui.segment 
                         .ui.header admin
@@ -127,17 +127,21 @@ template(name='docs')
             //     |#{post_docs.count} docs
             if currentUser
                 +add_doc_button model=current_model
-            +session_set key='model' value='post' label='post' icon='blog'
-            +session_set key='model' value='event' label='event' icon='calendar'
-            +session_set key='model' value='transfer' label='transfer' icon='exchange'
-            +session_set key='model' value='group' label='group' icon='campfire'
-            div
             +session_boolean_toggle key='view_mine' label='mine' icon='user'
             +session_boolean_toggle key='view_private' label='private' icon='lock'
             div
             +facet key='tag' icon='tags' model='post' label='tags'
             // +facet key='doc_sentiment_label' icon='happy'
         .twelve.wide.column
+            +session_set key='model' value='post' label='post' icon='blog'
+            +session_set key='model' value='event' label='event' icon='calendar'
+            +session_set key='model' value='group' label='group' icon='campfire'
+            +session_set key='model' value='product' label='product' icon='shopping-cart'
+            +session_set key='model' value='service' label='service' icon='wrench'
+            +session_set key='model' value='transfer' label='transfer' icon='exchange'
+            +session_set key='model' value='review' label='review' icon='megaphone'
+            +session_set key='model' value='checkin' label='checkin' icon='checkmark'
+            div
             +search_input key='title'
             +session_set key='view_mode' value='grid' icon='grid'
             +session_set key='view_mode' value='list' icon='list'

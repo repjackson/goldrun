@@ -1,7 +1,7 @@
 template(name='nav')
     // https://fomantic-ui.com/elements/icon.html#/icon
     // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
-    #topnav.topnav.ui.attached.borderless.big.menu.hscroll(class=darkmode_class)
+    #topnav.topnav.ui.attached.borderless.big.five.item.menu.hscroll(class=darkmode_class)
         // if is_loading
         //     .icon.item
         //         i.big.loading.grey.refresh.icon.cancel
@@ -15,40 +15,37 @@ template(name='nav')
         //     span.mobile.hidden
         //         unless currentUser.hide_menu_labels
         //             |search
-        .right.menu
-            if currentUser
-                if currentUser.is_admin
-                    +i name='shield'
-                a.icon.item(href="/mail/inbox")
-                    +i name='inbox'
-                a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile')
-                    if currentUser.image_id
-                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
-                    else
-                        i.user.icon
-                    strong #{currentUser.username}
-                a.item(href="/user/#{currentUser.username}/points" class=user_nav_button_class title='points')
-                    strong #{currentUser.points}p
-                // a.icon.item.toggle_rightbar.no_blink
-                //     // .ui.avatar.image
-                //     //     if currentUser.image_id
-                //     //         img.ui.mini.inline.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
-                //     //     else
-                //     //         i.user.big.icon
-                //     // strong.mobile.hidden #{currentUser.name}
-                //     i.bars.large.grey.icon
-            unless subs_ready
-                .icon.item
-                    i.yin.yang.large.loading.icon
-            unless currentUser
-                a.item(href="/register" title='register')
-                    +i name='plus'
-                    span.mobile.hidden register            
-                a.item(href='/login' title='login') 
-                    // i.sign.in.big.icon
-                    +i name='internal'
-                    span.mobile.hidden login
-            
+        if currentUser
+            a.icon.item(href="/mail/inbox")
+                +i name='inbox'
+            a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile')
+                if currentUser.image_id
+                    img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                else
+                    i.user.icon
+                strong #{currentUser.username}
+            a.item(href="/user/#{currentUser.username}/points" class=user_nav_button_class title='points')
+                strong #{currentUser.points}p
+            // a.icon.item.toggle_rightbar.no_blink
+            //     // .ui.avatar.image
+            //     //     if currentUser.image_id
+            //     //         img.ui.mini.inline.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
+            //     //     else
+            //     //         i.user.big.icon
+            //     // strong.mobile.hidden #{currentUser.name}
+            //     i.bars.large.grey.icon
+        unless subs_ready
+            .icon.item
+                i.yin.yang.large.loading.icon
+        unless currentUser
+            a.item(href="/register" title='register')
+                +i name='plus'
+                span.mobile.hidden register            
+            a.item(href='/login' title='login') 
+                // i.sign.in.big.icon
+                +i name='internal'
+                span.mobile.hidden login
+        
                 
 template(name='top_nav_item')
     a.item.zoomer.fly_right(href="/#{key}" class="{{isActiveRoute key}}" title=key)
@@ -58,17 +55,6 @@ template(name='top_nav_item')
 
 
                 
-
-template(name='my_latest_activity')
-    .ui.grey.header 
-        i.grey.rss.icon
-        |your activity
-    .ui.list
-        each my_latest_activity
-            .item 
-                img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
-                |#{text} #{body}
-                small #{when}
 
 
                 

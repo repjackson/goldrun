@@ -24,45 +24,6 @@ Tracker.autorun ->
  
 
     
-Template.nav.onRendered ->
-    # Meteor.setTimeout ->
-    #     $('.menu .item')
-    #         .popup()
-    #     # $('.ui.left.sidebar')
-    #     #     .sidebar({
-    #     #         context: $('.bottom.segment')
-    #     #         transition:'push'
-    #     #         mobileTransition:'push'
-    #     #         exclusive:true
-    #     #         duration:200
-    #     #         scrollLock:true
-    #     #     })
-    #     #     .sidebar('attach events', '.toggle_leftbar')
-    # , 3000
-    # Meteor.setTimeout ->
-    #     $('.ui.rightbar')
-    #         .sidebar({
-    #             context: $('.bottom.segment')
-    #             transition:'push'
-    #             mobileTransition:'push'
-    #             exclusive:true
-    #             duration:200
-    #             scrollLock:true
-    #         })
-    #         .sidebar('attach events', '.toggle_rightbar')
-    # , 3000
-    # Meteor.setTimeout ->
-    #     $('.ui.topbar.sidebar')
-    #         .sidebar({
-    #             context: $('.bottom.segment')
-    #             transition:'push'
-    #             mobileTransition:'push'
-    #             exclusive:true
-    #             duration:200
-    #             scrollLock:true
-    #         })
-    #         .sidebar('attach events', '.toggle_topbar')
-    # , 2000
     
 Template.footer.helpers
     all_users: -> Meteor.users.find()
@@ -73,20 +34,6 @@ Template.nav.events
     'click .add': ->
         new_id = Docs.insert {}
         Router.go "/doc/#{new_id}/edit"
-    # 'click .toggle_rightbar': ->
-    #     $('.ui.rightbar')
-    #         .sidebar({
-    #             context: $('.bottom.segment')
-    #             transition:'push'
-    #             mobileTransition:'push'
-    #             exclusive:true
-    #             duration:200
-    #             scrollLock:true
-    #         })
-    #         .sidebar('attach events', '.toggle_rightbar')
-
-
-
         
 Template.nav.onCreated ->
     Session.setDefault 'limit', 20
@@ -131,12 +78,6 @@ Template.layout.events
     #     .transition('fade out', 200)
     #     .transition('fade in', 200)
 
-    'click .log_view': ->
-        console.log Template.currentData()
-        console.log @
-        Docs.update @_id,
-            $inc: views: 1
-
 
 Template.layout.helpers
     usersOnline:()->
@@ -162,7 +103,7 @@ Meteor.users.find({ "status.online": true }).observe({
 # Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
 Router.route '/', (->
     @layout 'layout'
-    @render 'home'
+    @render 'docs'
     ), name:'home'
 
 
@@ -171,7 +112,7 @@ Router.route '/docs', (->
     @render 'docs'
     ), name:'docs'
     
-    
+
 Router.route '/doc/:doc_id/edit', (->
     @layout 'layout'
     @render 'doc_edit'
@@ -180,17 +121,26 @@ Template.doc_edit.onCreated ->
     @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
 Template.doc_edit.helpers
     model_template: -> "#{@model}_edit"
-    
+    doc_data: -> 
+        console.log 'hi'
+        Docs.findOne Router.current().params.doc_id
+
 Router.route '/doc/:doc_id/', (->
     @layout 'layout'
     @render 'doc_view'
     ), name:'doc_view'
+    
+    
+Template.doc_view.onRendered ->
+    Meteor.call 'log_view', Router.current().params.doc_id, ->
 Template.doc_view.onCreated ->
     @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
 Template.doc_view.helpers
     model_template: -> "#{@model}_view"
     # current_doc: -> Docs.findOne Router.current().params.doc_id
-    current_doc: -> Docs.findOne {}
+    doc_data: -> 
+        console.log 'hi'
+        Docs.findOne Router.current().params.doc_id
     
 Template.doc_card.helpers
     card_template: -> "#{@model}_card"

@@ -340,7 +340,7 @@ Meteor.publish 'facet_sub', (
 # #                 count: tag.count
 # #                 index: i
 Meteor.publish 'doc_results', (
-    model='post'
+    model=null
     picked_tags=[]
     current_query=''
     sort_key='_timestamp'

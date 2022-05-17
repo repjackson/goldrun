@@ -1,5 +1,5 @@
 template(name='post_card')
-    .ui.link.card.view_post.pointer.fly_right
+    a.ui.link.card.fly_right(href="/doc/#{_id}")
         if youtube_id
             +youtube_view key='youtube_id'
         else if image_id
@@ -21,7 +21,7 @@ template(name='post_card')
             if watson 
                 +doc_emotion
 template(name='post_card_med')
-    .ui.link.card.view_post.pointer.fly_right
+    a.ui.link.card.fly_right(href="/doc/#{_id}")
         if youtube_id
             +youtube_view key='youtube_id'
         else if image_id
@@ -45,12 +45,12 @@ template(name='post_card_med')
             if watson 
                 +doc_emotion
 template(name='post_item')
-    .ui.fluid.link.segment.view_post.pointer
+    a.ui.link.item.fly_right(href="/doc/#{_id}")
         if youtube_id
             +youtube_view key='youtube_id'
         else if image_id
             img.ui.fluid.rounded.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        a.ui.inline.header(href="/doc/#{_id}/view" class=emotion_color) #{title}
+        a.ui.inline.header(href="/doc/#{_id}" class=emotion_color) #{title}
         .ui.small.basic.label(title='created when')
             |#{when}
         span(title='views')
@@ -78,26 +78,26 @@ template(name='post_view')
                     if private 
                         i.large.lock.icon(title='private')
                     |#{title}
-                a.ui.compact.button(href="/doc/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
-                    +i name='home'
-                    |home
-                if watson
-                    a.ui.compact.button(href="/doc/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
-                        +i name='dna-helix'
-                        |emotion
-                a.ui.compact.button(href="/doc/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
-                    +i name='chat'
-                    |comments
-                a.ui.compact.button(href="/doc/#{_id}/tips" class="{{isActiveRoute regex='tips'}}" )
-                    +i name='coins'
-                    |tips
-                a.ui.compact.button(href="/doc/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
-                    +i name='pie-chart'
-                    |stats
-                a.ui.compact.button(href="/doc/#{_id}/related" class="{{isActiveRoute regex='related'}}" )
-                    +i name='clone'
-                    |related
-                +yield
+                // a.ui.compact.button(href="/doc/#{_id}/" class="{{isActiveRoute regex='post_home'}}" )
+                //     +i name='home'
+                //     |home
+                // if watson
+                //     a.ui.compact.button(href="/doc/#{_id}/emotion" class="{{isActiveRoute regex='emotion'}}" )
+                //         +i name='dna-helix'
+                //         |emotion
+                // a.ui.compact.button(href="/doc/#{_id}/comments" class="{{isActiveRoute regex='comments'}}" )
+                //     +i name='chat'
+                //     |comments
+                // a.ui.compact.button(href="/doc/#{_id}/tips" class="{{isActiveRoute regex='tips'}}" )
+                //     +i name='coins'
+                //     |tips
+                // a.ui.compact.button(href="/doc/#{_id}/stats" class="{{isActiveRoute regex='stats'}}" )
+                //     +i name='pie-chart'
+                //     |stats
+                // a.ui.compact.button(href="/doc/#{_id}/related" class="{{isActiveRoute regex='related'}}" )
+                //     +i name='clone'
+                //     |related
+                +post_home
             .four.wide.column.scrollin
                 a.ui.icon.button.fly_left(href="/docs" title='posts')
                     i.chevron.left.icon
@@ -226,6 +226,9 @@ template(name='post_edit')
     .ui.stackable.padded.grid
         .row 
             .ten.wide.column
+                .ui.inline.header 
+                    +i name='cube'
+                    |sections
                 +boolean_edit key='has_title' label='title (-1p)' icon='header'
                 if has_title
                     +text_edit key='title' label='title' direct=true icon='header'
@@ -248,6 +251,13 @@ template(name='post_edit')
                             each tone.classifications
                                 .item
                                     |#{confidence}: #{class_name}
+                +boolean_edit key='has_image' label='has image (-1p)' icon='content' direct=true
+                if has_image
+                    +image_edit key='image_id' label='image' direct=true
+                +boolean_edit key='has_youtube' label='has youtube (-1p)' icon='youtube'
+                if has_youtube
+                    +youtube_edit key='youtube_id' label='youtube id'
+            .six.wide.column
                 if in_dev 
                     +print_this
                 if is_dev
@@ -256,16 +266,6 @@ template(name='post_edit')
                     .ui.header 
                         small author
                         |#{_author.username}
-                .ui.dividing.header 
-                    +i name='cube'
-                    |sections
-                +boolean_edit key='has_image' label='has image (-1p)' icon='content' direct=true
-                if has_image
-                    +image_edit key='image_id' label='image' direct=true
-                +boolean_edit key='has_youtube' label='has youtube (-1p)' icon='youtube'
-                if has_youtube
-                    +youtube_edit key='youtube_id' label='youtube id'
-            .six.wide.column
                 .ui.inline.header 
                     +icolor name='news' cl='ui image inline pointer'
                     |editing post

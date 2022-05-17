@@ -233,12 +233,12 @@ Template.registerHelper 'can_edit', () ->
 
 Template.registerHelper 'publish_when', () -> moment(@publish_date).fromNow()
 
-Template.registerHelper 'current_doc', ->
-    if Router.current().params.doc_id
-        doc = Docs.findOne Router.current().params.doc_id
-        # if doc then doc
-    # else 
-    #     @
+# Template.registerHelper 'current_doc', ->
+#     if Router.current().params.doc_id
+#         doc = Docs.findOne Router.current().params.doc_id
+#         # if doc then doc
+#     # else 
+#     #     @
 
 Template.registerHelper 'user_from_username_param', () ->
     found = Meteor.users.findOne username:Router.current().params.username

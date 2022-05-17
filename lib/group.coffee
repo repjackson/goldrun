@@ -19,19 +19,13 @@ if Meteor.isServer
         }, limit:10
 if Meteor.isClient
     Template.group_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
         # @autorun => Meteor.subscribe 'children', 'group_update', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_leaders', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_events', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_posts', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_products', Router.current().params.doc_id, ->
-    Template.group_view.onRendered ->
-        Meteor.call 'log_view', Router.current().params.doc_id, ->
     
-    Template.group_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-
 
     # Template.groups_small.onCreated ->
     #     @autorun => Meteor.subscribe 'model_docs', 'group', Sesion.get('group_search'),->
@@ -67,7 +61,7 @@ if Meteor.isClient
                 Docs.insert 
                     model:'product'
                     group_id:Router.current().params.doc_id
-            Router.go "/product/#{new_id}/edit"
+            Router.go "/doc/#{new_id}/edit"
             
     Template.group_view.events
         'click .add_group_member': ->
@@ -94,7 +88,7 @@ if Meteor.isClient
                 Docs.insert 
                     model:'event'
                     group_id:Router.current().params.doc_id
-            Router.go "/event/#{new_id}/edit"
+            Router.go "/doc/#{new_id}/edit"
         # 'click .join': ->
         #     Docs.update
         #         model:'group'
@@ -181,49 +175,6 @@ if Meteor.isClient
                 active:true
         
         
-
-
-
-Router.route '/group/:doc_id/edit', -> @render 'group_edit'
-
-
-# group edit
-if Meteor.isClient
-    Template.group_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
-        # @autorun => Meteor.subscribe 'group_options', Router.current().params.doc_id
-
-# groups
-# if Meteor.isClient
-    # Template.groups.onCreated ->
-    #     Session.setDefault 'view_mode', 'list'
-    #     Session.setDefault 'sort_key', 'views'
-    #     Session.setDefault 'sort_label', 'available'
-    #     Session.setDefault 'limit', 20
-    #     Session.setDefault 'view_open', true
-
-    #     # @autorun => @subscribe 'facets',
-    #     #     'group'
-    #     #     picked_tags.array()
-    #     #     Session.get('current_search')
-
-    #     @autorun => @subscribe 'doc_results',
-    #         'group'
-    #         picked_tags.array()
-    #         Session.get('current_search')
-    #         Session.get('sort_key')
-    #         Session.get('sort_direction')
-    #         Session.get('limit')
-
-    # Template.groups.helpers
-    #     group_docs: ->
-    #         # if picked_tags.array().length > 0
-    #         Docs.find {
-    #             model:'group'
-    #         },
-    #             sort: "#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
-    #             # limit:Session.get('group_limit')
-
 
 if Meteor.isServer
     Meteor.publish 'user_groups', (username)->

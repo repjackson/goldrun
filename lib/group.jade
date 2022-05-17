@@ -1,10 +1,9 @@
 template(name='group_card')
-    .ui.card.zoomer
+    a.ui.card.zoomer.fly_right(href="/doc/#{_id}")
         if image_id
-            a.image.zoomer.fly_right(href="/doc/#{_id}")
-                img.ui.image(src="{{c.url image_id width=600 height=600}}")
+            img.ui.image(src="{{c.url image_id width=600 height=600}}")
         .content
-            a.ui.header.zoomer.fly_right(href="/doc/#{_id}")
+            a.ui.header
                 |#{title}
             .ui.basic.label(title='member count')
                 i.users.icon
@@ -18,21 +17,14 @@ template(name='group_card')
             //+ismall name='tags' cl='ui inline image'
             each seven_tags
                 .ui.label #{this}
-            a.zoomer(href="/doc/#{_id}")
-                i.chevron.right.large.circular.icon
             // if is_admin
             //     .ui.small.header slug: #{slug}
-            if can_edit
-                a.ui.circular.icon.button(href="/doc/#{_id}/edit")
-                    i.pencil.blue.icon
-            +print_this
 template(name='group_card_med')
-    .ui.card.zoomer
+    a.ui.card.zoomer.fly_right(href="/doc/#{_id}")
         if image_id
-            a.image.zoomer.fly_right(href="/doc/#{_id}")
-                img.ui.image(src="{{c.url image_id width=600 height=600}}")
+            img.ui.image(src="{{c.url image_id width=600 height=600}}")
         .content
-            a.ui.header.zoomer.fly_right(href="/doc/#{_id}")
+            a.ui.header.zoomer
                 |#{title}
             |#{member_ids.length} members
             .smallcut
@@ -40,14 +32,6 @@ template(name='group_card_med')
             //+ismall name='tags' cl='ui inline image'
             each seven_tags
                 .ui.label #{this}
-            a.zoomer(href="/doc/#{_id}")
-                i.chevron.right.large.circular.icon
-            // if is_admin
-            //     .ui.small.header slug: #{slug}
-            if can_edit
-                a.ui.circular.icon.button(href="/doc/#{_id}/edit")
-                    i.pencil.blue.icon
-            +print_this
                     
 template(name='group_item')
     a.item.zoomer(href="/doc/#{_id}")

@@ -302,12 +302,6 @@ template(name='set_sort_key')
 //                 i.icon(class=icon)
 //             |#{label}
 
-template(name='goto_model')
-    if is_staff
-        a.goto_model(href="/m/#{slug}" title="goto #{slug}")
-            i.external.blue.icon
-            //- +i name='external-link'
-
 template(name='events_column')
     .ui.accordion
         h4.active.title

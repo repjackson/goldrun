@@ -187,19 +187,10 @@ template(name='nav')
     // https://fomantic-ui.com/elements/icon.html#/icon
     // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
     #topnav.topnav.ui.attached.borderless.big.five.item.menu.hscroll(class=darkmode_class)
-        // if is_loading
-        //     .icon.item
-        //         i.big.loading.grey.refresh.icon.cancel
-        // else 
-        // a.icon.item.toggle_leftbar
-        //     i.large.bars.grey.icon
-        +top_nav_item key='docs' icon='cube' label='docs'
-        +top_nav_item key='users' icon='groups' label='users'
-        // a.icon.item.zoomer(href='/search' class="{{isActivePath '/search'}}" title='search')
-        //     +i name='search'
-        //     span.mobile.hidden
-        //         unless currentUser.hide_menu_labels
-        //             |search
+        a.item.zoomer.fly_right(href="/docs" class="{{isActiveRoute 'docs'}}" title=users)
+            +i name='blog'
+        a.item.zoomer.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title=users)
+            +i name='groups'
         if currentUser
             a.icon.item(href="/mail/inbox")
                 +i name='inbox'
@@ -211,14 +202,6 @@ template(name='nav')
                 strong #{currentUser.username}
                 |&nbsp;
                 small (#{currentUser.points}p)
-            // a.icon.item.toggle_rightbar.no_blink
-            //     // .ui.avatar.image
-            //     //     if currentUser.image_id
-            //     //         img.ui.mini.inline.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
-            //     //     else
-            //     //         i.user.big.icon
-            //     // strong.mobile.hidden #{currentUser.name}
-            //     i.bars.large.grey.icon
         unless subs_ready
             .icon.item
                 i.yin.yang.large.loading.icon
@@ -232,15 +215,6 @@ template(name='nav')
                 span.mobile.hidden login
         
                 
-template(name='top_nav_item')
-    a.item.zoomer.fly_right(href="/#{key}" class="{{isActiveRoute key}}" title=key)
-        // i.large.users.icon
-        +i name=icon
-        |#{label}
-
-
-                
-
 
                 
 template(name='footer')
@@ -251,7 +225,7 @@ template(name='footer')
                     with currentUser
                         +boolean_edit key='admin_mode' label='admin mode'
                 if in_dev
-                    .ui.header 
+                    .ui.inline.header 
                         i.blog.icon
                         |docs
                     each all_docs 
@@ -259,11 +233,11 @@ template(name='footer')
                             +print_this
             if in_dev
                 .column
-                    .ui.header 
+                    .ui.inline.header 
                         |results
                     each result_docs 
                         .ui.label #{name} #{count}
-                    .ui.header 
+                    .ui.inline.header 
                         i.users.icon
                         |users
                     each all_users

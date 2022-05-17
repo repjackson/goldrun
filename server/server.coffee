@@ -42,22 +42,8 @@ Cloudinary.config
     api_key: Meteor.settings.private.cloudinary_key
     api_secret: Meteor.settings.private.cloudinary_secret
 
-Meteor.publish "userStatus", ()->
-    Meteor.users.find({ "status.online": true }
-        # fields:
-        #     image_id:1
-        #     username:1
-        #     tags:1
-        #     online:1
-        #     status:1
-    )
 
 
-Meteor.publish 'model_from_child_id', (child_id)->
-    child = Docs.findOne child_id
-    Docs.find
-        model:'model'
-        slug:child.type
 
 Meteor.publish 'all_users', (child_id)->
     Meteor.users.find()
@@ -67,14 +53,6 @@ Meteor.publish 'public_posts', (child_id)->
         private:$ne:true
     }, limit:20
 
-Meteor.publish 'model_fields_from_child_id', (child_id)->
-    child = Docs.findOne child_id
-    model = Docs.findOne
-        model:'model'
-        slug:child.type
-    Docs.find
-        model:'field'
-        parent_id:model._id
 
 Meteor.publish 'model_docs', (
     model
@@ -82,7 +60,7 @@ Meteor.publish 'model_docs', (
     )->
     Docs.find {
         model: model
-        app:'goldrun'
+        # app:'goldrun'
     }, limit:limit
 
 Meteor.publish 'document_by_slug', (slug)->
@@ -96,26 +74,6 @@ Meteor.publish 'child_docs', (model,parent_id)->
         parent_id:parent_id
 
 Meteor.publish 'me', ()-> Meteor.users.find Meteor.userId()
-
-
-Meteor.publish 'facet_doc', (tags)->
-    split_array = tags.split ','
-    Docs.find
-        tags: split_array
-
-Meteor.publish 'latest_rentals', (tags)->
-    Docs.find({
-        model:'rental'
-    },{
-        sort:_timestamp:-1
-        limit:10
-    })    
-
-Meteor.publish 'inline_doc', (slug)->
-    Docs.find
-        model:'inline_doc'
-        slug:slug
-
 
 
 Meteor.publish 'user_from_username', (username)->
@@ -135,20 +93,6 @@ Meteor.publish 'author_from_doc_id', (doc_id)->
     if doc 
         Docs.find doc._author_id
 
-Meteor.publish 'page', (slug)->
-    Docs.find
-        model:'page'
-        slug:slug
-
-
-
-
-Meteor.publish 'some_rentals', ->
-    Docs.find {
-        model:'rental'
-        app:'goldrun'
-    }, limit:10
-    
     
     
 Meteor.methods
@@ -177,41 +121,12 @@ Meteor.methods
         else
             Throw.new Meteor.Error 'err creating user'
 
-    parse_keys: ->
-        cursor = Docs.find
-            model:'key'
-        for key in cursor.fetch()
-            # new_building_number = parseInt key.building_number
-            new_unit_number = parseInt key.unit_number
-            Docs.update key._id,
-                $set:
-                    unit_number:new_unit_number
-
 
     change_username:  (user_id, new_username) ->
         user = Docs.findOne user_id
         Accounts.setUsername(user._id, new_username)
         return "updated username to #{new_username}."
 
-
-    add_email: (user_id, new_email) ->
-        Accounts.addEmail(user_id, new_email);
-        Accounts.sendVerificationEmail(user_id, new_email)
-        return "updated email to #{new_email}"
-
-    remove_email: (user_id, email)->
-        # user = Docs.findOne username:username
-        Accounts.removeEmail user_id, email
-
-
-    verify_email: (user_id, email)->
-        user = Docs.findOne user_id
-        console.log 'sending verification', user.username
-        Accounts.sendVerificationEmail(user_id, email)
-
-    validate_email: (email) ->
-        re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        re.test String(email).toLowerCase()
 
 
     lookup_user: (username_query, role_filter)->
@@ -301,9 +216,3 @@ Meteor.methods
 
         for doc in cursor.fetch()
             Meteor.call 'key', doc._id
-
-    send_enrollment_email: (user_id, email)->
-        user = Docs.findOne(user_id)
-        console.log 'sending enrollment email to username', user.username
-        Accounts.sendEnrollmentEmail(user_id)
-    

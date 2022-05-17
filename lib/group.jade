@@ -168,8 +168,7 @@ template(name='group_edit')
                 .ui.header 
                     i.pencil.icon
                     |editing group
-                a.ui.big.icon.fluid.green.button.fly_up(href="/doc/#{_id}" title='save')
-                    i.checkmark.large.icon
+                +save_button
                 if in_dev
                     +remove_button
                 +boolean_edit key='has_image' label='has image (-1p)' icon='image'
@@ -210,6 +209,11 @@ template(name='group_edit')
                 +multi_user_edit key='member_ids' label='members' direct=true
                 +boolean_edit key='private' label='private' direct=true
                 +link_edit key='link' label='link' direct=true
+               
+               
+template(name='save_button')
+    a.ui.big.icon.fluid.green.button.fly_up(href="/doc/#{_id}" title='save')
+        i.checkmark.big.icon
                     
                 
 template(name='group_posts')                
@@ -380,17 +384,16 @@ template(name='group_picker')
             +i name='campfire'
             |related group
         // if is_admin
-        if group_doc
+        // if group_doc
+        with group_doc
             .ui.header 
-                |#{product_groups.length}
-                |picked groups
-            with group_doc
-                a.ui.big.basic.label(href="/doc/#{_id}")
-                    img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-                    |#{title}
-                .ui.compact.button.remove_group.zoomer(title='clear selection')
-                    i.remove.large.icon
-                    |remove
+                |picked group: #{group_id}
+            a.ui.big.basic.label(href="/doc/#{_id}")
+                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                |#{title}
+            .ui.compact.button.remove_group.zoomer(title='clear selection')
+                i.remove.large.icon
+                |remove
         else 
             .ui.icon.large.input 
                 if group_search_value

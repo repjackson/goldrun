@@ -3,8 +3,8 @@ template(name='account')
         img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")
         //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
         .ui.stackable.padded.grid
-            .row
-                .four.wide.column
+            .three.column.row
+                .column
                     .ui.center.aligned.large.inline.grey.header
                     //- +i name='pencil'
                     .ui.small.inline.header @#{username}
@@ -13,42 +13,33 @@ template(name='account')
                     .ui.hidden.divider
                     +image_edit key='image_id' icon='picture' title='profile image' 
                     +image_edit key='background_image_id' icon='picture' title='background image' 
-                .four.wide.column
+                .column
                     .ui.container
                         .ui.segment
-                            .ui.header 
-                                +i name='money'
-                                |preferred payment received method
-                            +key_value_edit key='preferred_payment_method' value='apple_pay' label='apple pay' icon='apple-pay'
-                            +key_value_edit key='preferred_payment_method' value='paypal' label='paypal' icon='paypal'
-                            +key_value_edit key='preferred_payment_method' value='venmo' label='venmo' icon='venmo'
                             if in_dev 
                                 +number_edit key='points' label='points'
-                .four.wide.column
+                .column
                     +text_edit key='first_name' label='first name' icon='user'
                     div
                     +text_edit key='last_name' label='last name' icon='user'
                     div
                     +text_edit key='display_name' label='display name'
                     div
-                .four.wide.column
+                    +text_edit key='status' label='status' icon='clock'
+                    div
+                    +array_edit key='tags' label='tags' icon='tags'
+                .column
                     +boolean_edit key='has_bio' label='has bio (-1p)' icon='content'
                     if has_bio
                         +html_edit key='bio' label='bio'
-                .four.wide.column
-                    +array_edit key='tags' label='tags' icon='tagss'
-                    .ui.header 
-                        i.envelope.outline.icon
-                        |emails
-                    +text_edit key='status' label='status' icon='clock'
-                    +emails_edit
+                .column
                     +text_edit key='address' label='address' icon='marker' 
                     +text_edit key='city' label='city' icon='marker' 
                     +text_edit key='state' label='state' icon='marker' 
                     +phone_edit key='phone' label='phone' icon='phone' 
                     +link_edit key='link' label='external link' icon='globe'
                     +text_edit key='company' label='company' icon='business'
-                .four.wide.column
+                .column
                     if is_current_user
                         +password_edit
                         //- +phone_editor
@@ -65,10 +56,13 @@ template(name='account')
                     +boolean_edit key='admin' label='admin' icon='shield' 
                     +link_edit key='link' label='profile link' icon='globe'
                     .ui.container
-                        +text_edit key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
+                        div
+                        +text_edit key='linkedin_link' label='linked in profile ' icon='linkedin'
+                        div
                         +text_edit key='twitter_link' label='twitter profile ' icon='twitter'
+                        div
                         +text_edit key='facebook_link' label='facebook profile ' icon='facebook'
-                .four.wide.column
+                .column
                     .ui.segment 
                         .ui.header
                             +i name='paint'
@@ -104,26 +98,6 @@ template(name='username_edit')
         input.new_username(type='text' placeholder='new username...')
         i.play.link.icon.change_username
 
-template(name='phone_editor')
-    .ui.small.header    
-        i.phone.icon
-        |phone
-    .ui.icon.fluid.input(title='Add Phone')
-        i.plus.icon
-        input#phone.form-control(type='phone', name='phone', value='{{newNumber}}')
-    if user_from_username_param.profile.phone
-        if user_from_username_param.profile.phone_verified
-            .ui.label verified
-        else
-            p
-                .ui.label not verified
-                a.resend_verification(href='#')
-                    |resend code
-                .ui.small.icon.button.remove_phone(title='remove phone')
-                    i.remove.icon
-    else
-        .ui.fluid.button.update_phone add phone
-
 template(name='password_edit')
     .ui.small.grey.header
         +i name='password'
@@ -141,36 +115,3 @@ template(name='password_edit')
     .ui.large.button.set_password
         +i name='password' cl='ui mini inline image'
         | set password
-            
-            
-template(name='emails_edit')
-    //- .ui.small.grey.header 
-    //-     i.envelope.icon
-    //-     | email(s)
-    //- #test_email.ui.big.button test email
-    .ui.divided.list
-        each current_user.emails
-            .item 
-                // unless verified
-                //     .right.floated.content
-                //         .ui.button Verify
-                .content
-                    if verified
-                        .ui.big.label(title='verified')
-                            | #{address}
-                            i.checkmark.icon
-                    else
-                        .ui.big.label
-                            //- i.ban.icon
-                            | #{address}
-                        if is_staff
-                            .send_verification_email.ui.button 
-                                |verify
-                                i.caret.right.icon
-                    .ui.small.icon.button.remove_email
-                        i.remove.icon
-    .ui.action.fluid.icon.action.input
-        input#new_email(type='email' placeholder='add new email address' autocomplete="off")
-        #add_email.ui.submit.icon.button 
-            i.plus.icon
-            //- |email

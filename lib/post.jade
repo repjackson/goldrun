@@ -95,11 +95,14 @@ template(name='post_view')
                 .ui.dividing.header 
                     +i name='money'
                     |tips
-                .ui.button.tip_post
+                .ui.button.tip_post_10
                     |tip 10pts
+                .ui.button.tip_post_50
+                    |tip 50pts
                 .ui.large.divided.list
                     each post_tip_docs
-                        .item #{when} #{amount}
+                        .item #{when}: #{amount}pts
+                            +author_info
                             if in_dev
                                 +remove_button doc=this redirect=false
                 +comments
@@ -196,14 +199,14 @@ template(name='post_edit')
                             each tone.classifications
                                 .item
                                     |#{confidence}: #{class_name}
-                +boolean_edit key='has_image' label='has image (-1p)' icon='content' direct=true
+                +boolean_edit key='has_image' label='image (-1p)' icon='content' direct=true
                 if has_image
                     +image_edit key='image_id' label='image' direct=true
                 // +boolean_edit key='has_sentiment' label='has youtube (-1p)' icon='youtube'
-                +boolean_edit key='has_youtube' label='has youtube (-1p)' icon='youtube'
+                +boolean_edit key='has_youtube' label='youtube (-1p)' icon='youtube'
                 if has_youtube
                     +youtube_edit key='youtube_id' label='youtube id'
-                +boolean_edit key='has_price' label='has price' icon='coins'
+                +boolean_edit key='has_price' label='price' icon='coins'
                 if has_price
                     .ui.segment 
                         .ui.header 
@@ -211,20 +214,19 @@ template(name='post_edit')
                         +number_edit key='price' label='price (points)' icon='money'
             .six.wide.column
                 .ui.inline.header 
-                    small author
-                    |#{_author.username}
-                .ui.inline.header 
                     +icolor name='news' cl='ui image inline pointer'
                     |editing post
-                a.ui.green.big.button.fly_up(href="/doc/#{_id}" title='save')
-                    i.checkmark.big.icon
-                    |save
+                +save_button
                 div 
                 .ui.inline.header 
                     +i name='happy'
                     |sentiment
-                +key_value_edit key='sentiment' value='positive' label='positive' icon='happy' cl='green'
-                +key_value_edit key='sentiment' value='negative' label='negative' icon='sad' cl='red'
+                +key_value_edit key='sentiment' value='positive' label='positive' icon='happy'
+                +key_value_edit key='sentiment' value='negative' label='negative' icon='sad'
+                div 
+                .ui.inline.header 
+                    small author
+                    |#{_author.username}
                 div 
                 if in_dev 
                     +print_this

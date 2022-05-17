@@ -100,57 +100,6 @@ if Meteor.isClient
         'click .unpick_tag': -> picked_tags.remove @valueOf()
     
     
-    Template.group_picker.onCreated ->
-        @autorun => @subscribe 'group_search_results', Session.get('group_search'), ->
-        @autorun => @subscribe 'model_docs', 'group', ->
-    Template.group_picker.helpers
-        group_results: ->
-            Docs.find 
-                model:'group'
-                title: {$regex:"#{Session.get('group_search')}",$options:'i'}
-                
-        group_search_value: ->
-            Session.get('group_search')
-        
-    Template.group_picker.events
-        'click .clear_search': (e,t)->
-            Session.set('group_search', null)
-            t.$('.group_search').val('')
-
-            
-        'click .remove_group': (e,t)->
-            if confirm "remove #{@title} group?"
-                Docs.update Router.current().params.doc_id,
-                    $unset:
-                        group_id:@_id
-                        group_title:@title
-        'click .pick_group': (e,t)->
-            Docs.update Router.current().params.doc_id,
-                $set:
-                    group_id:@_id
-                    group_title:@title
-            Session.set('group_search',null)
-            t.$('.group_search').val('')
-                    
-        'keyup .group_search': (e,t)->
-            # if e.which is '13'
-            val = t.$('.group_search').val()
-            console.log val
-            Session.set('group_search', val)
-
-        'click .create_group': ->
-            new_id = 
-                Docs.insert 
-                    model:'group'
-                    title:Session.get('group_search')
-            Router.go "/group/#{new_id}/edit"
-
-
-if Meteor.isServer 
-    Meteor.publish 'group_search_results', (group_title_queary)->
-        Docs.find 
-            model:'group'
-            title: {$regex:"#{group_title_queary}",$options:'i'}
         
 if Meteor.isClient
     Template.search_input.helpers
@@ -573,19 +522,6 @@ if Meteor.isClient
                         readers.push Docs.findOne reader_id
             readers
 
-
-
-    Template.email_validation_check.events
-        'click .send_verification': ->
-            # console.log @
-            if confirm 'send verification email?'
-                Meteor.call 'verify_email', @_id, ->
-                    alert 'verification email sent'
-        'click .toggle_email_verified': ->
-            # console.log @emails[0].verified
-            if @emails[0]
-                Docs.update @_id,
-                    $set:"emails.0.verified":true
 
 
     Template.set_sort_key.helpers

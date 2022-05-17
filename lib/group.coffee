@@ -282,4 +282,56 @@ if Meteor.isServer
         #             total_count:total_count
         #             complete_count:complete_count
         #             incomplete_count:incomplete_count
+if Meteor.isClient
+    Template.group_picker.onCreated ->
+        @autorun => @subscribe 'group_search_results', Session.get('group_search'), ->
+        @autorun => @subscribe 'model_docs', 'group', ->
+    Template.group_picker.helpers
+        group_results: ->
+            Docs.find 
+                model:'group'
+                title: {$regex:"#{Session.get('group_search')}",$options:'i'}
+                
+        group_search_value: ->
+            Session.get('group_search')
+        group_doc: ->
+            Docs.findOne @group_id
+    Template.group_picker.events
+        'click .clear_search': (e,t)->
+            Session.set('group_search', null)
+            t.$('.group_search').val('')
+
+            
+        'click .remove_group': (e,t)->
+            if confirm "remove #{@title} group?"
+                Docs.update Router.current().params.doc_id,
+                    $unset:
+                        group_id:@_id
+                        group_title:@title
+        'click .pick_group': (e,t)->
+            Docs.update Router.current().params.doc_id,
+                $set:
+                    group_id:@_id
+                    group_title:@title
+            Session.set('group_search',null)
+            t.$('.group_search').val('')
                     
+        'keyup .group_search': (e,t)->
+            # if e.which is '13'
+            val = t.$('.group_search').val()
+            console.log val
+            Session.set('group_search', val)
+
+        'click .create_group': ->
+            new_id = 
+                Docs.insert 
+                    model:'group'
+                    title:Session.get('group_search')
+            Router.go "/doc/#{new_id}/edit"
+
+
+if Meteor.isServer 
+    Meteor.publish 'group_search_results', (group_title_queary)->
+        Docs.find 
+            model:'group'
+            title: {$regex:"#{group_title_queary}",$options:'i'}

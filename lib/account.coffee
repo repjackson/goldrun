@@ -34,70 +34,11 @@ if Meteor.isClient
             if current_user["#{context.key}"] and @slug is current_user["#{context.key}"] then 'grey' else ''
 
 
-
-
-    # Template.phone_editor.helpers
-    #     'newNumber': ->
-    #         Phoneformat.formatLocal 'US', Meteor.user().profile.phone
-
-    Template.phone_editor.events
-        'click .remove_phone': (event, template) ->
-            Meteor.call 'UpdateMobileNo'
-            return
-        'click .resend_verification': (event, template) ->
-            Meteor.call 'generateAuthCode', Meteor.userId(), Meteor.user().profile.phone
-            bootbox.prompt 'We texted you a validation code. Enter the code below:', (result) ->
-                code = result.toUpperCase()
-                if Meteor.user().profile.phone_auth == code
-                    Meteor.call 'updatePhoneVerified', (err, res) ->
-                        if err
-                            toastr.error err.reason
-                        else
-                            toastr.success 'Your phone was successfully verified!'
-                        return
-                else
-                    toastr.success 'Your verification code does not match.'
-
-        'click .update_phone': ->
-            `var phone`
-            phone = $('#phone').val()
-            phone = Phoneformat.formatE164('US', phone)
-            Meteor.call 'savePhone2', Meteor.userId(), phone, (error, result) ->
-                if error
-                    toastr.success 'There was an error processing your request.'
-                else
-                    if result.error
-                        toastr.success result.message
-                    else
-                        bootbox.prompt result.message, (result) ->
-                            code = result.toUpperCase()
-                            if Meteor.user().profile.phone_auth == code
-                                Meteor.call 'updatePhoneVerified'
-                                toastr.success 'Your phone was successfully verified!'
-                            else
-                                toastr.success 'Your verification code does not match.'
-
-
     Template.account.events
         'click .remove_user': ->
             if confirm "confirm delete #{@username}?  cannot be undone."
                 Meteor.users.remove @_id
                 Router.go "/users"
-
-        # "change input[name='profile_image']": (e) ->
-        #     files = e.currentTarget.files
-        #     Cloudinary.upload files[0],
-        #         # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload
-        #         # model:"private" # optional: makes the image accessible only via a signed url. The signed url is available publicly for 1 hour.
-        #         (err,res) -> #optional callback, you can catch with the Cloudinary collection as well
-        #             # console.dir res
-        #             if err
-        #                 console.error 'Error uploading', err
-        #             else
-        #                 user = Meteor.users.findOne username:Router.current().params.username
-        #                 Meteor.users.update user._id,
-        #                     $set: "image_id": res.public_id
-        #             return
 
 
     Template.username_edit.events

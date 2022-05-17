@@ -568,16 +568,6 @@ template(name='add_button')
 
 
 
-template(name='edit_button')
-    a.ui.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
-        i.blue.pencil.icon
-        |edit
-
-
-template(name='save_button')
-    a.ui.button.large.icon.save(title='Save' href="/m/#{model}/#{_id}/view")
-        i.checkmark.icon
-        |save
 
 template(name='toggle_button')
     .ui.icon.toggle.button(title=label)
@@ -591,42 +581,11 @@ template(name='view_user_button')
         i.play.icon
         |View
 
-template(name='add_model_button')
-    .ui.icon.button.add(title="add #{model}")
-        i.plus.icon
-        |#{model}
-
-
-            
-template(name='email_validation_check')
-    //- if email_verified
-    //-     .ui.large.button
-    //-         i.checkmark.icon
-    //-         |email validated
-    unless email_verified
-        .ui.fluid.button.send_verification
-            //- i.user.shield.icon
-            //- +i name='user-shield' cl='ui inline image'
-            |resend verification email
-        if times
-            .ui.label
-                |#{times}
-            //- else
-                //- |#{times}x sent
-        if is_staff
-            .ui.button.toggle_email_verified
-                |mark email verified
-        
 
 template(name='print_this')
     .ui.icon.basic.button.print
         i.orange.code.icon
 
-
-
-        
-                        
-                    
 
 
 template(name='friend_button')

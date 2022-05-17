@@ -8,14 +8,34 @@ if Meteor.isClient
     Template.post_view.onCreated ->
         @autorun => @subscribe 'post_tips',Router.current().params.doc_id, ->
     Template.post_view.events 
-        'click .tip_post': ->
+        'click .tip_post_10': ->
             # console.log 'hi'
             new_id = 
                 Docs.insert 
                     model:'transfer'
                     post_id:Router.current().params.doc_id
                     complete:true
-                    amount:@amount
+                    amount:10
+                    transfer_type:'tip'
+                    tags:['tip']
+            Meteor.call 'calc_user_points', ->
+            $('body').toast(
+                showIcon: 'coins'
+                message: "post tipped"
+                showProgress: 'bottom'
+                class: 'success'
+                # displayTime: 'auto',
+                position: "bottom right"
+            )
+                
+        'click .tip_post_50': ->
+            # console.log 'hi'
+            new_id = 
+                Docs.insert 
+                    model:'transfer'
+                    post_id:Router.current().params.doc_id
+                    complete:true
+                    amount:50
                     transfer_type:'tip'
                     tags:['tip']
             Meteor.call 'calc_user_points', ->

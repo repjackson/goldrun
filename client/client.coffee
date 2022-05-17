@@ -50,6 +50,10 @@ $.cloudinary.config
 
 
 Template.nav.events
+    'click .add_doc': ->
+        new_id = 
+            Docs.insert {}
+        Router.go "/doc/#{new_id}/edit"
     'click .locate': ->
         navigator.geolocation.getCurrentPosition (position) =>
             console.log 'navigator position', position

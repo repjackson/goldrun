@@ -57,8 +57,11 @@ template(name='layout')
 //     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1527.9701169651082!2d-105.25585774191387!3d40.0097825492517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876bedc5f7dbe969%3A0x1315eee779732075!2sShadow%20Creek%20Dr%2C%20Boulder%2C%20CO%2080303!5e0!3m2!1sen!2sus!4v1632511679104!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 
 template(name='not_found')
-    +docs
-
+    // +docs
+    .ui.header not found 
+    a.ui.big.button(href="/docs")
+        +i name='home'
+        |home
 // template(name="user_pill")
 //     .ui.label(class=labelClass)
 //         |#{username}
@@ -82,8 +85,8 @@ template(name='doc_edit')
                         +key_value_edit key='model' value='transfer' label='transfer' icon='exchange'
                         +key_value_edit key='model' value='review' label='review' icon='megaphone'
                         +key_value_edit key='model' value='checkin' label='checkin' icon='checkmark'
-                        +key_value_edit key='task' label='task' icon='tasks'
-                        +key_value_edit key='rental' label='rental' icon='clock'
+                        +key_value_edit key='model' value='task' label='task' icon='tasks'
+                        +key_value_edit key='model' value='rental' label='rental' icon='clock'
                         +key_value_edit key='model' value='message' label='message' icon='envelope'
                     // .ui.header #{model}
                     // .ui.header #{model_template}
@@ -109,8 +112,6 @@ template(name='docs')
             // .ui.inline.header 
             //     +i name='cube'
             //     |#{post_docs.count} docs
-            if currentUser
-                +add_doc_button model=current_model
             // +session_boolean_toggle key='view_mine' label='mine' icon='user'
             // +session_boolean_toggle key='view_private' label='private' icon='lock'
             div
@@ -177,8 +178,10 @@ template(name='nav')
         a.item.zoomer.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title=users)
             +i name='groups'
         if currentUser
-            a.icon.item(href="/mail/inbox")
-                +i name='inbox'
+            .item.add_doc 
+                +i name='plus'
+            // a.icon.item(href="/mail/inbox")
+            //     +i name='inbox'
             a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile')
                 if currentUser.image_id
                     img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")

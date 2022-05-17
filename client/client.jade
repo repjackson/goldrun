@@ -6,7 +6,7 @@ head
     meta(name="msapplication-TileColor" content="#000000")
     meta(name="theme-color" content="#000000")
     link(rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css')
-    // link(href="https://fonts.googleapis.com/css?family=Ubuntu:300,400&display=swap" rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css?family=Ubuntu:300,400&display=swap" rel="stylesheet")
     link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
     link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
     link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
@@ -93,11 +93,12 @@ template(name='doc_edit')
                         +key_value_edit key='model' value='message' label='message' icon='envelope'
                     // .ui.header #{model}
                     // .ui.header #{model_template}
-                .eight.wide.column.scrolling
-                    .ui.header 
+                .six.wide.column.scrolling
+                    .ui.inline.header 
                         +i name='pencil'
                         |editing #{model}
                     +save_button
+                    div
                     +text_edit key='title' label='title' 
                     +image_edit key='image_id' label='image' 
                     +html_edit key='description' label='description'
@@ -107,15 +108,32 @@ template(name='doc_edit')
                     +link_edit key='link' label='link'
 
                     +remove_button
-                .eight.wide.column
+                .ten.wide.column
                     +Template.dynamic template=model_template
 
 template(name='doc_view')
     with doc_data
         img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-        .ui.stackable.grid
+        .ui.stackable.padded.grid
             .row 
-                .sixteen.wide.column
+                .six.wide.column
+                    .ui.large.inline.header 
+                        //- small viewing
+                        | #{title}
+                    div
+                    if can_edit
+                        a(href="/doc/#{_id}/edit")
+                            i.pencil.blue.large.link.circular.icon
+                    // a(href="{{c.url image_id}}" target="_window")
+                    // .four.wide.column
+                    img.ui.rounded.fluid.image.zoomer(src="{{c.url image_id}}")
+                    if image_id2
+                        img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
+                    +message_author_button
+                    +group_widget
+                
+                    +favorite_icon_toggle
+                .ten.wide.column
                     +Template.dynamic template=model_template 
                 // if in_dev
                 //     .ui.segment 
@@ -183,6 +201,23 @@ template(name='doc_card')
 template(name='doc_item')
     a.item.fly_down(href="/doc/#{_id}")
         +Template.dynamic template=item_template
+        .content
+            if is_dev
+                +print_this
+            +voting
+            +favorite_icon_toggle
+            .ui.big.label 
+                |#{price}pts
+            // i.big.link.cart.plus.green.icon.add_to_cart
+            .ui.label
+                i.eye.icon
+                |#{views}
+            .ui.label   
+                i.line.chart.icon
+                |#{points} 
+            if group_id     
+                +group_info
+
 
 
 

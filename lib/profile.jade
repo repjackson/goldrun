@@ -108,37 +108,29 @@ template(name='profile')
                         .ui.padded.grid 
                             .ui.fluid.styled.accordion
                                 .title
-                                    .ui.header about
+                                    .ui.header 
+                                        +i name='info'
+                                        |about
                                 .content
                                     if bio
                                         |!{bio}
-                                .title
-                                    .ui.header about
-                                .content
-                                    +user_messages
+                                +user_messages
                                 if is_current_user
-                                    .title
-                                        .ui.header deposits
-                                    .content
-                                        +profile_deposits
-                                .title
-                                    .ui.header reviews
+                                    +profile_deposits
+                                +user_reviews
+                                +user_posts
+                                +user_groups
+                                +user_friends
+                                .title 
+                                    .ui.header
+                                        +i name='heart'
+                                        |favorites
                                 .content
-                                    +user_reviews
+                                    +user_favorites
                                 .title
-                                    .ui.header posts
-                                .content
-                                    +user_posts
-                                .title
-                                    .ui.header groups
-                                .content
-                                    +user_groups
-                                .title
-                                    .ui.header friends
-                                .content
-                                    +user_friends
-                                .title
-                                    .ui.header points
+                                    .ui.header 
+                                        +i name='coins'
+                                        |points
                                 .content
                                     +user_points
                     else 
@@ -153,6 +145,16 @@ template(name='user_mail')
         +inbox
     else 
         +comments
+                            
+                            
+template(name='user_favorites')
+    .ui.selection.animated.link.list
+        each user_favorite_docs
+            a.item.fly_up(href="/doc/#{_id}")
+                img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
+                |#{title}
+                .ui.label 
+                    |#{model}
                             
                  
 template(name='user_points')        
@@ -248,15 +250,17 @@ template(name='user_comments')
     +comments
                  
                  
-template(name='user_groups')                 
-    .ui.header 
-        +i name='groups'
-        |user groups
-    .ui.list    
-        each user_group_memberships
-            a.item(href="/doc/#{_id}")
-                img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                |#{title}
+template(name='user_groups')   
+    .title
+        .ui.header 
+            +i name='groups'
+            |user groups
+    .content
+        .ui.list    
+            each user_group_memberships
+                a.item(href="/doc/#{_id}")
+                    img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                    |#{title}
                  
                     
 template(name='user_social')
@@ -270,14 +274,16 @@ template(name='user_social')
             +user_following
    
 template(name='user_friends')
-    .ui.dividing.header 
-        +i name='friends'
-        |friends
-    +friend_button
-    .ui.header friends of
-    .ui.selection.link.animated.list
-        each user_friended
-            +user_info
+    .title
+        .ui.header 
+            +i name='friends'
+            |friends
+    .content
+        +friend_button
+        .ui.header friends of
+        .ui.selection.link.animated.list
+            each user_friended
+                +user_info
             
 template(name='user_following')
     +follow_button
@@ -293,26 +299,28 @@ template(name='user_following')
         each followed_by_users
             +user_info
   
-template(name="user_messages")               
-    .ui.dividing.header 
-        +i name='envelope'
-        |messages
-    if currentUser
-        unless is_current_user
-            +send_message_button
-    .ui.small.header
-        +i name='sent'
-        |sent
-    .ui.list 
-        each user_messages_sent
-            |#{body}
-    .ui.small.header
-        +i name='internal'
-        |received
-    .ui.list 
-        each user_messages_received
-            |#{body}
-            
+template(name="user_messages")      
+    .title
+        .ui.header 
+            +i name='envelope'
+            |messages
+    .content
+        if currentUser
+            unless is_current_user
+                +send_message_button
+        .ui.small.header
+            +i name='sent'
+            |sent
+        .ui.list 
+            each user_messages_sent
+                |#{body}
+        .ui.small.header
+            +i name='internal'
+            |received
+        .ui.list 
+            each user_messages_received
+                |#{body}
+                
             
 template(name='send_message_button')
     .ui.button.send_message
@@ -321,51 +329,57 @@ template(name='send_message_button')
             unless currentUser.hide_menu_labels
                 |send message
             
-template(name="user_reviews")               
-    .ui.dividing.header 
-        +i name='star'
-        |reviews
-    .ui.link.selection.animated.list 
-        each user_review_docs
-            |#{amount}
+template(name="user_reviews") 
+    .title
+        .ui.header 
+            +i name='star'
+            |#{user_review_docs.count} reviews
+    .content
+        .ui.link.selection.animated.list 
+            each user_review_docs
+                |#{amount}
 
 template(name='user_posts')
-    .ui.inline.dividing.header 
-        +i name='blog'
-        |user posts
-    if is_current_user
-        .ui.circular.button.add_user_post
-            i.large.plus.icon
-    .ui.selection.link.animated.divided.list.scrolling
-        each user_model_docs 'post'
-            a.item.fly_left(href="/doc/#{_id}") 
-                if image_id
-                    img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                .content 
-                    .header
-                        |#{title}
-                    .description
-                        |#{when}
+    .title
+        .ui.header 
+            +i name='blog'
+            |user posts
+    .content
+        if is_current_user
+            .ui.circular.button.add_user_post
+                i.large.plus.icon
+        .ui.selection.link.animated.divided.list.scrolling
+            each user_model_docs 'post'
+                a.item.fly_left(href="/doc/#{_id}") 
+                    if image_id
+                        img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                    .content 
+                        .header
+                            |#{title}
+                        .description
+                            |#{when}
 
 template(name='profile_deposits')
-    .ui.dividing.header 
-        +i name='donate'
-        |deposits
-    // |includes 2% points card processing fee
-    .ui.action.fluid.input
-        input.deposit_amount(type='number' min='1' placeholder='deposit')
-        .ui.icon.button.add_points   
-            i.right.chevron.icon
-            
-    .ui.large.bulleted.list.smallscrol
-        each deposit_docs
-            .item 
-                .content
-                    .header 
-                        |$#{amount}
-                    .description #{when} {{long_date _timestamp}}
-                    //- if is_dev
-                    +remove_button
+    .title
+        .ui.header 
+            +i name='donate'
+            |#{deposit_docs.count} deposits
+        // |includes 2% points card processing fee
+    .content
+        .ui.action.fluid.input
+            input.deposit_amount(type='number' min='1' placeholder='deposit')
+            .ui.icon.button.add_points   
+                i.right.chevron.icon
+                
+        .ui.large.bulleted.list.smallscrol
+            each deposit_docs
+                .item 
+                    .content
+                        .header 
+                            |$#{amount}
+                        .description #{when} {{long_date _timestamp}}
+                        //- if is_dev
+                        +remove_button
 
 
 

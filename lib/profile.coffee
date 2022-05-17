@@ -13,6 +13,14 @@ if Meteor.isClient
 
         
 if Meteor.isClient
+    Template.user_favorites.onCreated ->
+        @autorun -> Meteor.subscribe 'user_favorites', Router.current().params.username, ->
+    Template.user_favorites.helpers
+        user_favorite_docs: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                _id:$in:user.favorite_ids
+
     Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_deposits', Router.current().params.username, ->
@@ -142,6 +150,10 @@ if Meteor.isClient
                 
             
 if Meteor.isServer
+    Meteor.publish 'user_favorites', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find 
+            _id:$in:user.favorite_ids
     Meteor.publish 'user_groups_member', (username)->
         user = Meteor.users.findOne username:username
         Docs.find 

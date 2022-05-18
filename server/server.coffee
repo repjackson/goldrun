@@ -125,6 +125,15 @@ Meteor.methods
                 views:1
             $set:
                 last_viewed_timestamp:Date.now()
+        if Meteor.userId()
+            Meteor.users.update Meteor.userId(),
+                $set:
+                    current_viewing_doc_id:doc_id
+        else 
+            Docs.update doc_id,
+                $inc:
+                    anon_views:1
+            
 
     insert_log: (type, user_id)->
         if type

@@ -14,6 +14,15 @@ if Meteor.isClient
         #     # console.log @doc_sentiment_label
         #     if @doc_sentiment_label is 'positive' then 'green'
         #     else if @doc_sentiment_label is 'negative' then 'red'
+    Template.registerHelper 'current_viewer_users', () -> 
+        Meteor.users.find 
+            current_viewing_doc_id:Router.current().params.doc_id
+if Meteor.isServer 
+    Meteor.publish 'current_viewers', (doc_id)->
+        Meteor.users.find 
+            current_viewing_doc_id:doc_id
+        
+if Meteor.isClient
     Template.registerHelper 'user_group_memberships', () -> 
         user = Meteor.users.findOne username:@username
         Docs.find

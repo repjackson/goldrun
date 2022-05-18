@@ -136,8 +136,8 @@ template(name='profile')
                             each user_messages_received
                                 |#{body}
     
-                        if is_current_user
-                            +profile_deposits
+                        // if is_current_user
+                        //     +profile_deposits
                         +user_reviews
                         +user_posts
                         +user_groups
@@ -149,6 +149,10 @@ template(name='profile')
                                 +i name='coins'
                                 |points
                             +user_points
+                        .ui.segment.alpha 
+                            .ui.header currently viewing
+                            with current_viewing_doc 
+                                .ui.header #{title}
                     else 
                         .ui.basic.center.aligned.segment
                             i.massive.loading.refresh.icon

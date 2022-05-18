@@ -46,23 +46,28 @@ template(name='doc_view')
                         +i name='line-chart'
                         |post stats
                     .ui.big.list
-                        .item #{views} views
-                        .item #{views_ranking} view ranking
-                        .item #{post_views_ranking} post views ranking
-                    +follow_button
-                    +tips
-                    if has_price
-                        +post_orders
-                    .ui.list
+                        .item 
+                            i.grey.line.chart.icon
+                            |#{post_views_ranking} post views ranking
                         .item 
                             i.grey.eye.icon
                             |#{views} views
+                        .item
+                            i.grey.line.chart.icon
+                            |#{views_ranking} view ranking
+                        .item 
+                            i.grey.anonymous.icon
+                            |#{anon_views} anon views
                         .item 
                             |#{points}
                             |points
                         .item 
                             |#{tip_total}
                             |tip total
+                    +follow_button
+                    +tips
+                    if has_price
+                        +post_orders
                     +author_info
                 .ten.wide.column.scrollin
                     .smallscroll.zoomer
@@ -75,6 +80,10 @@ template(name='doc_view')
                     if watson 
                         +watson_view
                     +follow_button
+                    .ui.header 
+                        |current viewers
+                    each current_viewer_users
+                        .ui.header #{username}
                 // if in_dev
                 //     .ui.segment 
                 //         .ui.header admin

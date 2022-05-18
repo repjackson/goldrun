@@ -49,7 +49,7 @@ if Meteor.isClient
             
     Template.log_item.helpers
         read_class: ->
-            if Meteor.userId() in @read_user_ids then 'small' else 'large raised'
+            if @read_user_ids and Meteor.userId() in @read_user_ids then 'small' else 'large raised'
             
             
 if Meteor.isServer

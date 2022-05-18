@@ -569,13 +569,17 @@ template(name='follow_button')
 
 template(name='join_button')
     if is_member
-        .ui.button.leave
-            i.plus.icon
-            |join
+        .ui.animated.button.leave
+            .hidden.content
+                i.minus.icon
+                |leave
+            .visible.content
+                i.checkmark.green.icon
+                |member
     else 
         .ui.button.join
-            i.minus.icon
-            |leave
+            i.plus.icon
+            |join
     // if currentUser
     //     +doc_array_toggle key='member_ids' value=currentUser._id add_label='join' remove_label='leave'
     // else 

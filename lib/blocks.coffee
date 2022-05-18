@@ -381,6 +381,7 @@ if Meteor.isClient
             Docs.update @_id, 
                 $addToSet:
                     member_user_ids:Meteor.userId()
+                    member_usernames:Meteor.user().username
             Docs.insert 
                 model:'log'
                 body:"#{Meteor.user().username} joined #{@title}"
@@ -390,6 +391,7 @@ if Meteor.isClient
             Docs.update @_id, 
                 $pull:
                     member_user_ids:Meteor.userId()
+                    member_usernames:Meteor.user().username
             Docs.insert 
                 model:'log'
                 body:"#{Meteor.user().username} left #{@title}"

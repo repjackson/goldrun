@@ -45,6 +45,10 @@ Cloudinary.config
 
 
 
+Meteor.publish 'author_by_id', (doc_id)->
+    doc = Docs.findOne doc_id
+    Meteor.users.find(doc._author_id)
+    
 Meteor.publish 'all_users', (child_id)->
     Meteor.users.find()
 Meteor.publish 'public_posts', (child_id)->

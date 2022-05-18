@@ -622,7 +622,13 @@ if Meteor.isClient
     
     Template.single_user_edit.onCreated ->
         @user_results = new ReactiveVar
+        @autorun => Meteor.subscribe 'all_users', ->
     Template.single_user_edit.helpers
+        picked_user: ->
+            console.log @
+            console.log "#{@key}_id"
+            value = Docs.findOne(Router.current().params.doc_id)["#{@key}_id"]
+            found = Meteor.users.findOne _id:value
         user_results: ->Template.instance().user_results.get()
     Template.single_user_edit.events
         'click .clear_results': (e,t)->
@@ -650,32 +656,37 @@ if Meteor.isClient
             # console.log Template.parentData(3)
             # console.log Template.parentData(4)
     
-    
+            
             val = t.$('.edit_text').val()
-            if field.direct
-                parent = Template.parentData()
-            else
-                parent = Template.parentData(5)
-    
-            doc = Docs.findOne parent._id
+            # if field.direct
+            parent = Template.parentData()
+            # else
+            #     parent = Template.parentData(5)
+            
+            doc = Docs.findOne Router.current().params.doc_id
             if doc
-                Docs.update parent._id,
-                    $set:"#{field.key}":@_id
+                Docs.update doc._id,
+                    $set:
+                        "#{field.key}_id":@_id
+                        "#{field.key}_username":@username
             $('.single_user_select_input').val ''
             # Docs.update page_doc._id,
             #     $set: assignment_timestamp:Date.now()
     
         'click .pull_user': ->
-            if confirm "remove #{@username}?"
+            console.log @
+            if confirm "remove #{@key}?"
                 parent = Template.parentData(1)
-                field = Template.currentData()
+                # field = Template.currentData()
                 doc = Docs.findOne parent._id
                 if doc
                     Docs.update parent._id,
-                        $unset:"#{field.key}":1
+                        $unset:
+                            "#{@key}_id":1
+                            "#{@key}_username":1
     
-            #     page_doc = Docs.findOne Router.current().params.doc_id
-                # Meteor.call 'unassign_user', page_doc._id, @
+            # #     page_doc = Docs.findOne Router.current().params.doc_id
+            #     # Meteor.call 'unassign_user', page_doc._id, @
     
     
     

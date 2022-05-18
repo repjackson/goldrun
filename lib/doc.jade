@@ -22,6 +22,8 @@ template(name='doc_edit')
                 // .ui.header #{model}
                 // .ui.header #{model_template}
                 .six.wide.column.scrolling
+                    if in_dev 
+                        +print_this
                     .ui.inline.header 
                         +i name='pencil'
                         |editing #{model}
@@ -47,7 +49,16 @@ template(name='doc_edit')
     
                 .ten.wide.column
                     +Template.dynamic template=model_template
-
+                    if currentUser.admin_mode 
+                        +author_edit
+                        
+                        
+template(name='author_edit')
+    .ui.header  
+        i.shield.icon
+        |author edit 
+        +single_user_edit key='_author' label='username'
+                        
 template(name='doc_view')
     with doc_data
         img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")

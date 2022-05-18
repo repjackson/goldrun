@@ -80,9 +80,9 @@ template(name='nav')
     // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
     // #topnav.topnav.ui.attached.borderless.big.four.item.menu.hscroll(class=darkmode_class)
     #topnav.topnav.ui.attached.borderless.big.four.item.menu.hscroll.alpha
-        a.item.zoomer.fly_right(href="/docs" class="{{isActiveRoute 'docs'}}" title=users)
+        a.item.zoomer.fly_right.clear_search(href="/docs" class="{{isActiveRoute 'docs'}}" title=users)
             +i name='yin-yang'
-        a.item.zoomer.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title=users)
+        a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
             +i name='groups'
         if currentUser
             a.item.zoomer.fly_down.add_doc 

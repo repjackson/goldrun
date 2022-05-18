@@ -31,6 +31,10 @@ Template.footer.helpers
     result_docs: -> Results.find()
 
 Template.nav.events
+    'click .clear_search': ->
+        Session.set('current_search',null)
+        picked_tags.clear()
+        Session.set('limit',10)
     'click .add': ->
         new_id = Docs.insert {}
         Router.go "/doc/#{new_id}/edit"

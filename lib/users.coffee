@@ -80,7 +80,7 @@ if Meteor.isClient
                     $set:
                         first_name:splitted[0]
                         last_name:splitted[1]
-                Router.go "/user/#{new_user.username}"
+                Router.go "/user/#{formatted}"
                 $('body').toast({
                     title: "user created"
                     # message: 'Please see desk staff for key.'

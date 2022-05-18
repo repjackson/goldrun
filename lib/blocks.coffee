@@ -152,7 +152,7 @@ if Meteor.isClient
             console.log Session.get('current_search')
             if e.which is 13
                 search = $('.query').val().trim().toLowerCase()
-                if search.length > 0
+                if search.length > 1
                     picked_tags.push search
                     console.log 'search', search
                     # Meteor.call 'log_term', search, ->
@@ -162,7 +162,7 @@ if Meteor.isClient
                     # Meteor.setTimeout ->
                     #     Session.set('dummy', !Session.get('dummy'))
                     # , 10000
-        , 750)
+        , 2000)
     
         
 

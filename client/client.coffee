@@ -78,7 +78,7 @@ Template.layout.events
         $(e.currentTarget).closest('.card').transition('fade right', 500)
     'click .zoom': (e,t)->
         # console.log 'hi'
-        $(e.currentTarget).closest('.grid').transition('zoom', 500)
+        $(e.currentTarget).closest('.grid').transition('scale', 500)
         
     # 'click a': ->
     #     $('.global_container')

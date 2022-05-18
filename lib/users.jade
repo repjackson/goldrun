@@ -63,7 +63,7 @@ template(name='users')
 
 
 template(name='user_card')
-    a.card.zoomer.fly_left(href="/user/#{username}")
+    a.ui.card.zoomer.fly_left(href="/user/#{username}")
         // unless background_image_id
         //     img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
         if image_id

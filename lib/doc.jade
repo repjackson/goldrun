@@ -31,8 +31,8 @@ template(name='doc_edit')
                     div
                     +text_edit key='title' label='title' 
                     +image_edit key='image_id' label='image' 
-                    +html_edit key='description' label='description'
-                    +call_watson key='description'
+                    +html_edit key='content' label='content'
+                    +call_watson key='content'
                     +array_edit key='tags' label='tags' icon='tags'
                     +group_picker
                     +link_edit key='link' label='link'
@@ -53,7 +53,7 @@ template(name='doc_view')
         img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
             .row 
-                .six.wide.column.scrolling
+                .six.wide.column.scrollin
                     .ui.small.grey.inline.header
                         |viewing #{model}
                     .ui.large.inline.header 
@@ -71,7 +71,6 @@ template(name='doc_view')
                         +user_card
                     +message_author_button
                     +group_widget
-                    div
                     +favorites
                     +comments
                     .ui.dividing.header 
@@ -95,8 +94,13 @@ template(name='doc_view')
                         .item 
                             |#{tip_total}
                             |tip total
-                .ten.wide.column.scrolling
+                .ten.wide.column.scrollin
                     +Template.dynamic template=model_template 
+                    .ui.segment.alpha.zoomer
+                        |!{content}
+                    if watson 
+                        +watson_view
+
                 // if in_dev
                 //     .ui.segment 
                 //         .ui.header admin

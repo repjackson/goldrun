@@ -43,7 +43,7 @@ template(name='post_view')
     .ui.stackable.padded.grid
         .row 
             .sixteen.wide.column.scrollin
-                .ui.big.center.aligned.header(class=emotion_color) 
+                .ui.big.center.aligned.inline.header(class=emotion_color) 
                     if price
                         i.large.coins.icon(title='price')
                     if private 
@@ -59,8 +59,6 @@ template(name='post_view')
                 //     |#{target.username}
                 if youtube_id
                     +youtube_view key='youtube_id'
-                .scrolling
-                    |!{content}
                 
                 
 template(name='post_orders')

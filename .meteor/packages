@@ -35,3 +35,4 @@ reywood:publish-composite
 multiply:iron-router-progress
 ecmascript
 modules
+shell-server

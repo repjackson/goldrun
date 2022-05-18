@@ -1114,7 +1114,23 @@ template(name='group_view')
         .column
             +checkin_widget
         .column
-            +group_activity
+            .ui.dividing.header
+                +i name='rss'
+                |activity
+            .content
+                .ui.header 
+                    +i name='line-chart'
+                    // i.large.line.chart.icon
+                    |stats
+                .ui.large.list
+                    .item 
+                        i.user.icon
+                        |#{member_user_ids.length} members
+                    .item #{event_ids.length} events
+                    .item #{transfer_ids.length} credits exchanged
+            //     each log_items
+            //         +log_item
+            //     i.refresh.link.icon.refresh_group_stats
         .column
             if has_events
                 .title
@@ -1261,23 +1277,6 @@ template(name='checkin_widget')
 
                                             
                
-template(name='group_activity')
-    .title
-        .ui.header
-            +i name='rss'
-            |activity
-    .content
-        .ui.header 
-            +i name='line-chart'
-            // i.large.line.chart.icon
-            |stats
-        .ui.large.list
-            .item #{member_count} members
-            .item #{events} events
-            .item #{total_credit_exchanged} credits exchanged
-    //     each log_items
-    //         +log_item
-    //     i.refresh.link.icon.refresh_group_stats
 
               
               

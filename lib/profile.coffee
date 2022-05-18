@@ -8,6 +8,7 @@ if Meteor.isClient
 
     Template.profile.onCreated ->
         Meteor.call 'calc_user_points', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'unread_logs',->
     Template.profile.onRendered ->
         Meteor.call 'increment_profile_view', Router.current().params.username, ->
 
@@ -93,6 +94,11 @@ if Meteor.isClient
                 model:'group'
                 _id:current_user.group_memberships
 
+    Template.user_messages.helpers
+        ununread_log_docs: ->
+            Docs.find 
+                model:'log'
+                read_user_ids:$nin:[Meteor.userId()]
     Template.profile.helpers
         user_rental_docs: ->
             Docs.find

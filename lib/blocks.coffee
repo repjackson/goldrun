@@ -226,7 +226,10 @@ if Meteor.isClient
                 parent_id:parent._id
                 model:'comment'
     Template.print_this.events
-        'click .print': -> console.log @
+        'click .print': -> 
+            alert(JSON.stringify(@, null, 4));
+
+            console.log @
     Template.comments.events
         'keyup .add_comment': (e,t)->
             if e.which is 13

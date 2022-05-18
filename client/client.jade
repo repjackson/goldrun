@@ -97,6 +97,8 @@ template(name='nav')
                 strong #{currentUser.username}
                 |&nbsp;
                 small (#{currentUser.points}p)
+                if unread_count
+                    .ui.large.label #{unread_count}
         unless subs_ready
             .icon.item
                 i.yin.yang.large.loading.icon
@@ -124,8 +126,9 @@ template(name='footer')
                         .ui.basic.image.label 
                             img.ui.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                             |#{title}
-                            |(#{model})
+                            +model_label
                             +print_this
+                            |#{when}
             if currentUser.admin_mode
                 .column
                     .ui.inline.header 

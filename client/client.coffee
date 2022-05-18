@@ -30,6 +30,12 @@ Template.footer.helpers
     all_docs: -> Docs.find()
     result_docs: -> Results.find()
 
+Template.nav.helpers
+    unread_count: ->
+        Docs.find(
+            model:'log'
+            read_user_ids:$nin:[Meteor.userId()]
+        ).count()
 Template.nav.events
     'click .clear_search': ->
         Session.set('current_search',null)
@@ -44,7 +50,7 @@ Template.nav.onCreated ->
     @autorun -> Meteor.subscribe 'me', ->
     # @autorun -> Meteor.subscribe 'all_users', ->
     # @autorun -> Meteor.subscribe 'model_docs','group', ->
-    # @autorun -> Meteor.subscribe 'unread_messages'
+    @autorun -> Meteor.subscribe 'unread_logs'
 
 
 $.cloudinary.config

@@ -168,6 +168,10 @@ template(name='model_label')
         +i name='calendar'
     else if is model 'group'
         +i name='campfire'
+    else if is model 'service'
+        +i name='service'
+    else if is model 'log'
+        +i name='event-log'
 
     // .ui.label 
     //     |#{model}
@@ -324,6 +328,11 @@ template(name="user_messages")
         if currentUser
             unless is_current_user
                 +send_message_button
+        .ui.header 
+            |unread logs
+        .ui.list
+            each unread_log_docs
+                .item #{body} #{when}
         .ui.small.header
             +i name='sent'
             |sent

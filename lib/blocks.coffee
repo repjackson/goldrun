@@ -71,7 +71,7 @@ if Meteor.isClient
                 'outline'
             # if @favorite_ids and Meteor.userId() in @favorite_ids
     Template.favorite_icon_toggle.events
-        'click .toggle_fav': ->
+        'click .toggle_fav': (e)->
             if Meteor.user()
                 
                 if Meteor.user().favorite_ids and @_id in Meteor.user().favorite_ids
@@ -99,6 +99,8 @@ if Meteor.isClient
                         # displayTime: 'auto',
                         position: "bottom right"
                     )
+                $(e.currentTarget).closest('.toggle_fav').transition('bounce',250)
+    
             else 
                 Router.go "/login"
 
@@ -209,7 +211,7 @@ if Meteor.isClient
             $('.accordion').accordion()
         , 1000
     Template.group_info.onCreated ->
-        console.log @data
+        # console.log @data
         @autorun => Meteor.subscribe 'doc_by_id', @data.group_id, ->
     Template.comments.onCreated ->
         # if Router.current().params.doc_id

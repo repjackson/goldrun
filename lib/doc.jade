@@ -79,8 +79,8 @@ template(name='doc_view')
                     // .four.wide.column
                     if image_id2
                         img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
-                    with _author
-                        +user_card
+                    // with _author
+                    +author_segment
                     .ui.accordion 
                         .title(title='tags')
                             |#{tags.length}
@@ -90,11 +90,13 @@ template(name='doc_view')
                             strong ...
                         .content
                             each tags 
-                                .ui.label #{this}
+                                a.ui.basic.label.pick_flat_tag.zoomer(title='search for tag') #{this}
                     +message_author_button
                     +group_widget
+                    div
+                    +voting_full
+                    div
                     +favorites
-                    +comments
                     .ui.dividing.header 
                         +i name='line-chart'
                         |post stats
@@ -124,6 +126,7 @@ template(name='doc_view')
                     +Template.dynamic template=model_template 
                     .ui.segment.alpha.zoomer
                         |!{content}
+                    +comments
                     if watson 
                         +watson_view
 
@@ -151,13 +154,12 @@ template(name='tips')
 
 template(name='docs')
     .ui.stackable.padded.grid 
-        .four.wide.column
+        .sixteen.wide.column
             // .ui.inline.header 
             //     +i name='cube'
             //     |#{post_docs.count} docs
             // +session_boolean_toggle key='view_mine' label='mine' icon='user'
             // +session_boolean_toggle key='view_private' label='private' icon='lock'
-            div
             // +facet key='doc_sentiment_label' icon='happy'
             +session_set key='model' value='post' label='post' icon='blog'
             +session_set key='model' value='event' label='event' icon='calendar'
@@ -170,6 +172,7 @@ template(name='docs')
             +session_set key='model' value='checkin' label='checkin' icon='checkmark'
             +session_set key='model' value='log' label='log' icon='event-log'
             div
+        .four.wide.column
             +facet key='tag' icon='tags' model='post' label='tags'
         .twelve.wide.column
             +search_input key='title'

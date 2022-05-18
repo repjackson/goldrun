@@ -15,6 +15,17 @@ template(name='log_item')
             +print_this
         
      
+template(name='author_segment')     
+    with _author
+        .ui.segment
+            .ui.inline.header 
+                |author
+            a.ui.inline.header(href="/user/#{username}") 
+                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                |#{name}
+            |#{points}pts
+            |#{profile_views}views
+
      
 template(name='group_info')
     i.fire.icon
@@ -107,7 +118,7 @@ template(name='author_block')
 
 
 template(name='favorite_icon_toggle')
-    i.large.favorite.link.circular.icon.toggle_fav(class=icon_class)
+    i.large.heart.link.circular.icon.toggle_fav(class=icon_class)
 
 
 template(name='sort_direction_toggle')

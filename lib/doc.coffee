@@ -28,6 +28,13 @@ if Meteor.isClient
         doc_data: -> 
             # console.log 'hi'
             Docs.findOne Router.current().params.doc_id
+    Template.doc_view.events 
+        'click .pick_flat_tag':->
+            doc = Docs.findOne Router.current().params.doc_id
+            picked_tags.clear()
+            picked_tags.push @valueOf()
+            Router.go "/docs"
+            Session.set('model',doc.model)
         
     Template.doc_card.helpers
         card_template: -> "#{@model}_card"

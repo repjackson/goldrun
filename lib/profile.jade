@@ -105,54 +105,55 @@ template(name='profile')
                     +send_points_button
                 .twelve.wide.column
                     if subs_ready
-                        if has_bio
-                            .ui.header 
-                                +i name='info'
-                                |about
-                            .smallscroll !{bio}
-                            if watson
-                                +watson_view
-                        .ui.header 
-                            +i name='envelope'
-                            |messages/unread logs
-                            if unread_log_docs
-                                .ui.label 
-                                    |#{unread_log_docs.count}
-                        // if currentUser
-                        //     unless is_current_user
-                        //         +send_message_button
-                        each unread_log_docs
-                            +log_item
-                        .ui.small.header
-                            +i name='sent'
-                            |sent
-                        .ui.list 
-                            each user_messages_sent
-                                |#{body}
-                        .ui.small.header
-                            +i name='internal'
-                            |received
-                        .ui.list 
-                            each user_messages_received
-                                |#{body}
-    
+                        .ui.fluid.styled.accordion.alpha.zoomer
+                            .title
+                                .ui.header 
+                                    +i name='info'
+                                    |about
+                            .content
+                                +user_about
+                        .ui.fluid.styled.accordion.alpha.zoomer
+                            .title
+                                .ui.inline.header 
+                                    +i name='envelope'
+                                    |messages/unread logs
+                                    if unread_log_docs
+                                        .ui.label 
+                                            |#{unread_log_docs.count}
+                                i.dropdown.icon
+                            .content
+                                // if currentUser
+                                //     unless is_current_user
+                                //         +send_message_button
+                                each unread_log_docs
+                                    +log_item
+                                .ui.small.header
+                                    +i name='sent'
+                                    |sent
+                                .ui.list 
+                                    each user_messages_sent
+                                        |#{body}
+                                .ui.small.header
+                                    +i name='internal'
+                                    |received
+                                .ui.list 
+                                    each user_messages_received
+                                        |#{body}
+            
                         // if is_current_user
                         //     +profile_deposits
                         +user_reviews
                         +user_posts
                         +user_groups
                         +user_friends
-                        .ui.segment.alpha
-                            +user_favorites
-                        .ui.segment.alpha
-                            .ui.header 
-                                +i name='coins'
-                                |points
-                            +user_points
+                        +user_favorites
+                        +user_points
                         .ui.segment.alpha 
-                            .ui.header currently viewing
-                            with current_viewing_doc 
-                                .ui.header #{title}
+                            .ui.header 
+                                +i name='binoculars'
+                                |currently viewing
+                            with current_viewing_doc
+                                +doc_item
                     else 
                         .ui.basic.center.aligned.segment
                             i.massive.loading.refresh.icon
@@ -160,19 +161,22 @@ template(name='profile')
                             
                             
 template(name='user_favorites')
-    .ui.header
-        +i name='heart'
-        |#{user_favorite_docs.count} favorites
-    .content.smallscroll
-        .ui.selection.animated.link.list
-            each user_favorite_docs
-                a.item.fly_up(href="/doc/#{_id}")
-                    img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
-                    .inline.header #{title}
-                    +when
-                    +model_label
-                    each three_tags
-                        .ui.small.basic.label #{this}
+    .ui.fluid.styled.accordion.alpha.zoomer
+        .title
+            .ui.inline.header 
+                +i name='heart'
+                |#{user_favorite_docs.count} favorites
+            i.dropdown.icon
+        .content.smallscroll
+            .ui.selection.animated.link.list
+                each user_favorite_docs
+                    a.item.fly_up(href="/doc/#{_id}")
+                        img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
+                        .inline.header #{title}
+                        +when
+                        +model_label
+                        each three_tags
+                            .ui.small.basic.label #{this}
                     
 template(name='when')
     .ui.label(title="{{long_date _timestamp}}") #{when}
@@ -199,52 +203,52 @@ template(name='model_label')
                             
                  
 template(name='user_points')        
-    .ui.stackable.padded.grid
-        .one.column.row
-            .column
-                .ui.dividing.header 
-                    +i name='coins'
-                    |user balance
-                .ui.dividing.header
-                    +i name='internal'
-                    |points in
-                .ui.list
-                    each points_in_docs
-                        .ui.inline.header #{body} 
-                        |{amount}pts
-                .ui.dividing.header
-                    +i name='donate'
-                    |points out
-                .ui.list
-                    each points_out_docs
-                        .ui.inline.header #{body} 
-                        |{amount}pts
-            .column
-                .ui.dividing.header
-                    +i name='donate'
-                    |tips
-                .ui.list
-                    each tips_docs
-                        a.item.fly_left(href="/#{_parent.model}/#{parent_id}")
-                            strong #{_parent.title} 
-                            small {amount}pts
-                .ui.dividing.header 
-                    +i name='blog'
-                    |posts
-                .ui.small.header publish costs
-                .ui.small.header earned points
+    .ui.fluid.styled.accordion.alpha.zoomer
+        .title
+            .ui.inline.header 
+                +i name='coins'
+                |user balance
+            i.dropdown.icon
+        .content
+            .ui.dividing.header
+                +i name='internal'
+                |points in
+            .ui.list
+                each points_in_docs
+                    .ui.inline.header #{body} 
+                    |{amount}pts
+            .ui.dividing.header
+                +i name='donate'
+                |points out
+            .ui.list
+                each points_out_docs
+                    .ui.inline.header #{body} 
+                    |{amount}pts
+            .ui.dividing.header
+                +i name='donate'
+                |tips
+            .ui.list
+                each tips_docs
+                    a.item.fly_left(href="/#{_parent.model}/#{parent_id}")
+                        strong #{_parent.title} 
+                        small {amount}pts
+            .ui.dividing.header 
+                +i name='blog'
+                |posts
+            .ui.small.header publish costs
+            .ui.small.header earned points
+            
+
+            .ui.dividing.header 
+                +i name='chat'
+                |comments
+            .ui.small.header 
+                small comment amount:
+                strong #{comment_count}
+            .ui.small.header 
+                small spent points:
+                strong #{comment_total}
                 
-    
-                .ui.dividing.header 
-                    +i name='chat'
-                    |comments
-                .ui.small.header 
-                    small comment amount:
-                    strong #{comment_count}
-                .ui.small.header 
-                    small spent points:
-                    strong #{comment_total}
-                    
     
                  
 template(name='user_products')                 
@@ -255,9 +259,6 @@ template(name='user_products')
         .ui.header #{title}
                  
 template(name='user_about')                 
-    .ui.dividing.header 
-        +i name='info'
-        |user info
     +text_view key='first_name' label='first name' icon='user'
     div
     +text_view key='last_name' label='last name' icon='user'
@@ -266,6 +267,9 @@ template(name='user_about')
     div
     +array_view key='tags' label='tags' icon='tags'
     +html_view key='bio' label='bio'
+    if watson
+        +watson_view
+
     +text_view key='status' label='status' icon='clock'
     +text_view key='address' label='address' icon='marker' 
     +text_view key='city' label='city' icon='marker' 
@@ -292,16 +296,19 @@ template(name='user_comments')
                  
                  
 template(name='user_groups')   
-    .title
-        .ui.header 
-            +i name='groups'
-            |user groups
-    .content
-        .ui.list    
-            each user_group_memberships
-                a.item(href="/doc/#{_id}")
-                    img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                    |#{title}
+    .ui.fluid.styled.accordion.alpha
+        .title.zoomer
+            .ui.inline.header 
+                +i name='groups'
+                |user groups
+            i.dropdown.icon
+        .content
+            .ui.selection.list    
+                each user_group_memberships
+                    a.item(href="/doc/#{_id}")
+                        img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                        .content
+                            |#{title}
                  
                     
 template(name='user_social')
@@ -359,23 +366,26 @@ template(name="user_reviews")
                 |#{amount}
 
 template(name='user_posts')
-    .ui.segment.alpha
-        .ui.header 
-            +i name='blog'
-            |authored posts
-        // if is_current_user
-        //     .ui.circular.button.add_user_post
-        //         i.large.plus.icon
-        .ui.selection.link.animated.divided.list.scrolling
-            each user_model_docs 'post'
-                a.item.fly_left(href="/doc/#{_id}") 
-                    if image_id
-                        img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                    .content 
-                        .header
-                            |#{title}
-                        .description
-                            |#{when}
+    .ui.fluid.styled.accordion.alpha
+        .title
+            .ui.inline.header 
+                +i name='blog'
+                |authored posts
+            i.dropdown.large.icon
+            // if is_current_user
+            //     .ui.circular.button.add_user_post
+            //         i.large.plus.icon
+        .content
+            .ui.selection.link.animated.divided.list.scrolling
+                each user_model_docs 'post'
+                    a.item.fly_left(href="/doc/#{_id}") 
+                        if image_id
+                            img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                        .content 
+                            .header
+                                |#{title}
+                            .description
+                                |#{when}
 
 template(name='profile_deposits')
     .title

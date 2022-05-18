@@ -26,8 +26,8 @@ template(name='doc_view')
                         img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
                     // with _author
                     +author_segment
-                    .ui.accordion 
-                        .title(title='tags')
+                    .ui.accordion
+                        .title.zoomer(title='tags')
                             |#{tags.length}
                             +i name='tags'
                             each five_tags 
@@ -56,7 +56,7 @@ template(name='doc_view')
                             i.grey.line.chart.icon
                             |#{views_ranking} view ranking
                         .item 
-                            i.grey.anonymous.icon
+                            i.grey.user.secret.icon
                             |#{anon_views} anon views
                         .item 
                             |#{points}
@@ -70,8 +70,8 @@ template(name='doc_view')
                         +post_orders
                     +author_info
                 .ten.wide.column.scrollin
-                    .smallscroll.zoomer
-                        img.ui.rounded.fluid.image(src="{{c.url image_id}}")
+                    // .smallscroll.zoomer
+                    img.ui.rounded.fluid.image.zoomer(src="{{c.url image_id}}")
                 
                     +Template.dynamic template=model_template 
                     .ui.segment.alpha.zoomer
@@ -97,6 +97,7 @@ template(name='tip_button')
 template(name='tips')
     +tip_button amount=10
     +tip_button amount=50
+    .ui.header tips
     .ui.large.divided.list
         each post_tip_docs
             .item #{when}: #{amount}pts
@@ -106,73 +107,4 @@ template(name='tips')
 
 
 
-template(name='doc_card')
-    a.ui.card.zoom(href="/doc/#{_id}")
-        if youtube_id
-            +youtube_view key='youtube_id'
-        else if image_id
-            img.ui.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        .ui.header 
-            +model_label
-            |#{title}
-        +Template.dynamic template=card_template
-        .content
-            if is_dev
-                +print_this
-            .ui.big.label 
-                |#{price}pts
-            // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.label
-                i.eye.icon
-                |#{views}
-            .ui.label   
-                i.line.chart.icon
-                |#{points} 
-            if group_id     
-                +group_info
-            if is_dev
-                +print_this
-            +voting
-            +favorite_icon_toggle
-            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/doc/#{_id}")
-                +i name='chevron-right'
-            +author_info
-template(name='doc_item')
-    .ui.segment.alpha
-        if youtube_id
-            +youtube_view key='youtube_id'
-        else if image_id
-            img.ui.small.rounded.inline.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        +model_label
-
-        a.ui.inline.header(href="/doc/#{_id}" class=emotion_color) #{title}
-        .smallcut
-            | !{content}
-    
-        +Template.dynamic template=item_template
-        .content
-            if is_dev
-                +print_this
-            +voting
-            +favorite_icon_toggle
-            if price
-                .ui.big.label 
-                    |#{price}pts
-            // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.label
-                i.eye.icon
-                |#{views}
-            .ui.label   
-                i.line.chart.icon
-                |#{points} 
-            +author_info
-            if group_id     
-                +group_info
-            each seven_tags 
-                .ui.basic.small.label #{this}
-            .ui.small.basic.label(title='created when')
-                |#{when}
-
-            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/doc/#{_id}")
-                +i name='chevron-right'
 

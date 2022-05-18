@@ -28,6 +28,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_rentals', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_orders', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_groups_member', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'current_viewing_doc', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_groups_owner', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'model_docs', 'group', ->
     Template.user_posts.onCreated ->
@@ -100,6 +101,9 @@ if Meteor.isClient
                 model:'log'
                 read_user_ids:$nin:[Meteor.userId()]
     Template.profile.helpers
+        current_viewing_doc: ->
+            if Meteor.user().current_viewing_doc_id
+                Docs.findOne Meteor.user().current_viewing_doc_id
         user_rental_docs: ->
             Docs.find
                 model:'rental'
@@ -156,6 +160,11 @@ if Meteor.isClient
                 
             
 if Meteor.isServer
+    Meteor.publish 'current_viewing_doc', (username)->
+        user = Meteor.users.findOne username:username
+        if user.current_viewing_doc_id
+            Docs.find 
+                _id:user.current_viewing_doc_id
     Meteor.publish 'user_favorites', (username)->
         user = Meteor.users.findOne username:username
         Docs.find 

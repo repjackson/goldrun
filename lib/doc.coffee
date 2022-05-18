@@ -30,10 +30,12 @@ if Meteor.isClient
             # console.log 'hi'
             Docs.findOne Router.current().params.doc_id
     Template.doc_view.events 
-        'click .pick_flat_tag':->
+        'click .pick_flat_tag':(e)->
             doc = Docs.findOne Router.current().params.doc_id
             picked_tags.clear()
             picked_tags.push @valueOf()
+            $(e.currentTarget).closest('.grid').transition('fly right', 500)
+            
             Router.go "/docs"
             Session.set('model',doc.model)
         

@@ -373,7 +373,7 @@ body {
     border-radius: 15px !important;
     /*box-shadow: 2px 2px 2px 2px lightgrey !important; */
 }
-.item:active, .card:active {
+.item:active, .card:active, .accordion:active, .title:active {
     /*color: black !important;*/
     /*background-color: darkgrey !important; */
     /*box-shadow: inset 5px 5px 10px #333 !important; */

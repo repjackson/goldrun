@@ -118,7 +118,7 @@ if Meteor.isClient
         picked_tags: -> picked_tags.array()
     Template.facet.events 
         'click .pick_tag': -> picked_tags.push @name
-        'click .pick_flat_tag': -> picked_tags.push @valueOf()
+        # 'click .pick_flat_tag': -> picked_tags.push @valueOf()
         'click .unpick_tag': -> picked_tags.remove @valueOf()
     
     

@@ -1,0 +1,56 @@
+template(name='doc_edit')
+    with doc_data
+        img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+    
+        .ui.stackable.padded.divided.grid
+            .row 
+                .sixteen.wide.column
+                    .ui.inline.header
+                        +i name='cube'
+                        |model
+                    +key_value_edit key='model' value='post' label='post' icon='blog'
+                    +key_value_edit key='model' value='event' label='event' icon='calendar'
+                    +key_value_edit key='model' value='group' label='group' icon='campfire'
+                    +key_value_edit key='model' value='product' label='product' icon='shopping-cart'
+                    +key_value_edit key='model' value='service' label='service' icon='wrench'
+                    +key_value_edit key='model' value='transfer' label='transfer' icon='exchange'
+                    // +key_value_edit key='model' value='review' label='review' icon='megaphone'
+                    // +key_value_edit key='model' value='checkin' label='checkin' icon='checkmark'
+                    +key_value_edit key='model' value='task' label='task' icon='tasks'
+                    +key_value_edit key='model' value='rental' label='rental' icon='clock'
+                    +key_value_edit key='model' value='message' label='message' icon='envelope'
+                // .ui.header #{model}
+                // .ui.header #{model_template}
+                .six.wide.column.scrolling
+                    if in_dev 
+                        +print_this
+                    +model_label
+
+                    .ui.inline.header 
+                        +i name='pencil'
+                        |editing #{model}
+                    a.ui.big.icon.green.button.zoom.zoomer(href="/doc/#{_id}" title='save')
+                        i.checkmark.big.icon
+                    +boolean_edit key='published' label='published (-10)' 
+                    div
+                    +text_edit key='title' label='title' 
+                    +image_edit key='image_id' label='image' 
+                    +image_edit key='background_image_id' label='background image' 
+                    +html_edit key='content' label='content'
+                    +call_watson key='content'
+                    +array_edit key='tags' label='tags' icon='tags'
+                    +group_picker
+                    +link_edit key='link' label='link'
+                    div
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    +visibility_settings
+                    +boolean_edit key='has_youtube' label='youtube (-1p)' icon='youtube'
+                    if has_youtube
+                        +youtube_edit key='youtube_id' label='youtube id'
+                    
+                    +remove_button
+    
+                .ten.wide.column
+                    +Template.dynamic template=model_template
+                    if currentUser.admin_mode 
+                        +author_edit

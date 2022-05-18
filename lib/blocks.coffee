@@ -328,17 +328,30 @@ if Meteor.isClient
     
     Template.follow_button.helpers
         is_following: ->
-            if @followed_by_user_ids
-                Meteor.userId() in @followed_by_user_ids
-
+            doc = Docs.findOne @_id
+            if doc 
+                if @follower_user_ids
+                    Meteor.userId() in @follower_user_ids
+            else 
+                if @followed_by_user_ids
+                    Meteor.userId() in @followed_by_user_ids
     Template.follow_button.events 
         'click .follow': ->
-            Meteor.users.update @_id, 
-                $addToSet:
-                    followed_by_user_ids:Meteor.userId()
-            Meteor.users.update Meteor.userId(),
-                $addToSet:
-                    following_user_ids:Meteor.userId()
+            doc = Docs.findOne @_id
+            if doc
+                Docs.update @_id, 
+                    $addToSet:
+                        follower_user_ids:Meteor.userId()
+                Meteor.users.update Meteor.userId(),
+                    $addToSet:
+                        following_doc_ids:@_id
+            unless doc
+                Meteor.users.update @_id, 
+                    $addToSet:
+                        followed_by_user_ids:Meteor.userId()
+                Meteor.users.update Meteor.userId(),
+                    $addToSet:
+                        following_user_ids:Meteor.userId()
             $('body').toast({
                 title: "following"
                 # message: 'Please see desk staff for key.'
@@ -356,15 +369,79 @@ if Meteor.isClient
                 })
                     
         'click .unfollow': ->
-            Meteor.users.update @_id, 
-                $pull:
-                    followed_by_user_ids:Meteor.userId()
-            Meteor.users.update Meteor.userId(),
-                $pull:
-                    following_user_ids:Meteor.userId()
+            doc = Docs.findOne @_id
+            
+            if doc
+                Docs.update @_id, 
+                    $pull:
+                        follower_user_ids:Meteor.userId()
+                Meteor.users.update Meteor.userId(),
+                    $pull:
+                        following_doc_ids:@_id
+            else 
+                Meteor.users.update @_id, 
+                    $pull:
+                        followed_by_user_ids:Meteor.userId()
+                Meteor.users.update Meteor.userId(),
+                    $pull:
+                        following_user_ids:Meteor.userId()
 
             $('body').toast({
                 title: "unfollowing"
+                # message: 'Please see desk staff for key.'
+                class: 'info'
+                icon: 'checkmark' 
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+               
+               
+                    
+    Template.subscribe_button.helpers
+        is_subscribeing: ->
+            if @subscriber_user_ids
+                Meteor.userId() in @subscriber_user_ids
+    Template.subscribe_button.events 
+        'click .subscribe': ->
+            Meteor.users.update @_id, 
+                $addToSet:
+                    subscriber_user_ids:Meteor.userId()
+            Meteor.users.update Meteor.userId(),
+                $addToSet:
+                    subscribeing_user_ids:Meteor.userId()
+            $('body').toast({
+                title: "subscribing"
+                # message: 'Please see desk staff for key.'
+                class: 'success'
+                icon: 'checkmark' 
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+                    
+        'click .unsubscribe': ->
+            Meteor.users.update @_id, 
+                $pull:
+                    subscriber_user_ids:Meteor.userId()
+            Meteor.users.update Meteor.userId(),
+                $pull:
+                    subscribing_user_ids:Meteor.userId()
+
+            $('body').toast({
+                title: "unsubscribing"
                 # message: 'Please see desk staff for key.'
                 class: 'info'
                 icon: 'checkmark' 

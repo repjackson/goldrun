@@ -1,0 +1,169 @@
+template(name='author_edit')
+    .ui.header  
+        i.shield.icon
+        |author edit 
+        +single_user_edit key='_author' label='username'
+                        
+template(name='doc_view')
+    with doc_data
+        if background_image_id
+            img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+        else 
+            img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+        .ui.stackable.padded.grid
+            .row 
+                .six.wide.column.scrollin
+                    +model_label
+                    .ui.large.inline.header 
+                        //- small viewing
+                        | #{title}
+                    if can_edit
+                        a.zoom.zoomer(href="/doc/#{_id}/edit")
+                            i.pencil.blue.big.link.circular.icon
+                    // a(href="{{c.url image_id}}" target="_window")
+                    // .four.wide.column
+                    if image_id2
+                        img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
+                    // with _author
+                    +author_segment
+                    .ui.accordion 
+                        .title(title='tags')
+                            |#{tags.length}
+                            +i name='tags'
+                            each five_tags 
+                                .ui.basic.label #{this}
+                            strong ...
+                        .content
+                            each tags 
+                                a.ui.basic.label.pick_flat_tag.zoomer(title='search for tag') #{this}
+                    +message_author_button
+                    +group_widget
+                    div
+                    +voting_full
+                    div
+                    +favorites
+                    .ui.dividing.header 
+                        +i name='line-chart'
+                        |post stats
+                    .ui.big.list
+                        .item #{views} views
+                        .item #{views_ranking} view ranking
+                        .item #{post_views_ranking} post views ranking
+                    +follow_button
+                    +tips
+                    if has_price
+                        +post_orders
+                    .ui.list
+                        .item 
+                            i.grey.eye.icon
+                            |#{views} views
+                        .item 
+                            |#{points}
+                            |points
+                        .item 
+                            |#{tip_total}
+                            |tip total
+                    +author_info
+                .ten.wide.column.scrollin
+                    .smallscroll.zoomer
+                        img.ui.rounded.fluid.image(src="{{c.url image_id}}")
+                
+                    +Template.dynamic template=model_template 
+                    .ui.segment.alpha.zoomer
+                        |!{content}
+                    +comments
+                    if watson 
+                        +watson_view
+                    +follow_button
+                // if in_dev
+                //     .ui.segment 
+                //         .ui.header admin
+                //         +print_this
+
+template(name='tip_button')
+    if can_tip
+        .ui.button.tip_doc
+            |tip #{amount}pts
+
+template(name='tips')
+    +tip_button amount=10
+    +tip_button amount=50
+    .ui.large.divided.list
+        each post_tip_docs
+            .item #{when}: #{amount}pts
+                +author_info
+                if currentUser.admin_mode
+                    +remove_button doc=this redirect=false
+
+
+
+template(name='doc_card')
+    a.ui.card.zoom(href="/doc/#{_id}")
+        if youtube_id
+            +youtube_view key='youtube_id'
+        else if image_id
+            img.ui.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        .ui.header 
+            +model_label
+            |#{title}
+        +Template.dynamic template=card_template
+        .content
+            if is_dev
+                +print_this
+            .ui.big.label 
+                |#{price}pts
+            // i.big.link.cart.plus.green.icon.add_to_cart
+            .ui.label
+                i.eye.icon
+                |#{views}
+            .ui.label   
+                i.line.chart.icon
+                |#{points} 
+            if group_id     
+                +group_info
+            if is_dev
+                +print_this
+            +voting
+            +favorite_icon_toggle
+            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/doc/#{_id}")
+                +i name='chevron-right'
+            +author_info
+template(name='doc_item')
+    .ui.segment.alpha
+        if youtube_id
+            +youtube_view key='youtube_id'
+        else if image_id
+            img.ui.small.rounded.inline.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        +model_label
+
+        a.ui.inline.header(href="/doc/#{_id}" class=emotion_color) #{title}
+        .smallcut
+            | !{content}
+    
+        +Template.dynamic template=item_template
+        .content
+            if is_dev
+                +print_this
+            +voting
+            +favorite_icon_toggle
+            if price
+                .ui.big.label 
+                    |#{price}pts
+            // i.big.link.cart.plus.green.icon.add_to_cart
+            .ui.label
+                i.eye.icon
+                |#{views}
+            .ui.label   
+                i.line.chart.icon
+                |#{points} 
+            +author_info
+            if group_id     
+                +group_info
+            each seven_tags 
+                .ui.basic.small.label #{this}
+            .ui.small.basic.label(title='created when')
+                |#{when}
+
+            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/doc/#{_id}")
+                +i name='chevron-right'
+

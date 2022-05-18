@@ -185,6 +185,10 @@ template(name='model_label')
         +i name='service'
     else if is model 'log'
         +i name='event-log'
+    else if is model 'task'
+        +i name='tasks'
+    else if is model 'checkin'
+        +i name='checkmark'
 
     // .ui.label 
     //     |#{model}

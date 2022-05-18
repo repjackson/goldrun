@@ -602,6 +602,19 @@ template(name='follow_button')
             |unfollow
             
             
+template(name='subscribe_button')
+    if is_subscribed
+        .ui.button.unsubscribe
+            i.plus.icon
+            +i name='add-user-male'
+            |subscribe
+    else 
+        .ui.button.subscribe
+            +i name='checked-user-male'
+            i.minus.icon
+            |unsubscribe
+            
+            
 
 template(name='join_button')
     if is_member

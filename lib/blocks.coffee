@@ -1,4 +1,13 @@
 if Meteor.isClient
+    Template.tip_button.helpers
+        can_tip: ->
+            @amount < Meteor.user().points
+    Template.tip_button.helpers 
+        post_tip_docs: ->
+            Docs.find 
+                model:'transfer'
+
+    
     Template.add_doc_button.events 
         'click .add_doc': ->
             new_id = 

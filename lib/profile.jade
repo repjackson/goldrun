@@ -106,33 +106,34 @@ template(name='profile')
                 .twelve.wide.column
                     if subs_ready
                         .ui.padded.grid 
-                            .ui.fluid.styled.accordion
-                                .title
+                            .two.column.row
+                                .column
                                     .ui.header 
                                         +i name='info'
                                         |about
-                                .content
-                                    if bio
-                                        |!{bio}
-                                +user_messages
-                                if is_current_user
-                                    +profile_deposits
-                                +user_reviews
-                                +user_posts
-                                +user_groups
-                                +user_friends
-                                .title 
-                                    .ui.header
-                                        +i name='heart'
-                                        |favorites
-                                .content
-                                    +user_favorites
-                                .title
-                                    .ui.header 
-                                        +i name='coins'
-                                        |points
-                                .content
-                                    +user_points
+                                    .content
+                                        if bio
+                                            .smallscroll !{bio}
+                                    +user_messages
+                                    if is_current_user
+                                        +profile_deposits
+                                    +user_reviews
+                                    +user_posts
+                                    +user_groups
+                                    +user_friends
+                                .column
+                                    .title 
+                                        .ui.header
+                                            +i name='heart'
+                                            |favorites
+                                    .content
+                                        +user_favorites
+                                    .title
+                                        .ui.header 
+                                            +i name='coins'
+                                            |points
+                                    .content
+                                        +user_points
                     else 
                         .ui.basic.center.aligned.segment
                             i.massive.loading.refresh.icon

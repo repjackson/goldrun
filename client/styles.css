@@ -497,7 +497,7 @@ body {
 
 
 input{
-    /*border-radius: 20px !important;*/
+    border-radius: 20px !important;
 }
 input:not(.no_format){
     /*border-radius: 10px !important;*/
@@ -568,9 +568,10 @@ input.username_search{
     /* border-radius: 10px !important; */
 }
 
-/* .segment {
-    padding:40px!important;
-} */
+.segment {
+     border-radius: 20px !important;
+    /*padding:40px!important;*/
+}
 
 .button {
     margin:2px !important;

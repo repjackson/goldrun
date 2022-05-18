@@ -39,10 +39,6 @@ if Meteor.isClient
                     transfer_type:'tip'
                     tags:['tip']
             Meteor.call 'calc_user_points', ->
-    Template.post_view.helpers 
-        post_tip_docs: ->
-            Docs.find 
-                model:'transfer'
                 
                 
 if Meteor.isServer 

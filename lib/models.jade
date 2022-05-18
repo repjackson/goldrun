@@ -80,48 +80,6 @@ template(name='post_view')
                     +youtube_view key='youtube_id'
                 .scrolling
                     |!{content}
-                .ui.dividing.header 
-                    +i name='line-chart'
-                    |post stats
-                .ui.big.list
-                    .item #{views} views
-                    .item #{views_ranking} view ranking
-                    .item #{post_views_ranking} post views ranking
-                .ui.fluid.styled.accordion
-                    .title
-                        .ui.dividing.header 
-                            +i name='money'
-                            |tips
-                    .content
-                        .ui.button.tip_post_10
-                            |tip 10pts
-                        .ui.button.tip_post_50
-                            |tip 50pts
-                        .ui.large.divided.list
-                            each post_tip_docs
-                                .item #{when}: #{amount}pts
-                                    +author_info
-                                    if currentUser.admin_mode
-                                        +remove_button doc=this redirect=false
-                    .title
-                        .ui.header comments
-                    .content
-                if has_price
-                    +post_orders
-                .ui.list
-                    .item 
-                        i.grey.eye.icon
-                        |#{views} views
-                    .item 
-                        |#{points}
-                        |points
-                    .item 
-                        |#{tip_total}
-                        |tip total
-                each viewers
-                    .ui.label #{username}
-                +array_view key='location_tags' label='location_tags' direct=true
-                +visibility_settings
                 
                 
 template(name='post_orders')
@@ -166,28 +124,9 @@ template(name='post_edit')
                 .ui.inline.header 
                     +i name='cube'
                     |sections
-                +boolean_edit key='has_title' label='title (-1p)' icon='header'
-                if has_title
-                    +text_edit key='title' label='title' direct=true icon='header'
                 +boolean_edit key='has_subtitle' label='subtitle (-1p)' icon='header'
                 if has_subtitle
                     +text_edit key='subtitle' label='subtitle' direct=true icon='header'
-                +boolean_edit key='has_content' label='content (-1p)' icon='content'
-                if has_content
-                    +html_edit key='content' label='content' direct=true icon='content'
-                    if tone 
-                        .ui.header tone
-                        .ui.large.list
-                            each tone.classifications
-                                .item
-                                    |#{confidence}: #{class_name}
-                // +boolean_edit key='has_image' label='image (-1p)' icon='content' direct=true
-                // if has_image
-                //     +image_edit key='image_id' label='image' direct=true
-                // +boolean_edit key='has_sentiment' label='has youtube (-1p)' icon='youtube'
-                +boolean_edit key='has_youtube' label='youtube (-1p)' icon='youtube'
-                if has_youtube
-                    +youtube_edit key='youtube_id' label='youtube id'
                 +boolean_edit key='has_price' label='price' icon='coins'
                 if has_price
                     .ui.segment 
@@ -196,73 +135,38 @@ template(name='post_edit')
                         +number_edit key='price' label='price (points)' icon='money'
             .eight.wide.column
                 .ui.inline.header 
-                    +icolor name='news' cl='ui image inline pointer'
-                    |editing post
-                div 
-                .ui.inline.header 
                     +i name='happy'
                     |sentiment
                 +key_value_edit key='sentiment' value='positive' label='positive' icon='happy'
                 +key_value_edit key='sentiment' value='negative' label='negative' icon='sad'
-                div 
-                .ui.inline.header 
-                    small author
-                    |#{_author.username}
-                div 
-                if in_dev 
-                    +print_this
-                +array_edit key='tags' label='tags' direct=true icon='tags'
-                +visibility_settings
                 // +boolean_edit key='published' icon='visible' direct=true
-                if is_dev 
-                    +text_edit key='model' label='model' direct=true
-                +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                +publish_button
-                +link_edit key='link' label='link'
-                +group_picker
-                .ui.red.button.delete_post
-                    i.large.link.red.remove.icon
-                    |delete post
                     
                     
 template(name='product_card')
-    .ui.card.zoomer.fly_right(class=product_card_class title=ingredients)
-        if rescued 
-            .ui.top.right.attached.blue.label(title='rescued')
-                i.search.icon
-        if local 
-            .ui.top.right.attached.corner.green.label(title='local')
-                i.marker.icon
-        a.zoomer.fly_right(href="/doc/#{_id}") 
-            img.ui.centered.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
-        .content
-            a.ui.header.fly_right(href="/doc/#{_id}") 
-                //- |#{_author.name}'s
-                | #{title}
-            //- if session_is 'view_ingredients' true
-            //- .ui.inline.small.header tags
-            // .content
-            //     .right.floated.meta
-            //         | {{from_now datetime_available}}
-            //     //- if session_is 'view_users' true
-            // //- a.image(href="/doc/#{_id}")
-                
-        .content    
-            .ui.inline.header 
-                |${{fixed price_usd}}
-            i.big.link.cart.plus.green.icon.add_to_cart
-            if is_admin
-                a(href="/doc/#{_id}/edit")
-                    i.pencil.link.icon
-            .ui.inline.small.header 
-                |(#{menu_section}) 
-            div
-            .ui.inline.inline.small.grey.header #{views}
-                i.eye.icon
-            .ui.inline.inline.small.grey.header #{points} 
-                i.line.chart.icon
-            if group_id     
-                +group_info
+    if rescued 
+        .ui.top.right.attached.blue.label(title='rescued')
+            i.search.icon
+    if local 
+        .ui.top.right.attached.corner.green.label(title='local')
+            i.marker.icon
+    a.zoomer.fly_right(href="/doc/#{_id}") 
+        img.ui.centered.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+    .content
+        a.ui.header.fly_right(href="/doc/#{_id}") 
+            //- |#{_author.name}'s
+            | #{title}
+        //- if session_is 'view_ingredients' true
+        //- .ui.inline.small.header tags
+        // .content
+        //     .right.floated.meta
+        //         | {{from_now datetime_available}}
+        //     //- if session_is 'view_users' true
+        // //- a.image(href="/doc/#{_id}")
+            
+    .content    
+        .ui.inline.header 
+            |${{fixed price_usd}}
+        i.big.link.cart.plus.green.icon.add_to_cart
                 
                 
 template(name='product_item')
@@ -688,12 +592,6 @@ template(name='event_card')
                         i.grey.chat.outline.icon
                         img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=user_class)
                         |#{body}
-            if is_dev
-                +print_this
-            +voting
-            +favorite_icon_toggle
-            a.ui.circular.button.zoomer.fly_right(href="/doc/#{_id}")
-                i.large.chevron.right.icon
 
 
 template(name='event_item')
@@ -1196,118 +1094,99 @@ template(name='group_item')
 
 
 template(name='group_view')
-    // with data_doc
-        // img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-    // .global_container
-    img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-    .ui.stackable.padded.grid
-        .row
-            .four.wide.column
-                .ui.inline.header 
-                    +i name='campfire'
-                    |#{title}
-                if premium_membership
+    if premium_membership
+        .ui.header 
+            |premium membership: #{membership_cost}pts
+        .ui.button.purchase_membership
+            |purchase membership
+    .spacer
+    if link
+        a.ui.circular.button(href=link target='_window')
+            i.external.icon
+            |#{link}
+        .spacer
+    div
+    if address
+        a.ui.compact.circular.button(href=address_link target='_window')
+            i.marker.icon
+            |#{address}
+    +multi_user_view key='member_user_ids' label='members' direct=true
+    +join_button
+    if in_dev 
+        i.circular.link.large.refresh.icon.refresh_group_stats
+    .ui.fluid.styled.accordion
+            if has_members
+                +group_members
+            +checkin_widget
+            +group_activity
+            if has_events
+                .title
+                    .ui.inline.header
+                        +i name='calendar' 
+                        // i.calendar.large.icon
+                        |events
+                .content
+                    if currentUser 
+                        .ui.icon.button.add_group_event(title='add group event')
+                            i.plus.icon
+                    .ui.link.animated.list
+                        each group_events
+                            a.item(href="/event/#{_id}") 
+                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                                .content
+                                    .header #{title}
+                                    .description
+                                        if is_repeating
+                                            i.refresh.icon
+                                            |every #{repeating_day}
+                                        if start_datetime
+                                            |{{from_now start_datetime}}
+            if has_shop
+                .title
                     .ui.header 
-                        |premium membership: #{membership_cost}pts
-                    .ui.button.purchase_membership
-                        |purchase membership
-                if can_edit
-                    a.ui.circular.icon.button.fly_down(href="/doc/#{_id}/edit")
-                        i.setting.large.icon
-                +image_view key='image_id' icon='image' label='image'
-                +array_view key='tags' icon='tags'
-                .spacer
-                if link
-                    a.ui.circular.button(href=link target='_window')
-                        i.external.icon
-                        |#{link}
-                    .spacer
-                div
-                if address
-                    a.ui.compact.circular.button(href=address_link target='_window')
-                        i.marker.icon
-                        |#{address}
-                +viewing
-                if in_dev 
-                    +print_this
-                +multi_user_view key='member_user_ids' label='members' direct=true
-                +join_button
-                if in_dev 
-                    i.circular.link.large.refresh.icon.refresh_group_stats
-            .twelve.wide.column
-                .ui.fluid.styled.accordion
-                    if has_members
-                        +group_members
-                    +checkin_widget
-                    +group_activity
-                    if has_events
-                        .title
-                            .ui.inline.header
-                                +i name='calendar' 
-                                // i.calendar.large.icon
-                                |events
-                        .content
-                            if currentUser 
-                                .ui.icon.button.add_group_event(title='add group event')
-                                    i.plus.icon
-                            .ui.link.animated.list
-                                each group_events
-                                    a.item(href="/event/#{_id}") 
-                                        img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-                                        .content
-                                            .header #{title}
-                                            .description
-                                                if is_repeating
-                                                    i.refresh.icon
-                                                    |every #{repeating_day}
-                                                if start_datetime
-                                                    |{{from_now start_datetime}}
-                    if has_shop
-                        .title
-                            .ui.header 
-                                +i name='shop'
-                                |shop
-                        .content
-                            .ui.list 
-                                each group_products 
-                                    a.item(href="/doc/#{_id}")
-                                        img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-                                        |#{title}
-                    
-                    if has_posts
-                        .title
-                            .ui.inline.header 
-                                +i name='blog'
-                                |group posts
-                            if currentUser 
-                                .ui.icon.button.add_group_post(title='add group post')
-                                    i.plus.icon
-                        .content
-                            .ui.selection.animated.list
-                                each group_post_docs 
-                                    +post_item
-                    .title
-                        .ui.inline.header
-                            // i.info.icon
-                            +i name='info'
-                            |about
-                    .content
-                        +html_view key='description' icon='content' label='description'
-                    if has_chat
-                        .title
-                            .ui.header 
-                                +i name='chat'
-                                |chat
-                        .content
-                    .title
-                        .ui.header related groups
-                    .content
-                        .ui.header 
-                            +i name='connect'
-                            |related groups 
-                        .ui.list
-                            each related_group_docs
-                                +group_item
+                        +i name='shop'
+                        |shop
+                .content
+                    .ui.list 
+                        each group_products 
+                            a.item(href="/doc/#{_id}")
+                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                                |#{title}
+            
+            if has_posts
+                .title
+                    .ui.inline.header 
+                        +i name='blog'
+                        |group posts
+                    if currentUser 
+                        .ui.icon.button.add_group_post(title='add group post')
+                            i.plus.icon
+                .content
+                    .ui.selection.animated.list
+                        each group_post_docs 
+                            +post_item
+            .title
+                .ui.inline.header
+                    // i.info.icon
+                    +i name='info'
+                    |about
+            .content
+                +html_view key='description' icon='content' label='description'
+            if has_chat
+                .title
+                    .ui.header 
+                        +i name='chat'
+                        |chat
+                .content
+            .title
+                .ui.header related groups
+            .content
+                .ui.header 
+                    +i name='connect'
+                    |related groups 
+                .ui.list
+                    each related_group_docs
+                        +group_item
                 
 
 

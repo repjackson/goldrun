@@ -1202,12 +1202,6 @@ template(name='group_view')
 
 
 
-template(name='group_info')
-    with group_doc
-        .ui.large.image.label(title='group') 
-            +i name='campfire'
-            img.ui.image(src="{{c.url image_id width=200 height=200}}")
-            // |#{title}
 
 
 template(name='group_edit')
@@ -1805,12 +1799,7 @@ template(name='task_card')
             
         
 template(name='task_item')
-    a.ui.inline.header(href="/doc/#{_id}/view") #{title}
-    .ui.small.grey.inline.header #{when}
-    | !{content}
-    each tags 
-        .ui.basic.small.label #{this}
-        
+    +boolean_view key='complete'        
 
 template(name='task_view')
     .ui.stackable.padded.grid

@@ -4,6 +4,26 @@ template(name='send_points_button')
         unless currentUser.hide_menu_labels
             |send points
         
+template(name='log_item')
+    .ui.segment(class=read_class)
+        |#{body}
+        +when
+        +read_button
+        +group_info
+        +author_info
+        if in_dev 
+            +print_this
+        
+     
+     
+template(name='group_info')
+    i.fire.icon
+    with related_group_doc
+        .ui.large.image.label(title='group') 
+            +i name='campfire'
+            img.ui.image(src="{{c.url image_id width=200 height=200}}")
+            // |#{title}
+        
         
 template(name='audience_settings')
     .ui.header

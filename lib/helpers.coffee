@@ -22,10 +22,11 @@ if Meteor.isClient
 
     
     Template.registerHelper 'unread_log_docs', () -> 
-        Docs.find 
+        Docs.find {
             model:'log'
             read_user_ids:$nin:[Meteor.userId()]
-        
+        },
+            sort:_timestamp:-1
         
     Template.registerHelper 'darkmode_class', () -> 
         if Meteor.user()

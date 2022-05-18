@@ -208,6 +208,9 @@ if Meteor.isClient
         Meteor.setTimeout ->
             $('.accordion').accordion()
         , 1000
+    Template.group_info.onCreated ->
+        console.log @data
+        @autorun => Meteor.subscribe 'doc_by_id', @data.group_id, ->
     Template.comments.onCreated ->
         # if Router.current().params.doc_id
         #     parent = Docs.findOne Router.current().params.doc_id

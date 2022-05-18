@@ -108,7 +108,7 @@ template(name='profile')
                         .ui.padded.grid 
                             .one.column.row
                                 .column
-                                    if bio
+                                    if has_bio
                                         .ui.header 
                                             +i name='info'
                                             |about
@@ -117,15 +117,15 @@ template(name='profile')
                                             +watson_view
                                     .ui.header 
                                         +i name='envelope'
-                                        |messages
-                                    if currentUser
-                                        unless is_current_user
-                                            +send_message_button
-                                    .ui.header 
-                                        |unread logs
-                                    .ui.list
-                                        each unread_log_docs
-                                            +log_item
+                                        |messages/unread logs
+                                        if unread_log_docs
+                                            .ui.label 
+                                                |#{unread_log_docs.count}
+                                    // if currentUser
+                                    //     unless is_current_user
+                                    //         +send_message_button
+                                    each unread_log_docs
+                                        +log_item
                                     .ui.small.header
                                         +i name='sent'
                                         |sent

@@ -34,15 +34,10 @@ template(name='recent_logs')
         |#{logs.count} log messages
     .ui.small.inline.header
         |#{unread_log_count} unread
-    .ui.divided.list.selection.scrolling
-        each logs
-            +log_item
+    // .ui.divided.list.selection.scrolling
+    each logs
+        +log_item
 
-template(name='log_item')
-    .ui.item
-        |#{body}
-        +when
-        +read_button
 
 
 template(name='received_messages')                    

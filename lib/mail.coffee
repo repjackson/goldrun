@@ -46,6 +46,12 @@ if Meteor.isClient
     Template.recent_logs.onCreated ->
         @autorun => @subscribe 'recent_logs', ->
             
+            
+    Template.log_item.helpers
+        read_class: ->
+            if Meteor.userId() in @read_user_ids then 'small' else 'large raised'
+            
+            
 if Meteor.isServer
     Meteor.publish 'recent_logs', ->
         Docs.find 

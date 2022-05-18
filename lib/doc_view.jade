@@ -12,7 +12,7 @@ template(name='doc_view')
             img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
             .row 
-                .six.wide.column.scrollin
+                .sixteen.wide.column
                     +model_label
                     .ui.large.inline.header 
                         //- small viewing
@@ -20,6 +20,7 @@ template(name='doc_view')
                     if can_edit
                         a.zoom.zoomer(href="/doc/#{_id}/edit")
                             i.pencil.blue.big.link.circular.icon
+                .six.wide.column.scrollin
                     // a(href="{{c.url image_id}}" target="_window")
                     // .four.wide.column
                     if image_id2
@@ -68,22 +69,24 @@ template(name='doc_view')
                     +tips
                     if has_price
                         +post_orders
-                    +author_info
+                    div
+                    .ui.inline.header 
+                        +i name='binoculars'
+                        |#{current_viewer_users.count} current viewers
+                    each current_viewer_users
+                        +user_info
+                    
                 .ten.wide.column.scrollin
                     // .smallscroll.zoomer
-                    img.ui.rounded.fluid.image.zoomer(src="{{c.url image_id}}")
-                
-                    +Template.dynamic template=model_template 
+                    if image_id 
+                        img.ui.rounded.fluid.image.zoomer(src="{{c.url image_id}}")
                     .ui.segment.alpha.zoomer
                         |!{content}
+                
+                    +Template.dynamic template=model_template 
                     +comments
                     if watson 
                         +watson_view
-                    +follow_button
-                    .ui.header 
-                        |current viewers
-                    each current_viewer_users
-                        .ui.header #{username}
                 // if in_dev
                 //     .ui.segment 
                 //         .ui.header admin

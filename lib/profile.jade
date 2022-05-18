@@ -140,8 +140,6 @@ template(name='profile')
                                     each user_messages_received
                                         |#{body}
             
-                        // if is_current_user
-                        //     +profile_deposits
                         +user_reviews
                         +user_posts
                         +user_groups
@@ -154,6 +152,8 @@ template(name='profile')
                                 |currently viewing
                             with current_viewing_doc
                                 +doc_item
+                        if is_current_user
+                            +profile_deposits
                     else 
                         .ui.basic.center.aligned.segment
                             i.massive.loading.refresh.icon
@@ -388,26 +388,29 @@ template(name='user_posts')
                                 |#{when}
 
 template(name='profile_deposits')
-    .title
-        .ui.header 
-            +i name='donate'
-            |#{deposit_docs.count} deposits
-        // |includes 2% points card processing fee
-    .content
-        .ui.action.fluid.input
-            input.deposit_amount(type='number' min='1' placeholder='deposit')
-            .ui.icon.button.add_points   
-                i.right.chevron.icon
-                
-        .ui.large.bulleted.list.smallscrol
-            each deposit_docs
-                .item 
-                    .content
-                        .header 
-                            |$#{amount}
-                        .description #{when} {{long_date _timestamp}}
-                        //- if is_dev
-                        +remove_button
+    .ui.fluid.accordion.alpha.zoomer
+        .title
+            .ui.header 
+                +i name='donate'
+                |#{deposit_docs.count} deposits
+            // |includes 2% points card processing fee
+        .content
+            
+            // .ui.action.fluid.input
+            //     input.deposit_amount(type='number' min='1' placeholder='deposit')
+            //     .ui.icon.button.add_points   
+            //         i.right.chevron.icon
+            img.ui.image(src="{{c.url 'dao_venmo'}}")
+            .ui.header donate here with your username in the message
+            .ui.large.bulleted.list.smallscrol
+                each deposit_docs
+                    .item 
+                        .content
+                            .header 
+                                |$#{amount}
+                            .description #{when} {{long_date _timestamp}}
+                            //- if is_dev
+                            +remove_button
 
 
 

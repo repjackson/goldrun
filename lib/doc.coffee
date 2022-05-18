@@ -34,6 +34,8 @@ if Meteor.isClient
         item_template: -> "#{@model}_item"
         
     Template.docs.onCreated ->
+        Session.setDefault('model','post')
+        Session.setDefault('limit',10)
         # @autorun => @subscribe 'model_docs', 'post', ->
         @autorun => @subscribe 'facet_sub',
             Session.get('model')

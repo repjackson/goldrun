@@ -56,10 +56,9 @@ template(name='doc_view')
                     .ui.large.inline.header 
                         //- small viewing
                         | #{title}
-                    div
                     if can_edit
                         a(href="/doc/#{_id}/edit")
-                            i.pencil.blue.large.link.circular.icon
+                            i.pencil.blue.big.link.circular.icon
                     // a(href="{{c.url image_id}}" target="_window")
                     // .four.wide.column
                     img.ui.rounded.fluid.image.zoomer(src="{{c.url image_id}}")
@@ -67,8 +66,7 @@ template(name='doc_view')
                         img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
                     +message_author_button
                     +group_widget
-                
-                    +favorite_icon_toggle
+                    +favorites
                     +comments
                     .ui.dividing.header 
                         +i name='line-chart'
@@ -91,7 +89,6 @@ template(name='doc_view')
                         .item 
                             |#{tip_total}
                             |tip total
-                        
                 .ten.wide.column
                     +Template.dynamic template=model_template 
                 // if in_dev
@@ -150,6 +147,8 @@ template(name='docs')
             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
             +session_set key='sort_key' value='views' label='views' icon='eye'
+            +session_set key='limit' value=10
+            +session_set key='limit' value=25
             .scrolling
                 if subs_ready
                     if session_is 'view_mode' 'grid'
@@ -173,6 +172,10 @@ template(name='docs')
                     .ui.center.aligned.basic.segment
                         i.massive.yin.yang.loading.grey.icon
 
+
+template(name='set_limit')
+    .ui.compact.button.set_limit
+        |#{value}
 
 template(name='doc_card')
     .ui.card
@@ -202,6 +205,25 @@ template(name='doc_card')
                 
 template(name='doc_item')
     a.item.fly_down(href="/doc/#{_id}")
+        if youtube_id
+            +youtube_view key='youtube_id'
+        else if image_id
+            img.ui.small.rounded.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        a.ui.inline.header(href="/doc/#{_id}" class=emotion_color) #{title}
+        .ui.small.basic.label(title='created when')
+            |#{when}
+        span(title='views')
+            i.grey.eye.icon
+            |#{views}
+        +author_info
+        if group_id     
+            +group_info
+        each seven_tags 
+            .ui.basic.small.label #{this}
+        
+        .smallcut
+            | !{content}
+    
         +Template.dynamic template=item_template
         .content
             if is_dev

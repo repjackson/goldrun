@@ -275,8 +275,18 @@ template(name='session_set')
         // else 
         if label
             |#{label}
-        // else 
-        //     |#{value}
+        else 
+            |#{value}
+           
+           
+template(name='favorites')
+    .ui.inline.header 
+        +i name='heart'
+        |favorites
+    +favorite_icon_toggle
+    each favorited_usernames
+        a.ui.large.basic.label(href="/user/#{this}") #{this}
+
                 
                 
                 

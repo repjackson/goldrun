@@ -24,8 +24,8 @@ if Meteor.isClient
             username = $('.username').val()
             password = $('#pass').val()
             # console.log options
-            console.log username
-            console.log password
+            # console.log username
+            # console.log password
             Meteor.loginWithPassword username, password, (err,res)=>
                 if err
                     console.log err
@@ -37,7 +37,7 @@ if Meteor.isClient
                     # Router.go "/user/#{username}"
                     $(e.currentTarget).closest('.grid').transition('fly right', 500)
                     Meteor.setTimeout ->
-                        Router.go "/"
+                        Router.go "/user/#{username}"
                     , 500
                     $('body').toast({
                         title: "logged in"

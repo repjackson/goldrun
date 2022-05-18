@@ -37,25 +37,6 @@ template(name='post_card_med')
             if group_id     
                 +group_info
 template(name='post_item')
-    a.ui.link.item.fly_right(href="/doc/#{_id}")
-        if youtube_id
-            +youtube_view key='youtube_id'
-        else if image_id
-            img.ui.fluid.rounded.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        a.ui.inline.header(href="/doc/#{_id}" class=emotion_color) #{title}
-        .ui.small.basic.label(title='created when')
-            |#{when}
-        span(title='views')
-            i.grey.eye.icon
-            |#{views}
-        +author_info
-        if group_id     
-            +group_info
-        each seven_tags 
-            .ui.basic.small.label #{this}
-        
-        .smallcut
-            | !{content}
         
 
 template(name='post_view')
@@ -93,10 +74,6 @@ template(name='post_orders')
             .ui.button.purchase_access
                 |purchase access
                 
-                
-template(name='post_related')
-    .ui.header 
-        |related posts
                 
                 
 
@@ -1383,25 +1360,19 @@ template(name='group_picker')
                 
                 
 template(name='rental_item')
-    if image_id
-        img.ui.zoomer.small.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
-    .content
-        a.header.zoomer.fly_right(href="/doc/#{_id}/") 
-            | #{title}
-        div
-        .ui.inline.header 
-            |#{daily_rate}
-            small p/day
-        // if tags
-        //     i.tag.icon
-        // each tags
-        //     a.ui.small.link.black.label.flat_pick_tag.spaced #{this}
-        // .right.floated.meta
-        //     | added #{when}
-        unless anonymous
-            a(href="/user/#{_author_username}")
-                img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
-                |#{_author_username}
+    .ui.inline.header 
+        |#{daily_rate}
+        small p/day
+    // if tags
+    //     i.tag.icon
+    // each tags
+    //     a.ui.small.link.black.label.flat_pick_tag.spaced #{this}
+    // .right.floated.meta
+    //     | added #{when}
+    unless anonymous
+        a(href="/user/#{_author_username}")
+            img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
+            |#{_author_username}
 template(name='rental_card')
     .ui.card(class=rental_card_class)
         a.image.fly_right(href="/doc/#{_id}/") 

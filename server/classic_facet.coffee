@@ -387,6 +387,7 @@ Meteor.publish 'doc_results', (
     console.log 'results match', match
     console.log 'sort_key', sort_key
     console.log 'sort_direction', sort_direction
+    console.log 'limit', limit
     
     Docs.find match,
         sort:"#{sort_key}":sort_direction

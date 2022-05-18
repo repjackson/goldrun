@@ -74,14 +74,21 @@ if Meteor.isClient
         'click .toggle_fav': ->
             if Meteor.user().favorite_ids and @_id in Meteor.user().favorite_ids
                 Meteor.users.update Meteor.userId(),
-                    $pull:favorite_ids:@_id
+                    $pull:
+                        favorite_ids:@_id
+                Docs.update @_id, 
+                    $pull:
+                        favorited_user_ids:Meteor.userId()
+                        favorited_usernames:Meteor.user().username
+                        
             else
                 Meteor.users.update Meteor.userId(),
-                    $addToSet:favorite_ids:@_id
-                
-            # if @favorite_ids and Meteor.userId() in @favorite_ids
-            #     Docs.update @_id, 
-            #         $pull:favorite_ids:Meteor.userId()
+                    $addToSet:
+                        favorite_ids:@_id
+                Docs.update @_id, 
+                    $addToSet:
+                        favorited_user_ids:Meteor.userId()
+                        favorited_usernames:Meteor.user().username
                 $('body').toast(
                     showIcon: 'heart'
                     message: "marked favorite"
@@ -385,9 +392,9 @@ if Meteor.isClient
                 parent_id:@_id
                 parent_model:'group'
 
-    # Template.set_limit.events
-    #     'click .set_limit': ->
-    #         Session.set('limit',parseInt(@amount))
+    Template.set_limit.events
+        'click .set_limit': ->
+            Session.set('limit',parseInt(@value))
 
 
 

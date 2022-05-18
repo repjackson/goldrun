@@ -497,7 +497,7 @@ template(name='service_item')
         a.ui.header(href="/service/#{_id}/view") #{title}
         div
         .ui.small.grey.inline.header #{when}
-        | #{content}
+        | !{content}
         each tags 
             .ui.basic.small.label #{this}
         
@@ -1114,11 +1114,15 @@ template(name='group_view')
     +join_button
     if in_dev 
         i.circular.link.large.refresh.icon.refresh_group_stats
-    .ui.fluid.styled.accordion
+    .ui.one.column.stackable.padded.grid
+        .column
             if has_members
                 +group_members
+        .column
             +checkin_widget
+        .column
             +group_activity
+        .column
             if has_events
                 .title
                     .ui.inline.header
@@ -1141,6 +1145,7 @@ template(name='group_view')
                                             |every #{repeating_day}
                                         if start_datetime
                                             |{{from_now start_datetime}}
+        .column
             if has_shop
                 .title
                     .ui.header 
@@ -1153,6 +1158,7 @@ template(name='group_view')
                                 img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
                                 |#{title}
             
+        .column
             if has_posts
                 .title
                     .ui.inline.header 
@@ -1165,19 +1171,14 @@ template(name='group_view')
                     .ui.selection.animated.list
                         each group_post_docs 
                             +post_item
-            .title
-                .ui.inline.header
-                    // i.info.icon
-                    +i name='info'
-                    |about
-            .content
+        .column
+            .ui.inline.header
+                // i.info.icon
+                +i name='info'
+                |about
+            .scrolling
                 +html_view key='description' icon='content' label='description'
-            if has_chat
-                .title
-                    .ui.header 
-                        +i name='chat'
-                        |chat
-                .content
+        .column
             .title
                 .ui.header related groups
             .content

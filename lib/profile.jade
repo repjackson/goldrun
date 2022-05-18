@@ -49,7 +49,7 @@ template(name='profile')
                         .ui.circular.compact.button(href=twitter_link target='_window')
                             +i name='twitter'
                     a.ui.large.icon.fluid.button.fly_up(href="/user/#{username}/edit" title='profile settings')
-                        i.cog.large.icon
+                        +i name='settings'
                         unless currentUser.hide_menu_labels
                             |account
                     div
@@ -160,7 +160,7 @@ template(name='user_favorites')
                  
 template(name='user_points')        
     .ui.stackable.padded.grid
-        .two.column.row
+        .one.column.row
             .column
                 .ui.dividing.header 
                     +i name='coins'

@@ -61,7 +61,6 @@ template(name='users')
                             +user_item
             //             div
 
-template(name='user_cloud')
 
 template(name='user_card')
     a.card.zoomer.fly_left(href="/user/#{username}")
@@ -149,8 +148,8 @@ template(name='user_item')
                 each credit_tags
                     .ui.small.basic.label #{title}
             if tags 
-                each tags 
-                    .ui.label #{this}
+                each five_tags 
+                    .ui.large.basic.label #{this}
             if online
                 .ui.green.label online
             if current_status

@@ -105,54 +105,50 @@ template(name='profile')
                     +send_points_button
                 .twelve.wide.column
                     if subs_ready
-                        .ui.padded.grid 
-                            .one.column.row
-                                .column
-                                    if has_bio
-                                        .ui.header 
-                                            +i name='info'
-                                            |about
-                                        .smallscroll !{bio}
-                                        if watson
-                                            +watson_view
-                                    .ui.header 
-                                        +i name='envelope'
-                                        |messages/unread logs
-                                        if unread_log_docs
-                                            .ui.label 
-                                                |#{unread_log_docs.count}
-                                    // if currentUser
-                                    //     unless is_current_user
-                                    //         +send_message_button
-                                    each unread_log_docs
-                                        +log_item
-                                    .ui.small.header
-                                        +i name='sent'
-                                        |sent
-                                    .ui.list 
-                                        each user_messages_sent
-                                            |#{body}
-                                    .ui.small.header
-                                        +i name='internal'
-                                        |received
-                                    .ui.list 
-                                        each user_messages_received
-                                            |#{body}
-                
-                                    if is_current_user
-                                        +profile_deposits
-                                    +user_reviews
-                                    +user_posts
-                                    +user_groups
-                                    +user_friends
-                                .column
-                                    .ui.segment.alpha
-                                        +user_favorites
-                                    .ui.segment.alpha
-                                        .ui.header 
-                                            +i name='coins'
-                                            |points
-                                        +user_points
+                        if has_bio
+                            .ui.header 
+                                +i name='info'
+                                |about
+                            .smallscroll !{bio}
+                            if watson
+                                +watson_view
+                        .ui.header 
+                            +i name='envelope'
+                            |messages/unread logs
+                            if unread_log_docs
+                                .ui.label 
+                                    |#{unread_log_docs.count}
+                        // if currentUser
+                        //     unless is_current_user
+                        //         +send_message_button
+                        each unread_log_docs
+                            +log_item
+                        .ui.small.header
+                            +i name='sent'
+                            |sent
+                        .ui.list 
+                            each user_messages_sent
+                                |#{body}
+                        .ui.small.header
+                            +i name='internal'
+                            |received
+                        .ui.list 
+                            each user_messages_received
+                                |#{body}
+    
+                        if is_current_user
+                            +profile_deposits
+                        +user_reviews
+                        +user_posts
+                        +user_groups
+                        +user_friends
+                        .ui.segment.alpha
+                            +user_favorites
+                        .ui.segment.alpha
+                            .ui.header 
+                                +i name='coins'
+                                |points
+                            +user_points
                     else 
                         .ui.basic.center.aligned.segment
                             i.massive.loading.refresh.icon

@@ -393,6 +393,7 @@ if Meteor.isClient
                 body:"#{Meteor.user().username} joined #{@title}"
                 parent_id:@_id
                 parent_model:'group'
+                group_id:@_id
         'click .leave': ->
             Docs.update @_id, 
                 $pull:
@@ -403,6 +404,7 @@ if Meteor.isClient
                 body:"#{Meteor.user().username} left #{@title}"
                 parent_id:@_id
                 parent_model:'group'
+                group_id:@_id
 
 
     Template.big_user_card.onCreated ->

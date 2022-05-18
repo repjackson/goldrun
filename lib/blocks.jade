@@ -19,10 +19,10 @@ template(name='log_item')
 template(name='group_info')
     i.fire.icon
     with related_group_doc
-        .ui.large.image.label(title='group') 
+        a.ui.large.image.label.zoomer.zoom(title='group' href="/doc/#{_id}") 
             +i name='campfire'
             img.ui.image(src="{{c.url image_id width=200 height=200}}")
-            // |#{title}
+            |#{title}
         
         
 template(name='audience_settings')

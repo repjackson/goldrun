@@ -849,16 +849,29 @@ if Meteor.isServer
             model:'group'
             _id:$nin:[group_id]
         }, limit:10
+    
+    Meteor.publish 'group_log_docs', (group_id)->
+        Docs.find 
+            model:'log'
+            group_id:group_id
+    
+    
 if Meteor.isClient
     Template.group_view.onCreated ->
-        # @autorun => Meteor.subscribe 'children', 'group_update', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'group_logs', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_leaders', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_events', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_posts', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_products', Router.current().params.doc_id, ->
     
-
+    Template.group_view.helpers
+        group_log_docs: ->
+            Docs.find {
+                model:'log'
+                group_id:Router.current().params.doc_id
+            },
+                sort:_timestamp:-1
     # Template.groups_small.onCreated ->
     #     @autorun => Meteor.subscribe 'model_docs', 'group', Sesion.get('group_search'),->
     # Template.groups_small.helpers

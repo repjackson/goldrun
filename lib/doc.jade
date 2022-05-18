@@ -81,7 +81,16 @@ template(name='doc_view')
                         img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
                     with _author
                         +user_card
-                    +array_view key='tags' icon='tags'
+                    .ui.accordion 
+                        .title(title='tags')
+                            |#{tags.length}
+                            +i name='tags'
+                            each five_tags 
+                                .ui.basic.label #{this}
+                            strong ...
+                        .content
+                            each tags 
+                                .ui.label #{this}
                     +message_author_button
                     +group_widget
                     +favorites

@@ -152,7 +152,13 @@ template(name='user_favorites')
                 a.item.fly_up(href="/doc/#{_id}")
                     img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
                     .inline.header #{title}
+                    +when
                     +model_label
+                    each three_tags
+                        .ui.small.basic.label #{this}
+                    
+template(name='when')
+    .ui.label(title="{{long_date _timestamp}}") #{when}
                     
                     
 template(name='model_label')
@@ -350,14 +356,13 @@ template(name="user_reviews")
                 |#{amount}
 
 template(name='user_posts')
-    .title
+    .ui.segment.alpha
         .ui.header 
             +i name='blog'
-            |user posts
-    .content
-        if is_current_user
-            .ui.circular.button.add_user_post
-                i.large.plus.icon
+            |authored posts
+        // if is_current_user
+        //     .ui.circular.button.add_user_post
+        //         i.large.plus.icon
         .ui.selection.link.animated.divided.list.scrolling
             each user_model_docs 'post'
                 a.item.fly_left(href="/doc/#{_id}") 

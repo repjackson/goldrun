@@ -64,8 +64,7 @@ template(name='doc_view')
         .ui.stackable.padded.grid
             .row 
                 .six.wide.column.scrollin
-                    .ui.small.grey.inline.header
-                        |viewing #{model}
+                    +model_label
                     .ui.large.inline.header 
                         //- small viewing
                         | #{title}
@@ -78,6 +77,7 @@ template(name='doc_view')
                         img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
                     with _author
                         +user_card
+                    +array_view key='tags' icon='tags'
                     +message_author_button
                     +group_widget
                     +favorites
@@ -105,7 +105,8 @@ template(name='doc_view')
                             |tip total
                     +author_info
                 .ten.wide.column.scrollin
-                    img.ui.rounded.fluid.image.zoomer(src="{{c.url image_id}}")
+                    .smallscroll.zoomer
+                        img.ui.rounded.fluid.image(src="{{c.url image_id}}")
                 
                     +Template.dynamic template=model_template 
                     .ui.segment.alpha.zoomer
@@ -191,7 +192,12 @@ template(name='docs')
 
 
 template(name='doc_card')
-    .ui.card
+    a.ui.card.zoom(href="/doc/#{_id}")
+        if youtube_id
+            +youtube_view key='youtube_id'
+        else if image_id
+            img.ui.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+    
         +Template.dynamic template=card_template
         .content
             if is_dev

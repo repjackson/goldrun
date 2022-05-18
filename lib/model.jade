@@ -124,12 +124,12 @@ template(name='product_card')
     if local 
         .ui.top.right.attached.corner.green.label(title='local')
             i.marker.icon
-    a.zoomer.fly_right(href="/doc/#{_id}") 
-        img.ui.centered.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
-    .content
-        a.ui.header.fly_right(href="/doc/#{_id}") 
-            //- |#{_author.name}'s
-            | #{title}
+    // a.zoomer.fly_right(href="/doc/#{_id}") 
+    //     img.ui.centered.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+    // .content
+        // a.ui.header.fly_right(href="/doc/#{_id}") 
+        //     //- |#{_author.name}'s
+        //     | #{title}
         //- if session_is 'view_ingredients' true
         //- .ui.inline.small.header tags
         // .content
@@ -140,7 +140,7 @@ template(name='product_card')
             
     .content    
         .ui.inline.header 
-            |${{fixed price_usd}}
+            |{{price_points}}pts
         i.big.link.cart.plus.green.icon.add_to_cart
                 
                 
@@ -1002,26 +1002,23 @@ template(name='event_edit')
 
 
 template(name='group_card')
-    a.ui.card.zoomer.fly_right(href="/doc/#{_id}")
-        if image_id
-            img.ui.image(src="{{c.url image_id width=600 height=600}}")
-        .content
-            a.ui.header
-                |#{title}
-            .ui.basic.label(title='member count')
-                i.users.icon
-                |#{member_count}
-                // |members
-            .ui.basic.label
-                i.grey.eye.icon 
-                |#{views}
-            .smallcut
-                |!{description}
-            //+ismall name='tags' cl='ui inline image'
-            each seven_tags
-                .ui.label #{this}
-            // if is_admin
-            //     .ui.small.header slug: #{slug}
+    .content
+        a.ui.header
+            |#{title}
+        .ui.basic.label(title='member count')
+            i.users.icon
+            |#{member_count}
+            // |members
+        .ui.basic.label
+            i.grey.eye.icon 
+            |#{views}
+        .smallcut
+            |!{description}
+        //+ismall name='tags' cl='ui inline image'
+        each seven_tags
+            .ui.label #{this}
+        // if is_admin
+        //     .ui.small.header slug: #{slug}
 template(name='group_card_med')
     a.ui.card.zoomer.fly_right(href="/doc/#{_id}")
         if image_id
@@ -1085,14 +1082,34 @@ template(name='group_view')
         a.ui.compact.circular.button(href=address_link target='_window')
             i.marker.icon
             |#{address}
-    +multi_user_view key='member_user_ids' label='members' direct=true
+    each _members 
+        .ui.header #{username}
+    // +multi_user_view key='member_user_ids' label='members' direct=true
     +join_button
     if in_dev 
         i.circular.link.large.refresh.icon.refresh_group_stats
     .ui.two.column.stackable.padded.grid
-        .column
-            if has_members
-                +group_members
+        if has_members
+            .column
+                .ui.header
+                    +i name='groups'
+                    |people
+                    .ui.button.add_user_member
+                        |add member
+                if leaders_id
+                    .ui.inline.header 
+                        +i name='crown' cl='ui avatar image'
+                        // i.crown.icon
+                        |leaders: 
+                    each leader_ids 
+                        +user_info
+                div
+                .ui.inline.header 
+                    +i name='groups'
+                    // i.users.icon
+                    |#{member_ids.length} members
+                each member_ids
+                    +user_info
         .column
             +checkin_widget
         .column
@@ -1213,28 +1230,6 @@ template(name='group_edit')
                 
                     
                
-template(name='group_members')
-    .title
-        .ui.header
-            +i name='groups'
-            |people
-            .ui.button.add_user_member
-                |add member
-    .content
-        if leaders_id
-            .ui.inline.header 
-                +i name='crown' cl='ui avatar image'
-                // i.crown.icon
-                |leaders: 
-            each leader_ids 
-                +user_info
-        div
-        .ui.inline.header 
-            +i name='groups'
-            // i.users.icon
-            |#{member_ids.length} members
-        each member_ids
-            +user_info
 
                
 template(name='checkin_widget')
@@ -1367,9 +1362,6 @@ template(name='rental_item')
     //         |#{_author_username}
 template(name='rental_card')
     .ui.card(class=rental_card_class)
-        a.image.fly_right(href="/doc/#{_id}/") 
-            if image_id
-                img.ui.zoomer.pointer.goto_rental.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
         .content
             a.header.zoomer.fly_right(href="/doc/#{_id}/") 
                 | #{title}

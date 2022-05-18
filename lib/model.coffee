@@ -885,8 +885,10 @@ if Meteor.isClient
             Docs.find 
                 model:'post'
                 group_id:Router.current().params.doc_id
-    Template.group_members.helpers
-
+    Template.group_view.helpers
+        _members: ->
+            Meteor.users.find 
+                _id:$in:@member_user_ids
     # Template.group_products.events
     #     'click .add_product': ->
     #         new_id = 
@@ -921,23 +923,18 @@ if Meteor.isClient
                     model:'event'
                     group_id:Router.current().params.doc_id
             Router.go "/doc/#{new_id}/edit"
-        # 'click .join': ->
-        #     Docs.update
-        #         model:'group'
-        #         _author_id: Meteor.userId()
-        # 'click .group_leave': ->
-        #     my_group = Docs.findOne
-        #         model:'group'
-        #         _author_id: Meteor.userId()
-        #         ballot_id: Router.current().params.doc_id
-        #     if my_group
-        #         Docs.update my_group._id,
-        #             $set:value:'no'
-        #     else
-        #         Docs.insert
-        #             model:'group'
-        #             ballot_id: Router.current().params.doc_id
-        #             value:'no'
+        'click .join': ->
+            doc = Docs.findOne Router.current().params.doc_id
+            Docs.update doc._id,
+                $addToSet:
+                    member_user_ids:Meteor.userId()
+                    member_usernames:Meteor.user().username
+        'click .leave': ->
+            doc = Docs.findOne Router.current().params.doc_id
+            Docs.update doc._id,
+                $pull:
+                    member_user_ids:Meteor.userId()
+                    member_usernames:Meteor.user().username
 
 
 if Meteor.isServer

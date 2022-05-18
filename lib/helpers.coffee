@@ -228,7 +228,8 @@ if Meteor.isClient
                 if Meteor.userId() in @["#{key}"] then true else false
     
     
-    Template.registerHelper 'current_user', () ->  Meteor.users.findOne username:Router.current().params.username
+    Template.registerHelper 'current_user', () ->  
+        Meteor.users.findOne username:Router.current().params.username
     Template.registerHelper 'order_rental', -> 
         Docs.findOne 
             _id:@rental_id
@@ -237,7 +238,7 @@ if Meteor.isClient
     Template.registerHelper 'can_edit', () ->
         # Session.equals('current_username',@_author_username)
         # Meteor.user()
-        Meteor.userId() is @_author_id or 'admin' in Meteor.user().roles
+        Meteor.userId() is @_author_id or Meteor.user().admin_mode
     
     Template.registerHelper 'publish_when', () -> moment(@publish_date).fromNow()
     

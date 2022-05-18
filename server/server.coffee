@@ -50,10 +50,16 @@ Meteor.publish 'author_by_id', (doc_id)->
     Meteor.users.find(doc._author_id)
     
 Meteor.publish 'unread_logs', ()->
-    Docs.find 
+    Docs.find {
         model:'log'
         read_user_ids:$nin:[Meteor.userId()]
-    
+    },
+        fields:
+            body:1
+            _timestamp:1
+            read_user_ids:1
+            log_type:1
+            model:1
     
 Meteor.publish 'all_users', (child_id)->
     Meteor.users.find()

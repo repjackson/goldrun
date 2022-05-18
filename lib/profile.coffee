@@ -94,7 +94,7 @@ if Meteor.isClient
                 model:'group'
                 _id:current_user.group_memberships
 
-    Template.user_messages.helpers
+    Template.profile.helpers
         ununread_log_docs: ->
             Docs.find 
                 model:'log'

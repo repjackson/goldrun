@@ -21,6 +21,12 @@ if Meteor.isClient
             member_user_ids: $in:[Meteor.user()._id]
 
     
+    Template.registerHelper 'unread_log_docs', () -> 
+        Docs.find 
+            model:'log'
+            read_user_ids:$nin:[Meteor.userId()]
+        
+        
     Template.registerHelper 'darkmode_class', () -> 
         if Meteor.user()
             if Meteor.user().darkmode then 'invert' else ''

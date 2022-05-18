@@ -33,6 +33,7 @@ template(name='doc_edit')
                     div
                     +text_edit key='title' label='title' 
                     +image_edit key='image_id' label='image' 
+                    +image_edit key='background_image_id' label='background image' 
                     +html_edit key='content' label='content'
                     +call_watson key='content'
                     +array_edit key='tags' label='tags' icon='tags'
@@ -60,7 +61,10 @@ template(name='author_edit')
                         
 template(name='doc_view')
     with doc_data
-        img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+        if background_image_id
+            img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+        else 
+            img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
             .row 
                 .six.wide.column.scrollin

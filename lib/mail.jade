@@ -38,6 +38,11 @@ template(name='recent_logs')
         each logs
             +log_item
 
+template(name='log_item')
+    .ui.item
+        |#{body}
+        +when
+        +read_button
 
 
 template(name='received_messages')                    

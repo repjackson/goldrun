@@ -106,14 +106,44 @@ template(name='profile')
                 .twelve.wide.column
                     if subs_ready
                         .ui.padded.grid 
-                            .two.column.row
+                            .one.column.row
                                 .column
                                     if bio
                                         .ui.header 
                                             +i name='info'
                                             |about
                                         .smallscroll !{bio}
-                                    +user_messages
+                                        if watson
+                                            +watson_view
+                                    .ui.dividing.header 
+                                        +i name='envelope'
+                                        |user mail  
+                                    // if is_current_user
+                                    //     +inbox
+                                    .ui.header 
+                                        +i name='envelope'
+                                        |messages
+                                    if currentUser
+                                        unless is_current_user
+                                            +send_message_button
+                                    .ui.header 
+                                        |unread logs
+                                    .ui.list
+                                        each unread_log_docs
+                                            +log_item
+                                    .ui.small.header
+                                        +i name='sent'
+                                        |sent
+                                    .ui.list 
+                                        each user_messages_sent
+                                            |#{body}
+                                    .ui.small.header
+                                        +i name='internal'
+                                        |received
+                                    .ui.list 
+                                        each user_messages_received
+                                            |#{body}
+                
                                     if is_current_user
                                         +profile_deposits
                                     +user_reviews
@@ -132,14 +162,6 @@ template(name='profile')
                         .ui.basic.center.aligned.segment
                             i.massive.loading.refresh.icon
                           
-template(name='user_mail')                    
-    .ui.dividing.header 
-        +i name='envelope'
-        |user mail  
-    if is_current_user
-        +inbox
-    else 
-        +comments
                             
                             
 template(name='user_favorites')
@@ -319,33 +341,6 @@ template(name='user_following')
         each followed_by_users
             +user_info
   
-template(name="user_messages")      
-    .title
-        .ui.header 
-            +i name='envelope'
-            |messages
-    .content
-        if currentUser
-            unless is_current_user
-                +send_message_button
-        .ui.header 
-            |unread logs
-        .ui.list
-            each unread_log_docs
-                .item #{body} #{when}
-        .ui.small.header
-            +i name='sent'
-            |sent
-        .ui.list 
-            each user_messages_sent
-                |#{body}
-        .ui.small.header
-            +i name='internal'
-            |received
-        .ui.list 
-            each user_messages_received
-                |#{body}
-                
             
 template(name='send_message_button')
     .ui.button.send_message

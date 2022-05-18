@@ -366,58 +366,6 @@ template(name='user_status')
     // else 
     //     |Offline
 
-template(name='user_card')
-    .ui.card
-        //- if is_staff
-        a.image(href="/user/#{username}")
-            img.ui.tiny.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-        .content    
-            .header 
-                a.header(href="/user/#{username}") #{name} 
-                .meta @#{username}
-
-
-template(name='user_email')
-    .ui.small.inline.header #{email_address}
-    if email_verified
-        .ui.label 
-            i.green.checkmark.icon
-            |verified
-    else
-        .ui.orange.label 
-            i.ban.icon
-            |unverified
-        
-
-template(name='big_user_card')
-    with user
-        //- .ui.card
-        //- .ui.card(class=resident_status_class)
-        .ui.card
-            .image
-                img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-            .content
-                a.header(href="/user/#{username}")
-                     |#{first_name} #{last_name} 
-                    //- .meta @#{username}
-                    //- +array_view key='tags' label='Tags' direct=true
-            if is_staff
-                .content
-                    +array_view key='roles' direct=true
-                        
-template(name='user_button')
-    a.ui.compact.button(href="/user/#{user.username}/")
-        if user.kiosk_photo
-            img.ui.avatar.inline.image(src="{{c.url user.kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
-        else if user.image_id
-            img.ui.avatar.inline.image(src="{{c.url user.image_id width=300 height=100 gravity='face' crop='fill'}}")
-        //- .visible.content
-        |#{user.first_name} #{user.last_name}
-        //- |@#{user.username}
-        +user_status user
-        //- .hidden.content
-        //-     |view
-        //-     i.right.chevron.icon
 
 
 template(name='username_info')

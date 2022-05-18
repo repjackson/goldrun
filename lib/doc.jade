@@ -74,7 +74,6 @@ template(name='doc_view')
                             i.pencil.blue.big.link.circular.icon
                     // a(href="{{c.url image_id}}" target="_window")
                     // .four.wide.column
-                    img.ui.rounded.fluid.image.zoomer(src="{{c.url image_id}}")
                     if image_id2
                         img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
                     with _author
@@ -106,6 +105,8 @@ template(name='doc_view')
                             |tip total
                     +author_info
                 .ten.wide.column.scrollin
+                    img.ui.rounded.fluid.image.zoomer(src="{{c.url image_id}}")
+                
                     +Template.dynamic template=model_template 
                     .ui.segment.alpha.zoomer
                         |!{content}

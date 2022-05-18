@@ -122,11 +122,7 @@ template(name='profile')
                                     +user_friends
                                 .column
                                     .ui.segment.alpha
-                                        .ui.header
-                                            +i name='heart'
-                                            |favorites
-                                        .content.smallscroll
-                                            +user_favorites
+                                        +user_favorites
                                     .ui.segment.alpha
                                         .ui.header 
                                             +i name='coins'
@@ -147,13 +143,28 @@ template(name='user_mail')
                             
                             
 template(name='user_favorites')
-    .ui.selection.animated.link.list
-        each user_favorite_docs
-            a.item.fly_up(href="/doc/#{_id}")
-                img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
-                |#{title}
-                .ui.label 
-                    |#{model}
+    .ui.header
+        +i name='heart'
+        |#{user_favorite_docs.count} favorites
+    .content.smallscroll
+        .ui.selection.animated.link.list
+            each user_favorite_docs
+                a.item.fly_up(href="/doc/#{_id}")
+                    img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
+                    .inline.header #{title}
+                    +model_label
+                    
+                    
+template(name='model_label')
+    if is model 'post' 
+        +i name='blog'
+    else if is model 'event'
+        +i name='calendar'
+    else if is model 'group'
+        +i name='campfire'
+
+    // .ui.label 
+    //     |#{model}
                             
                  
 template(name='user_points')        

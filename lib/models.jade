@@ -1214,9 +1214,6 @@ template(name='group_edit')
                 +link_edit key='link' label='link' direct=true
                
                
-template(name='save_button')
-    a.ui.big.icon.green.button.fly_up(href="/doc/#{_id}" title='save')
-        i.checkmark.big.icon
                     
                 
                     
@@ -1685,26 +1682,22 @@ template(name='user_rental_card')
                 
                 
 template(name='transfer_card')
-    .ui.card.zoomer
-        if image_id
-            a.image.zoomer.fly_right(href="/doc/#{_id}")
-                img.ui.image(src="{{c.url image_id width=600 height=600}}")
-        .content
-            with _target
-                +user_info
-            with _author
-                +user_info
-            each tags
-                .ui.label #{this}
-            .smallscroll
-                |!{description}
-            // +ismall name='tags' cl='ui inline image'
-            a.ui.icon.button.zoomer(href="/doc/#{_id}")
-                i.chevron.right.icon
-            +view_span
-            // if is_admin
-            //     .ui.small.header slug: #{slug}
-            +print_this
+    if image_id
+        a.image.zoomer.fly_right(href="/doc/#{_id}")
+            img.ui.image(src="{{c.url image_id width=600 height=600}}")
+    .content
+        with _target
+            +user_info
+        with _author
+            +user_info
+        each tags
+            .ui.label #{this}
+        .smallscroll
+            |!{description}
+        // +ismall name='tags' cl='ui inline image'
+        +view_span
+        // if is_admin
+        //     .ui.small.header slug: #{slug}
      
      
 template(name='view_span')

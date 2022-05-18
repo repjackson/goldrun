@@ -108,12 +108,11 @@ template(name='profile')
                         .ui.padded.grid 
                             .two.column.row
                                 .column
-                                    .ui.header 
-                                        +i name='info'
-                                        |about
-                                    .content
-                                        if bio
-                                            .smallscroll !{bio}
+                                    if bio
+                                        .ui.header 
+                                            +i name='info'
+                                            |about
+                                        .smallscroll !{bio}
                                     +user_messages
                                     if is_current_user
                                         +profile_deposits
@@ -122,17 +121,16 @@ template(name='profile')
                                     +user_groups
                                     +user_friends
                                 .column
-                                    .title 
+                                    .ui.segment.alpha
                                         .ui.header
                                             +i name='heart'
                                             |favorites
-                                    .content
-                                        +user_favorites
-                                    .title
+                                        .content
+                                            +user_favorites
+                                    .ui.segment.alpha
                                         .ui.header 
                                             +i name='coins'
                                             |points
-                                    .content
                                         +user_points
                     else 
                         .ui.basic.center.aligned.segment

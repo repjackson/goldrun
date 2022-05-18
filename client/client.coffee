@@ -76,6 +76,9 @@ Template.layout.events
     'click .card_fly_right': (e,t)->
         # console.log 'hi'
         $(e.currentTarget).closest('.card').transition('fade right', 500)
+    'click .zoom': (e,t)->
+        # console.log 'hi'
+        $(e.currentTarget).closest('.grid').transition('zoom', 500)
         
     # 'click a': ->
     #     $('.global_container')

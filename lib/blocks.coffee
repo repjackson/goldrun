@@ -72,31 +72,35 @@ if Meteor.isClient
             # if @favorite_ids and Meteor.userId() in @favorite_ids
     Template.favorite_icon_toggle.events
         'click .toggle_fav': ->
-            if Meteor.user().favorite_ids and @_id in Meteor.user().favorite_ids
-                Meteor.users.update Meteor.userId(),
-                    $pull:
-                        favorite_ids:@_id
-                Docs.update @_id, 
-                    $pull:
-                        favorited_user_ids:Meteor.userId()
-                        favorited_usernames:Meteor.user().username
-                        
-            else
-                Meteor.users.update Meteor.userId(),
-                    $addToSet:
-                        favorite_ids:@_id
-                Docs.update @_id, 
-                    $addToSet:
-                        favorited_user_ids:Meteor.userId()
-                        favorited_usernames:Meteor.user().username
-                $('body').toast(
-                    showIcon: 'heart'
-                    message: "marked favorite"
-                    showProgress: 'bottom'
-                    class: 'success'
-                    # displayTime: 'auto',
-                    position: "bottom right"
-                )
+            if Meteor.user()
+                
+                if Meteor.user().favorite_ids and @_id in Meteor.user().favorite_ids
+                    Meteor.users.update Meteor.userId(),
+                        $pull:
+                            favorite_ids:@_id
+                    Docs.update @_id, 
+                        $pull:
+                            favorited_user_ids:Meteor.userId()
+                            favorited_usernames:Meteor.user().username
+                            
+                else
+                    Meteor.users.update Meteor.userId(),
+                        $addToSet:
+                            favorite_ids:@_id
+                    Docs.update @_id, 
+                        $addToSet:
+                            favorited_user_ids:Meteor.userId()
+                            favorited_usernames:Meteor.user().username
+                    $('body').toast(
+                        showIcon: 'heart'
+                        message: "marked favorite"
+                        showProgress: 'bottom'
+                        class: 'success'
+                        # displayTime: 'auto',
+                        position: "bottom right"
+                    )
+            else 
+                Router.go "/login"
 
     #             Docs.update @_id, 
     #                 $addToSet:favorite_ids:Meteor.userId()
@@ -391,11 +395,6 @@ if Meteor.isClient
                 body:"#{Meteor.user().username} left #{@title}"
                 parent_id:@_id
                 parent_model:'group'
-
-    Template.set_limit.events
-        'click .set_limit': ->
-            Session.set('limit',parseInt(@value))
-
 
 
     Template.big_user_card.onCreated ->

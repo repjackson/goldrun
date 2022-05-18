@@ -5,7 +5,7 @@ template(name='doc_edit')
         .ui.stackable.padded.divided.grid
             .row 
                 .sixteen.wide.column
-                    .ui.segment.rounded
+                    .ui.segment.alpha
                         .ui.inline.header
                             +i name='cube'
                             |model
@@ -26,7 +26,8 @@ template(name='doc_edit')
                     .ui.inline.header 
                         +i name='pencil'
                         |editing #{model}
-                    +save_button
+                    a.ui.big.icon.green.button.zoom.zoomer(href="/doc/#{_id}" title='save')
+                        i.checkmark.big.icon
                     +boolean_edit key='published' label='published (-10)' 
                     div
                     +text_edit key='title' label='title' 
@@ -57,7 +58,7 @@ template(name='doc_view')
                         //- small viewing
                         | #{title}
                     if can_edit
-                        a(href="/doc/#{_id}/edit")
+                        a.zoom.zoomer(href="/doc/#{_id}/edit")
                             i.pencil.blue.big.link.circular.icon
                     // a(href="{{c.url image_id}}" target="_window")
                     // .four.wide.column
@@ -173,9 +174,6 @@ template(name='docs')
                         i.massive.yin.yang.loading.grey.icon
 
 
-template(name='set_limit')
-    .ui.compact.button.set_limit
-        |#{value}
 
 template(name='doc_card')
     .ui.card
@@ -183,8 +181,6 @@ template(name='doc_card')
         .content
             if is_dev
                 +print_this
-            +voting
-            +favorite_icon_toggle
             .ui.big.label 
                 |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
@@ -200,8 +196,8 @@ template(name='doc_card')
                 +print_this
             +voting
             +favorite_icon_toggle
-            a.ui.circular.button.zoomer.fly_right(href="/doc/#{_id}")
-                i.large.chevron.right.icon
+            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/doc/#{_id}")
+                +i name='chevron-right'
                 
 template(name='doc_item')
     a.item.fly_down(href="/doc/#{_id}")

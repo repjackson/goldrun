@@ -1191,13 +1191,21 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'product_from_transfer_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'all_users'
+    Template.transfer_card.onCreated ->
+        @autorun => Meteor.subscribe 'user_info_min', ->
         
     Template.transfer_view.onRendered ->
 
 
 
 if Meteor.isServer
+    Meteor.publish 'user_info_min', ->
+        Meteor.users.find {},
+            fields: 
+                username:1
+                first_name:1
+                last_name:1
+                image_id:1
     Meteor.publish 'product_from_transfer_id', (transfer_id)->
         transfer = Docs.findOne transfer_id
         Docs.find 

@@ -52,7 +52,6 @@ template(name='doc_edit')
                     if currentUser.admin_mode 
                         +author_edit
                         
-                        
 template(name='author_edit')
     .ui.header  
         i.shield.icon
@@ -105,6 +104,7 @@ template(name='doc_view')
                         .item 
                             |#{tip_total}
                             |tip total
+                    +author_info
                 .ten.wide.column.scrollin
                     +Template.dynamic template=model_template 
                     .ui.segment.alpha.zoomer
@@ -212,7 +212,7 @@ template(name='doc_card')
             +favorite_icon_toggle
             a.ui.circular.basic.icon.button.zoomer.fly_right(href="/doc/#{_id}")
                 +i name='chevron-right'
-                
+            +author_info
 template(name='doc_item')
     .ui.segment.alpha
         if youtube_id
@@ -248,4 +248,6 @@ template(name='doc_item')
             .ui.small.basic.label(title='created when')
                 |#{when}
 
+            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/doc/#{_id}")
+                +i name='chevron-right'
 

@@ -38,6 +38,7 @@ if Meteor.isClient
         Session.setDefault('model','post')
         Session.setDefault('limit',10)
         # @autorun => @subscribe 'model_docs', 'post', ->
+        @autorun => @subscribe 'user_info_min',
         @autorun => @subscribe 'facet_sub',
             Session.get('model')
             picked_tags.array()

@@ -403,3 +403,125 @@ template(name='logout_button')
         span.mobile.hidden
             unless currentUser.hide_menu_labels
                 |log out
+                
+                
+template(name='account')
+    with user_from_username_param          
+        img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")
+        //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
+        .ui.stackable.padded.grid
+            .three.column.row
+                .column
+                    .ui.center.aligned.large.inline.grey.header
+                    //- +i name='pencil'
+                    .ui.small.inline.header @#{username}
+                    a.ui.green.fluid.icon.button.fly_down(href="/user/#{username}/") 
+                        i.checkmark.large.icon
+                    .ui.hidden.divider
+                    +image_edit key='image_id' icon='picture' title='profile image' 
+                    +image_edit key='background_image_id' icon='picture' title='background image' 
+                .column
+                    +text_edit key='first_name' label='first name' icon='user'
+                    div
+                    +text_edit key='last_name' label='last name' icon='user'
+                    div
+                    +text_edit key='display_name' label='display name'
+                    div
+                    +text_edit key='status' label='status' icon='clock'
+                    div
+                    +array_edit key='tags' label='tags' icon='tags'
+                    div
+                    if in_dev 
+                        +number_edit key='points' label='points'
+                .column
+                    +boolean_edit key='has_bio' label='has bio (-1p)' icon='content'
+                    if has_bio
+                        +html_edit key='bio' label='bio'
+                .column
+                    +text_edit key='address' label='address' icon='marker' 
+                    div
+                    +text_edit key='city' label='city' icon='marker' 
+                    div
+                    +text_edit key='state' label='state' icon='marker' 
+                    div
+                    +phone_edit key='phone' label='phone' icon='phone' 
+                    div
+                    +link_edit key='link' label='external link' icon='globe'
+                    div
+                    +text_edit key='company' label='company' icon='business'
+                .column
+                    if is_current_user
+                        +password_edit
+                        //- +phone_editor
+                        +username_edit
+                    else if in_dev
+                        +password_edit
+                        //- +phone_editor
+                        +username_edit
+                    if currentUser.admin
+                        with user_from_username_param
+                            .ui.orange.button.remove_user 
+                                i.remove.icon
+                                |delete user
+                    +boolean_edit key='admin' label='admin' icon='shield' 
+                    +link_edit key='link' label='profile link' icon='globe'
+                    .ui.container
+                        div
+                        +text_edit key='linkedin_link' label='linked in profile ' icon='linkedin'
+                        div
+                        +text_edit key='twitter_link' label='twitter profile ' icon='twitter'
+                        div
+                        +text_edit key='facebook_link' label='facebook profile ' icon='facebook'
+                .column
+                    .ui.segment 
+                        .ui.header
+                            +i name='paint'
+                            |appearance 
+                        .ui.header icon theme
+                        // +text_edit key='icon_class' label='icon class'
+                        +key_value_edit key='icon_class' value=null label='none'
+                        +key_value_edit key='icon_class' value='ios' label='outline'
+                        +key_value_edit key='icon_class' value='color' label='color'
+                        +key_value_edit key='icon_class' value='ultraviolet' label='blue'
+                        +key_value_edit key='icon_class' value='stickers' label='stickers'
+                        +key_value_edit key='icon_class' value='dotty' label='dots'
+                        +key_value_edit key='icon_class' value='office' label='office'
+                        +key_value_edit key='icon_class' value='simple' label='simple'
+                        .ui.header hide menu labels
+                        +key_value_edit key='hide_menu_labels' value=true label='yes'
+                        +key_value_edit key='hide_menu_labels' value=false label='no'
+                        .ui.header invert 
+                        +boolean_edit key='darkmode' label='darkmode' icon='lightbulb'
+
+template(name='user_single_doc_ref_editor')
+    .ui.header #{label}
+    each choices
+        .ui.button.select_choice(class=choice_class title=title)
+            i.icon(class=icon)
+            |#{title}
+
+template(name='username_edit')
+    .ui.small.header 
+        i.i.cursor.icon
+        |change username [#{user_from_username_param.username}]
+    .ui.icon.fluid.input
+        input.new_username(type='text' placeholder='new username...')
+        i.play.link.icon.change_username
+
+template(name='password_edit')
+    .ui.small.grey.header
+        +i name='password'
+        |change password
+    //- .ui.fluid.input
+    //-     input#password(type='password', placeholder='old password')
+    .ui.icon.input
+        input#new_password(type='password', placeholder='new password')
+    // if is_dev
+    //     .ui.fluid.button.send_enrollment_email
+    //         |send enrollment email
+    // if is_admin
+    //     .ui.fluid.button.reset_password
+    //         |reset password
+    .ui.large.button.set_password
+        +i name='password' cl='ui mini inline image'
+        | set password

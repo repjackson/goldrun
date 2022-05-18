@@ -536,20 +536,19 @@ template(name='time_view')
         .ui.inline.header &nbsp; #{field_value}
 
 template(name='datetime_edit')
-    .ui.form
-        .field
-            label 
-                if icon
-                    // i.grey.icon(class=icon)
-                    +i name=icon                
-                if title
-                    |#{title}
-                else if label
-                    |#{label}
-                else
-                    |#{key}
-            //- +clear_value                
-            input.edit_datetime(type='datetime-local' value=field_value placeholder=placeholder autocomplete="off")
+    .ui.input
+        label 
+            if icon
+                // i.grey.icon(class=icon)
+                +i name=icon                
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else
+                |#{key}
+        +clear_value                
+        input.edit_datetime(type='datetime-local' value=field_value placeholder=placeholder autocomplete="off")
 
 template(name='datetime_view')
     div

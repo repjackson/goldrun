@@ -21,6 +21,7 @@ if Meteor.isClient
         Meteor.call 'log_view', Router.current().params.doc_id, ->
     Template.doc_view.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'author_by_id', Router.current().params.doc_id, ->
     Template.doc_view.helpers
         model_template: -> "#{@model}_view"
         # current_doc: -> Docs.findOne Router.current().params.doc_id

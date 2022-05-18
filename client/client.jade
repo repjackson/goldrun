@@ -24,7 +24,7 @@ head
     //- link(href='https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.css' rel='stylesheet')
 
     
-    // script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
+    script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
     script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
     script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
     // link(rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -47,7 +47,8 @@ head
     
     
 template(name='layout')
-    img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+    unless currentUser.darkmode
+        img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     div(class=darkmode_class)
         +nav
         +yield

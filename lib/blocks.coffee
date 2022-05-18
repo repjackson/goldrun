@@ -785,7 +785,7 @@ if Meteor.isClient
             
     
     Template.key_value_edit.events
-        'click .set_key_value': ->
+        'click .set_key_value': (e)->
             console.log 'hi'
             parent = Template.parentData()
             # console.log parent, @key, @value
@@ -796,6 +796,7 @@ if Meteor.isClient
             else if user
                 Meteor.users.update user._id,
                     $set: "#{@key}": @value
+            $(e.currentTarget).closest('.button').transition('pulse',500)
 
 
 if Meteor.isClient

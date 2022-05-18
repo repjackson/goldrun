@@ -7,38 +7,26 @@ if Meteor.isClient
 
     Template.post_view.onCreated ->
         @autorun => @subscribe 'post_tips',Router.current().params.doc_id, ->
-    Template.post_view.events 
-        'click .tip_post_10': ->
+    Template.tip_button.events 
+        'click .tip_post': ->
             # console.log 'hi'
             new_id = 
                 Docs.insert 
                     model:'transfer'
                     post_id:Router.current().params.doc_id
                     complete:true
-                    amount:10
+                    amount:@amount
                     transfer_type:'tip'
                     tags:['tip']
             Meteor.call 'calc_user_points', ->
             $('body').toast(
                 showIcon: 'coins'
-                message: "post tipped"
+                message: "post tipped #{amount} "
                 showProgress: 'bottom'
                 class: 'success'
                 # displayTime: 'auto',
                 position: "bottom right"
             )
-                
-        'click .tip_post_50': ->
-            # console.log 'hi'
-            new_id = 
-                Docs.insert 
-                    model:'transfer'
-                    post_id:Router.current().params.doc_id
-                    complete:true
-                    amount:50
-                    transfer_type:'tip'
-                    tags:['tip']
-            Meteor.call 'calc_user_points', ->
                 
                 
 if Meteor.isServer 
@@ -701,7 +689,7 @@ if Meteor.isClient
             
     Template.quickbuy.events
         'click .buy': ->
-            console.log @
+            # console.log @
             context = Template.parentData()
             human_form = moment().add(@day_diff, 'days').format('dddd, MMM Do')
             tech_form = moment().add(@day_diff, 'days').format('YYYY-MM-DD')

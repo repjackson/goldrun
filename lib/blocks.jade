@@ -246,7 +246,7 @@ template(name='viewing')
 
 template(name='user_info')
     // with user_from_id this
-    a.ui.big.link.image.zoomer.label.fly_up(href="/user/#{username}")
+    a.ui.big.link.image.zoomer.label.zoom(href="/user/#{username}")
         img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
         |#{name}
     // .ui.header #{this}
@@ -366,21 +366,15 @@ template(name='user_status')
     // else 
     //     |Offline
 
-// template(name='user_card')
-//     with user
-//         .ui.card
-//             //- if is_staff
-//             a.image(href="/user/#{username}")
-//                 img.ui.tiny.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-//             .content    
-//                 .header 
-//                     a.header(href="/user/#{username}") #{name} 
-//                     .meta @#{username}
-//                     if is_admin
-//                         div
-//                         +user_email
-//                 //- +emails_edit    
-//         //- +user_status user
+template(name='user_card')
+    .ui.card
+        //- if is_staff
+        a.image(href="/user/#{username}")
+            img.ui.tiny.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+        .content    
+            .header 
+                a.header(href="/user/#{username}") #{name} 
+                .meta @#{username}
 
 
 template(name='user_email')

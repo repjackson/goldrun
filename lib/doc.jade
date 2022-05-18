@@ -5,23 +5,22 @@ template(name='doc_edit')
         .ui.stackable.padded.divided.grid
             .row 
                 .sixteen.wide.column
-                    .ui.segment.alpha
-                        .ui.inline.header
-                            +i name='cube'
-                            |model
-                        +key_value_edit key='model' value='post' label='post' icon='blog'
-                        +key_value_edit key='model' value='event' label='event' icon='calendar'
-                        +key_value_edit key='model' value='group' label='group' icon='campfire'
-                        +key_value_edit key='model' value='product' label='product' icon='shopping-cart'
-                        +key_value_edit key='model' value='service' label='service' icon='wrench'
-                        +key_value_edit key='model' value='transfer' label='transfer' icon='exchange'
-                        // +key_value_edit key='model' value='review' label='review' icon='megaphone'
-                        // +key_value_edit key='model' value='checkin' label='checkin' icon='checkmark'
-                        +key_value_edit key='model' value='task' label='task' icon='tasks'
-                        +key_value_edit key='model' value='rental' label='rental' icon='clock'
-                        +key_value_edit key='model' value='message' label='message' icon='envelope'
-                    // .ui.header #{model}
-                    // .ui.header #{model_template}
+                    .ui.inline.header
+                        +i name='cube'
+                        |model
+                    +key_value_edit key='model' value='post' label='post' icon='blog'
+                    +key_value_edit key='model' value='event' label='event' icon='calendar'
+                    +key_value_edit key='model' value='group' label='group' icon='campfire'
+                    +key_value_edit key='model' value='product' label='product' icon='shopping-cart'
+                    +key_value_edit key='model' value='service' label='service' icon='wrench'
+                    +key_value_edit key='model' value='transfer' label='transfer' icon='exchange'
+                    // +key_value_edit key='model' value='review' label='review' icon='megaphone'
+                    // +key_value_edit key='model' value='checkin' label='checkin' icon='checkmark'
+                    +key_value_edit key='model' value='task' label='task' icon='tasks'
+                    +key_value_edit key='model' value='rental' label='rental' icon='clock'
+                    +key_value_edit key='model' value='message' label='message' icon='envelope'
+                // .ui.header #{model}
+                // .ui.header #{model_template}
                 .six.wide.column.scrolling
                     .ui.inline.header 
                         +i name='pencil'
@@ -53,7 +52,9 @@ template(name='doc_view')
         img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
             .row 
-                .six.wide.column
+                .six.wide.column.scrolling
+                    .ui.small.grey.inline.header
+                        |viewing #{model}
                     .ui.large.inline.header 
                         //- small viewing
                         | #{title}
@@ -65,8 +66,11 @@ template(name='doc_view')
                     img.ui.rounded.fluid.image.zoomer(src="{{c.url image_id}}")
                     if image_id2
                         img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
+                    with _author
+                        +user_card
                     +message_author_button
                     +group_widget
+                    div
                     +favorites
                     +comments
                     .ui.dividing.header 
@@ -90,7 +94,7 @@ template(name='doc_view')
                         .item 
                             |#{tip_total}
                             |tip total
-                .ten.wide.column
+                .ten.wide.column.scrolling
                     +Template.dynamic template=model_template 
                 // if in_dev
                 //     .ui.segment 
@@ -101,21 +105,16 @@ template(name='tip_button')
     if can_tip
         .ui.button.tip_doc
             |tip #{amount}pts
-    .title
-        .ui.dividing.header 
-            +i name='money'
-            |tips
 
 template(name='tips')
-    .content
-        +tip_button amount=10
-        +tip_button amount=50
-        .ui.large.divided.list
-            each post_tip_docs
-                .item #{when}: #{amount}pts
-                    +author_info
-                    if currentUser.admin_mode
-                        +remove_button doc=this redirect=false
+    +tip_button amount=10
+    +tip_button amount=50
+    .ui.large.divided.list
+        each post_tip_docs
+            .item #{when}: #{amount}pts
+                +author_info
+                if currentUser.admin_mode
+                    +remove_button doc=this redirect=false
 
 
 
@@ -166,9 +165,8 @@ template(name='docs')
                                 each result_docs 
                                     +doc_card
                     else 
-                        .ui.large.divided.selection.animated.list 
-                            each result_docs 
-                                +doc_item
+                        each result_docs 
+                            +doc_item
                 else 
                     .ui.center.aligned.basic.segment
                         i.massive.yin.yang.loading.grey.icon
@@ -200,22 +198,12 @@ template(name='doc_card')
                 +i name='chevron-right'
                 
 template(name='doc_item')
-    a.item.fly_down(href="/doc/#{_id}")
+    .ui.segment.alpha
         if youtube_id
             +youtube_view key='youtube_id'
         else if image_id
-            img.ui.small.rounded.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        a.ui.inline.header(href="/doc/#{_id}" class=emotion_color) #{title}
-        .ui.small.basic.label(title='created when')
-            |#{when}
-        span(title='views')
-            i.grey.eye.icon
-            |#{views}
-        +author_info
-        if group_id     
-            +group_info
-        each seven_tags 
-            .ui.basic.small.label #{this}
+            img.ui.small.rounded.inline.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        a.ui.big.header(href="/doc/#{_id}" class=emotion_color) #{title}
         
         .smallcut
             | !{content}
@@ -226,8 +214,9 @@ template(name='doc_item')
                 +print_this
             +voting
             +favorite_icon_toggle
-            .ui.big.label 
-                |#{price}pts
+            if price
+                .ui.big.label 
+                    |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
             .ui.label
                 i.eye.icon
@@ -235,7 +224,12 @@ template(name='doc_item')
             .ui.label   
                 i.line.chart.icon
                 |#{points} 
+            +author_info
             if group_id     
                 +group_info
+            each seven_tags 
+                .ui.basic.small.label #{this}
+            .ui.small.basic.label(title='created when')
+                |#{when}
 
 

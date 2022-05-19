@@ -126,16 +126,28 @@ template(name='keywords')
                 .description
                     if emotion
                         with emotion
-                            span {{ to_percent sadness }}% sad
-                                .rounded(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" class=currentUser.invert_class)
-                            span {{ to_percent joy }}% joy
-                                .rounded(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" class=currentUser.invert_class)
-                            span {{ to_percent disgust }}% disgust
-                                .rounded(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" class=currentUser.invert_class)
-                            span {{ to_percent fear }}% fear
-                                .rounded(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" class=currentUser.invert_class)
-                            span {{ to_percent anger }}% anger
-                                .rounded(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" class=currentUser.invert_class)
+                            .ui.multiple.progress.no_border(data-total='100' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" title="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}")
+                                .green.bar
+                                    .progress
+                                .blue.bar
+                                    .progress
+                                .black.bar
+                                    .progress
+                                .orange.bar
+                                    .progress
+                                .red.bar
+                                    .progress
+
+                            // span {{ to_percent sadness }}% sad
+                            //     .rounded(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" class=currentUser.invert_class)
+                            // span {{ to_percent joy }}% joy
+                            //     .rounded(style="height:5px;width:{{to_percent joy}}%;background-color:green" title="{{to_percent joy}}% sadness" class=currentUser.invert_class)
+                            // span {{ to_percent disgust }}% disgust
+                            //     .rounded(style="height:5px;width:{{to_percent disgust}}%;background-color:orange" title="{{to_percent disgust}}% disgust" class=currentUser.invert_class)
+                            // span {{ to_percent fear }}% fear
+                            //     .rounded(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" class=currentUser.invert_class)
+                            // span {{ to_percent anger }}% anger
+                            //     .rounded(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" class=currentUser.invert_class)
 
 
 

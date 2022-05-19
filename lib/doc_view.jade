@@ -79,7 +79,7 @@ template(name='doc_view')
                 .ten.wide.column.scrollin
                     // .smallscroll.zoomer
                     if image_id 
-                        img.ui.rounded.fluid.image.zoomer(src="{{c.url image_id}}")
+                        img.ui.rounded.centered.image.zoomer(src="{{c.url image_id}}")
                     .ui.segment.alpha.zoomer
                         |!{content}
                 

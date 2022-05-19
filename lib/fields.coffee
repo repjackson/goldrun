@@ -275,10 +275,10 @@ if Meteor.isClient
     
             element = @valueOf()
             field = Template.currentData()
-            if field.direct
-                parent = Template.parentData()
-            else
-                parent = Template.parentData(5)
+            # if field.direct
+            parent = Template.parentData()
+            # else
+            #     parent = Template.parentData(5)
     
             doc = Docs.findOne parent._id
             if doc

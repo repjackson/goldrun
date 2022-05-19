@@ -319,13 +319,15 @@ template(name='user_groups')
                     |user groups
                 i.dropdown.icon
             .content
-                .ui.selection.list    
+                .ui.selection.link.animated.list    
                     each user_group_memberships
-                        +doc_item
-                        // a.item(href="/doc/#{_id}")
-                        //     img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                        //     .content
-                        //         |#{title}
+                        // +doc_item
+                        a.item.zoomer(href="/doc/#{_id}")
+                            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                            .content
+                                strong #{title}
+                                each three_tags 
+                                    .ui.small.basic.label #{this}
                      
                     
 template(name='user_social')

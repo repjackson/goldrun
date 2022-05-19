@@ -1,8 +1,22 @@
 template(name='tone')
-    h3 tone
+    .ui.small.inline.header 
+        |tone
     each tone.classifications
-        .ui.header #{class_name}: #{confidence}
+        +tone_item 
+        
+template(name='tone_item')
+    // if is class_name 'polite'
+    //     +i name='polite'
+    // else
+    .ui.label {{to_percent confidence}}% #{class_name}
 
+// polite: 0.457755
+// excited: 0.326561
+// sympathetic: 0.147908
+// satisfied: 0.106636
+// sad: 0.046149
+// frustrated: 0.036289
+// impolite: 0.010317
 
 template(name='doc_sentiment') 
     if is doc_sentiment_label 'positive'

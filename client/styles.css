@@ -47,7 +47,7 @@ body {
     /* filter: invert(1) !important; */
 } 
 ::-webkit-scrollbar {
-  width: 1px !important;
+  width: 3px !important;
 }
 
 .largescroll::-webkit-scrollbar {

@@ -138,8 +138,8 @@ Meteor.methods
         #     parameters.clean = false
         #     console.log 'calling image'
         # else 
-        if doc.title
-            parameters.html = doc.title+doc["#{key}"]
+        if doc.title.length
+            parameters.html = doc.title+" "+doc["#{key}"]
         else
             parameters.html = doc["#{key}"]
         parameters.returnAnalyzedText = true

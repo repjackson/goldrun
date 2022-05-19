@@ -217,7 +217,8 @@ template(name='link_edit')
         +i name='link'
     .ui.inline.header
         |#{title} #{label}
-    .ui.input
+    .ui.fluid.icon.input
+        i.linkify.icon
         input.edit_url(type='url' value=field_value placeholder='url' autocomplete="off")
 
 
@@ -390,7 +391,7 @@ template(name='text_edit')
         else if key
             |#{key}
             //- +clear_value
-    .ui.icon.large.input
+    .ui.icon.large.fluid.input
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         
 
@@ -477,7 +478,8 @@ template(name='date_edit')
             //- else
             //-     |#{this}
             //- +clear_value                
-    .ui.large.input
+    .ui.large.fluid.icon.input
+        i.calendar.icon
         input.edit_date(type='date' value=field_value placeholder=placeholder autocomplete="off")
     .ui.button.today
         |today
@@ -536,7 +538,7 @@ template(name='time_view')
         .ui.inline.header &nbsp; #{field_value}
 
 template(name='datetime_edit')
-    .ui.input
+    .ui.fluid.icon.input
         label 
             if icon
                 // i.grey.icon(class=icon)
@@ -547,8 +549,9 @@ template(name='datetime_edit')
                 |#{label}
             else
                 |#{key}
-        +clear_value                
         input.edit_datetime(type='datetime-local' value=field_value placeholder=placeholder autocomplete="off")
+        // i.calendar.icon
+        +clear_value                
 
 template(name='datetime_view')
     div

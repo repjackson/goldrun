@@ -47,9 +47,9 @@ head
     
     
 template(name='layout')
-    unless currentUser.darkmode
-        img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     div(class=darkmode_class)
+        // unless currentUser.darkmode
+        img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
         +nav
         +yield
         +footer
@@ -76,9 +76,9 @@ template(name='not_found')
 
 
 template(name='nav')
-    // https://fomantic-ui.com/elements/icon.html#/icon
-    // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
     // #topnav.topnav.ui.attached.borderless.big.four.item.menu.hscroll(class=darkmode_class)
+        https://fomantic-ui.com/elements/icon.html#/icon
+    // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
     #topnav.topnav.ui.attached.borderless.big.four.item.menu.hscroll.alpha
         a.item.zoomer.fly_right.clear_search(href="/docs" class="{{isActiveRoute 'docs'}}" title=users)
             +i name='yin-yang'

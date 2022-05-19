@@ -104,10 +104,17 @@ template(name='profile')
                         +follow_button
                         +friend_button
                     +send_points_button
-                    if venmo_image
-                        img.ui.image.boop(src="{{c.url venmo_image }}")
                 .twelve.wide.column
                     if subs_ready
+                        if venmo_image
+                            .ui.fluid.styled.accordion.alpha.zoomer
+                                .title
+                                    .ui.inline.header 
+                                        +i name='donate'
+                                        |pay
+                                    i.dropdown.icon
+                                .content
+                                    img.ui.image(src="{{c.url venmo_image }}")
                         .ui.fluid.styled.accordion.alpha.zoomer
                             .title
                                 .ui.inline.header 

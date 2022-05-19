@@ -146,15 +146,33 @@ if Meteor.isClient
     
     Template.clear_value.events
         'click .clear_value': ->
-            if confirm "Clear #{@title} field?"
-                if @direct
+            Swal.fire({
+                title: "Clear #{@title} field?"
+                # text: "point bounty will be held from your account"
+                icon: 'question'
+                confirmButtonText: 'clear'
+                confirmButtonColor: 'yellow'
+                showCancelButton: true
+                cancelButtonText: 'cancel'
+                reverseButtons: true
+            }).then((result)=>
+                if result.value
                     parent = Template.parentData()
-                else
-                    parent = Template.parentData(5)
-                doc = Docs.findOne parent._id
-                if doc
-                    Docs.update parent._id,
-                        $unset:"#{@key}":1
+                    doc = Docs.findOne parent._id
+                    if doc
+                        Docs.update parent._id,
+                            $unset:"#{@key}":1
+            )
+    
+            # if confirm "Clear #{@title} field?"
+            #     if @direct
+            #         parent = Template.parentData()
+            #     else
+            #         parent = Template.parentData(5)
+            #     doc = Docs.findOne parent._id
+            #     if doc
+            #         Docs.update parent._id,
+            #             $unset:"#{@key}":1
     
     
     Template.link_edit.events

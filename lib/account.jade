@@ -68,7 +68,7 @@ template(name='account')
                         .ui.header
                             +i name='paint'
                             |appearance 
-                        .ui.header icon theme
+                        .ui.inline.header icon theme
                         // +text_edit key='icon_class' label='icon class'
                         +key_value_edit key='icon_class' value=null label='none'
                         +key_value_edit key='icon_class' value='ios' label='outline'
@@ -78,10 +78,12 @@ template(name='account')
                         +key_value_edit key='icon_class' value='dotty' label='dots'
                         +key_value_edit key='icon_class' value='office' label='office'
                         +key_value_edit key='icon_class' value='simple' label='simple'
-                        .ui.header hide menu labels
+                        div
+                        .ui.inline.header hide menu labels
                         +key_value_edit key='hide_menu_labels' value=true label='yes'
                         +key_value_edit key='hide_menu_labels' value=false label='no'
-                        .ui.header invert 
+                        div
+                        .ui.inline.header invert 
                         +boolean_edit key='darkmode' label='darkmode' icon='lightbulb'
 
 template(name='user_single_doc_ref_editor')

@@ -105,7 +105,7 @@ template(name='call_visual')
 template(name='keywords')
     // .ui.grey.inline.header 
     //     |#{watson.keywords.length} keywords
-    .ui.five.column.stackable.grid
+    .ui.four.column.stackable.grid
         each watson.keywords
             .ui.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
@@ -132,7 +132,7 @@ template(name='keywords')
 template(name='entities')
     // .ui.grey.header 
     //     |#{watson.entities.length} entities
-    .ui.five.column.stackable.grid
+    .ui.four.column.stackable.grid
         each watson.entities
             .ui.column
                 .ui.small.grey.inline.header #{type}
@@ -223,7 +223,7 @@ template(name='watson_view')
             .ui.inline.header
                 +i name='pie-chart'
                 |emotional analysis
-                // i.dropdown.icon
+            i.dropdown.icon
         .content
             +doc_sentiment
             +doc_emotion

@@ -252,14 +252,14 @@ if Meteor.isServer
                 
                 
                 tip_total = 0
-                console.log 'tip'
+                # console.log 'tip'
                 tip_docs = 
                     Docs.find
                         model:'transfer'
                         transfer_type:'tip'
                         _author_id:user._id
                 for tip in tip_docs.fetch()
-                    console.log 'tip', tip
+                    # console.log 'tip', tip
                     point_total += -10
                     upvote_total += -10
                     

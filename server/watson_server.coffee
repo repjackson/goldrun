@@ -94,7 +94,7 @@ Meteor.methods
 
 
     call_watson: (doc_id, key, mode) ->
-        # console.log 'calling watson', doc_id, key, mode
+        console.log 'calling watson', doc_id, key, mode
         # @unblock()
         self = @
         # console.log doc_id
@@ -128,9 +128,9 @@ Meteor.methods
                     categories:
                         explanation:true
                     emotion: {}
-                    metadata: {}
-                    relations: {}
-                    semantic_roles: {}
+                    # metadata: {}
+                    # relations: {}
+                    # semantic_roles: {}
                     sentiment: {}
         # if doc.domain and doc.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
         #     parameters.url = "https://www.reddit.com#{doc.permalink}"
@@ -138,7 +138,10 @@ Meteor.methods
         #     parameters.clean = false
         #     console.log 'calling image'
         # else 
-        parameters.html = doc.title+doc["#{key}"]
+        if doc.title
+            parameters.html = doc.title+doc["#{key}"]
+        else
+            parameters.html = doc["#{key}"]
         parameters.returnAnalyzedText = true
         # switch mode
         #     when 'html'
@@ -187,6 +190,10 @@ Meteor.methods
                 # console.log 'lowered keywords', lowered_keywords
                 # if Meteor.isDevelopment
                 #     console.log 'categories',response.categories
+                unless response.emotion
+                    console.log 'no emotion'
+                # console.log response.emotion
+                
                 emotions = response.emotion.document.emotion
 
                 emotion_list = ['joy', 'sadness', 'fear', 'disgust', 'anger']

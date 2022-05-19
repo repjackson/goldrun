@@ -80,7 +80,7 @@ template(name='doc_view')
                     // .smallscroll.zoomer
                     if image_id 
                         img.ui.rounded.centered.image.zoomer(src="{{c.url image_id}}")
-                    .ui.segment.alpha.zoomer
+                    .ui.segment.alpha
                         |!{content}
                 
                     +Template.dynamic template=model_template 

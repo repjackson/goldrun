@@ -59,7 +59,13 @@ if Meteor.isClient
         Meteor.setTimeout ->
             $('.ui.accordion').accordion()
         , 2000
-    
+        Meteor.setTimeout ->
+            $('.multiple.progress').popup(
+                inline: true
+            )
+        , 2000
+
+      
     Template.tone.events
         'keyup .tag_sentence': (e,t)->
             # console.log 

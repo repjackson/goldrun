@@ -409,6 +409,12 @@ template(name='user_posts')
                                     |#{title}
                                 .description
                                     |#{when}
+                                    each ten_tags
+                                        .ui.basic.label #{this}
+                                if watson 
+                                    +doc_sentiment
+                                    +doc_emotion
+                                
 
 template(name='profile_deposits')
     .ui.fluid.accordion.alpha.zoomer

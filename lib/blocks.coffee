@@ -99,7 +99,7 @@ if Meteor.isClient
                         # displayTime: 'auto',
                         position: "bottom right"
                     )
-                $(e.currentTarget).closest('.toggle_fav').transition('bounce',250)
+                $(e.currentTarget).closest('.toggle_fav').transition('bounce',500)
     
             else 
                 Router.go "/login"
@@ -206,6 +206,10 @@ if Meteor.isClient
                       hideDuration : 250
                     })
     
+    Template.footer.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 1000
     Template.comments.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion()

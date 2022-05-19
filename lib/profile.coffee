@@ -66,6 +66,10 @@ if Meteor.isClient
         Meteor.setTimeout ->
             $('.button').popup()
         , 2000
+    Template.doc_view.onRendered ->
+        Meteor.setTimeout ->
+            $('.button').popup()
+        , 2000
 
     Template.profile.events
         'click .login_as_user': ->
@@ -398,11 +402,11 @@ if Meteor.isClient
 
 
     Template.profile.onCreated ->
-        @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
+        # @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'rental'
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
         @autorun => Meteor.subscribe 'user_deposts', Router.current().params.username, ->
-        @autorun => Meteor.subscribe 'model_docs', 'order', ->
+        # @autorun => Meteor.subscribe 'model_docs', 'order', ->
         # @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
 
 

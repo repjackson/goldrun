@@ -115,6 +115,14 @@ template(name='footer')
     .ui.fluid.segment.stackable.grid
         .two.column.row
             .column
+                .ui.accordion
+                    .title
+                        .ui.small.inline.header 
+                            |goldrun is community supported and will never sell your info, click here to support
+                        i.dropdown.icon
+                    .content
+                        img.ui.image(src="{{c.url 'dao_venmo'}}")
+                // +music
                 if currentUser.admin
                     with currentUser
                         +boolean_edit key='admin_mode' label='admin mode'

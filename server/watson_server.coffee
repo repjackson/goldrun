@@ -138,7 +138,7 @@ Meteor.methods
         #     parameters.clean = false
         #     console.log 'calling image'
         # else 
-        if doc.title.length
+        if doc.title
             parameters.html = doc.title+" "+doc["#{key}"]
         else
             parameters.html = doc["#{key}"]

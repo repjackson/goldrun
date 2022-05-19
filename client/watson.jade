@@ -146,7 +146,7 @@ template(name='entities')
     .ui.four.column.stackable.grid
         each watson.entities
             .ui.column
-                .ui.small.grey.inline.header #{type}
+                +entity_type_icon
                 span.large120.set_entity_name(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
                 // .spacer
                 .ui.basic.small.circular.label(title='relevant') {{ to_percent relevance }}%
@@ -171,6 +171,20 @@ template(name='entities')
                             .rounded(style="height:5px;width:{{to_percent fear}}%;background-color:black" title="{{to_percent fear}}% fear" class=currentUser.invert_class)
                         span {{ to_percent anger }}% anger
                             .rounded(style="height:5px;width:{{to_percent anger}}%;background-color:red" title="{{to_percent anger}}% anger" class=currentUser.invert_class)
+
+
+template(name='entity_type_icon')
+    span(title=type)
+        if is type 'Person'
+            +i name='user'
+        else if is type 'Organization'
+            +i name='building'
+        else if is type 'Location'
+            +i name='marker'
+        else if is type 'EmailAddress'
+            +i name='email'
+        else
+            .ui.small.grey.inline.header #{type}
 
 
 

@@ -1006,7 +1006,7 @@ template(name='single_user_edit')
                     each user_results
                         a.select_user.item(href='#')
                             .ui.small.inline.header
-                                img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                                img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                                 |#{first_name} #{last_name}
                             .ui.mini.grey.inline.header 
                                 |#{username}

@@ -111,4 +111,6 @@ template(name='footer')
                         i.users.icon
                         |users
                     each all_users
-                        a.ui.label.fly_down(href="/user/#{username}") #{username}
+                        a.ui.label.fly_down(href="/user/#{username}") 
+                            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                            |#{username}

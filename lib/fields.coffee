@@ -645,8 +645,13 @@ if Meteor.isClient
         picked_user: ->
             # console.log @
             # console.log "#{@key}_id"
-            value = Docs.findOne(Router.current().params.doc_id)["#{@key}_id"]
-            found = Meteor.users.findOne _id:value
+            if Router.current().params.doc_id
+                parent_doc_value = Docs.findOne(Router.current().params.doc_id)["#{@key}_id"]
+            if parent_doc_value 
+                found = Meteor.users.findOne _id:value
+            else 
+                parent_user_value = Meteor.users.findOne(username:Router.current().params.username)["#{@key}_id"]
+                found = Meteor.users.findOne _id:parent_user_value
         user_results: ->Template.instance().user_results.get()
     Template.single_user_edit.events
         'click .clear_results': (e,t)->
@@ -666,9 +671,9 @@ if Meteor.isClient
             page_doc = Docs.findOne Router.current().params.doc_id
             field = Template.currentData()
     
-            # console.log @
-            # console.log Template.currentData()
-            # console.log Template.parentData()
+            console.log @
+            console.log Template.currentData()
+            console.log Template.parentData()
             # console.log Template.parentData(1)
             # console.log Template.parentData(2)
             # console.log Template.parentData(3)
@@ -687,6 +692,12 @@ if Meteor.isClient
                     $set:
                         "#{field.key}_id":@_id
                         "#{field.key}_username":@username
+            else 
+                Meteor.users.update parent._id,
+                    $set:
+                        "#{field.key}_id":@_id
+                        "#{field.key}_username":@username
+                
             $('.single_user_select_input').val ''
             # Docs.update page_doc._id,
             #     $set: assignment_timestamp:Date.now()

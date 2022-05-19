@@ -1031,48 +1031,57 @@ template(name='group_view')
                 |#{address}
         if in_dev 
             i.circular.link.large.refresh.icon.refresh_group_stats
-        if has_members
-            .ui.segment.alpha
-                .ui.header
-                    +i name='groups'
-                    |#{_members.count} members
-                    // .ui.button.add_user_member
-                    //     |add member
-                each _members 
-                    .ui.label #{username}
-                // +multi_user_view key='member_user_ids' label='members' direct=true
-                +join_button
-                // if leaders_id
-                //     .ui.inline.header 
-                //         +i name='crown' cl='ui avatar image'
-                //         // i.crown.icon
-                //         |leaders: 
-                //     each leader_ids 
-                //         +user_info
-                // div
-                // .ui.inline.header 
-                //     +i name='groups'
-                //     // i.users.icon
-                //     |#{member_user_ids.length} members
-                // each member_user_ids
-                //     +user_info
-        .ui.segment.alpha
-            +checkin_widget
-        .ui.segment.alpha
-            .ui.dividing.header
-                +i name='rss'
-                |activity
-            .ui.list 
-                each group_log_docs 
-                    .item 
-                        |#{body} 
-                        +when
-                        +author_info
+        .ui.fluid.styled.accordion.alpha
+            if has_members
+                .title
+                    .ui.header
+                        +i name='groups'
+                        |#{_members.count} members
+                        // .ui.button.add_user_member
+                        //     |add member
+                .content
+                    each _members 
+                        .ui.label #{username}
+                    // +multi_user_view key='member_user_ids' label='members' direct=true
+                    +join_button
+                    // if leaders_id
+                    //     .ui.inline.header 
+                    //         +i name='crown' cl='ui avatar image'
+                    //         // i.crown.icon
+                    //         |leaders: 
+                    //     each leader_ids 
+                    //         +user_info
+                    // div
+                    // .ui.inline.header 
+                    //     +i name='groups'
+                    //     // i.users.icon
+                    //     |#{member_user_ids.length} members
+                    // each member_user_ids
+                    //     +user_info
+            if has_checkin 
+                .title 
+                    .ui.header 
+                        +i name='checkmark'
+                        |checkin
+                .content
+                    +checkin_widget
+            .title
+                .ui.dividing.header
+                    +i name='rss'
+                    |activity
             .content
+                .ui.list 
+                    each group_log_docs 
+                        .item 
+                            |#{body} 
+                            +when
+                            +author_info
+            .title
                 .ui.header 
                     +i name='line-chart'
                     // i.large.line.chart.icon
                     |stats
+            .content
                 .ui.large.list
                     .item 
                         i.user.icon
@@ -1082,7 +1091,6 @@ template(name='group_view')
             //     each log_items
             //         +log_item
             //     i.refresh.link.icon.refresh_group_stats
-        .ui.segment.alpha
             if has_events
                 .title
                     .ui.inline.header
@@ -1105,7 +1113,6 @@ template(name='group_view')
                                             |every #{repeating_day}
                                         if start_datetime
                                             |{{from_now start_datetime}}
-        .ui.segment.alpha
             if has_shop
                 .title
                     .ui.header 
@@ -1118,7 +1125,6 @@ template(name='group_view')
                                 img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
                                 |#{title}
             
-        .ui.segment.alpha
             if has_posts
                 .title
                     .ui.inline.header 
@@ -1131,8 +1137,6 @@ template(name='group_view')
                     .ui.selection.animated.list
                         each group_post_docs 
                             +post_item
-        if content
-            .ui.fluid.styled.accordion.alpha
                 .title
                     .ui.inline.header
                         // i.info.icon
@@ -1244,17 +1248,19 @@ template(name='groups_small')
                 
                
 template(name='group_widget')
-    if data_doc.group_id
+    if group_id
         .ui.header 
             +i name='campfire'
             |related group
-        with related_group_doc
-            a.ui.card.fly_right(href="/doc/#{_id}")
+        with group_doc
+            a.ui.card.fly_right.zoomer(href="/doc/#{_id}")
                 img.ui.image(src="{{c.url image_id width=500 height=500}}")
                 .content
                     .ui.header 
                         |#{title}
                     |!{description}
+                    +view_info
+                    +member_info
                
                 
 template(name='group_picker')

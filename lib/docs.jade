@@ -49,3 +49,42 @@ template(name='docs')
                 else 
                     .ui.center.aligned.basic.segment
                         i.massive.yin.yang.loading.grey.icon
+
+
+
+
+template(name='nav')
+    // #topnav.topnav.ui.attached.borderless.big.four.item.menu.hscroll(class=darkmode_class)
+        https://fomantic-ui.com/elements/icon.html#/icon
+    // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
+    #topnav.topnav.ui.attached.borderless.big.four.item.menu.hscroll.alpha
+        a.item.zoomer.fly_right.clear_search(href="/docs" class="{{isActiveRoute 'docs'}}" title=users)
+            +i name='yin-yang'
+        a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
+            +i name='groups'
+        if currentUser
+            a.item.zoomer.fly_down.add_doc 
+                +i name='plus'
+            // a.icon.item(href="/mail/inbox")
+            //     +i name='inbox'
+            a.fly_up.zoomer.item(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile')
+                if currentUser.image_id
+                    img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                else
+                    i.user.icon
+                strong #{currentUser.username}
+                |&nbsp;
+                small (#{currentUser.points}p)
+                if unread_count
+                    .ui.large.label #{unread_count}
+        unless subs_ready
+            .icon.item
+                i.yin.yang.large.loading.icon
+        unless currentUser
+            // a.item(href="/register" title='register')
+            //     +i name='plus'
+            //     span.mobile.hidden register            
+            a.item(href='/login' title='login') 
+                // i.sign.in.big.icon
+                +i name='internal'
+                // span.mobile.hidden login

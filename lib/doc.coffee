@@ -5,6 +5,7 @@ if Meteor.isClient
         ), name:'doc_edit'
     Template.doc_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'group_from_doc_id', Router.current().params.doc_id, ->
     Template.doc_edit.helpers
         model_template: -> "#{@model}_edit"
         doc_data: -> 
@@ -22,6 +23,7 @@ if Meteor.isClient
     Template.doc_view.onCreated ->
         @autorun => Meteor.subscribe 'current_viewers', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'group_from_doc_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'author_by_id', Router.current().params.doc_id, ->
     Template.doc_view.helpers
         model_template: -> "#{@model}_view"
@@ -72,3 +74,9 @@ if Meteor.isClient
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
                 limit:Session.get('limit')        
                 
+if Meteor.isServer
+    Meteor.publish 'group_from_doc_id', (doc_id)->
+        doc = Docs.findOne doc_id 
+        Docs.find 
+            model:'group'
+            _id:doc.group_id

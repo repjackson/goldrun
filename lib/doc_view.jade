@@ -20,11 +20,6 @@ template(name='doc_view')
                     if can_edit
                         a.zoom.zoomer(href="/doc/#{_id}/edit")
                             i.pencil.blue.big.link.circular.icon
-                    if watson 
-                        +doc_sentiment
-                        div
-                        .spacer
-                        +doc_emotion
                 .five.wide.column.scrollin
                     // a(href="{{c.url image_id}}" target="_window")
                     // .four.wide.column
@@ -82,6 +77,11 @@ template(name='doc_view')
                         +user_info
                     
                 .eleven.wide.column.scrollin
+                    if watson 
+                        +doc_sentiment
+                        div
+                        .spacer
+                        +doc_emotion
 
                     // .smallscroll.zoomer
                     if image_id 

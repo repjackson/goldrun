@@ -643,8 +643,8 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'all_users', ->
     Template.single_user_edit.helpers
         picked_user: ->
-            console.log @
-            console.log "#{@key}_id"
+            # console.log @
+            # console.log "#{@key}_id"
             value = Docs.findOne(Router.current().params.doc_id)["#{@key}_id"]
             found = Meteor.users.findOne _id:value
         user_results: ->Template.instance().user_results.get()

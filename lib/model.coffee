@@ -827,6 +827,8 @@ if Meteor.isServer
 if Meteor.isClient
     Template.group_widget.onCreated ->
         @autorun => Meteor.subscribe 'user_from_username', @data
+        @autorun => Meteor.subscribe 'group_from_doc_id', Router.current().params.doc_id, ->
+
     Template.group_widget.helpers
         
     Template.profile.onRendered ->
@@ -1132,7 +1134,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.group_picker.onCreated ->
         @autorun => @subscribe 'group_search_results', Session.get('group_search'), ->
-        @autorun => @subscribe 'model_docs', 'group', ->
+        # @autorun => @subscribe 'model_docs', 'group', ->
     Template.group_picker.helpers
         group_results: ->
             Docs.find 
@@ -1142,6 +1144,7 @@ if Meteor.isClient
         group_search_value: ->
             Session.get('group_search')
         group_doc: ->
+            console.log @
             Docs.findOne @group_id
     Template.group_picker.events
         'click .clear_search': (e,t)->

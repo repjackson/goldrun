@@ -32,11 +32,11 @@ template(name='docs')
                 if subs_ready
                     if session_is 'view_mode' 'grid'
                         if one_result
-                            .ui.one.cards
+                            .ui.one.centered.cards
                                 each result_docs
                                     +post_card_med
                         else if two_results
-                            .ui.two.cards
+                            .ui.two.centered.cards
                                 each result_docs
                                     +post_card_med
                         else                 

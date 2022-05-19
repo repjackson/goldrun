@@ -103,13 +103,13 @@ template(name='nav')
             .icon.item
                 i.yin.yang.large.loading.icon
         unless currentUser
-            a.item(href="/register" title='register')
-                +i name='plus'
-                span.mobile.hidden register            
+            // a.item(href="/register" title='register')
+            //     +i name='plus'
+            //     span.mobile.hidden register            
             a.item(href='/login' title='login') 
                 // i.sign.in.big.icon
                 +i name='internal'
-                span.mobile.hidden login
+                // span.mobile.hidden login
                 
 template(name='footer')
     .ui.fluid.segment.stackable.grid

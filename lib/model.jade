@@ -986,22 +986,12 @@ template(name='event_edit')
 
 template(name='group_card')
     .content
-        a.ui.header
-            |#{title}
         .ui.basic.label(title='member count')
             i.users.icon
             |#{member_count}
             // |members
-        .ui.basic.label
-            i.grey.eye.icon 
-            |#{views}
-        .smallcut
-            |!{description}
-        //+ismall name='tags' cl='ui inline image'
-        each seven_tags
-            .ui.label #{this}
-        // if is_admin
-        //     .ui.small.header slug: #{slug}
+
+
 template(name='group_card_med')
     a.ui.card.zoomer.fly_right(href="/doc/#{_id}")
         if image_id
@@ -1036,144 +1026,149 @@ template(name='group_item')
 
 
 template(name='group_view')
-    if premium_membership
-        .ui.header 
-            |premium membership: #{membership_cost}pts
-        .ui.button.purchase_membership
-            |purchase membership
-    // .spacer
-    if link
-        a.ui.circular.button(href=link target='_window')
-            i.external.icon
-            |#{link}
+    .scrolling
+        if premium_membership
+            .ui.header 
+                |premium membership: #{membership_cost}pts
+            .ui.button.purchase_membership
+                |purchase membership
         // .spacer
-    // div
-    if address
-        a.ui.compact.circular.button(href=address_link target='_window')
-            i.marker.icon
-            |#{address}
-    if in_dev 
-        i.circular.link.large.refresh.icon.refresh_group_stats
-    if has_members
+        if link
+            a.ui.circular.button(href=link target='_window')
+                i.external.icon
+                |#{link}
+            // .spacer
+        // div
+        if address
+            a.ui.compact.circular.button(href=address_link target='_window')
+                i.marker.icon
+                |#{address}
+        if in_dev 
+            i.circular.link.large.refresh.icon.refresh_group_stats
+        if has_members
+            .ui.segment.alpha
+                .ui.header
+                    +i name='groups'
+                    |#{_members.count} members
+                    // .ui.button.add_user_member
+                    //     |add member
+                each _members 
+                    .ui.label #{username}
+                // +multi_user_view key='member_user_ids' label='members' direct=true
+                +join_button
+                // if leaders_id
+                //     .ui.inline.header 
+                //         +i name='crown' cl='ui avatar image'
+                //         // i.crown.icon
+                //         |leaders: 
+                //     each leader_ids 
+                //         +user_info
+                // div
+                // .ui.inline.header 
+                //     +i name='groups'
+                //     // i.users.icon
+                //     |#{member_user_ids.length} members
+                // each member_user_ids
+                //     +user_info
         .ui.segment.alpha
-            .ui.header
-                +i name='groups'
-                |#{_members.count} members
-                // .ui.button.add_user_member
-                //     |add member
-            each _members 
-                .ui.label #{username}
-            // +multi_user_view key='member_user_ids' label='members' direct=true
-            +join_button
-            // if leaders_id
-            //     .ui.inline.header 
-            //         +i name='crown' cl='ui avatar image'
-            //         // i.crown.icon
-            //         |leaders: 
-            //     each leader_ids 
-            //         +user_info
-            // div
-            // .ui.inline.header 
-            //     +i name='groups'
-            //     // i.users.icon
-            //     |#{member_user_ids.length} members
-            // each member_user_ids
-            //     +user_info
-    .ui.segment.alpha
-        +checkin_widget
-    .ui.segment.alpha
-        .ui.dividing.header
-            +i name='rss'
-            |activity
-        .ui.list 
-            each group_log_docs 
-                .item 
-                    |#{body} 
-                    +when
-                    +author_info
-        .content
-            .ui.header 
-                +i name='line-chart'
-                // i.large.line.chart.icon
-                |stats
-            .ui.large.list
-                .item 
-                    i.user.icon
-                    |#{member_user_ids.length} members
-                .item #{event_ids.length} events
-                .item #{transfer_ids.length} credits exchanged
-        //     each log_items
-        //         +log_item
-        //     i.refresh.link.icon.refresh_group_stats
-    .ui.segment.alpha
-        if has_events
-            .title
-                .ui.inline.header
-                    +i name='calendar' 
-                    // i.calendar.large.icon
-                    |events
+            +checkin_widget
+        .ui.segment.alpha
+            .ui.dividing.header
+                +i name='rss'
+                |activity
+            .ui.list 
+                each group_log_docs 
+                    .item 
+                        |#{body} 
+                        +when
+                        +author_info
             .content
-                if currentUser 
-                    .ui.icon.button.add_group_event(title='add group event')
-                        i.plus.icon
-                .ui.link.animated.list
-                    each group_events
-                        a.item(href="/event/#{_id}") 
-                            img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-                            .content
-                                .header #{title}
-                                .description
-                                    if is_repeating
-                                        i.refresh.icon
-                                        |every #{repeating_day}
-                                    if start_datetime
-                                        |{{from_now start_datetime}}
-    .ui.segment.alpha
-        if has_shop
-            .title
                 .ui.header 
-                    +i name='shop'
-                    |shop
-            .content
-                .ui.list 
-                    each group_products 
-                        a.item(href="/doc/#{_id}")
-                            img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-                            |#{title}
-        
-    .ui.segment.alpha
-        if has_posts
+                    +i name='line-chart'
+                    // i.large.line.chart.icon
+                    |stats
+                .ui.large.list
+                    .item 
+                        i.user.icon
+                        |#{member_user_ids.length} members
+                    .item #{event_ids.length} events
+                    .item #{transfer_ids.length} credits exchanged
+            //     each log_items
+            //         +log_item
+            //     i.refresh.link.icon.refresh_group_stats
+        .ui.segment.alpha
+            if has_events
+                .title
+                    .ui.inline.header
+                        +i name='calendar' 
+                        // i.calendar.large.icon
+                        |events
+                .content
+                    if currentUser 
+                        .ui.icon.button.add_group_event(title='add group event')
+                            i.plus.icon
+                    .ui.link.animated.list
+                        each group_events
+                            a.item(href="/event/#{_id}") 
+                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                                .content
+                                    .header #{title}
+                                    .description
+                                        if is_repeating
+                                            i.refresh.icon
+                                            |every #{repeating_day}
+                                        if start_datetime
+                                            |{{from_now start_datetime}}
+        .ui.segment.alpha
+            if has_shop
+                .title
+                    .ui.header 
+                        +i name='shop'
+                        |shop
+                .content
+                    .ui.list 
+                        each group_products 
+                            a.item(href="/doc/#{_id}")
+                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                                |#{title}
+            
+        .ui.segment.alpha
+            if has_posts
+                .title
+                    .ui.inline.header 
+                        +i name='blog'
+                        |group posts
+                    if currentUser 
+                        .ui.icon.button.add_group_post(title='add group post')
+                            i.plus.icon
+                .content
+                    .ui.selection.animated.list
+                        each group_post_docs 
+                            +post_item
+        if content
+            .ui.fluid.styled.accordion.alpha
+                .title
+                    .ui.inline.header
+                        // i.info.icon
+                        +i name='info'
+                        |about
+                    i.dropdown.icon
+                .content
+                    +html_view key='content' icon='content' label='description'
+                    // .scrolling
+        .ui.segment.alpha
             .title
-                .ui.inline.header 
-                    +i name='blog'
-                    |group posts
-                if currentUser 
-                    .ui.icon.button.add_group_post(title='add group post')
-                        i.plus.icon
+                .ui.header related groups
             .content
-                .ui.selection.animated.list
-                    each group_post_docs 
-                        +post_item
-    .ui.segment.alpha
-        .ui.inline.header
-            // i.info.icon
-            +i name='info'
-            |about
-        .scrolling
-            +html_view key='description' icon='content' label='description'
-    .ui.segment.alpha
-        .title
-            .ui.header related groups
-        .content
-            .ui.header 
-                +i name='connect'
-                |related groups 
-            .ui.list
-                each related_group_docs
-                    +group_item
-                
-
-
+                .ui.header 
+                    +i name='connect'
+                    |related groups 
+                .ui.list
+                    each related_group_docs
+                        +group_item
+                    
+    
+    
 
 
 

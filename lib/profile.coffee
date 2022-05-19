@@ -11,6 +11,9 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'unread_logs',->
     Template.profile.onRendered ->
         Meteor.call 'increment_profile_view', Router.current().params.username, ->
+        Meteor.setTimeout ->
+            $('.ui.accordion').accordion()
+        , 2000
 
         
 if Meteor.isClient
@@ -43,6 +46,12 @@ if Meteor.isClient
                 model:'comment'
                 _author_id:user._id
         
+    Template.user_posts.helpers
+        user_authored_post_docs: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                model:'post'
+                _author_id:user._id
     Template.user_posts.events 
         'click .add_user_post': ->
             user = Meteor.users.findOne username:Router.current().params.username

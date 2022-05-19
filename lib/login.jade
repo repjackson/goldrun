@@ -29,7 +29,7 @@ template(name='login')
                     // a.ui.compact.small.button(href='/forgot_password')
                     //     +i name='forgot-password' cl='ui mini inline image'                    
                     //     |forgot password
-                    a.ui.button(href='/register')
+                    a.ui.button.fly_left(href='/register')
                         +i name='plus'
                         |register
 
@@ -62,18 +62,20 @@ template(name='register')
                 if can_register
                     //- if registering
                     .ui.fluid.big.basic.green.button.register(class=enter_class)
-                        i.user.plus.big.icon
+                        // i.user.plus.big.icon
+                        +i name='plus'
                         |register
                 else
                     .ui.fluid.big.disabled.button(class=enter_class)
-                        i.user.plus.icon
+                        // i.user.plus.icon
+                        +i name='plus'
                         |register
                     // // .ui.small.header username "#{username}" found
                     
-                    a.ui.button(href='/login') 
-                        // i.right.chevron.icon
-                        +i name='internal' cl='ui avatar image'
-                        |login
+                a.ui.button.fly_right(href='/login') 
+                    // i.right.chevron.icon
+                    +i name='internal' cl='ui avatar image'
+                    |login
 
 
 

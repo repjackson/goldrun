@@ -17,10 +17,8 @@ template(name='docs')
             +session_set key='model' value='task' label='task' icon='tasks'
             +session_set key='model' value='checkin' label='checkin' icon='checkmark'
             +session_set key='model' value='log' label='log' icon='event-log'
-            div
-        .four.wide.column
             +facet key='tag' icon='tags' model='post' label='tags'
-        .twelve.wide.column
+        .sixteen.wide.column
             +search_input key='title'
             +session_set key='view_mode' value='grid' icon='grid'
             +session_set key='view_mode' value='list' icon='list'

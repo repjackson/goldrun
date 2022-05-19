@@ -1,21 +1,16 @@
 template(name='post_card')
-    a.ui.link.card.fly_right(href="/doc/#{_id}")
-        if youtube_id
-            +youtube_view key='youtube_id'
-        else if image_id
-            img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        .content
-            a.ui.large_text.zoomer(href="/doc/#{_id}" class=emotion_color) #{title}
-            if private 
-                i.large.lock.icon
-            .ui.small.grey.inline.header #{when}
-            .smallcut
-                | !{content}
-            if views
-                |#{views} views
-            +author_info
-            if group_id     
-                +group_info
+    // .content
+    //     a.ui.large_text.zoomer(href="/doc/#{_id}" class=emotion_color) #{title}
+    //     if private 
+    //         i.large.lock.icon
+    //     .ui.small.grey.inline.header #{when}
+    //     .smallcut
+    //         | !{content}
+    //     if views
+    //         |#{views} views
+    //     +author_info
+    //     if group_id     
+    //         +group_info
 template(name='post_card_med')
     a.ui.link.card.fly_right(href="/doc/#{_id}")
         if youtube_id
@@ -451,20 +446,8 @@ template(name='user_services')
         
 
 template(name='service_card')
-    .ui.link.card.view_service.pointer.fly_right
-        img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        .content
-            a.ui.header.zoomer(href="/service/#{_id}") #{title}
-            if private 
-                i.large.lock.icon
-            .ui.small.grey.inline.header #{when}
-            | !{content}
-            +author_info
-            if group_id     
-                +group_info
-            .ui.label 
-                i.eye.icon
-                |#{views}
+    if private 
+        i.large.lock.icon
             
         
 template(name='service_item')
@@ -1035,34 +1018,21 @@ template(name='group_card_med')
                     
 
 template(name='group_item')
-    if image_id
-        img.ui.tiny.image(src="{{c.url image_id width=300 height=300}}")
-    //     a.image.zoomer.fly_right(href="/doc/#{_id}")
-    .middle.aligned.content
-        a.ui.header.zoomer.fly_right(href="/doc/#{_id}")
-            |#{title}
-        |#{member_ids.length} members
-        // .smallscroll
-        //     |!{description}
-        //+ismall name='tags' cl='ui inline image'
-    .middle.aligned.content
-        each seven_tags
-            .ui.label #{this}
-        if location 
-            i.red.marker.icon 
-            |#{location}
-        .ui.label 
-            i.grey.eye.icon 
-            |#{views}
-        // a.zoomer(href="/doc/#{_id}")
-        //     i.chevron.right.large.circular.icon
-        // if is_admin
-        //     .ui.small.header slug: #{slug}
-        // if can_edit
-        //     a.ui.circular.icon.button(href="/doc/#{_id}/edit")
-        //         i.pencil.blue.icon
-        +print_this
-                    
+    |#{member_ids.length} members
+    // .smallscroll
+    //     |!{description}
+    //+ismall name='tags' cl='ui inline image'
+    if location 
+        i.red.marker.icon 
+        |#{location}
+    // a.zoomer(href="/doc/#{_id}")
+    //     i.chevron.right.large.circular.icon
+    // if is_admin
+    //     .ui.small.header slug: #{slug}
+    // if can_edit
+    //     a.ui.circular.icon.button(href="/doc/#{_id}/edit")
+    //         i.pencil.blue.icon
+                
 
 
 template(name='group_view')
@@ -1824,3 +1794,237 @@ template(name='task_edit')
     // if has_content
     div
     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+template(name='inbox')
+    .ui.padded.stackable.grid 
+        .row
+            .four.wide.column
+                .ui.header 
+                    i.big.inbox.icon
+                    |mail
+                .ui.basic.big.circular.button.add_message
+                    i.chat.blue.icon
+                    |+ message
+                .ui.vertical.large.menu
+                    a.item(href="/mail/inbox") 
+                        i.inbox.icon
+                        |inbox
+                    a.item(href="/mail/drafts") 
+                        i.save.icon
+                        |drafts
+                    a.item(href="/mail/sent") 
+                        i.send.icon
+                        |sent
+                    a.item(href="/mail/archive") 
+                        i.archive.icon
+                        |archive
+            .six.wide.column
+                +recent_logs
+                +sent_messages
+            .six.wide.column
+                +received_messages
+
+
+template(name='recent_logs')
+    .ui.inline.header
+        +i name='event-log'
+        |#{logs.count} log messages
+    .ui.small.inline.header
+        |#{unread_log_count} unread
+    // .ui.divided.list.selection.scrolling
+    each logs
+        +log_item
+
+
+
+template(name='received_messages')                    
+    .ui.header 
+        i.chevron.down.icon
+        |#{my_received_messages.count} received messages
+    .ui.list.medscroll
+        each my_received_messages
+            +received_message
+        
+template(name='received_message')
+    .item
+        img.ui.avatar.image(src="{{c.url _author.image_id height=100 width=200}}" class=currentUser.invert_class)
+        .content
+            .header
+                |#{when} from #{_author.name}
+            |!{description} !{body}
+            .meta    
+                a.ui.button.fly_right(href="/message/#{_id}")
+                    i.chevron.right.link.icon
+                    |view
+                +toggle_view_icon
+                if can_edit
+                    +remove_icon
+                if is_dev
+                    +print_this
+                    
+                    
+template(name='sent_messages')                    
+    .ui.header 
+        i.chevron.down.icon
+        |#{my_sent_messages.count} sent messages
+    .ui.list.medscroll
+        each my_sent_messages
+            .item
+                img.ui.avatar.image(src="{{c.url target.image_id height=100 width=200}}" class=currentUser.invert_class)
+                .content
+                    .header
+                        |#{when} to #{target.name} #{target.name} #{to.name}
+                    |#{description} #{body}
+                    a(href="/m/message/#{_id}/view")
+                       |view 
+                    +toggle_view_icon
+                    if can_edit
+                        +remove_icon
+                    if is_dev
+                        +print_this
+
+                                
+template(name='toggle_view_icon')
+    if has_read
+        i.eye.circular.link.grey.icon.mark_unread(title='mark unread')
+    else
+        i.eye.circular.link.large.icon.mark_read(title='mark read')
+        
+        
+template(name='message_edit')
+    .ui.stackable.padded.grid
+        .row 
+            .sixteen.wide.column
+                .ui.segment
+                    .ui.header sender
+                    .ui.header
+                        img.ui.small.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        |#{_author.name}
+                .ui.segment
+                    if cost 
+                        .ui.header cost: #{cost}pts
+                    .ui.header target
+                    with _target
+                        i.large.remove.link.icon.remove_target
+                        a.pointer(href="/user/#{name}")
+                            img.ui.tiny.inline.image(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}")
+                            .ui.inline.header #{name}
+                            .ui.small.grey.inline.header #{points}
+                    unless _target
+                        .ui.divider
+                        +single_user_edit key='target_user_id' label='search member' icon='user plus' direct=true
+
+                        // i.large.user.plus.icon
+                        // // .ui.icon.input
+                        // //     i.search.icon
+                        // //     input.search_username(type='text' placeholder='username')
+                        // each members
+                        //     .ui.compact.basic.button.add_target
+                        //         // i.plus.icon
+                        //         img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        //         |#{name}
+                        //         small #{points}p
+                                
+                .ui.center.aligned.basic.segment
+                    if can_send
+                        .ui.green.big.icon.button.submit
+                            i.big.checkmark.icon
+                            |send (-#{cost}pts)
+                    else 
+                        .ui.big.green.big.icon.disabled.button
+                            i.checkmark.big.icon
+                            |send (-#{cost}pts) (add message)
+
+
+template(name='message_item')
+    .ui.item
+        .content
+            a(href="/user/#{_author.username}") 
+                .ui.header 
+                    i.chevron.up.icon
+                    |sender
+                img.ui.rounded.small.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}")
+                .ui.header 
+                    |#{_author.name}
+            a(href="/user/#{_target.username}")
+                .ui.header
+                    i.chevron.down.icon
+                    |target
+                img.ui.rounded.small.image(src="{{c.url _target.image_id height=200 width=200 gravity='face' crop='fill'}}")
+                .ui.header
+                    |#{_target.name}
+            if cost 
+                .ui.header cost: #{cost}pts
+            if can_edit
+                +remove_button
+            .ui.header
+                i.message.icon
+                |#{amount}pts
+            .ui.small.header
+                i.clock.icon
+                | #{when}
+            .f12
+                |#{description}
+            +image_view key='image_id' label='image' direct=true
+            div 
+            if tags
+                i.tags.icon
+                each tags 
+                    .ui.big.label #{this}
+            .spacer
+            .spacer
+            +comments
+            +voting_full
+            //- +array_view key='location_tags' label='location_tags' direct=true        
+
+
+template(name='message_view')
+    with data_doc
+        .ui.stackable.padded.grid
+            .centered.row 
+                .five.wide.column
+                    a.ui.large.fluid.basic.circular.button.fly_right(href="/mail/inbox")
+                        // i.inbox.icon
+                        +i name='inbox'
+                        |mail
+                    a.ui.link.card(href="/user/#{_author.username}") 
+                        img.ui.rounded.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        .content
+                            .ui.header 
+                                i.chevron.up.icon
+                                |sender
+                            .ui.header 
+                                |#{_author.name}
+                .six.wide.column
+                    .ui.header 
+                        |cost 
+                        |#{cost}
+                    if can_edit
+                        +remove_button
+                    .ui.header
+                        i.message.icon
+                        |#{amount}pts
+                    .ui.small.header
+                        i.clock.icon
+                        | #{when}
+                    .f12
+                        |!{description}
+                    +image_view key='image_id' label='image' direct=true
+                    div 
+                    if tags
+                        i.tags.icon
+                        each tags 
+                            .ui.big.label #{this}
+                    +voting_full
+                    .spacer
+                    .spacer
+                    +comments
+                .four.wide.column
+                    a.ui.link.card(href="/user/#{_target.username}")
+                        .content
+                            .ui.header
+                                i.chevron.down.icon
+                                |target
+                            img.ui.rounded.image(src="{{c.url _target.image_id height=500 width=500 gravity='face' crop='fill'}}")
+                            .ui.header
+                                |#{_target.name}
+                    //- +array_view key='location_tags' label='location_tags' direct=true            

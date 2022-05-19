@@ -9,10 +9,10 @@ template(name='profile')
     //     +leftbar
     //     +rightbar
     with user_from_username_param
-        if background_image_id
-            img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
-        else 
-            img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+        // if background_image_id
+        //     img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+        // else 
+        //     img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
             .row
@@ -103,6 +103,9 @@ template(name='profile')
                         +follow_button
                         +friend_button
                     +send_points_button
+                    if venmo_image
+                        img.ui.image.boop(src="{{c.url venmo_image }}")
+                    
                 .twelve.wide.column
                     if subs_ready
                         .ui.fluid.styled.accordion.alpha.zoomer
@@ -167,16 +170,21 @@ template(name='user_favorites')
                 +i name='heart'
                 |#{user_favorite_docs.count} favorites
             i.dropdown.icon
-        .content.smallscroll
-            .ui.selection.animated.link.list
+        .content.smallscrol
+            .ui.selection.animated.link.divided.list
                 each user_favorite_docs
-                    a.item.fly_up(href="/doc/#{_id}")
-                        img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
-                        .inline.header #{title}
-                        +when
-                        +model_label
-                        each three_tags
-                            .ui.small.basic.label #{this}
+                    .item
+                        .content
+                            .header
+                                a.inline.fly_up(href="/doc/#{_id}")
+                                    img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
+                                    .ui.inline.header #{title}
+                            .description
+                                +favorite_icon_toggle
+                                +when
+                                +model_label
+                                each three_tags
+                                    .ui.small.basic.label #{this}
                     
 template(name='when')
     .ui.label(title="{{long_date _timestamp}}") #{when}
@@ -296,8 +304,8 @@ template(name='user_comments')
                  
                  
 template(name='user_groups')   
-    .ui.fluid.styled.accordion.alpha
-        .title.zoomer
+    .ui.fluid.styled.accordion.alpha.zoomer
+        .title
             .ui.inline.header 
                 +i name='groups'
                 |user groups
@@ -305,10 +313,11 @@ template(name='user_groups')
         .content
             .ui.selection.list    
                 each user_group_memberships
-                    a.item(href="/doc/#{_id}")
-                        img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                        .content
-                            |#{title}
+                    +doc_item
+                    // a.item(href="/doc/#{_id}")
+                    //     img.ui.small.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                    //     .content
+                    //         |#{title}
                  
                     
 template(name='user_social')
@@ -322,16 +331,18 @@ template(name='user_social')
             +user_following
    
 template(name='user_friends')
-    .title
-        .ui.header 
-            +i name='friends'
-            |friends
-    .content
-        +friend_button
-        .ui.header friends of
-        .ui.selection.link.animated.list
-            each user_friended
-                +user_info
+    .ui.fluid.accordion.zoomer.alpha
+        .title
+            .ui.inline.header 
+                +i name='friends'
+                |friends
+            i.dropdown.icon
+        .content
+            +friend_button
+            .ui.header friends of
+            .ui.selection.link.animated.list
+                each user_friended
+                    +user_info
             
 template(name='user_following')
     +follow_button
@@ -452,6 +463,7 @@ template(name='account')
                     .ui.hidden.divider
                     +image_edit key='image_id' icon='picture' title='profile image' 
                     +image_edit key='background_image_id' icon='picture' title='background image' 
+                    +image_edit key='venmo_image' icon='venmo' title='venmo image' 
                 .column
                     +text_edit key='first_name' label='first name' icon='user'
                     div

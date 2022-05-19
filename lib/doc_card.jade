@@ -4,10 +4,11 @@ template(name='doc_card')
             +youtube_view key='youtube_id'
         else if image_id
             img.ui.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        .ui.header 
-            +model_label
-            |#{title}
-        +Template.dynamic template=card_template
+        .content
+            .ui.header 
+                +model_label
+                |#{title}
+            +Template.dynamic template=card_template
         .content
             if is_dev
                 +print_this

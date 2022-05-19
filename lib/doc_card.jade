@@ -3,7 +3,12 @@ template(name='doc_card')
         if youtube_id
             +youtube_view key='youtube_id'
         else if image_id
-            img.ui.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            a.image.zoom.pointer.mobile.hidden.fly_right(href="/doc/#{_id}")
+                img.ui.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            a.image.zoom.pointer.mobile.only.fly_right(href="/doc/#{_id}")
+                img.ui.image(src="{{c.url image_id height=200 width=500 gravity='center' crop='fill'}}" class=currentUser.invert_class)
+        
+            // img.ui.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
             .ui.header 
                 +model_label

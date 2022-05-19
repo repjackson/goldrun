@@ -359,7 +359,7 @@ Meteor.publish 'doc_results', (
         # sort = 'price_per_serving'
     # else
         # match.tags = $nin: ['wikipedia']
-    # match.published = true
+    match.published = true
         # match.source = $ne:'wikipedia'
     # if view_vegan
     #     match.vegan = true

@@ -225,7 +225,9 @@ if Meteor.isClient
         #     parent = Docs.findOne Template.parentData()._id
         # if parent
     Template.comments.helpers
-        can_add: -> Meteor.user() and Meteor.user().points > 2
+        can_add: -> 
+            true
+            # Meteor.user() and Meteor.user().points > 2
         doc_comments: ->
             if Router.current().params.doc_id
                 parent = Docs.findOne Router.current().params.doc_id

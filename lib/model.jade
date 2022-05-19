@@ -486,70 +486,56 @@ template(name='service_edit')
                 
                 
 template(name='event_card')
-    .ui.zoomer.card
-        .content
-            a.ui.inline.header.fly_right(href="/doc/#{_id}") #{title} 
-            div
-            if is_in_past
-                i.big.undo.icon 
-                |in past
-            if start_datetime
-                .ui.small.inline.grey.header 
-                    |{{medium_date start_datetime}} 
-                    if time 
-                        |{{time}}
-                .ui.small.inline.header {{from_now start_datetime}}
-            else if is_repeating
-                +i name='refresh' title='repeating'
-                |every #{repeating_day}
-            // .ui.inline.small.header {{long_date start_datetime}}
-            // div
-            // .ui.small.grey.inline.header {{from_now start_datetime}}
-        if image_id
-            a.image.zoom.pointer.mobile.hidden.fly_right(href="/doc/#{_id}")
-                img.ui.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            a.image.zoom.pointer.mobile.only.fly_right(href="/doc/#{_id}")
-                img.ui.image(src="{{c.url image_id height=200 width=500 gravity='center' crop='fill'}}" class=currentUser.invert_class)
-        .content
-            if tags 
-                i.tag.icon
-                each seven_tags 
-                    .ui.link.label.zoomer.pick_flat_tag
-                        |#{this}
-            if location
-                i.marker.icon 
-                |#{location}
-            div 
-            // small led by
-            img.ui.avatar.image(src="{{c.url host.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            // strong #{host.name}
-            if views 
-                span(title='views')
-                    |#{views} 
-                    i.eye.grey.icon
-        .content
-            |#{event_tickets.count}
-            a(href="/doc/#{_id}" title='ticket purchase required')
-                i.checkmark.green.link.icon
-            | #{going_user_ids.count}
-            each going
-                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            i.question.orange.link.icon.mark_maybe(title='mark yourself maybe')
-            div
-            | #{maybe_user_ids.length}
-            each maybe_going
-                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            | #{not_user_ids.length}
-            div
-            i.ban.red.link.icon.mark_not(title='mark yourself not')
-            each not_going
-                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            if doc_comments.count
-                .meta
-                    each doc_comments 
-                        i.grey.chat.outline.icon
-                        img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=user_class)
-                        |#{body}
+    div
+    if is_in_past
+        i.big.undo.icon 
+        |in past
+    if start_datetime
+        .ui.small.inline.grey.header 
+            |{{medium_date start_datetime}} 
+            if time 
+                |{{time}}
+        .ui.small.inline.header {{from_now start_datetime}}
+    else if is_repeating
+        +i name='refresh' title='repeating'
+        |every #{repeating_day}
+    // .ui.inline.small.header {{long_date start_datetime}}
+    // div
+    // .ui.small.grey.inline.header {{from_now start_datetime}}
+    if location
+        i.marker.icon 
+        |#{location}
+    div 
+    // small led by
+    img.ui.avatar.image(src="{{c.url host.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+    // strong #{host.name}
+    if views 
+        span(title='views')
+            |#{views} 
+            i.eye.grey.icon
+    .content
+        |#{event_tickets.count}
+        a(href="/doc/#{_id}" title='ticket purchase required')
+            i.checkmark.green.link.icon
+        | #{going_user_ids.count}
+        each going
+            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        i.question.orange.link.icon.mark_maybe(title='mark yourself maybe')
+        div
+        | #{maybe_user_ids.length}
+        each maybe_going
+            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        | #{not_user_ids.length}
+        div
+        i.ban.red.link.icon.mark_not(title='mark yourself not')
+        each not_going
+            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        if doc_comments.count
+            .meta
+                each doc_comments 
+                    i.grey.chat.outline.icon
+                    img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=user_class)
+                    |#{body}
 
 
 template(name='event_item')

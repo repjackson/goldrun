@@ -1,33 +1,7 @@
 template(name='tone')
-    // h3 tone
-    .ui.horizontal.list
-        each tone.result.document_tone.tones
-            .item #{tone_id} {{ to_percent score }}%
-    .ui.list
-        each tone.result.sentences_tone
-            .item(class=sentence_class)
-                //- span #{sentence_id}
-                span.tone_item.ui.zoomer.pointer.text(title="#{sentence_id}" class="#{tone_size} #{sentence_color}") 
-                    |{{lowered text}}
-                    // .content
-                    // .inline.header(title="#{sentence_id}") {{lowered text}}
-                    // |weight:#{weight}
-                    // i.chevron.up.link.grey.large.icon.upvote_sentence
-                    // i.chevron.down.link.grey.large.icon.downvote_sentence
-                    // each tones
-                    //     .ui.inverted.invert.small.compact.circular.label(class="#{tone_label_class}") 
-                        // .ui.small.compact.circular.inverted.label(class="{{calculated_size 'weight'}} #{tone_label_class}") 
-                            span.ui.text
-                                |#{tone_id} &nbsp;
-                            | {{ to_percent score }}% 
-                    // .ui.mini.transparent.icon.input
-                    //     input.tag_sentence(type='text' placeholder='tag')
-                    // each tags 
-                    //     .ui.label #{this}
-    // unless tone                
-    //- #call_tone.ui.icon.button
-    //-     i.refresh.icon
-            // +jsonView(json=tone)
+    h3 tone
+    each tone.classifications
+        .ui.header #{class_name}: #{confidence}
 
 
 template(name='doc_sentiment') 
@@ -305,10 +279,10 @@ template(name='call_watson')
     .ui.button.autotag
         //i.chess.icon
         +i name='dna-helix'
-        |call watson
+        |analyze
 template(name='call_tone')
     .ui.button.call_tone
         //i.chess.icon
         +i name='dna-helix'
-        |call tone
+        |analyze tone
     

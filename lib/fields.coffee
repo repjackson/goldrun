@@ -648,7 +648,7 @@ if Meteor.isClient
             if Router.current().params.doc_id
                 parent_doc_value = Docs.findOne(Router.current().params.doc_id)["#{@key}_id"]
             if parent_doc_value 
-                found = Meteor.users.findOne _id:value
+                found = Meteor.users.findOne _id:parent_doc_value
             else 
                 parent_user_value = Meteor.users.findOne(username:Router.current().params.username)["#{@key}_id"]
                 found = Meteor.users.findOne _id:parent_user_value

@@ -4,7 +4,7 @@ template(name='account')
         //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
+                .six.wide.column
                     .ui.center.aligned.large.inline.grey.header
                     //- +i name='pencil'
                     .ui.small.inline.header @#{username}
@@ -16,7 +16,7 @@ template(name='account')
                     +image_edit key='venmo_image' icon='venmo' title='venmo image' 
                     +single_user_edit key='refered_by' label='refered by' icon='clone'
                     +print_this
-                .twelve.wide.column
+                .ten.wide.column
                     +text_edit key='first_name' label='first name' icon='user'
                     div
                     +text_edit key='last_name' label='last name' icon='user'

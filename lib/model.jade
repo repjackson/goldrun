@@ -96,7 +96,7 @@ template(name='post_edit')
                     |sections
                 +boolean_edit key='has_subtitle' label='subtitle (-1p)' icon='header'
                 if has_subtitle
-                    +text_edit key='subtitle' label='subtitle' direct=true icon='header'
+                    +text_edit key='subtitle' label='subtitle'  icon='header'
                 +boolean_edit key='has_price' label='price' icon='coins'
                 if has_price
                     .ui.segment 
@@ -109,7 +109,7 @@ template(name='post_edit')
                     |sentiment
                 +key_value_edit key='sentiment' value='positive' label='positive' icon='happy'
                 +key_value_edit key='sentiment' value='negative' label='negative' icon='sad'
-                // +boolean_edit key='published' icon='visible' direct=true
+                // +boolean_edit key='published' icon='visible' 
                     
                     
 template(name='product_card')
@@ -334,7 +334,7 @@ template(name='order_status_icons')
             +icolor name='checkmark' cl='ui inline image'
         
         if delivery_photo
-            +image_view key='delivery_photo' direct=true cl='ui tiny inline image'
+            +image_view key='delivery_photo'  cl='ui tiny inline image'
 
          
 template(name='product_order_card')
@@ -380,8 +380,8 @@ template(name='product_edit')
     .ui.stackable.padded.one.column.grid
         .row
             .column
-                +image_edit key='image_id2' label='alt image' direct=true
-                +link_edit key='link' label='external link' direct=true
+                +image_edit key='image_id2' label='alt image' 
+                +link_edit key='link' label='external link' 
                 // div
             .column
                 +float_edit key='price_usd' label='price' icon='us-dollar-circled'
@@ -469,7 +469,7 @@ template(name='service_view')
                     .item #{views} views
                 each viewers
                     .ui.label #{username
-                +array_view key='location_tags' label='location_tags' direct=true
+                +array_view key='location_tags' label='location_tags' 
             .twelve.wide.column.scrolling   
                 .ui.green.button 
                     |purchase
@@ -479,7 +479,7 @@ template(name='service_edit')
         .one.column.row 
             .column.scrollin
                 +number_edit key='price' label='price (pts)' icon='coins'
-                +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                +array_edit key='location_tags' label='location tags' icon='marker' 
                 +audience_settings
                 
                 
@@ -1013,6 +1013,11 @@ template(name='group_item')
 
 template(name='group_view')
     .scrollin
+        .ui.inline.header
+            +i name='crown'
+            |leader 
+        with leader_id
+            +user_info
         if premium_membership
             .ui.header 
                 |premium membership: #{membership_cost}pts
@@ -1042,7 +1047,7 @@ template(name='group_view')
                 .content
                     each _members 
                         .ui.label #{username}
-                    // +multi_user_view key='member_user_ids' label='members' direct=true
+                    // +multi_user_view key='member_user_ids' label='members' 
                     +join_button
                     // if leaders_id
                     //     .ui.inline.header 
@@ -1066,7 +1071,7 @@ template(name='group_view')
                 .content
                     +checkin_widget
             .title
-                .ui.dividing.header
+                .ui.header
                     +i name='rss'
                     |activity
             .content
@@ -1170,12 +1175,13 @@ template(name='group_edit')
                 .ui.inline.header 
                     +i name='cube'
                     |modules
-                +boolean_edit key='has_checkin' label='checkin' icon='clock' direct=true
-                +boolean_edit key='has_shop' label='shop' icon='shop' direct=true
-                +boolean_edit key='has_posts' label='posts' icon='blog' direct=true
-                +boolean_edit key='has_events' label='events' icon='calendar' direct=true
-                +boolean_edit key='has_chat' label='chat' icon='chat' direct=true
-                +boolean_edit key='has_members' label='membership' icon='groups' direct=true
+                +boolean_edit key='has_checkin' label='checkin' icon='clock' 
+                +boolean_edit key='has_shop' label='shop' icon='shop' 
+                +boolean_edit key='has_posts' label='posts' icon='blog' 
+                +boolean_edit key='has_events' label='events' icon='calendar' 
+                +boolean_edit key='has_chat' label='chat' icon='chat' 
+                +boolean_edit key='has_members' label='membership' icon='groups' 
+                +boolean_edit key='has_tasks' label='tasks' icon='tasks' 
                 if has_members 
                     .ui.segment 
                         .ui.header 
@@ -1185,15 +1191,15 @@ template(name='group_edit')
                         if premium_membership
                             +number_edit key='membership_cost' label='cost (points)' icon='coins'
                 
-                // +single_user_edit key='leader_id' label='leader' icon='crown' direct=true
-                +multi_user_edit key='leader_ids' label='leaders' icon='crown' direct=true
+                +single_user_edit key='leader' label='leader' icon='crown' 
+                // +multi_user_edit key='leader_ids' label='leaders' icon='crown' 
                 div
-                +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                +array_edit key='location_tags' label='location tags' icon='marker' 
                 div
-                +text_edit key='contact_info' label='contact info' icon='info' direct=true
-                +multi_user_edit key='member_ids' label='members' direct=true
-                +boolean_edit key='private' label='private' direct=true
-                +link_edit key='link' label='link' direct=true
+                +text_edit key='contact_info' label='contact info' icon='info' 
+                +multi_user_edit key='member_ids' label='members' 
+                +boolean_edit key='private' label='private' 
+                +link_edit key='link' label='link' 
                
                
                     
@@ -1408,7 +1414,7 @@ template(name='rental_view')
                         | #{_author_username}
                         small for
                         |#{order_date}
-    +text_view key='location' icon='marker' label='location' direct=true
+    +text_view key='location' icon='marker' label='location' 
     .ui.header #{daily_rate}p/day
     //- unless is_author
     // .ui.big.green.fluid.button.new_order 
@@ -1423,7 +1429,7 @@ template(name='rental_view')
     +quickbuy day_diff=5
     div
     if description.length
-        +html_view key='description' label='description' icon='content' direct=true
+        +html_view key='description' label='description' icon='content' 
     div
     .ui.small.list
         .item total earnings
@@ -1469,17 +1475,17 @@ template(name='rental_edit')
     .ui.stackable.padded.grid
         .one.column.row
             .column
-                +number_edit key='daily_rate' label='daily rate' icon='exchange' direct=true
+                +number_edit key='daily_rate' label='daily rate' icon='exchange' 
                 div
                 if lat
                     a.ui.header.pointer.refresh_gps(href='#') 
                         |gps coords
                     .ui.label #{lat}
                     .ui.label #{long}
-                // +text_edit key='location' label='location text' icon='marker' direct=true
+                // +text_edit key='location' label='location text' icon='marker' 
             .column
-                +array_edit key='location_tags' label='public location tags' icon='marker' direct=true
-                // +array_edit key='private_location_tags' label='private location tags' icon='marker' direct=true tooltip='for handlers and buyers who are picking up'
+                +array_edit key='location_tags' label='public location tags' icon='marker' 
+                // +array_edit key='private_location_tags' label='private location tags' icon='marker'  tooltip='for handlers and buyers who are picking up'
     
                     
 template(name='last_viewed')
@@ -1557,7 +1563,7 @@ template(name='order_segment')
 //     .ui.segment.grid
 //         .row
 //             .three.column
-//                 +image_view key='image' direct=true cl='zoom ui tiny image'
+//                 +image_view key='image'  cl='zoom ui tiny image'
 //             .twelve.wide.column
 //                 .ui.header #{title}
 //                 a.ui.header.inline.lowercase(href="/doc/#{_id}/")
@@ -1663,7 +1669,7 @@ template(name='transfer_view')
                     |!{description}
                 .spacer
                 
-                +image_view key='image_id' label='image' direct=true
+                +image_view key='image_id' label='image' 
                 div 
                 if tags
                     i.tags.icon
@@ -1675,7 +1681,7 @@ template(name='transfer_view')
                     | #{when}
                 .spacer
                 .spacer
-                //- +array_view key='location_tags' label='location_tags' direct=true
+                //- +array_view key='location_tags' label='location_tags' 
             .five.wide.column
                 a.fly_right(href="/user/#{_target.username}")
                     img.ui.circular.centered.fluid.pointer.zoom.image(src="{{c.url _target.image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
@@ -1703,7 +1709,7 @@ template(name='transfer_edit')
                     unless _target
                         .ui.divider
                         // i.large.user.plus.icon
-                        +single_user_edit key='target_user_id' label='search member' icon='user plus' direct=true
+                        +single_user_edit key='target_user_id' label='search member' icon='user plus' 
                         // .ui.icon.input
                         //     i.search.icon
                         //     input.search_username(type='text' placeholder='username')
@@ -1713,13 +1719,13 @@ template(name='transfer_edit')
                         //         img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         //         |#{name}
                         //         small #{points}p
-                // +boolean_edit key='has_date' label='has date' icon='calendar' direct=true
+                // +boolean_edit key='has_date' label='has date' icon='calendar' 
                 // if has_date
-                +date_edit key='date' label='date' direct=true   
-                // +boolean_edit key='has_time' label='has time' icon='clock' direct=true
+                +date_edit key='date' label='date'    
+                // +boolean_edit key='has_time' label='has time' icon='clock' 
                 // if has_time
-                +time_edit key='time' label='time' direct=true   
-                +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                +time_edit key='time' label='time'    
+                +array_edit key='location_tags' label='location tags' icon='marker' 
                 .ui.big.header #{amount}pts
                 .ui.big.input
                     input.point_amount(type='number' value=amount min='1' max=point_max)
@@ -1776,11 +1782,11 @@ template(name='task_edit')
         |audience
     +boolean_edit key='private' label='private' icon='lock'
     if private 
-        +multi_user_edit key='access_user_ids' label='user picker' direct=true
-    // +boolean_edit key='has_content' icon='content' direct=true
+        +multi_user_edit key='access_user_ids' label='user picker' 
+    // +boolean_edit key='has_content' icon='content' 
     // if has_content
     div
-    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+    +array_edit key='location_tags' label='location tags' icon='marker' 
 template(name='inbox')
     .ui.padded.stackable.grid 
         .row
@@ -1898,7 +1904,7 @@ template(name='message_edit')
                             .ui.small.grey.inline.header #{points}
                     unless _target
                         .ui.divider
-                        +single_user_edit key='target_user_id' label='search member' icon='user plus' direct=true
+                        +single_user_edit key='target_user_id' label='search member' icon='user plus' 
 
                         // i.large.user.plus.icon
                         // // .ui.icon.input
@@ -1951,7 +1957,7 @@ template(name='message_item')
                 | #{when}
             .f12
                 |#{description}
-            +image_view key='image_id' label='image' direct=true
+            +image_view key='image_id' label='image' 
             div 
             if tags
                 i.tags.icon
@@ -1961,7 +1967,7 @@ template(name='message_item')
             .spacer
             +comments
             +voting_full
-            //- +array_view key='location_tags' label='location_tags' direct=true        
+            //- +array_view key='location_tags' label='location_tags'         
 
 
 template(name='message_view')
@@ -1995,7 +2001,7 @@ template(name='message_view')
                         | #{when}
                     .f12
                         |!{description}
-                    +image_view key='image_id' label='image' direct=true
+                    +image_view key='image_id' label='image' 
                     div 
                     if tags
                         i.tags.icon
@@ -2014,4 +2020,4 @@ template(name='message_view')
                             img.ui.rounded.image(src="{{c.url _target.image_id height=500 width=500 gravity='face' crop='fill'}}")
                             .ui.header
                                 |#{_target.name}
-                    //- +array_view key='location_tags' label='location_tags' direct=true            
+                    //- +array_view key='location_tags' label='location_tags'             

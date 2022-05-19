@@ -276,19 +276,32 @@ template(name='viewing')
 template(name='read_button')
     if currentUser
         unless viewed_by
-            .ui.icon.button.mark_read
-                i.eye.icon
+            i.large.link.circular.eye.icon.mark_read
         else 
             if is_dev
+                i.large.link.circular.eye.icon.mark_unread
                 .ui.icon.button.mark_unread
                     i.cancel.icon
 
 
+template(name='view_info')            
+    .ui.label
+        i.eye.icon
+        |#{views}
+
+template(name='member_info')            
+    .ui.label(title='members')
+        i.users.icon
+        |#{member_user_ids.length}
+
+
+
 template(name='user_info')
     // with user_from_id this
-    a.ui.big.link.image.zoomer.label.zoom(href="/user/#{username}")
-        img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-        |#{name}
+    with user_doc
+        a.ui.big.link.image.zoomer.label.zoom(href="/user/#{username}")
+            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+            |#{name}
     // .ui.header #{this}
 
 

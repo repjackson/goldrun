@@ -125,19 +125,19 @@ template(name='profile')
                             +user_points
                             +user_drafts
                             +user_events
-                            if unread_log_docs.count
+                            if user_unread_log_docs.count
                                 .title
                                     .ui.inline.header 
                                         +i name='envelope'
                                         |messages/unread logs
                                         .ui.label 
-                                            |#{unread_log_docs.count}
+                                            |#{user_unread_log_docs.count}
                                     i.dropdown.icon
                                 .content
                                     // if currentUser
                                     //     unless is_current_user
                                     //         +send_message_button
-                                    each unread_log_docs
+                                    each user_unread_log_docs
                                         +log_item
                                     .ui.small.header
                                         +i name='sent'
@@ -152,7 +152,6 @@ template(name='profile')
                                         each user_messages_received
                                             |#{body}
                                 
-                            +user_tasks
                             if venmo_image
                                 .title
                                     .ui.inline.header 
@@ -161,22 +160,24 @@ template(name='profile')
                                     i.dropdown.icon
                                 .content
                                     img.ui.image(src="{{c.url venmo_image }}")
+                            +user_tasks
                 
-                        if watson
-                            +watson_view
-                        .ui.segment.alpha 
-                            .ui.inline.header 
-                                +i name='binoculars'
-                                |currently viewing
-                            with current_viewing_doc
-                                a.ui.header.zoomer.fly_right(href="/doc/#{_id}")
-                                    img.ui.avatar.image(src="{{c.url image_id height=300 crop='crop'}}")
-    
-                                    |#{title}
-                                    +model_label
-                                // +doc_item
-                        if is_current_user
-                            +profile_deposits
+                            .title 
+                                .ui.inline.header 
+                                    +i name='binoculars'
+                                    |currently viewing
+                                with current_viewing_doc
+                                    a.ui.header.zoomer.fly_right(href="/doc/#{_id}")
+                                        img.ui.avatar.image(src="{{c.url image_id height=300 crop='crop'}}")
+        
+                                        |#{title}
+                                        +model_label
+                            .content
+                                .ui.header viewing history
+                            if is_current_user
+                                +profile_deposits
+                            if watson
+                                +watson_view
                     else 
                         .ui.basic.center.aligned.segment
                             i.massive.loading.refresh.icon
@@ -220,6 +221,9 @@ template(name='user_tasks')
         .ui.header authored
         .ui.header assigned
         .ui.header completed
+        
+        
+        
 template(name='user_drafts')
     if user_draft_docs.count
         .title
@@ -397,21 +401,10 @@ template(name='user_groups')
                      
                     
 template(name='user_social')
-    .ui.stackable.padded.two.column.grid 
-        .column
-            .ui.header 
-                +i name='friends'
-                |user social
-            +user_friends   
-        .column
-            +user_following
-   
-template(name='user_friends')
-    // .ui.fluid.accordion.zoomer.alpha
     .title
         .ui.inline.header 
             +i name='friends'
-            |friends
+            |user social
         i.dropdown.icon
     .content
         +friend_button
@@ -422,6 +415,9 @@ template(name='user_friends')
         .ui.header following
         .ui.header followed by
         .ui.header comments
+        +user_following
+   
+template(name='user_friends')
             
 template(name='user_following')
     +follow_button

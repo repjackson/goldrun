@@ -45,7 +45,7 @@ template(name='doc_view')
                     +favorites
                     .ui.dividing.header 
                         +i name='line-chart'
-                        |post stats
+                        |stats
                     .ui.big.list
                         .item 
                             i.grey.line.chart.icon
@@ -93,6 +93,8 @@ template(name='doc_view')
                     +comments
                     if watson 
                         +watson_view
+                    if tone 
+                        +tone
                 // if in_dev
                 //     .ui.segment 
                 //         .ui.header admin
@@ -104,9 +106,11 @@ template(name='tip_button')
             |tip #{amount}pts
 
 template(name='tips')
+    .ui.header 
+        +i name='donate'
+        |tips
     +tip_button amount=10
     +tip_button amount=50
-    .ui.header tips
     .ui.large.divided.list
         each post_tip_docs
             .item #{when}: #{amount}pts

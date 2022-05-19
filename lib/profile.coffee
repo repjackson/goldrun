@@ -109,10 +109,15 @@ if Meteor.isClient
                 _id:current_user.group_memberships
 
     Template.profile.helpers
-        ununread_log_docs: ->
+        my_unread_log_docs: ->
             Docs.find 
                 model:'log'
                 read_user_ids:$nin:[Meteor.userId()]
+        user_unread_log_docs: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                model:'log'
+                read_user_ids:$nin:[user._id]
     Template.profile.helpers
         current_viewing_doc: ->
             if Meteor.user().current_viewing_doc_id

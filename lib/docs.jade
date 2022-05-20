@@ -10,13 +10,13 @@ template(name='docs')
             +session_set key='model' value='post' label='post' icon='blog'
             +session_set key='model' value='event' label='event' icon='calendar'
             +session_set key='model' value='group' label='group' icon='campfire'
-            +session_set key='model' value='product' label='product' icon='shopping-cart'
-            +session_set key='model' value='service' label='service' icon='wrench'
-            +session_set key='model' value='transfer' label='transfer' icon='exchange'
-            +session_set key='model' value='rental' label='rental' icon='clock'
-            +session_set key='model' value='task' label='task' icon='tasks'
-            +session_set key='model' value='checkin' label='checkin' icon='checkmark'
-            +session_set key='model' value='log' label='log' icon='event-log'
+            +session_set key='model' value='product' label='shop' icon='shopping-cart'
+            // +session_set key='model' value='service' label='service' icon='wrench'
+            // +session_set key='model' value='transfer' label='transfer' icon='exchange'
+            // +session_set key='model' value='rental' label='rental' icon='clock'
+            // +session_set key='model' value='task' label='task' icon='tasks'
+            // +session_set key='model' value='checkin' label='checkin' icon='checkmark'
+            // +session_set key='model' value='log' label='log' icon='event-log'
             +facet key='tag' icon='tags' model='post' label='tags'
         .sixteen.wide.column
             +search_input key='title'
@@ -26,6 +26,8 @@ template(name='docs')
             +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
             +session_set key='sort_key' value='views' label='views' icon='eye'
+            if session_is 'model' 'event'
+                +session_set key='sort_key' value='start_datatime' label='start' icon='calendar'
             +session_set key='limit' value=10
             +session_set key='limit' value=25
             .scrolling

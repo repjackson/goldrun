@@ -653,12 +653,14 @@ if Meteor.isClient
                 parent_user_value = Meteor.users.findOne(username:Router.current().params.username)["#{@key}_id"]
                 found = Meteor.users.findOne _id:parent_user_value
         user_results: ->Template.instance().user_results.get()
+        current_user_search: -> Session.get('current_user_search',search_value)
     Template.single_user_edit.events
         'click .clear_results': (e,t)->
             t.user_results.set null
     
         'keyup .single_user_select_input': (e,t)->
             search_value = $(e.currentTarget).closest('.single_user_select_input').val().trim()
+            Session.set('current_user_search',search_value)
             if search_value.length > 1
                 console.log 'searching', search_value
                 Meteor.call 'lookup_user', search_value, @role_filter, (err,res)=>

@@ -1010,6 +1010,8 @@ template(name='single_user_edit')
                                 |#{first_name} #{last_name}
                             .ui.mini.grey.inline.header 
                                 |#{username}
+        .ui.button.add_user 
+            |add user: #{current_user_search}
     if picked_user
         +user_card picked_user
         // if is_dev

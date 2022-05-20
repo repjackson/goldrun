@@ -31,6 +31,9 @@ Template.footer.helpers
     result_docs: -> Results.find()
 
 Template.nav.helpers
+    is_connected: -> 
+        console.log Meteor.status().connected
+        Meteor.status().connected
     unread_count: ->
         Docs.find(
             model:'log'

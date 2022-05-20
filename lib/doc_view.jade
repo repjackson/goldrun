@@ -5,104 +5,124 @@ template(name='author_edit')
         +single_user_edit key='_author' label='username'
                         
 template(name='doc_view')
-    with doc_data
-        if background_image_id
-            img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
-        else 
-            img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-        .ui.stackable.padded.grid
-            .row 
-                .sixteen.wide.column
-                    a.ui.circular.icon.button.fly_left(href="/docs")
-                        i.chevron.left.icon
-                        +model_label
-                    .ui.large.inline.header 
-                        //- small viewing
-                        | #{title}
-                    if can_edit
-                        a.zoom.zoomer(href="/doc/#{_id}/edit")
-                            i.pencil.blue.big.link.circular.icon
-                    if tone 
-                        +tone
+    if doc_data
+        with doc_data
+            if background_image_id
+                img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+            else 
+                img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+            .ui.stackable.padded.grid
+                .row 
+                    .sixteen.wide.column
+                        a.ui.circular.icon.button.fly_left(href="/docs")
+                            i.chevron.left.icon
+                            +model_label
+                        .ui.large.inline.header 
+                            //- small viewing
+                            | #{title}
+                        if can_edit
+                            a.zoom.zoomer(href="/doc/#{_id}/edit")
+                                i.pencil.blue.big.link.circular.icon
+                        if tone 
+                            +tone
+                        +publish_info
+                        
+                    .eleven.wide.column.scrollin
+                        if watson 
+                            +doc_sentiment
+                            div
+                            .spacer
+                            +doc_emotion
+    
+                        // .smallscroll.zoomer
+                        .ui.fluid.styled.accordion
+                            .active.title 
+                                .ui.inline.header
+                                    +i name='info'
+                                    |info
+                                    i.dropdown.icon
+                            .active.content
+                                if image_id 
+                                    img.ui.rounded.centered.image(src="{{c.url image_id width=800 crop='scale'}}")
+                                |!{content}
+                            +comments
                     
-                .eleven.wide.column.scrollin
-                    if watson 
-                        +doc_sentiment
+                        +Template.dynamic template=model_template 
+                        if watson 
+                            +watson_view
+                        if tone 
+                            +tone
+                        if in_dev
+                            .ui.segment 
+                                .ui.header admin
+                                +print_this
+                    .five.wide.column.scrollin
+                        // a(href="{{c.url image_id}}" target="_window")
+                        // .four.wide.column
+                        if image_id
+                            img.ui.rounded.centered.image.zoomer(src="{{c.url image_id width=800 crop='scale'}}")
+                        if image_id2
+                            img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
+                        // with _author
+                        +author_segment
+                        .ui.accordion
+                            .title.zoomer(title='tags')
+                                |#{tags.length}
+                                +i name='tags'
+                                each five_tags 
+                                    .ui.basic.label #{this}
+                                strong ...
+                            .content
+                                each tags 
+                                    a.ui.basic.label.pick_flat_tag.zoomer(title='search for tag') #{this}
+                        +message_author_button
+                        +group_widget
                         div
-                        .spacer
-                        +doc_emotion
+                        +voting_full
+                        div
+                        +favorites
+                        .ui.dividing.header 
+                            +i name='line-chart'
+                            |stats
+                        .ui.big.list
+                            .item 
+                                i.grey.line.chart.icon
+                                |#{post_views_ranking} post views ranking
+                            .item 
+                                i.grey.eye.icon
+                                |#{views} views
+                            .item
+                                i.grey.line.chart.icon
+                                |#{views_ranking} view ranking
+                            .item 
+                                i.grey.user.secret.icon
+                                |#{anon_views} anon views
+                            .item 
+                                |#{points}
+                                |points
+                            .item 
+                                |#{tip_total}
+                                |tip total
+                        +follow_button
+                        +tips
+                        if has_price
+                            +post_orders
+                        div
+                        .ui.inline.header 
+                            +i name='binoculars'
+                            |#{current_viewer_users.count} current viewers
+                        each current_viewer_users
+                            +user_info
+    else 
+        .ui.center.aligned.basic.segment 
+            i.massive.yin.yang.loading.grey.icon
 
-                    // .smallscroll.zoomer
-                    if image_id 
-                        img.ui.rounded.centered.image.zoomer(src="{{c.url image_id}}")
-                    .ui.segment.alpha.smallscroll
-                        |!{content}
-                
-                    +Template.dynamic template=model_template 
-                    +comments
-                    if watson 
-                        +watson_view
-                    if tone 
-                        +tone
-                    if in_dev
-                        .ui.segment 
-                            .ui.header admin
-                            +print_this
-                .five.wide.column.scrollin
-                    // a(href="{{c.url image_id}}" target="_window")
-                    // .four.wide.column
-                    if image_id2
-                        img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
-                    // with _author
-                    +author_segment
-                    .ui.accordion
-                        .title.zoomer(title='tags')
-                            |#{tags.length}
-                            +i name='tags'
-                            each five_tags 
-                                .ui.basic.label #{this}
-                            strong ...
-                        .content
-                            each tags 
-                                a.ui.basic.label.pick_flat_tag.zoomer(title='search for tag') #{this}
-                    +message_author_button
-                    +group_widget
-                    div
-                    +voting_full
-                    div
-                    +favorites
-                    .ui.dividing.header 
-                        +i name='line-chart'
-                        |stats
-                    .ui.big.list
-                        .item 
-                            i.grey.line.chart.icon
-                            |#{post_views_ranking} post views ranking
-                        .item 
-                            i.grey.eye.icon
-                            |#{views} views
-                        .item
-                            i.grey.line.chart.icon
-                            |#{views_ranking} view ranking
-                        .item 
-                            i.grey.user.secret.icon
-                            |#{anon_views} anon views
-                        .item 
-                            |#{points}
-                            |points
-                        .item 
-                            |#{tip_total}
-                            |tip total
-                    +follow_button
-                    +tips
-                    if has_price
-                        +post_orders
-                    div
-                    .ui.inline.header 
-                        +i name='binoculars'
-                        |#{current_viewer_users.count} current viewers
-                    each current_viewer_users
-                        +user_info
+template(name='publish_info')
+    if published 
+        i.big.green.eye.icon(title='published')
+    else 
+        i.big.yellow.save.icon(title='draft')
+    
 
 template(name='tip_button')
     if can_tip

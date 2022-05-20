@@ -49,6 +49,7 @@ if Meteor.isClient
     Template.docs.onCreated ->
         Session.setDefault('model','post')
         Session.setDefault('limit',10)
+        Session.setDefault('sort_key','_timestamp')
         # @autorun => @subscribe 'model_docs', 'post', ->
         @autorun => @subscribe 'user_info_min',
         @autorun => @subscribe 'facet_sub',

@@ -294,41 +294,43 @@ template(name='user_favorites')
                 +i name='heart'
                 |#{user_favorite_docs.count} favorites
             i.dropdown.icon
+            each user_favorite_docs
+                +model_label
+                img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}" title=title)
         .content.smallscrol
             .ui.selection.animated.link.divided.list
                 each user_favorite_docs
                     .item
                         .content
-                            .header
-                                a.inline.fly_up(href="/doc/#{_id}")
-                                    img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
-                                    .ui.inline.header #{title}
-                            .description
-                                +favorite_icon_toggle
-                                +when
-                                +model_label
-                                each three_tags
-                                    .ui.small.basic.label #{this}
+                            +model_label
+                            a.ui.inline.header.fly_up(href="/doc/#{_id}")
+                                img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
+                                | #{title}
+                            +favorite_icon_toggle
+                            +when
+                            each three_tags
+                                .ui.small.basic.label #{this}
                         
 template(name='when')
     .ui.label(title="{{long_date _timestamp}}") #{_when}
                     
                     
 template(name='model_label')
-    if is model 'post' 
-        +i name='blog'
-    else if is model 'event'
-        +i name='calendar'
-    else if is model 'group'
-        +i name='campfire'
-    else if is model 'service'
-        +i name='service'
-    else if is model 'log'
-        +i name='event-log'
-    else if is model 'task'
-        +i name='tasks'
-    else if is model 'checkin'
-        +i name='checkmark'
+    span(title=model)
+        if is model 'post' 
+            +i name='blog'
+        else if is model 'event'
+            +i name='calendar'
+        else if is model 'group'
+            +i name='campfire'
+        else if is model 'service'
+            +i name='service'
+        else if is model 'log'
+            +i name='event-log'
+        else if is model 'task'
+            +i name='tasks'
+        else if is model 'checkin'
+            +i name='checkmark'
 
     // .ui.label 
     //     |#{model}

@@ -77,7 +77,7 @@ if Meteor.isClient
         
         
         
-    Template.registerHelper 'connected', () -> Meteor.status().connected
+    Template.registerHelper 'is_connected', () -> Meteor.status().connected
     
     Template.registerHelper 'is_author', () -> 
         @_author_id is Meteor.userId()

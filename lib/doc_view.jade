@@ -13,7 +13,9 @@ template(name='doc_view')
         .ui.stackable.padded.grid
             .row 
                 .sixteen.wide.column
-                    +model_label
+                    a.ui.circular.icon.button.fly_left(href="/docs")
+                        i.chevron.left.icon
+                        +model_label
                     .ui.large.inline.header 
                         //- small viewing
                         | #{title}
@@ -22,6 +24,30 @@ template(name='doc_view')
                             i.pencil.blue.big.link.circular.icon
                     if tone 
                         +tone
+                    
+                .eleven.wide.column.scrollin
+                    if watson 
+                        +doc_sentiment
+                        div
+                        .spacer
+                        +doc_emotion
+
+                    // .smallscroll.zoomer
+                    if image_id 
+                        img.ui.rounded.centered.image.zoomer(src="{{c.url image_id}}")
+                    .ui.segment.alpha.smallscroll
+                        |!{content}
+                
+                    +Template.dynamic template=model_template 
+                    +comments
+                    if watson 
+                        +watson_view
+                    if tone 
+                        +tone
+                    if in_dev
+                        .ui.segment 
+                            .ui.header admin
+                            +print_this
                 .five.wide.column.scrollin
                     // a(href="{{c.url image_id}}" target="_window")
                     // .four.wide.column
@@ -77,30 +103,6 @@ template(name='doc_view')
                         |#{current_viewer_users.count} current viewers
                     each current_viewer_users
                         +user_info
-                    
-                .eleven.wide.column.scrollin
-                    if watson 
-                        +doc_sentiment
-                        div
-                        .spacer
-                        +doc_emotion
-
-                    // .smallscroll.zoomer
-                    if image_id 
-                        img.ui.rounded.centered.image.zoomer(src="{{c.url image_id}}")
-                    .ui.segment.alpha.smallscroll
-                        |!{content}
-                
-                    +Template.dynamic template=model_template 
-                    +comments
-                    if watson 
-                        +watson_view
-                    if tone 
-                        +tone
-                // if in_dev
-                //     .ui.segment 
-                //         .ui.header admin
-                //         +print_this
 
 template(name='tip_button')
     if can_tip

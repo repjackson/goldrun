@@ -17,14 +17,15 @@ template(name='log_item')
      
 template(name='author_segment')     
     with _author
-        .ui.segment.alpha
-            .ui.inline.header 
-                |author
-            a.ui.inline.header(href="/user/#{username}") 
-                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                |#{name}
-            |#{points}pts
-            |#{profile_views}views
+        a.ui.link.horizontal.card.alpha.zoomer.fly_right(href="/user/#{username}") 
+            .content
+                .ui.inline.header 
+                    |author
+                .ui.inline.header
+                    img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                    |#{name}
+                |#{points}pts
+                |#{profile_views}views
 
      
 template(name='group_info')

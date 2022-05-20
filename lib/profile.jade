@@ -327,7 +327,7 @@ template(name='user_points')
     .title
         .ui.inline.header 
             +i name='coins'
-            |user balance: #{current_user.points}
+            |balance: #{current_user.points}
         i.dropdown.icon
     .content
         .ui.dividing.header
@@ -417,6 +417,9 @@ template(name='user_groups')
                 |#{user_group_memberships.count}
                 |user groups
             i.dropdown.icon
+            each user_group_memberships
+                // +doc_item
+                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
         .content
             .ui.selection.link.animated.list    
                 each user_group_memberships
@@ -433,18 +436,37 @@ template(name='user_social')
     .title
         .ui.inline.header 
             +i name='friends'
-            |user social
+            |social
         i.dropdown.icon
+        if refered_user_docs.count
+            span(title='refered users')
+                +i name='omnichannel'
+                each refered_user_docs
+                    img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
+            
     .content
-        +friend_button
-        .ui.header friends of
-        .ui.selection.link.animated.list
-            each user_friended
-                +user_info
-        .ui.header following
-        .ui.header followed by
-        .ui.header comments
-        +user_following
+        .ui.two.column.stackable.grid
+            .column
+                +friend_button
+                .ui.header friends of
+                .ui.selection.link.animated.list
+                    each user_friended
+                        +user_info
+            .column
+                .ui.header following
+                .ui.header followed by
+                .ui.header comments
+                +user_following
+            .column
+                .ui.inline.header refered by
+                with refered_by_user
+                    +user_info
+                div
+                .ui.inline.header 
+                    +i name='omnichannel'
+                    |refered
+                each refered_user_docs
+                    +user_info
    
 template(name='user_friends')
             
@@ -494,6 +516,9 @@ template(name='user_posts')
             // if is_current_user
             //     .ui.circular.button.add_user_post
             //         i.large.plus.icon
+            each user_authored_post_docs
+                if image_id
+                    img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
         .content
             .ui.selection.link.animated.divided.list.scrolling
                 each user_authored_post_docs

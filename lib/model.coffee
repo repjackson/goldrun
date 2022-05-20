@@ -1144,7 +1144,7 @@ if Meteor.isClient
         group_search_value: ->
             Session.get('group_search')
         group_doc: ->
-            console.log @
+            # console.log @
             Docs.findOne @group_id
     Template.group_picker.events
         'click .clear_search': (e,t)->

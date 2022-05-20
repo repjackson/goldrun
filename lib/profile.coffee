@@ -25,6 +25,8 @@ if Meteor.isClient
             Docs.find 
                 _id:$in:user.favorite_ids
 
+    Template.user_social.onCreated ->
+        @autorun -> Meteor.subscribe 'refered_users', Router.current().params.username, ->
     Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_deposits', Router.current().params.username, ->
@@ -34,6 +36,23 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'current_viewing_doc', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_groups_owner', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'model_docs', 'group', ->
+            
+        
+if Meteor.isServer
+    Meteor.publish 'refered_users', (username)->
+        user = Meteor.users.findOne username:username
+        Meteor.users.find 
+            refered_by_id:user._id
+            
+if Meteor.isClient
+    Template.user_social.helpers
+        refered_user_docs: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Meteor.users.find 
+                refered_by_id:user._id
+            
+    
+    
     Template.user_posts.onCreated ->
         @autorun -> Meteor.subscribe 'user_model_docs', 'post', Router.current().params.username, ->
     Template.user_comments.onCreated ->
@@ -65,6 +84,7 @@ if Meteor.isClient
     Template.profile.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
+            $('.avatar').popup()
         , 2000
     Template.doc_view.onRendered ->
         Meteor.setTimeout ->

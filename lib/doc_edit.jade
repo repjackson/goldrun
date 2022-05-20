@@ -38,20 +38,69 @@ template(name='doc_edit')
                         +boolean_edit key='published' label='published (-10)' 
                         div
                         +text_edit key='title' label='title' 
-                        +image_edit key='image_id' label='image' 
-                        +image_edit key='background_image_id' label='background image' 
-                        +html_edit key='content' label='content'
-                        +call_watson key='content'
-                        +call_tone
-                        +array_edit key='tags' label='tags' icon='tags'
-                        +group_picker
-                        +link_edit key='link' label='link'
-                        div
-                        +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                        +visibility_settings
-                        +boolean_edit key='has_youtube' label='youtube (-1p)' icon='youtube'
-                        if has_youtube
-                            +youtube_edit key='youtube_id' label='youtube id'
+                        .ui.fluid.styled.accordion
+                            .title
+                                .ui.inline.header
+                                    +i name='image'
+                                    |image
+                                i.dropdown.icon
+                                img.ui.avatar.image(src="{{c.url image_id width=800 crop='scale'}}")
+                            .content
+                                +image_edit key='image_id' label='image' 
+                                +image_edit key='background_image_id' label='background image' 
+                            .title
+                                .ui.inline.header
+                                    +i name='content'
+                                    |content/analysis
+                                i.dropdown.icon
+                            .content
+                                +html_edit key='content' label='content'
+                                if watson 
+                                    i.large.green.checkmark
+                                +call_watson key='content'
+                                +call_tone
+                            .title
+                                .ui.inline.header
+                                    +i name='tags'
+                                    |#{tags.length} tags
+                                i.dropdown.icon
+                            .content
+                                +array_edit key='tags' label='tags' icon='tags'
+                                +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                            .title
+                                .ui.inline.header
+                                    +i name='campfire'
+                                    |group
+                                i.dropdown.icon
+                            .content
+                                +group_picker
+                            .title
+                                .ui.inline.header
+                                    +i name='link'
+                                    |links
+                                i.dropdown.icon
+                            .content
+                                +link_edit key='link' label='link'
+                                +link_edit key='facebook_link' label='facebook link' icon='facebook'
+                                +link_edit key='instagram_link' label='instagram link' icon='instagram'
+                                +link_edit key='twitter_link' label='twitter link' icon='twitter'
+                            .title
+                                .ui.inline.header
+                                    +i name='link'
+                                    |visibility
+                                i.dropdown.icon
+                            .content
+                                +visibility_settings
+                            .title
+                                .ui.inline.header
+                                    +i name='link'
+                                    |visibility
+                                i.dropdown.icon
+                            .content
+                                div
+                                +boolean_edit key='has_youtube' label='youtube (-1p)' icon='youtube'
+                                if has_youtube
+                                    +youtube_edit key='youtube_id' label='youtube id'
                         
                         +remove_button
         

@@ -26,7 +26,15 @@ template(name='doc_view')
                         if tone 
                             +tone
                         +publish_info
-                        
+                        if facebook_link 
+                            a(href=facebook_link _target='_window')
+                                +i name='facebook'
+                        if instagram_link
+                            a(href=instagram_link _target='_window')
+                                +i name='instagram'
+                        if twitter_link
+                            a(href=twitter_link _target='_window' title=)
+                                +i name='twitter'
                     .eleven.wide.column.scrollin
                         if watson 
                             +doc_sentiment

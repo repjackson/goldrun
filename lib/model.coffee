@@ -903,7 +903,7 @@ if Meteor.isClient
     Template.group_view.helpers
         _members: ->
             Meteor.users.find 
-                _id:$in:@member_user_ids
+                _id:$in:@member_ids
     # Template.group_products.events
     #     'click .add_product': ->
     #         new_id = 
@@ -942,13 +942,13 @@ if Meteor.isClient
             doc = Docs.findOne Router.current().params.doc_id
             Docs.update doc._id,
                 $addToSet:
-                    member_user_ids:Meteor.userId()
+                    member_ids:Meteor.userId()
                     member_usernames:Meteor.user().username
         'click .leave': ->
             doc = Docs.findOne Router.current().params.doc_id
             Docs.update doc._id,
                 $pull:
-                    member_user_ids:Meteor.userId()
+                    member_ids:Meteor.userId()
                     member_usernames:Meteor.user().username
 
 
@@ -979,7 +979,7 @@ if Meteor.isServer
     Meteor.publish 'group_members', (group_id)->
         group = Docs.findOne group_id
         Meteor.users.find
-            _id: $in: group.member_user_ids
+            _id: $in: group.member_ids
 
 
 
@@ -1030,7 +1030,7 @@ if Meteor.isServer
         user = Meteor.users.findOne username:username
         Docs.find
             model:'group'
-            member_user_ids: $in:[user._id]
+            member_ids: $in:[user._id]
 
     Meteor.publish 'related_group', (doc_id)->
         doc = Docs.findOne doc_id

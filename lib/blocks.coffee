@@ -465,13 +465,13 @@ if Meteor.isClient
     
     Template.join_button.helpers
         is_member: ->
-            @member_user_ids and Meteor.userId() in @member_user_ids
+            @member_ids and Meteor.userId() in @member_ids
 
     Template.join_button.events 
         'click .join': ->
             Docs.update @_id, 
                 $addToSet:
-                    member_user_ids:Meteor.userId()
+                    member_ids:Meteor.userId()
                     member_usernames:Meteor.user().username
             Docs.insert 
                 model:'log'
@@ -482,7 +482,7 @@ if Meteor.isClient
         'click .leave': ->
             Docs.update @_id, 
                 $pull:
-                    member_user_ids:Meteor.userId()
+                    member_ids:Meteor.userId()
                     member_usernames:Meteor.user().username
             Docs.insert 
                 model:'log'

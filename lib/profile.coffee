@@ -29,14 +29,18 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'refered_users', Router.current().params.username, ->
     Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'user_deposits', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'user_rentals', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'user_orders', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'user_groups_member', Router.current().params.username, ->
+        # @autorun -> Meteor.subscribe 'user_deposits', Router.current().params.username, ->
+        # @autorun -> Meteor.subscribe 'user_rentals', Router.current().params.username, ->
+        # @autorun -> Meteor.subscribe 'user_orders', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'current_viewing_doc', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'user_groups_owner', Router.current().params.username, ->
         # @autorun -> Meteor.subscribe 'model_docs', 'group', ->
             
+    Template.user_groups.onCreated ->
+        @autorun -> Meteor.subscribe 'user_groups_member', Router.current().params.username, ->
+        # @autorun -> Meteor.subscribe 'user_groups_owner', Router.current().params.username, ->
+        
+        
+        
         
 if Meteor.isServer
     Meteor.publish 'refered_users', (username)->
@@ -126,7 +130,12 @@ if Meteor.isClient
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find 
                 model:'group'
-                member_user_ids:$in:[user._id]
+                member_ids:$in:[user._id]
+        user_group_memberships: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find
+                model:'group'
+                member_ids: $in:[user._id]
 
     Template.profile.helpers
         my_unread_log_docs: ->
@@ -216,12 +225,16 @@ if Meteor.isServer
         user = Meteor.users.findOne username:username
         Docs.find {
             model:'group'
-            _id:$in:[user.member_user_ids]
-        }, 
-            fields:
-                title:1
-                model:1
-                image_id:1
+            member_ids:$in:[user._id]
+        }
+            # fields:
+            #     title:1
+            #     model:1
+            #     image_id:1
+            #     member_ids:1
+            #     points:1
+            #     tags:1
+            #     _author:1
             
     Meteor.publish 'user_model_docs', (model,username)->
         user = Meteor.users.findOne username:username

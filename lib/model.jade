@@ -983,7 +983,7 @@ template(name='group_view')
                 .content
                     each _members 
                         .ui.label #{username}
-                    // +multi_user_view key='member_user_ids' label='members' 
+                    // +multi_user_view key='member_ids' label='members' 
                     +join_button
                     // if leaders_id
                     //     .ui.inline.header 
@@ -996,8 +996,8 @@ template(name='group_view')
                     // .ui.inline.header 
                     //     +i name='groups'
                     //     // i.users.icon
-                    //     |#{member_user_ids.length} members
-                    // each member_user_ids
+                    //     |#{member_ids.length} members
+                    // each member_ids
                     //     +user_info
             if has_checkin 
                 .title 
@@ -1026,7 +1026,7 @@ template(name='group_view')
                 .ui.large.list
                     .item 
                         i.user.icon
-                        |#{member_user_ids.length} members
+                        |#{member_ids.length} members
                     .item #{event_ids.length} events
                     .item #{transfer_ids.length} credits exchanged
             //     each log_items

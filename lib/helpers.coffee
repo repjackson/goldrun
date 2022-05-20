@@ -23,11 +23,11 @@ if Meteor.isServer
             current_viewing_doc_id:doc_id
         
 if Meteor.isClient
-    Template.registerHelper 'user_group_memberships', () -> 
-        user = Meteor.users.findOne username:@username
-        Docs.find
-            model:'group'
-            member_user_ids: $in:[user._id]
+    # Template.registerHelper 'user_group_memberships', () -> 
+    #     user = Meteor.users.findOne username:@username
+    #     Docs.find
+    #         model:'group'
+    #         member_ids: $in:[user._id]
 
     
     Template.registerHelper 'unread_log_docs', () -> 

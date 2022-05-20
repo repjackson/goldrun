@@ -41,8 +41,8 @@ if Meteor.isClient
             Router.go "/docs"
             Session.set('model',doc.model)
         
-    Template.doc_card.helpers
-        card_template: -> "#{@model}_card"
+    # Template.doc_card.helpers
+    #     card_template: -> "#{@model}_card"
     Template.doc_item.helpers
         item_template: -> "#{@model}_item"
         

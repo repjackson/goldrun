@@ -91,6 +91,9 @@ template(name='profile')
                                 .item
                                     i.chat.icon
                                     |spent points:#{comment_total}
+                                .item
+                                    i.eye.icon
+                                    |viewed docs:#{viewed_total}
                 
                     if is_admin
                         a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')

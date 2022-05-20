@@ -11,26 +11,7 @@ template(name='post_card')
     //     +author_info
     //     if group_id     
     //         +group_info
-template(name='post_card_med')
-    a.ui.link.card.fly_right(href="/doc/#{_id}")
-        if youtube_id
-            +youtube_view key='youtube_id'
-        else if image_id
-            img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        .content
-            a.ui.large_text.zoomer(href="/doc/#{_id}" class=emotion_color) #{title}
-            if private 
-                i.large.lock.icon
-            .ui.small.grey.inline.header #{when}
-            .smallscroll
-                | !{content}
-            if views
-                .ui.basic.label(title='views')
-                    i.grey.eye.icon
-                    |#{views}
-            +author_info
-            if group_id     
-                +group_info
+
 template(name='post_item')
         
 
@@ -112,32 +93,6 @@ template(name='post_edit')
                 // +boolean_edit key='published' icon='visible' 
                     
                     
-template(name='product_card')
-    if rescued 
-        .ui.top.right.attached.blue.label(title='rescued')
-            i.search.icon
-    if local 
-        .ui.top.right.attached.corner.green.label(title='local')
-            i.marker.icon
-    // a.zoomer.fly_right(href="/doc/#{_id}") 
-    //     img.ui.centered.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
-    // .content
-        // a.ui.header.fly_right(href="/doc/#{_id}") 
-        //     //- |#{_author.name}'s
-        //     | #{title}
-        //- if session_is 'view_ingredients' true
-        //- .ui.inline.small.header tags
-        // .content
-        //     .right.floated.meta
-        //         | {{from_now datetime_available}}
-        //     //- if session_is 'view_users' true
-        // //- a.image(href="/doc/#{_id}")
-            
-    .content    
-        .ui.inline.header 
-            |{{price_points}}pts
-        i.big.link.cart.plus.green.icon.add_to_cart
-                
                 
 template(name='product_item')
     img.ui.small.inline.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
@@ -445,19 +400,12 @@ template(name='user_services')
         
         
 
-template(name='service_card')
-    if private 
-        i.large.lock.icon
-            
         
 template(name='service_item')
     .ui.fluid.segment.view_service.pointer
         a.ui.header(href="/service/#{_id}/view") #{title}
         div
         .ui.small.grey.inline.header #{when}
-        | !{content}
-        each tags 
-            .ui.basic.small.label #{this}
         
 
 template(name='service_view')
@@ -540,10 +488,20 @@ template(name='event_card')
 
 template(name='event_item')
     .content
-        if image_id
-            a.fly_right(href="/doc/#{_id}")
-                img.ui.small.inline.image.rounded(src="{{c.url image_id gravity='center' crop='fill'}}" class=currentUser.invert_class)
-        a.ui.inline.header.fly_right(href="/doc/#{_id}") #{title} 
+        div
+        if is_in_past
+            i.big.undo.icon 
+            |in past
+        if start_datetime
+            .ui.small.inline.grey.header 
+                |{{medium_date start_datetime}} 
+                if time 
+                    |{{time}}
+            .ui.small.inline.header {{from_now start_datetime}}
+        else if is_repeating
+            +i name='refresh' title='repeating'
+            |every #{repeating_day}
+
         .ui.small.inline.header {{medium_date date}} 
             if time 
                 |{{time}}
@@ -970,27 +928,6 @@ template(name='event_edit')
                             +number_edit key='price_usd' label='dollar price' min='0' max='100' 
 
 
-template(name='group_card')
-    .content
-        .ui.basic.label(title='member count')
-            i.users.icon
-            |#{member_count}
-            // |members
-
-
-template(name='group_card_med')
-    a.ui.card.zoomer.fly_right(href="/doc/#{_id}")
-        if image_id
-            img.ui.image(src="{{c.url image_id width=600 height=600}}")
-        .content
-            a.ui.header.zoomer
-                |#{title}
-            |#{member_ids.length} members
-            .smallcut
-                |!{description}
-            //+ismall name='tags' cl='ui inline image'
-            each seven_tags
-                .ui.label #{this}
                     
 
 template(name='group_item')
@@ -1321,55 +1258,6 @@ template(name='rental_item')
     //     a(href="/user/#{_author_username}")
     //         img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
     //         |#{_author_username}
-template(name='rental_card')
-    .ui.card(class=rental_card_class)
-        .content
-            a.header.zoomer.fly_right(href="/doc/#{_id}/") 
-                | #{title}
-            div
-            .ui.inline.header 
-                |#{daily_rate}
-                small p/day
-            // if tags
-            //     i.tag.icon
-            // each tags
-            //     a.ui.small.link.black.label.flat_pick_tag.spaced #{this}
-            // .right.floated.meta
-            //     | added #{when}
-            unless anonymous
-                a(href="/user/#{_author_username}")
-                    img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
-                    |#{_author_username}
-template(name='rental_big_card')
-    .ui.fluid.segment
-        .ui.fluid.two.column.grid(class=rental_card_class)
-            .column
-                a.image.fly_right(href="/doc/#{_id}/") 
-                    if image_id
-                        img.ui.zoomer.pointer.goto_rental.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
-            .column
-                a.header.zoomer.fly_right(href="/doc/#{_id}/") 
-                    | #{title}
-                div
-                .ui.inline.header 
-                    |#{daily_rate}
-                    small p/day
-                // if tags
-                //     i.tag.icon
-                // each tags
-                //     a.ui.small.link.black.label.flat_pick_tag.spaced #{this}
-                // .right.floated.meta
-                //     | added #{when}
-                unless anonymous
-                    a(href="/user/#{_author_username}")
-                        img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
-                        |#{_author_username}
-                // +quickbuy day_diff=0
-                +quickbuy day_diff=1
-                +quickbuy day_diff=2
-                +quickbuy day_diff=3
-                +quickbuy day_diff=4
-                +quickbuy day_diff=5
 
 template(name='user_rentals')
     .ui.header 
@@ -1601,25 +1489,6 @@ template(name='user_rental_card')
                 i.right.chevron.icon
                 
                 
-template(name='transfer_card')
-    if image_id
-        a.image.zoomer.fly_right(href="/doc/#{_id}")
-            img.ui.image(src="{{c.url image_id width=600 height=600}}")
-    .content
-        with _target
-            +user_info
-        with _author
-            +user_info
-        each tags
-            .ui.label #{this}
-        .smallscroll
-            |!{description}
-        // +ismall name='tags' cl='ui inline image'
-        +view_span
-        // if is_admin
-        //     .ui.small.header slug: #{slug}
-     
-     
 template(name='view_span')
     span(title='views')
         i.grey.eye.icon 
@@ -1749,22 +1618,6 @@ template(name='transfer_edit')
                                 
                                 
                         
-                        
-template(name='task_card')
-    .ui.card.view_task.pointer.fly_right
-        img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        .content
-            a.ui.header(href="/doc/#{_id}") #{title}
-            if private 
-                i.large.lock.icon
-            .ui.small.grey.header #{when}
-            .smallscroll
-                | !{content}
-            +author_info
-            if group_id     
-                +group_info
-            
-        
 template(name='task_item')
     +boolean_view key='complete'        
 

@@ -15,79 +15,119 @@ template(name='account')
                     +image_edit key='background_image_id' icon='picture' title='background image' 
                     +image_edit key='venmo_image' icon='venmo' title='venmo image' 
                     +single_user_edit key='refered_by' label='refered by' icon='clone'
+                    if currentUser.admin_mode
+                        +boolean_edit key='admin' label='admin' icon='shield' 
+
                     +print_this
                 .ten.wide.column
-                    +text_edit key='first_name' label='first name' icon='user'
-                    div
-                    +text_edit key='last_name' label='last name' icon='user'
-                    div
-                    +text_edit key='display_name' label='display name'
-                    div
-                    +text_edit key='status' label='status' icon='clock'
-                    div
-                    +array_edit key='tags' label='tags' icon='tags'
-                    div
-                    if in_dev 
-                        +number_edit key='points' label='points'
-                    +boolean_edit key='has_bio' label='has bio (-1p)' icon='content'
-                    if has_bio
-                        +html_edit key='bio' label='bio'
-                        +call_watson key='bio'
-                    +text_edit key='address' label='address' icon='marker' 
-                    div
-                    +text_edit key='city' label='city' icon='marker' 
-                    div
-                    +text_edit key='state' label='state' icon='marker' 
-                    div
-                    +phone_edit key='phone' label='phone' icon='phone' 
-                    div
-                    +link_edit key='link' label='external link' icon='globe'
-                    div
-                    +text_edit key='company' label='company' icon='business'
-                    if is_current_user
-                        +password_edit
-                        //- +phone_editor
-                        +username_edit
-                    else if in_dev
-                        +password_edit
-                        //- +phone_editor
-                        +username_edit
-                    if currentUser.admin
-                        with user_from_username_param
-                            .ui.orange.button.remove_user 
-                                i.remove.icon
-                                |delete user
-                    +boolean_edit key='admin' label='admin' icon='shield' 
-                    +link_edit key='link' label='profile link' icon='globe'
-                    .ui.container
-                        div
-                        +text_edit key='linkedin_link' label='linked in profile ' icon='linkedin'
-                        div
-                        +text_edit key='twitter_link' label='twitter profile ' icon='twitter'
-                        div
-                        +text_edit key='facebook_link' label='facebook profile ' icon='facebook'
-                    .ui.segment 
-                        .ui.header
-                            +i name='paint'
-                            |appearance 
-                        .ui.inline.header icon theme
-                        // +text_edit key='icon_class' label='icon class'
-                        +key_value_edit key='icon_class' value=null label='none'
-                        +key_value_edit key='icon_class' value='ios' label='outline'
-                        +key_value_edit key='icon_class' value='color' label='color'
-                        +key_value_edit key='icon_class' value='ultraviolet' label='blue'
-                        +key_value_edit key='icon_class' value='stickers' label='stickers'
-                        +key_value_edit key='icon_class' value='dotty' label='dots'
-                        +key_value_edit key='icon_class' value='office' label='office'
-                        +key_value_edit key='icon_class' value='simple' label='simple'
-                        div
-                        .ui.inline.header hide menu labels
-                        +key_value_edit key='hide_menu_labels' value=true label='yes'
-                        +key_value_edit key='hide_menu_labels' value=false label='no'
-                        div
-                        .ui.inline.header invert 
-                        +boolean_edit key='darkmode' label='darkmode' icon='lightbulb'
-
+                    .ui.styled.fluid.accordion 
+                        .title 
+                            .ui.inline.header 
+                                +i name='info'
+                                |about
+                            i.dropdown.icon
+                        .content
+                            +text_edit key='first_name' label='first name' icon='user'
+                            div
+                            +text_edit key='last_name' label='last name' icon='user'
+                            div
+                            +text_edit key='display_name' label='display name'
+                            div
+                            +text_edit key='status' label='status' icon='clock'
+                            div
+                            +array_edit key='tags' label='tags' icon='tags'
+                            div
+                            if in_dev 
+                                +number_edit key='points' label='points'
+                            // +boolean_edit key='has_bio' label='has bio (-1p)' icon='content'
+                            // if has_bio
+                            +html_edit key='bio' label='bio'
+                            +call_watson key='bio'
+                        .title 
+                            .ui.inline.header 
+                                +i name='marker'
+                                |contact
+                            i.dropdown.icon
+                        .content
+                            +text_edit key='address' label='address' icon='marker' 
+                            div
+                            +text_edit key='city' label='city' icon='marker' 
+                            div
+                            +text_edit key='state' label='state' icon='marker' 
+                            div
+                            +phone_edit key='phone' label='phone' icon='phone' 
+                            div
+                            +link_edit key='link' label='external link' icon='globe'
+                            div
+                            +text_edit key='company' label='company' icon='business'
+                            +link_edit key='link' label='profile link' icon='globe'
+                            .ui.container
+                                div
+                                +text_edit key='linkedin_link' label='linked in profile ' icon='linkedin'
+                                div
+                                +text_edit key='twitter_link' label='twitter profile ' icon='twitter'
+                                div
+                                +text_edit key='facebook_link' label='facebook profile ' icon='facebook'
+                            
+                        .title 
+                            .ui.inline.header 
+                                +i name='password'
+                                |username/password
+                            i.dropdown.icon
+                        .content
+                            if is_current_user
+                                +password_edit
+                                //- +phone_editor
+                                +username_edit
+                            else if in_dev
+                                +password_edit
+                                //- +phone_editor
+                                +username_edit
+                            if currentUser.admin_mode
+                                .ui.orange.button.remove_user 
+                                    i.remove.icon
+                                    |delete user
+                        .title 
+                            .ui.inline.header
+                                +i name='paint'
+                                |appearance
+                            i.dropdown.icon
+                        .content
+                            .ui.inline.header icon theme
+                            // +text_edit key='icon_class' label='icon class'
+                            +key_value_edit key='icon_class' value=null label='none'
+                            +key_value_edit key='icon_class' value='ios' label='outline'
+                            +key_value_edit key='icon_class' value='color' label='color'
+                            +key_value_edit key='icon_class' value='ultraviolet' label='blue'
+                            +key_value_edit key='icon_class' value='stickers' label='stickers'
+                            +key_value_edit key='icon_class' value='dotty' label='dots'
+                            +key_value_edit key='icon_class' value='office' label='office'
+                            +key_value_edit key='icon_class' value='simple' label='simple'
+                            div
+                            .ui.inline.header hide menu labels
+                            +key_value_edit key='hide_menu_labels' value=true label='yes'
+                            +key_value_edit key='hide_menu_labels' value=false label='no'
+                            div
+                            .ui.inline.header invert 
+                            +boolean_edit key='darkmode' label='darkmode' icon='lightbulb'
+                    +user_sessions
+                    
+template(name='user_sessions')
+    .ui.styled.accordion 
+        .title
+            .ui.inline.header 
+                +i name='time-machine'
+                |#{services.resume.loginTokens.length} user sessions
+            i.dropdown.icon
+        .content
+            .ui.large.list 
+                each services.resume.loginTokens
+                    .item(title=hashedToken)
+                        |#{when}
+                        i.remove.icon.clear_session
+    
+                    
+                    
 template(name='user_single_doc_ref_editor')
     .ui.header #{label}
     each choices

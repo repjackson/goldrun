@@ -35,7 +35,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_groups_member', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'current_viewing_doc', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_groups_owner', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'model_docs', 'group', ->
+        # @autorun -> Meteor.subscribe 'model_docs', 'group', ->
             
         
 if Meteor.isServer
@@ -205,19 +205,36 @@ if Meteor.isServer
                 _id:user.current_viewing_doc_id
     Meteor.publish 'user_favorites', (username)->
         user = Meteor.users.findOne username:username
-        Docs.find 
+        Docs.find {
             _id:$in:user.favorite_ids
+        }, 
+            fields:
+                title:1
+                model:1
+                image_id:1
     Meteor.publish 'user_groups_member', (username)->
         user = Meteor.users.findOne username:username
-        Docs.find 
+        Docs.find {
             model:'group'
             _id:$in:[user.member_user_ids]
+        }, 
+            fields:
+                title:1
+                model:1
+                image_id:1
+            
     Meteor.publish 'user_model_docs', (model,username)->
         user = Meteor.users.findOne username:username
         Docs.find {
             model:model
             _author_username:username
-        }, limit:20
+        }, 
+            limit:20
+            fields:
+                title:1
+                model:1
+                image_id:1
+
     Meteor.publish 'user_deposits', (username)->
         user = Meteor.users.findOne username:username
         Docs.find 
@@ -279,6 +296,15 @@ if Meteor.isServer
                     point_total += -1
                     upvote_total += -1
                 
+                viewed_total = 0
+                viewed_docs = 
+                    Docs.find
+                        read_user_ids:$in:[user._id]
+                for viewed in viewed_docs.fetch()
+                    # console.log 'upvote', upvote
+                    point_total += 1
+                    viewed_total += 1
+                
                 
                 tip_total = 0
                 # console.log 'tip'
@@ -311,6 +337,7 @@ if Meteor.isServer
                         tip_count: tip_docs.count()
                         comment_total: comment_total
                         comment_count: tip_docs.count()
+                        viewed_total: viewed_total
 if Meteor.isClient
     Template.profile.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
@@ -508,12 +535,6 @@ if Meteor.isClient
             current_user = Meteor.users.findOne Router.current().params._id
             if current_user["#{context.key}"] and @slug is current_user["#{context.key}"] then 'grey' else ''
 
-
-    Template.account.events
-        'click .remove_user': ->
-            if confirm "confirm delete #{@username}?  cannot be undone."
-                Meteor.users.remove @_id
-                Router.go "/users"
 
 
     Template.username_edit.events

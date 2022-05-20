@@ -1,7 +1,7 @@
 if Meteor.isClient
     Template.post_view.onCreated ->
         @autorun => @subscribe 'related_group',Router.current().params.doc_id, ->
-    Template.post_card.onCreated ->
+    Template.post_item.onCreated ->
         @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
 
 
@@ -425,7 +425,7 @@ if Meteor.isClient
     # Template.products.events
 
     
-    Template.product_card.events
+    Template.product_item.events
         'click .add_to_cart': (e,t)->
             $(e.currentTarget).closest('.card').transition('bounce',500)
             Meteor.call 'add_to_cart', @_id, =>
@@ -492,9 +492,9 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-    Template.product_card.onCreated ->
+    Template.product_item.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'food'
-    Template.product_card.events
+    Template.product_item.events
         'click .quickbuy': ->
             console.log @
             Session.set('quickbuying_id', @_id)
@@ -515,11 +515,11 @@ if Meteor.isClient
             # Meteor.setTimeout =>
             # , 100
 
-        # 'click .view_card': ->
+        # 'click .view_item': ->
         #     $('.container_')
 
-    Template.product_card.helpers
-        product_card_class: ->
+    Template.product_item.helpers
+        product_item_class: ->
             # if Session.get('quickbuying_id')
             #     if Session.equals('quickbuying_id', @_id)
             #         'raised'
@@ -540,17 +540,17 @@ if Meteor.isClient
 if Meteor.isClient
     Template.service_view.onCreated ->
         @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
-    Template.service_card.onCreated ->
+    Template.service_item.onCreated ->
         @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
 
 
 if Meteor.isClient
     Template.task_view.onCreated ->
         @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
-    Template.task_card.onCreated ->
+    Template.task_item.onCreated ->
         @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
 
-    Template.task_card.events
+    Template.task_item.events
         'click .view_task': ->
             Router.go "/doc/#{@_id}"
     Template.task_item.events
@@ -567,9 +567,9 @@ if Meteor.isClient
 
 
 if Meteor.isClient
-    Template.task_card.onCreated ->
+    Template.task_item.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'food'
-    Template.task_card.events
+    Template.task_item.events
         'click .quickbuy': ->
             console.log @
             Session.set('quickbuying_id', @_id)
@@ -590,11 +590,11 @@ if Meteor.isClient
             # Meteor.setTimeout =>
             # , 100
 
-        # 'click .view_card': ->
+        # 'click .view_item': ->
         #     $('.container_')
 
-    Template.task_card.helpers
-        task_card_class: ->
+    Template.task_item.helpers
+        task_item_class: ->
             # if Session.get('quickbuying_id')
             #     if Session.equals('quickbuying_id', @_id)
             #         'raised'
@@ -617,7 +617,7 @@ if Meteor.isClient
 
 
 if Meteor.isClient
-    Template.rental_big_card.onCreated ->
+    Template.rental_item.onCreated ->
         @autorun => @subscribe 'rental_orders',@data._id, ->
     Template.rental_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
@@ -634,7 +634,7 @@ if Meteor.isClient
                 
                 
                 
-    Template.rental_card.events
+    Template.rental_item.events
         'click .flat_pick_tag': -> picked_tags.push @valueOf()
         
     Template.rental_view.events
@@ -1192,7 +1192,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'product_from_transfer_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-    Template.transfer_card.onCreated ->
+    Template.transfer_item.onCreated ->
         @autorun => Meteor.subscribe 'user_info_min', ->
         
     Template.transfer_view.onRendered ->
@@ -1819,7 +1819,7 @@ if Meteor.isClient
             Meteor.call 'mark_not', Router.current().params.doc_id, ->
         'click .mark_going': -> Meteor.call 'mark_going', @_id, ->
 
-    Template.event_card.events
+    Template.event_item.events
         'click .mark_maybe': -> Meteor.call 'mark_maybe', @_id, ->
         'click .mark_not': -> Meteor.call 'mark_not', @_id, ->
         'click .mark_going': -> Meteor.call 'mark_going', @_id, ->

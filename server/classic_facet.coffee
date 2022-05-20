@@ -128,23 +128,24 @@ Meteor.publish 'facet_sub', (
         # #         count: keyword.count
         # #         index: i
         #
-        # timestamp_tags_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: timestamp_tags: 1 }
-        #     { $unwind: "$_timestamp_tags" }
-        #     { $group: _id: '$_timestamp_tags', count: $sum: 1 }
-        #     { $match: _id: $nin: picked_timestamp_tags }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $limit: 10 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        #     ]
-        # # console.log 'building timestamp_tags_cloud, ', timestamp_tags_cloud
-        # timestamp_tags_cloud.forEach (timestamp_tag, i) ->
-        #     self.added 'timestamp_tags', Random.id(),
-        #         name: timestamp_tag.name
-        #         count: timestamp_tag.count
-        #         index: i
-        #
+        timestamp_tags_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: timestamp_tags: 1 }
+            { $unwind: "$_timestamp_tags" }
+            { $group: _id: '$_timestamp_tags', count: $sum: 1 }
+            # { $match: _id: $nin: picked_timestamp_tags }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        console.log 'timestamp_tags_cloud, ', timestamp_tags_cloud
+        timestamp_tags_cloud.forEach (timestamp_tag, i) ->
+            self.added 'results', Random.id(),
+                name: timestamp_tag.name
+                count: timestamp_tag.count
+                model:'timestamp_tag'
+                index: i
+        
         #
         # building_tag_cloud = Docs.aggregate [
         #     { $match: match }

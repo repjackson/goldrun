@@ -653,7 +653,7 @@ if Meteor.isClient
                 parent_user_value = Meteor.users.findOne(username:Router.current().params.username)["#{@key}_id"]
                 found = Meteor.users.findOne _id:parent_user_value
         user_results: ->Template.instance().user_results.get()
-        current_user_search: -> Session.get('current_user_search',search_value)
+        current_user_search: -> Session.get('current_user_search')
     Template.single_user_edit.events
         'click .clear_results': (e,t)->
             t.user_results.set null

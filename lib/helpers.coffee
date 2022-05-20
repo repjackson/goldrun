@@ -140,7 +140,7 @@ if Meteor.isClient
         if input
             input.toFixed(2)
     Template.registerHelper 'int', (input) -> input.toFixed(0)
-    Template.registerHelper 'when', () -> moment(@_timestamp).fromNow()
+    Template.registerHelper '_when', () -> moment(@_timestamp).fromNow()
     Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
     Template.registerHelper 'cal_time', (input) -> moment(input).calendar()
     # Template.registerHelper 'logging_out', () -> Session.get 'logging_out'

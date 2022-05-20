@@ -27,8 +27,16 @@ template(name='profile')
                         |#{boops}
                     a(href="/user/#{username}")
                         .ui.inline.header
+                            if publish_profile 
+                                i.large.green.eye.icon(title='published profile')
+                            else 
+                                i.large.private.icon(title='private profile')
                             |#{name}
                         // +user_pill
+                    if status 
+                        .ui.header(title='status')
+                            i.clock.icon 
+                            |#{status}
                     a.ui.large.label(href="/user/#{username}/points" title='points')
                         //- +i name='coins'
                         //- i.coins.icon
@@ -303,7 +311,7 @@ template(name='user_favorites')
                                     .ui.small.basic.label #{this}
                         
 template(name='when')
-    .ui.label(title="{{long_date _timestamp}}") #{when}
+    .ui.label(title="{{long_date _timestamp}}") #{_when}
                     
                     
 template(name='model_label')
@@ -406,7 +414,7 @@ template(name='user_comments')
         each user_comment_docs
             a.item(href="/#{parent_model}/#{parent_id}")
                 .meta
-                    |#{when}
+                    |#{_when}
                 .description #{body}
                 +print_this
     +comments
@@ -532,7 +540,7 @@ template(name='user_posts')
                             .header
                                 |#{title}
                             .description
-                                |#{when}
+                                |#{_when}
                                 each ten_tags
                                     .ui.basic.label #{this}
                             if watson 
@@ -561,7 +569,7 @@ template(name='profile_deposits')
                     .content
                         .header 
                             |$#{amount}
-                        .description #{when} {{long_date _timestamp}}
+                        .description #{_when} {{long_date _timestamp}}
                         //- if is_dev
                         +remove_button
 

@@ -89,7 +89,7 @@ template(name='footer')
                 // +music
                 if currentUser.admin
                     with currentUser
-                        +boolean_edit key='admin_mode' label='admin mode'
+                        +boolean_edit key='admin_mode' label='admin mode' icon='shield'
                 if currentUser.admin_mode
                     .ui.inline.header 
                         i.blog.icon

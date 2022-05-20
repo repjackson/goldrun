@@ -3,7 +3,7 @@ template(name='post_card')
     //     a.ui.large_text.zoomer(href="/doc/#{_id}" class=emotion_color) #{title}
     //     if private 
     //         i.large.lock.icon
-    //     .ui.small.grey.inline.header #{when}
+    //     .ui.small.grey.inline.header #{_when}
     //     .smallcut
     //         | !{content}
     //     if views
@@ -43,7 +43,7 @@ template(name='post_orders')
             |post price: #{price}
         if has_access 
             with access_doc 
-                .ui.header purchased access #{when}
+                .ui.header purchased access #{_when}
         else 
             .ui.button.purchase_access
                 |purchase access
@@ -106,8 +106,8 @@ template(name='product_view')
     .ui.stackable.padded.grid
         .one.column.row
             .column
-                +html_view key='description'
-                // +text_view key='size_description' label='size description' 
+                +html_view key='content'
+                // +text_view key='size_content' label='size content' 
                 a.ui.circular.button(href=product_link)
                     // i.wordpress.large.icon
                     i.external.icon
@@ -252,7 +252,7 @@ template(name='product_subscriptions')
     .ui.link.selection.animated.list
         each product_subs
             a.item(href="/sub/#{_id}") 
-                |#{when} #{_author_username}
+                |#{_when} #{_author_username}
                 .ui.basic.label #{sub_day}
                 .ui.basic.label #{sub_frequency}
     .ui.small.header 
@@ -304,7 +304,7 @@ template(name='product_order_card')
             i.clock.icon
             |status: #{status}
         .ui.small.inline.header
-            | #{when} ({{long_date _timestamp}})
+            | #{_when} ({{long_date _timestamp}})
         a.ui.compact.big.icon.button(href="/order/#{_id}")
             i.right.chevron.large.icon
         if is_author
@@ -341,8 +341,10 @@ template(name='product_edit')
             .column
                 +float_edit key='price_usd' label='price' icon='us-dollar-circled'
                 +number_edit key='price_points' label='point price' icon='coins'
-                +text_edit key='size_description' label='size description' icon='content'
-                .ui.inline.header food
+                // +text_edit key='size_content' label='size description' icon='content'
+                .ui.inline.header 
+                    +i name='food'
+                    |food
                 +boolean_edit key='is_food' label='is food' icon='food'
                 if is_food
                     +boolean_edit key='gluten_free' label='gluten free' icon='no-gluten'
@@ -403,9 +405,6 @@ template(name='user_services')
         
 template(name='service_item')
     .ui.fluid.segment.view_service.pointer
-        a.ui.header(href="/service/#{_id}/view") #{title}
-        div
-        .ui.small.grey.inline.header #{when}
         
 
 template(name='service_view')
@@ -602,7 +601,7 @@ template(name='rsvp')
                 //     .ui.inline.green.header ${{money_format amount}}
                 // else
                 .ui.inline.header #{point_amount}pts
-                |#{when} 
+                |#{_when} 
                 if is_usd
                     .ui.button.request_refund
                         i.undo.icon
@@ -628,7 +627,7 @@ template(name='rsvp')
                     a.author(href="/user/#{_author.username}") 
                         |#{_author.name}
                     .metadata
-                        span.date #{when}
+                        span.date #{_when}
                     .text
                         if is_usd
                             .ui.inline.green.header ${{money_format amount}}
@@ -739,7 +738,7 @@ template(name='ticket_view')
                         | points ticket
                     .ui.small.header
                         i.clock.icon
-                        | #{when}
+                        | #{_when}
                     .ui.segment
                         .ui.inline.header 
                             i.user.outline.icon
@@ -1167,7 +1166,7 @@ template(name='checkin_widget')
                             i.large.green.clock.icon(title='active')
                         img.ui.avatar.image(src="{{c.url _author.image_id width=200 height=200}}")
                         |#{_author.username}
-                    small #{when}
+                    small #{_when}
 
                
 
@@ -1253,7 +1252,7 @@ template(name='rental_item')
     // each tags
     //     a.ui.small.link.black.label.flat_pick_tag.spaced #{this}
     // .right.floated.meta
-    //     | added #{when}
+    //     | added #{_when}
     // unless anonymous
     //     a(href="/user/#{_author_username}")
     //         img.ui.avatar.image(src="{{c.url _author.image_id width=400 height=600 crop='fit'}}")
@@ -1432,7 +1431,7 @@ template(name='order_segment')
         .ui.grey.inline.header #{hour_duration}hrs
         .ui.grey.inline.header(title='credits')
             | $#{cost}
-        .ui.small.inline.header #{when} by #{_author_username}
+        .ui.small.inline.header #{_when} by #{_author_username}
         a.ui.large.button(href="/order/#{_id}/")
             |view
             i.right.chevron.icon
@@ -1456,7 +1455,7 @@ template(name='order_segment')
 //                 .ui.header #{title}
 //                 a.ui.header.inline.lowercase(href="/doc/#{_id}/")
 //                     |#{daily_rate}p/day
-//                 .ui.small.inline.header #{when}
+//                 .ui.small.inline.header #{_when}
 //                 a.ui.button(href="/doc/#{_id}/")
 //                     |view
 //                     i.right.chevron.icon
@@ -1505,7 +1504,7 @@ template(name='transfer_item')
             with _author
                 +user_info
             .ui.label 
-                |#{when}
+                |#{_when}
             each seven_tags
                 .ui.label #{this}
             span.smallscroll
@@ -1535,10 +1534,9 @@ template(name='transfer_view')
                     a.ui.icon.button(href="/doc/#{_id}/edit")
                         i.pencil.icon
                 .f14
-                    |!{description}
+                    |!{content}
                 .spacer
                 
-                +image_view key='image_id' label='image' 
                 div 
                 if tags
                     i.tags.icon
@@ -1547,7 +1545,7 @@ template(name='transfer_view')
                 +print_this
                 .ui.small.header
                     i.clock.icon
-                    | #{when}
+                    | #{_when}
                 .spacer
                 .spacer
                 //- +array_view key='location_tags' label='location_tags' 
@@ -1695,8 +1693,8 @@ template(name='received_message')
         img.ui.avatar.image(src="{{c.url _author.image_id height=100 width=200}}" class=currentUser.invert_class)
         .content
             .header
-                |#{when} from #{_author.name}
-            |!{description} !{body}
+                |#{_when} from #{_author.name}
+            |!{content} !{body}
             .meta    
                 a.ui.button.fly_right(href="/message/#{_id}")
                     i.chevron.right.link.icon
@@ -1718,8 +1716,8 @@ template(name='sent_messages')
                 img.ui.avatar.image(src="{{c.url target.image_id height=100 width=200}}" class=currentUser.invert_class)
                 .content
                     .header
-                        |#{when} to #{target.name} #{target.name} #{to.name}
-                    |#{description} #{body}
+                        |#{_when} to #{target.name} #{target.name} #{to.name}
+                    |#{content} #{body}
                     a(href="/m/message/#{_id}/view")
                        |view 
                     +toggle_view_icon
@@ -1807,9 +1805,9 @@ template(name='message_item')
                 |#{amount}pts
             .ui.small.header
                 i.clock.icon
-                | #{when}
+                | #{_when}
             .f12
-                |#{description}
+                |#{content}
             +image_view key='image_id' label='image' 
             div 
             if tags
@@ -1851,9 +1849,9 @@ template(name='message_view')
                         |#{amount}pts
                     .ui.small.header
                         i.clock.icon
-                        | #{when}
+                        | #{_when}
                     .f12
-                        |!{description}
+                        |!{content}
                     +image_view key='image_id' label='image' 
                     div 
                     if tags

@@ -4,12 +4,12 @@ if Meteor.isClient
             if confirm "confirm delete #{@username}?  cannot be undone."
                 Meteor.users.remove @_id
                 Router.go "/users"
-        'click .clear_session': ->
+        'click .clear_session': (e)->
             user = Meteor.users.findOne username:Router.current().params.username
             console.log @
             console.log user.services.resume.loginTokens
             $(e.currentTarget).closest('.item').transition('fly left', 500)
-            Meteor.setTimeout ->
+            Meteor.setTimeout =>
                 Meteor.users.update Meteor.userId(),
                     $pull:
                         "services.resume.loginTokens":@

@@ -144,7 +144,7 @@ Meteor.users.helpers
 Docs.helpers
     _author: -> Meteor.users.findOne @_author_id
 
-    when: -> moment(@_timestamp).fromNow()
+    _when: -> moment(@_timestamp).fromNow()
     three_tags: -> if @tags then @tags[..2]
     five_tags: -> if @tags then @tags[..4]
     seven_tags: -> if @tags then @tags[..7]

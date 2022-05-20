@@ -385,12 +385,25 @@ Meteor.publish 'doc_results', (
     unless Meteor.userId()
         match.private = $ne:true
         
-    console.log 'results match', match
-    console.log 'sort_key', sort_key
-    console.log 'sort_direction', sort_direction
-    console.log 'limit', limit
+    # console.log 'results match', match
+    # console.log 'sort_key', sort_key
+    # console.log 'sort_direction', sort_direction
+    # console.log 'limit', limit
     
     Docs.find match,
         sort:"#{sort_key}":sort_direction
         limit: limit
+        fields:
+            title:1
+            model:1
+            image_id:1
+            tags:1
+            content:1
+            _author_id:1
+            _timestamp:1
+            emotion:1
+            upvoter_ids:1
+            downvoter_ids:1
+            views:1
+            points:1
         # sort:_timestamp:-1

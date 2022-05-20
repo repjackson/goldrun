@@ -465,16 +465,20 @@ template(name='user_list_toggle')
 
 
 template(name='voting')
-    .ui.icon.button.upvote(title='upvote')
-        i.thumbs.up.icon(class=upvote_class)
-    //- each upvoter_ids
-    //-     +user_info
-    .ui.icon.button.downvote(title='downvote')
-        i.thumbs.down.icon(class=downvote_class)
-    //- each downvoter_ids
-    //-     +user_info
+    unless is_author
+        i.thumbs.up.large.circular.link.icon.zoomer.upvote(class=upvote_class)
+        // .ui.icon.button.upvote(title='upvote')
+        //- each upvoter_ids
+        //-     +user_info
+        i.thumbs.down.large.circular.link.icon.zoomer.downvote(class=downvote_class)
+        // .ui.icon.button.downvote(title='downvote')
+        //     i.thumbs.down.icon(class=downvote_class)
+        //- each downvoter_ids
+        //-     +user_info
     if points
-        strong #{points} pts
+        span(title='points')
+            i.coins.icon
+            strong #{points}
     if anon_points
         strong #{anon_points} anon pts
     
@@ -496,10 +500,11 @@ template(name='voting_full')
     // .ui.inline.header 
     //     |voting
     // .ui.large.icon.circular.button.upvote(title='upvote' class=upvote_class)
-    i.thumbs.up.big.circular.link.icon.zoomer.upvote(class=upvote_class)
-        //- |like
-    // .ui.big.icon.circular.button.downvote(title='downvote' class=downvote_class)
-    i.thumbs.down.big.circular.link.icon.zoomer.downvote(class=downvote_class)
+    unless is_author
+        i.thumbs.up.big.circular.link.icon.zoomer.upvote(class=upvote_class)
+            //- |like
+        // .ui.big.icon.circular.button.downvote(title='downvote' class=downvote_class)
+        i.thumbs.down.big.circular.link.icon.zoomer.downvote(class=downvote_class)
     // i.thumbs.down.outline.icon
     //- |dislike
     if points

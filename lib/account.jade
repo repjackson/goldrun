@@ -37,7 +37,7 @@ template(name='account')
                             div
                             +array_edit key='tags' label='tags' icon='tags'
                             div
-                            if in_dev 
+                            if currentUser.admin_mode 
                                 +number_edit key='points' label='points'
                             // +boolean_edit key='has_bio' label='has bio (-1p)' icon='content'
                             // if has_bio
@@ -89,6 +89,13 @@ template(name='account')
                                     |delete user
                         .title 
                             .ui.inline.header
+                                +i name='privacy'
+                                |privacy
+                            i.dropdown.icon
+                        .content
+                            +boolean_edit key='publish_profile' label='publish profile'
+                        .title 
+                            .ui.inline.header
                                 +i name='paint'
                                 |appearance
                             i.dropdown.icon
@@ -124,7 +131,7 @@ template(name='user_sessions')
                 each services.resume.loginTokens
                     .item(title=hashedToken)
                         |#{when}
-                        i.remove.icon.clear_session
+                        i.remove.link.circular.zoomer.icon.clear_session(title='clear login session')
     
                     
                     
@@ -144,7 +151,7 @@ template(name='username_edit')
         i.play.link.icon.change_username
 
 template(name='password_edit')
-    .ui.small.grey.header
+    .ui.small.inline.header
         +i name='password'
         |change password
     //- .ui.fluid.input

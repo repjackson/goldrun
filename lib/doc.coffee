@@ -43,7 +43,7 @@ if Meteor.isClient
         
     # Template.doc_card.helpers
     #     card_template: -> "#{@model}_card"
-    Template.doc_item.helpers
+    Template.doc_card.helpers
         item_template: -> "#{@model}_item"
         
     Template.docs.onCreated ->

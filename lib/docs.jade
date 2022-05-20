@@ -35,26 +35,32 @@ template(name='docs')
             +session_set key='limit' value=25
             .scrolling
                 if subs_ready
-                    each result_docs 
-                        +doc_item
+                    .ui.cards
+                        each result_docs 
+                            +doc_card
                 else 
                     .ui.center.aligned.basic.segment
                         i.massive.yin.yang.loading.grey.icon
 
 
-template(name='doc_item')
-    .ui.segment.alpha
+template(name='doc_card')
+    .ui.card.alpha
+        // if background_image_id
+        //     img.ui.image.item_background(src="{{c.url background_image_id height=1000 crop='crop'}}")
+        // else if image_id
+        //     img.ui.image.item_background(src="{{c.url image_id height=400 crop='crop'}}")
         if youtube_id
             +youtube_view key='youtube_id'
         else if image_id
-            a.fly_right.zoomer(href="/doc/#{_id}")
-                img.ui.small.rounded.inline.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        +model_label
-
-        a.ui.inline.header.fly_right(href="/doc/#{_id}" class=emotion_color) #{title}
-        .smallcut
-            | !{content}
+            a.ui.image.fly_right.zoomer(href="/doc/#{_id}")
+                img(src="{{c.url image_id height=300 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        .content
+            +model_label
     
+            a.ui.inline.header.fly_right(href="/doc/#{_id}" class=emotion_color) #{title}
+            .smallcut
+                | !{content}
+        
         +Template.dynamic template=item_template
         .content
             if is_dev

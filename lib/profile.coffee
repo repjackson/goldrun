@@ -123,10 +123,10 @@ if Meteor.isClient
 
     Template.user_groups.helpers
         group_memberships: ->   
-            current_user = Meteor.users.findOne username:Router.current().params.username
+            user = Meteor.users.findOne username:Router.current().params.username
             Docs.find 
                 model:'group'
-                _id:current_user.group_memberships
+                member_user_ids:$in:[user._id]
 
     Template.profile.helpers
         my_unread_log_docs: ->

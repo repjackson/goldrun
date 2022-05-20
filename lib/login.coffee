@@ -5,7 +5,7 @@ if Meteor.isClient
 
     Template.login.events
         'keyup .username': ->
-            username = $('.username').val()
+            username = $('.username').val().trim()
             Session.set 'username', username
             Meteor.call 'find_username', username, (err,res)->
                 if res
@@ -13,7 +13,7 @@ if Meteor.isClient
                     Session.set('enter_mode', 'login')
 
         'blur .username': ->
-            username = $('.username').val()
+            username = $('.username').val().trim()
             Session.set 'username', username
             Meteor.call 'find_username', username, (err,res)->
                 if res
@@ -21,7 +21,7 @@ if Meteor.isClient
 
         'click .enter': (e,t)->
             # e.preventDefault()
-            username = $('.username').val()
+            username = $('.username').val().trim()
             password = $('#pass').val()
             # console.log options
             # console.log username
@@ -59,7 +59,7 @@ if Meteor.isClient
         'keyup #pass, keyup .username': (e,t)->
             if e.which is 13
                 e.preventDefault()
-                username = $('.username').val()
+                username = $('.username').val().trim()
                 password = $('#pass').val()
                 console.log username
                 console.log password

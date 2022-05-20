@@ -27,7 +27,7 @@ if Meteor.isClient
         user = Meteor.users.findOne username:@username
         Docs.find
             model:'group'
-            member_user_ids: $in:[Meteor.user()._id]
+            member_user_ids: $in:[user._id]
 
     
     Template.registerHelper 'unread_log_docs', () -> 

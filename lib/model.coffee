@@ -979,7 +979,7 @@ if Meteor.isServer
     Meteor.publish 'group_members', (group_id)->
         group = Docs.findOne group_id
         Meteor.users.find
-            _id: $in: group.member_ids
+            _id: $in: group.member_user_ids
 
 
 

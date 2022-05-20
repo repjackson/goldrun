@@ -1174,7 +1174,7 @@ template(name='group_edit')
             .sixteen.wide.column
                 .ui.inline.header 
                     +i name='cube'
-                    |modules
+                    |group modules
                 +boolean_edit key='has_checkin' label='checkin' icon='clock' 
                 +boolean_edit key='has_shop' label='shop' icon='shop' 
                 +boolean_edit key='has_posts' label='posts' icon='blog' 
@@ -1197,7 +1197,7 @@ template(name='group_edit')
                 +array_edit key='location_tags' label='location tags' icon='marker' 
                 div
                 +text_edit key='contact_info' label='contact info' icon='info' 
-                +multi_user_edit key='member_ids' label='members' 
+                +multi_user_edit key='member' label='members' 
                 +boolean_edit key='private' label='private' 
                 +link_edit key='link' label='link' 
                
@@ -1277,8 +1277,8 @@ template(name='group_picker')
         // if is_admin
         // if group_doc
         with group_doc
-            .ui.header 
-                |picked group: #{group_id}
+            .ui.inline.header 
+                |#{group_id}
             a.ui.big.basic.label(href="/doc/#{_id}")
                 img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                 |#{title}

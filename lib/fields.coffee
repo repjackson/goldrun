@@ -726,6 +726,10 @@ if Meteor.isClient
         @user_results = new ReactiveVar
     Template.multi_user_edit.helpers
         user_results: -> Template.instance().user_results.get()
+        picked_users: ->
+            console.log Template.parentData()
+            Meteor.users.find 
+                _id:$in:Template.parentData()["#{@key}_ids"]
     Template.multi_user_edit.events
         'click .clear_results': (e,t)->
             t.user_results.set null
@@ -753,16 +757,16 @@ if Meteor.isClient
     
     
             val = t.$('.edit_text').val()
-            if field.direct
-                parent = Template.parentData()
-            else
-                parent = Template.parentData(5)
+            # if field.direct
+            parent = Template.parentData()
+            # else
+            #     parent = Template.parentData(5)
     
             doc = Docs.findOne parent._id
             if doc
                 Docs.update parent._id,
                     $addToSet:
-                        "#{field.key}":@_id
+                        "#{field.key}_ids":@_id
                         "#{field.key}_usernames":@username
                 
             t.user_results.set null
@@ -778,7 +782,13 @@ if Meteor.isClient
                 if doc
                     Docs.update parent._id,
                         $pull:
-                            "#{field.key}":@_id
+                            "#{field.key}_ids":@_id
+                            "#{field.key}_usernames":@username
+                user = Meteor.users.findOne parent._id
+                if user 
+                    Meteor.users.update parent._id,
+                        $pull:
+                            "#{field.key}_ids":@_id
                             "#{field.key}_usernames":@username
     
             #     page_doc = Docs.findOne Router.current().params.doc_id

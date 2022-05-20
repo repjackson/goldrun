@@ -465,7 +465,7 @@ if Meteor.isClient
     
     Template.join_button.helpers
         is_member: ->
-            @member_user_ids  and Meteor.userId() in @member_user_ids
+            @member_user_ids and Meteor.userId() in @member_user_ids
 
     Template.join_button.events 
         'click .join': ->

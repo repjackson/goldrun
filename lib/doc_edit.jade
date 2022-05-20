@@ -1,6 +1,9 @@
 template(name='doc_edit')
     with doc_data
-        img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+        if background_image_id
+            img.ui.image.nav_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+        else 
+            img.ui.image.nav_banner(src="{{c.url image_id height=1000 crop='crop'}}")
     
         .ui.stackable.padded.divided.grid
             .row 
@@ -53,5 +56,5 @@ template(name='doc_edit')
     
                 .ten.wide.column
                     +Template.dynamic template=model_template
-                    if currentUser.admin_mode 
-                        +author_edit
+                    // if currentUser.admin_mode 
+                    +author_edit

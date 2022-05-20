@@ -210,7 +210,7 @@ template(name='iflat')
 //- template(name='ioffice')
 //-     img.ui.image(src="https://img.icons8.com/office/30/000000/#{name}.png" class=cl)
 template(name='link_edit')
-    // div
+    div
     if icon
         +i name=icon
     else 
@@ -1044,6 +1044,8 @@ template(name='single_user_view')
 template(name='multi_user_edit')
     div
     .ui.inline.header
+        if picked_users
+            |#{picked_users.count}
         if icon
             i.icon(class=icon)
             //- +i name=icon
@@ -1066,11 +1068,11 @@ template(name='multi_user_edit')
                 each user_results
                     a.select_user.item(href="#")
                         .ui.header
-                            img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                            strong #{first_name} #{last_name}
+                            img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            strong #{name}
                             small @#{username}
     +clear_value                
-    each field_value
+    each picked_users
         // |#{this}
         div
         +user_info
@@ -1079,7 +1081,7 @@ template(name='multi_user_edit')
             //     img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             //     |#{name}
             i.pull_user.remove.link.circular.icon
-
+    div
 template(name='multi_doc_input')
     //- .ui.form
         //- .ui.inline.header

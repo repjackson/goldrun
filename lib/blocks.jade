@@ -47,7 +47,7 @@ template(name='audience_settings')
         
 template(name='loading_icon')
     .ui.center.aligned.basic.segment
-        i.massive.yin.yang.loading.grey.icon
+        i.massive.yin.yang.loading.grey.thin.icon
 
 
 
@@ -326,10 +326,11 @@ template(name='session_set')
             +i name=icon cl='ui mini inline image'
         // if icon_view 
         // else 
-        if label
-            |#{label}
-        else 
-            |#{value}
+        unless hide_label
+            if label
+                |#{label}
+            else 
+                |#{value}
            
            
 template(name='favorites')

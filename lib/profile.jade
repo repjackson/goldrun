@@ -62,46 +62,6 @@ template(name='profile')
                             |account
                     div
                     .ui.fluid.styled.accordion
-                        .active.title
-                            a.ui.small.grey.header.zoomer.calc_user_points
-                                // i.line.chart.icon
-                                +i name='line-chart'
-                                |stats
-                            i.dropdown.icon
-                        .active.content
-                            .ui.list 
-                                .item 
-                                    i.eye.grey.icon
-                                    |#{profile_views} 
-                                    |profile views
-                                .item 
-                                    i.lock.grey.icon
-                                    |#{profile_views_anon} 
-                                    |anon views
-                                .item 
-                                    i.user.grey.icon
-                                    |#{profile_views_logged_in} 
-                                    |logged in views
-                                .item 
-                                    i.thumbs.up.grey.icon
-                                    |#{upvote_total} 
-                                    |upvoted points
-                                .item 
-                                    i.thumbs.down.grey.icon
-                                    |#{downvote_total} 
-                                    |downvoted points
-                                .item 
-                                    i.coins.icon 
-                                    |#{tip_count} tips totalling #{tip_total}pts
-                                .item 
-                                    i.chat.icon
-                                    |comment amount: #{comment_count}
-                                .item
-                                    i.chat.icon
-                                    |spent points:#{comment_total}
-                                .item
-                                    i.eye.icon
-                                    |viewed docs:#{viewed_total}
                 
                     if is_admin
                         a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
@@ -162,7 +122,46 @@ template(name='profile')
                                     .ui.list 
                                         each user_messages_received
                                             |#{body}
-                                
+                            .title
+                                a.ui.small.grey.header.zoomer.calc_user_points
+                                    // i.line.chart.icon
+                                    +i name='line-chart'
+                                    |stats
+                                i.dropdown.icon
+                            .content
+                                .ui.list 
+                                    .item 
+                                        i.eye.grey.icon
+                                        |#{profile_views} 
+                                        |profile views
+                                    .item 
+                                        i.lock.grey.icon
+                                        |#{profile_views_anon} 
+                                        |anon views
+                                    .item 
+                                        i.user.grey.icon
+                                        |#{profile_views_logged_in} 
+                                        |logged in views
+                                    .item 
+                                        i.thumbs.up.grey.icon
+                                        |#{upvote_total} 
+                                        |upvoted points
+                                    .item 
+                                        i.thumbs.down.grey.icon
+                                        |#{downvote_total} 
+                                        |downvoted points
+                                    .item 
+                                        i.coins.icon 
+                                        |#{tip_count} tips totalling #{tip_total}pts
+                                    .item 
+                                        i.chat.icon
+                                        |comment amount: #{comment_count}
+                                    .item
+                                        i.chat.icon
+                                        |spent points:#{comment_total}
+                                    .item
+                                        i.eye.icon
+                                        |viewed docs:#{viewed_total}
                             if venmo_image
                                 .title
                                     .ui.inline.header 
@@ -538,8 +537,7 @@ template(name='user_posts')
                     a.item.fly_left(href="/doc/#{_id}") 
                         if image_id
                             img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                        .content 
-                            .header
+                            .ui.inline.header
                                 |#{title}
                             .description
                                 |#{_when}

@@ -1013,14 +1013,7 @@ template(name='single_user_edit')
         .ui.button.add_user 
             |add user: #{current_user_search}
     if picked_user
-        +user_card picked_user
-        // if is_dev
-        |#{picked_user.username}
-        //- |#{this}
-        with picked_user
-            .ui.inline.header
-                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                |#{name}
+        +user_info picked_user
         .ui.button.pull_user
             i.remove.icon
             |clear user

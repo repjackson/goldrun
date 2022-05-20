@@ -237,6 +237,8 @@ if Meteor.isServer
                 _author_id:1
                 points:1
                 views:1
+                _timestamp:-1
+                tags:1
 
     Meteor.publish 'user_deposits', (username)->
         user = Meteor.users.findOne username:username

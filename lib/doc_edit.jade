@@ -25,7 +25,7 @@ template(name='doc_edit')
                         +key_value_edit key='model' value='message' label='message' icon='envelope'
                     // .ui.header #{model}
                     // .ui.header #{model_template}
-                    .six.wide.column.scrollin
+                    .eight.wide.column.scrollin
                         if in_dev 
                             +print_this
                         +model_label
@@ -104,7 +104,7 @@ template(name='doc_edit')
                         
                         +remove_button
         
-                    .ten.wide.column
+                    .eight.wide.column
                         +Template.dynamic template=model_template
                         // if currentUser.admin_mode 
                         +author_edit

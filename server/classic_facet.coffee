@@ -2,11 +2,11 @@ Meteor.publish 'facet_sub', (
     model=null
     picked_tags
     title_search=''
+    picked_timestamp_tags
     # picked_author_ids=[]
     # picked_location_tags
     # picked_building_tags
     # picked_unit_tags
-    # picked_timestamp_tags
     # author_id
     # parent_id
     # tag_limit
@@ -35,7 +35,7 @@ Meteor.publish 'facet_sub', (
         #     match.published = 1
         # if picked_location_tags.length > 0 then match.location_tags = $all: picked_location_tags
         # if picked_building_tags.length > 0 then match.building_tags = $all: picked_building_tags
-        # if picked_timestamp_tags.length > 0 then match.timestamp_tags = $all: picked_timestamp_tags
+        if picked_timestamp_tags.length > 0 then match._timestamp_tags = $all: picked_timestamp_tags
 
         # if tag_limit then limit=tag_limit else limit=50
         # if author_id then match.author_id = author_id
@@ -130,7 +130,7 @@ Meteor.publish 'facet_sub', (
         #
         timestamp_tags_cloud = Docs.aggregate [
             { $match: match }
-            { $project: timestamp_tags: 1 }
+            { $project: _timestamp_tags: 1 }
             { $unwind: "$_timestamp_tags" }
             { $group: _id: '$_timestamp_tags', count: $sum: 1 }
             # { $match: _id: $nin: picked_timestamp_tags }
@@ -138,7 +138,7 @@ Meteor.publish 'facet_sub', (
             { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
-        console.log 'timestamp_tags_cloud, ', timestamp_tags_cloud
+        # console.log 'timestamp_tags_cloud, ', timestamp_tags_cloud.count()
         timestamp_tags_cloud.forEach (timestamp_tag, i) ->
             self.added 'results', Random.id(),
                 name: timestamp_tag.name

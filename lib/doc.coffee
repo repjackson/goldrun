@@ -6,6 +6,11 @@ if Meteor.isClient
     Template.doc_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_from_doc_id', Router.current().params.doc_id, ->
+    Template.doc_edit.onRendered ->
+        Meteor.setTimeout ->
+            $('.ui.accordion').accordion()
+        , 2000
+
     Template.doc_edit.helpers
         model_template: -> "#{@model}_edit"
         doc_data: -> 
@@ -56,6 +61,7 @@ if Meteor.isClient
             Session.get('model')
             picked_tags.array()
             Session.get('current_search')
+            picked_timestamp_tags.array()
     
         @autorun => @subscribe 'doc_results',
             Session.get('model')

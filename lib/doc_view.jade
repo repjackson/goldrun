@@ -36,11 +36,11 @@ template(name='doc_view')
                             a(href=twitter_link _target='_window' title=)
                                 +i name='twitter'
                     .eleven.wide.column.scrollin
-                        if watson 
-                            +doc_sentiment
-                            div
-                            .spacer
-                            +doc_emotion
+                        // if watson 
+                        //     +doc_sentiment
+                        //     div
+                        //     .spacer
+                        //     +doc_emotion
     
                         // .smallscroll.zoomer
                         .ui.fluid.styled.accordion
@@ -51,7 +51,7 @@ template(name='doc_view')
                                     i.dropdown.icon
                             .active.content
                                 if image_id 
-                                    img.ui.rounded.centered.image(src="{{c.url image_id width=800 crop='scale'}}")
+                                    img.ui.rounded.centered.large.image(src="{{c.url image_id width=800 crop='scale'}}")
                                 |!{content}
                             +comments
                     

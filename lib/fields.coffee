@@ -727,7 +727,7 @@ if Meteor.isClient
     Template.multi_user_edit.helpers
         user_results: -> Template.instance().user_results.get()
         picked_users: ->
-            console.log Template.parentData()
+            # console.log Template.parentData()
             Meteor.users.find 
                 _id:$in:Template.parentData()["#{@key}_ids"]
     Template.multi_user_edit.events

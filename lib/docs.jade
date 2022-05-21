@@ -59,7 +59,10 @@ template(name='doc_card')
                 img(src="{{c.url image_id height=300 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
             +model_label
-    
+            if published 
+                i.green.eye.icon(title='published')
+            else 
+                i.yellow.save.icon(title='draft')
             a.ui.inline.header.fly_right(href="/doc/#{_id}" class=emotion_color) #{title}
             .smallcut
                 | !{content}

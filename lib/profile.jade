@@ -105,8 +105,35 @@ template(name='profile')
                                 i.dropdown.icon
                                 +text_view key='first_name' label='first name' icon='user'
                                 +text_view key='last_name' label='last name' icon='user'
+                                if address 
+                                    +i name='marker'
+                                if bio 
+                                    +i name='info'
+                                if company 
+                                    +i name='company'
+                                if linkedin_link 
+                                    +i name='linkedin'
+                                if twitter_link 
+                                    +i name='twitter'
+                                if status 
+                                    .ui.label(title='status')
+                                        +i name='clock'
+                                        |#{status}
                             .content
-                                +user_about
+                                div
+                                +text_view key='display_name' label='display name'
+                                div
+                                +array_view key='tags' label='tags' icon='tags'
+                                +html_view key='bio' label='bio'
+                                +text_view key='status' label='status' icon='clock'
+                                +text_view key='address' label='address' icon='marker' 
+                                +text_view key='city' label='city' icon='marker' 
+                                +text_view key='state' label='state' icon='marker' 
+                                +phone_view key='phone' label='phone' icon='phone' 
+                                +text_view key='company' label='company' icon='business'
+                                +text_view key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
+                                +text_view key='twitter_link' label='twitter profile ' icon='twitter'
+                                +text_view key='facebook_link' label='facebook profile ' icon='facebook'
                             +user_reviews
                             +user_posts
                             +user_groups
@@ -388,22 +415,6 @@ template(name='user_products')
         |user products
     each user_product_docs 
         .ui.header #{title}
-                 
-template(name='user_about')                 
-    div
-    +text_view key='display_name' label='display name'
-    div
-    +array_view key='tags' label='tags' icon='tags'
-    +html_view key='bio' label='bio'
-    +text_view key='status' label='status' icon='clock'
-    +text_view key='address' label='address' icon='marker' 
-    +text_view key='city' label='city' icon='marker' 
-    +text_view key='state' label='state' icon='marker' 
-    +phone_view key='phone' label='phone' icon='phone' 
-    +text_view key='company' label='company' icon='business'
-    +text_view key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
-    +text_view key='twitter_link' label='twitter profile ' icon='twitter'
-    +text_view key='facebook_link' label='facebook profile ' icon='facebook'
                  
                  
 template(name='user_comments')                 

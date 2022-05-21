@@ -433,14 +433,14 @@ template(name='user_groups')
                 // +doc_item
                 img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
         .content
-            .ui.selection.link.animated.list    
+            .ui.selection.link.animated.large.list    
                 each user_group_memberships
                     // +doc_item
-                    a.item.zoomer(href="/doc/#{_id}")
+                    a.item.zoomer.fly_left(href="/doc/#{_id}")
                         img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
                         .ui.inline.header
                             strong #{title}
-                        each tags 
+                        each ten_tags 
                             .ui.small.basic.label #{this}
                      
                     

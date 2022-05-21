@@ -155,7 +155,7 @@ Meteor.methods
 
 
     change_username:  (user_id, new_username) ->
-        user = Docs.findOne user_id
+        user = Meteor.users.findOne user_id
         Accounts.setUsername(user._id, new_username)
         return "updated username to #{new_username}."
 

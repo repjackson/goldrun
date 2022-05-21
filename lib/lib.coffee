@@ -148,6 +148,7 @@ Docs.helpers
     three_tags: -> if @tags then @tags[..2]
     five_tags: -> if @tags then @tags[..4]
     seven_tags: -> if @tags then @tags[..7]
+    ten_tags: -> if @tags then @tags[..10]
     is_visible: -> @published in [0,1]
     is_published: -> @published is 1
     is_anonymous: -> @published is 0

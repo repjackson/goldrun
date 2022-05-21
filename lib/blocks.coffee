@@ -279,31 +279,43 @@ if Meteor.isClient
 
     Template.voting.events
         'click .upvote': (e,t)->
-            $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'upvote', @, ->
+            if Meteor.user()
+                $(e.currentTarget).closest('.button').transition('pulse',200)
+                Meteor.call 'upvote', @, ->
+            else 
+                Router.go "/login"
         'click .downvote': (e,t)->
-            $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'downvote', @, ->
+            if Meteor.user()
+                $(e.currentTarget).closest('.button').transition('pulse',200)
+                Meteor.call 'downvote', @, ->
+            else 
+                Router.go "/login"
 
 
     Template.voting_small.events
         'click .upvote': (e,t)->
-            $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'upvote', @, ->
+            if Meteor.user()
+                $(e.currentTarget).closest('.button').transition('pulse',200)
+                Meteor.call 'upvote', @, ->
+            else 
+                Router.go "/login"
         'click .downvote': (e,t)->
-            $(e.currentTarget).closest('.button').transition('pulse',200)
-            Meteor.call 'downvote', @, ->
+            if Meteor.user()
+                $(e.currentTarget).closest('.button').transition('pulse',200)
+                Meteor.call 'downvote', @, ->
+            else 
+                Router.go "/login"
 
     Template.voting_full.events
         'click .upvote': (e,t)->
-            if Meteor.userId()
+            if Meteor.user()
                 $(e.currentTarget).closest('.button').transition('pulse',200)
                 Meteor.call 'upvote', @
             else
                 $(e.currentTarget).closest('.grid').transition('fade down', 500)
                 Router.go "/login"
         'click .downvote': (e,t)->
-            if Meteor.user
+            if Meteor.user()
                 $(e.currentTarget).closest('.button').transition('pulse',200)
                 Meteor.call 'downvote', @
             else 

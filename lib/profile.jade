@@ -182,14 +182,6 @@ template(name='profile')
                                     .item
                                         i.eye.icon
                                         |viewed docs:#{viewed_total}
-                            if venmo_image
-                                .title
-                                    .ui.inline.header 
-                                        +i name='donate'
-                                        |pay
-                                    i.dropdown.icon
-                                .content
-                                    img.ui.image(src="{{c.url venmo_image }}")
                             +user_tasks
                 
                             .title 
@@ -203,7 +195,9 @@ template(name='profile')
                                         |#{title}
                                         +model_label
                             .content
-                                .ui.header viewing history
+                                .ui.header 
+                                    +i name='history'
+                                    |viewing history
                             if is_current_user
                                 +profile_deposits
                             if watson
@@ -314,8 +308,8 @@ template(name='user_favorites')
                 |#{user_favorite_docs.count} favorites
             i.dropdown.icon
             each user_favorite_docs
-                +model_label
-                img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}" title=title)
+                // +model_label
+                img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}" title="#{model}:#{title}")
         .content.smallscrol
             .ui.selection.animated.link.divided.list
                 each user_favorite_docs
@@ -341,6 +335,9 @@ template(name='user_points')
             +i name='coins'
             |balance: #{current_user.points}
         i.dropdown.icon
+        if venmo_image
+            span(title='venmo info')
+                +i name='donate'
     .content
         .ui.dividing.header
             +i name='internal'
@@ -380,6 +377,8 @@ template(name='user_points')
         .ui.small.header 
             small spent points:
             strong #{comment_total}
+        if venmo_image
+            img.ui.image(src="{{c.url venmo_image }}")
             
     
                  

@@ -280,7 +280,7 @@ if Meteor.isServer
                         
                         
         calc_user_points: (username)->
-            console.log 'calculating points'
+            # console.log 'calculating points'
             if username
                 user = Meteor.users.findOne username:username
             else 

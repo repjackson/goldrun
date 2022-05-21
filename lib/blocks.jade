@@ -466,10 +466,11 @@ template(name='role_editor')
 
 template(name='author_info')
     with _author
-        a.ui.compact.button(href="/user/#{username}")
+        a.ui.large.image.label(href="/user/#{username}")
             if image_id
-                img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
-            |by #{name}
+                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+            small by 
+            strong #{name}
 
 template(name='creation_info')
     .ui.small.inline.header #{when}

@@ -79,11 +79,10 @@ template(name='account')
                                 +password_edit
                                 //- +phone_editor
                                 +username_edit
-                            else if in_dev
+                            else currentUser.admin_mode
                                 +password_edit
                                 //- +phone_editor
                                 +username_edit
-                            if currentUser.admin_mode
                                 .ui.orange.button.remove_user 
                                     i.remove.icon
                                     |delete user

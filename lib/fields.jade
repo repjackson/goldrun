@@ -540,17 +540,17 @@ template(name='time_view')
         .ui.inline.header &nbsp; #{field_value}
 
 template(name='datetime_edit')
+    .ui.inline.small.header
+        if icon
+            // i.grey.icon(class=icon)
+            +i name=icon                
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else
+            |#{key}
     .ui.fluid.icon.input
-        label 
-            if icon
-                // i.grey.icon(class=icon)
-                +i name=icon                
-            if title
-                |#{title}
-            else if label
-                |#{label}
-            else
-                |#{key}
         input.edit_datetime(type='datetime-local' value=field_value placeholder=placeholder autocomplete="off")
         // i.calendar.icon
         +clear_value                
@@ -587,7 +587,7 @@ template(name='array_edit')
         //- +clear_value                
     if field_value
         each field_value
-            a.ui.black.label
+            a.ui.large.label
                 i.delete.icon.remove_element
                 |#{this}
 

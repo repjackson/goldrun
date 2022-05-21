@@ -383,22 +383,6 @@ template(name='message_author_button')
 
 
 
-template(name='user_services')
-    .ui.header 
-        +i name='wrench'
-        |user services
-        .ui.list 
-        each user_service_docs 
-            .item #{title}
-    .ui.header 
-        +i name='shopping-cart'
-        |purchases
-    .ui.list 
-        each service_purchas_docs 
-            .item 
-                |#{_parent.title} #{amount}
-        
-        
 
         
 template(name='service_item')

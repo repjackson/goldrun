@@ -17,14 +17,7 @@ template(name='profile')
         .ui.stackable.padded.grid
             .row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
-                .four.wide.column.scrollin
-                    // a(href="/user/#{username}")
-                    img.ui.medium.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
-                    // a(href="/user/#{username}")
-                    //     img.ui.small.rounded.image.inline.boop.mobile.only(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
-                    .ui.inline.small.header(title='boops')
-                        +i name='tap-gesture'
-                        |#{boops}
+                .sixteen.wide.column
                     a(href="/user/#{username}")
                         .ui.inline.header
                             if publish_profile 
@@ -33,22 +26,18 @@ template(name='profile')
                                 i.large.private.icon(title='private profile')
                             |#{name}
                         // +user_pill
+                    if first_name
+                        .ui.inline.header #{first_name}
+                    if last_name
+                        .ui.inline.header #{last_name}
                     if status 
-                        .ui.header(title='status')
+                        .ui.big.label(title='status')
                             i.clock.icon 
                             |#{status}
                     a.ui.large.label(href="/user/#{username}/points" title='points')
                         //- +i name='coins'
                         //- i.coins.icon
                         |#{points} pts
-                    if first_name
-                        .ui.inline.header #{first_name}
-                    if last_name
-                        .ui.inline.header #{last_name}
-                    if company 
-                        .ui.header
-                            +i name='business' 
-                            |#{company}
                     +link_view key='link' icon='globe'
                     if linkedin_link
                         .ui.circular.compact.button(href=linkedin_link target='_window')
@@ -56,14 +45,24 @@ template(name='profile')
                     if twitter_link
                         .ui.circular.compact.button(href=twitter_link target='_window')
                             +i name='twitter'
-                    a.ui.large.icon.fluid.button.fly_up(href="/user/#{username}/edit" title='profile settings')
+                    a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
                         +i name='settings'
                         unless currentUser.hide_menu_labels
                             |account
+                .four.wide.column.scrollin
+                    // a(href="/user/#{username}")
+                    img.ui.medium.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+                    // a(href="/user/#{username}")
+                    //     img.ui.small.rounded.image.inline.boop.mobile.only(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+                    .ui.inline.small.header(title='boops')
+                        +i name='tap-gesture'
+                        |#{boops}
                     div
-                    .ui.fluid.styled.accordion
-                
-                    if is_admin
+                    if company 
+                        .ui.large.label
+                            +i name='business' 
+                            |#{company}
+                    if currentUser.admin_mode
                         a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             +i name='settings' cl='ui avatar image'
                     if is_current_user
@@ -91,6 +90,7 @@ template(name='profile')
                             +user_reviews
                             +user_posts
                             +user_groups
+                            +user_services
                             +user_social
                             +user_favorites
                             +user_points
@@ -123,7 +123,7 @@ template(name='profile')
                                         each user_messages_received
                                             |#{body}
                             .title
-                                a.ui.small.grey.header.zoomer.calc_user_points
+                                a.ui.header.zoomer.calc_user_points
                                     // i.line.chart.icon
                                     +i name='line-chart'
                                     |stats
@@ -407,7 +407,7 @@ template(name='user_groups')
             .ui.inline.header 
                 +i name='groups'
                 |#{user_group_memberships.count}
-                |user groups
+                |groups
             i.dropdown.icon
             each user_group_memberships
                 // +doc_item
@@ -422,6 +422,25 @@ template(name='user_groups')
                             strong #{title}
                         each ten_tags 
                             .ui.small.basic.label #{this}
+                     
+template(name='user_services')
+    .title
+        .ui.inline.header 
+            +i name='wrench'
+            |services
+        i.dropdown.icon
+    .content
+        each user_service_docs 
+            .item #{title}
+        .ui.header 
+            +i name='shopping-cart'
+            |purchases
+        .ui.list 
+            each service_purchas_docs 
+                .item 
+                    |#{_parent.title} #{amount}
+            
+        
                      
                     
 template(name='user_social')

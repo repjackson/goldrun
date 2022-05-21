@@ -1,9 +1,9 @@
 template(name='profile')
     with user_from_username_param
         if background_image_id
-            img.ui.image.nav_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+            img.ui.image.profile_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
         else 
-            img.ui.image.nav_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+            img.ui.image.profile_banner(src="{{c.url image_id height=1000 crop='crop'}}")
     // .ui.bottom.attached.pushable.segment.scrolling(class=darkmode_class)
     //     +topbar
     //     +leftbar

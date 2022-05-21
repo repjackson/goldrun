@@ -30,13 +30,13 @@ template(name='doc_view')
                             +tone
                         +publish_info
                         if facebook_link 
-                            a(href=facebook_link _target='_window')
+                            a.zoomer(href=facebook_link _target='_window' title='visit facebook page')
                                 +i name='facebook'
                         if instagram_link
-                            a(href=instagram_link _target='_window')
+                            a.zoomer(href=instagram_link _target='_window' title='visit instagram page')
                                 +i name='instagram'
                         if twitter_link
-                            a(href=twitter_link _target='_window' title=)
+                            a.zoomer(href=twitter_link _target='_window' title='visit twitter page')
                                 +i name='twitter'
                     .eleven.wide.column.scrollin
                         // if watson 

@@ -79,13 +79,13 @@ template(name='footer')
     .ui.fluid.segment.stackable.grid
         .two.column.row
             .column
-                .ui.accordion
-                    .title.zoomer
-                        .ui.small.inline.header 
-                            |goldrun is community supported and will never sell your info
-                        // i.dropdown.grey.icon
-                    .content
-                        img.ui.image(src="{{c.url 'dao_venmo'}}")
+                // .ui.accordion
+                //     .title.zoomer
+                //         .ui.small.inline.header 
+                //             |goldrun is community supported and will never sell your info
+                //         // i.dropdown.grey.icon
+                //     .content
+                //         img.ui.image(src="{{c.url 'dao_venmo'}}")
                 // +music
                 if currentUser.admin
                     with currentUser

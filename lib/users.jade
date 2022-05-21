@@ -41,9 +41,9 @@ template(name='users')
             +session_set key='sort_key' value='createdAt' label='joined' icon='calendar'
             +session_set key='sort_key' value='views' icon='eye'
             // +session_set key='view_limit' value=1
-            +session_set key='view_limit' value=10 label='10'
-            +session_set key='view_limit' value=20 label='20'
-            +session_set key='view_limit' value=50 label='30'
+            // +session_set key='view_limit' value=10 label='10'
+            // +session_set key='view_limit' value=20 label='20'
+            // +session_set key='view_limit' value=50 label='30'
             +search_input
             .scrolling
                 if session_is 'view_mode' 'grid'

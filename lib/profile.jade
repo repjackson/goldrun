@@ -36,13 +36,13 @@ template(name='profile')
                         |#{points} pts
                     +link_view key='link' icon='globe'
                     if linkedin_link
-                        .ui.circular.compact.button(href=linkedin_link target='_window')
+                        a.ui.basic.circular.icon.button.zoomer.pointer(href=linkedin_link target='_window' title='view linkedin profile')
                             +i name='linkedin'
                     if twitter_link
-                        .ui.circular.compact.button(href=twitter_link target='_window')
+                        a.ui.basic.circular.icon.button.zoomer.pointer(href=twitter_link target='_window' title='view twitter profile')
                             +i name='twitter'
                     if instagram_link
-                        .ui.circular.compact.button(href=instagrm_link target='_window')
+                        a.ui.basic.circular.icon.button.zoomer.pointer(href=instagram_link target='_window' title='view instagram profile')
                             +i name='instagram'
                     a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
                         +i name='settings'

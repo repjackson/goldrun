@@ -4,7 +4,7 @@ if Meteor.isClient
     Template.users.onCreated ->
         Session.set('view_friends', false)
         # @autorun -> Meteor.subscribe('users')
-        Session.setDefault 'limit', 20
+        Session.setDefault 'limit', 42
         Session.setDefault 'sort_key', 'points'
         Session.setDefault('view_mode','grid')
         @autorun => Meteor.subscribe 'users_pub', 
@@ -23,7 +23,7 @@ if Meteor.isClient
                 username: {$regex:"#{username_search}", $options: 'i'}
                 # healthclub_checkedin:$ne:true
                 # roles:$in:['resident','owner']
-                },{ limit:20 }).fetch()
+                },{ limit:150 }).fetch()
     Template.users.events
         # 'click #add_user': ->
         #     id = Docs.insert model:'person'
@@ -60,7 +60,8 @@ if Meteor.isClient
             Meteor.users.find(match
                 # roles:$in:['resident','owner']
             ,
-                limit:Session.get('limit')
+                # limit:Session.get('limit')
+                limit:150
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
             )
 
@@ -115,7 +116,7 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'user_results', (
         picked_tags
-        doc_limit
+        limit=150
         doc_sort_key
         doc_sort_direction
         view_delivery
@@ -123,10 +124,6 @@ if Meteor.isServer
         view_open
         )->
         # console.log picked_tags
-        if doc_limit
-            limit = doc_limit
-        else
-            limit = 42
         if doc_sort_key
             sort_key = doc_sort_key
         if doc_sort_direction
@@ -166,7 +163,8 @@ if Meteor.isServer
         Docs.find match,
             # sort:"#{sort_key}":sort_direction
             sort:_timestamp:-1
-            limit: limit
+            limit: 150
+            # limit: limit
 
 
     Meteor.publish 'users_pub', (
@@ -175,7 +173,7 @@ if Meteor.isServer
         view_friends=false
         sort_key='points'
         sort_direction=-1
-        limit=20
+        limit=150
     )->
         match = {}
         if view_friends
@@ -184,7 +182,7 @@ if Meteor.isServer
         if username
             match.username = {$regex:"#{username}", $options: 'i'}
         Meteor.users.find(match,{ 
-            limit:limit, 
+            limit:150, 
             sort:
                 "#{sort_key}":sort_direction
             fields:
@@ -217,7 +215,7 @@ if Meteor.isServer
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: count }
-            { $limit: 10 }
+            { $limit: 42 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         cloud.forEach (tag, i) ->
@@ -278,7 +276,7 @@ if Meteor.isServer
                 { $group: _id: "$tags", count: $sum: 1 }
                 # { $match: _id: $nin: omega.selected_tags }
                 { $sort: count: -1, _id: 1 }
-                { $limit: 10 }
+                { $limit: 42 }
                 { $project: _id: 0, title: '$_id', count: 1 }
             ]
     
@@ -307,8 +305,8 @@ if Meteor.isServer
             Meteor.users.find({
                 username: {$regex:"#{username}", $options: 'i'}
                 roles:$in:[role]
-            },{ limit:20})
+            },{ limit:150})
         else
             Meteor.users.find({
                 username: {$regex:"#{username}", $options: 'i'}
-            },{ limit:20})
+            },{ limit:150})

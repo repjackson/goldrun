@@ -7,7 +7,12 @@ if Meteor.isClient
             Docs.find 
                 model:'transfer'
 
-    
+    Template.model_label.events 
+        'click .pick_model': ->
+            Session.set('model',@model)
+            Router.go "/"
+        
+        
     Template.add_doc_button.events 
         'click .add_doc': ->
             new_id = 

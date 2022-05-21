@@ -126,6 +126,12 @@ Meteor.methods
             $set:
                 last_viewed_timestamp:Date.now()
         if Meteor.userId()
+            Docs.update doc_id,
+                $inc:
+                    user_views:1
+                $addToSet:
+                    read_user_ids:Meteor.userId()
+                    read_usernames:Meteor.user().username
             Meteor.users.update Meteor.userId(),
                 $set:
                     current_viewing_doc_id:doc_id
@@ -133,7 +139,7 @@ Meteor.methods
             Docs.update doc_id,
                 $inc:
                     anon_views:1
-            
+        Meteor.call 'calc_user_points', ->
 
     insert_log: (type, user_id)->
         if type

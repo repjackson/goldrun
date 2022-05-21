@@ -36,9 +36,9 @@ body {
 }
 
 
-.invert .image {
-     filter: invert(1) !important; 
-}
+/*.invert .image {*/
+/*     filter: invert(1) !important; */
+/*}*/
 /*.image {*/
 /*     filter: invert(1) !important; */
 /*}*/

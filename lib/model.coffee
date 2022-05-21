@@ -901,6 +901,11 @@ if Meteor.isClient
                 model:'post'
                 group_id:Router.current().params.doc_id
     Template.group_view.helpers
+        group_post_docs: ->
+            Docs.find 
+                model:'post'
+                group_id:Router.current().params.doc_id
+    Template.group_view.helpers
         _members: ->
             Meteor.users.find 
                 _id:$in:@member_ids

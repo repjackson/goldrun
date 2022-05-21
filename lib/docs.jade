@@ -4,8 +4,6 @@ template(name='docs')
             // .ui.inline.header 
             //     +i name='cube'
             //     |#{post_docs.count} docs
-            // +session_boolean_toggle key='view_mine' label='mine' icon='user'
-            // +session_boolean_toggle key='view_private' label='private' icon='lock'
             // +facet key='doc_sentiment_label' icon='happy'
         .four.wide.column
             +session_set key='model' value='post' label='post' icon='blog'
@@ -21,7 +19,10 @@ template(name='docs')
                 +session_set key='model' value='log' label='log' icon='event-log'
             +facet key='tag' icon='tags' label='tags'
             +facet key='timestamp_tag' icon='clock' label='added'
+            +session_boolean_toggle key='view_mine' label='mine' icon='user'
+            +session_boolean_toggle key='view_private' label='private' icon='lock'
         .twelve.wide.column
+            .ui.inline.header(title='result count') #{result_docs.count}
             +search_input key='title'
             // +session_set key='view_mode' value='grid' icon='grid' hide_label=true
             // +session_set key='view_mode' value='list' icon='list' hide_label=true
@@ -33,6 +34,7 @@ template(name='docs')
                 +session_set key='sort_key' value='start_datatime' label='start' icon='calendar'
             +session_set key='limit' value=10
             +session_set key='limit' value=25
+            +session_set key='limit' value=100
             .scrolling
                 if subs_ready
                     .ui.cards

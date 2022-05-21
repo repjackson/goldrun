@@ -141,7 +141,7 @@ template(name='nav')
                         i.user.icon
                     strong #{currentUser.username}
                     |&nbsp;
-                    small (#{currentUser.points}p)
+                    .ui.label(title='points') #{currentUser.points}p
                     if unread_count
                         .ui.large.label #{unread_count}
             unless subs_ready

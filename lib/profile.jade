@@ -314,26 +314,6 @@ template(name='when')
     .ui.label(title="{{long_date _timestamp}}") #{_when}
                     
                     
-template(name='model_label')
-    span(title=model)
-        if is model 'post' 
-            +i name='blog'
-        else if is model 'event'
-            +i name='calendar'
-        else if is model 'group'
-            +i name='campfire'
-        else if is model 'service'
-            +i name='service'
-        else if is model 'log'
-            +i name='event-log'
-        else if is model 'task'
-            +i name='tasks'
-        else if is model 'checkin'
-            +i name='checkmark'
-
-    // .ui.label 
-    //     |#{model}
-                            
                  
 template(name='user_points')        
     .title

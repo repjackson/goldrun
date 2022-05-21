@@ -14,6 +14,28 @@ template(name='log_item')
         if in_dev 
             +print_this
         
+template(name='model_label')
+    span.pick_model(title="view #{model}s")
+        if is model 'post' 
+            +i name='blog'
+        else if is model 'event'
+            +i name='calendar'
+        else if is model 'group'
+            +i name='campfire'
+        else if is model 'service'
+            +i name='service'
+        else if is model 'log'
+            +i name='event-log'
+        else if is model 'task'
+            +i name='tasks'
+        else if is model 'checkin'
+            +i name='checkmark'
+
+    // .ui.label 
+    //     |#{model}
+                            
+     
+     
      
 template(name='author_segment')     
     with _author

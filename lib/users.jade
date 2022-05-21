@@ -3,7 +3,7 @@ template(name='users')
         .four.wide.column
             .ui.inline.header
                 +i name='groups'
-                |#{user_docs.length}
+                |#{user_docs.count}
                 |users
             if currentUser.admin
                 .ui.icon.button.add_user

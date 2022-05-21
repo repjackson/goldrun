@@ -315,6 +315,7 @@ if Meteor.isServer
                     upvote_total += -1
                 
                 viewed_total = 0
+                
                 viewed_docs = 
                     Docs.find
                         read_user_ids:$in:[user._id]

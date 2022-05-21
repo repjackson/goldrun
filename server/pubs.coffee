@@ -346,7 +346,7 @@ Meteor.publish 'doc_results', (
     current_query=''
     sort_key='_timestamp'
     sort_direction=-1
-    limit=20
+    limit=42
     # picked_timestamp_tags=[]
     # picked_location_tags=[]
     )->

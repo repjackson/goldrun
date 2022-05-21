@@ -405,5 +405,6 @@ Meteor.publish 'doc_results', (
             upvoter_ids:1
             downvoter_ids:1
             views:1
+            youtube_id:1
             points:1
         # sort:_timestamp:-1

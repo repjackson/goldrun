@@ -23,6 +23,9 @@ template(name='doc_view')
                         if can_edit
                             a.zoom.zoomer(href="/doc/#{_id}/edit")
                                 i.pencil.blue.big.link.circular.icon
+                        if youtube_id 
+                            span(title='has youtube video')
+                                +i name='youtube'
                         if tone 
                             +tone
                         +publish_info
@@ -50,6 +53,8 @@ template(name='doc_view')
                                     |info
                                     i.dropdown.icon
                             .active.content
+                                if youtube_id
+                                    +youtube_view key='youtube_id'
                                 if image_id 
                                     img.ui.rounded.centered.large.image(src="{{c.url image_id width=800 crop='scale'}}")
                                 |!{content}

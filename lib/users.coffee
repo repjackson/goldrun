@@ -16,6 +16,38 @@ if Meteor.isClient
             Session.get('limit')
             ->
         @autorun => Meteor.subscribe 'user_tags', picked_user_tags.array(), ->
+            
+if Meteor.isServer 
+    Meteor.publish 'users_pub', (
+        username_search, 
+        picked_user_tags=[], 
+        view_friends=false
+        sort_key='points'
+        sort_direction=-1
+        limit=50
+    )->
+        match = {}
+        if view_friends
+            match._id = $in: Meteor.user().friend_ids
+        if picked_user_tags.length > 0 then match.tags = $all:picked_user_tags 
+        if username_search
+            match.username = {$regex:"#{username_search}", $options: 'i'}
+        Meteor.users.find(match,{ 
+            limit:50, 
+            sort:
+                "#{sort_key}":sort_direction
+            # fields:
+            #     roles:1
+            #     username:1
+            #     image_id:1
+            #     tags:1
+            #     points:1
+            #     credit:1
+            #     first_name:1
+            #     last_name:1
+        })
+            
+if Meteor.isClient  
     Template.users.helpers
         users: ->
             username_search = Session.get('username_search')
@@ -167,34 +199,6 @@ if Meteor.isServer
             # limit: limit
 
 
-    Meteor.publish 'users_pub', (
-        username, 
-        picked_user_tags=[], 
-        view_friends=false
-        sort_key='points'
-        sort_direction=-1
-        limit=150
-    )->
-        match = {}
-        if view_friends
-            match._id = $in: Meteor.user().friend_ids
-        if picked_user_tags.length > 0 then match.tags = $all:picked_user_tags 
-        if username
-            match.username = {$regex:"#{username}", $options: 'i'}
-        Meteor.users.find(match,{ 
-            limit:150, 
-            sort:
-                "#{sort_key}":sort_direction
-            fields:
-                roles:1
-                username:1
-                image_id:1
-                tags:1
-                points:1
-                credit:1
-                first_name:1
-                last_name:1
-        })
     
     Meteor.publish 'user_tags', (picked_tags)->
         # user = Meteor.users.findOne @userId

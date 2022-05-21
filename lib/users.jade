@@ -52,7 +52,7 @@ template(name='users')
                             each user_docs
                                 +user_card
                     else
-                        .ui.stackable.centered.four.cards
+                        .ui.stackable.centered.cards
                             each user_docs
                                 +user_card
                 else if session_is 'view_mode' 'list'

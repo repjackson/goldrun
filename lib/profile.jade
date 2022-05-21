@@ -44,10 +44,16 @@ template(name='profile')
                     if instagram_link
                         a.ui.basic.circular.icon.button.zoomer.pointer(href=instagram_link target='_window' title='view instagram profile')
                             +i name='instagram'
-                    a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
-                        +i name='settings'
-                        unless currentUser.hide_menu_labels
-                            |account
+                    if is_current_user
+                        a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
+                            +i name='settings'
+                            unless currentUser.hide_menu_labels
+                                |account
+                    else if currentUser.admin_mode
+                        a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
+                            +i name='settings'
+                            unless currentUser.hide_menu_labels
+                                |account
                 .four.wide.column.scrollin
                     // a(href="/user/#{username}")
                     img.ui.medium.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")

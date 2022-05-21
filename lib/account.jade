@@ -48,6 +48,10 @@ template(name='account')
                                 +i name='marker'
                                 |contact
                             i.dropdown.icon
+                            if address
+                                +i name='marker'
+                            if company
+                                +i name='company'
                         .content
                             +text_edit key='address' label='address' icon='marker' 
                             div
@@ -59,9 +63,13 @@ template(name='account')
                             div
                             +link_edit key='link' label='external link' icon='globe'
                             div
+                            +text_edit key='position' label='position' icon='business' 
+                            div
                             +text_edit key='company' label='company' icon='business'
                             +link_edit key='link' label='profile link' icon='globe'
                             .ui.container
+                                div
+                                +text_edit key='instagram_link' label='instagram link ' icon='instagram'
                                 div
                                 +text_edit key='linkedin_link' label='linked in profile ' icon='linkedin'
                                 div

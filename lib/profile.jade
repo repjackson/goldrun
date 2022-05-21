@@ -20,11 +20,7 @@ template(name='profile')
                 .sixteen.wide.column
                     a(href="/user/#{username}")
                         .ui.inline.header
-                            if publish_profile 
-                                i.large.green.eye.icon(title='published profile')
-                            else 
-                                i.large.private.icon(title='private profile')
-                            |#{name}
+                            |@#{username}
                         // +user_pill
                     if first_name
                         .ui.inline.header #{first_name}
@@ -45,6 +41,9 @@ template(name='profile')
                     if twitter_link
                         .ui.circular.compact.button(href=twitter_link target='_window')
                             +i name='twitter'
+                    if instagram_link
+                        .ui.circular.compact.button(href=instagrm_link target='_window')
+                            +i name='instagram'
                     a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
                         +i name='settings'
                         unless currentUser.hide_menu_labels
@@ -57,6 +56,14 @@ template(name='profile')
                     .ui.inline.small.header(title='boops')
                         +i name='tap-gesture'
                         |#{boops}
+                    if publish_profile 
+                        .ui.basic.label
+                            i.large.green.eye.icon(title='published profile')
+                            |public profile
+                    else 
+                        .ui.basic.label
+                            i.large.lock.icon(title='private profile')
+                            |private profile
                     div
                     if company 
                         .ui.large.label

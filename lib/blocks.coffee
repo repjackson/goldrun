@@ -715,9 +715,9 @@ if Meteor.isClient
             if @cl
                 res += @cl
             if Session.equals(@key,@value)
-                res += ' active'
+                res += ' black'
             else 
-                res += ' basic'
+                res += ' '
             # console.log res
             res
 

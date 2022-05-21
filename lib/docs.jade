@@ -33,9 +33,9 @@ template(name='docs')
             +session_set key='sort_key' value='views' label='views' icon='eye'
             if session_is 'model' 'event'
                 +session_set key='sort_key' value='start_datatime' label='start' icon='calendar'
-            +session_set key='limit' value=10
-            +session_set key='limit' value=25
-            +session_set key='limit' value=100
+            // +session_set key='limit' value=10
+            // +session_set key='limit' value=25
+            // +session_set key='limit' value=100
             .scrolling
                 if subs_ready
                     .ui.cards

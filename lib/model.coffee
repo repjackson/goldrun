@@ -1340,7 +1340,7 @@ if Meteor.isServer
     Meteor.publish 'target_from_transfer_id', (transfer_id)->
         transfer = Docs.findOne transfer_id
         if transfer
-            Meteor.users.findOne transfer.target_user_id
+            Meteor.users.find transfer.target_user_id
     Meteor.methods
         send_transfer: (transfer_id)->
             transfer = Docs.findOne transfer_id

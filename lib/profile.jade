@@ -44,6 +44,9 @@ template(name='profile')
                     if instagram_link
                         a.ui.basic.circular.icon.button.zoomer.pointer(href=instagram_link target='_window' title='view instagram profile')
                             +i name='instagram'
+                    if facebook_link
+                        a.ui.basic.circular.icon.button.zoomer.pointer(href=facebook_link target='_window' title='view facebook profile')
+                            +i name='facebook'
                     if is_current_user
                         a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
                             +i name='settings'
@@ -94,7 +97,6 @@ template(name='profile')
                         +request_button
                         +follow_button
                         +friend_button
-                    +send_points_button
                 .twelve.wide.column
                     if subs_ready
                         .ui.fluid.styled.accordion.alpha
@@ -176,6 +178,7 @@ template(name='profile')
                                     +i name='line-chart'
                                     |stats
                                 i.dropdown.icon
+                                +send_points_button
                             .content
                                 .ui.list 
                                     .item 

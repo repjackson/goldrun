@@ -11,6 +11,12 @@ if Meteor.isClient
             $('.ui.accordion').accordion()
         , 2000
 
+    Template.doc_edit.events
+        'click .publish': ->
+            Docs.update @_id, 
+                $set:
+                    published:true
+                    publish_timestamp:Date.now()
     Template.doc_edit.helpers
         model_template: -> "#{@model}_edit"
         doc_data: -> 

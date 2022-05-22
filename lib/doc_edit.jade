@@ -33,9 +33,19 @@ template(name='doc_edit')
                         .ui.inline.header 
                             +i name='pencil'
                             |editing #{model}: #{title}
-                        a.ui.big.icon.fluid.green.button.zoom.zoomer(href="/doc/#{_id}" title='save')
-                            i.save.big.icon
-                        +boolean_edit key='published' label='published (-10)' 
+                        if published
+                            a.ui.big.icon.fluid.green.button.zoom.zoomer(href="/doc/#{_id}" title='save')
+                                i.checkmark.big.icon
+                        else 
+                            a.ui.big.green.button.zoom.zoomer.publish(href="/doc/#{_id}" title='save')
+                                i.checkmark.big.icon
+                                i.plus.icon
+                                i.eye.big.icon
+                                |save and publish -10p
+                            a.ui.big.icon.yellow.button.zoom.zoomer(href="/doc/#{_id}" title='save')
+                                i.save.big.icon
+                                |save draft                       
+                    +boolean_edit key='published' label='published (-10)' 
                         div
                         +text_edit key='title' label='title' 
                         .ui.fluid.styled.accordion

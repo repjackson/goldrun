@@ -28,7 +28,7 @@ Meteor.users.allow
         #     doc._author_id is userId
     # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
     remove: (userId, doc) -> 
-        true
+        false
         # doc._author_id is userId or 'admin' in Meteor.user().roles
 
 Meteor.publish 'count', ->

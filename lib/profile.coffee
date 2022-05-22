@@ -373,7 +373,7 @@ if Meteor.isServer
                     point_total += -1
                     downvote_total += -1
                 
-                console.log 'calc user points', username, point_total
+                # console.log 'calc user points', username, point_total
                 Meteor.users.update user._id,   
                     $set:
                         points:point_total

@@ -24,7 +24,43 @@ if Meteor.isClient
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find 
                 _id:$in:user.favorite_ids
+if Meteor.isServer 
+    Meteor.publish 'user_favorites', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find {
+            _id:$in:user.favorite_ids
+        }, 
+            fields:
+                title:1
+                model:1
+                image_id:1
+                
+                
+                
+if Meteor.isClient
+    Template.user_checkins.onCreated ->
+        @autorun -> Meteor.subscribe 'user_checkins', Router.current().params.username, ->
+    Template.user_checkins.helpers
+        user_checkin_docs: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                _author_id:user._id
+                model:'checkin'
+if Meteor.isServer 
+    Meteor.publish 'user_checkins', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find {
+            _id:$in:user.favorite_ids
+        }, 
+            fields:
+                title:1
+                model:1
+                image_id:1
 
+
+
+
+if Meteor.isClient
     Template.user_social.onCreated ->
         @autorun -> Meteor.subscribe 'refered_users', Router.current().params.username, ->
     Template.profile.onCreated ->
@@ -212,15 +248,6 @@ if Meteor.isServer
         if user.current_viewing_doc_id
             Docs.find 
                 _id:user.current_viewing_doc_id
-    Meteor.publish 'user_favorites', (username)->
-        user = Meteor.users.findOne username:username
-        Docs.find {
-            _id:$in:user.favorite_ids
-        }, 
-            fields:
-                title:1
-                model:1
-                image_id:1
     Meteor.publish 'user_groups_member', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {

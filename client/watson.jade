@@ -256,38 +256,38 @@ template(name='categories')
 //- 
 template(name='watson_view')
     // +tone
-    .ui.styled.fluid.accordion
-        .title 
-            .ui.inline.header
-                +i name='pie-chart'
-                |emotional analysis
-            i.dropdown.icon
-            +doc_sentiment
-            +doc_emotion
-        .content
-            .ui.stackable.grid 
-                .two.column.row 
-                    .column
-                        +concepts
-                    .column
-                        +categories
-            +entities
-            // +semantic_roles
-            // +keyword_list
-            +concept_list
-            +keywords
-            // .ui.hidden.divider
-            // +relations
-            //- if dev
-            //-     .ui.styled.accordion
-            //-         .title 
-            //-             i.code.icon
-            //-             i.dropdown.icon
-            //-         .content
-            //-             +jsonView(json=watson)
-            //- +personality
-            //- +consumption_preferences
-            
+    // .ui.styled.fluid.accordion
+    .title 
+        .ui.inline.header
+            +i name='pie-chart'
+            |emotional analysis
+        i.dropdown.icon
+        +doc_sentiment
+        +doc_emotion
+    .content
+        .ui.stackable.grid 
+            .two.column.row 
+                .column
+                    +concepts
+                .column
+                    +categories
+        +entities
+        // +semantic_roles
+        // +keyword_list
+        +concept_list
+        +keywords
+        // .ui.hidden.divider
+        // +relations
+        //- if dev
+        //-     .ui.styled.accordion
+        //-         .title 
+        //-             i.code.icon
+        //-             i.dropdown.icon
+        //-         .content
+        //-             +jsonView(json=watson)
+        //- +personality
+        //- +consumption_preferences
+        
     
 template(name='call_watson')
     .ui.button.autotag

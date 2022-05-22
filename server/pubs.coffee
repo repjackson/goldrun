@@ -87,8 +87,8 @@ Meteor.publish 'facet_sub', (
         #         count: ancestor_id.count
         #         index: i
         total_count = Docs.find(match).count()
-        console.log 'total count', total_count
-        console.log 'facet match', match
+        # console.log 'total count', total_count
+        # console.log 'facet match', match
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: tags: 1 }
@@ -400,6 +400,7 @@ Meteor.publish 'doc_results', (
             tags:1
             content:1
             _author_id:1
+            published:1
             _timestamp:1
             emotion:1
             upvoter_ids:1

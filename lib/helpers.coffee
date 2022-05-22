@@ -52,7 +52,7 @@ if Meteor.isClient
     
     
     Template.registerHelper 'parent', () -> Template.parentData()
-    Template.registerHelper 'parent_doc', () ->
+    Template.registerHelper '_parent_doc', () ->
         Docs.findOne @parent_id
         # Template.parentData()
     Template.registerHelper 'sort_label', () -> Session.get('sort_label')

@@ -125,6 +125,7 @@ template(name='nav')
             .item
                 i.yin.yang.big.loading.icon
                 +i name='disconnected'
+                |reconecting...
         if is_connected
             a.item.zoomer.fly_right.clear_search(href="/docs" class="{{isActiveRoute 'docs'}}" title=users)
                 +i name='yin-yang'

@@ -140,6 +140,7 @@ template(name='profile')
                             +user_services
                             +user_social
                             +user_favorites
+                            +user_checkins
                             +user_points
                             +user_drafts
                             +user_events
@@ -297,6 +298,20 @@ template(name='user_tasks')
             +i name='tasks'
             |#{user_task_docs.count} tasks
         i.dropdown.icon
+    .content 
+        .ui.header authored
+        .ui.header assigned
+        .ui.header completed
+        
+        
+template(name='user_checkins')
+    .title
+        .ui.inline.header 
+            +i name='checkmark'
+            |#{user_task_docs.count} checkins
+        i.dropdown.icon
+        each user_checkin_docs
+            img.ui.avatar.image(src="{{c.url _parent_doc.image_id height=300 crop='crop'}}")
     .content 
         .ui.header authored
         .ui.header assigned

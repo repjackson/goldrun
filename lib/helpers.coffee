@@ -187,6 +187,15 @@ if Meteor.isClient
         # console.log 'this', this
         key is value
     
+    Template.registerHelper 'parent_is', (key, value)->
+        # console.log 'key', key
+        # console.log 'value', value
+        # console.log 'this', this
+        console.log Template.parentData()
+        console.log Template.parentData()
+        Template.parentData()["#{key}"] is value
+        # key is value
+    
     Template.registerHelper 'parent_key_value_is', (key, value)->
         # console.log 'key', key
         # console.log 'value', value

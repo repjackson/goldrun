@@ -81,9 +81,17 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'refered_users', (username)->
         user = Meteor.users.findOne username:username
-        Meteor.users.find 
+        Meteor.users.find {
             refered_by_id:user._id
-            
+        },
+            fields:
+                username:1
+                image_id:1
+                tags:1
+                tags:1
+                refered_by_id:1
+                first_name:1
+                last_name:1
 if Meteor.isClient
     Template.user_social.helpers
         refered_user_docs: ->
@@ -156,7 +164,12 @@ if Meteor.isClient
             user = Meteor.users.findOne username:Router.current().params.username
             Meteor.users.update user._id, 
                 $inc:boops:1
-                
+            $('body').toast({
+                title: "boop"
+                class : 'info'
+                position:'bottom center'
+                })
+
     # Template.user_section.helpers
     #     user_section_template: ->
     #         "user_#{Router.current().params.group}"
@@ -267,7 +280,7 @@ if Meteor.isServer
         user = Meteor.users.findOne username:username
         Docs.find {
             model:model
-            _author_username:username
+            _author_id:user._id
         }, 
             limit:20
             fields:

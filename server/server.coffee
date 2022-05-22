@@ -152,7 +152,7 @@ Meteor.methods
     add_user: (username)->
         options = {}
         options.username = username
-
+        options.password = username
         res= Accounts.createUser options
         if res
             return res

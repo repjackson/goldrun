@@ -1139,7 +1139,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.group_picker.onCreated ->
         @autorun => @subscribe 'group_search_results', Session.get('group_search'), ->
-        # @autorun => @subscribe 'model_docs', 'group', ->
+        @autorun => @subscribe 'group_from_doc_id', Router.current().params.doc_id, ->
     Template.group_picker.helpers
         group_results: ->
             Docs.find 
@@ -1170,7 +1170,7 @@ if Meteor.isClient
                     group_title:@title
             Session.set('group_search',null)
             t.$('.group_search').val('')
-                    
+            location.reload() 
         'keyup .group_search': (e,t)->
             # if e.which is '13'
             val = t.$('.group_search').val()
@@ -1894,11 +1894,9 @@ if Meteor.isServer
                 
                 
 if Meteor.isClient
-    Template.event_edit.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'room_reservation'
-    Template.event_edit.onRendered ->
-    Template.event_edit.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'room'
+    # Template.event_edit.onCreated ->
+    #     @autorun => Meteor.subscribe 'model_docs', 'room_reservation'
+    #     @autorun => Meteor.subscribe 'model_docs', 'room'
     Template.event_edit.helpers
         rooms: ->
             Docs.find   

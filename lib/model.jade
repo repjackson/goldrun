@@ -50,21 +50,31 @@ template(name='post_orders')
                 
 
 template(name='visibility_settings')
-    .ui.dividing.header 
-        +i name='eye'
-        |visibility settings
-    if private 
-        .ui.header 
-            i.lock.icon
-            |private
-    if friends_only
-        .ui.header 
-            +i name='friends'
-            |friends only
-    +key_value_edit key='visibility' value='published' icon='checkmark' classes='green'
-    +key_value_edit key='visibility' value='private' icon='lock' classes='blue'
-    +key_value_edit key='visibility' value='draft' icon='checkmark' classes='orange'
+    .title
+        .ui.inline.header
+            +i name='link'
+            |visibility
+        i.dropdown.icon
+        +key_value_icon key='visibility' value='published' icon='checkmark' classes='green'
+        +key_value_icon key='visibility' value='private' icon='lock' classes='blue'
+        +key_value_icon key='visibility' value='draft' icon='checkmark' classes='orange'
+    .content
+        +key_value_edit key='visibility' value='published' icon='checkmark' classes='green'
+        +key_value_edit key='visibility' value='private' icon='lock' classes='blue'
+        +key_value_edit key='visibility' value='draft' icon='checkmark' classes='orange'
+        if private 
+            .ui.header 
+                i.lock.icon
+                |private
+        if friends_only
+            .ui.header 
+                +i name='friends'
+                |friends only
 
+
+template(name='key_value_icon')
+    if parent_is key value 
+        +i name=icon
 
 template(name='post_edit')
     .ui.stackable.padded.grid
@@ -776,7 +786,12 @@ template(name='event_view')
                     .ui.inline.header {{long_date start_datetime}}
                     |&nbsp;
                     .ui.inline.grey.header {{from_now start_datetime}}
-                
+                if is event_type 'online'
+                    +i name='globe'
+                else 
+                    .ui.label
+                        +i name='marker'
+                        |#{location}
                 if time 
                     .ui.inline.grey.header {{time}}
                 if can_edit
@@ -849,64 +864,68 @@ template(name='location_map')
 
 
 template(name='event_edit')
-    .ui.stackable.grid
-        .one.column.row 
-            .column
-                // if reservation_exists
-                //     .ui.header date: #{date}
-                //     .ui.header time: #{time}
-                // else
-                +text_edit key='location' label='location' icon='marker' 
-                // +time_edit key='time' label='time' 
-                +number_edit key='hour_duration' label='hours' 
-                // +range_edit label='time range' 
-                // +single_user_edit key='facilitator_id' label='facilitator' icon='chess king' 
-                +boolean_edit key='manage_attendance' label='manage attendance' icon='settings' 
-                if manage_attendance
-                    .ui.header
-                        i.users.icon
-                        |audience
-                    +number_edit key='max_attendees' label='max attendees' min='0' max='100' 
-                    +boolean_edit key='friends_only' label='friends only' icon='campfire' 
-                    // div
-                +boolean_edit key='is_repeating' label='is repeating' icon='refresh' 
-                if is_repeating
-                    .ui.inline.header repeating day
-                    +key_value_edit key='repeating_day' value='monday'
-                    +key_value_edit key='repeating_day' value='tuesday'
-                    +key_value_edit key='repeating_day' value='wednesday'
-                    +key_value_edit key='repeating_day' value='thursday'
-                    +key_value_edit key='repeating_day' value='friday'
-                    +key_value_edit key='repeating_day' value='saturday'
-                    +key_value_edit key='repeating_day' value='sunday'
-                    div
-                    +time_edit key='start_time' label='start time' 
-                    +time_edit key='end_time' label='end time' 
-                unless is_repeating 
-                    div
-                    +datetime_edit key='start_datetime' label='start datetime' icon='calendar'
-                    div
-                    +datetime_edit key='end_datetime' label='end datetime' icon='calendar'
-                
-                +boolean_edit key='has_host' label='has host' icon='king' 
-                if has_host
-                    +single_user_edit key='host_id' label='host' icon='shield' 
-                +boolean_edit key='has_support' label='has support' icon='king' 
-                if has_support
-                    +single_user_edit key='support_id' label='support' icon='chess queen' 
-                div 
-                .ui.segment
-                    +boolean_edit key='has_tickets' label='has tickets' icon='ticket' 
-                    if has_tickets
-                        +boolean_edit key='external_ticket_management' label='externally handled' 
-                        if external_ticket_management
-                            +link_edit key='link' label='link'
-                            // +link_edit key='link' label='link'
-                        else
-                            +boolean_edit key='free' label='free' 
-                            unless free
-                                +number_edit key='price_points' label='point price' min='0' max='100' 
-                            +number_edit key='price_usd' label='dollar price' min='0' max='100' 
+        // if reservation_exists
+        //     .ui.header date: #{date}
+        //     .ui.header time: #{time}
+        // else
+        // +time_edit key='time' label='time' 
+        +float_edit key='hour_duration' label='hours' 
+        div
+        .ui.inline.small.header 
+            |event type
+        +key_value_edit key='event_type' value='online' label='online' icon='globe'
+        +key_value_edit key='event_type' value='physical' label='physical' icon='marker'
+        if is event_type 'physical'
+            div
+            +text_edit key='location' label='location' icon='marker' 
+        // +range_edit label='time range' 
+        // +single_user_edit key='facilitator_id' label='facilitator' icon='chess king' 
+        +boolean_edit key='manage_attendance' label='manage attendance' icon='settings' 
+        if manage_attendance
+            .ui.header
+                i.users.icon
+                |audience
+            +number_edit key='max_attendees' label='max attendees' min='0' max='100' 
+            +boolean_edit key='friends_only' label='friends only' icon='campfire' 
+            // div
+        +boolean_edit key='is_repeating' label='is repeating' icon='refresh' 
+        if is_repeating
+            .ui.inline.header repeating day
+            +key_value_edit key='repeating_day' value='monday'
+            +key_value_edit key='repeating_day' value='tuesday'
+            +key_value_edit key='repeating_day' value='wednesday'
+            +key_value_edit key='repeating_day' value='thursday'
+            +key_value_edit key='repeating_day' value='friday'
+            +key_value_edit key='repeating_day' value='saturday'
+            +key_value_edit key='repeating_day' value='sunday'
+            div
+            +time_edit key='start_time' label='start time' 
+            +time_edit key='end_time' label='end time' 
+        unless is_repeating 
+            div
+            +datetime_edit key='start_datetime' label='start datetime' icon='calendar'
+            div
+            +datetime_edit key='end_datetime' label='end datetime' icon='calendar'
+        
+        +boolean_edit key='has_host' label='has host' icon='king' 
+        if has_host
+            +single_user_edit key='host_id' label='host' icon='shield' 
+        +boolean_edit key='has_support' label='has support' icon='king' 
+        if has_support
+            +single_user_edit key='support_id' label='support' icon='chess queen' 
+        div 
+        .ui.segment
+            +boolean_edit key='has_tickets' label='has tickets' icon='ticket' 
+            if has_tickets
+                +boolean_edit key='external_ticket_management' label='externally handled' 
+                if external_ticket_management
+                    +link_edit key='link' label='link'
+                    // +link_edit key='link' label='link'
+                else
+                    +boolean_edit key='free' label='free' 
+                    unless free
+                        +number_edit key='price_points' label='point price' min='0' max='100' 
+                    +number_edit key='price_usd' label='dollar price' min='0' max='100' 
 
 
                     
@@ -1188,12 +1207,18 @@ template(name='group_widget')
                
                 
 template(name='group_picker')
-    .ui.segment
-        .ui.header 
+    .title
+        .ui.inline.header
             +i name='campfire'
-            |related group
-        // if is_admin
-        // if group_doc
+            |group
+        i.dropdown.icon
+        with group_doc
+            .ui.inline.header 
+                |#{group_id}
+            a.ui.big.basic.label(href="/doc/#{_id}")
+                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                |#{title}
+    .content
         with group_doc
             .ui.inline.header 
                 |#{group_id}

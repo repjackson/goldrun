@@ -327,6 +327,7 @@ template(name='user_info')
         a.ui.big.link.image.zoomer.label.zoom(href="/user/#{username}")
             img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
             |#{name}
+            small @#{username}
     // .ui.header #{this}
 
 

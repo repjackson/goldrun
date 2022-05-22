@@ -49,10 +49,6 @@ Router.route '/forgot_password', -> @render 'forgot_password'
 
 # Router.route "/food/:food_id", -> @render 'food_doc'
 
-Router.route '/reset_password/:token', (->
-    @render 'reset_password'
-    ), name:'reset_password'
-
 Router.route '/login', -> @render 'login'
 
 
@@ -132,12 +128,9 @@ Meteor.users.helpers
             "#{@username}"
     email_address: -> if @emails and @emails[0] then @emails[0].address
     email_verified: -> if @emails and @emails[0] then @emails[0].verified
-    five_tags: ->
-        if @tags
-            @tags[..5]
-    ten_tags: ->
-        if @tags
-            @tags[..10]
+    five_tags: -> if @tags then @tags[..5]
+    seven_tags: -> if @tags then @tags[..7]
+    ten_tags: -> if @tags then @tags[..10]
     has_points: -> @points > 0
     # is_tech_admin: ->
     #     @_id in ['vwCi2GTJgvBJN5F6c','Dw2DfanyyteLytajt','LQEJBS6gHo3ibsJFu','YFPxjXCgjhMYEPADS','RWPa8zfANCJsczDcQ']

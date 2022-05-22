@@ -715,11 +715,44 @@ if Meteor.isClient
                         $unset:
                             "#{@key}_id":1
                             "#{@key}_username":1
+                else 
+                    Meteor.users.update parent._id, 
+                        $unset:
+                            "#{@key}_id":1
+                            "#{@key}_username":1
     
             # #     page_doc = Docs.findOne Router.current().params.doc_id
             #     # Meteor.call 'unassign_user', page_doc._id, @
     
-    
+        'click .add_user':->
+            new_username = prompt('username')
+            splitted = new_username.split(' ')
+            formatted = new_username.split(' ').join('_').toLowerCase()
+            console.log formatted
+            Meteor.call 'add_user', formatted, (err,res)->
+                console.log res
+                # new_user = Meteor.users.findOne res
+                Meteor.users.update res,
+                    $set:
+                        first_name:splitted[0]
+                        last_name:splitted[1]
+                # Router.go "/user/#{formatted}"
+                $('body').toast({
+                    title: "user created"
+                    # message: 'Please see desk staff for key.'
+                    class : 'success'
+                    icon:'user'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
+            
     
     
     Template.multi_user_edit.onCreated ->

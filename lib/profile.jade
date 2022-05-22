@@ -59,7 +59,7 @@ template(name='profile')
                                 |account
                 .four.wide.column.scrollin
                     // a(href="/user/#{username}")
-                    img.ui.medium.rounded.image.boop(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+                    img.ui.medium.rounded.image.boop.pointer.zoomer(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     // a(href="/user/#{username}")
                     //     img.ui.small.rounded.image.inline.boop.mobile.only(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     .ui.inline.small.header(title='boops')
@@ -121,6 +121,8 @@ template(name='profile')
                                     .ui.label(title='status')
                                         +i name='clock'
                                         |#{status}
+                                each seven_tags
+                                    .ui.label #{this}
                             .content
                                 div
                                 +text_view key='display_name' label='display name'

@@ -45,7 +45,7 @@ template(name='doc_edit')
                             a.ui.big.icon.yellow.button.zoom.zoomer(href="/doc/#{_id}" title='save')
                                 i.save.big.icon
                                 |save draft                       
-                    +boolean_edit key='published' label='published (-10)' 
+                        // +boolean_edit key='published' label='published (-10)' 
                         div
                         +text_edit key='title' label='title' 
                         .ui.fluid.styled.accordion
@@ -74,33 +74,32 @@ template(name='doc_edit')
                                     +i name='tags'
                                     |#{tags.length} tags
                                 i.dropdown.icon
+                                each ten_tags 
+                                    .ui.label #{this}
                             .content
                                 +array_edit key='tags' label='tags' icon='tags'
+                                div
                                 +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                            .title
-                                .ui.inline.header
-                                    +i name='campfire'
-                                    |group
-                                i.dropdown.icon
-                            .content
-                                +group_picker
+                            +group_picker
                             .title
                                 .ui.inline.header
                                     +i name='link'
                                     |links
                                 i.dropdown.icon
+                                if link 
+                                    +i name='link'
+                                if facebook_link
+                                    +i name='facebook'
+                                if instagram_link
+                                    +i name='instagram'
+                                if twitter_link
+                                    +i name='twitter'
                             .content
                                 +link_edit key='link' label='link'
                                 +link_edit key='facebook_link' label='facebook link' icon='facebook'
                                 +link_edit key='instagram_link' label='instagram link' icon='instagram'
                                 +link_edit key='twitter_link' label='twitter link' icon='twitter'
-                            .title
-                                .ui.inline.header
-                                    +i name='link'
-                                    |visibility
-                                i.dropdown.icon
-                            .content
-                                +visibility_settings
+                            +visibility_settings
                             .title
                                 .ui.inline.header
                                     +i name='youtube'

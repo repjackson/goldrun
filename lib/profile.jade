@@ -101,7 +101,6 @@ template(name='profile')
                         .ui.inline.header 
                             +i name='info'
                             |about
-                        i.dropdown.icon
                         +text_view key='first_name' label='first name' icon='user'
                         +text_view key='last_name' label='last name' icon='user'
                         if address 
@@ -160,7 +159,6 @@ template(name='profile')
                             |messages/unread logs
                             .ui.label 
                                 |#{user_unread_log_docs.count}
-                        i.dropdown.icon
                         // if currentUser
                         //     unless is_current_user
                         //         +send_message_button
@@ -183,7 +181,6 @@ template(name='profile')
                         // i.line.chart.icon
                         +i name='line-chart'
                         |stats
-                    i.dropdown.icon
                     +send_points_button
                     .ui.list 
                         .item 
@@ -234,8 +231,6 @@ template(name='profile')
                     .ui.header 
                         +i name='history'
                         |viewing history
-                if is_current_user
-                    +profile_deposits
                 if watson
                     +watson_view
                     // else 
@@ -249,7 +244,6 @@ template(name='user_events')
         .ui.inline.header 
             +i name='calendar'
             | events
-        i.dropdown.icon
     .content.smallscrol
         .ui.two.column.grid 
             .column
@@ -305,7 +299,6 @@ template(name='user_tasks')
         .ui.inline.header 
             +i name='tasks'
             |#{user_task_docs.count} tasks
-        i.dropdown.icon
     .content 
         .ui.header authored
         .ui.header assigned
@@ -317,7 +310,6 @@ template(name='user_checkins')
         .ui.inline.header 
             +i name='checkmark'
             |#{user_task_docs.count} checkins
-        i.dropdown.icon
         each user_checkin_docs
             img.ui.avatar.image(src="{{c.url _parent_doc.image_id height=300 crop='crop'}}")
     .content 
@@ -333,7 +325,6 @@ template(name='user_drafts')
             .ui.inline.header 
                 +i name='save'
                 |#{user_draft_docs.count} drafts
-            i.dropdown.icon
         .content.smallscrol
             .ui.selection.animated.link.divided.list
                 each user_favorite_docs
@@ -356,7 +347,6 @@ template(name='user_favorites')
             .ui.inline.header 
                 +i name='heart'
                 |#{user_favorite_docs.count} favorites
-            i.dropdown.icon
             each user_favorite_docs
                 // +model_label
                 img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}" title="#{model}:#{title}")
@@ -472,7 +462,6 @@ template(name='user_services')
         .ui.inline.header 
             +i name='wrench'
             |services
-        i.dropdown.icon
         each user_service_docs 
             .item #{title}
         .ui.header 
@@ -491,7 +480,6 @@ template(name='user_social')
         .ui.inline.header 
             +i name='friends'
             |social
-        i.dropdown.icon
         if refered_user_docs.count
             span(title='refered users')
                 +i name='omnichannel'
@@ -586,36 +574,6 @@ template(name='user_posts')
                         //     +doc_sentiment
                         //     +doc_emotion
                             
-
-template(name='profile_deposits')
-    // .ui.fluid.accordion.alpha.zomers
-    .title
-        .ui.header 
-            +i name='donate'
-            |#{deposit_docs.count} deposits
-        // |includes 2% points card processing fee
-    .content
-        
-        // .ui.action.fluid.input
-        //     input.deposit_amount(type='number' min='1' placeholder='deposit')
-        //     .ui.icon.button.add_points   
-        //         i.right.chevron.icon
-        img.ui.image(src="{{c.url 'dao_venmo'}}")
-        .ui.header donate here with your username in the message
-        .ui.large.bulleted.list.smallscrol
-            each deposit_docs
-                .item 
-                    .content
-                        .header 
-                            |$#{amount}
-                        .description #{_when} {{long_date _timestamp}}
-                        //- if is_dev
-                        +remove_button
-
-
-
-
-
 
 
 

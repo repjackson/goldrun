@@ -22,14 +22,16 @@ if Meteor.isClient
     Template.user_favorites.helpers
         user_favorite_docs: ->
             user = Meteor.users.findOne username:Router.current().params.username
-            Docs.find 
+            Docs.find {
                 _id:$in:user.favorite_ids
+            }, limit:5
 if Meteor.isServer 
     Meteor.publish 'user_favorites', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {
             _id:$in:user.favorite_ids
         }, 
+            limit:5
             fields:
                 title:1
                 model:1
@@ -52,6 +54,7 @@ if Meteor.isServer
         Docs.find {
             _id:$in:user.favorite_ids
         }, 
+            limit:5
             fields:
                 title:1
                 model:1
@@ -84,6 +87,7 @@ if Meteor.isServer
         Meteor.users.find {
             refered_by_id:user._id
         },
+            limit:5
             fields:
                 username:1
                 image_id:1
@@ -290,7 +294,7 @@ if Meteor.isServer
             model:model
             _author_id:user._id
         }, 
-            limit:42
+            limit:5
             sort:
                 _timestamp:-1
             fields:

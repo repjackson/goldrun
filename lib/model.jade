@@ -910,9 +910,9 @@ template(name='group_view')
                 |#{address}
         if in_dev 
             i.circular.link.large.refresh.icon.refresh_group_stats
-        .ui.fluid.styled.accordion.alpha
+        .ui.two.column.grid 
             if has_members
-                .title
+                .column
                     .ui.header
                         +i name='groups'
                         |#{_members.count} members
@@ -971,7 +971,7 @@ template(name='group_view')
             //         +log_item
             //     i.refresh.link.icon.refresh_group_stats
             if has_events
-                .title
+                .column
                     .ui.inline.header
                         +i name='calendar' 
                         // i.calendar.large.icon
@@ -993,7 +993,7 @@ template(name='group_view')
                                         if start_datetime
                                             |{{from_now start_datetime}}
             if has_shop
-                .title
+                .column
                     .ui.header 
                         +i name='shop'
                         |shop
@@ -1005,7 +1005,7 @@ template(name='group_view')
                                 |#{title}
             
             if has_posts
-                .title
+                .column
                     .ui.inline.header 
                         +i name='blog'
                         |group posts
@@ -1016,7 +1016,7 @@ template(name='group_view')
                     .ui.selection.animated.list
                         each group_post_docs 
                             .ui.header #{title}
-                .title
+                .column
                     .ui.inline.header
                         // i.info.icon
                         +i name='info'

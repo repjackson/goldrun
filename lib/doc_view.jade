@@ -53,8 +53,9 @@ template(name='doc_view')
                                     +youtube_view key='youtube_id'
                                 if image_id 
                                     img.ui.rounded.centered.large.image(src="{{c.url image_id width=800 crop='scale'}}")
+                                if image_id2
+                                    img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
                                 |!{content}
-                            .column
                                 +comments
                             if watson 
                                 .column
@@ -68,10 +69,6 @@ template(name='doc_view')
                             .column
                                 // a(href="{{c.url image_id}}" target="_window")
                                 // .four.wide.column
-                                if image_id
-                                    img.ui.rounded.centered.image.zoomer(src="{{c.url image_id width=800 crop='scale'}}")
-                                if image_id2
-                                    img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
                                 // with _author
                             .column
                                 +author_segment

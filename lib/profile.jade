@@ -57,10 +57,9 @@ template(name='profile')
                             +i name='settings'
                             unless currentUser.hide_menu_labels
                                 |account
-                // if subs_ready
-                .column
-                    // a(href="/user/#{username}")
                     img.ui.medium.rounded.image.boop.pointer.zomers(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+                    // if subs_ready
+                    // a(href="/user/#{username}")
                     // a(href="/user/#{username}")
                     //     img.ui.small.rounded.image.inline.boop.mobile.only(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     .ui.inline.small.header(title='boops')

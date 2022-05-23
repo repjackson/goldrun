@@ -131,8 +131,7 @@ template(name='nav')
         if is_connected
             a.item.zoomer.fly_right.clear_search(href="/" class="{{isActiveRoute 'docs'}}" title=users)
                 +i name='yin-yang'
-            a.item.zoomer.fly_right.clear_search(href="/m/post" class="{{isActiveRoute 'posts'}}" title=users)
-                +i name='blog'
+            +nav_item key='product' icon='calendar'
             a.item.zoomer.fly_right.clear_search(href="/m/event" class="{{isActiveRoute 'events'}}" title=users)
                 +i name='calendar'
             a.item.zoomer.fly_right.clear_search(href="/m/product" class="{{isActiveRoute 'shop'}}" title=users)
@@ -168,3 +167,9 @@ template(name='nav')
                         // i.sign.in.big.icon
                         +i name='internal'
                         // span.mobile.hidden login
+
+
+template(name='nav_item')
+    a.item.zoomer.fly_right.clear_search.go_route(href="/m/#{key}" class="{{isActiveRoute 'posts'}}" title=users)
+        +i name='blog'
+

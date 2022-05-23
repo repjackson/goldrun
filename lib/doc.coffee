@@ -57,8 +57,10 @@ if Meteor.isClient
     Template.doc_card.helpers
         item_template: -> "#{@model}_item"
         
+    Template.docs.onRendered ->
+        Session.set('model',Router.current().params.model)
     Template.docs.onCreated ->
-        Session.setDefault('model','post')
+        Session.set('model',Router.current().params.model)
         Session.setDefault('limit',10)
         Session.setDefault('sort_key','_timestamp')
         Session.setDefault('sort_icon','clock')

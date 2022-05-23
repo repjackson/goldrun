@@ -888,7 +888,7 @@ if Meteor.isClient
             # parent = Template.parentData()
             # console.log parent
             # if parent["#{@key}"] is @value then 'active' else ''
-            if parent["#{@key}"] is @value then "#{@cl} active large" else "#{@cl} basic"
+            if parent["#{@key}"] is @value then "#{@cl} active large" else "#{@cl} small compact"
         
         is_selected: ->
             console.log @key, @value

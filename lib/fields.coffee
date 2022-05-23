@@ -438,7 +438,7 @@ if Meteor.isClient
     Template.boolean_edit.helpers
         boolean_toggle_class: ->
             parent = Template.parentData()
-            if parent["#{@key}"] then 'active large' else 'basic compact'
+            if parent["#{@key}"] then 'active large' else 'small compact'
     
     
     Template.boolean_edit.events
@@ -467,7 +467,7 @@ if Meteor.isClient
     Template.boolean_edit_icon.helpers
         boolean_toggle_class: ->
             parent = Template.parentData()
-            if parent["#{@key}"] then 'large black' else 'grey'
+            if parent["#{@key}"] then 'large active' else 'grey small compact'
     Template.boolean_edit_icon.events
         'click .toggle_boolean': (e,t)->
             parent = Template.parentData()

@@ -100,7 +100,7 @@ template(name='profile')
                 .twelve.wide.column
                     if subs_ready
                         .ui.fluid.styled.accordion.alpha
-                            .title
+                            .title.zoomer
                                 .ui.inline.header 
                                     +i name='info'
                                     |about
@@ -149,7 +149,7 @@ template(name='profile')
                             +user_drafts
                             +user_events
                             if user_unread_log_docs.count
-                                .title
+                                .title.zoomer
                                     .ui.inline.header 
                                         +i name='envelope'
                                         |messages/unread logs
@@ -174,7 +174,7 @@ template(name='profile')
                                     .ui.list 
                                         each user_messages_received
                                             |#{body}
-                            .title
+                            .title.zoomer
                                 a.ui.header.zoomer.calc_user_points
                                     // i.line.chart.icon
                                     +i name='line-chart'
@@ -326,7 +326,7 @@ template(name='user_checkins')
         
 template(name='user_drafts')
     if user_draft_docs.count
-        .title
+        .title.zoomer
             .ui.inline.header 
                 +i name='save'
                 |#{user_draft_docs.count} drafts
@@ -349,7 +349,7 @@ template(name='user_drafts')
                         
 template(name='user_favorites')
     if user_favorite_docs.count
-        .title
+        .title.zoomer
             .ui.inline.header 
                 +i name='heart'
                 |#{user_favorite_docs.count} favorites
@@ -453,15 +453,18 @@ template(name='user_comments')
                  
 template(name='user_groups')   
     if user_group_memberships.count
-        .title
+        .title.zoomer
             .ui.inline.header 
                 +i name='groups'
                 |#{user_group_memberships.count}
                 |groups
             i.dropdown.icon
-            each user_group_memberships
-                // +doc_item
-                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
+            if subs_ready
+                each user_group_memberships
+                    // +doc_item
+                    img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
+            else 
+                i.large.yin.yang.loading.icon
         .content
             .ui.selection.link.animated.large.list    
                 each user_group_memberships
@@ -556,7 +559,7 @@ template(name='send_message_button')
 template(name="user_reviews") 
     if user_review_docs.count
         // .ui.fluid.styled.accordion.alpha
-        .title
+        .title.zoomer
             .ui.header 
                 +i name='star'
                 |#{user_review_docs.count} reviews
@@ -568,7 +571,7 @@ template(name="user_reviews")
 template(name='user_posts')
     if user_authored_post_docs.count
         // .ui.fluid.styled.accordion.alpha
-        .title
+        .title.zoomer
             .ui.inline.header 
                 +i name='blog'
                 |#{user_authored_post_docs.count}

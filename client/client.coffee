@@ -130,6 +130,11 @@ Router.route '/', (->
     @render 'docs'
     ), name:'home'
 
+Router.route '/m/:model', (->
+    @layout 'layout'
+    @render 'docs'
+    ), name:'model'
+
 
 Router.route '/docs', (->
     @layout 'layout'

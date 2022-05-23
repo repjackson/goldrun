@@ -385,10 +385,6 @@ template(name='user_points')
         .ui.inline.header 
             +i name='coins'
             |balance: #{current_user.points}
-        i.dropdown.icon
-        if venmo_image
-            span(title='venmo info')
-                +i name='donate'
     .content
         .ui.dividing.header
             +i name='internal'
@@ -428,8 +424,8 @@ template(name='user_points')
         .ui.small.header 
             small spent points:
             strong #{comment_total}
-        if venmo_image
-            img.ui.image(src="{{c.url venmo_image }}")
+        // if venmo_image
+        //     img.ui.image(src="{{c.url venmo_image }}")
             
     
                  
@@ -462,13 +458,6 @@ template(name='user_groups')
                 +i name='groups'
                 |#{user_group_memberships.count}
                 |groups
-            i.dropdown.icon
-            if subs_ready
-                each user_group_memberships
-                    // +doc_item
-                    img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
-            else 
-                i.large.yin.yang.loading.icon
             .ui.selection.link.animated.large.list    
                 each user_group_memberships
                     // +doc_item
@@ -476,7 +465,7 @@ template(name='user_groups')
                         img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
                         .ui.inline.header
                             strong #{title}
-                        each ten_tags 
+                        each five_tags 
                             .ui.small.basic.label #{this}
                      
 template(name='user_services')

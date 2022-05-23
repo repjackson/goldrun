@@ -42,97 +42,90 @@ template(name='doc_view')
                                 i.external.icon
                                 |link
                                 // |#{hostname}
-                    .eleven.wide.column.scrollin
-                        // if watson 
-                        //     +doc_sentiment
-                        //     div
-                        //     .spacer
-                        //     +doc_emotion
-    
-                        // .smallscroll.zoomer
-                        .ui.fluid.styled.accordion
-                            .active.title.zoomer
+                    .ui.stackable.grid
+                        .two.column.row
+                            .column
                                 .ui.inline.header
                                     +i name='info'
                                     |info
                                     i.dropdown.icon
-                            .active.content
                                 if youtube_id
                                     +youtube_view key='youtube_id'
                                 if image_id 
                                     img.ui.rounded.centered.large.image(src="{{c.url image_id width=800 crop='scale'}}")
                                 |!{content}
-                            +comments
+                            .column
+                                +comments
                             if watson 
-                                +watson_view
+                                .column
+                                    +watson_view
                     
-                        +Template.dynamic template=model_template 
-                        if tone 
-                            +tone
-                        if currentUser.admin_mode
-                            .ui.segment 
-                                .ui.header admin
-                                +print_this
-                    .five.wide.column.scrollin
-                        // a(href="{{c.url image_id}}" target="_window")
-                        // .four.wide.column
-                        if image_id
-                            img.ui.rounded.centered.image.zoomer(src="{{c.url image_id width=800 crop='scale'}}")
-                        if image_id2
-                            img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
-                        // with _author
-                        +author_segment
-                        .ui.accordion
-                            .title.zoomer(title='tags')
-                                |#{tags.length}
-                                +i name='tags'
-                                each five_tags 
-                                    .ui.basic.label #{this}
-                                strong ...
-                            .content
-                                each tags 
-                                    a.ui.basic.label.pick_flat_tag.zoomer(title='search for tag') #{this}
-                        +message_author_button
-                        +group_widget
-                        div
-                        +voting_full
-                        div
-                        +favorites
-                        .ui.dividing.header 
-                            +i name='line-chart'
-                            |stats
-                        .ui.big.list
-                            .item 
-                                i.grey.line.chart.icon
-                                |#{post_views_ranking} post views ranking
-                            .item 
-                                i.grey.eye.icon
-                                |#{views} views
-                            .item
-                                i.grey.line.chart.icon
-                                |#{views_ranking} view ranking
-                            .item 
-                                i.grey.user.secret.icon
-                                |#{anon_views} anon views
-                            .item 
-                                |#{points}
-                                |points
-                            .item 
-                                |#{tip_total}
-                                |tip total
-                        +follow_button
-                        +tips
-                        if has_price
-                            +post_orders
-                        div
-                        .ui.inline.header 
-                            +i name='binoculars'
-                            |#{current_viewer_users.count} current viewers
-                        each current_viewer_users
-                            +user_info
-    else 
-        .ui.center.aligned.basic.segment 
-            i.massive.yin.yang.loading.grey.icon
+                            .column
+                                +Template.dynamic template=model_template 
+                            .column
+                                if tone 
+                                    +tone
+                            .column
+                                // a(href="{{c.url image_id}}" target="_window")
+                                // .four.wide.column
+                                if image_id
+                                    img.ui.rounded.centered.image.zoomer(src="{{c.url image_id width=800 crop='scale'}}")
+                                if image_id2
+                                    img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
+                                // with _author
+                            .column
+                                +author_segment
+                                .ui.accordion
+                                    .title.zoomer(title='tags')
+                                        |#{tags.length}
+                                        +i name='tags'
+                                        each five_tags 
+                                            .ui.basic.label #{this}
+                                        strong ...
+                                    .content
+                                        each tags 
+                                            a.ui.basic.label.pick_flat_tag.zoomer(title='search for tag') #{this}
+                                +message_author_button
+                                +group_widget
+                                div
+                                +voting_full
+                                div
+                                +favorites
+                                .ui.dividing.header 
+                                    +i name='line-chart'
+                                    |stats
+                                .ui.big.list
+                                    .item 
+                                        i.grey.line.chart.icon
+                                        |#{post_views_ranking} post views ranking
+                                    .item 
+                                        i.grey.eye.icon
+                                        |#{views} views
+                                    .item
+                                        i.grey.line.chart.icon
+                                        |#{views_ranking} view ranking
+                                    .item 
+                                        i.grey.user.secret.icon
+                                        |#{anon_views} anon views
+                                    .item 
+                                        |#{points}
+                                        |points
+                                    .item 
+                                        |#{tip_total}
+                                        |tip total
+                                +follow_button
+                                +tips
+                                if has_price
+                                    +post_orders
+                                div
+                                .ui.inline.header 
+                                    +i name='binoculars'
+                                    |#{current_viewer_users.count} current viewers
+                                each current_viewer_users
+                                    +user_info
+    // else 
+    //     .ui.center.aligned.basic.segment 
+    //         i.massive.yin.yang.loading.grey.icon
 
 template(name='publish_info')
     if published 

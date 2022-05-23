@@ -145,6 +145,10 @@ if Meteor.isClient
             $('.button').popup()
             $('.avatar').popup()
         , 2000
+    Template.nav.onRendered ->
+        Meteor.setTimeout ->
+            $('.item').popup()
+        , 1000
     Template.doc_view.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()

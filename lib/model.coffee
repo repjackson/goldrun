@@ -611,20 +611,17 @@ if Meteor.isClient
             
             
             
-if Meteor.isClient
-    Template.rental_view.onCreated ->
-        @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
 
 
 if Meteor.isClient
     Template.rental_item.onCreated ->
         @autorun => @subscribe 'rental_orders',@data._id, ->
     Template.rental_view.onCreated ->
+        @autorun => @subscribe 'related_group',Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => @subscribe 'rental_orders',Router.current().params.doc_id, ->
     Template.rental_view.onRendered ->
-        Docs.update Router.current().params.doc_id, 
-            $inc:views:1
+        Meteor.call 'log_view', Router.current().params.doc_id, ->
     
     Template.rental_view.helpers
         future_order_docs: ->

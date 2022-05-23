@@ -121,6 +121,7 @@ Meteor.publish 'author_from_doc_id', (doc_id)->
     
 Meteor.methods
     log_view: (doc_id)->
+        doc = Docs.findOne doc_id
         Docs.update doc_id,
             $inc:
                 views:1
@@ -141,6 +142,7 @@ Meteor.methods
                 $inc:
                     anon_views:1
         Meteor.call 'calc_user_points', ->
+        Meteor.call 'calc_user_points', doc._author_id, ->
 
     insert_log: (type, user_id)->
         if type

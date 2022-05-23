@@ -42,13 +42,9 @@ template(name='doc_view')
                                 i.external.icon
                                 |link
                                 // |#{hostname}
-                    .ui.stackable.grid
-                        .two.column.row
+                    .ui.stackable.padded.grid
+                        .three.column.row
                             .column
-                                .ui.inline.header
-                                    +i name='info'
-                                    |info
-                                    i.dropdown.icon
                                 if youtube_id
                                     +youtube_view key='youtube_id'
                                 if image_id 
@@ -61,8 +57,8 @@ template(name='doc_view')
                                 .column
                                     +watson_view
                     
-                            .column
-                                +Template.dynamic template=model_template 
+                            // .column
+                            +Template.dynamic template=model_template 
                             .column
                                 if tone 
                                     +tone
@@ -82,12 +78,14 @@ template(name='doc_view')
                                     .content
                                         each tags 
                                             a.ui.basic.label.pick_flat_tag.zoomer(title='search for tag') #{this}
+                            .column
                                 +message_author_button
                                 +group_widget
                                 div
                                 +voting_full
                                 div
                                 +favorites
+                            .column
                                 .ui.dividing.header 
                                     +i name='line-chart'
                                     |stats

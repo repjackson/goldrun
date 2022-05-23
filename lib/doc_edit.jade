@@ -48,50 +48,44 @@ template(name='doc_edit')
                         // +boolean_edit key='published' label='published (-10)' 
                         div
                         +text_edit key='title' label='title' 
-                        .ui.fluid.styled.accordion
-                            .title
+                        .ui.one.column.stackable.grid
+                            .column
                                 .ui.inline.header
                                     +i name='image'
                                     |image
-                                i.dropdown.icon
                                 img.ui.avatar.image(src="{{c.url image_id width=800 crop='scale'}}")
-                            .content
                                 +image_edit key='image_id' label='image' 
                                 +image_edit key='background_image_id' label='background image' 
-                            .title
+                            .column
                                 .ui.inline.header
                                     +i name='content'
                                     |content/analysis
-                                i.dropdown.icon
                                 if content 
                                     +i name='content' title='has content'
                                 if watson 
                                     +i name='dna-helix' title='analyzed'
                                 if tone 
                                     +i name='happy' title='has tone'
-                            .content
                                 +html_edit key='content' label='content'
                                 if watson 
                                     i.large.green.checkmark
                                 +call_watson key='content'
                                 +call_tone
-                            .title
+                            .column
                                 .ui.inline.header
                                     +i name='tags'
                                     |#{tags.length} tags
-                                i.dropdown.icon
                                 each ten_tags 
                                     .ui.label #{this}
-                            .content
                                 +array_edit key='tags' label='tags' icon='tags'
                                 div
                                 +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                            +group_picker
-                            .title
+                            .column
+                                +group_picker
+                            .column
                                 .ui.inline.header
                                     +i name='link'
                                     |links
-                                i.dropdown.icon
                                 if link 
                                     +i name='link'
                                 if facebook_link
@@ -100,18 +94,15 @@ template(name='doc_edit')
                                     +i name='instagram'
                                 if twitter_link
                                     +i name='twitter'
-                            .content
                                 +link_edit key='link' label='link'
                                 +link_edit key='facebook_link' label='facebook link' icon='facebook'
                                 +link_edit key='instagram_link' label='instagram link' icon='instagram'
                                 +link_edit key='twitter_link' label='twitter link' icon='twitter'
                             +visibility_settings
-                            .title
+                            .column
                                 .ui.inline.header
                                     +i name='youtube'
                                     |youtube
-                                i.dropdown.icon
-                            .content
                                 +youtube_edit key='youtube_id' label='youtube id'
                         
                         +remove_button

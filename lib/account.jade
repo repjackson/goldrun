@@ -20,13 +20,11 @@ template(name='account')
 
                     +print_this
                 .ten.wide.column
-                    .ui.styled.fluid.accordion 
-                        .title 
+                    .ui.two.column.grid 
+                        .column 
                             .ui.inline.header 
                                 +i name='info'
                                 |about
-                            i.dropdown.icon
-                        .content
                             +text_edit key='first_name' label='first name' icon='user'
                             div
                             +text_edit key='last_name' label='last name' icon='user'
@@ -43,11 +41,10 @@ template(name='account')
                             // if has_bio
                             +html_edit key='bio' label='bio'
                             +call_watson key='bio'
-                        .title 
+                        .column 
                             .ui.inline.header 
                                 +i name='marker'
                                 |contact
-                            i.dropdown.icon
                             if address
                                 +i name='marker'
                             if company
@@ -62,7 +59,6 @@ template(name='account')
                                 +i name='twitter'
                             if phone
                                 +i name='phone'
-                        .content
                             +text_edit key='address' label='address' icon='marker' 
                             div
                             +text_edit key='city' label='city' icon='marker' 
@@ -87,12 +83,10 @@ template(name='account')
                                 div
                                 +text_edit key='facebook_link' label='facebook profile ' icon='facebook'
                             
-                        .title 
+                        .column 
                             .ui.inline.header 
                                 +i name='password'
                                 |username/password
-                            i.dropdown.icon
-                        .content
                             if is_current_user
                                 +password_edit
                                 //- +phone_editor
@@ -104,19 +98,15 @@ template(name='account')
                                 .ui.orange.button.remove_user 
                                     i.remove.icon
                                     |delete user
-                        .title 
+                        .column 
                             .ui.inline.header
                                 +i name='privacy'
                                 |privacy
-                            i.dropdown.icon
-                        .content
                             +boolean_edit key='publish_profile' label='publish profile'
-                        .title 
+                        .column 
                             .ui.inline.header
                                 +i name='paint'
                                 |appearance
-                            i.dropdown.icon
-                        .content
                             .ui.inline.header icon theme
                             // +text_edit key='icon_class' label='icon class'
                             +key_value_edit key='icon_class' value=null label='none'
@@ -137,18 +127,15 @@ template(name='account')
                     +user_sessions
                     
 template(name='user_sessions')
-    .ui.styled.accordion 
-        .title
-            .ui.inline.header 
-                +i name='time-machine'
-                |#{services.resume.loginTokens.length} user sessions
-            i.dropdown.icon
-        .content
-            .ui.large.list 
-                each services.resume.loginTokens
-                    .item(title=hashedToken)
-                        |#{when}
-                        i.remove.link.circular.zoomer.icon.clear_session(title='clear login session')
+    .column
+        .ui.header 
+            +i name='time-machine'
+            |#{services.resume.loginTokens.length} user sessions
+        .ui.large.list 
+            each services.resume.loginTokens
+                .item(title=hashedToken)
+                    |#{when}
+                    i.remove.link.circular.zoomer.icon.clear_session(title='clear login session')
     
                     
                     

@@ -221,7 +221,7 @@ template(name='docs')
 
 
 template(name='sort_key_toggle')
-    .ui.button.toggle_sort(title=sort_title)
+    .ui.image.big.label.toggle_sort.pointer.zoomer(title=sort_title)
         i.sort.icon
         +i name=sort_icon
         |{{session_get 'sort_label'}}

@@ -49,7 +49,7 @@ if Meteor.isClient
             picked_tags.push @valueOf()
             $(e.currentTarget).closest('.grid').transition('fly right', 500)
             
-            Router.go "/docs"
+            Router.go "/m/#{doc.model}"
             Session.set('model',doc.model)
         
     # Template.doc_card.helpers
@@ -61,7 +61,7 @@ if Meteor.isClient
         Session.set('model',Router.current().params.model)
     Template.docs.onCreated ->
         Session.set('model',Router.current().params.model)
-        Session.setDefault('limit',10)
+        Session.setDefault('limit',42)
         Session.setDefault('sort_key','_timestamp')
         Session.setDefault('sort_icon','clock')
         Session.setDefault('sort_label','added')

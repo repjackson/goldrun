@@ -52,6 +52,16 @@ template(name='account')
                                 +i name='marker'
                             if company
                                 +i name='company'
+                            if linkedin_link
+                                +i name='linkedin'
+                            if facebook_link
+                                +i name='facebook'
+                            if instagram_link
+                                +i name='instagram'
+                            if twitter_link
+                                +i name='twitter'
+                            if phone
+                                +i name='phone'
                         .content
                             +text_edit key='address' label='address' icon='marker' 
                             div

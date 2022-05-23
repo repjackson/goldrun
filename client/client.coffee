@@ -137,6 +137,9 @@ Template.layout.events
 Router.route '/', (->
     @redirect('/m/post');
     ), name:'posts'
+Router.route '/docs', (->
+    @redirect('/m/post');
+    ), name:'docs'
 
 Router.route '/m/:model', (->
     @layout 'layout'
@@ -144,8 +147,8 @@ Router.route '/m/:model', (->
     ), name:'model'
 
 
-Router.route '/docs', (->
-    @layout 'layout'
-    @render 'docs'
-    ), name:'docs'
+# Router.route '/docs', (->
+#     @layout 'layout'
+#     @render 'docs'
+#     ), name:'docs'
     

@@ -81,20 +81,20 @@ template(name='profile')
                     if currentUser.admin_mode
                         a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
                             +i name='settings' cl='ui avatar image'
-                    if bio
-                        .smallscroll
-                            |!{bio}
-                    .smallscroll
-                        each tags 
-                            .ui.large.basic.label #{this}
-                            // |!{bio}
+                    // if bio
+                    //     .smallscroll
+                    //         |!{bio}
+                    // .smallscroll
+                    //     each tags 
+                    //         .ui.large.basic.label #{this}
+                    //         // |!{bio}
                     if is_current_user
                         +logout_button
                         +logout_other_clients_button
                     if in_dev 
                         +print_this
                     unless is_current_user
-                        +request_button
+                        // +request_button
                         +follow_button
                         +friend_button
                 .twelve.wide.column

@@ -42,6 +42,9 @@ if Meteor.isClient
             if Meteor.user().darkmode then 'invert' else ''
     
     
+    Template.registerHelper 'hostname', () -> 
+        window.location.hostname
+    
     Template.registerHelper 'following_users', () -> 
         Meteor.users.find 
             _id:$in:@following_user_ids

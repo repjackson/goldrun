@@ -41,6 +41,7 @@ Template.nav.helpers
             read_user_ids:$nin:[Meteor.userId()]
         ).count()
 Template.nav.events
+    'click .reconnect': -> Meteor.reconnect()
     'click .clear_search': ->
         Session.set('current_search',null)
         picked_tags.clear()

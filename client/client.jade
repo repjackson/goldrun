@@ -131,13 +131,9 @@ template(name='nav')
         if is_connected
             a.item.zoomer.fly_right.clear_search(href="/" class="{{isActiveRoute 'docs'}}" title=users)
                 +i name='yin-yang'
-            +nav_item key='product' icon='calendar'
-            a.item.zoomer.fly_right.clear_search(href="/m/event" class="{{isActiveRoute 'events'}}" title=users)
-                +i name='calendar'
-            a.item.zoomer.fly_right.clear_search(href="/m/product" class="{{isActiveRoute 'shop'}}" title=users)
-                +i name='shopping-cart'
-            a.item.zoomer.fly_right.clear_search(href="/m/transfer" class="{{isActiveRoute 'exchanges'}}" title=users)
-                +i name='exchange'
+            +nav_item key='event' icon='calendar'
+            +nav_item key='product' icon='shopping-cart'
+            +nav_item key='transfer' icon='exchange'
             a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
                 +i name='groups'
             .right.menu

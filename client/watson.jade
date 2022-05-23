@@ -20,14 +20,14 @@ template(name='tone_item')
 
 template(name='doc_sentiment') 
     if is doc_sentiment_label 'positive'
-        .ui.green.big.basic.label(title='sentiment')
+        .ui.green.large.basic.label(title='sentiment')
             |{{ to_percent doc_sentiment_score }}%
             | positive
     else
-        .ui.red.big.basic.label(title='sentiment')
+        .ui.red.large.basic.label(title='sentiment')
             |{{ to_percent doc_sentiment_score }}%
             | negative
-    .ui.tiny.progress(data-percent=sentiment_score_percent class=sentiment_bar_class)
+    .ui.tiny.progress.inline(data-percent=sentiment_score_percent class=sentiment_bar_class)
         .bar
         .progress
 
@@ -257,13 +257,10 @@ template(name='categories')
 template(name='watson_view')
     // +tone
     // .ui.styled.fluid.accordion
-    .title 
-        .ui.inline.header
-            +i name='pie-chart'
-            |emotional analysis
-        i.dropdown.icon
+    .title(title='emotional breakdown')
         +doc_sentiment
         +doc_emotion
+        i.dropdown.icon
     .content
         .ui.stackable.grid 
             .two.column.row 

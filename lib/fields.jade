@@ -587,38 +587,10 @@ template(name='array_edit')
         //- +clear_value                
     if field_value
         each field_value
-            a.ui.large.label
-                i.delete.icon.remove_element
+            a.ui.large.icon.label
+                i.delete.large.link.circular.icon.zoomer.remove_element(title="remove #{this}")
                 |#{this}
 
-// template(name='array_edit')
-//     .spacer
-//     if i
-//         i.grey.icon(class=i)
-//         // +i name=icon cl='ui avatar image'
-//     .ui.inline.header
-//         if title
-//             |#{title}
-//         else if label
-//             |#{label}
-//         else if key
-//             |#{key}
-//     .ui.input
-//         input.new_element(type='text' placeholder='+' autocomplete="off")
-//         //- +clear_value                
-//     if field_value
-//         each field_value
-//             if in_dev
-//                 .ui.large.circular.label
-//                     i.delete.icon.remove_element
-//                     |#{this}
-//                 .ui.compact.circular.button.pick_tag
-//                     |#{this}
-//             else
-//                 .ui.compact.circular.button.pick_tag
-//                     |#{this}
-            
-                
 template(name='array_view')
     if field_value
         // div

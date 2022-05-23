@@ -36,16 +36,16 @@ template(name='profile')
                         |#{points} pts
                     +link_view key='link' icon='globe'
                     if linkedin_link
-                        a.ui.basic.circular.icon.button.zoomer.pointer(href=linkedin_link target='_window' title='view linkedin profile')
+                        a.ui.basic.circular.icon.button.zomers.pointer(href=linkedin_link target='_window' title='view linkedin profile')
                             +i name='linkedin'
                     if twitter_link
-                        a.ui.basic.circular.icon.button.zoomer.pointer(href=twitter_link target='_window' title='view twitter profile')
+                        a.ui.basic.circular.icon.button.zomers.pointer(href=twitter_link target='_window' title='view twitter profile')
                             +i name='twitter'
                     if instagram_link
-                        a.ui.basic.circular.icon.button.zoomer.pointer(href=instagram_link target='_window' title='view instagram profile')
+                        a.ui.basic.circular.icon.button.zomers.pointer(href=instagram_link target='_window' title='view instagram profile')
                             +i name='instagram'
                     if facebook_link
-                        a.ui.basic.circular.icon.button.zoomer.pointer(href=facebook_link target='_window' title='view facebook profile')
+                        a.ui.basic.circular.icon.button.zomers.pointer(href=facebook_link target='_window' title='view facebook profile')
                             +i name='facebook'
                     if is_current_user
                         a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
@@ -59,7 +59,7 @@ template(name='profile')
                                 |account
                 .four.wide.column.scrollin
                     // a(href="/user/#{username}")
-                    img.ui.medium.rounded.image.boop.pointer.zoomer(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+                    img.ui.medium.rounded.image.boop.pointer.zomers(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     // a(href="/user/#{username}")
                     //     img.ui.small.rounded.image.inline.boop.mobile.only(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     .ui.inline.small.header(title='boops')
@@ -100,7 +100,7 @@ template(name='profile')
                 .twelve.wide.column
                     if subs_ready
                         .ui.fluid.styled.accordion.alpha
-                            .title.zoomer
+                            .title.zomers
                                 .ui.inline.header 
                                     +i name='info'
                                     |about
@@ -149,7 +149,7 @@ template(name='profile')
                             +user_drafts
                             +user_events
                             if user_unread_log_docs.count
-                                .title.zoomer
+                                .title.zomers
                                     .ui.inline.header 
                                         +i name='envelope'
                                         |messages/unread logs
@@ -174,8 +174,8 @@ template(name='profile')
                                     .ui.list 
                                         each user_messages_received
                                             |#{body}
-                            .title.zoomer
-                                a.ui.header.zoomer.calc_user_points
+                            .title.zomers
+                                a.ui.header.zomers.calc_user_points
                                     // i.line.chart.icon
                                     +i name='line-chart'
                                     |stats
@@ -222,7 +222,7 @@ template(name='profile')
                                     +i name='binoculars'
                                     |currently viewing
                                 with current_viewing_doc
-                                    a.ui.header.zoomer.fly_right(href="/doc/#{_id}")
+                                    a.ui.header.zomers.fly_right(href="/doc/#{_id}")
                                         img.ui.avatar.image(src="{{c.url image_id height=300 crop='crop'}}")
         
                                         |#{title}
@@ -326,7 +326,7 @@ template(name='user_checkins')
         
 template(name='user_drafts')
     if user_draft_docs.count
-        .title.zoomer
+        .title.zomers
             .ui.inline.header 
                 +i name='save'
                 |#{user_draft_docs.count} drafts
@@ -349,7 +349,7 @@ template(name='user_drafts')
                         
 template(name='user_favorites')
     if user_favorite_docs.count
-        .title.zoomer
+        .title.zomers
             .ui.inline.header 
                 +i name='heart'
                 |#{user_favorite_docs.count} favorites
@@ -453,7 +453,7 @@ template(name='user_comments')
                  
 template(name='user_groups')   
     if user_group_memberships.count
-        .title.zoomer
+        .title.zomers
             .ui.inline.header 
                 +i name='groups'
                 |#{user_group_memberships.count}
@@ -469,7 +469,7 @@ template(name='user_groups')
             .ui.selection.link.animated.large.list    
                 each user_group_memberships
                     // +doc_item
-                    a.item.zoomer.fly_left(href="/doc/#{_id}")
+                    a.item.zomers.fly_left(href="/doc/#{_id}")
                         img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
                         .ui.inline.header
                             strong #{title}
@@ -559,7 +559,7 @@ template(name='send_message_button')
 template(name="user_reviews") 
     if user_review_docs.count
         // .ui.fluid.styled.accordion.alpha
-        .title.zoomer
+        .title.zomers
             .ui.header 
                 +i name='star'
                 |#{user_review_docs.count} reviews
@@ -571,7 +571,7 @@ template(name="user_reviews")
 template(name='user_posts')
     if user_authored_post_docs.count
         // .ui.fluid.styled.accordion.alpha
-        .title.zoomer
+        .title.zomers
             .ui.inline.header 
                 +i name='blog'
                 |#{user_authored_post_docs.count}
@@ -601,7 +601,7 @@ template(name='user_posts')
                             
 
 template(name='profile_deposits')
-    // .ui.fluid.accordion.alpha.zoomer
+    // .ui.fluid.accordion.alpha.zomers
     .title
         .ui.header 
             +i name='donate'

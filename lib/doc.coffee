@@ -63,7 +63,7 @@ if Meteor.isClient
         Session.setDefault('sort_key','_timestamp')
         Session.setDefault('sort_direction',-1)
         # @autorun => @subscribe 'model_docs', 'post', ->
-        @autorun => @subscribe 'user_info_min',
+        @autorun => @subscribe 'user_info_min', ->
         @autorun => @subscribe 'facet_sub',
             Session.get('model')
             picked_tags.array()
@@ -78,6 +78,16 @@ if Meteor.isClient
             Session.get('sort_direction')
             Session.get('limit')
     
+    
+    Template.sort_key_toggle.helpers
+        sort_title:-> 'click to toggle sort'
+        sort_icon:-> Session.get('sort_icon')
+    Template.sort_key_toggle.events
+        'click .toggle_sort': ->
+            Session.set('sort_key','_timestamp')
+            Session.set('sort_label','added')
+            Session.set('sort_icon','clock')
+        
     
     Template.docs.helpers
         current_model: -> Session.get('model')

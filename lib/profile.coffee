@@ -129,6 +129,10 @@ if Meteor.isClient
                     _author_username:user.username
             Router.go "/doc/#{new_id}/edit"
         
+    Template.i.onRendered ->
+        Meteor.setTimeout ->
+            $('.image').popup()
+        , 2000
     Template.profile.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()

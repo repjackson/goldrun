@@ -174,6 +174,7 @@ if Meteor.isClient
     #     @price_per_serving * @servings_amount
     
     Template.registerHelper 'session_is', (key, value)-> Session.equals(key, value)
+    Template.registerHelper 'session_get', (key)-> Session.get(key)
     
     Template.registerHelper 'key_value_is', (key, value)->
         # console.log 'key', key
@@ -191,8 +192,8 @@ if Meteor.isClient
         # console.log 'key', key
         # console.log 'value', value
         # console.log 'this', this
-        console.log Template.parentData()
-        console.log Template.parentData()
+        # console.log Template.parentData()
+        # console.log Template.parentData()
         Template.parentData()["#{key}"] is value
         # key is value
     

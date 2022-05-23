@@ -48,7 +48,7 @@ template(name='doc_emotion')
         //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
     if joy_percent
         .ui.basic.center.aligned.segment
-            .ui.multiple.progress.no_border(data-total='120' data-value="{{ to_percent joy_percent }},{{ to_percent sadness_percent }},{{ to_percent fear_percent }},{{ to_percent disgust_percent }},{{ to_percent anger_percent }}")
+            .ui.multiple.progress.no_border(data-total='100' data-value="{{ to_percent joy_percent }},{{ to_percent sadness_percent }},{{ to_percent fear_percent }},{{ to_percent disgust_percent }},{{ to_percent anger_percent }}")
                 .green.bar
                     .progress
                 .blue.bar
@@ -115,7 +115,7 @@ template(name='keywords')
                     if emotion
                         with emotion
                             // .ui.multiple.progress.no_border(data-total='100' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" title="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}")
-                            .ui.multiple.progress.zoomer.pointer(data-total='100' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" )
+                            .ui.multiple.progress.zoomer.pointer(data-total='120' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" )
                                 .green.bar
                                     .progress
                                 .blue.bar
@@ -162,7 +162,7 @@ template(name='entities')
                         |#{name}
                 if emotion
                     with emotion
-                        .ui.multiple.progress.zoomer.pointer(data-total='100' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" )
+                        .ui.multiple.progress.zoomer.pointer(data-total='120' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" )
                             .green.bar
                                 .progress
                             .blue.bar

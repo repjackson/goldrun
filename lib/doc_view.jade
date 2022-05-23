@@ -21,8 +21,7 @@ template(name='doc_view')
                             //- small viewing
                             | #{title}
                         if can_edit
-                            a.zoom.zoomer(href="/doc/#{_id}/edit")
-                                i.pencil.blue.big.link.circular.icon
+                            +edit_button
                         if youtube_id 
                             span(title='has youtube video')
                                 +i name='youtube'
@@ -47,7 +46,7 @@ template(name='doc_view')
     
                         // .smallscroll.zoomer
                         .ui.fluid.styled.accordion
-                            .active.title 
+                            .active.title.zoomer
                                 .ui.inline.header
                                     +i name='info'
                                     |info
@@ -59,13 +58,13 @@ template(name='doc_view')
                                     img.ui.rounded.centered.large.image(src="{{c.url image_id width=800 crop='scale'}}")
                                 |!{content}
                             +comments
+                            if watson 
+                                +watson_view
                     
                         +Template.dynamic template=model_template 
-                        if watson 
-                            +watson_view
                         if tone 
                             +tone
-                        if in_dev
+                        if currentUser.admin_mode
                             .ui.segment 
                                 .ui.header admin
                                 +print_this

@@ -4,6 +4,12 @@ template(name='send_points_button')
         unless currentUser.hide_menu_labels
             |send points
         
+        
+template(name='edit_button')
+    a.ui.icon.large.button.fly_down.zoomer(href="/doc/#{_id}/edit" title="edit #{title}")
+        +i name='edit'
+
+        
 template(name='log_item')
     .ui.segment(class=read_class)
         |#{body}
@@ -30,6 +36,8 @@ template(name='model_label')
             +i name='tasks'
         else if is model 'checkin'
             +i name='checkmark'
+        else if is model 'transfer'
+            +i name='exchange'
 
     // .ui.label 
     //     |#{model}
@@ -46,8 +54,15 @@ template(name='author_segment')
                 .ui.inline.header
                     img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                     |#{name}
-                |#{points}pts
-                |#{profile_views}views
+                .ui.label 
+                    |#{points}pts
+                +view_label
+                
+                
+template(name='view_label')
+    .ui.label(title='views')
+        i.grey.eye.icon
+        |#{profile_views}
 
      
 template(name='group_info')

@@ -477,65 +477,6 @@ template(name='event_card')
                     |#{body}
 
 
-template(name='event_item')
-    .content
-        div
-        if is_in_past
-            i.big.undo.icon 
-            |in past
-        if start_datetime
-            .ui.small.inline.grey.header 
-                |{{medium_date start_datetime}} 
-                if time 
-                    |{{time}}
-            .ui.small.inline.header {{from_now start_datetime}}
-        else if is_repeating
-            +i name='refresh' title='repeating'
-            |every #{repeating_day}
-
-        .ui.small.inline.header {{medium_date date}} 
-            if time 
-                |{{time}}
-        if start_datetime
-            .ui.small.inline.grey.header 
-                |{{medium_date start_datetime}} 
-                if time 
-                    |{{time}}
-            .ui.small.inline.header {{from_now start_datetime}}
-        if is_repeating
-            +i name='refresh' title='repeating'
-            |every #{repeating_day}
-                
-        // .ui.inline.small.header {{long_date start_datetime}}
-        // div
-        // .ui.small.grey.inline.header {{from_now start_datetime}}
-        if location
-            i.marker.icon 
-            |#{location}
-        // small led by
-        img.ui.avatar.image(src="{{c.url host.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        strong #{host.name}
-        |#{event_tickets.count}
-        a(href="/doc/#{_id}" title='ticket purchase required')
-            i.checkmark.green.link.icon
-        | #{maybe_user_ids.count}
-        each going
-            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        i.question.orange.link.icon.mark_maybe(title='mark yourself maybe')
-        | #{maybe_user_ids.length}
-        each maybe_going
-            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        | #{not_user_ids.length}
-        i.ban.red.link.icon.mark_not(title='mark yourself not')
-        each not_going
-            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        if doc_comments.count
-            .meta
-                each doc_comments 
-                    i.grey.chat.outline.icon
-                    img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=user_class)
-                    |#{body}
-    
 
 
 template(name='gcal_button')
@@ -1500,29 +1441,13 @@ template(name='view_span')
         i.grey.eye.icon 
         |#{views}
                     
-template(name='transfer_item')
-    .item
-        if image_id
-            a.image.zoomer.fly_right(href="/doc/#{_id}")
-                img.ui.image(src="{{c.url image_id width=600 height=600}}")
+template(name='transfer_card')
+    .content
         .content
             with _target
                 +user_info
-            with _author
-                +user_info
-            .ui.label 
-                |#{_when}
-            each seven_tags
-                .ui.label #{this}
             span.smallscroll
                 |!{description}
-            // +ismall name='tags' cl='ui inline image'
-            a.ui.icon.button.zoomer.fly_right(href="/doc/#{_id}")
-                i.chevron.right.icon
-            +view_span
-            // if is_admin
-            //     .ui.small.header slug: #{slug}
-            +print_this
                     
 
 template(name='transfer_view')
@@ -1536,10 +1461,10 @@ template(name='transfer_view')
             .five.wide.column
                 .ui.huge.center.aligned.header
                     |#{amount}pts
-                if in_dev
+                if currentUser.admin_mode
                     +remove_button
-                    a.ui.icon.button(href="/doc/#{_id}/edit")
-                        i.pencil.icon
+                    +edit_button
+                    +print_this
                 .f14
                     |!{content}
                 .spacer
@@ -1549,7 +1474,6 @@ template(name='transfer_view')
                     i.tags.icon
                     each tags 
                         .ui.big.basic.circular.label #{this}
-                +print_this
                 .ui.small.header
                     i.clock.icon
                     | #{_when}
@@ -1572,27 +1496,8 @@ template(name='transfer_edit')
                     .ui.inline.header
                         img.ui.small.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         |#{_author.name}
-                .ui.segment
-                    .ui.header _target
-                    with _target
-                        i.large.remove.link.icon.remove_target
-                        a.pointer(href="/user/#{name}")
-                            img.ui.tiny.inline.image(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                            .ui.inline.header #{name}
-                            .ui.small.grey.inline.header #{points}
-                    unless _target
-                        .ui.divider
-                        // i.large.user.plus.icon
-                        +single_user_edit key='target_user_id' label='search member' icon='user plus' 
-                        // .ui.icon.input
-                        //     i.search.icon
-                        //     input.search_username(type='text' placeholder='username')
-                        // each members
-                        //     .ui.compact.basic.circular.button.add__target
-                        //         // i.plus.icon
-                        //         img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                        //         |#{name}
-                        //         small #{points}p
+                .ui.segment.alpha
+                    +single_user_edit key='target' label='recipient' icon='donate' 
                 // +boolean_edit key='has_date' label='has date' icon='calendar' 
                 // if has_date
                 +date_edit key='date' label='date'    

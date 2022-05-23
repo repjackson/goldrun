@@ -63,6 +63,12 @@ template(name='doc_edit')
                                     +i name='content'
                                     |content/analysis
                                 i.dropdown.icon
+                                if content 
+                                    +i name='content' title='has content'
+                                if watson 
+                                    +i name='dna-helix' title='analyzed'
+                                if tone 
+                                    +i name='happy' title='has tone'
                             .content
                                 +html_edit key='content' label='content'
                                 if watson 

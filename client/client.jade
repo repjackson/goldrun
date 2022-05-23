@@ -179,9 +179,9 @@ template(name='docs')
             //     |#{post_docs.count} docs
             // +facet key='doc_sentiment_label' icon='happy'
         .sixteen.wide.column
-            .ui.header
+            .ui.inline.header
                 +model_label
-                |{{session_get 'model'}}
+                |{{session_get 'model'}}s
             // +session_set key='model' value='post' label='post' icon='blog'
             // +session_set key='model' value='event' label='event' icon='calendar'
             // +session_set key='model' value='group' label='group' icon='campfire'

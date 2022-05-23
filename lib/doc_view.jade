@@ -56,16 +56,11 @@ template(name='doc_view')
                             if watson 
                                 .column
                                     +watson_view
+                                if tone 
+                                    +tone
                     
                             // .column
                             +Template.dynamic template=model_template 
-                            .column
-                                if tone 
-                                    +tone
-                            .column
-                                // a(href="{{c.url image_id}}" target="_window")
-                                // .four.wide.column
-                                // with _author
                             .column
                                 +author_segment
                                 .ui.accordion

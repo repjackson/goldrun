@@ -15,9 +15,9 @@ template(name='profile')
         //     img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
-            .row
+            .three.column.row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
-                .sixteen.wide.column
+                .column
                     a(href="/user/#{username}")
                         .ui.inline.header
                             |@#{username}
@@ -57,7 +57,8 @@ template(name='profile')
                             +i name='settings'
                             unless currentUser.hide_menu_labels
                                 |account
-                .six.wide.column.scrollin
+                // if subs_ready
+                .column
                     // a(href="/user/#{username}")
                     img.ui.medium.rounded.image.boop.pointer.zomers(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     // a(href="/user/#{username}")
@@ -97,154 +98,150 @@ template(name='profile')
                         // +request_button
                         +follow_button
                         +friend_button
-                .ten.wide.column
-                    if subs_ready
-                        .ui.two.column.stackable.grid
-                            .column
-                                .ui.inline.header 
-                                    +i name='info'
-                                    |about
-                                i.dropdown.icon
-                                +text_view key='first_name' label='first name' icon='user'
-                                +text_view key='last_name' label='last name' icon='user'
-                                if address 
-                                    +i name='marker'
-                                if bio 
-                                    +i name='info'
-                                if company 
-                                    +i name='company'
-                                if linkedin_link 
-                                    +i name='linkedin'
-                                if twitter_link 
-                                    +i name='twitter'
-                                if status 
-                                    .ui.label(title='status')
-                                        +i name='clock'
-                                        |#{status}
-                                each seven_tags
-                                    .ui.label #{this}
-                                div
-                                +text_view key='display_name' label='display name'
-                                div
-                                +array_view key='tags' label='tags' icon='tags'
-                                +html_view key='bio' label='bio'
-                                +text_view key='status' label='status' icon='clock'
-                                +text_view key='address' label='address' icon='marker' 
-                                +text_view key='city' label='city' icon='marker' 
-                                +text_view key='state' label='state' icon='marker' 
-                                +phone_view key='phone' label='phone' icon='phone' 
-                                +text_view key='company' label='company' icon='business'
-                                +text_view key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
-                                +text_view key='twitter_link' label='twitter profile ' icon='twitter'
-                                +text_view key='facebook_link' label='facebook profile ' icon='facebook'
-                            .column
-                                +user_reviews
-                            .column
-                                +user_posts
-                            .column
-                                +user_groups
-                            .column
-                                +user_services
-                            .column
-                                +user_social
-                            .column
-                                +user_favorites
-                            .column
-                                +user_checkins
-                            .column
-                                +user_points
-                                +user_drafts
-                            .column
-                                +user_events
-                            if user_unread_log_docs.count
-                                .column
-                                    .ui.inline.header 
-                                        +i name='envelope'
-                                        |messages/unread logs
-                                        .ui.label 
-                                            |#{user_unread_log_docs.count}
-                                    i.dropdown.icon
-                                    // if currentUser
-                                    //     unless is_current_user
-                                    //         +send_message_button
-                                    each user_unread_log_docs
-                                        +log_item
-                                    .ui.small.header
-                                        +i name='sent'
-                                        |sent
-                                    .ui.list 
-                                        each user_messages_sent
-                                            |#{body}
-                                    .ui.small.header
-                                        +i name='internal'
-                                        |received
-                                    .ui.list 
-                                        each user_messages_received
-                                            |#{body}
-                            .title.zomers
-                                a.ui.header.zomers.calc_user_points
-                                    // i.line.chart.icon
-                                    +i name='line-chart'
-                                    |stats
-                                i.dropdown.icon
-                                +send_points_button
-                            .content
-                                .ui.list 
-                                    .item 
-                                        i.eye.grey.icon
-                                        |#{profile_views} 
-                                        |profile views
-                                    .item 
-                                        i.lock.grey.icon
-                                        |#{profile_views_anon} 
-                                        |anon views
-                                    .item 
-                                        i.user.grey.icon
-                                        |#{profile_views_logged_in} 
-                                        |logged in views
-                                    .item 
-                                        i.thumbs.up.grey.icon
-                                        |#{upvote_total} 
-                                        |upvoted points
-                                    .item 
-                                        i.thumbs.down.grey.icon
-                                        |#{downvote_total} 
-                                        |downvoted points
-                                    .item 
-                                        i.coins.icon 
-                                        |#{tip_count} tips totalling #{tip_total}pts
-                                    .item 
-                                        i.chat.icon
-                                        |comment amount: #{comment_count}
-                                    .item
-                                        i.chat.icon
-                                        |spent points:#{comment_total}
-                                    .item
-                                        i.eye.icon
-                                        |viewed docs:#{viewed_total}
-                            +user_tasks
-                
-                            .title 
-                                .ui.inline.header 
-                                    +i name='binoculars'
-                                    |currently viewing
-                                with current_viewing_doc
-                                    a.ui.header.zomers.fly_right(href="/doc/#{_id}")
-                                        img.ui.avatar.image(src="{{c.url image_id height=300 crop='crop'}}")
-        
-                                        |#{title}
-                                        +model_label
-                            .content
-                                .ui.header 
-                                    +i name='history'
-                                    |viewing history
-                            if is_current_user
-                                +profile_deposits
-                            if watson
-                                +watson_view
-                    else 
-                        .ui.basic.center.aligned.segment
-                            i.massive.loading.refresh.icon
+                .column
+                        .ui.inline.header 
+                            +i name='info'
+                            |about
+                        i.dropdown.icon
+                        +text_view key='first_name' label='first name' icon='user'
+                        +text_view key='last_name' label='last name' icon='user'
+                        if address 
+                            +i name='marker'
+                        if bio 
+                            +i name='info'
+                        if company 
+                            +i name='company'
+                        if linkedin_link 
+                            +i name='linkedin'
+                        if twitter_link 
+                            +i name='twitter'
+                        if status 
+                            .ui.label(title='status')
+                                +i name='clock'
+                                |#{status}
+                        each seven_tags
+                            .ui.label #{this}
+                        div
+                        +text_view key='display_name' label='display name'
+                        div
+                        +array_view key='tags' label='tags' icon='tags'
+                        +html_view key='bio' label='bio'
+                        +text_view key='status' label='status' icon='clock'
+                        +text_view key='address' label='address' icon='marker' 
+                        +text_view key='city' label='city' icon='marker' 
+                        +text_view key='state' label='state' icon='marker' 
+                        +phone_view key='phone' label='phone' icon='phone' 
+                        +text_view key='company' label='company' icon='business'
+                        +text_view key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
+                        +text_view key='twitter_link' label='twitter profile ' icon='twitter'
+                        +text_view key='facebook_link' label='facebook profile ' icon='facebook'
+                .column
+                    +user_reviews
+                .column
+                    +user_posts
+                .column
+                    +user_groups
+                .column
+                    +user_services
+                .column
+                    +user_social
+                .column
+                    +user_favorites
+                .column
+                    +user_checkins
+                .column
+                    +user_points
+                    +user_drafts
+                .column
+                    +user_events
+                if user_unread_log_docs.count
+                    .column
+                        .ui.inline.header 
+                            +i name='envelope'
+                            |messages/unread logs
+                            .ui.label 
+                                |#{user_unread_log_docs.count}
+                        i.dropdown.icon
+                        // if currentUser
+                        //     unless is_current_user
+                        //         +send_message_button
+                        each user_unread_log_docs
+                            +log_item
+                        .ui.small.header
+                            +i name='sent'
+                            |sent
+                        .ui.list 
+                            each user_messages_sent
+                                |#{body}
+                        .ui.small.header
+                            +i name='internal'
+                            |received
+                        .ui.list 
+                            each user_messages_received
+                                |#{body}
+                .column
+                    a.ui.header.zomers.calc_user_points
+                        // i.line.chart.icon
+                        +i name='line-chart'
+                        |stats
+                    i.dropdown.icon
+                    +send_points_button
+                    .ui.list 
+                        .item 
+                            i.eye.grey.icon
+                            |#{profile_views} 
+                            |profile views
+                        .item 
+                            i.lock.grey.icon
+                            |#{profile_views_anon} 
+                            |anon views
+                        .item 
+                            i.user.grey.icon
+                            |#{profile_views_logged_in} 
+                            |logged in views
+                        .item 
+                            i.thumbs.up.grey.icon
+                            |#{upvote_total} 
+                            |upvoted points
+                        .item 
+                            i.thumbs.down.grey.icon
+                            |#{downvote_total} 
+                            |downvoted points
+                        .item 
+                            i.coins.icon 
+                            |#{tip_count} tips totalling #{tip_total}pts
+                        .item 
+                            i.chat.icon
+                            |comment amount: #{comment_count}
+                        .item
+                            i.chat.icon
+                            |spent points:#{comment_total}
+                        .item
+                            i.eye.icon
+                            |viewed docs:#{viewed_total}
+                +user_tasks
+    
+                .column 
+                    .ui.inline.header 
+                        +i name='binoculars'
+                        |currently viewing
+                    with current_viewing_doc
+                        a.ui.header.zomers.fly_right(href="/doc/#{_id}")
+                            img.ui.avatar.image(src="{{c.url image_id height=300 crop='crop'}}")
+
+                            |#{title}
+                            +model_label
+                .content
+                    .ui.header 
+                        +i name='history'
+                        |viewing history
+                if is_current_user
+                    +profile_deposits
+                if watson
+                    +watson_view
+                    // else 
+                    //     .ui.basic.center.aligned.segment
+                    //         i.massive.loading.refresh.icon
                           
                       
                             

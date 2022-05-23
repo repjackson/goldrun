@@ -452,18 +452,18 @@ template(name='event_card')
         a(href="/doc/#{_id}" title='ticket purchase required')
             i.checkmark.green.link.icon
         | #{going_ids.count}
-        each going
-            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        each going_ids
+            +user_info
         i.question.orange.link.icon.mark_maybe(title='mark yourself maybe')
         div
         | #{maybe_ids.length}
-        each maybe_going
-            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        each maybe_ids
+            +user_info
         | #{not_going_ids.length}
         div
         i.ban.red.link.icon.mark_not(title='mark yourself not')
-        each not_going
-            img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        each not_going_ids
+            +user_info
         if doc_comments.count
             .meta
                 each doc_comments 
@@ -600,10 +600,8 @@ template(name='attendance')
                 i.green.checkmark.big.icon
                 |#{going.count}
                 |going
-    each going 
-        a.ui.circular.circular.button(href="/user/#{username}")    
-            img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            |#{username}
+    each going_ids
+        +user_info
     div
     if is_in_past
         .ui.circular.disabled.button
@@ -625,10 +623,8 @@ template(name='attendance')
                 |#{maybe_going.count} maybe
         // .ui.icon.button.mark_maybe 
         //     i.yellow.minus.big.icon
-    each maybe_going
-        a.ui.circular.button.fly_right(href="/user/#{username}")    
-            img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            |#{username}
+    each maybe_ids
+        +user_info
     div
     if is_in_past
         .ui.circular.disabled.button
@@ -644,10 +640,8 @@ template(name='attendance')
                 |#{not_going.count} not going
             // .ui.icon.button.pick_not
                 // i.big.ban.icon
-    each not_going
-        a.ui.circular.circular.button(href="/user/#{username}")    
-            img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            |#{username}
+    each not_going_ids
+        +user_info
 
 
 template(name='ticket_view')

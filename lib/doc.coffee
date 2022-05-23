@@ -31,6 +31,12 @@ if Meteor.isClient
         
     Template.doc_view.onRendered ->
         Meteor.call 'log_view', Router.current().params.doc_id, ->
+        Meteor.setTimeout ->
+            $().popup(
+                inline: true
+            )
+        , 2000
+            
     Template.doc_view.onCreated ->
         @autorun => Meteor.subscribe 'current_viewers', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->

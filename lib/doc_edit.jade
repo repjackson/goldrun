@@ -50,10 +50,6 @@ template(name='doc_edit')
                         +text_edit key='title' label='title' 
                         .ui.one.column.stackable.grid
                             .column
-                                .ui.inline.header
-                                    +i name='image'
-                                    |image
-                                img.ui.avatar.image(src="{{c.url image_id width=800 crop='scale'}}")
                                 +image_edit key='image_id' label='image' 
                                 +image_edit key='background_image_id' label='background image' 
                             .column

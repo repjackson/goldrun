@@ -1363,24 +1363,24 @@ if Meteor.isClient
     #             transaction_type:'ticket_purchase'
     #             event_id: @_id
     #             ).fetch()
-    #     going_user_ids = []
+    #     going_ids = []
     #     for ticket in event_tickets
-    #         going_user_ids.push ticket._author_id
+    #         going_ids.push ticket._author_id
     #     Meteor.users.find 
-    #         _id:$in:going_user_ids
+    #         _id:$in:going_ids
             
     Template.registerHelper 'going', () ->
         event = Docs.findOne @_id
         Meteor.users.find 
-            _id:$in:event.going_user_ids
+            _id:$in:event.going_ids
     Template.registerHelper 'maybe_going', () ->
         event = Docs.findOne @_id
         Meteor.users.find 
-            _id:$in:event.maybe_user_ids
+            _id:$in:event.maybe_ids
     Template.registerHelper 'not_going', () ->
         event = Docs.findOne @_id
         Meteor.users.find 
-            _id:$in:event.not_user_ids
+            _id:$in:event.not_going_ids
 
     Template.registerHelper 'event_tickets', () ->
         Docs.find 
@@ -1742,25 +1742,25 @@ if Meteor.isClient
             # console.log 'hi'
             # Meteor.call 'mark_maybe', Router.current().params.doc_id, ->
             # event = Docs.findOne event_id
-            if event.maybe_user_ids
-                if Meteor.userId() in event.maybe_user_ids
+            if event.maybe_ids
+                if Meteor.userId() in event.maybe_ids
                     Docs.update event._id,
                         $pull:
-                            maybe_user_ids: Meteor.userId()
+                            maybe_ids: Meteor.userId()
                 else
                     Docs.update event._id,
                         $addToSet:
-                            maybe_user_ids: Meteor.userId()
+                            maybe_ids: Meteor.userId()
                         $pull:
-                            going_user_ids: Meteor.userId()
-                            not_user_ids: Meteor.userId()
+                            going_ids: Meteor.userId()
+                            not_going_ids: Meteor.userId()
             else
                 Docs.update event._id,
                     $addToSet:
-                        maybe_user_ids: Meteor.userId()
+                        maybe_ids: Meteor.userId()
                     $pull:
-                        going_user_ids: Meteor.userId()
-                        not_user_ids: Meteor.userId()
+                        going_ids: Meteor.userId()
+                        not_going_ids: Meteor.userId()
 
         'click .mark_not': ->
             event = Docs.findOne Router.current().params.doc_id
@@ -1794,45 +1794,45 @@ if Meteor.isServer
     Meteor.methods
         'mark_not': (event_id)->
             event = Docs.findOne event_id
-            if event.not_user_ids and Meteor.userId() in event.not_user_ids
+            if event.not_going_ids and Meteor.userId() in event.not_going_ids
                 Docs.update event_id,
                     $pull:
-                        not_user_ids: Meteor.userId()
+                        not_going_ids: Meteor.userId()
             else
                 Docs.update event_id,
                     $addToSet:
-                        not_user_ids: Meteor.userId()
+                        not_going_ids: Meteor.userId()
                     $pull:
-                        going_user_ids: Meteor.userId()
-                        maybe_user_ids: Meteor.userId()
+                        going_ids: Meteor.userId()
+                        maybe_ids: Meteor.userId()
     
             
         'mark_maybe': (event_id)->
             event = Docs.findOne event_id
-            if event.maybe_user_ids and Meteor.userId() in event.maybe_user_ids
+            if event.maybe_ids and Meteor.userId() in event.maybe_ids
                 Docs.update event_id,
                     $pull:
-                        maybe_user_ids: Meteor.userId()
+                        maybe_ids: Meteor.userId()
             else
                 Docs.update event_id,
                     $addToSet:
-                        maybe_user_ids: Meteor.userId()
+                        maybe_ids: Meteor.userId()
                     $pull:
-                        going_user_ids: Meteor.userId()
-                        not_user_ids: Meteor.userId()
+                        going_ids: Meteor.userId()
+                        not_going_ids: Meteor.userId()
         'mark_going': (event_id)->
             event = Docs.findOne event_id
-            if event.going_user_ids and Meteor.userId() in event.going_user_ids
+            if event.going_ids and Meteor.userId() in event.going_ids
                 Docs.update event_id,
                     $pull:
-                        going_user_ids: Meteor.userId()
+                        going_ids: Meteor.userId()
             else
                 Docs.update event_id,
                     $addToSet:
-                        going_user_ids: Meteor.userId()
+                        going_ids: Meteor.userId()
                     $pull:
-                        maybe_user_ids: Meteor.userId()
-                        not_user_ids: Meteor.userId()
+                        maybe_ids: Meteor.userId()
+                        not_going_ids: Meteor.userId()
                 
                 
                 

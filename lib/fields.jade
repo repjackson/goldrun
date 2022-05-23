@@ -588,7 +588,7 @@ template(name='array_edit')
     if field_value
         each field_value
             a.ui.large.icon.label
-                i.delete.large.link.circular.icon.zoomer.remove_element(title="remove #{this}")
+                i.delete.large.link.icon.zoomer.remove_element(title="remove #{this}")
                 |#{this}
 
 template(name='array_view')
@@ -1043,11 +1043,11 @@ template(name='multi_user_edit')
         // |#{this}
         div
         +user_info
-        with user_from_id this
-            // .ui.inline.header
-            //     img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            //     |#{name}
-            i.pull_user.remove.link.circular.icon
+        i.pull_user.remove.link.circular.icon
+        // with user_from_id this
+        //     // .ui.inline.header
+        //     //     img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        //     //     |#{name}
     div
 template(name='multi_doc_input')
     //- .ui.form

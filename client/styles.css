@@ -46,7 +46,7 @@ body {
      filter: invert(1) !important; 
 }
 
- .label, input, .input, .button {
+ .label, input, .input, .button, .progress, .text {
      filter: invert(1) !important; 
 } 
 ::-webkit-scrollbar {

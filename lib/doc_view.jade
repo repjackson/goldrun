@@ -51,7 +51,8 @@ template(name='doc_view')
                                     img.ui.rounded.centered.large.image(src="{{c.url image_id width=800 crop='scale'}}")
                                 if image_id2
                                     img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
-                                |!{content}
+                                .scrolling 
+                                    |!{content}
                                 +comments
                             .column
                                 +author_segment
@@ -59,7 +60,7 @@ template(name='doc_view')
                                     |#{tags.length}
                                     +i name='tags'
                                 each tags 
-                                    a.ui.basic.label.pick_flat_tag.zoomer(title='search for tag') #{this}
+                                    a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='browse tag') #{this}
                                 if watson 
                                     .column
                                         +watson_view

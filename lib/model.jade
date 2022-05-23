@@ -52,7 +52,7 @@ template(name='post_orders')
 template(name='visibility_settings')
     .title
         .ui.inline.header
-            +i name='link'
+            +i name='visible'
             |visibility
         +key_value_icon key='visibility' value='published' icon='checkmark' classes='green'
         +key_value_icon key='visibility' value='private' icon='lock' classes='blue'
@@ -451,15 +451,15 @@ template(name='event_card')
         |#{event_tickets.count}
         a(href="/doc/#{_id}" title='ticket purchase required')
             i.checkmark.green.link.icon
-        | #{going_user_ids.count}
+        | #{going_ids.count}
         each going
             img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         i.question.orange.link.icon.mark_maybe(title='mark yourself maybe')
         div
-        | #{maybe_user_ids.length}
+        | #{maybe_ids.length}
         each maybe_going
             img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-        | #{not_user_ids.length}
+        | #{not_going_ids.length}
         div
         i.ban.red.link.icon.mark_not(title='mark yourself not')
         each not_going
@@ -721,21 +721,16 @@ template(name='event_view')
             |&nbsp;
             .ui.inline.grey.header {{from_now start_datetime}}
         if is event_type 'online'
-            +i name='globe'
+            .ui.big.basic.inverted.label 
+                +i name='globe'
+                |online event
         else 
-            .ui.label
+            .ui.big.basic.inverted.label
                 +i name='marker'
-                |#{location}
+                small physical event @
+                strong #{location}
         if time 
             .ui.inline.grey.header {{time}}
-        if can_edit
-            a.edit_event.fly_left(href="/doc/#{_id}/edit" title='edit')
-                i.large.link.pencil.circular.icon
-        if link 
-            a.ui.button(href=link target="_window")
-                i.globe.icon 
-                |#{link}
-    .column
         // a.ui.header(href="/user/#{target.username}")
         //     |#{target.username}
         .active.content
@@ -817,6 +812,9 @@ template(name='event_edit')
             +number_edit key='max_attendees' label='max attendees' min='0' max='100' 
             +boolean_edit key='friends_only' label='friends only' icon='campfire' 
             // div
+        +multi_user_edit key='going' label='going users' icon='checkmark'
+        +multi_user_edit key='maybe' label='maybe users' icon='question'
+        +multi_user_edit key='not_going' label='not going users' icon='cancel'
         +boolean_edit key='is_repeating' label='is repeating' icon='refresh' 
         if is_repeating
             .ui.inline.header repeating day

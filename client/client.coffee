@@ -130,10 +130,13 @@ Template.layout.events
 
 
 # Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
+# Router.route '/', (->
+#     @layout 'layout'
+#     @render 'docs'
+#     ), name:'home'
 Router.route '/', (->
-    @layout 'layout'
-    @render 'docs'
-    ), name:'home'
+    @redirect('/m/post');
+    ), name:'posts'
 
 Router.route '/m/:model', (->
     @layout 'layout'

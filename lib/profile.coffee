@@ -116,9 +116,11 @@ if Meteor.isClient
     Template.user_posts.helpers
         user_authored_post_docs: ->
             user = Meteor.users.findOne username:Router.current().params.username
-            Docs.find 
+            Docs.find {
                 model:'post'
                 _author_id:user._id
+            }, 
+                sort:_timestamp:-1
     Template.user_posts.events 
         'click .add_user_post': ->
             user = Meteor.users.findOne username:Router.current().params.username
@@ -286,7 +288,9 @@ if Meteor.isServer
             model:model
             _author_id:user._id
         }, 
-            limit:20
+            limit:42
+            sort:
+                _timestamp:-1
             fields:
                 title:1
                 model:1

@@ -37,6 +37,11 @@ template(name='doc_view')
                         if twitter_link
                             a.zoomer(href=twitter_link _target='_window' title='visit twitter page')
                                 +i name='twitter'
+                        if link 
+                            a.ui.big.compact.button.zoomer(href=link target='_window' title=link)
+                                i.external.icon
+                                |link
+                                // |#{hostname}
                     .eleven.wide.column.scrollin
                         // if watson 
                         //     +doc_sentiment

@@ -128,7 +128,7 @@ if Meteor.isClient
     #     grandparent = Template.parentData(2)
     #     grandparent._author_id is Meteor.userId()
     # Template.registerHelper 'to_percent', (number) -> (Math.floor(number*100)).toFixed()
-    Template.registerHelper 'to_percent', (number) -> (Math.floor(number*100))
+    Template.registerHelper 'to_percent', (number) -> (Math.floor(number*100)).toFixed()
     Template.registerHelper 'long_time', (input) -> moment(input).format("h:mm a")
     Template.registerHelper 'long_date', (input) -> moment(input).format("dddd, MMMM Do h:mm a")
     Template.registerHelper 'short_date', (input) -> moment(input).format("dddd, MMMM Do")
@@ -263,8 +263,10 @@ if Meteor.isClient
         
     Template.registerHelper 'can_edit', () ->
         # Session.equals('current_username',@_author_username)
-        # Meteor.user()
-        Meteor.userId() is @_author_id or Meteor.user().admin_mode
+        if Meteor.user()
+            if Meteor.userId() is @_author_id 
+                true
+            else Meteor.user().admin_mode
     
     Template.registerHelper 'publish_when', () -> moment(@publish_date).fromNow()
     

@@ -122,7 +122,7 @@ template(name='nav')
     // #topnav.topnav.ui.attached.borderless.big.four.item.menu.hscroll(class=darkmode_class)
         https://fomantic-ui.com/elements/icon.html#/icon
     // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
-    #topnav.topnav.ui.attached.borderless.menu.hscroll.alpha
+    #topnav.topnav.ui.attached.borderless.large.menu.hscroll.alpha
         unless is_connected
             .item
                 i.yin.yang.big.loading.icon
@@ -192,11 +192,11 @@ template(name='docs')
                 +session_set key='model' value='task' label='task' icon='tasks'
                 +session_set key='model' value='checkin' label='checkin' icon='checkmark'
                 +session_set key='model' value='log' label='log' icon='event-log'
-            +facet key='tag' icon='tags' label='tags'
+            +facet key='tag'
             div
-            +facet key='timestamp_tag' icon='clock' label='added'
-            +session_boolean_toggle key='view_mine' label='mine' icon='user'
-            +session_boolean_toggle key='view_private' label='private' icon='lock'
+            // +facet key='timestamp_tag' icon='clock' label='added'
+            // +session_boolean_toggle key='view_mine' label='mine' icon='user'
+            // +session_boolean_toggle key='view_private' label='private' icon='lock'
         .twelve.wide.column
             .ui.inline.header(title='result count') #{result_docs.count}
             +search_input key='title'

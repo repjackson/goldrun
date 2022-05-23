@@ -729,7 +729,8 @@ template(name='search_input')
        
        
 template(name='facet')
-    +i name=icon
+    if icon
+        +i name=icon
     if label 
         |#{label}
     each picked_tags

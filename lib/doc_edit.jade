@@ -57,11 +57,6 @@ template(name='doc_edit')
                                 +image_edit key='image_id' label='image' 
                                 +image_edit key='background_image_id' label='background image' 
                             .column
-                                .ui.inline.header
-                                    +i name='content'
-                                    |content/analysis
-                                if content 
-                                    +i name='content' title='has content'
                                 if watson 
                                     +i name='dna-helix' title='analyzed'
                                 if tone 
@@ -72,11 +67,6 @@ template(name='doc_edit')
                                 +call_watson key='content'
                                 +call_tone
                             .column
-                                .ui.inline.header
-                                    +i name='tags'
-                                    |#{tags.length} tags
-                                each ten_tags 
-                                    .ui.label #{this}
                                 +array_edit key='tags' label='tags' icon='tags'
                                 div
                                 +array_edit key='location_tags' label='location tags' icon='marker' direct=true

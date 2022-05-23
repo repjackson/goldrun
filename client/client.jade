@@ -123,6 +123,32 @@ template(name='nav')
         https://fomantic-ui.com/elements/icon.html#/icon
     // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
     #topnav.topnav.ui.attached.borderless.large.menu.hscroll.alpha
+        if currentUser
+            a.item.zoomer.fly_down.add_doc 
+                +i name='plus'
+            // a.icon.item(href="/mail/inbox")
+            //     +i name='inbox'
+            a.fly_up.zoomer.item(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile')
+                if currentUser.image_id
+                    img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                else
+                    i.user.icon
+                strong #{currentUser.username}
+                |&nbsp;
+                .ui.label(title='points') #{currentUser.points}p
+                if unread_count
+                    .ui.large.label #{unread_count}
+        unless subs_ready
+            .icon.item
+                i.yin.yang.large.loading.icon
+        unless currentUser
+            // a.item(href="/register" title='register')
+            //     +i name='plus'
+            //     span.mobile.hidden register            
+            a.item(href='/login' title='login') 
+                // i.sign.in.big.icon
+                +i name='internal'
+                // span.mobile.hidden login
         unless is_connected
             .item
                 i.yin.yang.big.loading.icon
@@ -138,33 +164,6 @@ template(name='nav')
             +nav_item key='service' icon='wrench'
             a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
                 +i name='groups'
-            .right.menu
-                if currentUser
-                    a.item.zoomer.fly_down.add_doc 
-                        +i name='plus'
-                    // a.icon.item(href="/mail/inbox")
-                    //     +i name='inbox'
-                    a.fly_up.zoomer.item(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile')
-                        if currentUser.image_id
-                            img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
-                        else
-                            i.user.icon
-                        strong #{currentUser.username}
-                        |&nbsp;
-                        .ui.label(title='points') #{currentUser.points}p
-                        if unread_count
-                            .ui.large.label #{unread_count}
-                unless subs_ready
-                    .icon.item
-                        i.yin.yang.large.loading.icon
-                unless currentUser
-                    // a.item(href="/register" title='register')
-                    //     +i name='plus'
-                    //     span.mobile.hidden register            
-                    a.item(href='/login' title='login') 
-                        // i.sign.in.big.icon
-                        +i name='internal'
-                        // span.mobile.hidden login
 
 
 template(name='nav_item')
@@ -179,8 +178,10 @@ template(name='docs')
             //     +i name='cube'
             //     |#{post_docs.count} docs
             // +facet key='doc_sentiment_label' icon='happy'
-        .four.wide.column
-            .ui.header {{session_get 'model'}}
+        .sixteen.wide.column
+            .ui.header
+                +model_label
+                |{{session_get 'model'}}
             // +session_set key='model' value='post' label='post' icon='blog'
             // +session_set key='model' value='event' label='event' icon='calendar'
             // +session_set key='model' value='group' label='group' icon='campfire'
@@ -197,7 +198,7 @@ template(name='docs')
             // +facet key='timestamp_tag' icon='clock' label='added'
             // +session_boolean_toggle key='view_mine' label='mine' icon='user'
             // +session_boolean_toggle key='view_private' label='private' icon='lock'
-        .twelve.wide.column
+        .sixteen.wide.column
             .ui.inline.header(title='result count') #{result_docs.count}
             +search_input key='title'
             +sort_direction_toggle

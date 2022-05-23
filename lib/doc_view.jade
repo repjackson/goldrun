@@ -54,6 +54,12 @@ template(name='doc_view')
                                 |!{content}
                                 +comments
                             .column
+                                +author_segment
+                                .ui.inline.header                                
+                                    |#{tags.length}
+                                    +i name='tags'
+                                each tags 
+                                    a.ui.basic.label.pick_flat_tag.zoomer(title='search for tag') #{this}
                                 if watson 
                                     .column
                                         +watson_view
@@ -63,18 +69,6 @@ template(name='doc_view')
                             // .column
                         .three.column.row
                             +Template.dynamic template=model_template 
-                            .column
-                                +author_segment
-                                .ui.accordion
-                                    .title.zoomer(title='tags')
-                                        |#{tags.length}
-                                        +i name='tags'
-                                        each five_tags 
-                                            .ui.basic.label #{this}
-                                        strong ...
-                                    .content
-                                        each tags 
-                                            a.ui.basic.label.pick_flat_tag.zoomer(title='search for tag') #{this}
                             .column
                                 +message_author_button
                                 +group_widget

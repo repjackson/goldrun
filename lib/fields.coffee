@@ -199,10 +199,14 @@ if Meteor.isClient
             val = t.$('.image_link_val').val()
             parent = Template.parentData()
             doc = Docs.findOne parent._id
+            user = Meteor.users.findOne parent._id
             if doc
                 Docs.update parent._id,
                     $set:"#{@key}":val
-    
+            else if user
+                Meteor.users.update parent._id,
+                    $set:"#{@key}":val
+                    
     
     Template.image_edit.events
         "change input[name='upload_image']": (e) ->

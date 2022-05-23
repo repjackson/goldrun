@@ -392,7 +392,7 @@ Meteor.publish 'doc_results', (
     
     Docs.find match,
         sort:"#{sort_key}":sort_direction
-        limit: 42
+        limit: 20
         fields:
             title:1
             model:1

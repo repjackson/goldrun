@@ -156,14 +156,19 @@ template(name='nav')
                 |reconecting...
                 i.large.circular.refresh.link.icon.zoomer.reconnect(title='reconnect now')
         if is_connected
+            a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
+                +i name='groups'
             +nav_item key='post' icon='blog'
             +nav_item key='event' icon='calendar'
             +nav_item key='group' icon='campfire'
             +nav_item key='product' icon='shopping-cart'
             +nav_item key='transfer' icon='exchange'
             +nav_item key='service' icon='wrench'
-            a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
-                +i name='groups'
+            +nav_item key='rental' icon='clock'
+            +nav_item key='task' icon='tasks'
+            +nav_item key='checkin' icon='checkmark'
+            +nav_item key='log' icon='event-log'
+            
 
 
 template(name='nav_item')
@@ -187,12 +192,6 @@ template(name='docs')
             // +session_set key='model' value='group' label='group' icon='campfire'
             // +session_set key='model' value='product' label='shop' icon='shopping-cart'
             // +session_set key='model' value='service' label='service' icon='wrench'
-            if currentUser.admin_mode
-                +session_set key='model' value='transfer' label='transfer' icon='exchange'
-                +session_set key='model' value='rental' label='rental' icon='clock'
-                +session_set key='model' value='task' label='task' icon='tasks'
-                +session_set key='model' value='checkin' label='checkin' icon='checkmark'
-                +session_set key='model' value='log' label='log' icon='event-log'
             +facet key='tag'
             div
             // +facet key='timestamp_tag' icon='clock' label='added'

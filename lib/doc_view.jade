@@ -43,7 +43,7 @@ template(name='doc_view')
                                 |link
                                 // |#{hostname}
                     .ui.stackable.padded.grid
-                        .three.column.row
+                        .two.column.row
                             .column
                                 if youtube_id
                                     +youtube_view key='youtube_id'
@@ -53,6 +53,7 @@ template(name='doc_view')
                                     img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
                                 |!{content}
                                 +comments
+                            .column
                             if watson 
                                 .column
                                     +watson_view
@@ -60,6 +61,7 @@ template(name='doc_view')
                                     +tone
                     
                             // .column
+                        .three.column.row
                             +Template.dynamic template=model_template 
                             .column
                                 +author_segment

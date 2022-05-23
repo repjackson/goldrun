@@ -213,9 +213,14 @@ template(name='docs')
             // +session_set key='limit' value=100
             .scrolling
                 if subs_ready
-                    .ui.cards
-                        each result_docs 
-                            +doc_card
+                    if one_result
+                        .ui.one.cards
+                            each result_docs 
+                                +doc_card
+                    else
+                        .ui.cards
+                            each result_docs 
+                                +doc_card
                 else 
                     .ui.center.aligned.basic.segment
                         i.massive.yin.yang.loading.grey.icon

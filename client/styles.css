@@ -159,7 +159,8 @@ body {
 }
 
 .youtube_view {
-     border-radius: 10px !important; 
+    filter: invert(.9) !important;
+    border-radius: 10px !important; 
 }
 
 .rounded {

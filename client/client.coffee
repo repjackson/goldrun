@@ -49,6 +49,10 @@ Template.nav.events
         new_id = Docs.insert {}
         Router.go "/doc/#{new_id}/edit"
         
+        
+Template.nav_item.events 
+    'click .go_route': -> Session.set('model',@key)
+        
 Template.nav.onCreated ->
     Session.setDefault 'limit', 20
     @autorun -> Meteor.subscribe 'me', ->

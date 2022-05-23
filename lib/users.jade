@@ -132,7 +132,7 @@ template(name='user_item')
                 |#{name}
                 //- |#{username}
             if points
-                .ui.inline.header(style="color:#{current_user.theme_color};") #{points}pts
+                .ui.inline.header(style="color:#{current_user.theme_color};") #{points}p
             if one_ratio
                 .ui.basic.label(style="color:#{current_user.theme_color};" title='one ratio') {{to_percent one_ratio}}%
             if flow_volume

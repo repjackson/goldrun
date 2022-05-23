@@ -61,6 +61,8 @@ if Meteor.isClient
         Session.setDefault('model','post')
         Session.setDefault('limit',10)
         Session.setDefault('sort_key','_timestamp')
+        Session.setDefault('sort_icon','clock')
+        Session.setDefault('sort_label','added')
         Session.setDefault('sort_direction',-1)
         # @autorun => @subscribe 'model_docs', 'post', ->
         @autorun => @subscribe 'user_info_min', ->
@@ -84,10 +86,25 @@ if Meteor.isClient
         sort_icon:-> Session.get('sort_icon')
     Template.sort_key_toggle.events
         'click .toggle_sort': ->
-            Session.set('sort_key','_timestamp')
-            Session.set('sort_label','added')
-            Session.set('sort_icon','clock')
-        
+            console.log 'hi'
+            if Session.equals('sort_key','views')
+                Session.set('sort_key','_timestamp')
+                Session.set('sort_label','added')
+                Session.set('sort_icon','clock')
+            else if Session.equals('sort_key','_timestamp')
+                Session.set('sort_key','points')
+                Session.set('sort_label','points')
+                Session.set('sort_icon','hashtag')
+            else if Session.equals('sort_key','points')
+                Session.set('sort_key','views')
+                Session.set('sort_label','views')
+                Session.set('sort_icon','eye')
+            $('body').toast({
+                title: "sorting by #{Session.get('sort_label')}"
+                class : 'info'
+                position:'bottom center'
+                })
+
     
     Template.docs.helpers
         current_model: -> Session.get('model')

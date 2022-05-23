@@ -121,6 +121,12 @@ template(name='user_card')
                 .ui.inline.header(title='profile views') 
                     i.eye.icon
                     |#{profile_views}
+            +join
+
+template(name='join')
+    .ui.label(title='joined')
+        i.user.plus.icon
+        |{{from_now createdAt}}
             
 template(name='user_item')
     a.item.fly_left.zoomer(href="/user/#{username}")
@@ -165,7 +171,9 @@ template(name='user_item')
             //     i.red.gift.pointer.debit.big.icon
             //     i.teal.concierge.bell.pointer.request.big.icon
             //     i.blue.chat.pointer.message.big.disabled.icon
-                    
+            
+            +join
+
 template(name='addtoset_user')
     // .ui.small.compact.button.toggle_value(class=ats_class) #{key} #{value}
     .ui.small.compact.button.toggle_value(class=ats_class) +#{value}

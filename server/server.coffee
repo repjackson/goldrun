@@ -47,7 +47,8 @@ Cloudinary.config
 
 Meteor.publish 'author_by_id', (doc_id)->
     doc = Docs.findOne doc_id
-    Meteor.users.find(doc._author_id)
+    if doc and doc._author_id
+        Meteor.users.find(doc._author_id)
     
 Meteor.publish 'unread_logs', ()->
     Docs.find {

@@ -121,6 +121,7 @@ if Meteor.isClient
                 _author_id:user._id
             }, 
                 sort:_timestamp:-1
+                limit:10
     Template.user_posts.events 
         'click .add_user_post': ->
             user = Meteor.users.findOne username:Router.current().params.username
@@ -272,7 +273,8 @@ if Meteor.isServer
         Docs.find {
             model:'group'
             member_ids:$in:[user._id]
-        }
+        },
+            limit:10
             # fields:
             #     title:1
             #     model:1

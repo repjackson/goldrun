@@ -120,6 +120,7 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'group_from_doc_id', (doc_id)->
         doc = Docs.findOne doc_id 
-        Docs.find 
-            model:'group'
-            _id:doc.group_id
+        if doc and doc.group_id
+            Docs.find 
+                model:'group'
+                _id:doc.group_id

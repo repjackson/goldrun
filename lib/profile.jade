@@ -57,7 +57,7 @@ template(name='profile')
                             +i name='settings'
                             unless currentUser.hide_menu_labels
                                 |account
-                .four.wide.column.scrollin
+                .six.wide.column.scrollin
                     // a(href="/user/#{username}")
                     img.ui.medium.rounded.image.boop.pointer.zomers(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     // a(href="/user/#{username}")
@@ -97,10 +97,10 @@ template(name='profile')
                         // +request_button
                         +follow_button
                         +friend_button
-                .twelve.wide.column
+                .ten.wide.column
                     if subs_ready
-                        .ui.fluid.styled.accordion.alpha
-                            .title.zomers
+                        .ui.two.column.stackable.grid
+                            .column
                                 .ui.inline.header 
                                     +i name='info'
                                     |about
@@ -123,7 +123,6 @@ template(name='profile')
                                         |#{status}
                                 each seven_tags
                                     .ui.label #{this}
-                            .content
                                 div
                                 +text_view key='display_name' label='display name'
                                 div
@@ -138,25 +137,33 @@ template(name='profile')
                                 +text_view key='linkedin_link' label='LinkedIn profile ' icon='linkedin'
                                 +text_view key='twitter_link' label='twitter profile ' icon='twitter'
                                 +text_view key='facebook_link' label='facebook profile ' icon='facebook'
-                            +user_reviews
-                            +user_posts
-                            +user_groups
-                            +user_services
-                            +user_social
-                            +user_favorites
-                            +user_checkins
-                            +user_points
-                            +user_drafts
-                            +user_events
+                            .column
+                                +user_reviews
+                            .column
+                                +user_posts
+                            .column
+                                +user_groups
+                            .column
+                                +user_services
+                            .column
+                                +user_social
+                            .column
+                                +user_favorites
+                            .column
+                                +user_checkins
+                            .column
+                                +user_points
+                                +user_drafts
+                            .column
+                                +user_events
                             if user_unread_log_docs.count
-                                .title.zomers
+                                .column
                                     .ui.inline.header 
                                         +i name='envelope'
                                         |messages/unread logs
                                         .ui.label 
                                             |#{user_unread_log_docs.count}
                                     i.dropdown.icon
-                                .content
                                     // if currentUser
                                     //     unless is_current_user
                                     //         +send_message_button
@@ -453,7 +460,7 @@ template(name='user_comments')
                  
 template(name='user_groups')   
     if user_group_memberships.count
-        .title.zomers
+        .ui.segment.alpha
             .ui.inline.header 
                 +i name='groups'
                 |#{user_group_memberships.count}
@@ -465,7 +472,6 @@ template(name='user_groups')
                     img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
             else 
                 i.large.yin.yang.loading.icon
-        .content
             .ui.selection.link.animated.large.list    
                 each user_group_memberships
                     // +doc_item
@@ -477,12 +483,11 @@ template(name='user_groups')
                             .ui.small.basic.label #{this}
                      
 template(name='user_services')
-    .title
+    .ui.segment.alpha
         .ui.inline.header 
             +i name='wrench'
             |services
         i.dropdown.icon
-    .content
         each user_service_docs 
             .item #{title}
         .ui.header 
@@ -497,7 +502,7 @@ template(name='user_services')
                      
                     
 template(name='user_social')
-    .title
+    .ui.segment.alpha
         .ui.inline.header 
             +i name='friends'
             |social
@@ -507,8 +512,6 @@ template(name='user_social')
                 +i name='omnichannel'
                 each refered_user_docs
                     img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
-            
-    .content
         .ui.two.column.stackable.grid
             .column
                 +friend_button
@@ -571,7 +574,7 @@ template(name="user_reviews")
 template(name='user_posts')
     if user_authored_post_docs.count
         // .ui.fluid.styled.accordion.alpha
-        .title.zomers
+        .ui.segment.alpha
             .ui.inline.header 
                 +i name='blog'
                 |#{user_authored_post_docs.count}
@@ -583,21 +586,20 @@ template(name='user_posts')
             each user_authored_post_docs
                 if image_id
                     img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
-        .content
             .ui.selection.link.animated.divided.list.scrolling
                 each user_authored_post_docs
                     a.item.fly_left(href="/doc/#{_id}") 
                         if image_id
                             img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                            .ui.inline.header
-                                |#{title}
-                            .description
-                                |#{_when}
-                                each ten_tags
-                                    .ui.basic.label #{this}
-                            if watson 
-                                +doc_sentiment
-                                +doc_emotion
+                        .ui.inline.header
+                            |#{title}
+                        // .description
+                        //     |#{_when}
+                        //     each ten_tags
+                        //         .ui.basic.label #{this}
+                        // if watson 
+                        //     +doc_sentiment
+                        //     +doc_emotion
                             
 
 template(name='profile_deposits')

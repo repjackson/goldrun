@@ -15,7 +15,7 @@ template(name='profile')
         //     img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
-            .three.column.row
+            .two.column.row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .column
                     a(href="/user/#{username}")
@@ -101,39 +101,31 @@ template(name='profile')
                         +follow_button
                         +friend_button
                 .column
-                        if status 
-                            .ui.label(title='status')
-                                +i name='clock'
-                                |#{status}
-                        +text_view key='display_name' label='display name'
-                        div
-                        +array_view key='tags' label='tags' icon='tags'
-                        +html_view key='bio' label='bio'
-                        +text_view key='status' label='status' icon='clock'
-                        +text_view key='address' label='address' icon='marker' 
-                        +text_view key='city' label='city' icon='marker' 
-                        +text_view key='state' label='state' icon='marker' 
-                        +phone_view key='phone' label='phone' icon='phone' 
-                        +text_view key='company' label='company' icon='business'
-                .column
-                    +user_reviews
-                .column
-                    +user_posts
-                .column
-                    +user_groups
-                .column
-                    +user_services
-                .column
-                    +user_social
-                .column
-                    +user_favorites
-                .column
-                    +user_checkins
-                .column
-                    +user_points
-                    +user_drafts
-                .column
-                    +user_events
+                    if status 
+                        .ui.label(title='status')
+                            +i name='clock'
+                            |#{status}
+                    +text_view key='display_name' label='display name'
+                    div
+                    +array_view key='tags' label='tags' icon='tags'
+                    +html_view key='bio' label='bio'
+                    +text_view key='status' label='status' icon='clock'
+                    +text_view key='address' label='address' icon='marker' 
+                    +text_view key='city' label='city' icon='marker' 
+                    +text_view key='state' label='state' icon='marker' 
+                    +phone_view key='phone' label='phone' icon='phone' 
+                    +text_view key='company' label='company' icon='business'
+            .three.column.row
+                +user_reviews
+                +user_posts
+                +user_groups
+                +user_services
+                +user_social
+                +user_favorites
+                +user_checkins
+                +user_points
+                +user_drafts
+                +user_events
                 if user_unread_log_docs.count
                     .column
                         .ui.inline.header 
@@ -222,11 +214,10 @@ template(name='profile')
                       
                             
 template(name='user_events')
-    .title
+    .column
         .ui.inline.header 
             +i name='calendar'
             | events
-    .content.smallscrol
         .ui.two.column.grid 
             .column
                 .ui.header 
@@ -277,24 +268,22 @@ template(name='event_item_small')
 
 
 template(name='user_tasks')
-    .title
+    .column
         .ui.inline.header 
             +i name='tasks'
             |#{user_task_docs.count} tasks
-    .content 
         .ui.header authored
         .ui.header assigned
         .ui.header completed
         
         
 template(name='user_checkins')
-    .title
+    .column
         .ui.inline.header 
             +i name='checkmark'
             |#{user_task_docs.count} checkins
         each user_checkin_docs
             img.ui.avatar.image(src="{{c.url _parent_doc.image_id height=300 crop='crop'}}")
-    .content 
         .ui.header authored
         .ui.header assigned
         .ui.header completed
@@ -303,11 +292,10 @@ template(name='user_checkins')
         
 template(name='user_drafts')
     if user_draft_docs.count
-        .title.zoomers
+        .column
             .ui.inline.header 
                 +i name='save'
                 |#{user_draft_docs.count} drafts
-        .content.smallscrol
             .ui.selection.animated.link.divided.list
                 each user_favorite_docs
                     .item
@@ -325,14 +313,13 @@ template(name='user_drafts')
                         
 template(name='user_favorites')
     if user_favorite_docs.count
-        .title.zoomers
+        .column
             .ui.inline.header 
                 +i name='heart'
                 |#{user_favorite_docs.count} favorites
             each user_favorite_docs
                 // +model_label
                 img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}" title="#{model}:#{title}")
-        .content.smallscrol
             .ui.selection.animated.link.divided.list
                 each user_favorite_docs
                     .item
@@ -352,11 +339,10 @@ template(name='when')
                     
                  
 template(name='user_points')        
-    .title
+    .column
         .ui.inline.header 
             +i name='coins'
             |balance: #{current_user.points}
-    .content
         .ui.dividing.header
             +i name='internal'
             |points in
@@ -400,31 +386,33 @@ template(name='user_points')
             
     
                  
-template(name='user_products')                 
-    .ui.dividing.header 
-        +i name='shop'
-        |user products
-    each user_product_docs 
-        .ui.header #{title}
+template(name='user_products')  
+    .column
+        .ui.dividing.header 
+            +i name='shop'
+            |user products
+        each user_product_docs 
+            .ui.header #{title}
                  
                  
-template(name='user_comments')                 
-    .ui.header 
-        +i name='chat'
-        |user comments
-    .ui.divided.animated.link.list
-        each user_comment_docs
-            a.item(href="/#{parent_model}/#{parent_id}")
-                .meta
-                    |#{_when}
-                .description #{body}
-                +print_this
-    +comments
+template(name='user_comments')   
+    .column
+        .ui.header 
+            +i name='chat'
+            |user comments
+        .ui.divided.animated.link.list
+            each user_comment_docs
+                a.item(href="/#{parent_model}/#{parent_id}")
+                    .meta
+                        |#{_when}
+                    .description #{body}
+                    +print_this
+        +comments
                  
                  
 template(name='user_groups')   
     if user_group_memberships.count
-        .ui.segment.alpha
+        .column
             .ui.inline.header 
                 +i name='groups'
                 |#{user_group_memberships.count}
@@ -440,7 +428,7 @@ template(name='user_groups')
                             .ui.small.basic.label #{this}
                      
 template(name='user_services')
-    .ui.segment.alpha
+    .column
         .ui.inline.header 
             +i name='wrench'
             |services
@@ -458,7 +446,7 @@ template(name='user_services')
                      
                     
 template(name='user_social')
-    .ui.segment.alpha
+    .column
         .ui.inline.header 
             +i name='friends'
             |social
@@ -517,11 +505,10 @@ template(name='send_message_button')
 template(name="user_reviews") 
     if user_review_docs.count
         // .ui.fluid.styled.accordion.alpha
-        .title.zoomers
+        .column
             .ui.header 
                 +i name='star'
                 |#{user_review_docs.count} reviews
-        .content
             .ui.link.selection.animated.list 
                 each user_review_docs
                     |#{amount}
@@ -529,7 +516,7 @@ template(name="user_reviews")
 template(name='user_posts')
     if user_authored_post_docs.count
         // .ui.fluid.styled.accordion.alpha
-        .ui.segment.alpha
+        .column
             .ui.inline.header 
                 +i name='blog'
                 |#{user_authored_post_docs.count}

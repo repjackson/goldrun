@@ -1,6 +1,6 @@
 template(name='users')
     .ui.padded.stackable.grid
-        .four.wide.column
+        .sixteen.wide.column
             .ui.inline.header
                 +i name='groups'
                 |#{user_docs.count}
@@ -8,10 +8,8 @@ template(name='users')
             if currentUser.admin
                 .ui.icon.button.add_user
                     i.plus.large.icon
-            div
             if currentUser
                 +session_boolean_toggle key='view_friends' label='friends' icon='friends'
-            div
             +i name='campfire'
             if picked_user_groups
                 #clear_groups.ui.primary.icon.compact.button
@@ -22,7 +20,6 @@ template(name='users')
             each all_groups
                 .ui.compact.basic.button.select_group(class=cloud_tag_class) 
                     strong #{this.name}
-            div
             +i name='tags'
             if picked_user_tags
                 // #clear_tags.ui.primary.icon.compact.button
@@ -31,9 +28,9 @@ template(name='users')
                     .unpick_user_tag.ui.primary.compact.button
                         strong #{this}
             each all_user_tags
-                .ui.compact.button.pick_user_tag(class=cloud_tag_class) 
+                .ui.compact.inverted.basic.button.pick_user_tag(class=cloud_tag_class) 
                     strong #{this.name}
-        .twelve.wide.column
+        .sixteen.wide.column
             +session_icon_button key='view_mode' value='grid' icon='grid' 
             +session_icon_button key='view_mode' value='list' icon='list'
             +sort_direction_toggle

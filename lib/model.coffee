@@ -1202,13 +1202,13 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    # Meteor.publish 'user_info_min', ->
-        # Meteor.users.find {},
-        #     fields: 
-        #         username:1
-        #         first_name:1
-        #         last_name:1
-        #         image_id:1
+    Meteor.publish 'user_info_min', ->
+        Meteor.users.find {},
+            fields: 
+                username:1
+                first_name:1
+                last_name:1
+                image_id:1
     Meteor.publish 'product_from_transfer_id', (transfer_id)->
         transfer = Docs.findOne transfer_id
         Docs.find 

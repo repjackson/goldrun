@@ -130,6 +130,7 @@
     '2004 albums'
     '2005 albums'
     '2006 albums'
+    '2007 albums'
     '2006 singles'
     '2007 singles'
     '2005 singles'

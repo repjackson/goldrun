@@ -898,7 +898,7 @@ if Meteor.isClient
     
     Template.key_value_edit.events
         'click .set_key_value': (e)->
-            console.log 'hi'
+            # console.log 'hi'
             parent = Template.parentData()
             # console.log parent, @key, @value
             user = Meteor.users.findOne username:Router.current().params.username
@@ -910,6 +910,14 @@ if Meteor.isClient
                     $set: "#{@key}": @value
             $(e.currentTarget).closest('.button').transition('pulse',500)
 
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key}=#{@value} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom center"
+            )
 
 if Meteor.isClient
     Template.flat_tag_selector.onCreated ->

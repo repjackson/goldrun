@@ -189,7 +189,7 @@ if Meteor.isClient
                     $set:"#{@key}":val
             $('body').toast(
                 showIcon: 'checkmark'
-                message: "#{@key} saved"
+                message: "#{@key}=#{val} saved"
                 # showProgress: 'bottom'
                 class: 'success'
                 displayTime: 'auto',
@@ -392,7 +392,15 @@ if Meteor.isClient
             else 
                 Meteor.users.update parent._id, 
                     $set:"#{@key}":textarea_val
-    
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
+
     
     
     Template.text_edit.events
@@ -514,7 +522,7 @@ if Meteor.isClient
     Template.boolean_edit.helpers
         boolean_toggle_class: ->
             parent = Template.parentData()
-            if parent["#{@key}"] then 'active large' else 'small compact'
+            if parent["#{@key}"] then 'active large inverted' else 'small compact basic inverted'
     
     
     Template.boolean_edit.events
@@ -529,6 +537,8 @@ if Meteor.isClient
             else 
                 Meteor.users.update parent._id,
                     $set:"#{@key}":!parent["#{@key}"]
+            $(e.currentTarget).closest('.button').transition('pulse', 500)
+            Meteor.call 'calc_user_points', ->
             $('body').toast(
                 showIcon: 'checkmark'
                 message: "#{@key} saved"
@@ -537,8 +547,6 @@ if Meteor.isClient
                 displayTime: 'auto',
                 position: "bottom right"
             )
-            $(e.currentTarget).closest('.button').transition('pulse', 500)
-            Meteor.call 'calc_user_points', ->
 
     Template.boolean_edit_icon.helpers
         boolean_toggle_class: ->
@@ -732,7 +740,16 @@ if Meteor.isClient
     
     Template.single_user_edit.onCreated ->
         @user_results = new ReactiveVar
-        # @autorun => Meteor.subscribe 'all_users', ->
+        # console.log @data.key
+        @autorun => Meteor.subscribe 'user_by_ref', @data.key, ->
+            
+if Meteor.isServer
+    Meteor.publish 'user_by_ref', (key)->
+        console.log key
+        Meteor.users.find 
+            _id: "#{key}_id"
+    
+if Meteor.isClient
     Template.single_user_edit.helpers
         picked_user: ->
             # console.log @
@@ -786,7 +803,7 @@ if Meteor.isClient
                     $set:
                         "#{field.key}_id":@_id
                         "#{field.key}_username":@username
-            else 
+            else if user
                 Meteor.users.update parent._id,
                     $set:
                         "#{field.key}_id":@_id

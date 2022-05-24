@@ -15,7 +15,7 @@ template(name='profile')
         //     img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
-            .two.column.row
+            .three.column.row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .column
                     a(href="/user/#{username}")
@@ -115,7 +115,6 @@ template(name='profile')
                     +text_view key='state' label='state' icon='marker' 
                     +phone_view key='phone' label='phone' icon='phone' 
                     +text_view key='company' label='company' icon='business'
-            .three.column.row
                 +user_reviews
                 +user_posts
                 +user_groups

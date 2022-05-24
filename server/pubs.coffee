@@ -39,6 +39,7 @@ Meteor.publish 'facet_sub', (
 
         # if tag_limit then limit=tag_limit else limit=50
         # if author_id then match.author_id = author_id
+        match.published = true
 
         # if view_private is true then match.author_id = @userId
         # if view_resonates?

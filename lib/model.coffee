@@ -871,6 +871,14 @@ if Meteor.isClient
                 group_id:Router.current().params.doc_id
             },
                 sort:_timestamp:-1
+        group_post_docs: ->
+            Docs.find 
+                model:'post'
+                group_id:Router.current().params.doc_id
+        _members: ->
+            Meteor.users.find 
+                _id:$in:@member_ids
+                
     # Template.groups_small.onCreated ->
     #     @autorun => Meteor.subscribe 'model_docs', 'group', Sesion.get('group_search'),->
     # Template.groups_small.helpers
@@ -897,15 +905,6 @@ if Meteor.isClient
             Docs.find 
                 model:'post'
                 group_id:Router.current().params.doc_id
-    Template.group_view.helpers
-        group_post_docs: ->
-            Docs.find 
-                model:'post'
-                group_id:Router.current().params.doc_id
-    Template.group_view.helpers
-        _members: ->
-            Meteor.users.find 
-                _id:$in:@member_ids
     # Template.group_products.events
     #     'click .add_product': ->
     #         new_id = 

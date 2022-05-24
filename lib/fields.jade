@@ -6,7 +6,7 @@ template(name='youtube_edit')
             |youtube id
         input.youtube_id(type='text' value=field_value placeholder=placeholder autocomplete="off")
     if field_value
-        iframe(width='100%' height='500px' src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+        iframe.invert(width='100%' height='500px' src="https://www.youtube.com/embed/#{field_value}" frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
 
 template(name='youtube_view')
     if field_value

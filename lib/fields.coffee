@@ -751,6 +751,7 @@ if Meteor.isClient
     Template.single_user_edit.onCreated ->
         @user_results = new ReactiveVar
         # console.log @data.key
+        @autorun => Meteor.subscribe 'user_info_min', ->
         @autorun => Meteor.subscribe 'user_by_ref', @data.key, ->
             
 if Meteor.isServer

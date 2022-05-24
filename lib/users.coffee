@@ -36,15 +36,15 @@ if Meteor.isServer
             limit:50, 
             sort:
                 "#{sort_key}":sort_direction
-            # fields:
-            #     roles:1
-            #     username:1
-            #     image_id:1
-            #     tags:1
-            #     points:1
-            #     credit:1
-            #     first_name:1
-            #     last_name:1
+            fields:
+                username:1
+                image_id:1
+                tags:1
+                points:1
+                credit:1
+                first_name:1
+                last_name:1
+                group_memberships:1
         })
             
 if Meteor.isClient  

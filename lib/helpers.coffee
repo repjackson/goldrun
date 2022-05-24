@@ -50,8 +50,8 @@ if Meteor.isClient
             _id:$in:@following_user_ids
     
     Template.registerHelper 'all_docs', () -> Docs.find()
-    Template.registerHelper 'one_result', () -> Docs.find().count() is 1
-    Template.registerHelper 'two_results', () -> Docs.find().count() is 2
+    Template.registerHelper 'one_result', () -> Docs.find(model:Session.get('model')).count() is 1
+    Template.registerHelper 'two_results', () -> Docs.find(model:Session.get('model')).count() is 2
     
     
     Template.registerHelper 'parent', () -> Template.parentData()

@@ -180,20 +180,36 @@ if Meteor.isClient
             val = t.$('.edit_url').val()
             parent = Template.parentData()
             doc = Docs.findOne parent._id
+            user = Meteor.users.findOne parent._id
             if doc
                 Docs.update parent._id,
                     $set:"#{@key}":val
-    
+            else if user
+                Meteor.users.update parent._id,
+                    $set:"#{@key}":val
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
+
     
     Template.icon_edit.events
         'blur .icon_val': (e,t)->
             val = t.$('.icon_val').val()
             parent = Template.parentData()
             doc = Docs.findOne parent._id
+            user = Meteor.users.findOne parent._id
             if doc
                 Docs.update parent._id,
                     $set:"#{@key}":val
-    
+            else if user
+                Meteor.users.update parent._id,
+                    $set:"#{@key}":val
+                
     Template.image_link_edit.events
         'blur .image_link_val': (e,t)->
             val = t.$('.image_link_val').val()
@@ -206,7 +222,15 @@ if Meteor.isClient
             else if user
                 Meteor.users.update parent._id,
                     $set:"#{@key}":val
-                    
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
+
     
     Template.image_edit.events
         "change input[name='upload_image']": (e) ->
@@ -260,7 +284,15 @@ if Meteor.isClient
                 else 
                     Meteor.users.update parent._id,
                         $unset:"#{@key}":1
-    
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
+
     
     
     
@@ -367,8 +399,16 @@ if Meteor.isClient
             else 
                 Meteor.users.update parent._id, 
                     $set:"#{@key}":val
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
     
-    
+
     Template.location_edit.events
         'blur .edit_text': (e,t)->
             val = t.$('.edit_text').val()
@@ -381,7 +421,15 @@ if Meteor.isClient
             else 
                 Meteor.users.update parent._id, 
                     $set:"#{@key}":val
-    
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
+
     
     
     
@@ -404,7 +452,15 @@ if Meteor.isClient
             else 
                 Meteor.users.update parent._id,
                     $set:"#{@key}":val
-    
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
+
     Template.float_edit.events
         'blur .edit_float': (e,t)->
             parent = Template.parentData()
@@ -416,7 +472,15 @@ if Meteor.isClient
             else 
                 Meteor.users.update parent._id,
                     $set:"#{@key}":val
-    
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
+  
     
     Template.slug_edit.events
         'blur .edit_text': (e,t)->
@@ -573,7 +637,15 @@ if Meteor.isClient
                 else 
                     Meteor.users.update parent._id,
                         $set: "#{ref_field.key}": @slug
-    
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
+
     
     Template.multi_doc_view.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', @data.ref_model
@@ -640,7 +712,15 @@ if Meteor.isClient
                 if doc
                     Docs.update parent._id,
                         $addToSet: "#{ref_field.key}": @slug
-    
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
+
     
     Template.single_user_edit.onCreated ->
         @user_results = new ReactiveVar

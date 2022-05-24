@@ -39,8 +39,8 @@ body {
 }
 
 
-.invert .image {
-     filter: invert(1) !important; 
+.card .image {
+     /*filter: invert(1) !important; */
 }
 .image {
      filter: invert(1) !important; 
@@ -392,12 +392,12 @@ body {
     border-radius: 15px !important;
     /*box-shadow: 2px 2px 2px 2px lightgrey !important; */
 }
-.item:active, .card:active, .accordion:active, .title:active {
+.item:active, .card:active, .accordion:active, .title:active, input:active {
     /*color: black !important;*/
     /*background-color: darkgrey !important; */
     /*box-shadow: inset 5px 5px 10px #333 !important; */
     /*transition: all 5s ease !important;*/
-     transform: translate(0, 4px); 
+    transform: translate(0, 4px) !important; 
     
     border-radius: 20px !important;
     /*box-shadow: 5px 5px 5px 5px grey !important; */

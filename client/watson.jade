@@ -104,7 +104,7 @@ template(name='call_visual')
 template(name='keywords')
     // .ui.grey.inline.header 
     //     |#{watson.keywords.length} keywords
-    .ui.four.column.stackable.grid
+    .ui.three.column.stackable.grid
         each watson.keywords
             .ui.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
@@ -285,12 +285,12 @@ template(name='watson_view')
         
     
 template(name='call_watson')
-    .ui.image.link.big.label.zoomer.autotag
+    .ui.image.link.big.label.zoomer.autotag.pointer
         //i.chess.icon
         +i name='dna-helix'
         |analyze
 template(name='call_tone')
-    .ui.image.link.big.label.zoomer.call_tone
+    .ui.image.link.big.label.zoomer.call_tone.pointer
         //i.chess.icon
         +i name='dna-helix'
         |analyze tone

@@ -976,10 +976,6 @@ template(name='group_view')
                 each group_post_docs 
                     .ui.header #{title}
         .column
-            .ui.inline.header
-                // i.info.icon
-                +i name='info'
-                |about
             +html_view key='content' icon='content' label='description'
             // .scrolling
     .ui.segment.alpha
@@ -1396,7 +1392,7 @@ template(name='view_span')
 template(name='transfer_card')
     .content
         .content
-            with _target
+            with _target._id
                 +user_info
             span.smallscroll
                 |!{description}

@@ -263,7 +263,7 @@ template(name='image_view')
     //- +call_visual
     
 template(name='image_edit')
-    .ui.form
+    .ui.form.pointer
         // if icon
         //     i.icon(class=icon)
         +i name='image'
@@ -289,7 +289,7 @@ template(name='image_edit')
                 //     i.dna.icon
                 //     |autotag
             else
-                input(type='file' name='upload_image' accept='image/*' )
+                input.pointer.zoomer(type='file' name='upload_image' accept='image/*' )
             
 
 template(name='image_link_edit')
@@ -601,7 +601,7 @@ template(name='array_view')
             .ui.inline.small.grey.header.say_body(title=title)
                 |#{label}
         each field_value
-            .ui.label.say_body #{this}
+            .ui.basic.large.inverted.label.say_body #{this}
 
 
 template(name='children_edit')

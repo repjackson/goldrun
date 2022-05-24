@@ -91,11 +91,16 @@ template(name='doc_card')
                 +group_info
             each seven_tags 
                 .ui.basic.small.label #{this}
-            .ui.small.basic.label(title='created when')
-                |#{when}
+            +when_label
             if watson 
                 +doc_sentiment
                 +doc_emotion
 
             a.ui.circular.basic.icon.button.zoomer.fly_right(href="/doc/#{_id}")
                 +i name='chevron-right'
+
+
+
+template(name='when_label')
+    .ui.small.basic.label(title='created when')
+        |#{_when}

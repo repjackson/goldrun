@@ -10,7 +10,7 @@ if Meteor.isClient
     Template.model_label.events 
         'click .pick_model': ->
             Session.set('model',@model)
-            Router.go "/m/#{model}"
+            Router.go "/m/#{@model}"
         
         
     Template.add_doc_button.events 

@@ -29,13 +29,13 @@ template(name='doc_view')
                             +tone
                         +publish_info
                         if facebook_link 
-                            a.zoomer(href=facebook_link _target='_window' title='visit facebook page')
+                            a.zoomer(href=facebook_link target='_window' title='visit facebook page')
                                 +i name='facebook'
                         if instagram_link
-                            a.zoomer(href=instagram_link _target='_window' title='visit instagram page')
+                            a.zoomer(href=instagram_link target='_window' title='visit instagram page')
                                 +i name='instagram'
                         if twitter_link
-                            a.zoomer(href=twitter_link _target='_window' title='visit twitter page')
+                            a.zoomer(href=twitter_link target='_window' title='visit twitter page')
                                 +i name='twitter'
                         if link 
                             a.ui.big.compact.button.zoomer(href=link target='_window' title=link)

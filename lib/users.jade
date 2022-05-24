@@ -52,7 +52,7 @@ template(name='users')
                             each user_docs
                                 +user_card
                     else
-                        .ui.stackable.centered.cards
+                        .ui.stackable.centered.centered.cards
                             each user_docs
                                 +user_card
                 else if session_is 'view_mode' 'list'
@@ -67,7 +67,7 @@ template(name='user_card')
         // unless background_image_id
         //     img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
         if image_id
-            img(class=currentUser.invert_class src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}") 
+            img.invert.ui.fluid.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}") 
         // else 
         //     img(class=currentUser.invert_class src="{{c.url 'blank-profile' height=500 width=500 gravity='face' crop='fill'}}") 
         //     .ui.fade.reveal.image

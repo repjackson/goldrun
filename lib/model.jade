@@ -49,27 +49,6 @@ template(name='post_orders')
                 
                 
 
-template(name='visibility_settings')
-    .title
-        .ui.inline.header
-            +i name='visible'
-            |visibility
-        +key_value_icon key='visibility' value='published' icon='checkmark' classes='green'
-        +key_value_icon key='visibility' value='private' icon='lock' classes='blue'
-        +key_value_icon key='visibility' value='draft' icon='checkmark' classes='orange'
-    .content
-        +key_value_edit key='visibility' value='published' icon='checkmark' classes='green'
-        +key_value_edit key='visibility' value='private' icon='lock' classes='blue'
-        +key_value_edit key='visibility' value='draft' icon='checkmark' classes='orange'
-        if private 
-            .ui.header 
-                i.lock.icon
-                |private
-        if friends_only
-            .ui.header 
-                +i name='friends'
-                |friends only
-
 
 template(name='key_value_icon')
     if parent_is key value 

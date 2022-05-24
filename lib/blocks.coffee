@@ -546,6 +546,7 @@ if Meteor.isClient
                 parent_id:@_id
                 parent_model:'group'
                 group_id:@_id
+                published:true
         'click .leave': ->
             Docs.update @_id, 
                 $pull:
@@ -557,6 +558,7 @@ if Meteor.isClient
                 parent_id:@_id
                 parent_model:'group'
                 group_id:@_id
+                published:true
 
 
     Template.big_user_card.onCreated ->

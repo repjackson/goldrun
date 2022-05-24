@@ -33,7 +33,7 @@ Template.footer.helpers
 
 Template.nav.helpers
     is_connected: -> 
-        console.log Meteor.status().connected
+        # console.log Meteor.status().connected
         Meteor.status().connected
     unread_count: ->
         Docs.find(

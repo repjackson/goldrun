@@ -126,6 +126,9 @@ template(name='profile')
                 +user_points
                 +user_drafts
                 +user_events
+                if instagram_code
+                    .column
+                        |!{instagram_code}
                 if user_unread_log_docs.count
                     .column
                         .ui.inline.header 

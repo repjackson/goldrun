@@ -125,6 +125,8 @@ template(name='account')
                             div
                             .ui.inline.header invert 
                             +boolean_edit key='darkmode' label='darkmode' icon='lightbulb'
+                        .column 
+                            +textarea_edit key='instagram_code' label='instagram embed code'
                     +user_sessions
                     
 template(name='user_sessions')

@@ -367,7 +367,15 @@ if Meteor.isClient
             else 
                 Meteor.users.update parent._id, 
                     $set:"#{@key}":textarea_val
-    
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "#{@key} saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
+
     
     Template.raw_edit.events
         # 'click .toggle_edit': (e,t)->
@@ -724,7 +732,7 @@ if Meteor.isClient
     
     Template.single_user_edit.onCreated ->
         @user_results = new ReactiveVar
-        @autorun => Meteor.subscribe 'all_users', ->
+        # @autorun => Meteor.subscribe 'all_users', ->
     Template.single_user_edit.helpers
         picked_user: ->
             # console.log @

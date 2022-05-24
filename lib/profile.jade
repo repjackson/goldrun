@@ -524,13 +524,9 @@ template(name='user_posts')
                 +i name='blog'
                 |#{user_authored_post_docs.count}
                 |authored posts
-            i.dropdown.large.icon
             // if is_current_user
             //     .ui.circular.button.add_user_post
             //         i.large.plus.icon
-            each user_authored_post_docs
-                if image_id
-                    img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
             .ui.selection.link.animated.divided.list.scrolling
                 each user_authored_post_docs
                     a.item.fly_left(href="/doc/#{_id}") 
@@ -538,10 +534,10 @@ template(name='user_posts')
                             img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
                         .ui.inline.header
                             |#{title}
-                        // .description
-                        //     |#{_when}
-                        //     each ten_tags
-                        //         .ui.basic.label #{this}
+                        .description
+                            |#{_when}
+                            each ten_tags
+                                .ui.basic.label #{this}
                         // if watson 
                         //     +doc_sentiment
                         //     +doc_emotion

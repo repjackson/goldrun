@@ -866,6 +866,7 @@ if Meteor.isClient
     
     Template.multi_user_edit.onCreated ->
         @user_results = new ReactiveVar
+        @autorun = Meteor.subscribe 'user_info_min', ->
     Template.multi_user_edit.helpers
         user_results: -> Template.instance().user_results.get()
         picked_users: ->

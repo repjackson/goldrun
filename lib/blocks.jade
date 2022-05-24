@@ -364,10 +364,10 @@ template(name='member_info')
 template(name='user_info')
     // with user_from_id this
     with user_doc
-        a.ui.big.link.image.zoomer.label.zoom(href="/user/#{username}")
-            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-            |#{name}
-            small @#{username}
+        a.ui.big.link.image.zoomer.label.zoom(href="/user/#{username}" title="view #{name}'s profile`")
+            img.ui.avatar.image.zoomer(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+            strong.zoomer #{name}
+            small.zoomer @#{username}
     // .ui.header #{this}
 
 

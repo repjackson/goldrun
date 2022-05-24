@@ -135,7 +135,7 @@ template(name='nav')
                     i.user.icon
                 strong #{currentUser.username}
                 |&nbsp;
-                .ui.label(title='points') #{currentUser.points}p
+                .ui.big.basic.black.inverted.label(title='points') #{currentUser.points}p
                 if unread_count
                     .ui.large.label #{unread_count}
         unless subs_ready
@@ -158,7 +158,7 @@ template(name='nav')
         if is_connected
             a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
                 +i name='groups'
-            +nav_item key='post' icon='blog'
+            +nav_item key='post' icon='news'
             +nav_item key='event' icon='calendar'
             +nav_item key='group' icon='campfire'
             +nav_item key='product' icon='shopping-cart'
@@ -167,7 +167,7 @@ template(name='nav')
             +nav_item key='rental' icon='clock'
             +nav_item key='task' icon='tasks'
             // +nav_item key='checkin' icon='checkmark'
-            +nav_item key='log' icon='event-log'
+            +nav_item key='log' icon='command-line'
             
 
 

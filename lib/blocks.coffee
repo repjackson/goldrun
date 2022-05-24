@@ -119,7 +119,7 @@ if Meteor.isClient
         facet_results: ->
             Results.find {
                 model:@key
-            }, limit:10
+            }, limit:20
         picked_tags: -> picked_tags.array()
     Template.facet.events 
         'click .pick_tag': -> picked_tags.push @name
@@ -282,12 +282,29 @@ if Meteor.isClient
             if Meteor.user()
                 $(e.currentTarget).closest('.button').transition('pulse',200)
                 Meteor.call 'upvote', @, ->
+                $('body').toast(
+                    showIcon: 'thumbs up'
+                    message: "upvoted"
+                    showProgress: 'bottom'
+                    class: 'success'
+                    # displayTime: 'auto',
+                    position: "bottom right"
+                )
+                    
             else 
                 Router.go "/login"
         'click .downvote': (e,t)->
             if Meteor.user()
                 $(e.currentTarget).closest('.button').transition('pulse',200)
                 Meteor.call 'downvote', @, ->
+                $('body').toast(
+                    showIcon: 'thumbs down'
+                    message: "downvoted"
+                    showProgress: 'bottom'
+                    class: 'success'
+                    # displayTime: 'auto',
+                    position: "bottom right"
+                )
             else 
                 Router.go "/login"
 
@@ -297,6 +314,15 @@ if Meteor.isClient
             if Meteor.user()
                 $(e.currentTarget).closest('.button').transition('pulse',200)
                 Meteor.call 'upvote', @, ->
+                $('body').toast(
+                    showIcon: 'thumbs up'
+                    message: "upvoted"
+                    showProgress: 'bottom'
+                    class: 'success'
+                    # displayTime: 'auto',
+                    position: "bottom right"
+                )
+                    
             else 
                 Router.go "/login"
         'click .downvote': (e,t)->
@@ -310,17 +336,41 @@ if Meteor.isClient
         'click .upvote': (e,t)->
             if Meteor.user()
                 $(e.currentTarget).closest('.button').transition('pulse',200)
-                Meteor.call 'upvote', @
+                Meteor.call 'upvote', @, ->
+                $('body').toast(
+                    showIcon: 'thumbs up'
+                    message: "upvoted"
+                    showProgress: 'bottom'
+                    class: 'success'
+                    # displayTime: 'auto',
+                    position: "bottom right"
+                )
+                console.log @
+                Meteor.call 'calc_user_points', ->
+                Meteor.call 'calc_user_points', @_author_id, ->
+                    
             else
                 $(e.currentTarget).closest('.grid').transition('fade down', 500)
                 Router.go "/login"
         'click .downvote': (e,t)->
             if Meteor.user()
                 $(e.currentTarget).closest('.button').transition('pulse',200)
-                Meteor.call 'downvote', @
+                Meteor.call 'downvote', @, ->
+                $('body').toast(
+                    showIcon: 'thumbs down'
+                    message: "downvoted"
+                    showProgress: 'bottom'
+                    class: 'success'
+                    # displayTime: 'auto',
+                    position: "bottom right"
+                )
+                    
             else 
                 $(e.currentTarget).closest('.grid').transition('fade down', 500)
                 Router.go "/login"
+                Meteor.call 'calc_user_points', ->
+                Meteor.call 'calc_user_points', @_author_id, ->
+                
 
 
     # Template.doc_card.onCreated ->

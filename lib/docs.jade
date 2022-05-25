@@ -80,7 +80,7 @@ template(name='doc_card')
                 .ui.big.label 
                     |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.label
+            .ui.large.basic.inverted.black.label
                 i.eye.icon
                 |#{views}
             .ui.label   
@@ -89,8 +89,8 @@ template(name='doc_card')
             +author_info
             if group_id     
                 +group_info
-            each seven_tags 
-                .ui.basic.small.label #{this}
+            each five_tags 
+                .ui.basic.inverted.black.label #{this}
             +when_label
             if watson 
                 +doc_sentiment
@@ -102,5 +102,5 @@ template(name='doc_card')
 
 
 template(name='when_label')
-    .ui.small.basic.label(title='created when')
+    .ui.large.basic.inverted.black.label(title='created when')
         |#{_when}

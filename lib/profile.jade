@@ -374,7 +374,7 @@ template(name='user_points')
                 strong #{_parent.title} 
                 small {amount}pts
     .ui.dividing.header 
-        +i name='blog'
+        +i name='news'
         |posts
     .ui.small.header publish costs
     .ui.small.header earned points
@@ -524,7 +524,7 @@ template(name='user_posts')
     if user_authored_post_docs.count
         // .ui.fluid.styled.accordion.alpha
         .ui.inline.header 
-            +i name='blog'
+            +i name='news'
             |#{user_authored_post_docs.count}
             |authored posts
         // if is_current_user

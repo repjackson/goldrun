@@ -46,7 +46,7 @@ template(name='log_item')
 template(name='model_label')
     span.pick_model(title="view #{model}s")
         if is model 'post' 
-            +i name='blog'
+            +i name='news'
         else if is model 'event'
             +i name='calendar'
         else if is model 'product'
@@ -507,9 +507,9 @@ template(name='role_editor')
 
 template(name='author_info')
     with _author
-        a.ui.large.image.label(href="/user/#{username}")
+        a.ui.large.image.inveted.label(href="/user/#{username}")
             if image_id
-                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                img.ui.avatar.image.invert(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
             small by 
             strong #{name}
 
@@ -532,11 +532,11 @@ template(name='user_list_toggle')
 
 template(name='voting')
     unless is_author
-        i.thumbs.up.large.circular.link.icon.zoomer.upvote(class=upvote_class)
+        i.thumbs.up.large.circular.link.icon.zoomer.upvote.invert(class=upvote_class)
         // .ui.icon.button.upvote(title='upvote')
         //- each upvoter_ids
         //-     +user_info
-        i.thumbs.down.large.circular.link.icon.zoomer.downvote(class=downvote_class)
+        i.thumbs.down.large.circular.link.icon.zoomer.downvote.invert(class=downvote_class)
         // .ui.icon.button.downvote(title='downvote')
         //     i.thumbs.down.icon(class=downvote_class)
         //- each downvoter_ids
@@ -552,10 +552,10 @@ template(name='voting')
 template(name='voting_small')
     if points
         strong #{points}
-    i.thumbs.up.link.icon.upvote(class=upvote_class)
+    i.thumbs.up.link.icon.invert.upvote(class=upvote_class)
     //- each upvoter_ids
     //-     +user_info
-    i.thumbs.down.link.icon.downvote(class=downvote_class)
+    i.thumbs.down.link.icon.invert.downvote(class=downvote_class)
     //- each downvoter_ids
     //-     +user_info
 
@@ -567,10 +567,10 @@ template(name='voting_full')
     //     |voting
     // .ui.large.icon.circular.button.upvote(title='upvote' class=upvote_class)
     unless is_author
-        i.thumbs.up.big.circular.link.icon.zoomer.upvote(class=upvote_class)
+        i.thumbs.up.big.circular.link.icon.zoomer.upvote.invert(class=upvote_class)
             //- |like
         // .ui.big.icon.circular.button.downvote(title='downvote' class=downvote_class)
-        i.thumbs.down.big.circular.link.icon.zoomer.downvote(class=downvote_class)
+        i.thumbs.down.big.circular.link.icon.zoomer.downvote.invert(class=downvote_class)
     // i.thumbs.down.outline.icon
     //- |dislike
     if points

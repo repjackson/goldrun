@@ -46,6 +46,7 @@ if Meteor.isServer
                 last_name:1
                 group_memberships:1
                 createdAt:1
+                profile_views:1
         })
             
 if Meteor.isClient  
@@ -195,10 +196,9 @@ if Meteor.isServer
         console.log 'group match', match
         console.log 'sort key', sort_key
         console.log 'sort direction', sort_direction
-        Docs.find match,
-            # sort:"#{sort_key}":sort_direction
-            sort:_timestamp:-1
-            limit: 150
+        Meteor.users.find match,
+            sort:"#{sort_key}":sort_direction
+            limit: 100
             # limit: limit
 
 
@@ -222,7 +222,7 @@ if Meteor.isServer
             { $match: _id: $nin: picked_tags }
             { $sort: count: -1, _id: 1 }
             { $match: count: $lt: count }
-            { $limit: 10 }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         cloud.forEach (tag, i) ->

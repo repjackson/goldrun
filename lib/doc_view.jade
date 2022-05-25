@@ -67,8 +67,8 @@ template(name='doc_view')
                                         +watson_view
                                     if tone 
                                         +tone
+                            +Template.dynamic template=model_template 
                             .column
-                                +Template.dynamic template=model_template 
                                 +message_author_button
                                 +group_widget
                                 div

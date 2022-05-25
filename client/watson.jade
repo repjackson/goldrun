@@ -262,12 +262,8 @@ template(name='watson_view')
             +doc_emotion
             i.dropdown.large.icon
         .content
-            .ui.stackable.grid 
-                .two.column.row 
-                    .column
-                        +concepts
-                    .column
-                        +categories
+            +concepts
+            +categories
             +entities
             // +semantic_roles
             // +keyword_list

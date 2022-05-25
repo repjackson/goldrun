@@ -5,7 +5,7 @@ template(name='author_edit')
         +single_user_edit key='_author' label='username'
                         
 template(name='doc_view')
-    if doc_data
+    if subs_ready
         with doc_data
             if background_image_id
                 img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
@@ -43,7 +43,7 @@ template(name='doc_view')
                                 |link
                                 // |#{hostname}
                     .ui.stackable.padded.grid
-                        .two.column.row
+                        .three.column.row
                             .column
                                 if youtube_id
                                     +youtube_view key='youtube_id'
@@ -59,24 +59,29 @@ template(name='doc_view')
                                 .ui.inline.header                                
                                     |#{tags.length}
                                     +i name='tags'
-                                each tags 
-                                    a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='browse tag') #{this}
+                                span.flat_tags
+                                    each tags 
+                                        a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='browse tag') #{this}
                                 if watson 
                                     .column
                                         +watson_view
                                     if tone 
                                         +tone
-                    
-                            // .column
-                        .three.column.row
-                            +Template.dynamic template=model_template 
                             .column
+                                +Template.dynamic template=model_template 
                                 +message_author_button
                                 +group_widget
                                 div
                                 +voting_full
                                 div
+                                if nsfw
+                                    .ui.red.basic.large.label
+                                        +i name='18-plus'
+                                        |nsfw
+    
+                            .column
                                 +favorites
+                                +viewing_info
                             .column
                                 .ui.dividing.header 
                                     +i name='line-chart'
@@ -110,9 +115,25 @@ template(name='doc_view')
                                     |#{current_viewer_users.count} current viewers
                                 each current_viewer_users
                                     +user_info
-    // else 
-    //     .ui.center.aligned.basic.segment 
-    //         i.massive.yin.yang.loading.grey.icon
+    else 
+        .ui.center.aligned.basic.segment 
+            i.massive.yin.yang.loading.grey.icon
+
+template(name='viewing_info')
+    .ui.header 
+        +i name='eye'
+        |viewing info
+    .ui.list 
+        each _viewers
+            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+    .ui.small.header 
+        |#{views} views
+    .ui.small.header 
+        |last user viewed: {{med_date last_user_viewed_timestamp}}
+        |last user viewed
+    .ui.small.header 
+        |last anon viewed: {{med_date last_anon_viewed_timestamp}}
+
 
 template(name='publish_info')
     if published 

@@ -3,8 +3,8 @@ template(name='account')
         img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")
         //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
         .ui.stackable.padded.grid
-            .row
-                .six.wide.column
+            .three.column.row
+                .column
                     .ui.center.aligned.large.inline.grey.header
                     //- +i name='pencil'
                     .ui.small.inline.header @#{username}
@@ -19,115 +19,116 @@ template(name='account')
                         +boolean_edit key='admin' label='admin' icon='shield' 
 
                     +print_this
-                .ten.wide.column
-                    .ui.two.column.grid 
-                        .column 
-                            .ui.inline.header 
-                                +i name='info'
-                                |about
-                            +text_edit key='first_name' label='first name' icon='user'
-                            div
-                            +text_edit key='last_name' label='last name' icon='user'
-                            div
-                            +text_edit key='display_name' label='display name'
-                            div
-                            +text_edit key='status' label='status' icon='clock'
-                            div
-                            +array_edit key='tags' label='tags' icon='tags'
-                            div
-                            if currentUser.admin_mode 
-                                +number_edit key='points' label='points'
-                            // +boolean_edit key='has_bio' label='has bio (-1p)' icon='content'
-                            // if has_bio
-                            +html_edit key='bio' label='bio'
-                            +call_watson key='bio'
-                        .column 
-                            .ui.inline.header 
-                                +i name='marker'
-                                |contact
-                            if address
-                                +i name='marker'
-                            if company
-                                +i name='company'
-                            if linkedin_link
-                                +i name='linkedin'
-                            if facebook_link
-                                +i name='facebook'
-                            if instagram_link
-                                +i name='instagram'
-                            if twitter_link
-                                +i name='twitter'
-                            if phone
-                                +i name='phone'
-                            +text_edit key='address' label='address' icon='marker' 
-                            div
-                            +text_edit key='city' label='city' icon='marker' 
-                            div
-                            +text_edit key='state' label='state' icon='marker' 
-                            div
-                            +phone_edit key='phone' label='phone' icon='phone' 
-                            div
-                            +link_edit key='link' label='external link' icon='globe'
-                            div
-                            +text_edit key='position' label='position' icon='business' 
-                            div
-                            +text_edit key='company' label='company' icon='business'
-                            +link_edit key='link' label='profile link' icon='globe'
-                            div
-                            +link_edit key='instagram_link' label='instagram link ' icon='instagram'
-                            div
-                            +link_edit key='linkedin_link' label='linked in profile ' icon='linkedin'
-                            div
-                            +link_edit key='twitter_link' label='twitter profile ' icon='twitter'
-                            div
-                            +link_edit key='facebook_link' label='facebook profile ' icon='facebook'
-                            div
-                            +link_edit key='one_link' label='one boulder profile ' icon='1-circle-c--v1'
-                            
-                        .column 
-                            .ui.inline.header 
-                                +i name='password'
-                                |username/password
-                            if is_current_user
-                                +password_edit
-                                //- +phone_editor
-                                +username_edit
-                            else currentUser.admin_mode
-                                +password_edit
-                                //- +phone_editor
-                                +username_edit
-                                .ui.orange.button.remove_user 
-                                    i.remove.icon
-                                    |delete user
-                        .column 
-                            .ui.inline.header
-                                +i name='privacy'
-                                |privacy
-                            +boolean_edit key='publish_profile' label='publish profile' icon='eye'
-                        .column 
-                            .ui.inline.header
-                                +i name='paint'
-                                |appearance
-                            .ui.inline.header icon theme
-                            // +text_edit key='icon_class' label='icon class'
-                            +key_value_edit key='icon_class' value=null label='none'
-                            +key_value_edit key='icon_class' value='ios' label='outline'
-                            +key_value_edit key='icon_class' value='color' label='color'
-                            +key_value_edit key='icon_class' value='ultraviolet' label='blue'
-                            +key_value_edit key='icon_class' value='stickers' label='stickers'
-                            +key_value_edit key='icon_class' value='dotty' label='dots'
-                            +key_value_edit key='icon_class' value='office' label='office'
-                            +key_value_edit key='icon_class' value='simple' label='simple'
-                            div
-                            .ui.inline.header hide menu labels
-                            +key_value_edit key='hide_menu_labels' value=true label='yes'
-                            +key_value_edit key='hide_menu_labels' value=false label='no'
-                            div
-                            .ui.inline.header invert 
-                            +boolean_edit key='darkmode' label='darkmode' icon='lightbulb'
-                        .column 
-                            +textarea_edit key='instagram_code' label='instagram embed code'
-                    +user_sessions
+                .column
+                    .ui.inline.header 
+                        +i name='info'
+                        |about
+                    +text_edit key='first_name' label='first name' icon='user'
+                    div
+                    +text_edit key='last_name' label='last name' icon='user'
+                    div
+                    +text_edit key='display_name' label='display name'
+                    div
+                    +text_edit key='status' label='status' icon='clock'
+                    div
+                .column
+                    +array_edit key='tags' label='tags' icon='tags'
+                    div
+                    if currentUser.admin_mode 
+                        +number_edit key='points' label='points'
+                    // +boolean_edit key='has_bio' label='has bio (-1p)' icon='content'
+                    // if has_bio
+                .column
+                    +html_edit key='bio' label='bio'
+                    +call_watson key='bio'
+                .column 
+                    .ui.inline.header 
+                        +i name='marker'
+                        |contact
+                    div
+                    if address
+                        +i name='marker'
+                    if company
+                        +i name='company'
+                    if linkedin_link
+                        +i name='linkedin'
+                    if facebook_link
+                        +i name='facebook'
+                    if instagram_link
+                        +i name='instagram'
+                    if twitter_link
+                        +i name='twitter'
+                    if phone
+                        +i name='phone'
+                    +text_edit key='address' label='address' icon='marker' 
+                    div
+                    +text_edit key='city' label='city' icon='marker' 
+                    div
+                    +text_edit key='state' label='state' icon='marker' 
+                    div
+                    +phone_edit key='phone' label='phone' icon='phone' 
+                    div
+                    +link_edit key='link' label='external link' icon='globe'
+                    div
+                    +text_edit key='position' label='position' icon='business' 
+                .column
+                    +text_edit key='company' label='company' icon='business'
+                    +link_edit key='link' label='profile link' icon='globe'
+                    div
+                    +link_edit key='instagram_link' label='instagram link ' icon='instagram'
+                    div
+                    +link_edit key='linkedin_link' label='linked in profile ' icon='linkedin'
+                    div
+                    +link_edit key='twitter_link' label='twitter profile ' icon='twitter'
+                    div
+                    +link_edit key='facebook_link' label='facebook profile ' icon='facebook'
+                    div
+                    +link_edit key='one_link' label='one boulder profile ' icon='1-circle-c--v1'
+                    
+                .column 
+                    .ui.inline.header 
+                        +i name='password'
+                        |username/password
+                    if is_current_user
+                        +password_edit
+                        //- +phone_editor
+                        +username_edit
+                    else currentUser.admin_mode
+                        +password_edit
+                        //- +phone_editor
+                        +username_edit
+                        .ui.orange.button.remove_user 
+                            i.remove.icon
+                            |delete user
+                .column 
+                    .ui.inline.header
+                        +i name='privacy'
+                        |privacy
+                    +boolean_edit key='publish_profile' label='publish profile' icon='eye'
+                .column 
+                    .ui.inline.header
+                        +i name='paint'
+                        |appearance
+                    .ui.inline.header icon theme
+                    // +text_edit key='icon_class' label='icon class'
+                    +key_value_edit key='icon_class' value=null label='none'
+                    +key_value_edit key='icon_class' value='ios' label='outline'
+                    +key_value_edit key='icon_class' value='color' label='color'
+                    +key_value_edit key='icon_class' value='ultraviolet' label='blue'
+                    +key_value_edit key='icon_class' value='stickers' label='stickers'
+                    +key_value_edit key='icon_class' value='dotty' label='dots'
+                    +key_value_edit key='icon_class' value='office' label='office'
+                    +key_value_edit key='icon_class' value='simple' label='simple'
+                    div
+                    .ui.inline.header hide menu labels
+                    +key_value_edit key='hide_menu_labels' value=true label='yes'
+                    +key_value_edit key='hide_menu_labels' value=false label='no'
+                    div
+                    .ui.inline.header invert 
+                    +boolean_edit key='darkmode' label='darkmode' icon='lightbulb'
+                .column 
+                    +textarea_edit key='instagram_code' label='instagram embed code'
+                +user_sessions
                     
 template(name='user_sessions')
     .column

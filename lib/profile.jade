@@ -35,20 +35,21 @@ template(name='profile')
                         //- i.coins.icon
                         |#{points} pts
                     +link_view key='link' icon='globe'
+                    +online_label
                     if linkedin_link
-                        a.ui.basic.circular.icon.button.zoomers.pointer(href=linkedin_link target='_window' title='view linkedin profile')
+                        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=linkedin_link target='_window' title='view linkedin profile')
                             +i name='linkedin'
                     if twitter_link
-                        a.ui.basic.circular.icon.button.zoomers.pointer(href=twitter_link target='_window' title='view twitter profile')
+                        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=twitter_link target='_window' title='view twitter profile')
                             +i name='twitter'
                     if instagram_link
-                        a.ui.basic.circular.icon.button.zoomers.pointer(href=instagram_link target='_window' title='view instagram profile')
+                        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=instagram_link target='_window' title='view instagram profile')
                             +i name='instagram'
                     if facebook_link
-                        a.ui.basic.circular.icon.button.zoomers.pointer(href=facebook_link target='_window' title='view facebook profile')
+                        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=facebook_link target='_window' title='view facebook profile')
                             +i name='facebook'
                     if one_link
-                        a.ui.basic.circular.icon.button.zoomers.pointer(href=facebook_link target='_window' title='view facebook profile')
+                        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=facebook_link target='_window' title='view facebook profile')
                             img.ui.avatar.image(src="{{c.url 'one_logo' height=500 width=500 gravity='face' crop='fill'}}")
                     if is_current_user
                         a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
@@ -118,6 +119,7 @@ template(name='profile')
                 .column
                     +user_reviews
                     +user_posts
+                .column
                     +user_groups
                     +user_services
                 .column
@@ -125,8 +127,10 @@ template(name='profile')
                 .column
                     +user_favorites
                     +user_checkins
+                .column
                     +user_points
                     +user_drafts
+                .column
                     +user_events
                 if instagram_code
                     .column
@@ -216,6 +220,11 @@ template(name='profile')
                     //     .ui.basic.center.aligned.segment
                     //         i.massive.loading.refresh.icon
                           
+                
+template(name='online_label')
+    if online 
+        .ui.large.green.label 
+            |online
                       
                             
 template(name='user_events')
@@ -530,8 +539,8 @@ template(name='user_posts')
                         |#{title}
                     .description
                         |#{_when}
-                        each ten_tags
-                            .ui.basic.label #{this}
+                        each five_tags
+                            .ui.basic.inverted.black.label #{this}
                     // if watson 
                     //     +doc_sentiment
                     //     +doc_emotion

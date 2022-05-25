@@ -49,14 +49,6 @@ if Meteor.isServer
         })
             
 if Meteor.isClient  
-    Template.users.helpers
-        users: ->
-            username_search = Session.get('username_search')
-            Meteor.users.find({
-                username: {$regex:"#{username_search}", $options: 'i'}
-                # healthclub_checkedin:$ne:true
-                # roles:$in:['resident','owner']
-                },{ limit:150 }).fetch()
     Template.users.events
         # 'click #add_user': ->
         #     id = Docs.insert model:'person'
@@ -97,6 +89,16 @@ if Meteor.isClient
                 limit:150
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
             )
+        # users: ->
+        #     username_search = Session.get('username_search')
+        #     Meteor.users.find({
+        #         username: {$regex:"#{username_search}", $options: 'i'}
+        #         # healthclub_checkedin:$ne:true
+        #         # roles:$in:['resident','owner']
+        #         },{ 
+        #             limit:100
+        #             sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+        #     })
 
     Template.users.events
         'click .toggle_friends': -> Session.set('view_friends', !Session.get('view_friends'))

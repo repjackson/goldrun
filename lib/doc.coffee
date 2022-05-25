@@ -53,10 +53,19 @@ if Meteor.isClient
             doc = Docs.findOne Router.current().params.doc_id
             picked_tags.clear()
             picked_tags.push @valueOf()
-            $(e.currentTarget).closest('.grid').transition('fly right', 500)
-            
-            Router.go "/m/#{doc.model}"
+            $('.flat_tags .pick_flat_tag')
+              .transition({
+                animation : 'scale'
+                reverse   : 'auto'
+                interval  : 30
+              })
             Session.set('model',doc.model)
+            Meteor.setTimeout ->
+                $(e.currentTarget).closest('.grid').transition('fly right', 1000)
+            , 500
+            Meteor.setTimeout ->
+                Router.go "/m/#{doc.model}"
+            , 500
         
     # Template.doc_card.helpers
     #     card_template: -> "#{@model}_card"

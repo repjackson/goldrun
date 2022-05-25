@@ -134,6 +134,8 @@ Meteor.methods
                 $addToSet:
                     read_user_ids:Meteor.userId()
                     read_usernames:Meteor.user().username
+                $set:
+                    last_user_viewed_timestamp:Date.now()
             Meteor.users.update Meteor.userId(),
                 $set:
                     current_viewing_doc_id:doc_id
@@ -141,6 +143,8 @@ Meteor.methods
             Docs.update doc_id,
                 $inc:
                     anon_views:1
+                $set:
+                    last_anon_viewed_timestamp:Date.now()
         Meteor.call 'calc_user_points', ->
         Meteor.call 'calc_user_points', doc._author_id, ->
 

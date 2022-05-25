@@ -75,6 +75,8 @@ if Meteor.isClient
         @editor = SUNEDITOR.create((document.getElementById('sample') || 'sample'),{
             # 	"tabDisable": false
             # "minHeight": "500px"
+            charCounter:true;
+            colorList: [ ['#ff0000', '#ff5e00', '#ffe400', '#abf200'], ['#00d8ff', '#0055ff', '#6600ff', '#ff00dd'] ];
             width: "100%"
             buttonList: [
                 # // default

@@ -48,17 +48,17 @@ template(name='doc_emotion')
         //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
     if joy_percent
         .ui.basic.center.aligned.segment
-            .ui.multiple.progress.no_border.invert(data-total='100' data-value="{{ to_percent joy_percent }},{{ to_percent sadness_percent }},{{ to_percent fear_percent }},{{ to_percent disgust_percent }},{{ to_percent anger_percent }}")
+            .ui.multiple.small.progress.no_border.invert(data-total='100' data-value="{{ to_percent joy_percent }},{{ to_percent sadness_percent }},{{ to_percent fear_percent }},{{ to_percent disgust_percent }},{{ to_percent anger_percent }}")
                 .green.bar
-                    .progress
+                    // .progress
                 .blue.bar
-                    .progress
+                    // .progress
                 .black.bar
-                    .progress
+                    // .progress
                 .orange.bar
-                    .progress
+                    // .progress
                 .red.bar
-                    .progress
+                    // .progress
             span.ui.large.green.text(class="{{calculated_size joy_percent}}") {{ to_percent joy_percent }}% joy 
                 |&nbsp;
             //- if above_50 'sadness_percent'
@@ -108,24 +108,24 @@ template(name='keywords')
         each watson.keywords
             .ui.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
-                .ui.basic.circular.label(title='relevant') {{ to_percent relevance }}% rel
-                .ui.basic.circular.label {{ sentiment.label }} {{ to_percent sentiment.score }}%:
-                .ui.basic.circular.label(title='instance count') #{count}x
+                .ui.basic.circular.inverted.small.label(title='relevant') {{ to_percent relevance }}% rel
+                .ui.basic.circular.inverted.small.label {{ sentiment.label }} {{ to_percent sentiment.score }}%:
+                .ui.basic.circular.inverted.small.label(title='instance count') #{count}x
                 .description
                     if emotion
                         with emotion
                             // .ui.multiple.progress.no_border(data-total='100' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" title="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}")
-                            .ui.multiple.progress.zoomer.pointer(data-total='120' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" )
+                            .ui.multiple.small.progress.zoomer.pointer(data-total='120' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" )
                                 .green.bar
-                                    .progress
+                                    // .progress
                                 .blue.bar
-                                    .progress
+                                    // .progress
                                 .black.bar
-                                    .progress
+                                    // .progress
                                 .orange.bar
-                                    .progress
+                                    // .progress
                                 .red.bar
-                                    .progress
+                                    // .progress
                             .ui.popup
                                 span {{ to_percent sadness }}% sad
                                     .rounded(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" class=currentUser.invert_class)
@@ -162,17 +162,17 @@ template(name='entities')
                         |#{name}
                 if emotion
                     with emotion
-                        .ui.multiple.progress.zoomer.pointer(data-total='120' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" )
+                        .ui.multiple.small.progress.zoomer.pointer(data-total='120' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" )
                             .green.bar
-                                .progress
+                                // .progress
                             .blue.bar
-                                .progress
+                                // .progress
                             .black.bar
-                                .progress
+                                // .progress
                             .orange.bar
-                                .progress
+                                // .progress
                             .red.bar
-                                .progress
+                                // .progress
                         .ui.popup
                             span {{ to_percent sadness }}% sad
                                 .rounded(style="height:5px;width:{{to_percent sadness}}%;background-color:blue" title="{{to_percent sadness}}% sad" class=currentUser.invert_class)
@@ -256,32 +256,33 @@ template(name='categories')
 //- 
 template(name='watson_view')
     // +tone
-    // .ui.styled.fluid.accordion
-    .title(title='emotional breakdown')
-        +doc_sentiment
-        +doc_emotion
-    .content
-        .ui.stackable.grid 
-            .two.column.row 
-                .column
-                    +concepts
-                .column
-                    +categories
-        +entities
-        // +semantic_roles
-        // +keyword_list
-        +concept_list
-        +keywords
-        // .ui.hidden.divider
-        // +relations
-        //- if dev
-        //-     .ui.styled.accordion
-        //-         .title 
-        //-             i.code.icon
-        //-         .content
-        //-             +jsonView(json=watson)
-        //- +personality
-        //- +consumption_preferences
+    .ui.styled.fluid.accordion
+        .title(title='emotional breakdown')
+            +doc_sentiment
+            +doc_emotion
+            i.dropdown.large.icon
+        .content
+            .ui.stackable.grid 
+                .two.column.row 
+                    .column
+                        +concepts
+                    .column
+                        +categories
+            +entities
+            // +semantic_roles
+            // +keyword_list
+            +concept_list
+            +keywords
+            // .ui.hidden.divider
+            // +relations
+            //- if dev
+            //-     .ui.styled.accordion
+            //-         .title 
+            //-             i.code.icon
+            //-         .content
+            //-             +jsonView(json=watson)
+            //- +personality
+            //- +consumption_preferences
         
     
 template(name='call_watson')

@@ -115,16 +115,19 @@ template(name='profile')
                     +text_view key='state' label='state' icon='marker' 
                     +phone_view key='phone' label='phone' icon='phone' 
                     +text_view key='company' label='company' icon='business'
-                +user_reviews
-                +user_posts
-                +user_groups
-                +user_services
-                +user_social
-                +user_favorites
-                +user_checkins
-                +user_points
-                +user_drafts
-                +user_events
+                .column
+                    +user_reviews
+                    +user_posts
+                    +user_groups
+                    +user_services
+                .column
+                    +user_social
+                .column
+                    +user_favorites
+                    +user_checkins
+                    +user_points
+                    +user_drafts
+                    +user_events
                 if instagram_code
                     .column
                         |!{instagram_code}
@@ -216,40 +219,84 @@ template(name='profile')
                       
                             
 template(name='user_events')
-    .column
+    .ui.inline.header 
+        +i name='calendar'
+        | events
+    .ui.two.column.grid 
+        .column
+            .ui.header 
+                +i name='king'
+                |hosted
+            each hosted_docs
+                +event_item_small
+        .column
+            +i name='queen'
+            .ui.header supported
+            each hosted_docs
+                +event_item_small
+        .column
+            .ui.header 
+                +i name='checkmark'
+                |attended
+            each hosted_docs
+                +event_item_small
+        .column
+            .ui.header 
+                +i name='question'
+                | maybe
+            each maybe_docs
+                +event_item_small
+        .column
+            .ui.header 
+                +i name='cancel'
+                | no
+            each no_docs
+                +event_item_small
+    .ui.selection.animated.link.divided.list
+        each user_favorite_docs
+            .item
+                .content
+                    .header
+                        a.inline.fly_up(href="/doc/#{_id}")
+                            img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
+                            .ui.inline.header #{title}
+                    .description
+                        +favorite_icon_toggle
+                        +when
+                        +model_label
+                        each three_tags
+                            .ui.small.basic.label #{this}
+
+template(name='event_item_small')
+    .item #{title}
+
+
+template(name='user_tasks')
+    .ui.inline.header 
+        +i name='tasks'
+        |#{user_task_docs.count} tasks
+    .ui.header authored
+    .ui.header assigned
+    .ui.header completed
+        
+        
+template(name='user_checkins')
+    .ui.inline.header 
+        +i name='checkmark'
+        |#{user_task_docs.count} checkins
+    each user_checkin_docs
+        img.ui.avatar.image(src="{{c.url _parent_doc.image_id height=300 crop='crop'}}")
+    .ui.header authored
+    .ui.header assigned
+    .ui.header completed
+        
+        
+        
+template(name='user_drafts')
+    if user_draft_docs.count
         .ui.inline.header 
-            +i name='calendar'
-            | events
-        .ui.two.column.grid 
-            .column
-                .ui.header 
-                    +i name='king'
-                    |hosted
-                each hosted_docs
-                    +event_item_small
-            .column
-                +i name='queen'
-                .ui.header supported
-                each hosted_docs
-                    +event_item_small
-            .column
-                .ui.header 
-                    +i name='checkmark'
-                    |attended
-                each hosted_docs
-                    +event_item_small
-            .column
-                .ui.header 
-                    +i name='question'
-                    | maybe
-                each maybe_docs
-                    +event_item_small
-            .column
-                .ui.header 
-                    +i name='cancel'
-                    | no
-                each no_docs
-                    +event_item_small
+            +i name='save'
+            |#{user_draft_docs.count} drafts
         .ui.selection.animated.link.divided.list
             each user_favorite_docs
                 .item
@@ -264,76 +311,27 @@ template(name='user_events')
                             +model_label
                             each three_tags
                                 .ui.small.basic.label #{this}
-
-template(name='event_item_small')
-    .item #{title}
-
-
-template(name='user_tasks')
-    .column
-        .ui.inline.header 
-            +i name='tasks'
-            |#{user_task_docs.count} tasks
-        .ui.header authored
-        .ui.header assigned
-        .ui.header completed
-        
-        
-template(name='user_checkins')
-    .column
-        .ui.inline.header 
-            +i name='checkmark'
-            |#{user_task_docs.count} checkins
-        each user_checkin_docs
-            img.ui.avatar.image(src="{{c.url _parent_doc.image_id height=300 crop='crop'}}")
-        .ui.header authored
-        .ui.header assigned
-        .ui.header completed
-        
-        
-        
-template(name='user_drafts')
-    if user_draft_docs.count
-        .column
-            .ui.inline.header 
-                +i name='save'
-                |#{user_draft_docs.count} drafts
-            .ui.selection.animated.link.divided.list
-                each user_favorite_docs
-                    .item
-                        .content
-                            .header
-                                a.inline.fly_up(href="/doc/#{_id}")
-                                    img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
-                                    .ui.inline.header #{title}
-                            .description
-                                +favorite_icon_toggle
-                                +when
-                                +model_label
-                                each three_tags
-                                    .ui.small.basic.label #{this}
                         
 template(name='user_favorites')
     if user_favorite_docs.count
-        .column
-            .ui.inline.header 
-                +i name='heart'
-                |#{user_favorite_docs.count} favorites
+        .ui.inline.header 
+            +i name='heart'
+            |#{user_favorite_docs.count} favorites
+        each user_favorite_docs
+            // +model_label
+            img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}" title="#{model}:#{title}")
+        .ui.selection.animated.link.divided.list
             each user_favorite_docs
-                // +model_label
-                img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}" title="#{model}:#{title}")
-            .ui.selection.animated.link.divided.list
-                each user_favorite_docs
-                    .item
-                        .content
-                            +model_label
-                            a.ui.inline.header.fly_up(href="/doc/#{_id}")
-                                img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
-                                | #{title}
-                            +favorite_icon_toggle
-                            +when
-                            each three_tags
-                                .ui.small.basic.label #{this}
+                .item
+                    .content
+                        +model_label
+                        a.ui.inline.header.fly_up(href="/doc/#{_id}")
+                            img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
+                            | #{title}
+                        +favorite_icon_toggle
+                        +when
+                        each three_tags
+                            .ui.small.basic.label #{this}
                         
 template(name='when')
     .ui.label(title="{{long_date _timestamp}}") #{_when}
@@ -341,144 +339,142 @@ template(name='when')
                     
                  
 template(name='user_points')        
-    .column
-        .ui.inline.header 
-            +i name='coins'
-            |balance: #{current_user.points}
-        .ui.dividing.header
-            +i name='internal'
-            |points in
-        .ui.list
-            each points_in_docs
-                .ui.inline.header #{body} 
-                |{amount}pts
-        .ui.dividing.header
-            +i name='donate'
-            |points out
-        .ui.list
-            each points_out_docs
-                .ui.inline.header #{body} 
-                |{amount}pts
-        .ui.dividing.header
-            +i name='donate'
-            |tips
-        .ui.list
-            each tips_docs
-                a.item.fly_left(href="/#{_parent.model}/#{parent_id}")
-                    strong #{_parent.title} 
-                    small {amount}pts
-        .ui.dividing.header 
-            +i name='blog'
-            |posts
-        .ui.small.header publish costs
-        .ui.small.header earned points
-        
+    .ui.inline.header 
+        +i name='coins'
+        |balance: #{current_user.points}
+    .ui.dividing.header
+        +i name='internal'
+        |points in
+    .ui.list
+        each points_in_docs
+            .ui.inline.header #{body} 
+            |{amount}pts
+    .ui.dividing.header
+        +i name='donate'
+        |points out
+    .ui.list
+        each points_out_docs
+            .ui.inline.header #{body} 
+            |{amount}pts
+    .ui.dividing.header
+        +i name='donate'
+        |tips
+    .ui.list
+        each tips_docs
+            a.item.fly_left(href="/#{_parent.model}/#{parent_id}")
+                strong #{_parent.title} 
+                small {amount}pts
+    .ui.dividing.header 
+        +i name='blog'
+        |posts
+    .ui.small.header publish costs
+    .ui.small.header earned points
+    
 
-        .ui.dividing.header 
-            +i name='chat'
-            |comments
-        .ui.small.header 
-            small comment amount:
-            strong #{comment_count}
-        .ui.small.header 
-            small spent points:
-            strong #{comment_total}
-        // if venmo_image
-        //     img.ui.image(src="{{c.url venmo_image }}")
+    .ui.dividing.header 
+        +i name='chat'
+        |comments
+    .ui.small.header 
+        small comment amount:
+        strong #{comment_count}
+    .ui.small.header 
+        small spent points:
+        strong #{comment_total}
+    // if venmo_image
+    //     img.ui.image(src="{{c.url venmo_image }}")
             
     
                  
 template(name='user_products')  
-    .column
-        .ui.dividing.header 
-            +i name='shop'
-            |user products
-        each user_product_docs 
-            .ui.header #{title}
+    .ui.dividing.header 
+        +i name='shop'
+        |user products
+    each user_product_docs 
+        .ui.header #{title}
                  
                  
 template(name='user_comments')   
-    .column
-        .ui.header 
-            +i name='chat'
-            |user comments
-        .ui.divided.animated.link.list
-            each user_comment_docs
-                a.item(href="/#{parent_model}/#{parent_id}")
-                    .meta
-                        |#{_when}
-                    .description #{body}
-                    +print_this
-        +comments
+    .ui.header 
+        +i name='chat'
+        |user comments
+    .ui.divided.animated.link.list
+        each user_comment_docs
+            a.item(href="/#{parent_model}/#{parent_id}")
+                .meta
+                    |#{_when}
+                .description #{body}
+                +print_this
+    +comments
                  
                  
 template(name='user_groups')   
     if user_group_memberships.count
-        .column
-            .ui.inline.header 
-                +i name='groups'
-                |#{user_group_memberships.count}
-                |groups
-            .ui.selection.link.animated.large.list    
-                each user_group_memberships
-                    // +doc_item
-                    a.item.zoomers.fly_left(href="/doc/#{_id}")
-                        img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                        .ui.inline.header
-                            strong #{title}
-                        each five_tags 
-                            .ui.small.basic.label #{this}
+        .ui.inline.header 
+            +i name='groups'
+            |#{user_group_memberships.count}
+            |groups
+        .ui.selection.link.animated.large.list    
+            each user_group_memberships
+                // +doc_item
+                a.item.zoomers.fly_left(href="/doc/#{_id}")
+                    img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                    .ui.inline.header
+                        strong #{title}
+                    each five_tags 
+                        .ui.small.basic.label #{this}
                      
 template(name='user_services')
-    .column
-        .ui.inline.header 
-            +i name='wrench'
-            |services
-        each user_service_docs 
-            .item #{title}
-        .ui.header 
-            +i name='shopping-cart'
-            |purchases
-        .ui.list 
-            each service_purchas_docs 
-                .item 
-                    |#{_parent.title} #{amount}
+    .ui.inline.header 
+        +i name='wrench'
+        |services
+    each user_service_docs 
+        .item #{title}
+    .ui.header 
+        +i name='shopping-cart'
+        |purchases
+    .ui.list 
+        each service_purchas_docs 
+            .item 
+                |#{_parent.title} #{amount}
             
         
                      
                     
 template(name='user_social')
-    .column
-        .ui.inline.header 
-            +i name='friends'
-            |social
-        if refered_user_docs.count
-            span(title='refered users')
+    .ui.inline.header 
+        +i name='friends'
+        |social
+    if refered_user_docs.count
+        span(title='refered users')
+            +i name='omnichannel'
+            each refered_user_docs
+                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
+    .ui.two.column.stackable.grid
+        .column
+            +friend_button
+            .ui.header friended
+            .ui.selection.link.animated.list
+                each user_friended
+                    +user_info
+            .ui.header friended by
+            .ui.selection.link.animated.list
+                each user_friended_by
+                    +user_info
+        .column
+            .ui.header following
+            .ui.header followed by
+            .ui.header comments
+            +user_following
+        .column
+            .ui.inline.header refered by
+            with refered_by_user
+                +user_info
+            div
+            .ui.inline.header 
                 +i name='omnichannel'
-                each refered_user_docs
-                    img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}" title=title)
-        .ui.two.column.stackable.grid
-            .column
-                +friend_button
-                .ui.header friends of
-                .ui.selection.link.animated.list
-                    each user_friended
-                        +user_info
-            .column
-                .ui.header following
-                .ui.header followed by
-                .ui.header comments
-                +user_following
-            .column
-                .ui.inline.header refered by
-                with refered_by_user
-                    +user_info
-                div
-                .ui.inline.header 
-                    +i name='omnichannel'
-                    |refered
-                each refered_user_docs
-                    +user_info
+                |refered
+            each refered_user_docs
+                +user_info
    
 template(name='user_friends')
             
@@ -518,28 +514,27 @@ template(name="user_reviews")
 template(name='user_posts')
     if user_authored_post_docs.count
         // .ui.fluid.styled.accordion.alpha
-        .column
-            .ui.inline.header 
-                +i name='blog'
-                |#{user_authored_post_docs.count}
-                |authored posts
-            // if is_current_user
-            //     .ui.circular.button.add_user_post
-            //         i.large.plus.icon
-            .ui.selection.link.animated.divided.list.scrolling
-                each user_authored_post_docs
-                    a.item.fly_left(href="/doc/#{_id}") 
-                        if image_id
-                            img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                        .ui.inline.header
-                            |#{title}
-                        .description
-                            |#{_when}
-                            each ten_tags
-                                .ui.basic.label #{this}
-                        // if watson 
-                        //     +doc_sentiment
-                        //     +doc_emotion
+        .ui.inline.header 
+            +i name='blog'
+            |#{user_authored_post_docs.count}
+            |authored posts
+        // if is_current_user
+        //     .ui.circular.button.add_user_post
+        //         i.large.plus.icon
+        .ui.selection.link.animated.divided.list.scrolling
+            each user_authored_post_docs
+                a.item.fly_left(href="/doc/#{_id}") 
+                    if image_id
+                        img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                    .ui.inline.header
+                        |#{title}
+                    .description
+                        |#{_when}
+                        each ten_tags
+                            .ui.basic.label #{this}
+                    // if watson 
+                    //     +doc_sentiment
+                    //     +doc_emotion
                             
 
 

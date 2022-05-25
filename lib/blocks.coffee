@@ -384,19 +384,39 @@ if Meteor.isClient
 
 
 
+    Template.user_social.onCreated ->
+        @autorun => Meteor.subscribe 'user_friended', Router.current().params.username, ->
+        @autorun => Meteor.subscribe 'user_friended_by', Router.current().params.username, ->
+if Meteor.isServer
+    Meteor.publish 'user_friended', (username)->
+        user = Meteor.users.findOne username:username
+        Meteor.users.find 
+            _id:$in:user.friended_user_ids
+    Meteor.publish 'user_friended_by', (username)->
+        user = Meteor.users.findOne username:username
+        Meteor.users.find 
+            _id:$in:user.friended_by_user_ids
+
+if Meteor.isClient
     Template.friend_button.helpers
         is_friend: ->
-            @friend_user_ids  and Meteor.userId() in @friend_user_ids
+            @friended_by_user_ids and Meteor.userId() in @friended_by_user_ids
 
     Template.friend_button.events 
         'click .add_friend': ->
             Meteor.users.update @_id, 
                 $addToSet:
                     friended_by_user_ids:Meteor.userId()
+            Meteor.users.update Meteor.userId(), 
+                $addToSet:
+                    friended_user_ids:Meteor.userId()
         'click .remove_friend': ->
             Meteor.users.update @_id, 
                 $pull:
                     friended_by_user_ids:Meteor.userId()
+            Meteor.users.update Meteor.userId(), 
+                $pull:
+                    friended_user_ids:Meteor.userId()
     
     
     Template.follow_button.helpers

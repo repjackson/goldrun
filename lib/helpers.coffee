@@ -37,6 +37,12 @@ if Meteor.isClient
         },
             sort:_timestamp:-1
         
+    Template.registerHelper 'user_friended', (user) ->\
+        Meteor.users.find 
+            _id:$in:user.friended_user_ids
+    Template.registerHelper 'user_friended_by', (user) ->\
+        Meteor.users.find 
+            _id:$in:user.friended_by_user_ids
     Template.registerHelper 'darkmode_class', () -> 
         if Meteor.user()
             if Meteor.user().darkmode then 'invert' else ''

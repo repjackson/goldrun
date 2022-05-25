@@ -63,13 +63,21 @@ template(name='doc_card')
         .content
             +model_label
             if published 
-                i.green.eye.icon(title='published')
+                i.green.eye.icon.invert(title='published')
             else 
-                i.yellow.save.icon(title='draft')
+                i.yellow.save.icon.invert(title='draft')
             a.ui.inline.header.fly_right(href="/doc/#{_id}" class=emotion_color) #{title}
-            .smallcut
-                | !{content}
+            // .smallcut
+            //     | !{content}
         
+        .content
+            .right.floated.meta
+                |#{_when}
+                // +when_label
+            span(title='author')
+                img.ui.avatar.image(src="{{c.url _author.image_id height=300 width=300 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                |#{_author.username}
+            // +author_info
         +Template.dynamic template=item_template
         .content
             if is_dev
@@ -86,12 +94,10 @@ template(name='doc_card')
             .ui.label   
                 i.line.chart.icon
                 |#{points} 
-            +author_info
             if group_id     
                 +group_info
             each five_tags 
                 .ui.basic.inverted.black.label #{this}
-            +when_label
             if watson 
                 +doc_sentiment
                 +doc_emotion

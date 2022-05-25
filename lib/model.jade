@@ -1014,6 +1014,7 @@ template(name='group_edit')
                         .ui.header 
                             +i name='groups'
                             |membership settings
+                        +multi_user_edit key='member' label='members' 
                         +boolean_edit key='premium_membership' label='premium' icon='membership-card'
                         if premium_membership
                             +number_edit key='membership_cost' label='cost (points)' icon='coins'
@@ -1021,12 +1022,8 @@ template(name='group_edit')
                 +single_user_edit key='leader' label='leader' icon='crown' 
                 // +multi_user_edit key='leader_ids' label='leaders' icon='crown' 
                 div
-                +array_edit key='location_tags' label='location tags' icon='marker' 
-                div
                 +text_edit key='contact_info' label='contact info' icon='info' 
-                +multi_user_edit key='member' label='members' 
                 +boolean_edit key='private' label='private' 
-                +link_edit key='link' label='link' 
                
                
                     

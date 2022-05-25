@@ -155,11 +155,11 @@ if Meteor.isClient
     # Template.registerHelper 'logging_out', () -> Session.get 'logging_out'
     Template.registerHelper 'upvote_class', () ->
         if Meteor.userId()
-            if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'
+            if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline inverted'
         else ''
     Template.registerHelper 'downvote_class', () ->
         if Meteor.userId()
-            if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline'
+            if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline inverted'
         else ''
     
     Template.registerHelper '_upvoters', () ->

@@ -43,8 +43,8 @@ template(name='doc_view')
                                 |link
                                 // |#{hostname}
                     .ui.stackable.padded.grid
-                        .three.column.row
-                            .column
+                        .row
+                            .ten.wide.column
                                 if youtube_id
                                     +youtube_view key='youtube_id'
                                 if image_id 
@@ -54,7 +54,7 @@ template(name='doc_view')
                                 .scrolling 
                                     |!{content}
                                 +comments
-                            .column
+                            .six.wide.column
                                 +author_segment
                                 .ui.inline.header                                
                                     |#{tags.length}
@@ -67,6 +67,7 @@ template(name='doc_view')
                                         +watson_view
                                     if tone 
                                         +tone
+                        .three.column.row
                             +Template.dynamic template=model_template 
                             .column
                                 +message_author_button
@@ -105,6 +106,7 @@ template(name='doc_view')
                                     .item 
                                         |#{tip_total}
                                         |tip total
+                            .column
                                 +follow_button
                                 +tips
                                 if has_price

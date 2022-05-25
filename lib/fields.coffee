@@ -784,11 +784,11 @@ if Meteor.isClient
             search_value = $(e.currentTarget).closest('.single_user_select_input').val().trim()
             Session.set('current_user_search',search_value)
             if search_value.length > 1
-                console.log 'searching', search_value
+                # console.log 'searching', search_value
                 Meteor.call 'lookup_user', search_value, @role_filter, (err,res)=>
                     if err then console.error err
                     else
-                        console.log res
+                        # console.log res
                         t.user_results.set res
     
         'click .select_user': (e,t) ->

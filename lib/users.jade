@@ -130,7 +130,7 @@ template(name='join')
         |{{from_now createdAt}}
             
 template(name='user_item')
-    a.item.fly_left.zoomer(href="/user/#{username}")
+    a.item.fly_left.zoomers(href="/user/#{username}")
         .content
             img.ui.tiny.inline.rounded.image(class=currentUser.invert_class src="{{c.url image_id }}")    
             // unless avatar_image_id

@@ -1195,7 +1195,8 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.transfer_card.onCreated ->
-        @autorun => Meteor.subscribe 'user_info_min', ->
+        console.log @
+        @autorun => Meteor.subscribe 'target_from_doc_id', (@data._id), ->
         
     Template.transfer_view.onRendered ->
 
@@ -1219,7 +1220,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'author_from_doc_id, ->', Router.current().params.doc_id, ->
 
     Template.transfer_view.helpers
-        target: ->
+        _target: ->
             transfer = Docs.findOne Router.current().params.doc_id
             if transfer and transfer.target_id
                 Meteor.users.findOne
@@ -1230,7 +1231,7 @@ if Meteor.isClient
         #     Terms.find()
         suggestions: ->
             Results.find(model:'tag')
-        target: ->
+        _target: ->
             transfer = Docs.findOne Router.current().params.doc_id
             if transfer and transfer.target_id
                 Meteor.users.findOne
@@ -1280,7 +1281,7 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'target_from_transfer_id', (transfer_id)->
+    Meteor.publish 'target_from_doc_id', (transfer_id)->
         transfer = Docs.findOne transfer_id
         if transfer
             Meteor.users.find transfer.target_id
@@ -1302,7 +1303,6 @@ if Meteor.isServer
             
             
 if Meteor.isClient
-
     @picked_event_tags = new ReactiveArray []
         
     # Template.events.onCreated ->

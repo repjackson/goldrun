@@ -14,7 +14,7 @@ template(name='doc_view')
             .ui.stackable.padded.grid
                 .row 
                     .sixteen.wide.column
-                        a.ui.circular.icon.button.fly_left(href="/docs")
+                        a.ui.circular.icon.button.fly_left(href="/m/#{model}" title="back to #{model}s")
                             i.chevron.left.icon
                             +model_label
                         .ui.large.inline.header 

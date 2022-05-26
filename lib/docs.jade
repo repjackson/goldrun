@@ -78,7 +78,7 @@ template(name='doc_card')
                 img.ui.avatar.image(src="{{c.url _author.image_id height=300 width=300 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                 |#{_author.username}
             // +author_info
-        +Template.dynamic template=item_template
+        +Template.dynamic template=card_template
         .content
             if is_dev
                 +print_this

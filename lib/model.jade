@@ -1382,11 +1382,11 @@ template(name='view_span')
                     
 template(name='transfer_card')
     .content
-        .content
-            with _target._id
-                +user_info
-            span.smallscroll
-                |!{description}
+        .ui.inline.header target
+        with _target
+            +user_info
+        span.smallscroll
+            |!{description}
                     
 
 template(name='transfer_view')

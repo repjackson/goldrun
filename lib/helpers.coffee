@@ -37,12 +37,14 @@ if Meteor.isClient
         },
             sort:_timestamp:-1
         
-    Template.registerHelper 'user_friended', (user) ->\
-        Meteor.users.find 
-            _id:$in:user.friended_user_ids
-    Template.registerHelper 'user_friended_by', (user) ->\
-        Meteor.users.find 
-            _id:$in:user.friended_by_user_ids
+    Template.registerHelper 'user_friended', (user) ->
+        if user
+            Meteor.users.find 
+                _id:$in:user.friended_user_ids
+    Template.registerHelper 'user_friended_by', (user) ->
+        if user
+            Meteor.users.find 
+                _id:$in:user.friended_by_user_ids
     Template.registerHelper 'darkmode_class', () -> 
         if Meteor.user()
             if Meteor.user().darkmode then 'invert' else ''
@@ -103,18 +105,19 @@ if Meteor.isClient
     
     
     Template.registerHelper '_target', () ->
-        if @target_user_id
+        console.log 'helper target', @
+        if @target_id
             Meteor.users.findOne
-                _id: @target_user_id
-        else if @recipient_id
-            Meteor.users.findOne
-                _id: @recipient_id
+                _id: @target_id
+        # else if @recipient_id
+        #     Meteor.users.findOne
+        #         _id: @recipient_id
     
     Template.registerHelper 'sorting_up', () ->
         parseInt(Session.get('sort_direction')) is 1
     
     Template.registerHelper 'user_from_id', (id)->
-        Docs.findOne id
+        Meteor.users.findOne id
         
         
     Template.registerHelper 'skv_is', (key,value)->

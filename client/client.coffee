@@ -90,7 +90,7 @@ Template.layout.events
         # console.log 'hi'
         $(e.currentTarget).closest('.grid').transition('fade left', 500)
     'click .fly_right': (e,t)->
-        console.log 'hi'
+        # console.log 'hi'
         $(e.currentTarget).closest('.grid').transition('fade right', 500)
     'click .card_fly_right': (e,t)->
         # console.log 'hi'

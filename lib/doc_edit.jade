@@ -80,10 +80,13 @@ template(name='doc_edit')
                                     +i name='instagram'
                                 if twitter_link
                                     +i name='twitter'
+                                if youtube_link
+                                    +i name='youtube'
                                 +link_edit key='link' label='link'
                                 +link_edit key='facebook_link' label='facebook link' icon='facebook'
                                 +link_edit key='instagram_link' label='instagram link' icon='instagram'
                                 +link_edit key='twitter_link' label='twitter link' icon='twitter'
+                                +link_edit key='youtube_link' label='youtube link' icon='youtube'
                                 +visibility_settings
                                 +boolean_edit key='nsfw' label='nsfw' icon='18-plus'
                             .column

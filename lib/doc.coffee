@@ -70,7 +70,7 @@ if Meteor.isClient
     # Template.doc_card.helpers
     #     card_template: -> "#{@model}_card"
     Template.doc_card.helpers
-        item_template: -> "#{@model}_item"
+        card_template: -> "#{@model}_card"
         
     Template.docs.onRendered ->
         Session.set('model',Router.current().params.model)
@@ -82,7 +82,7 @@ if Meteor.isClient
         Session.setDefault('sort_label','added')
         Session.setDefault('sort_direction',-1)
         # @autorun => @subscribe 'model_docs', 'post', ->
-        @autorun => @subscribe 'user_info_min', ->
+        # @autorun => @subscribe 'user_info_min', ->
         @autorun => @subscribe 'facet_sub',
             Session.get('model')
             picked_tags.array()

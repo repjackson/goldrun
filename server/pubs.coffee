@@ -402,6 +402,7 @@ Meteor.publish 'doc_results', (
             content:1
             _author_id:1
             published:1
+            target_id:1
             _timestamp:1
             group_id:1
             emotion:1

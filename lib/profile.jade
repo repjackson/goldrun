@@ -82,9 +82,6 @@ template(name='profile')
                         .ui.large.label
                             +i name='business' 
                             |#{company}
-                    if currentUser.admin_mode
-                        a.ui.icon.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
-                            +i name='settings' cl='ui avatar image'
                     // if bio
                     //     .smallscroll
                     //         |!{bio}
@@ -526,7 +523,7 @@ template(name='user_posts')
         .ui.inline.header 
             +i name='news'
             |#{user_authored_post_docs.count}
-            |authored posts
+            |recent posts
         // if is_current_user
         //     .ui.circular.button.add_user_post
         //         i.large.plus.icon

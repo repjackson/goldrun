@@ -619,7 +619,7 @@ if Meteor.isClient
             new_username = t.$('.new_username').val()
             current_user = Meteor.users.findOne username:Router.current().params.username
             if new_username
-                if confirm "Change username from #{current_user.username} to #{new_username}?"
+                if confirm "change username from #{current_user.username} to #{new_username}?"
                     Meteor.call 'change_username', current_user._id, new_username, (err,res)->
                         if err
                             alert err
@@ -646,5 +646,5 @@ if Meteor.isClient
                 if err 
                     alert err
                 else if res
-                    alert "password set to #{new_password}."
+                    alert "password set to #{new_password}"
                     console.lgo 'res', res

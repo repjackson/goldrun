@@ -42,10 +42,6 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
 # https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/b5195ac7-a729-46ea-b099-deb37d1dc65b
 
 Meteor.methods
-    search_musician: (search)->
-        HTTP.get "https://www.theaudiodb.com/api/v1/json/523532/searchalbum.php?s=daft_punk",(err,response)=>
-            console.log response
-
     call_tone: (doc_id, key)->
         # @unblock()
         self = @

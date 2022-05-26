@@ -71,7 +71,8 @@ if Meteor.isClient
     #     card_template: -> "#{@model}_card"
     Template.doc_card.helpers
         card_template: -> "#{@model}_card"
-        
+    Template.doc_card.onCreated ->
+        @autorun => @subscribe 'author_by_doc_id', @data._id,->
     Template.docs.onRendered ->
         Session.set('model',Router.current().params.model)
     Template.docs.onCreated ->

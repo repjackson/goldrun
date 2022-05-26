@@ -1,6 +1,9 @@
 template(name='account')
     with user_from_username_param          
-        img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")
+        if background_image_id
+            img.ui.image.profile_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+        else 
+            img.ui.image.profile_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
         .ui.stackable.padded.grid
             .three.column.row

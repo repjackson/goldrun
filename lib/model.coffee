@@ -1214,13 +1214,13 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'user_info_min', ->
-        Meteor.users.find {},
-            fields: 
-                username:1
-                first_name:1
-                last_name:1
-                image_id:1
+    # Meteor.publish 'user_info_min', ->
+    #     Meteor.users.find {},
+    #         fields: 
+    #             username:1
+    #             first_name:1
+    #             last_name:1
+    #             image_id:1
     Meteor.publish 'product_from_transfer_id', (transfer_id)->
         transfer = Docs.findOne transfer_id
         Docs.find 
@@ -1511,17 +1511,17 @@ if Meteor.isServer
     #     Docs.find
     #         slug:slug
             
-    # Meteor.publish 'author_by_doc_id', (doc_id)->
-    #     doc_by_id =
-    #         Docs.findOne doc_id
-    #     doc_by_slug =
-    #         Docs.findOne slug:doc_id
-    #     if doc_by_id
-    #         Meteor.users.findOne 
-    #             _id:doc_by_id._author_id
-    #     else
-    #         Meteor.users.findOne 
-    #             _id:doc_by_slug._author_id
+    Meteor.publish 'author_by_doc_id', (doc_id)->
+        doc_by_id =
+            Docs.findOne doc_id
+        doc_by_slug =
+            Docs.findOne slug:doc_id
+        if doc_by_id
+            Meteor.users.find
+                _id:doc_by_id._author_id
+        else
+            Meteor.users.find
+                _id:doc_by_slug._author_id
             
             
     # Meteor.publish 'author_by_doc_slug', (slug)->

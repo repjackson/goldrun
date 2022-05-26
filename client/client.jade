@@ -92,6 +92,8 @@ template(name='footer')
                 if currentUser.admin
                     with currentUser
                         +boolean_edit key='admin_mode' label='admin mode' icon='shield'
+                        .ui.label.invert #{all_docs.count}
+                        
                 if currentUser.admin_mode
                     .ui.inline.header 
                         i.blog.icon
@@ -128,7 +130,8 @@ template(name='nav')
         if is_connected
             if currentUser
                 a.item.zoomer.fly_down.add_doc 
-                    +i name='plus'
+                    // +i name='plus'
+                    i.large.plus.icon
                 // a.icon.item(href="/mail/inbox")
                 //     +i name='inbox'
                 a.fly_up.zoomer.item(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile' class="{{isActiveRoute 'profile'}}" )
@@ -149,8 +152,8 @@ template(name='nav')
             //     +i name='plus'
             //     span.mobile.hidden register            
             a.item(href='/login' title='login' class="{{isActiveRoute 'login'}}" ) 
-                // i.sign.in.big.icon
-                +i name='internal'
+                i.sign.in.large.icon
+                // +i name='internal'
                 // span.mobile.hidden login
         unless is_connected
             .item
@@ -160,13 +163,14 @@ template(name='nav')
                 i.large.circular.refresh.link.icon.zoomer.reconnect(title='reconnect now')
         if is_connected
             a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
-                +i name='groups'
+                // +i name='groups'
+                i.large.users.icon
                 unless currentUser.hide_labels
                     |users
-            +nav_item key='post' icon='news'
+            +nav_item key='post' icon='blog'
             +nav_item key='event' icon='calendar'
-            +nav_item key='group' icon='campfire'
-            +nav_item key='product' icon='shopping-cart'
+            +nav_item key='group' icon='fire'
+            +nav_item key='product' icon='cart'
             +nav_item key='transfer' icon='exchange'
             +nav_item key='service' icon='wrench'
             +nav_item key='rental' icon='clock'
@@ -178,7 +182,8 @@ template(name='nav')
 
 template(name='nav_item')
     a.item.zoomer.fly_right.clear_search.go_route(href="/m/#{key}" class="{{isActiveRoute regex=nav_item_class}}" title=key)
-        +i name=icon
+        // +i name=icon
+        i.large.icon(class=icon)
         unless currentUser.hide_labels
             |#{key}
 

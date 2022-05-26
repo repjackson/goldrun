@@ -10,11 +10,10 @@ template(name='docs')
                 +i name=current_model_icon
                 |{{session_get 'model'}}s
             +facet key='tag'
-            div
+            // div
             // +facet key='timestamp_tag' icon='clock' label='added'
             // +session_boolean_toggle key='view_mine' label='mine' icon='user'
             // +session_boolean_toggle key='view_private' label='private' icon='lock'
-        .sixteen.wide.column
             unless one_result
                 .ui.inline.header(title='result count') #{result_docs.count}
                 +search_input key='title'
@@ -28,6 +27,7 @@ template(name='docs')
                 // +session_set key='limit' value=10
                 // +session_set key='limit' value=25
                 // +session_set key='limit' value=100
+        .sixteen.wide.column
             .scrolling
                 if subs_ready
                     if one_result

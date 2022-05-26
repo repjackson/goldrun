@@ -177,7 +177,7 @@ template(name='nav')
 
 
 template(name='nav_item')
-    a.item.zoomer.fly_right.clear_search.go_route(href="/m/#{key}" class="{{isActiveRoute regex=key}}" title=key)
+    a.item.zoomer.fly_right.clear_search.go_route(href="/m/#{key}" class="{{isActiveRoute regex=nav_item_class}}" title=key)
         +i name=icon
         unless currentUser.hide_labels
             |#{key}

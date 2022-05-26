@@ -40,6 +40,10 @@ Template.nav.helpers
             model:'log'
             read_user_ids:$nin:[Meteor.userId()]
         ).count()
+Template.nav_item.helpers
+    nav_item_class: ->
+        console.log @
+        console.log Router.current()
 Template.nav.events
     'click .reconnect': -> Meteor.reconnect()
     'click .clear_search': ->

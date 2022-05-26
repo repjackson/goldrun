@@ -21,6 +21,10 @@ body {
     /*opacity:.5 !important;*/
 }
 
+.toast-container {
+    filter: invert(.9) !important; 
+}
+
 .layout { 
     filter: invert(.9) !important; 
 }

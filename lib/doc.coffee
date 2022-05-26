@@ -96,7 +96,19 @@ if Meteor.isClient
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('limit')
-    
+    Template.docs.helpers
+        current_model_icon: ->
+            switch Session.get('model')
+                when 'post'  then 'news'
+                when 'event' then 'calendar'
+                when 'product' then 'shopping-cart'
+                when 'group' then 'campfire'
+                when 'service' then 'service'
+                when 'log' then 'event-log'
+                when 'task' then 'tasks'
+                when 'checkin' then 'checkmark'
+                when 'transfer' then 'exchange'
+            
     
     Template.sort_key_toggle.helpers
         sort_title:-> 'click to toggle sort'

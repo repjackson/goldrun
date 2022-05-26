@@ -7,6 +7,10 @@ if Meteor.isClient
             Docs.find 
                 model:'transfer'
 
+    Template.model_label.helpers
+        is_model: (input)->
+            console.log input
+            if @model then @model else Session.get('model')
     Template.model_label.events 
         'click .pick_model': ->
             Session.set('model',@model)
@@ -281,7 +285,7 @@ if Meteor.isClient
     Template.voting.events
         'click .upvote': (e,t)->
             if Meteor.user()
-                $(e.currentTarget).closest('.button').transition('pulse',200)
+                $(e.currentTarget).closest('.icon').transition('bounce',500)
                 Meteor.call 'upvote', @, ->
                 $('body').toast(
                     showIcon: 'thumbs up'
@@ -296,7 +300,7 @@ if Meteor.isClient
                 Router.go "/login"
         'click .downvote': (e,t)->
             if Meteor.user()
-                $(e.currentTarget).closest('.button').transition('pulse',200)
+                $(e.currentTarget).closest('.icon').transition('bounce',200)
                 Meteor.call 'downvote', @, ->
                 $('body').toast(
                     showIcon: 'thumbs down'

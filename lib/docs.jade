@@ -7,7 +7,7 @@ template(name='docs')
             // +facet key='doc_sentiment_label' icon='happy'
         .sixteen.wide.column
             .ui.inline.header
-                +model_label
+                +i name=current_model_icon
                 |{{session_get 'model'}}s
             +facet key='tag'
             div
@@ -61,7 +61,7 @@ template(name='doc_card')
             a.ui.image.fly_right.zoomer(href="/doc/#{_id}")
                 img(src="{{c.url image_id height=300 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
-            +model_label
+            // +model_label
             if published 
                 i.green.eye.icon.invert(title='published')
             else 

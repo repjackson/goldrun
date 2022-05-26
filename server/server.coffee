@@ -53,6 +53,15 @@ Meteor.publish 'author_by_id', (doc_id)->
     if doc and doc._author_id
         Meteor.users.find(doc._author_id)
     
+Meteor.publish 'group_by_doc_id', (doc_id)->
+    doc = Docs.findOne doc_id
+    if doc and doc.group_id
+        Docs.find {_id:doc.group_id},
+            fields:
+                title:1
+                image_id:1
+                model:1
+    
 Meteor.publish 'unread_logs', ()->
     Docs.find {
         model:'log'

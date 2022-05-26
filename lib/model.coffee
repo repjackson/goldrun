@@ -1517,8 +1517,14 @@ if Meteor.isServer
         doc_by_slug =
             Docs.findOne slug:doc_id
         if doc_by_id
-            Meteor.users.find
+            Meteor.users.find {
                 _id:doc_by_id._author_id
+            }, 
+                fields:
+                    username:1
+                    image_id:1
+                    first_name:1
+                    last_name:1
         else
             Meteor.users.find
                 _id:doc_by_slug._author_id

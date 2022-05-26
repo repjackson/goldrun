@@ -70,12 +70,6 @@ template(name='not_found')
 //     .ui.label(class=labelClass)
 //         |#{username}
 
-
-
-
-
-
-
                 
 template(name='footer')
     .ui.fluid.segment.stackable.grid
@@ -99,7 +93,7 @@ template(name='footer')
                         i.blog.icon
                         |docs
                     each all_docs 
-                        .ui.basic.image.label 
+                        .ui.basic.image.inverted.black.label 
                             img.ui.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                             |#{title}
                             +model_label
@@ -110,15 +104,16 @@ template(name='footer')
                     .ui.inline.header 
                         |results
                     each result_docs 
-                        .ui.label #{name}: #{count} [#{model}]
+                        .ui.basic.inverted.black.label #{name}: #{count} [#{model}]
                     .ui.inline.header 
                         i.users.icon
                         |users
                     each all_users
-                        .ui.big.basic.label 
-                            a.ui.label.fly_down(href="/user/#{username}") 
+                        .ui.basic.inverted.label 
+                            a(href="/user/#{username}") 
                                 img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                                 |#{username}
+                                
                             +print_this
                             
                             

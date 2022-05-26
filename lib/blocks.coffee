@@ -226,7 +226,7 @@ if Meteor.isClient
         , 1000
     Template.group_info.onCreated ->
         # console.log @data
-        @autorun => Meteor.subscribe 'doc_by_id', @data.group_id, ->
+        @autorun => Meteor.subscribe 'group_by_doc_id', @data.group_id, ->
     Template.comments.onCreated ->
         # if Router.current().params.doc_id
         #     parent = Docs.findOne Router.current().params.doc_id

@@ -753,14 +753,15 @@ if Meteor.isClient
     Template.single_user_edit.onCreated ->
         @user_results = new ReactiveVar
         # console.log @data.key
-        @autorun => Meteor.subscribe 'user_info_min', ->
-        @autorun => Meteor.subscribe 'user_by_ref', @data.key, ->
+        # @autorun => Meteor.subscribe 'user_info_min', ->
+        @autorun => Meteor.subscribe 'user_by_ref', @data.key, Template.parentData(),->
             
 if Meteor.isServer
-    Meteor.publish 'user_by_ref', (key)->
-        console.log key
+    Meteor.publish 'user_by_ref', (key, parent)->
+        # console.log key
+        # console.log parent
         Meteor.users.find 
-            _id: "#{key}_id"
+            _id: parent["#{key}_id"]
     
 if Meteor.isClient
     Template.single_user_edit.helpers
@@ -824,6 +825,7 @@ if Meteor.isClient
                         "#{field.key}_username":@username
                 
             $('.single_user_select_input').val ''
+            location.reload()
             # Docs.update page_doc._id,
             #     $set: assignment_timestamp:Date.now()
     

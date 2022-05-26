@@ -33,7 +33,7 @@ template(name='docs')
                     if one_result
                         .ui.one.cards
                             each result_docs 
-                                +doc_card
+                                +doc_card_big
                     else
                         .ui.centered.cards
                             each result_docs 
@@ -81,6 +81,63 @@ template(name='doc_card')
             // +author_info
         +Template.dynamic template=card_template
         .content
+            if is_dev
+                +print_this
+            +voting
+            +favorite_icon_toggle
+            if price
+                .ui.big.label 
+                    |#{price}pts
+            // i.big.link.cart.plus.green.icon.add_to_cart
+            .ui.large.basic.inverted.black.label
+                i.eye.icon
+                |#{views}
+            .ui.label   
+                i.line.chart.icon
+                |#{points} 
+            if group_id     
+                +group_info
+            each five_tags 
+                .ui.basic.inverted.black.label #{this}
+            if watson 
+                +doc_sentiment
+                +doc_emotion
+
+            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/doc/#{_id}")
+                +i name='chevron-right'
+
+template(name='doc_card_big')
+    .ui.stackable.padded.grid.alpha
+        // if background_image_id
+        //     img.ui.image.item_background(src="{{c.url background_image_id height=1000 crop='crop'}}")
+        // else if image_id
+        //     img.ui.image.item_background(src="{{c.url image_id height=400 crop='crop'}}")
+        .eight.wide.column
+            if youtube_id
+                +youtube_view key='youtube_id'
+            else if image_id
+                a.ui.image.rounded.fly_right.zoomer(href="/doc/#{_id}")
+                    img(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        .eight.wide.column
+            // +model_label
+            if published 
+                i.green.eye.icon.invert(title='published')
+            else 
+                i.yellow.save.icon.invert(title='draft')
+            a.ui.inline.header.fly_right(href="/doc/#{_id}" class=emotion_color) #{title}
+            // .smallcut
+            //     | !{content}
+        
+            .right.floated.meta
+                |#{_when}
+                // +when_label
+            span(title='author')
+                img.ui.avatar.image(src="{{c.url _author.image_id height=300 width=300 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                |#{_author.username}
+            // +author_info
+            +Template.dynamic template=card_template
+            .smallscroll
+                |!{content}
             if is_dev
                 +print_this
             +voting

@@ -41,6 +41,10 @@ if Meteor.isClient
         if user
             Meteor.users.find 
                 _id:$in:user.friended_user_ids
+    Template.registerHelper '_viewers', () ->
+        if @read_user_ids
+            Meteor.users.find 
+                _id:$in:@read_user_ids
     Template.registerHelper 'user_friended_by', (user) ->
         if user
             Meteor.users.find 

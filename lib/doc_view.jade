@@ -42,6 +42,11 @@ template(name='doc_view')
                                 i.external.icon
                                 |link
                                 // |#{hostname}
+                        i.big.eye.icon(title='viewers') 
+                        each read_user_ids
+                            +user_avatar
+                            // img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+    
                     .ui.stackable.padded.grid
                         .row
                             .ten.wide.column
@@ -125,9 +130,12 @@ template(name='viewing_info')
     .ui.header 
         +i name='eye'
         |viewing info
+    .ui.small.header 
+        |viewers
     .ui.list 
-        each _viewers
-            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+        each read_user_ids
+            +user_info
+            // img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
     .ui.small.header 
         |#{views} views
     .ui.small.header 

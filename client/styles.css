@@ -5,7 +5,7 @@ body {
     font-family: 'Ubuntu', sans-serif !important;
     /* font-size: 110% !important; */
     /*line-height: 200% !important;*/
-    transition: all .25s !important;
+    transition: all .5s !important;
     filter: invert(.9) !important; 
     background: rgba(0,0,0,.85) !important; 
     /* background: rgba(200, 200, 200, .2) !important */
@@ -50,7 +50,7 @@ body {
      filter: invert(1) !important; 
 }
 
- .label, input, .input, .button, .progress, .text {
+.label, input, .input, .button, .progress, .text {
      filter: invert(1) !important; 
 } 
 ::-webkit-scrollbar {
@@ -70,7 +70,9 @@ body {
 	/*padding-left: 1em;*/
 }
 
-
+.topnav .item {
+    border-radius: 20px !important;
+}
 
 /* Track */
 ::-webkit-scrollbar-track {

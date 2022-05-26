@@ -8,21 +8,6 @@ Tracker.autorun ->
     current = Router.current()
     Tracker.afterFlush ->
         $(window).scrollTop 0
-    #   'click .refresh_gps': ->
-    #         navigator.geolocation.getCurrentPosition (position) =>
-    #             console.log 'navigator position', position
-    #             Session.set('current_lat', position.coords.latitude)
-    #             Session.set('current_long', position.coords.longitude)
-                
-    #             console.log 'saving long', position.coords.longitude
-    #             console.log 'saving lat', position.coords.latitude
-            
-    #             pos = Geolocation.currentLocation()
-    #             Docs.update Router.current().params.doc_id, 
-    #                 $set:
-    #                     lat:position.coords.latitude
-    #                     long:position.coords.longitude
- 
 
     
     
@@ -41,10 +26,25 @@ Template.nav.helpers
             read_user_ids:$nin:[Meteor.userId()]
         ).count()
 Template.nav_item.helpers
-    nav_item_class: ->
-        console.log @
-        console.log Router.current()
+    nav_item_class: (model)->
+        console.log model
+        if Router.current().params.model is model then 'active' else ''
 Template.nav.events
+      'click .refresh_gps': ->
+            navigator.geolocation.getCurrentPosition (position) =>
+                console.log 'navigator position', position
+                Session.set('current_lat', position.coords.latitude)
+                Session.set('current_long', position.coords.longitude)
+                
+                console.log 'saving long', position.coords.longitude
+                console.log 'saving lat', position.coords.latitude
+            
+                pos = Geolocation.currentLocation()
+                Docs.update Router.current().params.doc_id, 
+                    $set:
+                        lat:position.coords.latitude
+                        long:position.coords.longitude
+ 
     'click .reconnect': -> Meteor.reconnect()
     'click .clear_search': ->
         Session.set('current_search',null)
@@ -83,6 +83,10 @@ Template.nav.events
             Session.set('current_lat', position.coords.latitude)
             Session.set('current_long', position.coords.longitude)
 
+Template.nav.events
+    'click .tada': (e,t)-> $(e.currentTarget).closest('.icon').transition('bounce', 1000)
+Template.nav_item.events
+    'click .tada': (e,t)-> $(e.currentTarget).closest('.icon').transition('bounce', 1000)
 Template.layout.events
     'click .fly_down': (e,t)->
         # console.log 'hi'

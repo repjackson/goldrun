@@ -27,7 +27,7 @@ Template.nav.helpers
         ).count()
 Template.nav_item.helpers
     nav_item_class: (model)->
-        console.log model
+        # console.log model
         if Router.current().params.model is model then 'active' else ''
 Template.nav.events
       'click .refresh_gps': ->

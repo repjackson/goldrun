@@ -1,3 +1,18 @@
+template(name='music')
+    .ui.header 
+        i.music.icon
+        |music
+    .ui.button.search_musician
+        |search db
+    .ui.inline.header search artists
+    .ui.input 
+        input(type='text' placeholder='artist...')
+    .ui.inline.header search songs
+    .ui.input 
+        input(type='text' placholder='song...')
+    
+        
+    
 template(name='post_card')
     // .content
     //     a.ui.large_text.zoomer(href="/doc/#{_id}" class=emotion_color) #{title}
@@ -825,7 +840,7 @@ template(name='event_edit')
 
                     
 
-template(name='group_item')
+template(name='group_card')
     |#{member_ids.length} members
     // .smallscroll
     //     |!{description}
@@ -1128,7 +1143,7 @@ template(name='group_picker')
                 
                 
                 
-template(name='rental_item')
+template(name='rental_card')
     .ui.inline.header 
         |#{daily_rate}
         small p/day

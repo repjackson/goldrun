@@ -37,3 +37,4 @@ ecmascript
 modules
 shell-server
 flowkey:hotkeys
+http

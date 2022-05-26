@@ -93,9 +93,9 @@ template(name='view_label')
 template(name='group_info')
     i.fire.icon
     with related_group_doc
-        a.ui.large.image.label.zoomer.zoom(title='group' href="/doc/#{_id}") 
-            +i name='campfire'
-            img.ui.image(src="{{c.url image_id width=200 height=200}}")
+        a.ui.large.image.inverted.label.invert.zoomer.zoom(title='group' href="/doc/#{_id}") 
+            // +i name='campfire'
+            img.ui.image.invert(src="{{c.url image_id width=200 height=200}}")
             |#{title}
         
         

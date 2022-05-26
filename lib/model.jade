@@ -85,84 +85,81 @@ template(name='product_item')
 
 
 template(name='product_view')
-    .ui.stackable.padded.grid
-        .one.column.row
-            .column
-                +html_view key='content'
-                // +text_view key='size_content' label='size content' 
-                a.ui.circular.button(href=product_link)
-                    // i.wordpress.large.icon
-                    i.external.icon
-                    |#{product_link}
-                if is_food
-                    +boolean_view key='gluten_free' label='gluten free' icon='no-gluten'
-                    +boolean_view key='vegetarian' label='vegetarian' icon='vegetarian-mark'
-                    +boolean_view key='no_sugar_added' label='no sugar added' icon='no-sugar2'
-                    +boolean_view key='vegan' label='vegan' icon='vegan-symbol'
-                    +boolean_view key='paleo' label='paleo' icon='caveman'
-                    +boolean_view key='local' label='local' icon='marker'
-                    +boolean_view key='nut_free' label='nut free' icon='no-peanut'
-                    +boolean_view key='rescued' label='rescued' icon='nothing-found'
-                    +boolean_view key='organic' label='organic' icon='organic-food'
-                    +boolean_view key='no_gmo' label='no gmo' icon='no-gmo'
-                    +boolean_view key='jar' label='jar container (requires deposit & return)' icon='mason-jar'
-                    // .ui.header #{menu_section}
-                            +link_edit key='amazon_referral_link' label='amazon referral link' icon='amazon'
-                    // +boolean_view key='has_2cup' label='2 cup' icon='cup'
-                    div
-                    .ui.inline.header 
-                        +i name='ingredients'
-                        |ingredients
-                    each ingredients
-                        .ui.large.basic.label.goto_ingredient #{this}
-                    div
-                +link_view key='amazon_referral_link' label='amazon link' icon='amazon'
-                +link_view key='external_link' label='external link' icon='globe'
+    .column
+        // +text_view key='size_content' label='size content' 
+        a.ui.circular.button(href=product_link)
+            // i.wordpress.large.icon
+            i.external.icon
+            |#{product_link}
+        if is_food
+            +boolean_view key='gluten_free' label='gluten free' icon='no-gluten'
+            +boolean_view key='vegetarian' label='vegetarian' icon='vegetarian-mark'
+            +boolean_view key='no_sugar_added' label='no sugar added' icon='no-sugar2'
+            +boolean_view key='vegan' label='vegan' icon='vegan-symbol'
+            +boolean_view key='paleo' label='paleo' icon='caveman'
+            +boolean_view key='local' label='local' icon='marker'
+            +boolean_view key='nut_free' label='nut free' icon='no-peanut'
+            +boolean_view key='rescued' label='rescued' icon='nothing-found'
+            +boolean_view key='organic' label='organic' icon='organic-food'
+            +boolean_view key='no_gmo' label='no gmo' icon='no-gmo'
+            +boolean_view key='jar' label='jar container (requires deposit & return)' icon='mason-jar'
+            // .ui.header #{menu_section}
+                    +link_edit key='amazon_referral_link' label='amazon referral link' icon='amazon'
+            // +boolean_view key='has_2cup' label='2 cup' icon='cup'
+            div
+            .ui.inline.header 
+                +i name='ingredients'
+                |ingredients
+            each ingredients
+                .ui.large.basic.label.goto_ingredient #{this}
+            div
+        +link_view key='amazon_referral_link' label='amazon link' icon='amazon'
+        +link_view key='external_link' label='external link' icon='globe'
+        
+        // +product_orders
+    .column
+        .ui.header #{price_points} points
+        .ui.header $#{price_usd}
+        .ui.big.green.button.add_to_cart
+            i.cart.plus.large.icon
+            |add to cart
+        +bookmark_button
+        // .ui.large.button.generate_qrcode
+        //     i.large.qrcode.icon
+        //     |generate qr code
+        // #qrcode(width='400px')
+        if is_managing_inventory
+            .ui.segment
+                +product_inventory
+        .ui.list
+            a.item(href=product_link title=product_link target='_window') 
+                i.external.icon
+                |external link
+            .item calculated inventory
+            .item #{total_units_sold} total units sold
+            .item $#{total_revenue} total revenue
+            // .item expected inventory
+            // .item query params: #{query_params}
+        i.refresh.large.link.icon.calc_stats(title='refresh_stats')
+    .column
+        +product_reviews
+    .column
+        +product_subscriptions
+        // .ui.green.large.button.add_to_cart
+        //     // i.cart.plus.large.icon
+        //     +i name='add-shopping-cart--v1' cl='ui avatar image'
+        //     |add to cart
+        // .ui.link.card.zoomer.goto_source
+        //     img.ui.fluid.image(src="{{c.url product_source.image_id width=200 height=200 gravity='face' crop='fill'}}")
+        //     .content
+        //         .ui.header.zoomer
+        //             |#{product_source.title}
+        .ui.header 
+            i.fork.icon
+            |related products
+        each related_products
+            a.ui.header(href="/doc/#{_id}") #{title}
                 
-                // +product_orders
-            .column
-                .ui.header #{price_points} points
-                .ui.header $#{price_usd}
-                .ui.big.fluid.green.button.add_to_cart
-                    i.cart.plus.large.icon
-                    |add to cart
-                +bookmark_button
-                // .ui.large.button.generate_qrcode
-                //     i.large.qrcode.icon
-                //     |generate qr code
-                // #qrcode(width='400px')
-                if is_managing_inventory
-                    .ui.segment
-                        +product_inventory
-                .ui.list
-                    a.item(href=product_link title=product_link target='_window') 
-                        i.external.icon
-                        |external link
-                    .item calculated inventory
-                    .item #{total_units_sold} total units sold
-                    .item $#{total_revenue} total revenue
-                    // .item expected inventory
-                    // .item query params: #{query_params}
-                i.refresh.large.link.icon.calc_stats(title='refresh_stats')
-            .column
-                +product_reviews
-            .five.wide.column
-                +product_subscriptions
-                // .ui.green.large.button.add_to_cart
-                //     // i.cart.plus.large.icon
-                //     +i name='add-shopping-cart--v1' cl='ui avatar image'
-                //     |add to cart
-                // .ui.link.card.zoomer.goto_source
-                //     img.ui.fluid.image(src="{{c.url product_source.image_id width=200 height=200 gravity='face' crop='fill'}}")
-                //     .content
-                //         .ui.header.zoomer
-                //             |#{product_source.title}
-                .ui.header 
-                    i.fork.icon
-                    |related products
-                each related_products
-                    a.ui.header(href="/doc/#{_id}") #{title}
-                        
         
         
             
@@ -881,7 +878,6 @@ template(name='group_view')
                 |#{_members.count} members
                 // .ui.button.add_user_member
                 //     |add member
-        .content
             each _members 
                 .ui.label #{username}
             // +multi_user_view key='member_ids' label='members' 
@@ -972,11 +968,9 @@ template(name='group_view')
                     i.plus.icon
             .ui.selection.animated.list
                 each group_post_docs 
-                    .ui.header #{title}
+                    a.ui.header.fly_right(href="/doc/#{_id}") #{title}
+
     .column
-        +html_view key='content' icon='content' label='description'
-        // .scrolling
-    .ui.segment.alpha
         .title
             .ui.header 
                 +i name='code-fork'

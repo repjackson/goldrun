@@ -1170,8 +1170,9 @@ if Meteor.isClient
         'keyup .group_search': (e,t)->
             # if e.which is '13'
             val = t.$('.group_search').val()
-            console.log val
-            Session.set('group_search', val)
+            if val.length > 1
+                # console.log val
+                Session.set('group_search', val)
 
         'click .create_group': ->
             new_id = 

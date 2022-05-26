@@ -152,24 +152,25 @@ if Meteor.isClient
                 })
     
     
-        'keyup .search': _.throttle((e,t)->
-            query = $('.query').val()
-            Session.set('current_search', query)
+        # 'keyup .search': _.throttle((e,t)->
+        'keyup .search': ->
+            search = $('.query').val().trim().toLowerCase()
+            if search.length > 1
+                Session.set('current_search', search)
             
-            console.log Session.get('current_search')
-            if e.which is 13
-                search = $('.query').val().trim().toLowerCase()
-                if search.length > 1
-                    picked_tags.push search
-                    console.log 'search', search
-                    # Meteor.call 'log_term', search, ->
-                    $('.search').val('')
-                    Session.set('current_search', null)
-                    # # $( "p" ).blur();
-                    # Meteor.setTimeout ->
-                    #     Session.set('dummy', !Session.get('dummy'))
-                    # , 10000
-        , 2000)
+            # console.log Session.get('current_search')
+            # if e.which is 13
+            #     
+            #         picked_tags.push search
+            #         console.log 'search', search
+            #         # Meteor.call 'log_term', search, ->
+            #         $('.search').val('')
+            #         Session.set('current_search', null)
+            #         # # $( "p" ).blur();
+            #         # Meteor.setTimeout ->
+            #         #     Session.set('dummy', !Session.get('dummy'))
+            #         # , 10000
+        # , 1000)
     
         
 

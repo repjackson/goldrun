@@ -4,7 +4,7 @@ if Meteor.isClient
         @render 'doc_edit'
         ), name:'doc_edit'
     Template.doc_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'group_from_doc_id', Router.current().params.doc_id, ->
     Template.doc_edit.onRendered ->
         Meteor.setTimeout ->
@@ -39,7 +39,7 @@ if Meteor.isClient
             
     Template.doc_view.onCreated ->
         @autorun => Meteor.subscribe 'current_viewers', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'group_from_doc_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'author_by_id', Router.current().params.doc_id, ->
     Template.doc_view.helpers

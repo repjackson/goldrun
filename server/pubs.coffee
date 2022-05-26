@@ -403,6 +403,7 @@ Meteor.publish 'doc_results', (
             _author_id:1
             published:1
             _timestamp:1
+            group_id:1
             emotion:1
             upvoter_ids:1
             downvoter_ids:1

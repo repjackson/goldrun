@@ -99,9 +99,9 @@ template(name='doc_card')
                 +group_info
             each five_tags 
                 .ui.basic.inverted.black.label #{this}
-            if watson 
-                +doc_sentiment
-                +doc_emotion
+            // if watson 
+            //     +doc_sentiment
+            //     +doc_emotion
 
             a.ui.circular.basic.icon.button.zoomer.fly_right(href="/doc/#{_id}")
                 +i name='chevron-right'

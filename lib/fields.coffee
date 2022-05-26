@@ -335,6 +335,21 @@ if Meteor.isClient
                         
                     # window.speechSynthesis.speak new SpeechSynthesisUtterance element_val
                     t.$('.new_element').val('')
+        'click .add_element': (e,t)->
+            element_val = t.$('.new_element').val().trim().toLowerCase()
+            if element_val.length>0
+                parent = Template.parentData()
+                doc = Docs.findOne parent._id
+
+                if doc
+                    Docs.update parent._id,
+                        $addToSet:"#{@key}":element_val
+                else 
+                    Meteor.users.update parent._id,
+                        $addToSet:"#{@key}":element_val
+                    
+                # window.speechSynthesis.speak new SpeechSynthesisUtterance element_val
+                t.$('.new_element').val('')
     
         'click .remove_element': (e,t)->
             $(e.currentTarget).closest('.touch_element').transition('slide left', 1000)

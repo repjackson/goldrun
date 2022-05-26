@@ -52,10 +52,10 @@ template(name='doc_edit')
                             .column
                                 +image_edit key='image_id' label='image' 
                                 .ui.horizontal.divider or
-                                +image_link key='image_link' label='image link'
+                                +image_link_edit key='image_link' label='image link'
                                 +image_edit key='background_image_id' label='background image' 
                                 .ui.horizontal.divider or
-                                +image_link key='background_image_link' label='background image link'
+                                +image_link_edit key='background_image_link' label='background image link'
                             .column
                                 if watson 
                                     +i name='dna-helix' title='analyzed'

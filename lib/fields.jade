@@ -278,7 +278,7 @@ template(name='image_edit')
                 |#{this}
             a(href="https://www.google.com/search?tbm=isch&q=#{../title}" target='_window' title='search google for image from title')
                 i.search.grey.circular.link.icon.zoomer
-        .field
+        .field.invert
             if field_value
                 //- label Image
                 a(href="{{c.url field_value }}" target='_window')
@@ -571,8 +571,9 @@ template(name='datetime_view')
 
 template(name='array_edit')
     if icon
-        +i name=icon cl='ui avatar image'
-    .ui.inline.header
+        i.large.icon(class=icon)
+        // +i name=icon cl='ui avatar image'
+    .ui.inline.header.add_element.pointer(title='add tag')
         |#{field_value.length}
         if title
             |#{title}
@@ -581,10 +582,10 @@ template(name='array_edit')
         else if key
             |#{key}
     .ui.icon.large.input
-        i.icon
-            +i name=icon cl='ui inline image'
+        i.icon.add_element(class=icon)
+        // +i name=icon cl='ui inline image'
         input.new_element(type='text' placeholder="#{field_value.length} #{label}" autocomplete="off")
-        //- +clear_value                
+        +clear_value                
     if field_value
         each field_value
             a.ui.large.icon.inverted.black.basic.label

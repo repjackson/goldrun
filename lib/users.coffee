@@ -110,6 +110,7 @@ if Meteor.isClient
             splitted = new_username.split(' ')
             formatted = new_username.split(' ').join('_').toLowerCase()
             console.log formatted
+                #   return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             Meteor.call 'add_user', formatted, (err,res)->
                 console.log res
                 new_user = Meteor.users.findOne res
@@ -117,6 +118,7 @@ if Meteor.isClient
                     $set:
                         first_name:splitted[0]
                         last_name:splitted[1]
+
                 Router.go "/user/#{formatted}"
                 $('body').toast({
                     title: "user created"

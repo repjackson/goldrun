@@ -129,7 +129,7 @@ template(name='nav')
     #topnav.topnav.ui.attached.menu.hscroll.alpha
         if is_connected
             if currentUser
-                a.item.zoomer.fly_down.add_doc 
+                a.icon.item.zoomer.fly_down.add_doc 
                     // +i name='plus'
                     i.large.plus.icon
                 // a.icon.item(href="/mail/inbox")
@@ -141,9 +141,11 @@ template(name='nav')
                         i.user.icon
                     strong #{currentUser.username}
                     |&nbsp;
-                    .ui.big.basic.black.inverted.label(title='points') #{currentUser.points}p
+                    .ui.large.basic.black.inverted.label(title='points') #{currentUser.points}p
                     if unread_count
-                        .ui.large.teal.label(title='unread messages') #{unread_count}
+                        .ui.large.inverted.black.basic.label(title='unread messages') 
+                            i.envelope.icon
+                            |#{unread_count}
         unless subs_ready
             .icon.item
                 i.yin.yang.large.loading.icon
@@ -176,7 +178,7 @@ template(name='nav')
             +nav_item key='rental' icon='clock'
             +nav_item key='task' icon='tasks'
             // +nav_item key='checkin' icon='checkmark'
-            +nav_item key='log' icon='command-line'
+            +nav_item key='log' icon='code'
             
 
 

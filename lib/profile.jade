@@ -54,12 +54,12 @@ template(name='profile')
                     if is_current_user
                         a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
                             +i name='settings'
-                            unless currentUser.hide_menu_labels
+                            unless currentUser.hide_labels
                                 |account
                     else if currentUser.admin_mode
                         a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
                             +i name='settings'
-                            unless currentUser.hide_menu_labels
+                            unless currentUser.hide_labels
                                 |account
                     img.ui.medium.rounded.image.boop.pointer.zoomers(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
                     // if subs_ready
@@ -503,7 +503,7 @@ template(name='send_message_button')
     .ui.button.send_message
         +i name='envelope'
         span.mobile.hidden
-            unless currentUser.hide_menu_labels
+            unless currentUser.hide_labels
                 |send message
             
 template(name="user_reviews") 
@@ -549,7 +549,7 @@ template(name='logout_other_clients_button')
     .ui.compact.button.logout_other_clients(title='logout other clients')
         +i name='globe'
         span.mobile.hidden
-            unless currentUser.hide_menu_labels
+            unless currentUser.hide_labels
                 |log out other clients
 
 
@@ -559,7 +559,7 @@ template(name='logout_button')
         // i.sign.out.alternate.icon
         +i name='exit'
         span.mobile.hidden
-            unless currentUser.hide_menu_labels
+            unless currentUser.hide_labels
                 |log out
                 
                 

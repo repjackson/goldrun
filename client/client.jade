@@ -123,7 +123,7 @@ template(name='nav')
     // #topnav.topnav.ui.attached.borderless.big.four.item.menu.hscroll(class=darkmode_class)
         https://fomantic-ui.com/elements/icon.html#/icon
     // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
-    #topnav.topnav.ui.attached.borderless.large.menu.hscroll.alpha
+    #topnav.topnav.ui.attached.menu.hscroll.alpha
         if is_connected
             if currentUser
                 a.item.zoomer.fly_down.add_doc 
@@ -160,6 +160,8 @@ template(name='nav')
         if is_connected
             a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
                 +i name='groups'
+                unless currentUser.hide_labels
+                    |users
             +nav_item key='post' icon='news'
             +nav_item key='event' icon='calendar'
             +nav_item key='group' icon='campfire'
@@ -176,5 +178,7 @@ template(name='nav')
 template(name='nav_item')
     a.item.zoomer.fly_right.clear_search.go_route(href="/m/#{key}" class="{{isActiveRoute 'docs'}}" title=key)
         +i name=icon
+        unless currentUser.hide_labels
+            |#{key}
 
 

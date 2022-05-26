@@ -24,7 +24,7 @@ template(name='visibility_settings')
 template(name='send_points_button')
     .ui.circular.button.send_points.fly_right
         +i name='donate'
-        unless currentUser.hide_menu_labels
+        unless currentUser.hide_labels
             |send points
         
         
@@ -132,7 +132,7 @@ template(name='publish_button')
 template(name='request_button')
     .ui.button.request
         +i name='hand-holding-heart'
-        unless currentUser.hide_menu_labels
+        unless currentUser.hide_labels
             |request
 
 template(name='session_icon_button')

@@ -1382,9 +1382,10 @@ template(name='view_span')
                     
 template(name='transfer_card')
     .content
-        .ui.inline.header target
-        with _target
-            +user_info
+        span(title='recipient')
+            +i name='lend'
+            with _target
+                +user_info
         span.smallscroll
             |!{description}
                     

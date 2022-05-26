@@ -331,13 +331,13 @@ template(name='user_favorites')
                 .item
                     .content
                         +model_label
-                        a.ui.inline.header.fly_up(href="/doc/#{_id}")
+                        a.inline.header.fly_up(href="/doc/#{_id}")
                             img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
                             | #{title}
                         +favorite_icon_toggle
                         +when
                         each three_tags
-                            .ui.small.basic.label #{this}
+                            .ui.small.basic.inverted.black.basic.label #{this}
                         
 template(name='when')
     .ui.label(title="{{long_date _timestamp}}") #{_when}
@@ -531,8 +531,8 @@ template(name='user_posts')
             each user_authored_post_docs
                 a.item.fly_left(href="/doc/#{_id}") 
                     if image_id
-                        img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                    .ui.inline.header
+                        img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                    .ui.inline.small.header
                         |#{title}
                     .description
                         |#{_when}

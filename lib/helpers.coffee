@@ -105,7 +105,6 @@ if Meteor.isClient
     
     
     Template.registerHelper '_target', () ->
-        console.log 'helper target', @
         if @target_id
             Meteor.users.findOne
                 _id: @target_id

@@ -1195,7 +1195,6 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.transfer_card.onCreated ->
-        console.log @
         @autorun => Meteor.subscribe 'target_from_doc_id', (@data._id), ->
         
     Template.transfer_view.onRendered ->

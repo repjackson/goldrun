@@ -226,7 +226,7 @@ template(name='link_edit')
 
 template(name='link_view')
     if field_value
-        a.ui.button(href=field_value target='_window')
+        a.ui.inverted.black.basic.button(href=field_value target='_window')
             i.external.icon
             if icon
                 +i name=icon cl='ui avatar image'

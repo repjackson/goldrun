@@ -9,7 +9,6 @@ template(name='music')
             .ui.large.input 
                 input.artist_search(type='text' placeholder='search artist...' value=current_search)
             +i name='tags'
-            |tags
             each picked_music_tags
                 button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
                     //- i.remove.icon
@@ -30,21 +29,23 @@ template(name='music')
                         //- i.remove.icon
                         | #{this}
                 each genre_results
-                    button.ui.circular.compact.black.button.pick_genre(tabindex="0" class=result_class title=count)
-                        |#{name}
-                        // small #{count}
+                    if name
+                        button.ui.circular.compact.black.button.pick_genre(tabindex="0" class=result_class title=count)
+                            |#{name}
+                            // small #{count}
             div
             .ui.inline.header
                 +i name='artist'
-                |styles
+                |#{style_results.count} styles
             each picked_styles
                 button.ui.blue.compact.circular.button.unpick_style(tabindex='0')
                     //- i.remove.icon
                     | #{this}
-            each style_results
-                button.ui.circular.compact.black.button.pick_style(tabindex="0" class=result_class title=count)
-                    |#{name}
-                    // small #{count}
+            each style_result
+                if name
+                    button.ui.circular.compact.black.button.pick_style(tabindex="0" class=result_class title=count)
+                        |#{name}
+                        // small #{count}
             div
             .ui.inline.header
                 +i name='happy'
@@ -54,9 +55,10 @@ template(name='music')
                     //- i.remove.icon
                     | #{this}
             each mood_results
-                button.ui.circular.compact.black.button.pick_mood(tabindex="0" class=result_class title=count)
-                    |#{name}
-                    // small #{count}
+                if name
+                    button.ui.circular.compact.black.button.pick_mood(tabindex="0" class=result_class title=count)
+                        |#{name}
+                        // small #{count}
         .twelve.wide.column
             unless one_result
                 .ui.inline.header(title='result count') #{result_docs.count}
@@ -174,14 +176,14 @@ template(name='music_artist')
                 // "strISNIcode": null,
                 // "strLastFMChart": "http://www.last.fm/music/The Weeknd/+charts?rangetype=6month",
                 if strLastFMChart
-                    a.ui.big.button(href=strLastFMChart target='_window' title='last fm')
+                    a.ui.big.inverted.basic.button.zoomer(href=strLastFMChart target='_window' title='last fm')
                         +i name='lastfm'
                         |last fm page
                 if strFacebook
-                    a.ui.big.basic.compact.inverted.button(href=strFacebook target='_window' title='view facebook profile')
+                    a.ui.big.basic.compact.inverted.button.zoomer(href=strFacebook target='_window' title='view facebook profile')
                         +i name='facebook'
                 if strTwitter
-                    a.ui.big.basic.compact.inverted.button(href=strTwitter target='_window' title='view twitter page')
+                    a.ui.big.basic.compact.inverted.button.zoomer(href=strTwitter target='_window' title='view twitter page')
                         +i name='twitter'
 
                 // .item #{strArtistStripped}: strArtistStripped

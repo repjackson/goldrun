@@ -273,6 +273,10 @@ if Meteor.isClient
         current_search: ->
             Session.get('artist_search')
     Template.music_artist.events
+        'click .pull_albums': ->
+            current_artist = Docs.findOne Router.current().params.doc_id
+            console.log 'pulling', current_artist.strArtist
+            Meteor.call 'search_albums', current_artist.strArtist, ->
         'click .pick_mood': ->
             picked_moods.clear()
             picked_moods.push @strMood
@@ -333,7 +337,8 @@ if Meteor.isClient
 
 if Meteor.isServer 
     Meteor.methods
-        search_album: (search)->
+        search_albums: (search)->
+            console.log 'finding albums'
             HTTP.get "https://www.theaudiodb.com/api/v1/json/523532/searchalbum.php?s=#{search}",(err,response)=>
                 console.log response
         search_artist: (search)->

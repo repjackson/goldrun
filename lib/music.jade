@@ -75,13 +75,13 @@ template(name='music')
             .ui.hidden.divider
             if subs_ready
                 if session_is 'view_mode' 'grid'
-                    .ui.centered.stackable.cards.scrolling
+                    .ui.stackable.cards.scrolling
                         if one_result
                             .ui.one.cards
                                 each artist_docs 
                                     +artist_card
                         else
-                            .ui.centered.cards
+                            .ui.cards
                                 each artist_docs 
                                     +artist_card
                 else
@@ -284,6 +284,8 @@ template(name='music_artist')
                 if currentUser.admin_mod
                     +call_watson key='strBiographyEN'
                 +comments
+                .ui.button.pull_albums
+                    |download albums
                 each artist_album_docs 
                     .ui
             .sixteen.wide.column

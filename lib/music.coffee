@@ -224,7 +224,7 @@ if Meteor.isServer
                 { $match: _id: $nin: picked_styles }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
-                { $limit: 10 }
+                { $limit: 20 }
                 { $project: _id: 0, name: '$_id', count: 1 }
                 ]
             # console.log 'theme tag_cloud, ', tag_cloud
@@ -243,7 +243,7 @@ if Meteor.isServer
                 { $match: _id: $nin: picked_genres }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
-                { $limit: 10 }
+                { $limit: 20 }
                 { $project: _id: 0, name: '$_id', count: 1 }
                 ]
             # console.log 'theme tag_cloud, ', tag_cloud
@@ -262,7 +262,7 @@ if Meteor.isServer
                 { $match: _id: $nin: picked_moods }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
-                { $limit: 10 }
+                { $limit: 20 }
                 { $project: _id: 0, name: '$_id', count: 1 }
                 ]
             # console.log 'theme tag_cloud, ', tag_cloud

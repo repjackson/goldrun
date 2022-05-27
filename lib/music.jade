@@ -17,8 +17,6 @@ template(name='music')
                     |#{name}
                     // small #{count}
 
-        .four.wide.column
-            div
             +i name='music'
             |genre
             each picked_genres
@@ -29,7 +27,6 @@ template(name='music')
                 button.ui.circular.compact.black.button.pick_genre(tabindex="0" class=result_class title=count)
                     |#{name}
                     // small #{count}
-            div
             +i name='artist'
             |style
             each picked_styles
@@ -40,7 +37,6 @@ template(name='music')
                 button.ui.circular.compact.black.button.pick_style(tabindex="0" class=result_class title=count)
                     |#{name}
                     // small #{count}
-            div
             +i name='happy'
             |mood
             each picked_moods
@@ -51,7 +47,7 @@ template(name='music')
                 button.ui.circular.compact.black.button.pick_mood(tabindex="0" class=result_class title=count)
                     |#{name}
                     // small #{count}
-        .twelve.wide.column.scrolling
+        .sixteen.wide.column.scrolling
             .ui.cards
                 each artist_docs 
                     +artist_card

@@ -101,8 +101,8 @@ template(name='music')
             
 
 template(name='artist_card')
-    a.card.fly_right.zoomer(href="/music/artist/#{_id}" title='view artist' class=mood_class)
-        .ui.fade.reveal.image
+    a.card.fly_right.zoomer.rounded(href="/music/artist/#{_id}" title='view artist' class=mood_class)
+        .ui.fade.reveal.image.rounded
             .visible.content.invert
                 img.ui.image(src=strArtistThumb)
             .hidden.content.invert
@@ -194,12 +194,12 @@ template(name='music_artist')
                     a.ui.big.inverted.basic.button.zoomer(href=strLastFMChart target='_window' title='last fm')
                         +i name='lastfm'
                         |last fm page
-                if strFacebook
-                    a.ui.big.basic.compact.inverted.button.zoomer(href=strFacebook target='_window' title='view facebook profile')
-                        +i name='facebook'
-                if strTwitter
-                    a.ui.big.basic.compact.inverted.button.zoomer(href=strTwitter target='_window' title='view twitter page')
-                        +i name='twitter'
+                // if strFacebook
+                //     a.ui.big.basic.compact.inverted.button.zoomer(href=strFacebook target='_window' title='view facebook profile')
+                //         +i name='facebook'
+                // if strTwitter
+                //     a.ui.big.basic.compact.inverted.button.zoomer(href=strTwitter target='_window' title='view twitter page')
+                //         +i name='twitter'
 
                 // .item #{strArtistStripped}: strArtistStripped
                 if strArtistAlternate
@@ -215,7 +215,9 @@ template(name='music_artist')
                 // if intBornYear
                 //     .ui.large.basic.inverted.label born #{intBornYear}
                 if intDiedYear
-                    .ui.large.basic.inverted.label died #{intDiedYear}
+                    .ui.large.basic.inverted.label(title='died')
+                        +i name='death'
+                        | #{intDiedYear}
                 if strDisbanded
                     .ui.large.basic.inverted.label disbanded #{strDisbanded}
                 if strCountry
@@ -225,10 +227,10 @@ template(name='music_artist')
                 .ui.large.basic.inverted.label 
                     +i name='artist'
                     |style: #{strStyle}
-                .ui.large.basic.inverted.label 
+                a.ui.large.basic.inverted.label.zoomer.pick_genre
                     +i name='music'
                     |#{strGenre}
-                .ui.large.basic.inverted.label 
+                a.ui.large.basic.inverted.label.zoomer.pick_mood
                     +i name='happy'
                     |mood: #{strMood}
                 .ui.large.basic.inverted.label

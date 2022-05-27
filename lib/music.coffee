@@ -235,7 +235,14 @@ if Meteor.isClient
                 else null
     Template.artist_card.helpers
         mood_class:->
-            console.log @strMood
+            switch @strMood 
+                when 'Happy' then 'green'
+                when 'Angry' then 'red'
+                when 'Confrontational' then 'red'
+                when 'Epic' then 'grey'
+                when 'In Love' then 'teal'
+                else null
+            # console.log @strMood
     Template.music.helpers
         one_result: ->
             Docs.find(model:'artist').count() is 1
@@ -266,6 +273,14 @@ if Meteor.isClient
         current_search: ->
             Session.get('artist_search')
     Template.music_artist.events
+        'click .pick_mood': ->
+            picked_moods.clear()
+            picked_moods.push @strMood
+            Router.go '/music'
+        'click .pick_genre': ->
+            picked_genres.clear()
+            picked_genres.push @strGenre
+            Router.go '/music'
         'click .pick_flat_tag': ->
             picked_music_tags.clear()
             picked_music_tags.push @valueOf()

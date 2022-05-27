@@ -20,8 +20,18 @@ if Meteor.isClient
     
     Template.music_artist.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'albums_by_artist_doc_id', Router.current().params.doc_id, ->
 
+if Meteor.isServer 
+    Meteor.publish 'albums_by_artist_doc_id', (artist_doc_id)->
+        Docs.find 
+            model:'album'
+            
+if Meteor.isClient
     Template.music_artist.helpers
+        artist_album_docs: ->
+            Docs.find 
+                model:'album'
         current_artist: ->
             Docs.findOne Router.current().params.doc_id
     Template.music_artist.onRendered ->
@@ -78,7 +88,7 @@ if Meteor.isServer
             match = {}
     
             # match.tags = $all: picked_tags
-            match.model = 'artist'
+            match.model = $in:['artist','album']
             # if parent_id then match.parent_id = parent_id
     
             # if view_private is true
@@ -191,7 +201,7 @@ if Meteor.isServer
         # picked_location_tags=[]
         )->
         self = @
-        match = {model:'artist'}
+        match = model:$in:['artist','album']
         if picked_music_tags.length > 0 then match.tags = $all: picked_music_tags
         if picked_styles.length > 0 then match.strStyle = $all: picked_styles
         if picked_moods.length > 0 then match.strMood = $all: picked_moods
@@ -213,17 +223,17 @@ if Meteor.isServer
         Docs.find match,
             sort:"#{sort_key}":sort_direction
             limit: limit
-            fields: 
-                strArtistFanart:1
-                strArtistThumb:1
-                strArtistLogo:1
-                strArtist:1
-                strGenre:1
-                strStyle:1
-                strMood:1
-                _timestamp:1
-                model:1
-                tags:1
+            # fields: 
+            #     strArtistFanart:1
+            #     strArtistThumb:1
+            #     strArtistLogo:1
+            #     strArtist:1
+            #     strGenre:1
+            #     strStyle:1
+            #     strMood:1
+            #     _timestamp:1
+            #     model:1
+            #     tags:1
 if Meteor.isClient
     Template.mood_icon.helpers
         mood_icon_class: ->
@@ -249,6 +259,10 @@ if Meteor.isClient
         artist_docs: ->
             Docs.find {
                 model:'artist'
+            }, sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+        music_docs: ->
+            Docs.find {
+                model:$in:['artist','album']
             }, sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
         music_tag_results: ->
             Results.find {
@@ -341,6 +355,61 @@ if Meteor.isServer
             console.log 'finding albums'
             HTTP.get "https://www.theaudiodb.com/api/v1/json/523532/searchalbum.php?s=#{search}",(err,response)=>
                 console.log response
+                albums = response.data.album
+                for album in albums
+                    found_album = Docs.findOne 
+                        model:'album'
+                        idAlbum:album.idAlbum
+                    unless found_album
+                        new_id = Docs.insert 
+                            model:'album'
+                            idAlbum: album.idAlbum
+                            idArtist: album.idArtist
+                            idLabel: album.idLabel
+                            strAlbum: album.strAlbum
+                            strAlbumStripped: album.strAlbumStripped
+                            strArtist: album.strArtist
+                            strArtistStripped: album.strArtistStripped
+                            intYearReleased: album.intYearReleased
+                            strStyle: album.strStyle
+                            strGenre: album.strGenre
+                            strLabel: album.strLabel
+                            strReleaseFormat: album.strReleaseFormat
+                            intSales: album.intSales
+                            strAlbumThumb: album.strAlbumThumb
+                            strAlbumThumbHQ: album.strAlbumThumbHQ
+                            strAlbumThumbBack: album.strAlbumThumbBack
+                            strAlbumCDart: album.strAlbumCDart
+                            strAlbumSpine: album.strAlbumSpine
+                            strAlbum3DCase: album.strAlbum3DCase
+                            strAlbum3DFlat: album.strAlbum3DFlat
+                            strAlbum3DFace: album.strAlbum3DFace
+                            strAlbum3DThumb: album.strAlbum3DThumb
+                            strDescriptionEN: album.strDescriptionEN
+                            intLoved: album.intLoved
+                            intScore: album.intScore
+                            intScoreVotes: album.intScoreVotes
+                            strReview: album.strReview
+                            strMood: album.strMood
+                            strTheme: album.strTheme
+                            strSpeed: album.strSpeed
+                            strLocation: album.strLocation
+                            strMusicBrainzID: album.strMusicBrainzID
+                            strMusicBrainzArtistID: album.strMusicBrainzArtistID
+                            strAllMusicID: album.strAllMusicID
+                            strBBCReviewID: album.strBBCReviewID
+                            strRateYourMusicID: album.strRateYourMusicID
+                            strDiscogsID: album.strDiscogsID
+                            strWikidataID: album.strWikidataID
+                            strWikipediaID: album.strWikipediaID
+                            strGeniusID: album.strGeniusID
+                            strLyricWikiID: album.strLyricWikiID
+                            strMusicMozID: album.strMusicMozID
+                            strItunesID: album.strItunesID
+                            strAmazonID: album.strAmazonID
+                            strLocked: album.strLocked
+                        # Meteor.call 'call_watson', new_id, 'strDescriptionEN', ->
+                    
         search_artist: (search)->
             HTTP.get "https://www.theaudiodb.com/api/v1/json/523532/search.php?s=#{search}",(err,response)=>
                 # console.log 'ARTIST RESPONSE'

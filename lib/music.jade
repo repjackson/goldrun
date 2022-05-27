@@ -8,6 +8,7 @@ template(name='music')
                 i.large.red.circular.link.remove.icon.clear
             .ui.large.input 
                 input.artist_search(type='text' placeholder='search artist...' value=current_search)
+        .four.wide.column.scrolling
             +i name='tags'
             each picked_music_tags
                 button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
@@ -18,7 +19,6 @@ template(name='music')
                     |#{name}
                     // small #{count}
 
-        .four.wide.column.scrolling
             .ui.inline.small.header
                 .ui.small.inline.header
                     +i name='music'
@@ -78,16 +78,16 @@ template(name='music')
                     .ui.stackable.cards.scrolling
                         if one_result
                             .ui.one.cards
-                                each artist_docs 
-                                    +artist_card
+                                each music_docs 
+                                    +music_card
                         else
                             .ui.cards
-                                each artist_docs 
-                                    +artist_card
+                                each music_docs 
+                                    +music_card
                 else
                     .ui.large.list 
-                        each artist_docs 
-                            +artist_item
+                        each music_docs 
+                            +music_item
             else 
                 .ui.center.aligned.basic.segment
                     i.massive.yin.yang.loading.grey.icon
@@ -105,6 +105,11 @@ template(name='music')
             //         .ui.header #{title}
             
 
+template(name='music_card')
+    if is model 'album'
+        +album_card
+    else if is model 'artist'
+        +artist_card
 template(name='artist_card')
     a.card.fly_right.zoomer.rounded(href="/music/artist/#{_id}" title='view artist' class=mood_class)
         .ui.fade.reveal.image.rounded
@@ -140,13 +145,92 @@ template(name='artist_card')
                     .ui.inverted.basic.label
                         i.eye.grey.icon
                         |#{views}
+                .ui.label #{model}
+template(name='album_card')
+    a.card.fly_right.zoomer.rounded(href="/music/artist/#{_id}" title='view artist' class=mood_class)
+        .ui.fade.reveal.image.rounded
+            .visible.content.invert
+                img.ui.image(src=strAlbumThumb)
+            .hidden.content.invert
+                img.ui.image(src=strAlbumThumbBack)
+        .content
+            img.ui.image(src=strAlbumCDart title=strAlbum)
+            .description
+                .header #{strAlbum}
+                +mood_icon
+                if strGenre
+                    .ui.inverted.basic.label
+                        +i name='music'
+                        |#{strGenre}
+                if strStyle
+                    .ui.inverted.basic.label
+                        +i name='artist'
+                        |#{strStyle}
+                if strMood
+                    .ui.inverted.basic.label
+                        +i name='happy'
+                        |#{strMood}
+                each five_tags
+                    .ui.inverted.basic.label #{this}
+                .ui.inverted.basic.label
+                    i.plus.grey.icon
+                    | #{_when}
+                if points
+                    .ui.inverted.basic.label
+                        |#{points}pts
+                if views
+                    .ui.inverted.basic.label
+                        i.eye.grey.icon
+                        |#{views}
+                .ui.label #{model}
                         
                         
+template(name='music_item')
+    if is model 'album'
+        +album_item
+    else if is model 'artist'
+        +artist_item
 template(name='artist_item')
     a.item.fly_right.zoomer.rounded(href="/music/artist/#{_id}" title='view artist' class=mood_class)
         img.ui.small.inline.image(src=strArtistThumb)
         if strArtistLogo
             img.ui.small.inline.image(src=strArtistLogo title=strArtist)
+        // .ui.fade.reveal.image.rounded
+        //     .visible.content.invert
+        //     .hidden.content.invert
+        //         img.ui.image(src=strArtistFanart)
+        +mood_icon
+        if strGenre
+            .ui.inverted.basic.label
+                +i name='music'
+                |#{strGenre}
+        if strStyle
+            .ui.inverted.basic.label
+                +i name='artist'
+                |#{strStyle}
+        if strMood
+            .ui.inverted.basic.label
+                +i name='happy'
+                |#{strMood}
+        each five_tags
+            .ui.inverted.basic.label #{this}
+        .ui.inverted.basic.label
+            i.plus.grey.icon
+            | #{_when}
+        if points
+            .ui.inverted.basic.label
+                |#{points}pts
+        if views
+            .ui.inverted.basic.label
+                i.eye.grey.icon
+                |#{views}
+                        
+template(name='album_item')
+    a.item.fly_right.zoomer.rounded(href="/music/artist/#{_id}" title='view artist' class=mood_class)
+        img.ui.small.inline.image(src=strAlbumThumb)
+        if strAlbumThumbBack
+            img.ui.small.inline.image(src=strAlbumThumbBack title=strArtist)
+        .ui.header #{strAlbum}
         // .ui.fade.reveal.image.rounded
         //     .visible.content.invert
         //     .hidden.content.invert
@@ -286,8 +370,14 @@ template(name='music_artist')
                 +comments
                 .ui.button.pull_albums
                     |download albums
-                each artist_album_docs 
-                    .ui
+                .ui.cards
+                    each artist_album_docs 
+                        .ui.card
+                            img.ui.image(src=strAlbumThumb)
+                            .content 
+                                .ui.header #{strAlbum}
+                                +print_this
+                    
             .sixteen.wide.column
                 if watson 
                     +watson_view

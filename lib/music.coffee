@@ -31,14 +31,14 @@ if Meteor.isClient
             picked_styles.array()
             picked_moods.array()
             picked_genres.array()
-            Session.get('current_search')
+            Session.get('artist_search')
             picked_timestamp_tags.array()
         @autorun => @subscribe 'music_results',
             picked_music_tags.array()
             picked_styles.array()
             picked_moods.array()
             picked_genres.array()
-            Session.get('current_search')
+            Session.get('artist_search')
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('limit')
@@ -70,9 +70,9 @@ if Meteor.isClient
         picked_moods: -> picked_moods.array()
     Template.music.events
         'keyup .artist_search': (e,t)->
+            query = t.$('.artist_search').val()
+            Session.set('artist_search',query)
             if e.which is 13
-                query = t.$('.artist_search').val()
-                Session.set('artist_search',query)
                 Meteor.call 'search_artist', Session.get('artist_search'), ->
         'click .search_artist': ->
             Meteor.call 'search_artist', Session.get('artist_search'), ->
@@ -161,7 +161,7 @@ if Meteor.isServer
         picked_styles=[]
         picked_moods=[]
         picked_genres=[]
-        title_search=''
+        name_search=''
         picked_timestamp_tags
         # picked_author_ids=[]
         # picked_location_tags
@@ -184,7 +184,9 @@ if Meteor.isServer
     
             # if view_private is true
             #     match.author_id = Meteor.userId()
-    
+            if name_search.length > 1
+                match.strArtist = {$regex:"#{name_search}", $options: 'i'}
+
             # if view_private is false
             #     match.published = $in: [0,1]
     
@@ -282,7 +284,7 @@ if Meteor.isServer
         picked_styles=[]
         picked_moods=[]
         picked_genres=[]
-        current_query=''
+        name_search=''
         sort_key='_timestamp'
         sort_direction=-1
         limit=42
@@ -295,9 +297,8 @@ if Meteor.isServer
         if picked_styles.length > 0 then match.strStyle = $all: picked_styles
         if picked_moods.length > 0 then match.strMood = $all: picked_moods
         if picked_genres.length > 0 then match.strGenre = $all: picked_genres
-        if current_query.length > 1
-        #     console.log 'searching org_query', org_query
-            match.title = {$regex:"#{current_query}", $options: 'i'}
+        if name_search.length > 1
+            match.strArtist = {$regex:"#{name_search}", $options: 'i'}
         #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
     
         # console.log 'sort key', sort_key

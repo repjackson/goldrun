@@ -20,50 +20,69 @@ template(name='music')
                     // small #{count}
 
         .four.wide.column.scrolling
-            .ui.fluid.styled.accordion
-                .active.title
-                    .ui.small.inline.header
-                        +i name='music'
-                        |#{genre_results.count} genres
-                    each picked_genres
-                        button.ui.blue.compact.circular.button.unpick_genre(tabindex='0')
-                            //- i.remove.icon
-                            | #{this}
-                .active.content
-                    each genre_results
-                        button.ui.circular.compact.black.button.pick_genre(tabindex="0" class=result_class title=count)
-                            |#{name}
-                            // small #{count}
-            .ui.fluid.styled.accordion
-                .active.title
-                    +i name='artist'
-                    |styles
-                    each picked_styles
-                        button.ui.blue.compact.circular.button.unpick_style(tabindex='0')
-                            //- i.remove.icon
-                            | #{this}
-                .active.content
-                    each style_results
-                        button.ui.circular.compact.black.button.pick_style(tabindex="0" class=result_class title=count)
-                            |#{name}
-                            // small #{count}
-            .ui.fluid.styled.accordion
-                .active.title
-                    +i name='happy'
-                    |moods
-                    each picked_moods
-                        button.ui.blue.compact.circular.button.unpick_mood(tabindex='0')
-                            //- i.remove.icon
-                            | #{this}
-                .active.content
-                    each mood_results
-                        button.ui.circular.compact.black.button.pick_mood(tabindex="0" class=result_class title=count)
-                            |#{name}
-                            // small #{count}
-        .twelve.wide.column.scrolling
-            .ui.centered.stackable.doubling.cards
-                each artist_docs 
-                    +artist_card
+            div
+            .ui.inline.header
+                .ui.small.inline.header
+                    +i name='music'
+                    |#{genre_results.count} genres
+                each picked_genres
+                    button.ui.blue.compact.circular.button.unpick_genre(tabindex='0')
+                        //- i.remove.icon
+                        | #{this}
+                each genre_results
+                    button.ui.circular.compact.black.button.pick_genre(tabindex="0" class=result_class title=count)
+                        |#{name}
+                        // small #{count}
+            div
+            .ui.inline.header
+                +i name='artist'
+                |styles
+            each picked_styles
+                button.ui.blue.compact.circular.button.unpick_style(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each style_results
+                button.ui.circular.compact.black.button.pick_style(tabindex="0" class=result_class title=count)
+                    |#{name}
+                    // small #{count}
+            div
+            .ui.inline.header
+                +i name='happy'
+                |#{mood_results.count} moods
+            each picked_moods
+                button.ui.blue.compact.circular.button.unpick_mood(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each mood_results
+                button.ui.circular.compact.black.button.pick_mood(tabindex="0" class=result_class title=count)
+                    |#{name}
+                    // small #{count}
+        .twelve.wide.column
+            unless one_result
+                .ui.inline.header(title='result count') #{result_docs.count}
+                // +search_input key='title'
+                +sort_direction_toggle
+                // +sort_key_toggle
+                +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+                +session_set key='sort_key' value='points' label='points' icon='hashtag'
+                +session_set key='sort_key' value='views' label='views' icon='eye'
+                // +session_set key='limit' value=10
+                // +session_set key='limit' value=25
+                // +session_set key='limit' value=100
+            .ui.hidden.divider
+            .ui.centered.stackable.cards.scrolling
+                if subs_ready
+                    if one_result
+                        .ui.one.cards
+                            each artist_docs 
+                                +artist_card
+                    else
+                        .ui.centered.cards
+                            each artist_docs 
+                                +artist_card
+                else 
+                    .ui.center.aligned.basic.segment
+                        i.massive.yin.yang.loading.grey.icon
             // .ui.inline.header search songs
             // .ui.input 
             //     input(type='text' placholder='song...')
@@ -96,6 +115,8 @@ template(name='artist_card')
                 each five_tags
                     .ui.inverted.basic.label #{this}
                 |added #{_when}
+                |#{points}pts
+                |#{views} views
 
 template(name='music_artist')
     with current_artist 

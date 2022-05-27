@@ -60,6 +60,9 @@ template(name='music')
             unless one_result
                 .ui.inline.header(title='result count') #{result_docs.count}
                 // +search_input key='title'
+                +session_icon_button key='view_mode' value='grid' icon='grid' 
+                +session_icon_button key='view_mode' value='list' icon='list'
+                
                 +sort_direction_toggle
                 // +sort_key_toggle
                 +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
@@ -70,19 +73,24 @@ template(name='music')
                 // +session_set key='limit' value=25
                 // +session_set key='limit' value=100
             .ui.hidden.divider
-            .ui.centered.stackable.cards.scrolling
-                if subs_ready
-                    if one_result
-                        .ui.one.cards
-                            each artist_docs 
-                                +artist_card
-                    else
-                        .ui.centered.cards
-                            each artist_docs 
-                                +artist_card
-                else 
-                    .ui.center.aligned.basic.segment
-                        i.massive.yin.yang.loading.grey.icon
+            if subs_ready
+                if session_is 'view_mode' 'grid'
+                    .ui.centered.stackable.cards.scrolling
+                        if one_result
+                            .ui.one.cards
+                                each artist_docs 
+                                    +artist_card
+                        else
+                            .ui.centered.cards
+                                each artist_docs 
+                                    +artist_card
+                else
+                    .ui.large.list 
+                        each artist_docs 
+                            +artist_item
+            else 
+                .ui.center.aligned.basic.segment
+                    i.massive.yin.yang.loading.grey.icon
             // .ui.inline.header search songs
             // .ui.input 
             //     input(type='text' placholder='song...')
@@ -132,6 +140,42 @@ template(name='artist_card')
                     .ui.inverted.basic.label
                         i.eye.grey.icon
                         |#{views}
+                        
+                        
+template(name='artist_item')
+    a.item.fly_right.zoomer.rounded(href="/music/artist/#{_id}" title='view artist' class=mood_class)
+        img.ui.small.inline.image(src=strArtistThumb)
+        if strArtistLogo
+            img.ui.small.inline.image(src=strArtistLogo title=strArtist)
+        // .ui.fade.reveal.image.rounded
+        //     .visible.content.invert
+        //     .hidden.content.invert
+        //         img.ui.image(src=strArtistFanart)
+        +mood_icon
+        if strGenre
+            .ui.inverted.basic.label
+                +i name='music'
+                |#{strGenre}
+        if strStyle
+            .ui.inverted.basic.label
+                +i name='artist'
+                |#{strStyle}
+        if strMood
+            .ui.inverted.basic.label
+                +i name='happy'
+                |#{strMood}
+        each five_tags
+            .ui.inverted.basic.label #{this}
+        .ui.inverted.basic.label
+            i.plus.grey.icon
+            | #{_when}
+        if points
+            .ui.inverted.basic.label
+                |#{points}pts
+        if views
+            .ui.inverted.basic.label
+                i.eye.grey.icon
+                |#{views}
                         
                         
 template(name='mood_icon')  
@@ -236,7 +280,7 @@ template(name='music_artist')
                 .ui.large.basic.inverted.label
                     // a(href=strWebsite target='_window')
                     |#{strMusicBrainzID}
-                .f8 #{strBiographyEN}
+                .f7 #{strBiographyEN}
                 if currentUser.admin_mod
                     +call_watson key='strBiographyEN'
                 +comments

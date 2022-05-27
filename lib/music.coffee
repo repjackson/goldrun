@@ -1,4 +1,8 @@
 if Meteor.isClient
+    @picked_music_tags = new ReactiveArray []
+    @picked_styles = new ReactiveArray []
+    @picked_moods = new ReactiveArray []
+    @picked_genres = new ReactiveArray []
     Router.route '/music/', (->
         @layout 'layout'
         @render 'music'
@@ -23,11 +27,17 @@ if Meteor.isClient
     Template.music.onCreated ->
         # @autorun => @subscribe 'model_docs','artist', ->
         @autorun => @subscribe 'music_facets',
-            picked_tags.array()
+            picked_music_tags.array()
+            picked_styles.array()
+            picked_moods.array()
+            picked_genres.array()
             Session.get('current_search')
             picked_timestamp_tags.array()
         @autorun => @subscribe 'music_results',
-            picked_tags.array()
+            picked_music_tags.array()
+            picked_styles.array()
+            picked_moods.array()
+            picked_genres.array()
             Session.get('current_search')
             Session.get('sort_key')
             Session.get('sort_direction')
@@ -37,6 +47,26 @@ if Meteor.isClient
         artist_docs: ->
             Docs.find 
                 model:'artist'
+        music_tag_results: ->
+            Results.find {
+                model:'tag'
+            }, limit:20
+        genre_results: ->
+            Results.find {
+                model:'genre'
+            }, limit:20
+        style_results: ->
+            Results.find {
+                model:'style'
+            }, limit:20
+        mood_results: ->
+            Results.find {
+                model:'mood'
+            }, limit:20
+        picked_music_tags: -> picked_music_tags.array()
+        picked_genres: -> picked_genres.array()
+        picked_styles: -> picked_styles.array()
+        picked_moods: -> picked_moods.array()
     Template.music.events
         'keyup .artist_search': (e,t)->
             if e.which is 13
@@ -47,6 +77,21 @@ if Meteor.isClient
             Meteor.call 'search_artist', Session.get('artist_search'), ->
         'click .search_album': ->
             Meteor.call 'search_album', Session.get('artist_search'), ->
+
+        'click .pick_tag': -> picked_music_tags.push @name
+        'click .unpick_tag': -> picked_music_tags.remove @valueOf()
+       
+        'click .pick_mood': -> picked_moods.push @name
+        'click .unpick_mood': -> picked_moods.remove @valueOf()
+        
+        'click .pick_genre': -> picked_genres.push @name
+        'click .unpick_genre': -> picked_genres.remove @valueOf()
+        
+        'click .pick_style': -> picked_styles.push @name
+        'click .unpick_style': -> picked_styles.remove @valueOf()
+        
+
+
 
 if Meteor.isServer 
     Meteor.methods
@@ -111,7 +156,10 @@ if Meteor.isServer
 
 if Meteor.isServer
     Meteor.publish 'music_facets', (
-        picked_tags
+        picked_music_tags=[]
+        picked_styles=[]
+        picked_moods=[]
+        picked_genres=[]
         title_search=''
         picked_timestamp_tags
         # picked_author_ids=[]
@@ -139,8 +187,11 @@ if Meteor.isServer
             # if view_private is false
             #     match.published = $in: [0,1]
     
-            if picked_tags.length > 0 then match.tags = $all: picked_tags
-    
+            if picked_music_tags.length > 0 then match.tags = $all: picked_music_tags
+            if picked_styles.length > 0 then match.strStyle = $all: picked_styles
+            if picked_moods.length > 0 then match.strMood = $all: picked_moods
+            if picked_genres.length > 0 then match.strGenre = $all: picked_genres
+
             total_count = Docs.find(match).count()
             # console.log 'total count', total_count
             # console.log 'facet match', match
@@ -149,7 +200,7 @@ if Meteor.isServer
                 { $project: tags: 1 }
                 { $unwind: "$tags" }
                 { $group: _id: '$tags', count: $sum: 1 }
-                { $match: _id: $nin: picked_tags }
+                { $match: _id: $nin: picked_music_tags }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
                 { $limit: 10 }
@@ -169,7 +220,7 @@ if Meteor.isServer
                 { $match: match }
                 { $project: strStyle: 1 }
                 { $group: _id: '$strStyle', count: $sum: 1 }
-                # { $match: _id: $nin: picked_tags }
+                { $match: _id: $nin: picked_styles }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
                 { $limit: 10 }
@@ -188,7 +239,7 @@ if Meteor.isServer
                 { $match: match }
                 { $project: strGenre: 1 }
                 { $group: _id: '$strGenre', count: $sum: 1 }
-                # { $match: _id: $nin: picked_tags }
+                { $match: _id: $nin: picked_genres }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
                 { $limit: 10 }
@@ -207,7 +258,7 @@ if Meteor.isServer
                 { $match: match }
                 { $project: strMood: 1 }
                 { $group: _id: '$strMood', count: $sum: 1 }
-                # { $match: _id: $nin: picked_tags }
+                { $match: _id: $nin: picked_moods }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
                 { $limit: 10 }
@@ -226,7 +277,10 @@ if Meteor.isServer
 
 
     Meteor.publish 'music_results', (
-        picked_tags=[]
+        picked_music_tags=[]
+        picked_styles=[]
+        picked_moods=[]
+        picked_genres=[]
         current_query=''
         sort_key='_timestamp'
         sort_direction=-1
@@ -236,33 +290,14 @@ if Meteor.isServer
         )->
         self = @
         match = {model:'artist'}
-        # if picked_ingredients.length > 0
-        #     match.ingredients = $all: picked_ingredients
-        #     # sort = 'price_per_serving'
-        if picked_tags.length > 0
-            match.tags = $all: picked_tags
-            # sort = 'price_per_serving'
-        # else
-            # match.tags = $nin: ['wikipedia']
-        # match.published = true
-            # match.source = $ne:'wikipedia'
-        # if view_vegan
-        #     match.vegan = true
-        # if view_gf
-        #     match.gluten_free = true
+        if picked_music_tags.length > 0 then match.tags = $all: picked_music_tags
+        if picked_styles.length > 0 then match.strStyle = $all: picked_styles
+        if picked_moods.length > 0 then match.strMood = $all: picked_moods
+        if picked_genres.length > 0 then match.strGenre = $all: picked_genres
         if current_query.length > 1
         #     console.log 'searching org_query', org_query
             match.title = {$regex:"#{current_query}", $options: 'i'}
         #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
-    
-        # match.tags = $all: picked_ingredients
-        # if filter then match.model = filter
-        # keys = _.keys(prematch)
-        # for key in keys
-        #     key_array = prematch["#{key}"]
-        #     if key_array and key_array.length > 0
-        #         match["#{key}"] = $all: key_array
-            # console.log 'current facet filter array', current_facet_filter_array
     
         # console.log 'sort key', sort_key
         # console.log 'sort direction', sort_direction

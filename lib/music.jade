@@ -6,15 +6,52 @@ template(name='music')
                 |music
             .ui.input 
                 input.artist_search(type='text' placeholder='search artist...')
-            +facet key='tag' model='artist' icon='tags'
+            +i name='tags'
+            |tags
+            each picked_music_tags
+                button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each music_tag_results
+                button.ui.circular.compact.black.button.pick_tag(tabindex="0" class=result_class title=count)
+                    |#{name}
+                    // small #{count}
+
         .four.wide.column
             div
-            +facet key='genre' model='artist' icon='smart-playlist' label='genre'
+            +i name='music'
+            |genre
+            each picked_genres
+                button.ui.blue.compact.circular.button.unpick_genre(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each genre_results
+                button.ui.circular.compact.black.button.pick_genre(tabindex="0" class=result_class title=count)
+                    |#{name}
+                    // small #{count}
             div
-            +facet key='style' model='artist' icon='music' label='style'
+            +i name='artist'
+            |style
+            each picked_styles
+                button.ui.blue.compact.circular.button.unpick_style(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each style_results
+                button.ui.circular.compact.black.button.pick_style(tabindex="0" class=result_class title=count)
+                    |#{name}
+                    // small #{count}
             div
-            +facet key='mood' model='artist' icon='happy' label='mood'
-        .twelve.wide.column
+            +i name='happy'
+            |mood
+            each picked_moods
+                button.ui.blue.compact.circular.button.unpick_mood(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each mood_results
+                button.ui.circular.compact.black.button.pick_mood(tabindex="0" class=result_class title=count)
+                    |#{name}
+                    // small #{count}
+        .twelve.wide.column.scrolling
             .ui.cards
                 each artist_docs 
                     a.card(href="/music/artist/#{_id}")

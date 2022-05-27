@@ -117,7 +117,8 @@ if Meteor.isClient
     #                 $addToSet:favorite_ids:Meteor.userId()
     
 
-            
+    Template.facet.onCreated ->
+        console.log @
             
     Template.facet.helpers
         facet_results: ->

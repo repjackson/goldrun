@@ -70,6 +70,11 @@ if Meteor.isClient
         picked_moods: -> picked_moods.array()
         current_search: ->
             Session.get('artist_search')
+    Template.music_artist.events
+        'click .pick_flat_tag': ->
+            picked_music_tags.clear()
+            picked_music_tags.push @valueOf()
+            Router.go "/music"
     Template.music.events
         'click .clear': (e,t)->
             Session.set('artist_search',null)

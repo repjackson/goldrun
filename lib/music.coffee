@@ -13,6 +13,13 @@ if Meteor.isClient
         @render 'music_album'
         ), name:'music_album'
     
+    
+    Template.music_artist.onCreated ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
+
+    Template.music_artist.helpers
+        current_artist: ->
+            Docs.findOne Router.current().params.doc_id
     Template.music.onCreated ->
         @autorun => @subscribe 'model_docs','artist', ->
     Template.music.helpers

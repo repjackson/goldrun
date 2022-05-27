@@ -164,6 +164,11 @@ template(name='nav')
                 i.large.users.icon
                 unless currentUser.hide_labels
                     |users
+            a.item.zoomer.fly_right.clear_search(href="/music" class="{{isActiveRoute 'music'}}" title='music')
+                // +i name='groups'
+                i.large.music.icon
+                unless currentUser.hide_labels
+                    |music
             +nav_item key='post' icon='blog'
             +nav_item key='event' icon='calendar'
             +nav_item key='group' icon='fire'
@@ -174,11 +179,6 @@ template(name='nav')
             +nav_item key='task' icon='tasks'
             // +nav_item key='checkin' icon='checkmark'
             +nav_item key='log' icon='code'
-            a.item.zoomer.fly_right.clear_search(href="/music" class="{{isActiveRoute 'music'}}" title='music')
-                // +i name='groups'
-                i.large.music.icon
-                unless currentUser.hide_labels
-                    |music
             
 
 

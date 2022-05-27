@@ -110,23 +110,43 @@ template(name='music_artist')
                 +voting
                 each tags 
                     .ui.black.inverted.label #{this}
-            .eight.wide.column
+            .eight.wide.column.scrolling
                 .header #{strArtist}
                 .ui.large.list
-                    .item #{strArtistStripped}: strArtistStripped
-                    .item #{strArtistAlternate}: strArtistAlternate
-                    .item #{strLabel}: strLabel
-                    .item #{idLabel}: idLabel
-                    .item #{intFormedYear}: intFormedYear
-                    .item #{intBornYear}: intBornYear
-                    .item #{intDiedYear}: intDiedYear
-                    .item #{strDisbanded}: strDisbanded
-                    .item #{strStyle}: strStyle
-                    .item #{strGenre}: strGenre
-                    .item #{strMood}: strMood
-                    .item #{strWebsite}: strWebsite
-                    .item #{strFacebook}: strFacebook
+                    // .item #{strArtistStripped}: strArtistStripped
+                    .item alternate name: #{strArtistAlternate}
+                    .item label: #{strLabel}:
+                    // .item #{idLabel}: idLabel
+                    if intFormedYear
+                        .item
+                            i.clock.icon
+                            |formed: 
+                            |#{intFormedYear}-
+                    if intBornYear
+                        .item born#{intBornYear}
+                    if intDiedYear
+                        .item died #{intDiedYear}
+                    if strDisbanded
+                        .item disbanded #{strDisbanded}
+                    .item 
+                        +i name='artist'
+                        |style: #{strStyle}
+                    .item 
+                        +i name='music'
+                        |#{strGenre}
+                    .item 
+                        +i name='happy'
+                        |mood: #{strMood}
+                    .item
+                        a(href=strWebsite target='_window')
+                            |#{strWebsite}
                     .item #{strTwitter}: strTwitter
+                if strFacebook
+                    a.ui.big.button(href=strFacebook target='_window')
+                        +i name='facebook'
+                if strFacebook
+                    a.ui.big.button(href=strTwitter target='_window')
+                        +i name='twitter'
                 |#{strBiographyEN}
                 +call_watson key='strBiographyEN'
                 +comments

@@ -19,8 +19,7 @@ template(name='music')
                     // small #{count}
 
         .four.wide.column.scrolling
-            div
-            .ui.inline.header
+            .ui.inline.small.header
                 .ui.small.inline.header
                     +i name='music'
                     |#{genre_results.count} genres
@@ -33,21 +32,19 @@ template(name='music')
                         button.ui.circular.compact.black.button.pick_genre(tabindex="0" class=result_class title=count)
                             |#{name}
                             // small #{count}
-            div
-            .ui.inline.header
+            .ui.inline.small.header
                 +i name='artist'
                 |#{style_results.count} styles
             each picked_styles
                 button.ui.blue.compact.circular.button.unpick_style(tabindex='0')
                     //- i.remove.icon
                     | #{this}
-            each style_result
+            each style_results
                 if name
                     button.ui.circular.compact.black.button.pick_style(tabindex="0" class=result_class title=count)
                         |#{name}
                         // small #{count}
-            div
-            .ui.inline.header
+            .ui.inline.small.header
                 +i name='happy'
                 |#{mood_results.count} moods
             each picked_moods
@@ -243,6 +240,8 @@ template(name='music_artist')
                 if currentUser.admin_mod
                     +call_watson key='strBiographyEN'
                 +comments
+                each artist_album_docs 
+                    .ui
             .sixteen.wide.column
                 if watson 
                     +watson_view

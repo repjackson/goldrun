@@ -236,9 +236,9 @@ if Meteor.isClient
     Template.artist_card.helpers
         mood_class:->
             switch @strMood 
-                when 'Happy' then 'green'
-                when 'Angry' then 'red'
-                when 'Confrontational' then 'red'
+                when 'Happy' then 'red'
+                when 'Angry' then 'green'
+                when 'Confrontational' then 'green'
                 when 'Epic' then 'grey'
                 when 'In Love' then 'teal'
                 else null

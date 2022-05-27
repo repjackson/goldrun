@@ -138,15 +138,28 @@ template(name='music_artist')
                     |music
                 .ui.two.column.grid 
                     .column
-                        img.ui.image(src=strArtistThumb)
+                        img.ui.image.rounded(src=strArtistThumb)
                     .column
-                        img.ui.image(src=strArtistWideThumb)
+                        img.ui.image.rounded(src=strArtistWideThumb)
                     if strArtistCutout
                         .column
-                            img.ui.image(src=strArtistCutout)
+                            img.ui.image.rounded(src=strArtistCutout)
                     if strArtistClearart
                         .column
-                            img.ui.image(src=strArtistClearart)
+                            img.ui.image.rounded(src=strArtistClearart)
+                    if strArtistFanart
+                        .column
+                            img.ui.image.rounded(src=strArtistFanart)
+                    if strArtistFanart2
+                        .column
+                            img.ui.image.rounded(src=strArtistFanart2)
+                    if strArtistFanart3
+                        .column
+                            img.ui.image.rounded(src=strArtistFanart3)
+                    if strArtistFanart4
+                        .column
+                            img.ui.image.rounded(src=strArtistFanart4)
+                            
                 .ui.header views: #{views}
                 +voting_full
                 div
@@ -157,6 +170,13 @@ template(name='music_artist')
             .eight.wide.column.scrolling
                 img.ui.image(src=strArtistLogo)
                 .ui.massive.inline.header #{strArtist}
+                // "strMusicBrainzID": "c8b03190-306c-4120-bb0b-6f2ebfc06ea9",
+                // "strISNIcode": null,
+                // "strLastFMChart": "http://www.last.fm/music/The Weeknd/+charts?rangetype=6month",
+                if strLastFMChart
+                    a.ui.big.button(href=strLastFMChart target='_window' title='last fm')
+                        +i name='lastfm'
+                        |last fm page
                 if strFacebook
                     a.ui.big.basic.compact.inverted.button(href=strFacebook target='_window' title='view facebook profile')
                         +i name='facebook'

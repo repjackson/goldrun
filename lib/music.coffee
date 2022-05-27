@@ -68,7 +68,11 @@ if Meteor.isClient
         picked_genres: -> picked_genres.array()
         picked_styles: -> picked_styles.array()
         picked_moods: -> picked_moods.array()
+        current_search: ->
+            Session.get('artist_search')
     Template.music.events
+        'click .clear': (e,t)->
+            Session.set('artist_search',null)
         'keyup .artist_search': (e,t)->
             query = t.$('.artist_search').val()
             Session.set('artist_search',query)

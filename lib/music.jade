@@ -4,8 +4,10 @@ template(name='music')
             .ui.inline.header 
                 i.music.icon
                 |#{artist_docs.count} artists
-            .ui.input 
-                input.artist_search(type='text' placeholder='search artist...')
+            if current_search 
+                i.large.red.circular.link.remove.icon.clear
+            .ui.large.input 
+                input.artist_search(type='text' placeholder='search artist...' value=current_search)
             +i name='tags'
             |tags
             each picked_music_tags
@@ -71,14 +73,14 @@ template(name='artist_card')
         .content
             .header #{strArtist}
             .description
-                .ui.inverted.label
-                    i.smile.icon
+                .ui.inverted.basic.label
+                    +i name='music'
                     |#{strGenre}
-                .ui.inverted.label
-                    i.smile.icon
+                .ui.inverted.basic.label
+                    +i name='artist'
                     |#{strStyle}
-                .ui.inverted.label
-                    i.smile.icon
+                .ui.inverted.basic.label
+                    +i name='happy'
                     |#{strMood}
                 each five_tags
                     .ui.inverted.label #{this}

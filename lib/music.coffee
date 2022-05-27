@@ -21,13 +21,12 @@ if Meteor.isClient
         current_artist: ->
             Docs.findOne Router.current().params.doc_id
     Template.music.onCreated ->
-        @autorun => @subscribe 'model_docs','artist', ->
+        # @autorun => @subscribe 'model_docs','artist', ->
         @autorun => @subscribe 'music_facets',
             picked_tags.array()
             Session.get('current_search')
             picked_timestamp_tags.array()
         @autorun => @subscribe 'music_results',
-            Session.get('model')
             picked_tags.array()
             Session.get('current_search')
             Session.get('sort_key')
@@ -223,3 +222,58 @@ if Meteor.isServer
                     model:'mood'
                     index: i
             self.ready()
+
+
+
+    Meteor.publish 'music_results', (
+        picked_tags=[]
+        current_query=''
+        sort_key='_timestamp'
+        sort_direction=-1
+        limit=42
+        # picked_timestamp_tags=[]
+        # picked_location_tags=[]
+        )->
+        self = @
+        match = {model:'artist'}
+        # if picked_ingredients.length > 0
+        #     match.ingredients = $all: picked_ingredients
+        #     # sort = 'price_per_serving'
+        if picked_tags.length > 0
+            match.tags = $all: picked_tags
+            # sort = 'price_per_serving'
+        # else
+            # match.tags = $nin: ['wikipedia']
+        # match.published = true
+            # match.source = $ne:'wikipedia'
+        # if view_vegan
+        #     match.vegan = true
+        # if view_gf
+        #     match.gluten_free = true
+        if current_query.length > 1
+        #     console.log 'searching org_query', org_query
+            match.title = {$regex:"#{current_query}", $options: 'i'}
+        #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
+    
+        # match.tags = $all: picked_ingredients
+        # if filter then match.model = filter
+        # keys = _.keys(prematch)
+        # for key in keys
+        #     key_array = prematch["#{key}"]
+        #     if key_array and key_array.length > 0
+        #         match["#{key}"] = $all: key_array
+            # console.log 'current facet filter array', current_facet_filter_array
+    
+        # console.log 'sort key', sort_key
+        # console.log 'sort direction', sort_direction
+        # unless Meteor.userId()
+        #     match.private = $ne:true
+            
+        # console.log 'results match', match
+        # console.log 'sort_key', sort_key
+        # console.log 'sort_direction', sort_direction
+        # console.log 'limit', limit
+        
+        Docs.find match,
+            sort:"#{sort_key}":sort_direction
+            limit: 20

@@ -1,14 +1,13 @@
 template(name='music')
     .ui.stackable.padded.grid 
         .sixteen.wide.column
-            .ui.header 
+            .ui.inline.header 
                 i.music.icon
                 |music
-            .ui.inline.header artists
             .ui.input 
-                input.artist_search(type='text' placeholder='artist...')
-        .four.wide.column
+                input.artist_search(type='text' placeholder='search artist...')
             +facet key='tag' model='artist' icon='tags'
+        .four.wide.column
             div
             +facet key='genre' model='artist' icon='smart-playlist' label='genre'
             div

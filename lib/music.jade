@@ -8,7 +8,13 @@ template(name='music')
             .ui.input 
                 input.artist_search(type='text' placeholder='artist...')
         .four.wide.column
-            +facet key='tag' model='artist'
+            +facet key='tag' model='artist' icon='tags'
+            div
+            +facet key='genre' model='artist' icon='smart-playlist' label='genre'
+            div
+            +facet key='style' model='artist' icon='music' label='style'
+            div
+            +facet key='mood' model='artist' icon='happy' label='mood'
         .twelve.wide.column
             .ui.cards
                 each artist_docs 
@@ -17,6 +23,12 @@ template(name='music')
                         .content
                             .header #{strArtist}
                             .description
+                                .ui.label
+                                    i.smile.icon
+                                    |#{strGenre}
+                                .ui.label
+                                    i.smile.icon
+                                    |#{strStyle}
                                 .ui.label
                                     i.smile.icon
                                     |#{strMood}
@@ -69,3 +81,4 @@ template(name='music_artist')
                     .item #{strTwitter}: strTwitter
                 |#{strBiographyEN}
                 +call_watson key='strBiographyEN'
+                +comments

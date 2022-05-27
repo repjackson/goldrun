@@ -164,4 +164,62 @@ if Meteor.isServer
                     count: tag.count
                     model:'tag'
                     index: i
+                    
+                    
+            style_cloud = Docs.aggregate [
+                { $match: match }
+                { $project: strStyle: 1 }
+                { $group: _id: '$strStyle', count: $sum: 1 }
+                # { $match: _id: $nin: picked_tags }
+                { $sort: count: -1, _id: 1 }
+                { $match: count: $lt: total_count }
+                { $limit: 10 }
+                { $project: _id: 0, name: '$_id', count: 1 }
+                ]
+            # console.log 'theme tag_cloud, ', tag_cloud
+            style_cloud.forEach (tag, i) ->
+                # console.log tag
+                self.added 'results', Random.id(),
+                    name: tag.name
+                    count: tag.count
+                    model:'style'
+                    index: i
+                    
+            genre_cloud = Docs.aggregate [
+                { $match: match }
+                { $project: strGenre: 1 }
+                { $group: _id: '$strGenre', count: $sum: 1 }
+                # { $match: _id: $nin: picked_tags }
+                { $sort: count: -1, _id: 1 }
+                { $match: count: $lt: total_count }
+                { $limit: 10 }
+                { $project: _id: 0, name: '$_id', count: 1 }
+                ]
+            # console.log 'theme tag_cloud, ', tag_cloud
+            genre_cloud.forEach (tag, i) ->
+                # console.log tag
+                self.added 'results', Random.id(),
+                    name: tag.name
+                    count: tag.count
+                    model:'genre'
+                    index: i
+            
+            mood_cloud = Docs.aggregate [
+                { $match: match }
+                { $project: strMood: 1 }
+                { $group: _id: '$strMood', count: $sum: 1 }
+                # { $match: _id: $nin: picked_tags }
+                { $sort: count: -1, _id: 1 }
+                { $match: count: $lt: total_count }
+                { $limit: 10 }
+                { $project: _id: 0, name: '$_id', count: 1 }
+                ]
+            # console.log 'theme tag_cloud, ', tag_cloud
+            mood_cloud.forEach (tag, i) ->
+                # console.log tag
+                self.added 'results', Random.id(),
+                    name: tag.name
+                    count: tag.count
+                    model:'mood'
+                    index: i
             self.ready()

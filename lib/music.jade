@@ -2,7 +2,7 @@ template(name='music')
     .ui.stackable.padded.grid 
         .sixteen.wide.column
             .ui.inline.header 
-                i.music.icon
+                +i name='music'
                 |#{artist_docs.count} artists
             if current_search 
                 i.large.red.circular.link.remove.icon.clear
@@ -66,6 +66,7 @@ template(name='music')
                 +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
                 +session_set key='sort_key' value='points' label='points' icon='hashtag'
                 +session_set key='sort_key' value='views' label='views' icon='eye'
+                +session_set key='sort_key' value='intFormedYear' label='year started' icon='calendar'
                 // +session_set key='limit' value=10
                 // +session_set key='limit' value=25
                 // +session_set key='limit' value=100
@@ -114,9 +115,16 @@ template(name='artist_card')
                     |#{strMood}
                 each five_tags
                     .ui.inverted.basic.label #{this}
-                |added #{_when}
-                |#{points}pts
-                |#{views} views
+                .ui.inverted.basic.label
+                    i.plus.grey.icon
+                    | #{_when}
+                if points
+                    .ui.inverted.basic.label
+                        |#{points}pts
+                if views
+                    .ui.inverted.basic.label
+                        i.eye.grey.icon
+                        |#{views}
 
 template(name='music_artist')
     with current_artist 
@@ -144,7 +152,7 @@ template(name='music_artist')
                 div
                 +i name='tags'
                 each tags 
-                    a.ui.inverted.basic.link.label.zoomer.pick_flat_tag(title='browse tag') #{this}
+                    a.ui.inverted.large.basic.link.label.zoomer.pick_flat_tag(title='browse tag') #{this}
                 +print_this
             .eight.wide.column.scrolling
                 img.ui.image(src=strArtistLogo)

@@ -48,7 +48,7 @@ template(name='music')
                     |#{name}
                     // small #{count}
         .sixteen.wide.column.scrolling
-            .ui.cards
+            .ui.centered.stackable.doubling.cards
                 each artist_docs 
                     +artist_card
             // .ui.inline.header search songs
@@ -66,18 +66,18 @@ template(name='music')
             
 
 template(name='artist_card')
-    a.card(href="/music/artist/#{_id}")
+    a.card.fly_right(href="/music/artist/#{_id}" title='view artist')
         img.ui.image(src=strArtistThumb)
         .content
             .header #{strArtist}
             .description
-                .ui.label
+                .ui.inverted.label
                     i.smile.icon
                     |#{strGenre}
-                .ui.label
+                .ui.inverted.label
                     i.smile.icon
                     |#{strStyle}
-                .ui.label
+                .ui.inverted.label
                     i.smile.icon
                     |#{strMood}
                 each five_tags
@@ -88,16 +88,15 @@ template(name='music_artist')
     with current_artist 
         .ui.stackable.padded.grid 
             .eight.wide.column
-                a.ui.inverted.button(href='/music')
-                    i.music.icon
+                a.ui.inverted.big.button.fly_left(href='/music')
+                    i.chevron.left.icon
+                    i.music.large.icon
                     |music
                 img.ui.image(src=strArtistThumb)
                 .ui.header views: #{views}
                 +voting
                 each tags 
-                    .ui.label #{this}
-                if watson 
-                    +watson_view
+                    .ui.black.inverted.label #{this}
             .eight.wide.column
                 .header #{strArtist}
                 .ui.large.list
@@ -118,3 +117,6 @@ template(name='music_artist')
                 |#{strBiographyEN}
                 +call_watson key='strBiographyEN'
                 +comments
+            .sixteen.wide.column
+                if watson 
+                    +watson_view_full

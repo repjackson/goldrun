@@ -280,6 +280,27 @@ template(name='watson_view')
             //- +personality
             //- +consumption_preferences
         
+template(name='watson_view_full')
+    +doc_sentiment
+    +doc_emotion
+    +concepts
+    +categories
+    +entities
+    // +semantic_roles
+    // +keyword_list
+    +concept_list
+    +keywords
+    // .ui.hidden.divider
+    // +relations
+    //- if dev
+    //-     .ui.styled.accordion
+    //-         .title 
+    //-             i.code.icon
+    //-         .content
+    //-             +jsonView(json=watson)
+    //- +personality
+    //- +consumption_preferences
+
     
 template(name='call_watson')
     .ui.image.link.big.label.zoomer.autotag.pointer

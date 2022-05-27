@@ -99,6 +99,8 @@ template(name='artist_card')
 
 template(name='music_artist')
     with current_artist 
+        if strArtistBanner
+            img.ui.image.profile_banner(src=strArtistBanner)
         .ui.stackable.padded.grid 
             .eight.wide.column
                 a.ui.inverted.big.button.fly_left(href='/music')
@@ -110,8 +112,9 @@ template(name='music_artist')
                 +voting
                 each tags 
                     .ui.black.inverted.label #{this}
+                +print_this
             .eight.wide.column.scrolling
-                .header #{strArtist}
+                .ui.massive.header #{strArtist}
                 .ui.large.list
                     // .item #{strArtistStripped}: strArtistStripped
                     .item alternate name: #{strArtistAlternate}
@@ -140,7 +143,6 @@ template(name='music_artist')
                     .item
                         a(href=strWebsite target='_window')
                             |#{strWebsite}
-                    .item #{strTwitter}: strTwitter
                 if strFacebook
                     a.ui.big.button(href=strFacebook target='_window')
                         +i name='facebook'

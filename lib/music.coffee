@@ -1,4 +1,5 @@
 if Meteor.isClient
+    @picked_models = new ReactiveArray []
     @picked_music_tags = new ReactiveArray []
     @picked_styles = new ReactiveArray []
     @picked_moods = new ReactiveArray []
@@ -45,6 +46,7 @@ if Meteor.isClient
     Template.music.onCreated ->
         # @autorun => @subscribe 'model_docs','artist', ->
         @autorun => @subscribe 'music_facets',
+            picked_models.array()
             picked_music_tags.array()
             picked_styles.array()
             picked_moods.array()
@@ -52,6 +54,7 @@ if Meteor.isClient
             Session.get('artist_search')
             picked_timestamp_tags.array()
         @autorun => @subscribe 'music_results',
+            picked_models.array()
             picked_music_tags.array()
             picked_styles.array()
             picked_moods.array()
@@ -63,6 +66,7 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'music_facets', (
+        picked_models=[]
         picked_music_tags=[]
         picked_styles=[]
         picked_moods=[]
@@ -88,7 +92,10 @@ if Meteor.isServer
             match = {}
     
             # match.tags = $all: picked_tags
-            match.model = $in:['artist','album']
+            if picked_models.length > 0 
+                match.model = $all: picked_models 
+            else 
+                match.model = $in:['artist','album']
             # if parent_id then match.parent_id = parent_id
     
             # if view_private is true
@@ -147,6 +154,26 @@ if Meteor.isServer
                     model:'style'
                     index: i
                     
+                    
+            model_cloud = Docs.aggregate [
+                { $match: match }
+                { $project: model: 1 }
+                { $group: _id: '$model', count: $sum: 1 }
+                { $match: _id: $nin: picked_models }
+                { $sort: count: -1, _id: 1 }
+                { $match: count: $lt: total_count }
+                { $limit: 10 }
+                { $project: _id: 0, name: '$_id', count: 1 }
+                ]
+            # console.log 'theme tag_cloud, ', tag_cloud
+            model_cloud.forEach (tag, i) ->
+                # console.log tag
+                self.added 'results', Random.id(),
+                    name: tag.name
+                    count: tag.count
+                    model:'model'
+                    index: i
+                    
             genre_cloud = Docs.aggregate [
                 { $match: match }
                 { $project: strGenre: 1 }
@@ -189,6 +216,7 @@ if Meteor.isServer
 
 
     Meteor.publish 'music_results', (
+        picked_models=[]
         picked_music_tags=[]
         picked_styles=[]
         picked_moods=[]
@@ -196,12 +224,17 @@ if Meteor.isServer
         name_search=''
         sort_key='_timestamp'
         sort_direction=-1
-        limit=42
+        limit=20
         # picked_timestamp_tags=[]
         # picked_location_tags=[]
         )->
         self = @
-        match = model:$in:['artist','album']
+        match = {}
+        if picked_models.length > 0 
+            match.model = $all: picked_models 
+        else 
+            match.model = $in:['artist','album']
+        
         if picked_music_tags.length > 0 then match.tags = $all: picked_music_tags
         if picked_styles.length > 0 then match.strStyle = $all: picked_styles
         if picked_moods.length > 0 then match.strMood = $all: picked_moods
@@ -268,6 +301,10 @@ if Meteor.isClient
             Results.find {
                 model:'tag'
             }, limit:20
+        model_results: ->
+            Results.find {
+                model:'model'
+            }, limit:20
         genre_results: ->
             Results.find {
                 model:'genre'
@@ -284,8 +321,8 @@ if Meteor.isClient
         picked_genres: -> picked_genres.array()
         picked_styles: -> picked_styles.array()
         picked_moods: -> picked_moods.array()
-        current_search: ->
-            Session.get('artist_search')
+        picked_models: -> picked_models.array()
+        current_search: -> Session.get('artist_search')
     Template.music_artist.events
         'click .pull_albums': ->
             current_artist = Docs.findOne Router.current().params.doc_id
@@ -334,6 +371,9 @@ if Meteor.isClient
         'click .search_album': ->
             Meteor.call 'search_album', Session.get('artist_search'), ->
 
+        'click .pick_model': -> picked_models.push @name
+        'click .unpick_model': -> picked_models.remove @valueOf()
+       
         'click .pick_tag': -> picked_music_tags.push @name
         'click .unpick_tag': -> picked_music_tags.remove @valueOf()
        

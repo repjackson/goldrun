@@ -4,9 +4,12 @@ template(name='music')
             .ui.header 
                 i.music.icon
                 |music
-            .ui.header artists
+            .ui.inline.header artists
             .ui.input 
                 input.artist_search(type='text' placeholder='artist...')
+        .four.wide.column
+            +facet key='tag' model='artist'
+        .twelve.wide.column
             .ui.cards
                 each artist_docs 
                     a.card(href="/music/artist/#{_id}")
@@ -17,6 +20,8 @@ template(name='music')
                                 .ui.label
                                     i.smile.icon
                                     |#{strMood}
+                                each five_tags
+                                    .ui.inverted.label #{this}
             // .ui.inline.header search songs
             // .ui.input 
             //     input(type='text' placholder='song...')
@@ -41,23 +46,26 @@ template(name='music_artist')
                 img.ui.image(src=strArtistThumb)
                 .ui.header views: #{views}
                 +voting
-            .eight.wide.column
-                .header #{strArtist}
-                .ui.header #{strArtistStripped}: strArtistStripped
-                .ui.header #{strArtistAlternate}: strArtistAlternate
-                .ui.header #{strLabel}: strLabel
-                .ui.header #{idLabel}: idLabel
-                .ui.header #{intFormedYear}: intFormedYear
-                .ui.header #{intBornYear}: intBornYear
-                .ui.header #{intDiedYear}: intDiedYear
-                .ui.header #{strDisbanded}: strDisbanded
-                .ui.header #{strStyle}: strStyle
-                .ui.header #{strGenre}: strGenre
-                .ui.header #{strMood}: strMood
-                .ui.header #{strWebsite}: strWebsite
-                .ui.header #{strFacebook}: strFacebook
-                .ui.header #{strTwitter}: strTwitter
-                |#{strBiographyEN}
-                +call_watson key='strBiographyEN'
+                each tags 
+                    .ui.label #{this}
                 if watson 
                     +watson_view
+            .eight.wide.column
+                .header #{strArtist}
+                .ui.large.list
+                    .item #{strArtistStripped}: strArtistStripped
+                    .item #{strArtistAlternate}: strArtistAlternate
+                    .item #{strLabel}: strLabel
+                    .item #{idLabel}: idLabel
+                    .item #{intFormedYear}: intFormedYear
+                    .item #{intBornYear}: intBornYear
+                    .item #{intDiedYear}: intDiedYear
+                    .item #{strDisbanded}: strDisbanded
+                    .item #{strStyle}: strStyle
+                    .item #{strGenre}: strGenre
+                    .item #{strMood}: strMood
+                    .item #{strWebsite}: strWebsite
+                    .item #{strFacebook}: strFacebook
+                    .item #{strTwitter}: strTwitter
+                |#{strBiographyEN}
+                +call_watson key='strBiographyEN'

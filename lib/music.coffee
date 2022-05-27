@@ -22,6 +22,18 @@ if Meteor.isClient
             Docs.findOne Router.current().params.doc_id
     Template.music.onCreated ->
         @autorun => @subscribe 'model_docs','artist', ->
+        @autorun => @subscribe 'music_facets',
+            picked_tags.array()
+            Session.get('current_search')
+            picked_timestamp_tags.array()
+        @autorun => @subscribe 'music_results',
+            Session.get('model')
+            picked_tags.array()
+            Session.get('current_search')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('limit')
+
     Template.music.helpers
         artist_docs: ->
             Docs.find 
@@ -97,3 +109,59 @@ if Meteor.isServer
                             strBiographyEN:artist.strBiographyEN
                             
                             
+
+if Meteor.isServer
+    Meteor.publish 'music_facets', (
+        picked_tags
+        title_search=''
+        picked_timestamp_tags
+        # picked_author_ids=[]
+        # picked_location_tags
+        # picked_building_tags
+        # picked_unit_tags
+        # author_id
+        # parent_id
+        # tag_limit
+        # doc_limit
+        # sort_object
+        # view_private
+        )->
+    
+            self = @
+            match = {}
+    
+            # match.tags = $all: picked_tags
+            match.model = 'artist'
+            # if parent_id then match.parent_id = parent_id
+    
+            # if view_private is true
+            #     match.author_id = Meteor.userId()
+    
+            # if view_private is false
+            #     match.published = $in: [0,1]
+    
+            if picked_tags.length > 0 then match.tags = $all: picked_tags
+    
+            total_count = Docs.find(match).count()
+            # console.log 'total count', total_count
+            # console.log 'facet match', match
+            tag_cloud = Docs.aggregate [
+                { $match: match }
+                { $project: tags: 1 }
+                { $unwind: "$tags" }
+                { $group: _id: '$tags', count: $sum: 1 }
+                { $match: _id: $nin: picked_tags }
+                { $sort: count: -1, _id: 1 }
+                { $match: count: $lt: total_count }
+                { $limit: 10 }
+                { $project: _id: 0, name: '$_id', count: 1 }
+                ]
+            # console.log 'theme tag_cloud, ', tag_cloud
+            tag_cloud.forEach (tag, i) ->
+                # console.log tag
+                self.added 'results', Random.id(),
+                    name: tag.name
+                    count: tag.count
+                    model:'tag'
+                    index: i
+            self.ready()

@@ -117,6 +117,7 @@
     'comment share'
     'subreddit'
     'bot'
+    'united states'
     'luser'
     'blog terms'
     'hide report'

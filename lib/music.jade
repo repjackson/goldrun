@@ -123,17 +123,22 @@ template(name='music_artist')
         if strArtistBanner
             img.ui.image.profile_banner(src=strArtistBanner)
         .ui.stackable.padded.grid 
-            .eight.wide.column.scrolling
+            .eight.wide.column.scroling
                 a.ui.inverted.big.button.fly_left(href='/music')
                     i.chevron.left.icon
                     i.music.large.icon
                     |music
-                img.ui.image(src=strArtistThumb)
-                img.ui.image(src=strArtistWideThumb)
-                if strArtistCutout
-                    img.ui.image(src=strArtistCutout)
-                if strArtistClearart
-                    img.ui.image(src=strArtistClearart)
+                .ui.two.column.grid 
+                    .column
+                        img.ui.image(src=strArtistThumb)
+                    .column
+                        img.ui.image(src=strArtistWideThumb)
+                    if strArtistCutout
+                        .column
+                            img.ui.image(src=strArtistCutout)
+                    if strArtistClearart
+                        .column
+                            img.ui.image(src=strArtistClearart)
                 .ui.header views: #{views}
                 +voting_full
                 div
@@ -151,42 +156,42 @@ template(name='music_artist')
                     a.ui.big.basic.compact.inverted.button(href=strTwitter target='_window' title='view twitter page')
                         +i name='twitter'
 
-                .ui.large.list
-                    // .item #{strArtistStripped}: strArtistStripped
-                    if strArtistAlternate
-                        .item alternate name: #{strArtistAlternate}
-                    if strLabel
-                        .item label: #{strLabel}
-                    // .item #{idLabel}: idLabel
-                    if intFormedYear
-                        .item
-                            i.clock.icon
-                            |formed: 
-                            |#{intFormedYear}-
-                    // if intBornYear
-                    //     .item born #{intBornYear}
-                    if intDiedYear
-                        .item died #{intDiedYear}
-                    if strDisbanded
-                        .item disbanded #{strDisbanded}
-                    if strCountry
-                        .item
-                            +i name='marker'
-                            |#{strCountry}
-                    .item 
-                        +i name='artist'
-                        |style: #{strStyle}
-                    .item 
-                        +i name='music'
-                        |#{strGenre}
-                    .item 
-                        +i name='happy'
-                        |mood: #{strMood}
-                    .item
-                        a(href=strWebsite target='_window')
-                            |#{strWebsite}
-                |#{strBiographyEN}
-                +call_watson key='strBiographyEN'
+                // .item #{strArtistStripped}: strArtistStripped
+                if strArtistAlternate
+                    .ui.large.basic.inverted.label alternate name: #{strArtistAlternate}
+                if strLabel
+                    .ui.large.basic.inverted.label label: #{strLabel}
+                // .ui.large.basic.inverted.label #{idLabel}: idLabel
+                if intFormedYear
+                    .ui.large.basic.inverted.label
+                        i.clock.icon
+                        |formed: 
+                        |#{intFormedYear}-
+                // if intBornYear
+                //     .ui.large.basic.inverted.label born #{intBornYear}
+                if intDiedYear
+                    .ui.large.basic.inverted.label died #{intDiedYear}
+                if strDisbanded
+                    .ui.large.basic.inverted.label disbanded #{strDisbanded}
+                if strCountry
+                    .ui.large.basic.inverted.label
+                        +i name='marker'
+                        |#{strCountry}
+                .ui.large.basic.inverted.label 
+                    +i name='artist'
+                    |style: #{strStyle}
+                .ui.large.basic.inverted.label 
+                    +i name='music'
+                    |#{strGenre}
+                .ui.large.basic.inverted.label 
+                    +i name='happy'
+                    |mood: #{strMood}
+                .ui.large.basic.inverted.label
+                    a(href=strWebsite target='_window')
+                        |#{strWebsite}
+                .f8 #{strBiographyEN}
+                if currentUser.admin_mod
+                    +call_watson key='strBiographyEN'
                 +comments
             .sixteen.wide.column
                 if watson 

@@ -45,8 +45,9 @@ if Meteor.isClient
 
     Template.music.helpers
         artist_docs: ->
-            Docs.find 
+            Docs.find {
                 model:'artist'
+            }, sort:_timestamp:-1
         music_tag_results: ->
             Results.find {
                 model:'tag'
@@ -203,7 +204,7 @@ if Meteor.isServer
                 { $match: _id: $nin: picked_music_tags }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
-                { $limit: 10 }
+                { $limit: 20 }
                 { $project: _id: 0, name: '$_id', count: 1 }
                 ]
             # console.log 'theme tag_cloud, ', tag_cloud

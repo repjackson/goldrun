@@ -3,7 +3,7 @@ template(name='music')
         .sixteen.wide.column
             .ui.inline.header 
                 i.music.icon
-                |music
+                |#{artist_docs.count} artists
             .ui.input 
                 input.artist_search(type='text' placeholder='search artist...')
             +i name='tags'
@@ -54,22 +54,7 @@ template(name='music')
         .twelve.wide.column.scrolling
             .ui.cards
                 each artist_docs 
-                    a.card(href="/music/artist/#{_id}")
-                        img.ui.image(src=strArtistThumb)
-                        .content
-                            .header #{strArtist}
-                            .description
-                                .ui.label
-                                    i.smile.icon
-                                    |#{strGenre}
-                                .ui.label
-                                    i.smile.icon
-                                    |#{strStyle}
-                                .ui.label
-                                    i.smile.icon
-                                    |#{strMood}
-                                each five_tags
-                                    .ui.inverted.label #{this}
+                    +artist_card
             // .ui.inline.header search songs
             // .ui.input 
             //     input(type='text' placholder='song...')
@@ -83,6 +68,25 @@ template(name='music')
             //     each album_docs 
             //         .ui.header #{title}
             
+
+template(name='artist_card')
+    a.card(href="/music/artist/#{_id}")
+        img.ui.image(src=strArtistThumb)
+        .content
+            .header #{strArtist}
+            .description
+                .ui.label
+                    i.smile.icon
+                    |#{strGenre}
+                .ui.label
+                    i.smile.icon
+                    |#{strStyle}
+                .ui.label
+                    i.smile.icon
+                    |#{strMood}
+                each five_tags
+                    .ui.inverted.label #{this}
+                |added #{_when}
 
 template(name='music_artist')
     with current_artist 

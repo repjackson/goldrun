@@ -24,6 +24,14 @@ if Meteor.isClient
     Template.music_artist.helpers
         current_artist: ->
             Docs.findOne Router.current().params.doc_id
+    Template.music_artist.onRendered ->
+        Meteor.call 'log_view', Router.current().params.doc_id, ->
+        Meteor.setTimeout ->
+            $().popup(
+                inline: true
+            )
+        , 2000
+    
     Template.music.onCreated ->
         # @autorun => @subscribe 'model_docs','artist', ->
         @autorun => @subscribe 'music_facets',

@@ -124,6 +124,7 @@
     'hide  report'
     'thread'
     'debut albums'
+    'debut album'
     '2000 albums'
     '2001 albums'
     '2002 albums'

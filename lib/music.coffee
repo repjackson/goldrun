@@ -217,6 +217,8 @@ if Meteor.isServer
                 tags:1
 if Meteor.isClient
     Template.music.helpers
+        one_result: ->
+            Docs.find(model:'artist').count() is 1
         artist_docs: ->
             Docs.find {
                 model:'artist'
@@ -247,6 +249,24 @@ if Meteor.isClient
         'click .pick_flat_tag': ->
             picked_music_tags.clear()
             picked_music_tags.push @valueOf()
+            $('body').toast(
+                showIcon: 'search'
+                message: "searching for #{@valueOf()}"
+                showProgress: 'bottom'
+                class: 'info'
+                # displayTime: 'auto',
+                position: "bottom right"
+            )
+            
+            Meteor.call 'search_artist', @valueOf(), ->
+                $('body').toast(
+                    showIcon: 'checkmark'
+                    message: "search complete for #{@valueOf()}"
+                    showProgress: 'bottom'
+                    class: 'info'
+                    # displayTime: 'auto',
+                    position: "bottom right"
+                )
             Router.go "/music"
     Template.music.events
         'click .clear': (e,t)->

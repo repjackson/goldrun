@@ -225,6 +225,17 @@ if Meteor.isServer
                 model:1
                 tags:1
 if Meteor.isClient
+    Template.mood_icon.helpers
+        mood_icon_class: ->
+            console.log @
+            switch @strMood 
+                when 'Happy' then 'happy'
+                when 'Angry' then 'angry'
+                when 'Epic' then 'iron-age-warrior'
+                else null
+    Template.artist_card.helpers
+        mood_class:->
+            console.log @strMood
     Template.music.helpers
         one_result: ->
             Docs.find(model:'artist').count() is 1

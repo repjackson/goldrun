@@ -101,7 +101,7 @@ template(name='music')
             
 
 template(name='artist_card')
-    a.card.fly_right.zoomer(href="/music/artist/#{_id}" title='view artist')
+    a.card.fly_right.zoomer(href="/music/artist/#{_id}" title='view artist' class=mood_class)
         .ui.fade.reveal.image
             .visible.content.invert
                 img.ui.image(src=strArtistThumb)
@@ -110,6 +110,7 @@ template(name='artist_card')
         .content
             img.ui.image(src=strArtistLogo title=strArtist)
             .description
+                +mood_icon
                 if strGenre
                     .ui.inverted.basic.label
                         +i name='music'
@@ -134,6 +135,13 @@ template(name='artist_card')
                     .ui.inverted.basic.label
                         i.eye.grey.icon
                         |#{views}
+                        
+                        
+template(name='mood_icon')  
+    if mood_icon_class
+        span(title="#{strMood} mood")
+            +i name=mood_icon_class
+                        
 
 template(name='music_artist')
     with current_artist 
@@ -226,6 +234,9 @@ template(name='music_artist')
                 .ui.large.basic.inverted.label
                     a(href=strWebsite target='_window')
                         |#{strWebsite}
+                .ui.large.basic.inverted.label
+                    // a(href=strWebsite target='_window')
+                    |#{strMusicBrainzID}
                 .f8 #{strBiographyEN}
                 if currentUser.admin_mod
                     +call_watson key='strBiographyEN'

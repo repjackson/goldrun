@@ -206,6 +206,7 @@ if Meteor.isServer
             sort:"#{sort_key}":sort_direction
             limit: limit
             fields: 
+                strArtistFanart:1
                 strArtistThumb:1
                 strArtistLogo:1
                 strArtist:1

@@ -5,7 +5,7 @@ body {
     font-family: 'Ubuntu', sans-serif !important;
     /* font-size: 110% !important; */
     /*line-height: 200% !important;*/
-    transition: all .5s !important;
+    transition: all 1s !important;
     filter: invert(.9) !important; 
     background: rgba(0,0,0,.8) !important; 
     /* background: rgba(200, 200, 200, .2) !important */

@@ -1,6 +1,4 @@
 if Meteor.isClient
-    Template.music.onCreated ->
-        @autorun => @subscribe 'related_group',Router.current().params.doc_id, ->
     Template.post_item.onCreated ->
         @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
 
@@ -60,10 +58,6 @@ if Meteor.isClient
 
 
 if Meteor.isClient
-    Router.route '/music/', (->
-        @layout 'layout'
-        @render 'music'
-        ), name:'music'
     Router.route '/product/:doc_id/orders', (->
         @layout 'product_layout'
         @render 'product_orders'
@@ -85,9 +79,6 @@ if Meteor.isClient
         @render 'product_inventory'
         ), name:'product_inventory'
 
-    Template.music.events
-        'click .search_musician': ->
-            Meteor.call 'search_musician', ->
     Template.product_view.onCreated ->
         @autorun => Meteor.subscribe 'product_source', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'ingredients_from_product_id', Router.current().params.doc_id, ->

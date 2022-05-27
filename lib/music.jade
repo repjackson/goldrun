@@ -1,0 +1,25 @@
+template(name='music')
+    .ui.header 
+        i.music.icon
+        |music
+    .ui.button.search_musician
+        |search db
+    .ui.header artists
+    .ui.input 
+        input.artist_search(type='text' placeholder='artist...')
+    .ui.list 
+        each artist_docs 
+            .ui.header #{strArtist}
+    .ui.inline.header search songs
+    .ui.input 
+        input(type='text' placholder='song...')
+    .ui.list 
+        each song_docs 
+            .ui.header #{title}
+    .ui.inline.header search albums
+    .ui.input 
+        input(type='text' placholder='album...')
+    .ui.list 
+        each album_docs 
+            .ui.header #{title}
+    

@@ -27,7 +27,7 @@ template(name='profile')
                     if last_name
                         .ui.inline.header #{last_name}
                     if status 
-                        .ui.big.label(title='status')
+                        .ui.big.inverted.black.basic.label(title='status')
                             i.clock.icon 
                             |#{status}
                     a.ui.large.label(href="/user/#{username}/points" title='points')

@@ -1152,7 +1152,7 @@ h1.ui.header{
     width: 5px;
 }
 .hscroll::-webkit-scrollbar {
-    height: 1px;
+    height: 3px !important;
 }
 
 

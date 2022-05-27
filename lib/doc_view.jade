@@ -14,7 +14,7 @@ template(name='doc_view')
             .ui.stackable.padded.grid
                 .row 
                     .sixteen.wide.column
-                        a.ui.circular.icon.button.fly_left(href="/m/#{model}" title="back to #{model}s")
+                        a.ui.circular.icon.inverted.button.fly_left(href="/m/#{model}" title="back to #{model}s")
                             i.chevron.left.icon
                             +model_label
                         .ui.large.inline.header 
@@ -38,13 +38,17 @@ template(name='doc_view')
                             a.zoomer(href=twitter_link target='_window' title='visit twitter page')
                                 +i name='twitter'
                         if link 
-                            a.ui.big.compact.button.zoomer(href=link target='_window' title=link)
+                            a.ui.big.compact.inverted.button.zoomer(href=link target='_window' title=link)
                                 i.external.icon
                                 |link
                                 // |#{hostname}
-                        i.big.eye.icon(title='viewers') 
+                        i.big.eye.icon(title="#{read_user_ids.length} viewers") 
                         each read_user_ids
                             +user_avatar
+                        if member_ids
+                            i.big.users.icon(title="#{member_ids.length} members") 
+                            each member_ids
+                                +user_avatar
                             // img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
     
                     .ui.stackable.padded.grid

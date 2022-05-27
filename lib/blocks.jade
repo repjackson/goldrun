@@ -29,8 +29,11 @@ template(name='send_points_button')
         
         
 template(name='edit_button')
-    a.ui.icon.large.button.fly_down.zoomer(href="/doc/#{_id}/edit" title="edit #{title}")
-        +i name='edit'
+    a.ui.icon.large.inverted.button.fly_down.zoomer(href="/doc/#{_id}/edit" title="edit #{title}")
+        // +i name='edit'
+        i.large.pencil.icon
+        unless currentUser.hide_labels
+            |edit
 
         
 template(name='log_item')

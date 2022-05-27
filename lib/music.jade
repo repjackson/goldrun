@@ -82,7 +82,7 @@ template(name='artist_card')
     a.card.fly_right(href="/music/artist/#{_id}" title='view artist')
         img.ui.image(src=strArtistThumb)
         .content
-            .header #{strArtist}
+            img.ui.image(src=strArtistLogo title=strArtist)
             .description
                 .ui.inverted.basic.label
                     +i name='music'
@@ -102,12 +102,17 @@ template(name='music_artist')
         if strArtistBanner
             img.ui.image.profile_banner(src=strArtistBanner)
         .ui.stackable.padded.grid 
-            .eight.wide.column
+            .eight.wide.column.scrolling
                 a.ui.inverted.big.button.fly_left(href='/music')
                     i.chevron.left.icon
                     i.music.large.icon
                     |music
                 img.ui.image(src=strArtistThumb)
+                img.ui.image(src=strArtistWideThumb)
+                if strArtistCutout
+                    img.ui.image(src=strArtistCutout)
+                if strArtistClearart
+                    img.ui.image(src=strArtistClearart)
                 .ui.header views: #{views}
                 +voting_full
                 div
@@ -116,6 +121,7 @@ template(name='music_artist')
                     a.ui.inverted.basic.link.label.zoomer.pick_flat_tag(title='browse tag') #{this}
                 +print_this
             .eight.wide.column.scrolling
+                img.ui.image(src=strArtistLogo)
                 .ui.massive.inline.header #{strArtist}
                 if strFacebook
                     a.ui.big.basic.compact.inverted.button(href=strFacebook target='_window' title='view facebook profile')
@@ -142,6 +148,10 @@ template(name='music_artist')
                         .item died #{intDiedYear}
                     if strDisbanded
                         .item disbanded #{strDisbanded}
+                    if strCountry
+                        .item
+                            +i name='marker'
+                            |#{strCountry}
                     .item 
                         +i name='artist'
                         |style: #{strStyle}

@@ -142,6 +142,7 @@ Meteor.methods
             parameters.html = doc.title+" "+doc["#{key}"]
         else
             parameters.html = doc["#{key}"]
+            parameters.content = doc["#{key}"]
         parameters.returnAnalyzedText = true
         # switch mode
         #     when 'html'
@@ -172,7 +173,7 @@ Meteor.methods
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
             if err
                 console.log 'watson error for', parameters.content
-                # console.log err
+                console.log err
                 if err.code is 400
                     console.log 'crawl rejected by server'
                 unless err.code is 403

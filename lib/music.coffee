@@ -54,6 +54,8 @@ if Meteor.isServer
                             idArtist:artist.idArtist
                     if found_artist
                         console.log 'found'
+                        Docs.update found_artist._id,
+                            $set:strBiographyEN:artist.strBiographyEN
                     else 
                         Docs.insert 
                             model:'artist'
@@ -92,6 +94,6 @@ if Meteor.isServer
                             "strLastFMChart":artist.strLastFMChart
                             "intCharted":artist.intCharted
                             "strLocked":artist.strLocked
-                            
+                            strBiographyEN:artist.strBiographyEN
                             
                             

@@ -40,7 +40,7 @@ template(name='music_artist')
                     |music
                 img.ui.image(src=strArtistThumb)
                 .ui.header views: #{views}
-                +voting_full
+                +voting
             .eight.wide.column
                 .header #{strArtist}
                 .ui.header #{strArtistStripped}: strArtistStripped
@@ -57,5 +57,7 @@ template(name='music_artist')
                 .ui.header #{strWebsite}: strWebsite
                 .ui.header #{strFacebook}: strFacebook
                 .ui.header #{strTwitter}: strTwitter
-                .ui.header #{strBiographyEN}: strBiographyEN
-
+                |#{strBiographyEN}
+                +call_watson key='strBiographyEN'
+                if watson 
+                    +watson_view

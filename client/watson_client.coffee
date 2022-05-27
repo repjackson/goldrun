@@ -152,7 +152,7 @@ if Meteor.isClient
                 doc = Meteor.users.findOne username:Router.current().params.username
             # Meteor.call 'call_watson', Template.parentData()._id, parent.key, @mode, ->
             if doc 
-                console.log doc
+                console.log 'calling client watson',doc, @key
                 Meteor.call 'call_watson', doc._id, @key, 'html', ->
             # Meteor.call 'call_watson', doc._id, @key, @mode, ->
     

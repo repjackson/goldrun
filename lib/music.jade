@@ -3,12 +3,11 @@ template(name='music')
         .sixteen.wide.column
             .ui.inline.header 
                 +i name='music'
-                |#{artist_docs.count} artists
+                // |#{artist_docs.count} artists
             if current_search 
                 i.large.red.circular.link.remove.icon.clear
             .ui.large.input 
                 input.artist_search(type='text' placeholder='search artist...' value=current_search)
-        .four.wide.column.scrolling
             +i name='database'
             each picked_models
                 button.ui.blue.compact.circular.button.unpick_model(tabindex='0')
@@ -18,6 +17,7 @@ template(name='music')
                 button.ui.circular.compact.black.button.pick_model(tabindex="0" class=result_class title=count)
                     |#{name}
                     // small #{count}
+        .four.wide.column.scrolling
             +i name='tags'
             each picked_music_tags
                 button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
@@ -282,12 +282,13 @@ template(name='music_artist')
         if strArtistBanner
             img.ui.image.profile_banner(src=strArtistBanner)
         .ui.stackable.padded.grid 
-            .eight.wide.column.scroling
-                a.ui.inverted.big.fluid.button.fly_left(href='/music')
+            .sixteen.wide.column.scrollin
+                a.ui.inverted.fluid.button.fly_left(href='/music')
                     i.chevron.left.icon
                     +i name='music'
                     |music
-                .ui.two.column.grid 
+                img.ui.image(src=strArtistLogo)
+                .ui.three.column.stackable.grid 
                     .column
                         img.ui.image.rounded.zoomer(src=strArtistThumb)
                     .column
@@ -318,8 +319,7 @@ template(name='music_artist')
                 each tags 
                     a.ui.inverted.large.basic.link.label.zoomer.pick_flat_tag(title='browse tag') #{this}
                 +print_this
-            .eight.wide.column.scrolling
-                img.ui.image(src=strArtistLogo)
+            .sixteen.wide.column.scrollin
                 .ui.massive.inline.header #{strArtist}
                 // "strMusicBrainzID": "c8b03190-306c-4120-bb0b-6f2ebfc06ea9",
                 // "strISNIcode": null,
@@ -381,6 +381,119 @@ template(name='music_artist')
                     |download albums
                 .ui.cards
                     each artist_album_docs 
+                        a.ui.card.fly_right.zoomer(href="/music/album/#{_id}")
+                            img.ui.image(src=strAlbumThumb)
+                            .content 
+                                .ui.header #{strAlbum}
+                                +print_this
+                    
+            .sixteen.wide.column
+                if watson 
+                    +watson_view
+template(name='music_album')
+    with current_album
+        if strAlbumBanner
+            img.ui.image.profile_banner(src=strAlbumBanner)
+        .ui.stackable.padded.grid 
+            .sixteen.wide.column.scrollin
+                a.ui.inverted.fluid.button.fly_left(href='/music')
+                    i.chevron.left.icon
+                    +i name='music'
+                    |music
+                img.ui.image(src=strAlbumLogo)
+                .ui.three.column.stackable.grid 
+                    .column
+                        img.ui.image.rounded.zoomer(src=strAlbumThumb)
+                    .column
+                        img.ui.image.rounded.zoomer(src=strAlbumWideThumb)
+                    if strAlbumCutout
+                        .column
+                            img.ui.image.rounded.zoomer(src=strAlbumCutout)
+                    if strAlbumClearart
+                        .column
+                            img.ui.image.rounded.zoomer(src=strAlbumClearart)
+                    if strAlbumFanart
+                        .column
+                            img.ui.image.rounded.zoomer(src=strAlbumFanart)
+                    if strAlbumFanart2
+                        .column
+                            img.ui.image.rounded.zoomer(src=strAlbumFanart2)
+                    if strAlbumFanart3
+                        .column
+                            img.ui.image.rounded.zoomer(src=strAlbumFanart3)
+                    if strAlbumFanart4
+                        .column
+                            img.ui.image.rounded.zoomer(src=strAlbumFanart4)
+                            
+                .ui.header views: #{views}
+                +voting_full
+                div
+                +i name='tags'
+                each tags 
+                    a.ui.inverted.large.basic.link.label.zoomer.pick_flat_tag(title='browse tag') #{this}
+                +print_this
+            .sixteen.wide.column.scrollin
+                .ui.massive.inline.header #{strAlbum}
+                // "strMusicBrainzID": "c8b03190-306c-4120-bb0b-6f2ebfc06ea9",
+                // "strISNIcode": null,
+                // "strLastFMChart": "http://www.last.fm/music/The Weeknd/+charts?rangetype=6month",
+                if strLastFMChart
+                    a.ui.big.inverted.basic.button.zoomer(href=strLastFMChart target='_window' title='last fm')
+                        +i name='lastfm'
+                        |last fm page
+                // if strFacebook
+                //     a.ui.big.basic.compact.inverted.button.zoomer(href=strFacebook target='_window' title='view facebook profile')
+                //         +i name='facebook'
+                // if strTwitter
+                //     a.ui.big.basic.compact.inverted.button.zoomer(href=strTwitter target='_window' title='view twitter page')
+                //         +i name='twitter'
+
+                // .item #{strAlbumStripped}: strAlbumStripped
+                if strAlbumAlternate
+                    .ui.large.basic.inverted.label alternate name: #{strAlbumAlternate}
+                if strLabel
+                    .ui.large.basic.inverted.label label: #{strLabel}
+                // .ui.large.basic.inverted.label #{idLabel}: idLabel
+                if intFormedYear
+                    .ui.large.basic.inverted.label
+                        i.clock.icon
+                        |formed: 
+                        |#{intFormedYear}-
+                // if intBornYear
+                //     .ui.large.basic.inverted.label born #{intBornYear}
+                if intDiedYear
+                    .ui.large.basic.inverted.label(title='died')
+                        +i name='death'
+                        | #{intDiedYear}
+                if strDisbanded
+                    .ui.large.basic.inverted.label disbanded #{strDisbanded}
+                if strCountry
+                    .ui.large.basic.inverted.label
+                        +i name='marker'
+                        |#{strCountry}
+                .ui.large.basic.inverted.label 
+                    +i name='artist'
+                    |style: #{strStyle}
+                a.ui.large.basic.inverted.label.zoomer.pick_genre
+                    +i name='music'
+                    |#{strGenre}
+                a.ui.large.basic.inverted.label.zoomer.pick_mood
+                    +i name='happy'
+                    |mood: #{strMood}
+                .ui.large.basic.inverted.label
+                    a(href=strWebsite target='_window')
+                        |#{strWebsite}
+                .ui.large.basic.inverted.label
+                    // a(href=strWebsite target='_window')
+                    |#{strMusicBrainzID}
+                .f7 #{strBiographyEN}
+                if currentUser.admin_mod
+                    +call_watson key='strBiographyEN'
+                +comments
+                .ui.button.pull_albums
+                    |download albums
+                .ui.cards
+                    each album_track_docs 
                         .ui.card
                             img.ui.image(src=strAlbumThumb)
                             .content 

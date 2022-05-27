@@ -22,18 +22,30 @@ if Meteor.isClient
     Template.music_artist.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'albums_by_artist_doc_id', Router.current().params.doc_id, ->
+    Template.music_album.onCreated ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'albums_by_artist_doc_id', Router.current().params.doc_id, ->
 
 if Meteor.isServer 
     Meteor.publish 'albums_by_artist_doc_id', (artist_doc_id)->
+        artist = Docs.findOne artist_doc_id
+        console.log 'artist', artist
         Docs.find 
             model:'album'
+            idArtist:artist.idArtist
             
 if Meteor.isClient
     Template.music_artist.helpers
-        artist_album_docs: ->
+        album_track_docs: ->
             Docs.find 
                 model:'album'
         current_artist: ->
+            Docs.findOne Router.current().params.doc_id
+    Template.music_album.helpers
+        artist_album_docs: ->
+            Docs.find 
+                model:'album'
+        current_album: ->
             Docs.findOne Router.current().params.doc_id
     Template.music_artist.onRendered ->
         Meteor.call 'log_view', Router.current().params.doc_id, ->
@@ -270,7 +282,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.mood_icon.helpers
         mood_icon_class: ->
-            console.log @
+            # console.log @
             switch @strMood 
                 when 'Happy' then 'happy'
                 when 'Angry' then 'angry'
@@ -288,7 +300,7 @@ if Meteor.isClient
             # console.log @strMood
     Template.music.helpers
         one_result: ->
-            Docs.find(model:'artist').count() is 1
+            Docs.find(model:$in:['artist','album']).count() is 1
         artist_docs: ->
             Docs.find {
                 model:'artist'

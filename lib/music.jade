@@ -19,37 +19,48 @@ template(name='music')
                     |#{name}
                     // small #{count}
 
-            +i name='music'
-            |genre
-            each picked_genres
-                button.ui.blue.compact.circular.button.unpick_genre(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
-            each genre_results
-                button.ui.circular.compact.black.button.pick_genre(tabindex="0" class=result_class title=count)
-                    |#{name}
-                    // small #{count}
-            +i name='artist'
-            |style
-            each picked_styles
-                button.ui.blue.compact.circular.button.unpick_style(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
-            each style_results
-                button.ui.circular.compact.black.button.pick_style(tabindex="0" class=result_class title=count)
-                    |#{name}
-                    // small #{count}
-            +i name='happy'
-            |mood
-            each picked_moods
-                button.ui.blue.compact.circular.button.unpick_mood(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
-            each mood_results
-                button.ui.circular.compact.black.button.pick_mood(tabindex="0" class=result_class title=count)
-                    |#{name}
-                    // small #{count}
-        .sixteen.wide.column.scrolling
+        .four.wide.column.scrolling
+            .ui.fluid.styled.accordion
+                .active.title
+                    .ui.small.inline.header
+                        +i name='music'
+                        |#{genre_results.count} genres
+                    each picked_genres
+                        button.ui.blue.compact.circular.button.unpick_genre(tabindex='0')
+                            //- i.remove.icon
+                            | #{this}
+                .active.content
+                    each genre_results
+                        button.ui.circular.compact.black.button.pick_genre(tabindex="0" class=result_class title=count)
+                            |#{name}
+                            // small #{count}
+            .ui.fluid.styled.accordion
+                .active.title
+                    +i name='artist'
+                    |styles
+                    each picked_styles
+                        button.ui.blue.compact.circular.button.unpick_style(tabindex='0')
+                            //- i.remove.icon
+                            | #{this}
+                .active.content
+                    each style_results
+                        button.ui.circular.compact.black.button.pick_style(tabindex="0" class=result_class title=count)
+                            |#{name}
+                            // small #{count}
+            .ui.fluid.styled.accordion
+                .active.title
+                    +i name='happy'
+                    |moods
+                    each picked_moods
+                        button.ui.blue.compact.circular.button.unpick_mood(tabindex='0')
+                            //- i.remove.icon
+                            | #{this}
+                .active.content
+                    each mood_results
+                        button.ui.circular.compact.black.button.pick_mood(tabindex="0" class=result_class title=count)
+                            |#{name}
+                            // small #{count}
+        .twelve.wide.column.scrolling
             .ui.centered.stackable.doubling.cards
                 each artist_docs 
                     +artist_card
@@ -83,7 +94,7 @@ template(name='artist_card')
                     +i name='happy'
                     |#{strMood}
                 each five_tags
-                    .ui.inverted.label #{this}
+                    .ui.inverted.basic.label #{this}
                 |added #{_when}
 
 template(name='music_artist')

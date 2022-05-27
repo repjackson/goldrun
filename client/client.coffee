@@ -144,8 +144,8 @@ Template.layout.events
 #     @render 'docs'
 #     ), name:'home'
 Router.route '/', (->
-    @redirect('/m/post');
-    ), name:'posts'
+    @redirect('/music');
+    ), name:'home'
 Router.route '/docs', (->
     @redirect('/m/post');
     ), name:'docs'

@@ -303,8 +303,8 @@ if Meteor.isServer
                 console.log response
         search_artist: (search)->
             HTTP.get "https://www.theaudiodb.com/api/v1/json/523532/search.php?s=#{search}",(err,response)=>
-                console.log 'ARTIST RESPONSE'
-                console.log response.data.artists[0].strArtist
+                # console.log 'ARTIST RESPONSE'
+                # console.log response.data.artists[0].strArtist
                 artist = response.data.artists[0]
                 if artist
                     found_artist = 
@@ -316,7 +316,7 @@ if Meteor.isServer
                         Docs.update found_artist._id,
                             $set:strBiographyEN:artist.strBiographyEN
                     else 
-                        Docs.insert 
+                        new_id = Docs.insert 
                             model:'artist'
                             "idArtist":artist.idArtist
                             "strArtist":artist.strArtist
@@ -354,6 +354,6 @@ if Meteor.isServer
                             "intCharted":artist.intCharted
                             "strLocked":artist.strLocked
                             strBiographyEN:artist.strBiographyEN
-                            
+                        Meteor.call 'call_watson', new_id, 'strBiographyEN', ->
                             
 

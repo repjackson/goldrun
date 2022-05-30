@@ -74,7 +74,7 @@ if Meteor.isClient
     # Template.groups.onRendered ->
     #     Session.set('model',Router.current().params.model)
     Template.groups.onCreated ->
-        Session.setDefault('limit',42)
+        Session.setDefault('limit',20)
         Session.setDefault('sort_key','_timestamp')
         Session.setDefault('sort_icon','clock')
         Session.setDefault('sort_label','added')

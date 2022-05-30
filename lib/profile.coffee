@@ -237,6 +237,7 @@ if Meteor.isClient
                 $inc:boops:1
             $('body').toast({
                 title: "boop"
+                icon:'thumbs-up'
                 class : 'info'
                 position:'bottom center'
                 })

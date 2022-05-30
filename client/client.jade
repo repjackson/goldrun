@@ -132,15 +132,15 @@ template(name='nav')
                     strong #{currentUser.username}
                     |&nbsp;
                     .ui.large.basic.black.inverted.label(title='points') #{currentUser.points}p
-                    if unread_count
-                        .ui.large.inverted.black.basic.label(title='unread messages') 
-                            i.envelope.icon
-                            |#{unread_count}
                 a.icon.item.zoomer.fly_down.add_doc(title='add doc')
                     // +i name='plus'
                     i.large.plus.green.invert.icon
                 // a.icon.item(href="/mail/inbox")
-                //     +i name='inbox'
+                if unread_count
+                    a.item(href="/user/#{currentUser.username}/inbox" title='unread messages')
+                        +i name='inbox'
+                        // i.envelope.icon
+                        strong #{unread_count}
         unless subs_ready
             .icon.item
                 i.yin.yang.large.loading.icon
@@ -160,8 +160,8 @@ template(name='nav')
                 i.large.circular.refresh.link.icon.zoomer.reconnect(title='reconnect now')
         if is_connected
             a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
-                // +i name='groups'
-                i.large.users.icon
+                +i name='groups'
+                // i.large.users.icon
                 unless currentUser.hide_labels
                     |users
             +nav_item key='post' icon='blog'
@@ -175,7 +175,7 @@ template(name='nav')
                 unless currentUser.hide_labels
                     |groups
             +nav_item key='event' icon='calendar'
-            +nav_item key='product' icon='cart'
+            +nav_item key='product' icon='shopping-cart'
             +nav_item key='transfer' icon='exchange'
             +nav_item key='service' icon='wrench'
             +nav_item key='rental' icon='clock'
@@ -187,8 +187,8 @@ template(name='nav')
 
 template(name='nav_item')
     a.item.zoomer.fly_right.clear_search.go_route.tada(href="/m/#{key}" class="{{nav_item_class key}}" title=key)
-        // +i name=icon
-        i.large.icon(class=icon)
+        +i name=icon
+        // i.large.icon(class=icon)
         unless currentUser.hide_labels
             |#{key}
 

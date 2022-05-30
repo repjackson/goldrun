@@ -358,29 +358,7 @@ template(name='group_edit')
         .ui.stackable.padded.grid
             .row
                 .eight.wide.column
-                    if published
-                        a.ui.big.icon.fluid.green.button.zoom.zoomer(href="/group/#{_id}" title='save')
-                            i.checkmark.big.icon
-                    else 
-                        a.ui.big.green.button.zoom.zoomer.publish(href="/group/#{_id}" title='save & publish')
-                            i.checkmark.big.icon
-                            i.plus.icon
-                            i.eye.big.icon
-                            |save and publish -10p
-                        a.ui.big.icon.yellow.button.zoom.zoomer(href="/group/#{_id}" title='save')
-                            i.save.big.icon
-                            |save draft                       
-                    // +boolean_edit key='published' label='published (-10)' 
-                    div
-                    +text_edit key='title' label='title' 
-                    .ui.one.column.stackable.grid
-                        .column
-                            +image_edit key='image_id' label='image' 
-                            .ui.horizontal.divider or
-                            +image_link_edit key='image_link' label='image link'
-                            +image_edit key='background_image_id' label='background image' 
-                            .ui.horizontal.divider or
-                            +image_link_edit key='background_image_link' label='background image link'
+                    +doc_edit_leftbar                
                 .eight.wide.column
                     .ui.inline.header 
                         +i name='cube'
@@ -418,7 +396,7 @@ template(name='group_card')
             +youtube_view key='youtube_id'
         else if image_id
             a.ui.image.fly_right.zoomer(href="/group/#{_id}")
-                img(src="{{c.url image_id height=300 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                img(src="{{c.url image_id height=300 width=500 crop='fit'}}" class=currentUser.invert_class)
         .content
             // +model_label
             if published 

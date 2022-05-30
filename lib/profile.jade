@@ -214,7 +214,7 @@ template(name='profile_sidebar')
             +i name='settings'
             unless currentUser.hide_labels
                 |account
-    img.ui.medium.rounded.image.boop.pointer.zoomers(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+    img.ui.medium.rounded.image.boop.pointer.zoomer(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
     // if subs_ready
     // a(href="/user/#{username}")
     // a(href="/user/#{username}")
@@ -465,15 +465,15 @@ template(name='user_services')
         |services
     .ui.selection.animated.link.list
         each user_service_docs 
-            a.item 
-                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+            a.item.zoomer.fly_right(href="/doc/#{_id}")
+                img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
                 |#{title}
     .ui.header 
         +i name='shopping-cart'
         |purchases
     .ui.list 
         each service_purchase_docs 
-            .item 
+            a.item.zoomer.fly_right(href="/doc/#{_id}")
                 img.ui.avatar.image(src="{{c.url parent_image_id height=200 width=200 background='white' crop='pad'}}")
                 |#{parent_title} #{amount}
             

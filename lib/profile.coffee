@@ -24,6 +24,30 @@ if Meteor.isClient
     #     , 1000
         
         
+if Meteor.isClient
+    Template.user_voting.onCreated ->
+        @autorun -> Meteor.subscribe 'user_upvoted_docs',Router.current().params.username,->
+        @autorun -> Meteor.subscribe 'user_downvoted_docs',Router.current().params.username,->
+    Template.user_voting.helpers
+        upvoted_docs: -> 
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                upvoter_ids:$in:[user._id]
+        downvoted_docs: -> 
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                downvoter_ids:$in:[user._id]
+if Meteor.isServer 
+    Meteor.publish 'user_upvoted_docs', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find {
+            upvoter_ids:$in:[user._id]
+        }, limit:10
+    Meteor.publish 'user_downvoted_docs', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find {
+            downvoter_ids:$in:[user._id]
+        }, limit:10
 
         
 if Meteor.isClient
@@ -120,11 +144,21 @@ if Meteor.isClient
         
 if Meteor.isServer
     Meteor.publish 'user_drafts', (username)->
+        models = 
+            [
+                'post'
+                'event'
+                'group'
+                'service'
+            ]
+        
+        # console.log @models
         user = Meteor.users.findOne username:username
         Docs.find {
             published:$ne:true
             _author_id:user._id
-        }, limit:42
+            model:$in:models
+        }, limit:10
     Meteor.publish 'user_service_docs', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {

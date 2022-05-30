@@ -3,6 +3,7 @@
 # @Markers = new Meteor.Collection 'markers'
 
 
+
 Router.configure
     layoutTemplate: 'layout'
     notFoundTemplate: 'not_found'

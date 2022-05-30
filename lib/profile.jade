@@ -40,6 +40,8 @@ template(name='profile_layout')
                                 +profile_nav_item section='drafts' icon='save'
                                 +profile_nav_item section='favorites' icon='heart'
                                 +profile_nav_item section='social' icon='friends'
+                                +profile_nav_item section='music' icon='music'
+                                +profile_nav_item section='voting' icon='vote'
                                 div
                                 +yield
         +footer     
@@ -107,6 +109,18 @@ template(name='profile_section')
 
 
 
+template(name='user_voting')
+    .ui.header 
+        i.large.thumbs.up.icon
+        |upvoted
+    each upvoted_docs
+        .item #{title}
+    
+    .ui.header 
+        i.large.thumbs.down.iocn
+        |downvoted
+    each downvoted_docs
+        .item #{title}
 template(name='user_inbox')
     .column
         .ui.inline.header 
@@ -134,6 +148,10 @@ template(name='user_inbox')
                 |#{body}
 
 
+template(name='profile_music')
+    .ui.header 
+        +i name='music'
+        |music
 template(name='profile_stats')
     .ui.list 
         .item 
@@ -254,7 +272,7 @@ template(name='profile_sidebar')
                           
                           
 template(name='profile_nav_item')        
-    a.ui.large.compact.inverted.button.zoomer(href="/user/#{current_user.username}/#{section}")
+    a.ui.compact.inverted.basic.button.zoomer(href="/user/#{current_user.username}/#{section}")
         +i name=icon
         |#{section}
 template(name='online_label')

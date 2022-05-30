@@ -27,7 +27,11 @@ template(name='profile_layout')
                         .twelve.wide.column
                             +profile_nav_item section='dashboard' icon='dashboard'
                             +profile_nav_item section='posts' icon='news'
+                            +profile_nav_item section='inbox' icon='inbox'
                             +profile_nav_item section='events' icon='calendar'
+                            +profile_nav_item section='points' icon='coins'
+                            +profile_nav_item section='groups' icon='groups'
+                            +profile_nav_item section='reviews' icon='megaphone'
                             +profile_nav_item section='checkins' icon='checkmark'
                             +profile_nav_item section='products' icon='shopping-cart'
                             +profile_nav_item section='services' icon='wrench'
@@ -35,108 +39,98 @@ template(name='profile_layout')
                             +profile_nav_item section='drafts' icon='save'
                             +profile_nav_item section='favorites' icon='heart'
                             +profile_nav_item section='social' icon='friends'
+                            div
                             +yield
         +footer     
                             
-template(name='profile_dashboard')                        
+template(name='user_dashboard')                        
     .ui.two.column.grid
-        if status 
-            .ui.label(title='status')
-                +i name='clock'
-                |#{status}
-        +text_view key='display_name' label='display name'
-        div
-        +array_view key='tags' label='tags' icon='tags'
-        +html_view key='bio' label='bio'
-        +text_view key='status' label='status' icon='clock'
-        +text_view key='address' label='address' icon='marker' 
-        +text_view key='city' label='city' icon='marker' 
-        +text_view key='state' label='state' icon='marker' 
-        +phone_view key='phone' label='phone' icon='phone' 
-        +text_view key='company' label='company' icon='business'
-    .column
-        .ui.segment.alpha
-            +user_reviews
-    .column
-        .ui.segment.alpha
-            +user_posts
-    .column
-        .ui.segment.alpha
-            +user_groups
-    .column
-        .ui.segment.alpha
-            +user_services
-    .column
-        +user_social
-    .column
-        +user_favorites
-    // .column
-    //     +user_checkins
-    // .column
-    //     +user_points
-    // .column
-    //     +user_drafts
-    // .column
-    //     +user_events
-    if instagram_code
         .column
-            |!{instagram_code}
-    if user_unread_log_docs.count
+            if status 
+                .ui.label(title='status')
+                    +i name='clock'
+                    |#{status}
+            +text_view key='display_name' label='display name'
+            div
+            +array_view key='tags' label='tags' icon='tags'
+            +html_view key='bio' label='bio'
+            +text_view key='status' label='status' icon='clock'
+            +text_view key='address' label='address' icon='marker' 
+            +text_view key='city' label='city' icon='marker' 
+            +text_view key='state' label='state' icon='marker' 
+            +phone_view key='phone' label='phone' icon='phone' 
+            +text_view key='company' label='company' icon='business'
+        // .column
+        //     +user_checkins
+        // .column
+        //     +user_points
+        // .column
+        //     +user_drafts
+        // .column
+        //     +user_events
+        if instagram_code
+            .column
+                |!{instagram_code}
         .column
+            +user_inbox
+        .column
+            a.ui.header.zoomers.calc_user_points
+                // i.line.chart.icon
+                +i name='line-chart'
+                |stats
+            +send_points_button
+            +profile_stats
+        .column 
             .ui.inline.header 
-                +i name='envelope'
-                |messages/unread logs
-                .ui.label 
-                    |#{user_unread_log_docs.count}
-            // if currentUser
-            //     unless is_current_user
-            //         +send_message_button
-            each user_unread_log_docs
-                +log_item
-            .ui.small.header
-                +i name='sent'
-                |sent
-            .ui.list 
-                each user_messages_sent
-                    |#{body}
-            .ui.small.header
-                +i name='internal'
-                |received
-            .ui.list 
-                each user_messages_received
-                    |#{body}
-    .column
-        a.ui.header.zoomers.calc_user_points
-            // i.line.chart.icon
-            +i name='line-chart'
-            |stats
-        +send_points_button
-        +profile_stats
-    +user_tasks
-    
-    .column 
-        .ui.inline.header 
-            +i name='binoculars'
-            |currently viewing
-        with current_viewing_doc
-            a.ui.header.zoomers.fly_right(href="/doc/#{_id}")
-                img.ui.avatar.image(src="{{c.url image_id height=300 crop='crop'}}")
-    
-                |#{title}
-                +model_label
-    .content
-        .ui.header 
-            +i name='history'
-            |viewing history
-    if watson
-        +watson_view
-        // else 
-        //     .ui.basic.center.aligned.segment
-        //         i.massive.loading.refresh.icon
-          
+                +i name='binoculars'
+                |currently viewing
+            with current_viewing_doc
+                a.ui.header.zoomers.fly_right(href="/doc/#{_id}")
+                    img.ui.avatar.image(src="{{c.url image_id height=300 crop='crop'}}")
+        
+                    |#{title}
+                    +model_label
+        .content
+            .ui.header 
+                +i name='history'
+                |viewing history
+        if watson
+            +watson_view
+            // else 
+            //     .ui.basic.center.aligned.segment
+            //         i.massive.loading.refresh.icon
+              
 
 template(name='profile_section')
     +Template.dynamic template=section_template
+
+
+
+template(name='user_inbox')
+    .column
+        .ui.inline.header 
+            +i name='inbox'
+            |inbox
+            .ui.label 
+                |#{user_unread_log_docs.count}
+        // if currentUser
+        //     unless is_current_user
+        //         +send_message_button
+        // if user_unread_log_docs.count
+        each user_unread_log_docs
+            +log_item
+        .ui.small.header
+            +i name='sent'
+            |sent
+        .ui.list 
+            each user_messages_sent
+                |#{body}
+        .ui.small.header
+            +i name='internal'
+            |received
+        .ui.list 
+            each user_messages_received
+                |#{body}
 
 
 template(name='profile_stats')
@@ -348,7 +342,7 @@ template(name='user_drafts')
             +i name='save'
             |#{user_draft_docs.count} drafts
         .ui.selection.animated.link.divided.list
-            each user_favorite_docs
+            each user_draft_docs
                 .item
                     .content
                         .header
@@ -356,7 +350,6 @@ template(name='user_drafts')
                                 img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
                                 .ui.inline.header #{title}
                         .description
-                            +favorite_icon_toggle
                             +when
                             +model_label
                             each three_tags

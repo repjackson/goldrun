@@ -1,7 +1,7 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
         @layout 'profile_layout'
-        @render 'profile_dashboard'
+        @render 'user_dashboard'
         ), name:'profile'
     Router.route '/user/:username/:section', (->
         @layout 'profile_layout'
@@ -132,27 +132,26 @@ if Meteor.isServer
         Docs.find {
             published:$ne:true
             _author_id:user._id
-        }, limit:5
+        }, limit:42
     Meteor.publish 'user_service_docs', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {
             model:'service'
             _author_id:user._id
-        }, limit:5
+        }
     Meteor.publish 'user_service_purchases', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {
             model:'transfer'
             transfer_type:'service_purchase'
             _author_id:user._id
-        }, limit:5
+        }
         
     Meteor.publish 'refered_users', (username)->
         user = Meteor.users.findOne username:username
         Meteor.users.find {
             refered_by_id:user._id
         },
-            limit:5
             fields:
                 username:1
                 image_id:1

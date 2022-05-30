@@ -135,11 +135,11 @@ Meteor.methods
                                     thumbnail:data.thumbnail
                                     permalink:data.permalink
                             # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
-                            Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
+                            # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
                         unless existing_doc
                             new_reddit_post_id = Docs.insert reddit_post
                             # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
-                            Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
+                            # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
                         return true
                 )
 

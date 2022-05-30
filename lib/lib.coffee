@@ -1,6 +1,7 @@
 @Docs = new Meteor.Collection 'docs'
 @Results = new Meteor.Collection 'results'
 # @Markers = new Meteor.Collection 'markers'
+@Tags = new Meteor.Collection 'tags'
 
 
 

@@ -8,7 +8,7 @@ template(name='docs')
         .four.wide.column
             .ui.inline.header
                 +i name=current_model_icon
-                |{{session_get 'model'}}s
+                |{{session_get 'model'}}
             +search_input key='title'
             div
             +facet key='tag'

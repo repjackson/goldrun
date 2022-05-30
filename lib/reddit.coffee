@@ -179,10 +179,10 @@ if Meteor.isClient
             
         search_class: ->
             if Session.get('current_query')
-                'big' 
+                'big active' 
             else
                 if picked_tags.array().length is 0
-                    'huge fluid'
+                    'huge '
                 else 
                     'big' 
                     
@@ -197,8 +197,11 @@ if Meteor.isClient
             # Docs.findOne Session.get('selected_doc_id')
             doc_count = Docs.find().count()
             # if doc_count is 1
-            Docs.find({model:'reddit'}, limit:20)
-    
+            Docs.find({model:'reddit'}, 
+                limit:20
+                sort:
+                    "#{Session.get('sort_key')}":Session.get('sort_direction')
+            )
     
         is_loading: -> Session.get('is_loading')
     
@@ -274,7 +277,7 @@ if Meteor.isClient
                     model:'reddit'
                 },
                     sort:
-                        ups:-1
+                        "#{Session.get('sort_key')}":Session.get('sort_direction')
             # console.log cursor.fetch()
             cursor
     
@@ -394,6 +397,8 @@ if Meteor.isServer
         Docs.find match
     Meteor.publish 'reddit_doc_results', (
         picked_tags=null
+        sort_key='_timestamp'
+        sort_direction=-1
         # current_query
         # date_setting
         )->
@@ -416,7 +421,7 @@ if Meteor.isServer
             
             Docs.find match,
                 sort:
-                    ups:-1
+                    "#{sort_key}":sort_direction
                     # points:-1
                 limit:10
                 # fields:

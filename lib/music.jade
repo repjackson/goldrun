@@ -15,6 +15,10 @@ template(name='music')
                     | #{this}
             each model_results
                 button.ui.circular.compact.black.button.pick_model(tabindex="0" class=result_class title=count)
+                    if is name 'artist'
+                        +i name='artist'
+                    else if is name 'album'
+                        +i name='database'
                     |#{name}
                     // small #{count}
         .four.wide.column.scrolling
@@ -156,7 +160,7 @@ template(name='artist_card')
                         |#{views}
                 .ui.label #{model}
 template(name='album_card')
-    a.card.fly_right.zoomer.rounded(href="/music/artist/#{_id}" title='view artist' class=mood_class)
+    a.card.fly_right.zoomer.rounded(href="/music/album/#{_id}" title='view artist' class=mood_class)
         .ui.fade.reveal.image.rounded
             .visible.content.invert
                 img.ui.image(src=strAlbumThumb)
@@ -235,11 +239,11 @@ template(name='artist_item')
                 |#{views}
                         
 template(name='album_item')
-    a.item.fly_right.zoomer.rounded(href="/music/artist/#{_id}" title='view artist' class=mood_class)
+    a.item.fly_right.zoomer.rounded(href="/music/album/#{_id}" title='view artist' class=mood_class)
         img.ui.small.inline.image(src=strAlbumThumb)
         if strAlbumThumbBack
             img.ui.small.inline.image(src=strAlbumThumbBack title=strArtist)
-        .ui.header #{strAlbum}
+        .ui.inline.header #{strAlbum}
         // .ui.fade.reveal.image.rounded
         //     .visible.content.invert
         //     .hidden.content.invert
@@ -395,7 +399,7 @@ template(name='music_album')
         if strAlbumBanner
             img.ui.image.profile_banner(src=strAlbumBanner)
         .ui.stackable.padded.grid 
-            .sixteen.wide.column.scrollin
+            .eight.wide.column.scrollin
                 a.ui.inverted.fluid.button.fly_left(href='/music')
                     i.chevron.left.icon
                     +i name='music'
@@ -432,7 +436,7 @@ template(name='music_album')
                 each tags 
                     a.ui.inverted.large.basic.link.label.zoomer.pick_flat_tag(title='browse tag') #{this}
                 +print_this
-            .sixteen.wide.column.scrollin
+            .eight.wide.column.scrollin
                 .ui.massive.inline.header #{strAlbum}
                 // "strMusicBrainzID": "c8b03190-306c-4120-bb0b-6f2ebfc06ea9",
                 // "strISNIcode": null,

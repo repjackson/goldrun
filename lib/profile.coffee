@@ -127,6 +127,7 @@ if Meteor.isClient
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find 
                 published:$ne:true
+                model:$in:['post','service','group','product']
                 _author_id:user._id
     Template.user_services.helpers
         user_service_docs: ->
@@ -144,20 +145,12 @@ if Meteor.isClient
         
 if Meteor.isServer
     Meteor.publish 'user_drafts', (username)->
-        models = 
-            [
-                'post'
-                'event'
-                'group'
-                'service'
-            ]
-        
         # console.log @models
         user = Meteor.users.findOne username:username
         Docs.find {
             published:$ne:true
             _author_id:user._id
-            model:$in:models
+            model:$in:['post','event','group','service']
         }, limit:10
     Meteor.publish 'user_service_docs', (username)->
         user = Meteor.users.findOne username:username

@@ -231,12 +231,12 @@ template(name='profile_sidebar')
         a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=facebook_link target='_window' title='view facebook profile')
             img.ui.avatar.image(src="{{c.url 'one_logo' height=500 width=500 gravity='face' crop='fill'}}")
     if is_current_user
-        a.ui.large.icon.button.fly_up(href="/user/#{_id}/edit" title='profile settings')
+        a.ui.large.icon.inverted.basic.button.fly_up(href="/user/#{_id}/edit" title='profile settings')
             +i name='settings'
             unless currentUser.hide_labels
                 |account
     else if currentUser.admin_mode
-        a.ui.large.icon.button.fly_up(href="/user/#{_id}/edit" title='profile settings')
+        a.ui.large.icon.inverted.basic.button.fly_up(href="/user/#{_id}/edit" title='profile settings')
             +i name='settings'
             unless currentUser.hide_labels
                 |account
@@ -280,9 +280,10 @@ template(name='profile_sidebar')
                           
                           
 template(name='profile_nav_item')        
-    a.ui.compact.inverted.basic.button.zoomer(href="/user/#{current_user.username}/#{section}")
+    a.ui.compact.inverted.basic.button.zoomer(href="/user/#{current_user.username}/#{section}" title=section)
         +i name=icon
-        |#{section}
+        unless currentUser.hide_labels
+            |#{section}
 template(name='online_label')
     if online 
         .ui.large.green.label 
@@ -615,7 +616,7 @@ template(name='logout_other_clients_button')
 
 
 template(name='logout_button')
-    .ui.large.button.logout(title='log out')
+    .ui.large.basic.inverted.button.logout(title='log out')
         // i.sign.out.alternate.icon
         +i name='exit'
         span.mobile.hidden

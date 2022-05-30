@@ -74,6 +74,7 @@ if Meteor.isClient
     Template.registerHelper 'sort_icon', () -> Session.get('sort_icon')
     Template.registerHelper 'current_limit', () -> parseInt(Session.get('limit'))
     
+    Template.registerHelper 'current_time', () -> moment().format("h:mm a")
     Template.registerHelper 'subs_ready', () -> 
         Template.instance().subscriptionsReady()
     

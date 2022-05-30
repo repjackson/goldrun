@@ -389,24 +389,75 @@ if Meteor.isClient
         @autorun => @subscribe 'child_docs', 'checkin', Router.current().params.doc_id, ->
     Template.group_checkins.events 
         'click .checkin': ->
+            Meteor.call 'checkin', Router.current().params.doc_id, Meteor.userId(), ->
+                $('body').toast({
+                    title: "checked in"
+                    # message: 'Please see desk staff for key.'
+                    class : 'success'
+                    icon:'sign in alternate'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
+                
+        'click .checkout': ->
+            Meteor.call 'checkout', Router.current().params.doc_id, Meteor.userId(), ->
+                $('body').toast({
+                    title: "checked out"
+                    # message: 'Please see desk staff for key.'
+                    class : 'success'
+                    icon:'sign out alternates'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
+                    
+            
+if Meteor.isServer
+    Meteor.methods 
+        checkin: (parent_id)->
             Docs.insert 
                 model:'checkin'
                 active:true
-                group_id:Router.current().params.doc_id
-                parent_id:Router.current().params.doc_id
-        'click .checkout': ->
+                group_id:parent_id
+                parent_id:parent_id
+            active_checkin = 
+                Docs.findOne 
+                    model:'checkin'
+                    status:active
+                    _author_id:Meteor.userId()
+            if active_checkin
+                Docs.update active_checkin._id,
+                    $set:
+                        active:false
+                        checkout_timestamp:Date.now()
+            
+        checkout: (parent_id)->
             active_doc =
                 Docs.findOne 
                     model:'checkin'
                     active:true
-                    parent_id:Router.current().params.doc_id
+                    parent_id:parent_id
             if active_doc
                 Docs.update active_doc._id, 
                     $set:
                         active:false
                         checkout_timestamp:Date.now()
-                    
-                    
+            
+     
+if Meteor.isClient               
     Template.group_checkins.helpers
         checkin_docs: ->
             Docs.find {

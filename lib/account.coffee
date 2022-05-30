@@ -1,4 +1,21 @@
 if Meteor.isClient
+    Router.route '/user/:user_id/edit', (->
+        @layout 'layout'
+        @render 'account'
+        ), name:'account'
+
+    Template.account.onCreated ->
+        @autorun -> Meteor.subscribe 'user_from_id', Router.current().params.user_id
+
+    Template.account.onRendered ->
+        Meteor.setTimeout ->
+            $('.button').popup()
+        , 2000
+    
+    Template.account.helpers
+        user_from_user_id_param: ->
+            console.log 'hi'
+            Meteor.users.findOne Router.current().params.user_id
     Template.account.events
         'click .remove_user': ->
             if confirm "confirm delete #{@username}?  cannot be undone."

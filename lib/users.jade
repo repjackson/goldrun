@@ -1,6 +1,6 @@
 template(name='users')
     .ui.padded.stackable.grid
-        .sixteen.wide.column
+        .four.wide.column
             .ui.inline.header
                 +i name='groups'
                 |#{user_docs.count}
@@ -30,7 +30,7 @@ template(name='users')
             each all_user_tags
                 .ui.compact.inverted.basic.button.pick_user_tag(class=cloud_tag_class) 
                     strong #{this.name}
-        .sixteen.wide.column
+        .twelve.wide.column
             +session_icon_button key='view_mode' value='grid' icon='grid' 
             +session_icon_button key='view_mode' value='list' icon='list'
             +sort_direction_toggle
@@ -43,21 +43,22 @@ template(name='users')
             // +session_set key='view_limit' value=50 label='30'
             +search_input
             .scrolling
-                if session_is 'view_mode' 'grid'
-                    if one_result
-                        .ui.stackable.centered.one.cards
+                if subs_ready
+                    if session_is 'view_mode' 'grid'
+                        if one_result
+                            .ui.stackable.centered.one.cards
+                                each user_docs
+                                    +user_card
+                        else
+                            .ui.stackable.centered.centered.cards
+                                each user_docs
+                                    +user_card
+                    else if session_is 'view_mode' 'list'
+                        .ui.divided.selection.animated.list
                             each user_docs
-                                +user_card
-                    else
-                        .ui.stackable.centered.centered.cards
-                            each user_docs
-                                +user_card
-                else if session_is 'view_mode' 'list'
-                    .ui.divided.selection.animated.list
-                        each user_docs
-                            +user_item
-            //             div
-
+                                +user_item
+                else 
+                    +loading_segment
 
 template(name='user_card')
     a.ui.card.zoomer.fly_left(href="/user/#{username}")

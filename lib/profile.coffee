@@ -252,7 +252,15 @@ if Meteor.isClient
     # Template.user_section.helpers
     #     user_section_template: ->
     #         "user_#{Router.current().params.group}"
+    Template.user_products.onCreated ->
+        @autorun -> Meteor.subscribe 'user_model_docs', 'product', Router.current().params.username, ->
 
+    Template.user_products.helpers
+        user_product_docs: ->   
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                model:'product'
+                _author_id:user._id
     Template.user_groups.helpers
         group_memberships: ->   
             user = Meteor.users.findOne username:Router.current().params.username
@@ -264,6 +272,11 @@ if Meteor.isClient
             Docs.find
                 model:'group'
                 member_ids: $in:[user._id]
+        authored_group_docs: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find
+                model:'group'
+                _author_id: user._id
 
     Template.profile_layout.helpers
         my_unread_log_docs: ->
@@ -659,18 +672,6 @@ if Meteor.isClient
 
 
 if Meteor.isClient
-    Router.route '/user/:username/edit', (->
-        @layout 'layout'
-        @render 'account'
-        ), name:'account'
-
-    Template.account.onCreated ->
-        @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
-
-    Template.account.onRendered ->
-        Meteor.setTimeout ->
-            $('.button').popup()
-        , 2000
 
 
     Template.user_single_doc_ref_editor.onCreated ->

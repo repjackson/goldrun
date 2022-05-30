@@ -39,8 +39,11 @@ template(name='docs')
                             each result_docs 
                                 +doc_card
                 else 
-                    .ui.center.aligned.basic.segment
-                        i.massive.yin.yang.loading.grey.icon
+                    +loading_segment
+                    
+template(name='loading_segment')
+    .ui.center.aligned.basic.segment
+        i.massive.yin.yang.loading.grey.icon
 
 
 template(name='sort_key_toggle')

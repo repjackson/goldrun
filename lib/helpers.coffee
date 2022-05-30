@@ -180,7 +180,7 @@ if Meteor.isClient
     Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
     
     
-    Template.registerHelper 'current_delta', () -> Docs.findOne model:'delta'
+    Template.registerHelper 'current_doc', () -> Docs.findOne Router.current().params.doc_id
     
     Template.registerHelper 'total_potential_revenue', () ->
         @price_per_serving * @servings_amount
@@ -296,6 +296,10 @@ if Meteor.isClient
         found = Meteor.users.findOne username:Router.current().params.username
         # console.log found
         found
+    # Template.registerHelper 'user_from_user_id_param', () ->
+    #     found = Meteor.users.findOne _id:Router.current().params.user_id
+    #     # console.log found
+    #     found
     Template.registerHelper 'field_value', () ->
         # console.log @
         parent = Template.parentData()

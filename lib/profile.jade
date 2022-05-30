@@ -39,8 +39,8 @@ template(name='profile_layout')
                             +profile_nav_item section='drafts' icon='save'
                             +profile_nav_item section='favorites' icon='heart'
                             +profile_nav_item section='social' icon='friends'
-                            div
-                            +yield
+                            .ui.segment.alpha
+                                +yield
         +footer     
                             
 template(name='user_dashboard')                        
@@ -204,12 +204,12 @@ template(name='profile_sidebar')
         a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=facebook_link target='_window' title='view facebook profile')
             img.ui.avatar.image(src="{{c.url 'one_logo' height=500 width=500 gravity='face' crop='fill'}}")
     if is_current_user
-        a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
+        a.ui.large.icon.button.fly_up(href="/user/#{_id}/edit" title='profile settings')
             +i name='settings'
             unless currentUser.hide_labels
                 |account
     else if currentUser.admin_mode
-        a.ui.large.icon.button.fly_up(href="/user/#{username}/edit" title='profile settings')
+        a.ui.large.icon.button.fly_up(href="/user/#{_id}/edit" title='profile settings')
             +i name='settings'
             unless currentUser.hide_labels
                 |account
@@ -431,15 +431,22 @@ template(name='user_points')
 template(name='user_products')  
     .ui.dividing.header 
         +i name='shop'
-        |user products
-    each user_product_docs 
-        .ui.header #{title}
+        |#{current_user.username}'s products
+    .ui.selection.link.animated.list
+        each user_product_docs 
+            a.item.fly_right(href="/doc/#{_id}")
+                img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                .ui.inline.header #{title}
+                .ui.inverted.basic.label
+                    |#{_when}
+                .ui.inverted.basic.label
+                    |#{points}pts
                  
                  
 template(name='user_comments')   
     .ui.header 
         +i name='chat'
-        |user comments
+        ||#{current_user.username}'s comments
     .ui.divided.animated.link.list
         each user_comment_docs
             a.item(href="/#{parent_model}/#{parent_id}")
@@ -454,17 +461,37 @@ template(name='user_groups')
     if user_group_memberships.count
         .ui.inline.header 
             +i name='groups'
-            |#{user_group_memberships.count}
+            |#{current_user.username}'s
             |groups
-        .ui.selection.link.animated.large.list    
-            each user_group_memberships
-                // +doc_item
-                a.item.zoomers.fly_left(href="/doc/#{_id}")
-                    img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                    .ui.inline.header
-                        strong #{title}
-                    each three_tags 
-                        .ui.small.basic.inverted.label #{this}
+        .ui.two.column.stackable.grid
+            .column
+                .ui.header 
+                    i.users.icon
+                    |#{user_group_memberships.count}
+                    |memberships
+                .ui.selection.link.animated.large.list    
+                    each user_group_memberships
+                        // +doc_item
+                        a.item.zoomers.fly_left(href="/doc/#{_id}")
+                            img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                            .ui.inline.header
+                                strong #{title}
+                            each three_tags 
+                                .ui.small.basic.inverted.label #{this}
+            .column
+                .ui.header 
+                    i.pencil.icon
+                    |#{authored_group_docs.count}
+                    |authored groups
+                .ui.selection.link.animated.large.list    
+                    each authored_group_docs
+                        // +doc_item
+                        a.item.zoomers.fly_left(href="/doc/#{_id}")
+                            img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                            .ui.inline.header
+                                strong #{title}
+                            each three_tags 
+                                .ui.small.basic.inverted.label #{this}
                      
 template(name='user_services')
     .ui.inline.header 

@@ -1,5 +1,5 @@
 template(name='account')
-    with user_from_username_param          
+    with user_from_user_id_param          
         if background_image_id
             img.ui.image.profile_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
         else 
@@ -158,7 +158,7 @@ template(name='user_single_doc_ref_editor')
 template(name='username_edit')
     .ui.small.header 
         i.i.cursor.icon
-        |change username [#{user_from_username_param.username}]
+        |change username [#{user_from_user_id_param.username}]
     .ui.icon.fluid.input
         input.new_username(type='text' placeholder='new username...')
         i.play.link.icon.change_username

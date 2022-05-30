@@ -1,3 +1,10 @@
+template(name='current_viewers')
+    .ui.inline.header 
+        +i name='binoculars'
+        |#{current_viewer_users.count} current viewers
+    each current_viewer_users
+        +user_info
+
 template(name='visibility_settings')
     .title
         .ui.inline.header

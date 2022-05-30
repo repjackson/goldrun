@@ -1,4 +1,8 @@
 if Meteor.isClient
+    Router.route '/groups', (->
+        @layout 'layout'
+        @render 'groups'
+        ), name:'groups'
     Router.route '/group/:doc_id/', (->
         @layout 'group_layout'
         @render 'group_dashboard'
@@ -13,6 +17,42 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.group_section.helpers
         section_template: -> "group_#{Router.current().params.section}"
+
+
+
+
+    # Template.groups.onRendered ->
+    #     Session.set('model',Router.current().params.model)
+    Template.groups.onCreated ->
+        Session.setDefault('limit',42)
+        Session.setDefault('sort_key','_timestamp')
+        Session.setDefault('sort_icon','clock')
+        Session.setDefault('sort_label','added')
+        Session.setDefault('sort_direction',-1)
+        # @autorun => @subscribe 'model_docs', 'post', ->
+        # @autorun => @subscribe 'user_info_min', ->
+        @autorun => @subscribe 'facet_sub',
+            'group'
+            picked_tags.array()
+            Session.get('current_search')
+            picked_timestamp_tags.array()
+    
+        @autorun => @subscribe 'doc_results',
+            'group'
+            picked_tags.array()
+            Session.get('current_search')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('limit')
+    Template.groups.helpers
+        group_docs: ->
+            match = {model:'group'}
+            Docs.find match, 
+                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+                limit:Session.get('limit')        
+
+
+
 
 if Meteor.isServer
     Meteor.publish 'user_groups', (username)->
@@ -295,9 +335,9 @@ if Meteor.isServer
 
 
 if Meteor.isClient 
-    Template.checkin_widget.onCreated ->
+    Template.group_checkins.onCreated ->
         @autorun => @subscribe 'child_docs', 'checkin', Router.current().params.doc_id, ->
-    Template.checkin_widget.events 
+    Template.group_checkins.events 
         'click .checkin': ->
             Docs.insert 
                 model:'checkin'
@@ -317,7 +357,7 @@ if Meteor.isClient
                         checkout_timestamp:Date.now()
                     
                     
-    Template.checkin_widget.helpers
+    Template.group_checkins.helpers
         checkin_docs: ->
             Docs.find {
                 model:'checkin'

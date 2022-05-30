@@ -1,3 +1,48 @@
+template(name='groups')
+    .ui.stackable.padded.grid 
+        // .sixteen.wide.column
+            // .ui.inline.header 
+            //     +i name='cube'
+            //     |#{post_docs.count} docs
+            // +facet key='doc_sentiment_label' icon='happy'
+        .four.wide.column
+            .ui.inline.header
+                +i name='groups'
+                |groups
+            +search_input key='title'
+            div
+            +facet key='tag'
+            // div
+            // +facet key='timestamp_tag' icon='clock' label='added'
+            // +session_boolean_toggle key='view_mine' label='mine' icon='user'
+            // +session_boolean_toggle key='view_private' label='private' icon='lock'
+        .twelve.wide.column
+            unless one_result
+                .ui.inline.header(title='result count') #{result_docs.count}
+                +sort_direction_toggle
+                // +sort_key_toggle
+                +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+                +session_set key='sort_key' value='points' label='points' icon='hashtag'
+                +session_set key='sort_key' value='views' label='views' icon='eye'
+                if session_is 'model' 'event'
+                    +session_set key='sort_key' value='start_datatime' label='start' icon='calendar'
+                +session_set key='limit' value=10
+                +session_set key='limit' value=25
+                +session_set key='limit' value=100
+            .scrolling
+                if subs_ready
+                    if one_result
+                        .ui.one.cards
+                            each group_docs 
+                                +group_card_big
+                    else
+                        .ui.centered.cards
+                            each group_docs 
+                                +group_card
+                else 
+                    +loading_segment
+
+
 template(name='group_layout')
     +nav
     with current_doc
@@ -5,21 +50,27 @@ template(name='group_layout')
             img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
         else 
             img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-        .sixteen.wide.column
-            a.ui.circular.icon.inverted.button.fly_left(href="/m/group" title="back to groups")
-                i.chevron.left.icon
-                +model_label
-            .ui.large.inline.header 
-                //- small viewing
-                | #{title}
-        .four.wide.column
-            +group_sidebar
-            
-            .twelve.wide.column
+        .ui.stackable.padded.grid
+            .sixteen.wide.column
+                a.ui.circular.icon.inverted.button.fly_left(href="/groups" title="back to groups")
+                    i.chevron.left.icon
+                    +model_label
+                .ui.large.inline.header 
+                    //- small viewing
+                    | #{title}
                 +group_nav_item section='dashboard' icon='dashboard'
                 +group_nav_item section='posts' icon='news'
                 +group_nav_item section='events' icon='calendar'
-                +group_nav_item section='members' icon='groups'
+                +group_nav_item section='membership' icon='groups'
+                +group_nav_item section='related' icon='fork'
+                if has_products
+                    +group_nav_item section='products' icon='shopping-cart'
+                
+                +group_nav_item section='checkins' icon='checkmark'
+            .four.wide.column
+                +group_sidebar
+                
+            .twelve.wide.column
                 div
                 +yield
     +footer
@@ -28,6 +79,11 @@ template(name='group_layout')
     
     
 template(name='group_sidebar')
+    if image_id 
+        img.ui.rounded.centered.large.image(src="{{c.url image_id width=800 crop='scale'}}")
+    if image_id2
+        img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
+
     if can_edit
         +edit_button
     if youtube_id 
@@ -53,35 +109,6 @@ template(name='group_sidebar')
     i.big.eye.icon(title="#{read_user_ids.length} viewers") 
     each read_user_ids
         +user_avatar
-    if member_ids
-        i.big.users.icon(title="#{member_ids.length} members") 
-        each member_ids
-            +user_avatar
-        // img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-
-
-    
-    
-template(name='group_section')
-    .ui.header #{section_template}
-    +Template.dynamic template=section_template
-            
-            
-template(name='group_nav_item')        
-    a.ui.large.compact.inverted.button.zoomer(href="/group/#{current_doc._id}/#{section}")
-        +i name=icon
-        |#{section}
-            
-            
-template(name='group_dashboard')
-    if youtube_id
-        +youtube_view key='youtube_id'
-    if image_id 
-        img.ui.rounded.centered.large.image(src="{{c.url image_id width=800 crop='scale'}}")
-    if image_id2
-        img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
-    .scrolling 
-        |!{content}
     +comments
     +author_segment
     .ui.inline.header                                
@@ -90,11 +117,6 @@ template(name='group_dashboard')
     span.flat_tags
         each tags 
             a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='browse tag') #{this}
-    if watson 
-        .column
-            +watson_view
-        if tone 
-            +tone
     +message_author_button
     +group_widget
     div
@@ -106,6 +128,141 @@ template(name='group_dashboard')
             |nsfw
     +favorites
     +viewing_info
+        
+        
+template(name='group_membership')
+    .ui.header 
+        +i name='groups'
+        |group memberships
+    if member_ids
+        i.big.users.icon(title="#{member_ids.length} members") 
+        each member_ids
+            +user_avatar
+        // img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+    .ui.header
+        +i name='groups'
+        |#{_members.count} members
+        // .ui.button.add_user_member
+        //     |add member
+    each _members 
+        .ui.label #{username}
+    // +multi_user_view key='member_ids' label='members' 
+    +join_button
+    // if leaders_id
+    //     .ui.inline.header 
+    //         +i name='crown' cl='ui avatar image'
+    //         // i.crown.icon
+    //         |leaders: 
+    //     each leader_ids 
+    //         +user_info
+    // div
+    // .ui.inline.header 
+    //     +i name='groups'
+    //     // i.users.icon
+    //     |#{member_ids.length} members
+    // each member_ids
+    //     +user_info
+
+
+    
+    
+template(name='group_section')
+    +Template.dynamic template=section_template
+            
+            
+template(name='group_nav_item')        
+    a.ui.compact.inverted.button.zoomer(href="/group/#{current_doc._id}/#{section}")
+        +i name=icon
+        |#{section}
+            
+            
+template(name='group_dashboard')
+    .ui.two.column.grid 
+        .column
+            if youtube_id
+                +youtube_view key='youtube_id'
+            .scrolling 
+                |!{content}
+            div
+        .column
+            +voting_full
+            div
+            if nsfw
+                .ui.red.basic.large.label
+                    +i name='18-plus'
+                    |nsfw
+            +favorites
+            +viewing_info
+            +group_stats
+            +follow_button
+            +tips
+            if has_price
+                +post_orders
+            div
+            +current_viewers
+        .column
+            if link
+                a.ui.circular.button(href=link target='_window')
+                    i.external.icon
+                    |#{link}
+                // .spacer
+            // div
+            if address
+                a.ui.compact.circular.button(href=address_link target='_window')
+                    i.marker.icon
+                    |#{address}
+            if in_dev 
+                i.circular.link.large.refresh.icon.refresh_group_stats
+        .column
+            .ui.header
+                +i name='rss'
+                |activity
+            .ui.list 
+                each group_log_docs 
+                    .item 
+                        |#{body} 
+                        +when
+                        +author_info
+        if has_shop
+            +group_products
+                
+               
+               
+template(name='related_groups')
+    .content
+        .ui.header 
+            +i name='connect'
+            |related groups 
+        .ui.list
+            each related_group_docs
+                +group_item
+
+          
+          
+template(name='group_checkins')          
+    .ui.header 
+        +i name='checkmark'
+        |checkins
+    if checked_in
+        .ui.button.checkout  
+            +i name='exit'
+            |checkout
+    else
+        .ui.button.checkin
+            +i name='internal'
+            |checkin
+    .ui.list
+        each checkin_docs 
+            .item 
+                strong 
+                    if active 
+                        i.large.green.clock.icon(title='active')
+                    img.ui.avatar.image(src="{{c.url _author.image_id width=200 height=200}}")
+                    |#{_author.username}
+                small #{_when}
+                    
+    
+template(name='group_stats')    
     .ui.dividing.header 
         +i name='line-chart'
         |stats
@@ -128,190 +285,21 @@ template(name='group_dashboard')
         .item 
             |#{tip_total}
             |tip total
-    +follow_button
-    +tips
-    if has_price
-        +post_orders
-    div
-    .ui.inline.header 
-        +i name='binoculars'
-        |#{current_viewer_users.count} current viewers
-    each current_viewer_users
-        +user_info
-
-    if has_members 
-        .ui.button.pick_members
-            |members
-    .column
-        .ui.inline.header
-            +i name='crown'
-            |leader 
-        with leader_id
-            +user_info
-        if premium_membership
-            .ui.header 
-                |premium membership: #{membership_cost}pts
-            .ui.button.purchase_membership
-                |purchase membership
-        // .spacer
-    .column
-        if link
-            a.ui.circular.button(href=link target='_window')
-                i.external.icon
-                |#{link}
-            // .spacer
-        // div
-        if address
-            a.ui.compact.circular.button(href=address_link target='_window')
-                i.marker.icon
-                |#{address}
-        if in_dev 
-            i.circular.link.large.refresh.icon.refresh_group_stats
-    if has_members
+        .item 
+            i.user.icon
+            |#{member_ids.length} members
+        .item #{event_ids.length} events
+        .item #{transfer_ids.length} credits exchanged
+    if watson 
         .column
-            .ui.header
-                +i name='groups'
-                |#{_members.count} members
-                // .ui.button.add_user_member
-                //     |add member
-            each _members 
-                .ui.label #{username}
-            // +multi_user_view key='member_ids' label='members' 
-            +join_button
-            // if leaders_id
-            //     .ui.inline.header 
-            //         +i name='crown' cl='ui avatar image'
-            //         // i.crown.icon
-            //         |leaders: 
-            //     each leader_ids 
-            //         +user_info
-            // div
-            // .ui.inline.header 
-            //     +i name='groups'
-            //     // i.users.icon
-            //     |#{member_ids.length} members
-            // each member_ids
-            //     +user_info
-    if has_checkin 
-        .column 
-            .ui.header 
-                +i name='checkmark'
-                |checkin
-            +checkin_widget
-    .column
-        .ui.header
-            +i name='rss'
-            |activity
-        .ui.list 
-            each group_log_docs 
-                .item 
-                    |#{body} 
-                    +when
-                    +author_info
-    .column
-        .ui.header 
-            +i name='line-chart'
-            // i.large.line.chart.icon
-            |stats
-        .ui.large.list
-            .item 
-                i.user.icon
-                |#{member_ids.length} members
-            .item #{event_ids.length} events
-            .item #{transfer_ids.length} credits exchanged
-        //     each log_items
-        //         +log_item
-        //     i.refresh.link.icon.refresh_group_stats
-    if has_shop
-        +group_products
-    .column
-        .title
-            .ui.header 
-                +i name='code-fork'
-                |related groups
-        .content
-            .ui.header 
-                +i name='connect'
-                |related groups 
-            .ui.list
-                each related_group_docs
-                    +group_item
-        .ui.stackable.padded.grid 
-            .four.wide.column
-                .ui.header #{title}
-                if youtube_id
-                    +youtube_view key='youtube_id'
-                if image_id 
-                    img.ui.rounded.centered.large.image(src="{{c.url image_id width=800 crop='scale'}}")
-                if image_id2
-                    img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
-                .scrolling 
-                    |!{content}
-                +comments
-                +author_segment
-                .ui.inline.header                                
-                    |#{tags.length}
-                    +i name='tags'
-                span.flat_tags
-                    each tags 
-                        a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='browse tag') #{this}
-                if watson 
-                    .column
-                        +watson_view
-                    if tone 
-                        +tone
-            .three.column.row
-                .column
-                    +message_author_button
-                    +group_widget
-                    div
-                    +voting_full
-                    div
-                    if nsfw
-                        .ui.red.basic.large.label
-                            +i name='18-plus'
-                            |nsfw
+            +watson_view
+        if tone 
+            +tone
+    //     each log_items
+    //         +log_item
+    //     i.refresh.link.icon.refresh_group_stats
+            
 
-                .column
-                    +favorites
-                    +viewing_info
-                .column
-                    .ui.dividing.header 
-                        +i name='line-chart'
-                        |stats
-                    .ui.big.list
-                        .item 
-                            i.grey.line.chart.icon
-                            |#{post_views_ranking} post views ranking
-                        .item 
-                            i.grey.eye.icon
-                            |#{views} views
-                        .item
-                            i.grey.line.chart.icon
-                            |#{views_ranking} view ranking
-                        .item 
-                            i.grey.user.secret.icon
-                            |#{anon_views} anon views
-                        .item 
-                            |#{points}
-                            |points
-                        .item 
-                            |#{tip_total}
-                            |tip total
-                .column
-                    +follow_button
-                    +tips
-                    if has_price
-                        +post_orders
-                    div
-                    .ui.inline.header 
-                        +i name='binoculars'
-                        |#{current_viewer_users.count} current viewers
-                    each current_viewer_users
-                        +user_info
-                
-                    
-    
 template(name='group_products')
     .column
         .ui.header 
@@ -319,7 +307,7 @@ template(name='group_products')
             |shop
         .ui.list 
             each group_products 
-                a.item(href="/doc/#{_id}")
+                a.item(href="/group/#{_id}")
                     img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
                     |#{title}
 
@@ -333,7 +321,7 @@ template(name='group_posts')
                 i.plus.icon
         .ui.selection.animated.list
             each group_post_docs 
-                a.ui.header.fly_right(href="/doc/#{_id}") #{title}
+                a.ui.header.fly_right(href="/group/#{_id}") #{title}
 
 template(name='group_events')
     .column
@@ -367,7 +355,7 @@ template(name='group_edit')
                     +i name='cube'
                     |group modules
                 +boolean_edit key='has_checkin' label='checkin' icon='clock' 
-                +boolean_edit key='has_shop' label='shop' icon='shop' 
+                +boolean_edit key='has_products' label='shop' icon='shop' 
                 +boolean_edit key='has_posts' label='posts' icon='news' 
                 +boolean_edit key='has_events' label='events' icon='calendar' 
                 +boolean_edit key='has_chat' label='chat' icon='chat' 
@@ -390,19 +378,213 @@ template(name='group_edit')
                 +boolean_edit key='private' label='private' 
                
 template(name='group_card')
-    a.ui.header(href="/group/#{_id}/dashboard") #{title}
-    |#{member_ids.length} members
-    // .smallscroll
-    //     |!{description}
-    //+ismall name='tags' cl='ui inline image'
-    if location 
-        i.red.marker.icon 
-        |#{location}
-    // a.zoomer(href="/doc/#{_id}")
-    //     i.chevron.right.large.circular.icon
-    // if is_admin
-    //     .ui.small.header slug: #{slug}
-    // if can_edit
-    //     a.ui.circular.icon.button(href="/doc/#{_id}/edit")
-    //         i.pencil.blue.icon
+    .ui.card.alpha
+        // if background_image_id
+        //     img.ui.image.item_background(src="{{c.url background_image_id height=1000 crop='crop'}}")
+        // else if image_id
+        //     img.ui.image.item_background(src="{{c.url image_id height=400 crop='crop'}}")
+        if youtube_id
+            +youtube_view key='youtube_id'
+        else if image_id
+            a.ui.image.fly_right.zoomer(href="/group/#{_id}")
+                img(src="{{c.url image_id height=300 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+        .content
+            // +model_label
+            if published 
+                i.green.eye.icon.invert(title='published')
+            else 
+                i.yellow.save.icon.invert(title='draft')
+            a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) #{title}
+            // .smallcut
+            //     | !{content}
+        
+        .content
+            .right.floated.meta
+                |#{_when}
+                // +when_label
+            span(title='author')
+                img.ui.avatar.image(src="{{c.url _author.image_id height=300 width=300 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                |#{_author.username}
+            // +author_info
+            |#{member_ids.length} members
+            // .smallscroll
+            //     |!{description}
+            //+ismall name='tags' cl='ui inline image'
+            if location 
+                i.red.marker.icon 
+                |#{location}
+            // a.zoomer(href="/group/#{_id}")
+            //     i.chevron.right.large.circular.icon
+            // if is_admin
+            //     .ui.small.header slug: #{slug}
+            // if can_edit
+            //     a.ui.circular.icon.button(href="/group/#{_id}/edit")
+            //         i.pencil.blue.icon
+        .content
+            if is_dev
+                +print_this
+            +voting
+            +favorite_icon_toggle
+            if price
+                .ui.big.label 
+                    |#{price}pts
+            // i.big.link.cart.plus.green.icon.add_to_cart
+            .ui.large.basic.inverted.black.label
+                i.eye.icon
+                |#{views}
+            .ui.label   
+                i.line.chart.icon
+                |#{points} 
+            if group_id     
+                +group_info
+            each five_tags 
+                .ui.basic.inverted.black.label #{this}
+            // if watson 
+            //     +doc_sentiment
+            //     +doc_emotion
+
+            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/group/#{_id}")
+                +i name='chevron-right'
+
+                    
+template(name='group_card_big')
+    .ui.horizontal.card.alpha
+        // if background_image_id
+        //     img.ui.image.item_background(src="{{c.url background_image_id height=1000 crop='crop'}}")
+        // else if image_id
+        //     img.ui.image.item_background(src="{{c.url image_id height=400 crop='crop'}}")
+        if youtube_id
+            +youtube_view key='youtube_id'
+        else if image_id
+            a.ui.image.fly_right.zoomer(href="/group/#{_id}")
+                img(src="{{c.url image_id }}" class=currentUser.invert_class)
+        .content
+            // +model_label
+            if published 
+                i.green.eye.icon.invert(title='published')
+            else 
+                i.yellow.save.icon.invert(title='draft')
+            a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) #{title}
+            // .smallcut
+            //     | !{content}
+        
+            .right.floated.meta
+                |#{_when}
+                // +when_label
+            span(title='author')
+                img.ui.avatar.image(src="{{c.url _author.image_id height=300 width=300 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                |#{_author.username}
+            // +author_info
+            |#{member_ids.length} members
+            // .smallscroll
+            //     |!{description}
+            //+ismall name='tags' cl='ui inline image'
+            if location 
+                i.red.marker.icon 
+                |#{location}
+            // a.zoomer(href="/group/#{_id}")
+            //     i.chevron.right.large.circular.icon
+            // if is_admin
+            //     .ui.small.header slug: #{slug}
+            // if can_edit
+            //     a.ui.circular.icon.button(href="/group/#{_id}/edit")
+            //         i.pencil.blue.icon
+            if is_dev
+                +print_this
+            +voting
+            +favorite_icon_toggle
+            if price
+                .ui.big.label 
+                    |#{price}pts
+            // i.big.link.cart.plus.green.icon.add_to_cart
+            .ui.large.basic.inverted.black.label
+                i.eye.icon
+                |#{views}
+            .ui.label   
+                i.line.chart.icon
+                |#{points} 
+            if group_id     
+                +group_info
+            each five_tags 
+                .ui.basic.inverted.black.label #{this}
+            // if watson 
+            //     +doc_sentiment
+            //     +doc_emotion
+
+            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/group/#{_id}")
+                +i name='chevron-right'
+
+                    
+
+
+    
+    
+template(name='groups_small')
+    a.ui.header.zoomer(href="/groups")
+        +i name='groups'
+        |groups
+    .ui.selection.animated.list.smallscroll
+        each group_docs
+            a.item(href="/group/#{_id}")
+                img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                |#{title}
+                
+                
+               
+template(name='group_widget')
+    if group_id
+        .ui.header 
+            +i name='campfire'
+            |related group
+        with group_doc
+            a.ui.card.fly_right.zoomer(href="/group/#{_id}")
+                img.ui.image(src="{{c.url image_id width=500 height=500}}")
+                .content
+                    .ui.header 
+                        |#{title}
+                    |!{description}
+                    +view_info
+                    +member_info
+               
+                
+template(name='group_picker')
+    .title
+        .ui.inline.header
+            +i name='campfire'
+            |group
+        with group_doc
+            .ui.inline.header 
+                |#{group_id}
+            a.ui.big.basic.label(href="/group/#{_id}")
+                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                |#{title}
+    .content
+        with group_doc
+            .ui.inline.header 
+                |#{group_id}
+            a.ui.big.basic.label(href="/group/#{_id}")
+                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                |#{title}
+            .ui.compact.button.remove_group.zoomer(title='clear selection')
+                i.remove.large.icon
+                |remove
+        else 
+            .ui.icon.large.input 
+                if group_search_value
+                    i.large.red.remove.link.icon.zoomer.clear_search
+                else 
+                    i.search.icon
+                input.group_search(type='text' placeholder='search' value=group_search_value)
+            if group_results
+                .ui.selection.link.animated.list
+                    each group_results
+                        .ui.item.pick_group.zoomer
+                            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+                            |#{title}
+                            if private 
+                                i.lock.icon(title='private group')
+            // else if group_search_value
+            .ui.button.create_group
+                |add #{group_search_value}
+        
                 

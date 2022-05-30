@@ -166,12 +166,15 @@ template(name='nav')
                     |users
             +nav_item key='post' icon='blog'
             a.item.zoomer.fly_right.clear_search(href="/music" class="{{isActiveRoute 'music'}}" title='music')
-                // +i name='groups'
-                i.large.music.icon
+                +i name='music'
                 unless currentUser.hide_labels
                     |music
+            a.item.zoomer.fly_right.clear_search(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
+                +i name='campfire'
+                // i.large.music.icon
+                unless currentUser.hide_labels
+                    |groups
             +nav_item key='event' icon='calendar'
-            +nav_item key='group' icon='fire'
             +nav_item key='product' icon='cart'
             +nav_item key='transfer' icon='exchange'
             +nav_item key='service' icon='wrench'

@@ -928,26 +928,7 @@ template(name='group_view')
         //         +log_item
         //     i.refresh.link.icon.refresh_group_stats
     if has_events
-        .column
-            .ui.inline.header
-                +i name='calendar' 
-                // i.calendar.large.icon
-                |events
-            if currentUser 
-                .ui.icon.button.add_group_event(title='add group event')
-                    i.plus.icon
-            .ui.link.animated.list
-                each group_events
-                    a.item(href="/event/#{_id}") 
-                        img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-                        .content
-                            .header #{title}
-                            .description
-                                if is_repeating
-                                    i.refresh.icon
-                                    |every #{repeating_day}
-                                if start_datetime
-                                    |{{from_now start_datetime}}
+        +group_events
     if has_shop
         .column
             .ui.header 
@@ -960,16 +941,7 @@ template(name='group_view')
                         |#{title}
     
     if has_posts
-        .column
-            .ui.inline.header 
-                +i name='news'
-                |group posts
-            if currentUser 
-                .ui.icon.button.add_group_post(title='add group post')
-                    i.plus.icon
-            .ui.selection.animated.list
-                each group_post_docs 
-                    a.ui.header.fly_right(href="/doc/#{_id}") #{title}
+        +group_posts
 
     .column
         .title
@@ -985,8 +957,39 @@ template(name='group_view')
                     +group_item
                     
     
-    
+template(name='group_posts')
+    .column
+        .ui.inline.header 
+            +i name='news'
+            |group posts
+        if currentUser 
+            .ui.icon.button.add_group_post(title='add group post')
+                i.plus.icon
+        .ui.selection.animated.list
+            each group_post_docs 
+                a.ui.header.fly_right(href="/doc/#{_id}") #{title}
 
+template(name='group_events')
+    .column
+        .ui.inline.header
+            +i name='calendar' 
+            // i.calendar.large.icon
+            |events
+        if currentUser 
+            .ui.icon.button.add_group_event(title='add group event')
+                i.plus.icon
+        .ui.link.animated.list
+            each group_events
+                a.item(href="/event/#{_id}") 
+                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                    .content
+                        .header #{title}
+                        .description
+                            if is_repeating
+                                i.refresh.icon
+                                |every #{repeating_day}
+                            if start_datetime
+                                |{{from_now start_datetime}}
 
 
 

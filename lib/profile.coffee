@@ -1,22 +1,42 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
-        @layout 'layout'
-        @render 'profile'
+        @layout 'profile_layout'
+        @render 'profile_dashboard'
         ), name:'profile'
+    Router.route '/user/:username/:section', (->
+        @layout 'profile_layout'
+        @render 'profile_section'
+        ), name:'profile_section'
 
 
 
-    Template.profile.onCreated ->
+    Template.profile_layout.onCreated ->
         Meteor.call 'calc_user_points', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'unread_logs',->
-    Template.profile.onRendered ->
+    Template.profile_layout.onRendered ->
         Meteor.call 'increment_profile_view', Router.current().params.username, ->
         Meteor.setTimeout ->
             $('.ui.accordion').accordion()
         , 2000
+    # Template.profile_layout.onRendered ->
+    #     Meteor.setTimeout ->
+    #         $('.accordion').accordion()
+    #     , 1000
+        
+        
+    # Template.profile_layout.onCreated ->
+    #     @autorun => Meteor.subscribe 'related_groups', Router.current().params.doc_id, ->
+    # Template.profile_layout.helpers
+    #     related_group_docs: ->
+    #         Docs.find {
+    #             model:'group'
+    #             _id: $nin:[Router.current().params.doc_id]
+    #         }, limit:3
 
         
 if Meteor.isClient
+    Template.profile_section.helpers
+        section_template: -> "user_#{Router.current().params.section}"
     Template.user_favorites.onCreated ->
         @autorun -> Meteor.subscribe 'user_favorites', Router.current().params.username, ->
     Template.user_favorites.helpers
@@ -66,7 +86,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.user_social.onCreated ->
         @autorun -> Meteor.subscribe 'refered_users', Router.current().params.username, ->
-    Template.profile.onCreated ->
+    Template.profile_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
         # @autorun -> Meteor.subscribe 'user_deposits', Router.current().params.username, ->
         # @autorun -> Meteor.subscribe 'user_rentals', Router.current().params.username, ->
@@ -185,7 +205,7 @@ if Meteor.isClient
         Meteor.setTimeout ->
             $('.image').popup()
         , 2000
-    Template.profile.onRendered ->
+    Template.profile_layout.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
             $('.avatar').popup()
@@ -199,7 +219,7 @@ if Meteor.isClient
             $('.button').popup()
         , 2000
 
-    Template.profile.events
+    Template.profile_layout.events
         'click .login_as_user': ->
             
         'click .recalc_wage_stats': (e,t)->
@@ -246,7 +266,7 @@ if Meteor.isClient
                 model:'group'
                 member_ids: $in:[user._id]
 
-    Template.profile.helpers
+    Template.profile_layout.helpers
         my_unread_log_docs: ->
             Docs.find 
                 model:'log'
@@ -256,7 +276,7 @@ if Meteor.isClient
             Docs.find 
                 model:'log'
                 read_user_ids:$nin:[user._id]
-    Template.profile.helpers
+    Template.profile_layout.helpers
         current_viewing_doc: ->
             if Meteor.user().current_viewing_doc_id
                 Docs.findOne Meteor.user().current_viewing_doc_id
@@ -461,7 +481,7 @@ if Meteor.isServer
                         comment_count: tip_docs.count()
                         viewed_total: viewed_total
 if Meteor.isClient
-    Template.profile.onCreated ->
+    Template.profile_layout.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'deposit'
         # @autorun => Meteor.subscribe 'model_docs', 'order'
@@ -503,7 +523,7 @@ if Meteor.isClient
     	# )
 
 
-    Template.profile.events
+    Template.profile_layout.events
         'click .add_points': ->
             amount = parseInt $('.deposit_amount').val()
             # amount_times_100 = parseInt amount*100
@@ -538,8 +558,25 @@ if Meteor.isClient
     #                 $inc: credit: @amount
 
 
+    Template.group_events.helpers
+        group_event_docs: ->
+            Docs.find 
+                model:'event'
+                group_id:Router.current().params.doc_id
+    Template.group_posts.events 
+        'click .add_group_post': ->
+            new_id = 
+                Docs.insert 
+                    model:'post'
+                    group_id:Router.current().params.doc_id
+            Router.go "/doc/#{new_id}/edit"
+    Template.group_posts.helpers
+        group_post_docs: ->
+            Docs.find 
+                model:'post'
+                group_id:Router.current().params.doc_id
 
-    Template.profile.helpers
+    Template.profile_layout.helpers
         owner_earnings: ->
             Docs.find
                 model:'order'
@@ -575,7 +612,7 @@ if Meteor.isClient
 
 
 
-    Template.profile.onCreated ->
+    Template.profile_layout.onCreated ->
         # @autorun => Meteor.subscribe 'user_orders', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'rental'
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
@@ -584,7 +621,7 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
 
 
-    Template.profile.helpers
+    Template.profile_layout.helpers
         owner_earnings: ->
             Docs.find
                 model:'order'

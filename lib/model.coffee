@@ -831,20 +831,6 @@ if Meteor.isClient
 
     Template.group_widget.helpers
         
-    Template.profile.onRendered ->
-        Meteor.setTimeout ->
-            $('.accordion').accordion()
-        , 1000
-        
-        
-    Template.profile.onCreated ->
-        @autorun => Meteor.subscribe 'related_groups', Router.current().params.doc_id, ->
-    Template.profile.helpers
-        related_group_docs: ->
-            Docs.find {
-                model:'group'
-                _id: $nin:[Router.current().params.doc_id]
-            }, limit:3
 if Meteor.isServer 
     Meteor.publish 'related_groups', (group_id)->
         Docs.find {
@@ -891,23 +877,6 @@ if Meteor.isClient
                 
                 
                 
-    Template.profile.helpers
-        group_event_docs: ->
-            Docs.find 
-                model:'event'
-                group_ids:Router.current().params.doc_id
-    Template.profile.events 
-        'click .add_group_post': ->
-            new_id = 
-                Docs.insert 
-                    model:'post'
-                    group_id:Router.current().params.doc_id
-            Router.go "/doc/#{new_id}/edit"
-    Template.profile.helpers
-        group_post_docs: ->
-            Docs.find 
-                model:'post'
-                group_id:Router.current().params.doc_id
     # Template.group_products.events
     #     'click .add_product': ->
     #         new_id = 

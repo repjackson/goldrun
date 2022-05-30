@@ -4,6 +4,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'reddit'
         ), name:'reddit'
+    Router.route '/reddit/:doc_id', (->
+        @layout 'layout'
+        @render 'reddit_view'
+        ), name:'reddit_view'
 
     
     Template.registerHelper 'session_key_value_is', (key, value) ->
@@ -54,6 +58,8 @@ if Meteor.isClient
     Template.registerHelper 'in_dev', ()-> Meteor.isDevelopment
     
     
+    Template.reddit_view.onCreated ->
+        @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.reddit.onCreated ->
         Session.setDefault('current_query', null)
         Session.setDefault('dummy', false)

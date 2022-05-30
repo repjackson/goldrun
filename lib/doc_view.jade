@@ -66,6 +66,7 @@ template(name='doc_view')
                                 +comments
                             .six.wide.column
                                 +author_segment
+                                +group_widget
                                 .ui.inline.header                                
                                     |#{tags.length}
                                     +i name='tags'
@@ -80,7 +81,6 @@ template(name='doc_view')
                         .three.column.row
                             .column
                                 +message_author_button
-                                +group_widget
                                 div
                                 +voting_full
                                 div

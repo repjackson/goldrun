@@ -41,7 +41,7 @@ template(name='profile_layout')
                                 +profile_nav_item section='favorites' icon='heart'
                                 +profile_nav_item section='social' icon='friends'
                                 +profile_nav_item section='music' icon='music'
-                                +profile_nav_item section='voting' icon='vote'
+                                +profile_nav_item section='voting' icon='facebook-like'
                                 div
                                 +yield
         +footer     
@@ -113,14 +113,22 @@ template(name='user_voting')
     .ui.header 
         i.large.thumbs.up.icon
         |upvoted
-    each upvoted_docs
-        .item #{title}
+    .ui.selection.animated.list
+        each upvoted_docs
+            a.item.fly_right(href="/doc/#{_id}") 
+                img.ui.avatar.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+                |#{title}
+                .ui.label #{model}
     
     .ui.header 
-        i.large.thumbs.down.iocn
+        i.large.thumbs.down.icon
         |downvoted
-    each downvoted_docs
-        .item #{title}
+    .ui.selection.animated.list
+        each downvoted_docs
+            a.item.fly_right(href="/doc/#{_id}") 
+                img.ui.avatar.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
+                |#{title}
+                .ui.label #{model}
 template(name='user_inbox')
     .column
         .ui.inline.header 

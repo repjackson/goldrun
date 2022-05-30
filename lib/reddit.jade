@@ -1,7 +1,7 @@
 template(name='reddit')
     .ui.stackable.padded.grid
         .row
-            .sixteen.wide.column
+            .four.wide.column
                 each picked_tags
                     button.ui.active.compact.big.rounded.fade.animated.button.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
                         .visible.content
@@ -42,6 +42,9 @@ template(name='reddit')
                     // else 
                     each unpicked_tags
                         +agg_tag
+                    i.large.globe.icon(title='domains')
+                    each domains
+                        .ui.large.image.link.label.zoomer #{name}
                 // if in_dev 
                 //     .ui.divider
                 //     .ui.header is_loading #{is_loading}
@@ -52,13 +55,13 @@ template(name='reddit')
                 //     .ui.divider
                 // .ui.animated.big.link.divided.list.scrolling
                 // .ui.hidden.divider
+            .twelve.wide.column
                 span.sorting
                     +sort_direction_toggle
                     +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
                     +session_set key='sort_key' value='comment_count' label='comments' icon='chat'
                     +session_set key='sort_key' value='domain' label='domain' icon='globe'
                     +session_set key='sort_key' value='ups' label='ups' icon='thumbs up'
-            .sixteen.wide.column
                 .ui.stackable.centered.cards
                     each doc_results
                         +reddit_card
@@ -103,7 +106,7 @@ template(name='agg_tag')
         if term_image
             img.ui.avatar.image(src="{{c.url term_image.image_id width=200 height=200 gravity='face' crop='fill'}}")
 
-        | #{title}
+        | #{name}
         // .hidden.content
         //     |+ #{title}
         // if term.image
@@ -139,13 +142,13 @@ template(name='reddit_view')
                     .item permalink #{permalink}
                     .item reddit_id #{reddit_id}
                     .item tags #{tags}
-                    .item thumbnail #{thumbnail}
                     .item url #{url}
-                    .item _author_id #{_author_id}
-                    .item _author_username #{_author_username}
+                    .item 
+                        small mined by
+                        strong #{_author_username}
                 .ui.big.inverted.basic.label 
                     +i name='facebook-like'
-                    |ups #{ups}
+                    | #{ups} upvotes
                 .ui.big.inverted.basic.label 
                     +i name='chat'
-                    | #{num_comments}
+                    | #{num_comments} comments

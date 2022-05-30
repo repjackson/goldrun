@@ -278,7 +278,7 @@ template(name='image_edit')
                 |#{this}
             a(href="https://www.google.com/search?tbm=isch&q=#{../title}" target='_window' title='search google for image from title')
                 i.search.grey.circular.link.icon.zoomer
-        .field.invert
+        .field
             if field_value
                 //- label Image
                 a(href="{{c.url field_value }}" target='_window')

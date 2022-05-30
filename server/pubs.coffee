@@ -28,6 +28,10 @@ Meteor.publish 'facet_sub', (
         # if view_private is false
         #     match.published = $in: [0,1]
 
+        if title_search.length > 1
+        #     console.log 'searching org_query', org_query
+            match.title = {$regex:"#{title_search}", $options: 'i'}
+
         if picked_tags.length > 0 then match.tags = $all: picked_tags
 
         # if picked_author_ids.length > 0

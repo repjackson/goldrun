@@ -885,7 +885,7 @@ template(name='group_widget')
             +i name='campfire'
             |related group
         with group_doc
-            a.ui.card.fly_right.zoomer(href="/doc/#{_id}")
+            a.ui.card.fly_right.zoomer(href="/group/#{_id}")
                 img.ui.image(src="{{c.url image_id width=500 height=500}}")
                 .content
                     .ui.header 
@@ -903,14 +903,14 @@ template(name='group_picker')
         with group_doc
             .ui.inline.header 
                 |#{group_id}
-            a.ui.big.basic.label(href="/doc/#{_id}")
+            a.ui.big.basic.label(href="/group/#{_id}")
                 img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                 |#{title}
     .content
         with group_doc
             .ui.inline.header 
                 |#{group_id}
-            a.ui.big.basic.label(href="/doc/#{_id}")
+            a.ui.big.basic.label(href="/group/#{_id}")
                 img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                 |#{title}
             .ui.compact.button.remove_group.zoomer(title='clear selection')

@@ -12,113 +12,11 @@ template(name='group_layout')
             .ui.large.inline.header 
                 //- small viewing
                 | #{title}
-            if can_edit
-                +edit_button
-            if youtube_id 
-                span(title='has youtube video')
-                    +i name='youtube'
-            if tone 
-                +tone
-            +publish_info
-            if facebook_link 
-                a.zoomer(href=facebook_link target='_window' title='visit facebook page')
-                    +i name='facebook'
-            if instagram_link
-                a.zoomer(href=instagram_link target='_window' title='visit instagram page')
-                    +i name='instagram'
-            if twitter_link
-                a.zoomer(href=twitter_link target='_window' title='visit twitter page')
-                    +i name='twitter'
-            if link 
-                a.ui.big.compact.inverted.button.zoomer(href=link target='_window' title=link)
-                    i.external.icon
-                    |link
-                    // |#{hostname}
-            i.big.eye.icon(title="#{read_user_ids.length} viewers") 
-            each read_user_ids
-                +user_avatar
-            if member_ids
-                i.big.users.icon(title="#{member_ids.length} members") 
-                each member_ids
-                    +user_avatar
-                // img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-
-    
-        .ui.stackable.padded.grid 
-            .four.wide.column
-                .ui.header #{title}
-                if youtube_id
-                    +youtube_view key='youtube_id'
-                if image_id 
-                    img.ui.rounded.centered.large.image(src="{{c.url image_id width=800 crop='scale'}}")
-                if image_id2
-                    img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
-                .scrolling 
-                    |!{content}
-                +comments
-                +author_segment
-                .ui.inline.header                                
-                    |#{tags.length}
-                    +i name='tags'
-                span.flat_tags
-                    each tags 
-                        a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='browse tag') #{this}
-                if watson 
-                    .column
-                        +watson_view
-                    if tone 
-                        +tone
-            .three.column.row
-                .column
-                    +message_author_button
-                    +group_widget
-                    div
-                    +voting_full
-                    div
-                    if nsfw
-                        .ui.red.basic.large.label
-                            +i name='18-plus'
-                            |nsfw
-
-                .column
-                    +favorites
-                    +viewing_info
-                .column
-                    .ui.dividing.header 
-                        +i name='line-chart'
-                        |stats
-                    .ui.big.list
-                        .item 
-                            i.grey.line.chart.icon
-                            |#{post_views_ranking} post views ranking
-                        .item 
-                            i.grey.eye.icon
-                            |#{views} views
-                        .item
-                            i.grey.line.chart.icon
-                            |#{views_ranking} view ranking
-                        .item 
-                            i.grey.user.secret.icon
-                            |#{anon_views} anon views
-                        .item 
-                            |#{points}
-                            |points
-                        .item 
-                            |#{tip_total}
-                            |tip total
-                .column
-                    +follow_button
-                    +tips
-                    if has_price
-                        +post_orders
-                    div
-                    .ui.inline.header 
-                        +i name='binoculars'
-                        |#{current_viewer_users.count} current viewers
-                    each current_viewer_users
-                        +user_info
-                
+        .four.wide.column
+            +group_sidebar
+            
             .twelve.wide.column
+                +group_nav_item section='dashboard' icon='dashboard'
                 +group_nav_item section='posts' icon='news'
                 +group_nav_item section='events' icon='calendar'
                 +group_nav_item section='members' icon='groups'
@@ -127,17 +25,120 @@ template(name='group_layout')
     +footer
     
     
+    
+    
+template(name='group_sidebar')
+    if can_edit
+        +edit_button
+    if youtube_id 
+        span(title='has youtube video')
+            +i name='youtube'
+    if tone 
+        +tone
+    +publish_info
+    if facebook_link 
+        a.zoomer(href=facebook_link target='_window' title='visit facebook page')
+            +i name='facebook'
+    if instagram_link
+        a.zoomer(href=instagram_link target='_window' title='visit instagram page')
+            +i name='instagram'
+    if twitter_link
+        a.zoomer(href=twitter_link target='_window' title='visit twitter page')
+            +i name='twitter'
+    if link 
+        a.ui.big.compact.inverted.button.zoomer(href=link target='_window' title=link)
+            i.external.icon
+            |link
+            // |#{hostname}
+    i.big.eye.icon(title="#{read_user_ids.length} viewers") 
+    each read_user_ids
+        +user_avatar
+    if member_ids
+        i.big.users.icon(title="#{member_ids.length} members") 
+        each member_ids
+            +user_avatar
+        // img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+
+
+    
+    
 template(name='group_section')
+    .ui.header #{section_template}
     +Template.dynamic template=section_template
             
             
 template(name='group_nav_item')        
-    a.ui.large.compact.inverted.button.zoomer(href="/group/#{data_doc._id}/#{section}")
+    a.ui.large.compact.inverted.button.zoomer(href="/group/#{current_doc._id}/#{section}")
         +i name=icon
         |#{section}
             
             
 template(name='group_dashboard')
+    if youtube_id
+        +youtube_view key='youtube_id'
+    if image_id 
+        img.ui.rounded.centered.large.image(src="{{c.url image_id width=800 crop='scale'}}")
+    if image_id2
+        img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
+    .scrolling 
+        |!{content}
+    +comments
+    +author_segment
+    .ui.inline.header                                
+        |#{tags.length}
+        +i name='tags'
+    span.flat_tags
+        each tags 
+            a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='browse tag') #{this}
+    if watson 
+        .column
+            +watson_view
+        if tone 
+            +tone
+    +message_author_button
+    +group_widget
+    div
+    +voting_full
+    div
+    if nsfw
+        .ui.red.basic.large.label
+            +i name='18-plus'
+            |nsfw
+    +favorites
+    +viewing_info
+    .ui.dividing.header 
+        +i name='line-chart'
+        |stats
+    .ui.big.list
+        .item 
+            i.grey.line.chart.icon
+            |#{post_views_ranking} post views ranking
+        .item 
+            i.grey.eye.icon
+            |#{views} views
+        .item
+            i.grey.line.chart.icon
+            |#{views_ranking} view ranking
+        .item 
+            i.grey.user.secret.icon
+            |#{anon_views} anon views
+        .item 
+            |#{points}
+            |points
+        .item 
+            |#{tip_total}
+            |tip total
+    +follow_button
+    +tips
+    if has_price
+        +post_orders
+    div
+    .ui.inline.header 
+        +i name='binoculars'
+        |#{current_viewer_users.count} current viewers
+    each current_viewer_users
+        +user_info
+
     if has_members 
         .ui.button.pick_members
             |members
@@ -221,22 +222,8 @@ template(name='group_dashboard')
         //     each log_items
         //         +log_item
         //     i.refresh.link.icon.refresh_group_stats
-    if has_events
-        +group_events
     if has_shop
-        .column
-            .ui.header 
-                +i name='shop'
-                |shop
-            .ui.list 
-                each group_products 
-                    a.item(href="/doc/#{_id}")
-                        img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
-                        |#{title}
-    
-    if has_posts
-        +group_posts
-
+        +group_products
     .column
         .title
             .ui.header 
@@ -249,8 +236,93 @@ template(name='group_dashboard')
             .ui.list
                 each related_group_docs
                     +group_item
+        .ui.stackable.padded.grid 
+            .four.wide.column
+                .ui.header #{title}
+                if youtube_id
+                    +youtube_view key='youtube_id'
+                if image_id 
+                    img.ui.rounded.centered.large.image(src="{{c.url image_id width=800 crop='scale'}}")
+                if image_id2
+                    img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
+                .scrolling 
+                    |!{content}
+                +comments
+                +author_segment
+                .ui.inline.header                                
+                    |#{tags.length}
+                    +i name='tags'
+                span.flat_tags
+                    each tags 
+                        a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='browse tag') #{this}
+                if watson 
+                    .column
+                        +watson_view
+                    if tone 
+                        +tone
+            .three.column.row
+                .column
+                    +message_author_button
+                    +group_widget
+                    div
+                    +voting_full
+                    div
+                    if nsfw
+                        .ui.red.basic.large.label
+                            +i name='18-plus'
+                            |nsfw
+
+                .column
+                    +favorites
+                    +viewing_info
+                .column
+                    .ui.dividing.header 
+                        +i name='line-chart'
+                        |stats
+                    .ui.big.list
+                        .item 
+                            i.grey.line.chart.icon
+                            |#{post_views_ranking} post views ranking
+                        .item 
+                            i.grey.eye.icon
+                            |#{views} views
+                        .item
+                            i.grey.line.chart.icon
+                            |#{views_ranking} view ranking
+                        .item 
+                            i.grey.user.secret.icon
+                            |#{anon_views} anon views
+                        .item 
+                            |#{points}
+                            |points
+                        .item 
+                            |#{tip_total}
+                            |tip total
+                .column
+                    +follow_button
+                    +tips
+                    if has_price
+                        +post_orders
+                    div
+                    .ui.inline.header 
+                        +i name='binoculars'
+                        |#{current_viewer_users.count} current viewers
+                    each current_viewer_users
+                        +user_info
+                
                     
     
+template(name='group_products')
+    .column
+        .ui.header 
+            +i name='shop'
+            |shop
+        .ui.list 
+            each group_products 
+                a.item(href="/doc/#{_id}")
+                    img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                    |#{title}
+
 template(name='group_posts')
     .column
         .ui.inline.header 

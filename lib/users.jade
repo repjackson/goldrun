@@ -77,6 +77,7 @@ template(name='user_card')
         .content
             a.ui.inline.header.pointer.blink(href="/user/#{username}" style="color:#{theme_color};")
                 |#{name}
+            |@#{username}
             .ui.large.basic.inverted.label #{points}pts
                 //- |#{username}
             if points
@@ -138,7 +139,7 @@ template(name='user_item')
 
             a.ui.inline.header.pointer.blink(href="/user/#{username}" style="color:#{theme_color};")
                 |#{name}
-                //- |#{username}
+            small @#{username}
             if points
                 .ui.inline.header(style="color:#{current_user.theme_color};") #{points}p
             if one_ratio

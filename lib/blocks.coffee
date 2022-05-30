@@ -159,8 +159,8 @@ if Meteor.isClient
                 })
     
     
-        # 'keyup .search': _.throttle((e,t)->
-        'keyup .search': ->
+        # 'keyup .search': (e,t)->
+        'keyup .search': _.throttle((e,t)->
             search = $('.query').val().trim().toLowerCase()
             if search.length > 1
                 Session.set('current_search', search)
@@ -177,7 +177,7 @@ if Meteor.isClient
             #         # Meteor.setTimeout ->
             #         #     Session.set('dummy', !Session.get('dummy'))
             #         # , 10000
-        # , 1000)
+        , 500)
     
         
 

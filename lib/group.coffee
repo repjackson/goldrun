@@ -1,4 +1,8 @@
 if Meteor.isClient
+    Router.route '/group/:doc_id/', (->
+        @layout 'group_layout'
+        @render 'group_dashboard'
+        ), name:'group_home'
     Router.route '/group/:doc_id/:section', (->
         @layout 'group_layout'
         @render 'group_section'
@@ -7,6 +11,8 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'product_from_transfer_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
+    Template.group_section.helpers
+        section_template: -> "group_#{Router.current().params.section}"
 
 if Meteor.isServer
     Meteor.publish 'user_groups', (username)->

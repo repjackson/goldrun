@@ -24,14 +24,6 @@ if Meteor.isClient
     #     , 1000
         
         
-    # Template.profile_layout.onCreated ->
-    #     @autorun => Meteor.subscribe 'related_groups', Router.current().params.doc_id, ->
-    # Template.profile_layout.helpers
-    #     related_group_docs: ->
-    #         Docs.find {
-    #             model:'group'
-    #             _id: $nin:[Router.current().params.doc_id]
-    #         }, limit:3
 
         
 if Meteor.isClient

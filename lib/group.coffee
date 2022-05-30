@@ -40,8 +40,37 @@ if Meteor.isServer
             # group_memberships:$in:[group_id]
             _id:$in:group.member_ids
 
-if Meteor.isClient
 
+if Meteor.isClient
+    Template.group_related.onCreated ->
+        @autorun => Meteor.subscribe 'related_groups', Router.current().params.doc_id, ->
+    Template.group_related.helpers
+        related_group_docs: ->
+            Docs.find {
+                model:'group'
+                _id: $nin:[Router.current().params.doc_id]
+            }, limit:3
+
+
+
+if Meteor.isServer 
+    Meteor.publish 'related_groups', (group_id)->
+        Docs.find {
+            model:'group'
+            _id:$nin:[group_id]
+        }, limit:5
+    
+    Meteor.publish 'group_log_docs', (group_id)->
+        Docs.find 
+            model:'log'
+            group_id:group_id
+    
+    
+
+
+
+
+if Meteor.isClient
     # Template.groups.onRendered ->
     #     Session.set('model',Router.current().params.model)
     Template.groups.onCreated ->

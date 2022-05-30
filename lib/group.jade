@@ -59,9 +59,12 @@ template(name='group_layout')
                     //- small viewing
                     | #{title}
                 +group_nav_item section='dashboard' icon='dashboard'
-                +group_nav_item section='posts' icon='news'
-                +group_nav_item section='events' icon='calendar'
-                +group_nav_item section='membership' icon='groups'
+                if has_posts
+                    +group_nav_item section='posts' icon='news'
+                if has_events
+                    +group_nav_item section='events' icon='calendar'
+                if has_membership
+                    +group_nav_item section='membership' icon='groups'
                 +group_nav_item section='related' icon='fork'
                 if has_products
                     +group_nav_item section='products' icon='shopping-cart'
@@ -231,14 +234,14 @@ template(name='group_dashboard')
                 
                
                
-template(name='related_groups')
+template(name='group_related')
     .content
         .ui.header 
             +i name='connect'
             |related groups 
-        .ui.list
+        .ui.cards
             each related_group_docs
-                +group_item
+                +group_card
 
           
           
@@ -354,17 +357,17 @@ template(name='group_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .sixteen.wide.column
+                .eight.wide.column
                     if published
-                        a.ui.big.icon.fluid.green.button.zoom.zoomer(href="/doc/#{_id}" title='save')
+                        a.ui.big.icon.fluid.green.button.zoom.zoomer(href="/group/#{_id}" title='save')
                             i.checkmark.big.icon
                     else 
-                        a.ui.big.green.button.zoom.zoomer.publish(href="/doc/#{_id}" title='save & publish')
+                        a.ui.big.green.button.zoom.zoomer.publish(href="/group/#{_id}" title='save & publish')
                             i.checkmark.big.icon
                             i.plus.icon
                             i.eye.big.icon
-                            // |save and publish -10p
-                        a.ui.big.icon.yellow.button.zoom.zoomer(href="/doc/#{_id}" title='save')
+                            |save and publish -10p
+                        a.ui.big.icon.yellow.button.zoom.zoomer(href="/group/#{_id}" title='save')
                             i.save.big.icon
                             |save draft                       
                     // +boolean_edit key='published' label='published (-10)' 
@@ -378,7 +381,7 @@ template(name='group_edit')
                             +image_edit key='background_image_id' label='background image' 
                             .ui.horizontal.divider or
                             +image_link_edit key='background_image_link' label='background image link'
-                .sixteen.wide.column
+                .eight.wide.column
                     .ui.inline.header 
                         +i name='cube'
                         |group modules

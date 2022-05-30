@@ -831,19 +831,6 @@ if Meteor.isClient
 
     Template.group_widget.helpers
         
-if Meteor.isServer 
-    Meteor.publish 'related_groups', (group_id)->
-        Docs.find {
-            model:'group'
-            _id:$nin:[group_id]
-        }, limit:10
-    
-    Meteor.publish 'group_log_docs', (group_id)->
-        Docs.find 
-            model:'log'
-            group_id:group_id
-    
-    
 
 
 

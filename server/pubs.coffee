@@ -352,7 +352,11 @@ Meteor.publish 'doc_results', (
     # picked_location_tags=[]
     )->
     self = @
-    match = {model:model}
+    match = {}
+    if model is 'post'
+        match.model = $in:['post','reddit']
+    else
+        match = {model:model}
     # if picked_ingredients.length > 0
     #     match.ingredients = $all: picked_ingredients
     #     # sort = 'price_per_serving'

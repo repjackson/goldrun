@@ -15,9 +15,9 @@ template(name='profile')
         //     img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
-            .three.column.row
+            .row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
-                .column
+                .four.wide.column
                     a(href="/user/#{username}")
                         .ui.inline.header
                             |@#{username}
@@ -98,37 +98,46 @@ template(name='profile')
                         // +request_button
                         +follow_button
                         +friend_button
-                .column
-                    if status 
-                        .ui.label(title='status')
-                            +i name='clock'
-                            |#{status}
-                    +text_view key='display_name' label='display name'
-                    div
-                    +array_view key='tags' label='tags' icon='tags'
-                    +html_view key='bio' label='bio'
-                    +text_view key='status' label='status' icon='clock'
-                    +text_view key='address' label='address' icon='marker' 
-                    +text_view key='city' label='city' icon='marker' 
-                    +text_view key='state' label='state' icon='marker' 
-                    +phone_view key='phone' label='phone' icon='phone' 
-                    +text_view key='company' label='company' icon='business'
-                .column
-                    +user_reviews
-                    +user_posts
-                .column
-                    +user_groups
-                    +user_services
-                .column
-                    +user_social
-                .column
-                    +user_favorites
-                    +user_checkins
-                .column
-                    +user_points
-                    +user_drafts
-                .column
-                    +user_events
+                .twelve.wide.column
+                    .ui.two.column.grid
+                        if status 
+                            .ui.label(title='status')
+                                +i name='clock'
+                                |#{status}
+                        +text_view key='display_name' label='display name'
+                        div
+                        +array_view key='tags' label='tags' icon='tags'
+                        +html_view key='bio' label='bio'
+                        +text_view key='status' label='status' icon='clock'
+                        +text_view key='address' label='address' icon='marker' 
+                        +text_view key='city' label='city' icon='marker' 
+                        +text_view key='state' label='state' icon='marker' 
+                        +phone_view key='phone' label='phone' icon='phone' 
+                        +text_view key='company' label='company' icon='business'
+                    .column
+                        .ui.segment.alpha
+                            +user_reviews
+                    .column
+                        .ui.segment.alpha
+                            +user_posts
+                    .column
+                        .ui.segment.alpha
+                            +user_groups
+                    .column
+                        .ui.segment.alpha
+                            +user_services
+                    .column
+                        +user_social
+                    .column
+                        +user_favorites
+                // .column
+                //     +user_checkins
+                // .column
+                //     +user_points
+                // .column
+                //     +user_drafts
+                // .column
+                //     +user_events
                 if instagram_code
                     .column
                         |!{instagram_code}
@@ -426,22 +435,26 @@ template(name='user_groups')
                     img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
                     .ui.inline.header
                         strong #{title}
-                    each five_tags 
-                        .ui.small.basic.label #{this}
+                    each three_tags 
+                        .ui.small.basic.inverted.label #{this}
                      
 template(name='user_services')
     .ui.inline.header 
         +i name='wrench'
         |services
-    each user_service_docs 
-        .item #{title}
+    .ui.selection.animated.link.list
+        each user_service_docs 
+            a.item 
+                img.ui.avatar.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                |#{title}
     .ui.header 
         +i name='shopping-cart'
         |purchases
     .ui.list 
-        each service_purchas_docs 
+        each service_purchase_docs 
             .item 
-                |#{_parent.title} #{amount}
+                img.ui.avatar.image(src="{{c.url parent_image_id height=200 width=200 background='white' crop='pad'}}")
+                |#{parent_title} #{amount}
             
         
                      

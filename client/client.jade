@@ -86,11 +86,11 @@ template(name='footer')
                 if currentUser.admin
                     with currentUser
                         +boolean_edit key='admin_mode' label='admin mode' icon='shield'
-                        .ui.label.invert #{all_docs.count}
                         
                 if currentUser.admin_mode
                     .ui.inline.header 
                         i.blog.icon
+                        | #{all_docs.count}
                         |docs
                     each all_docs 
                         .ui.basic.image.inverted.black.label 
@@ -159,17 +159,17 @@ template(name='nav')
                 |reconecting...
                 i.large.circular.refresh.link.icon.zoomer.reconnect(title='reconnect now')
         if is_connected
-            a.item.zoomer.fly_right.clear_search(href="/music" class="{{isActiveRoute 'music'}}" title='music')
-                // +i name='groups'
-                i.large.music.icon
-                unless currentUser.hide_labels
-                    |music
             a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
                 // +i name='groups'
                 i.large.users.icon
                 unless currentUser.hide_labels
                     |users
             +nav_item key='post' icon='blog'
+            a.item.zoomer.fly_right.clear_search(href="/music" class="{{isActiveRoute 'music'}}" title='music')
+                // +i name='groups'
+                i.large.music.icon
+                unless currentUser.hide_labels
+                    |music
             +nav_item key='event' icon='calendar'
             +nav_item key='group' icon='fire'
             +nav_item key='product' icon='cart'

@@ -79,9 +79,54 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'user_groups_owner', Router.current().params.username, ->
         
         
+    Template.user_services.onCreated ->
+        @autorun -> Meteor.subscribe 'user_service_docs', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_service_purchases', Router.current().params.username, ->
+        # @autorun -> Meteor.subscribe 'user_groups_owner', Router.current().params.username, ->
         
+    Template.user_drafts.onCreated ->
+        @autorun -> Meteor.subscribe 'user_drafts', Router.current().params.username, ->
+    Template.user_drafts.helpers
+        user_draft_docs: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                published:$ne:true
+                _author_id:user._id
+    Template.user_services.helpers
+        user_service_docs: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                model:'service'
+                _author_id:user._id
+        
+        service_purchase_docs: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                model:'transfer'
+                transfer_type:'service_purchase'
+                _author_id:user._id
         
 if Meteor.isServer
+    Meteor.publish 'user_drafts', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find {
+            published:$ne:true
+            _author_id:user._id
+        }, limit:5
+    Meteor.publish 'user_service_docs', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find {
+            model:'service'
+            _author_id:user._id
+        }, limit:5
+    Meteor.publish 'user_service_purchases', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find {
+            model:'transfer'
+            transfer_type:'service_purchase'
+            _author_id:user._id
+        }, limit:5
+        
     Meteor.publish 'refered_users', (username)->
         user = Meteor.users.findOne username:username
         Meteor.users.find {

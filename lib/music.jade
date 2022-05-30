@@ -282,7 +282,7 @@ template(name='music_artist')
         if strArtistBanner
             img.ui.image.profile_banner(src=strArtistBanner)
         .ui.stackable.padded.grid 
-            .sixteen.wide.column.scrollin
+            .eight.wide.column.scrollin
                 a.ui.inverted.fluid.button.fly_left(href='/music')
                     i.chevron.left.icon
                     +i name='music'
@@ -319,7 +319,7 @@ template(name='music_artist')
                 each tags 
                     a.ui.inverted.large.basic.link.label.zoomer.pick_flat_tag(title='browse tag') #{this}
                 +print_this
-            .sixteen.wide.column.scrollin
+            .eight.wide.column.scrollin
                 .ui.massive.inline.header #{strArtist}
                 // "strMusicBrainzID": "c8b03190-306c-4120-bb0b-6f2ebfc06ea9",
                 // "strISNIcode": null,
@@ -373,7 +373,7 @@ template(name='music_artist')
                 .ui.large.basic.inverted.label
                     // a(href=strWebsite target='_window')
                     |#{strMusicBrainzID}
-                .f7 #{strBiographyEN}
+                .f6.scrolling #{strBiographyEN}
                 if currentUser.admin_mod
                     +call_watson key='strBiographyEN'
                 +comments

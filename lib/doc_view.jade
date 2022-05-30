@@ -54,6 +54,7 @@ template(name='doc_view')
                     .ui.stackable.padded.grid
                         .row
                             .ten.wide.column
+                                +Template.dynamic template=model_template 
                                 if youtube_id
                                     +youtube_view key='youtube_id'
                                 if image_id 
@@ -77,7 +78,6 @@ template(name='doc_view')
                                     if tone 
                                         +tone
                         .three.column.row
-                            +Template.dynamic template=model_template 
                             .column
                                 +message_author_button
                                 +group_widget

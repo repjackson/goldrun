@@ -18,7 +18,7 @@ body {
 
 
 .alpha {
-    background-color:rgba(250, 250, 250, 0.5) !important;    
+    background-color:rgba(250, 250, 250, 1) !important;    
     /*opacity:.5 !important;*/
 }
 
@@ -417,10 +417,10 @@ body {
 }
 
 .home_segment{
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
     /* border-radius: 10px !important; */
     margin: 0px !important;
 }
@@ -458,14 +458,14 @@ body {
 .pointer:hover{
     cursor: pointer !important;
     /*font: black !important;*/
-    /*-webkit-filter: drop-shadow(10px 10px 10px rgba(250,250,250, 0.5)) !important;*/
-    /*filter: drop-shadow(10px 10px 10px rgba(250,250,250, 0.5)) !important;*/
+    /*-webkit-filter: drop-shadow(10px 10px 10px rgba(250,250,250, 1)) !important;*/
+    /*filter: drop-shadow(10px 10px 10px rgba(250,250,250, 1)) !important;*/
 }
 
 .cancel:hover{
     cursor: cancel !important;
-    /* -webkit-filter: drop-shadow(5px 5px 5px rgba(250,250,250, 0.5); */
-    /* filter:         drop-shadow(5px 5px 5px rgba(250,250,250, 0.5); */
+    /* -webkit-filter: drop-shadow(5px 5px 5px rgba(250,250,250, 1); */
+    /* filter:         drop-shadow(5px 5px 5px rgba(250,250,250, 1); */
 }
 
 .profile_grid {
@@ -541,7 +541,7 @@ body {
 
 
 .result:hover{
-    box-shadow: inset 0 0 3px 3px rgba(200,200,200,0.5), inset 0 2px 1px 1px rgba(255,255,255,0.9), inset 0 -2px 1px 0 rgba(200,200,200,0.5) !important;
+    box-shadow: inset 0 0 3px 3px rgba(200,200,200,1), inset 0 2px 1px 1px rgba(255,255,255,0.9), inset 0 -2px 1px 0 rgba(200,200,200,1) !important;
     background-color: rgba(250,250,250,0.9) !important;
     cursor: pointer !important;
 }
@@ -639,7 +639,7 @@ input.username_search{
 
 
 .button:not(.circular) {
-    /* background-color: rgba(200, 200, 200, 0.5) !important; */
+    /* background-color: rgba(200, 200, 200, 1) !important; */
     /* box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important; */
     margin:2px !important;
     font-weight: bold !important;
@@ -662,42 +662,42 @@ input.username_search{
     transform: translate(0, 4px) !important; 
 }
 .button.green {
-    /* background-color: rgba(200, 200, 200, 0.5) !important; */
+    /* background-color: rgba(200, 200, 200, 1) !important; */
     /* box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important; */
     background-color: darkgreen !important;
     color: white !important;
     /* transform: translate(0, 4px); */
 }
 .button.red {
-    /* background-color: rgba(200, 200, 200, 0.5) !important; */
+    /* background-color: rgba(200, 200, 200, 1) !important; */
     /* box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important; */
     background-color: darkred !important;
     color: white !important;
     /* transform: translate(0, 4px); */
 }
 .button.teal {
-    /* background-color: rgba(200, 200, 200, 0.5) !important; */
+    /* background-color: rgba(200, 200, 200, 1) !important; */
     /* box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important; */
     background-color: teal !important;
     color: white !important;
     /* transform: translate(0, 4px); */
 }
 .button.orange {
-    /* background-color: rgba(200, 200, 200, 0.5) !important; */
+    /* background-color: rgba(200, 200, 200, 1) !important; */
     /* box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important; */
     background-color: darkorange !important;
     color: white !important;
     /* transform: translate(0, 4px); */
 }
 .button.pink {
-    /* background-color: rgba(200, 200, 200, 0.5) !important; */
+    /* background-color: rgba(200, 200, 200, 1) !important; */
     /* box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important; */
     background-color: pink !important;
     color: white !important;
     /* transform: translate(0, 4px); */
 }
 .button.blue {
-    /* background-color: rgba(200, 200, 200, 0.5) !important; */
+    /* background-color: rgba(200, 200, 200, 1) !important; */
     /* box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important; */
     background-color: navy !important;
     color: white !important;
@@ -705,7 +705,7 @@ input.username_search{
 }
 
 .button:hover {
-    /* background-color: rgba(200, 200, 200, 0.5) !important; */
+    /* background-color: rgba(200, 200, 200, 1) !important; */
     /* box-shadow: 0 0px 2px 1px rgba(50, 50, 100, 0.2) !important; */
     /* background-color: rgba(43, 33, 0, .9) !important; */
     /* color: white !important; */

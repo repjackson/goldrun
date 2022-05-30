@@ -59,6 +59,7 @@ if Meteor.isClient
                 reverse   : 'auto'
                 interval  : 30
               })
+            # Meteor.call 'search_reddit', @valueOf(), ->
             Session.set('model',doc.model)
             Meteor.setTimeout ->
                 $(e.currentTarget).closest('.grid').transition('fly right', 1000)
@@ -139,9 +140,12 @@ if Meteor.isClient
     Template.docs.helpers
         current_model: -> Session.get('model')
         result_docs: ->
-            Docs.find {
-                model:Session.get('model')
-            }, 
+            match = {}
+            if Session.get('model') is 'post'
+                match.model=$in:['post','reddit']
+            else 
+                match.model = Session.get('model')
+            Docs.find match, 
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
                 limit:Session.get('limit')        
                 

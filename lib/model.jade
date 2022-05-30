@@ -844,6 +844,9 @@ template(name='group_card')
 
 
 template(name='group_view')
+    if has_members 
+        .ui.button.pick_members
+            |members
     .column
         .ui.inline.header
             +i name='crown'

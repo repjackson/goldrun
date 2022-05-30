@@ -5,7 +5,7 @@ template(name='docs')
             //     +i name='cube'
             //     |#{post_docs.count} docs
             // +facet key='doc_sentiment_label' icon='happy'
-        .sixteen.wide.column
+        .four.wide.column
             .ui.inline.header
                 +i name=current_model_icon
                 |{{session_get 'model'}}s
@@ -27,7 +27,7 @@ template(name='docs')
                 // +session_set key='limit' value=10
                 // +session_set key='limit' value=25
                 // +session_set key='limit' value=100
-        .sixteen.wide.column
+        .twelve.wide.column
             .scrolling
                 if subs_ready
                     if one_result

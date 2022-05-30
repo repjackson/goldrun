@@ -307,7 +307,9 @@ if Meteor.isClient
 
     
     
-    
+    Template.multi_user_view.helpers
+        user_docs: ->
+            console.log @
     
     Template.array_edit.events
         # 'click .touch_element': (e,t)->

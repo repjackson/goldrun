@@ -7,10 +7,16 @@ if Meteor.isClient
         @layout 'group_layout'
         @render 'group_dashboard'
         ), name:'group_home'
+    Router.route '/group/:doc_id/edit', (->
+        @layout 'layout'
+        @render 'group_edit'
+        ), name:'group_edit'
     Router.route '/group/:doc_id/:section', (->
         @layout 'group_layout'
         @render 'group_section'
         ), name:'group_section'
+    Template.group_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.group_layout.onCreated ->
         # @autorun => Meteor.subscribe 'product_from_transfer_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id, ->
@@ -19,7 +25,22 @@ if Meteor.isClient
         section_template: -> "group_#{Router.current().params.section}"
 
 
+    Template.group_members_small.onCreated ->
+        @autorun => Meteor.subscribe 'group_memberships', Router.current().params.doc_id, ->
+    Template.group_members_small.helpers
+        group_members:->
+            Meteor.users.find 
+                _id:$in:@member_ids
+                # group_memberships:$in:[Router.current().params.doc_id]
+                
+if Meteor.isServer 
+    Meteor.publish 'group_memberships', (group_id)->
+        group = Docs.findOne group_id
+        Meteor.users.find 
+            # group_memberships:$in:[group_id]
+            _id:$in:group.member_ids
 
+if Meteor.isClient
 
     # Template.groups.onRendered ->
     #     Session.set('model',Router.current().params.model)

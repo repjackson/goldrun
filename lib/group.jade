@@ -85,7 +85,9 @@ template(name='group_sidebar')
         img.ui.rounded.image.zoomer(src="{{c.url image_id2}}")
 
     if can_edit
-        +edit_button
+        a.ui.button(href="/group/#{_id}/edit")
+            i.pencil.icon
+            |edit
     if youtube_id 
         span(title='has youtube video')
             +i name='youtube'
@@ -177,6 +179,7 @@ template(name='group_nav_item')
             
             
 template(name='group_dashboard')
+    +group_members_small
     .ui.two.column.grid 
         .column
             if youtube_id
@@ -348,35 +351,60 @@ template(name='group_events')
 
 
 template(name='group_edit')
-    .ui.stackable.padded.grid
-        .row
-            .sixteen.wide.column
-                .ui.inline.header 
-                    +i name='cube'
-                    |group modules
-                +boolean_edit key='has_checkin' label='checkin' icon='clock' 
-                +boolean_edit key='has_products' label='shop' icon='shop' 
-                +boolean_edit key='has_posts' label='posts' icon='news' 
-                +boolean_edit key='has_events' label='events' icon='calendar' 
-                +boolean_edit key='has_chat' label='chat' icon='chat' 
-                +boolean_edit key='has_members' label='membership' icon='groups' 
-                +boolean_edit key='has_tasks' label='tasks' icon='tasks' 
-                if has_members 
-                    .ui.segment 
-                        .ui.header 
-                            +i name='groups'
-                            |membership settings
-                        +multi_user_edit key='member' label='members' 
-                        +boolean_edit key='premium_membership' label='premium' icon='membership-card'
-                        if premium_membership
-                            +number_edit key='membership_cost' label='cost (points)' icon='coins'
-                
-                +single_user_edit key='leader' label='leader' icon='crown' 
-                // +multi_user_edit key='leader_ids' label='leaders' icon='crown' 
-                div
-                +text_edit key='contact_info' label='contact info' icon='info' 
-                +boolean_edit key='private' label='private' 
-               
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .sixteen.wide.column
+                    if published
+                        a.ui.big.icon.fluid.green.button.zoom.zoomer(href="/doc/#{_id}" title='save')
+                            i.checkmark.big.icon
+                    else 
+                        a.ui.big.green.button.zoom.zoomer.publish(href="/doc/#{_id}" title='save & publish')
+                            i.checkmark.big.icon
+                            i.plus.icon
+                            i.eye.big.icon
+                            // |save and publish -10p
+                        a.ui.big.icon.yellow.button.zoom.zoomer(href="/doc/#{_id}" title='save')
+                            i.save.big.icon
+                            |save draft                       
+                    // +boolean_edit key='published' label='published (-10)' 
+                    div
+                    +text_edit key='title' label='title' 
+                    .ui.one.column.stackable.grid
+                        .column
+                            +image_edit key='image_id' label='image' 
+                            .ui.horizontal.divider or
+                            +image_link_edit key='image_link' label='image link'
+                            +image_edit key='background_image_id' label='background image' 
+                            .ui.horizontal.divider or
+                            +image_link_edit key='background_image_link' label='background image link'
+                .sixteen.wide.column
+                    .ui.inline.header 
+                        +i name='cube'
+                        |group modules
+                    +boolean_edit key='has_checkin' label='checkin' icon='clock' 
+                    +boolean_edit key='has_products' label='shop' icon='shop' 
+                    +boolean_edit key='has_posts' label='posts' icon='news' 
+                    +boolean_edit key='has_events' label='events' icon='calendar' 
+                    +boolean_edit key='has_chat' label='chat' icon='chat' 
+                    +boolean_edit key='has_members' label='membership' icon='groups' 
+                    +boolean_edit key='has_tasks' label='tasks' icon='tasks' 
+                    if has_members 
+                        .ui.segment 
+                            .ui.header 
+                                +i name='groups'
+                                |membership settings
+                            +multi_user_edit key='member' label='members' 
+                            +boolean_edit key='premium_membership' label='premium' icon='membership-card'
+                            if premium_membership
+                                +number_edit key='membership_cost' label='cost (points)' icon='coins'
+                    
+                    +single_user_edit key='leader' label='leader' icon='crown' 
+                    // +multi_user_edit key='leader_ids' label='leaders' icon='crown' 
+                    div
+                    +text_edit key='contact_info' label='contact info' icon='info' 
+                    +boolean_edit key='private' label='private' 
+                   
 template(name='group_card')
     .ui.card.alpha
         // if background_image_id
@@ -519,6 +547,16 @@ template(name='group_card_big')
 
     
     
+template(name='group_members_small')
+    a.ui.header.zoomer(href="/groups")
+        +i name='groups'
+        |members
+    +join_button
+    each group_members
+        a.ui.big.image.inverted.label.zoomer.fly_down(href="/user/#{username}")
+            img.ui.image.invert(src="{{c.url image_id width=300 height=300}}")
+            |#{username}
+                
 template(name='groups_small')
     a.ui.header.zoomer(href="/groups")
         +i name='groups'
@@ -588,3 +626,40 @@ template(name='group_picker')
                 |add #{group_search_value}
         
                 
+
+
+template(name='user_groups')   
+    if user_group_memberships.count
+        .ui.inline.header 
+            +i name='groups'
+            |#{current_user.username}'s
+            |groups
+        .ui.two.column.stackable.grid
+            .column
+                .ui.header 
+                    i.users.icon
+                    |#{user_group_memberships.count}
+                    |memberships
+                .ui.selection.link.animated.large.list    
+                    each user_group_memberships
+                        // +doc_item
+                        a.item.zoomers.fly_left(href="/group/#{_id}")
+                            img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                            .ui.inline.header
+                                strong #{title}
+                            each three_tags 
+                                .ui.small.basic.inverted.label #{this}
+            .column
+                .ui.header 
+                    i.pencil.icon
+                    |#{authored_group_docs.count}
+                    |authored groups
+                .ui.selection.link.animated.large.list    
+                    each authored_group_docs
+                        // +doc_item
+                        a.item.zoomers.fly_left(href="/group/#{_id}")
+                            img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                            .ui.inline.header
+                                strong #{title}
+                            each three_tags 
+                                .ui.small.basic.inverted.label #{this}

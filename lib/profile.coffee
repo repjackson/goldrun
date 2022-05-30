@@ -374,8 +374,9 @@ if Meteor.isServer
         Docs.find {
             model:model
             _author_id:user._id
+            published:true
         }, 
-            limit:5
+            limit:20
             sort:
                 _timestamp:-1
             fields:

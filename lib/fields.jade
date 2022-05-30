@@ -1101,7 +1101,7 @@ template(name='multi_user_view')
         |#{field_value.length}
         |#{title} #{label}
         //- #{key} #{label}
-    each field_value
+    each user_docs
         with user_from_id this
             +user_item
             div

@@ -458,41 +458,6 @@ template(name='user_comments')
     +comments
                  
                  
-template(name='user_groups')   
-    if user_group_memberships.count
-        .ui.inline.header 
-            +i name='groups'
-            |#{current_user.username}'s
-            |groups
-        .ui.two.column.stackable.grid
-            .column
-                .ui.header 
-                    i.users.icon
-                    |#{user_group_memberships.count}
-                    |memberships
-                .ui.selection.link.animated.large.list    
-                    each user_group_memberships
-                        // +doc_item
-                        a.item.zoomers.fly_left(href="/doc/#{_id}")
-                            img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                            .ui.inline.header
-                                strong #{title}
-                            each three_tags 
-                                .ui.small.basic.inverted.label #{this}
-            .column
-                .ui.header 
-                    i.pencil.icon
-                    |#{authored_group_docs.count}
-                    |authored groups
-                .ui.selection.link.animated.large.list    
-                    each authored_group_docs
-                        // +doc_item
-                        a.item.zoomers.fly_left(href="/doc/#{_id}")
-                            img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
-                            .ui.inline.header
-                                strong #{title}
-                            each three_tags 
-                                .ui.small.basic.inverted.label #{this}
                      
 template(name='user_services')
     .ui.inline.header 

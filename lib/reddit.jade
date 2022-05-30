@@ -112,4 +112,28 @@ template(name='agg_tag')
 
 template(name='reddit_view')
     with current_doc 
-        .ui.header #{title}
+        .ui.stackable.padded.grid 
+            .sixteen.wide.column
+                a.ui.button(href="/reddit")
+                    +i name='reddit'
+                    |reddit
+                .ui.header #{title}
+                +print_this
+                .ui.list 
+                    .item comment_count #{comment_count}
+                    .item domain #{domain}
+                    .item model #{model}
+                    .item over_18 #{over_18}
+                    .item permalink #{permalink}
+                    .item reddit_id #{reddit_id}
+                    .item tags #{tags}
+                    .item thumbnail #{thumbnail}
+                    .item url #{url}
+                    .item _author_id #{_author_id}
+                    .item _author_username #{_author_username}
+                .ui.big.inverted.basic.label 
+                    +i name='facebook-like'
+                    |ups #{ups}
+                .ui.big.inverted.basic.label 
+                    +i name='chat'
+                    | #{num_comments}

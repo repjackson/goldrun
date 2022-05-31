@@ -78,6 +78,13 @@ if Meteor.isClient
             unless found_doc.watson
                 Meteor.call 'call_watson',Router.current().params.doc_id,'rd.selftext', ->
                     console.log 'autoran watson'
+    # Template.reddit_card.onRendered ->
+    #     console.log @
+    #     found_doc = @data
+    #     if found_doc 
+    #         unless found_doc.watson
+    #             Meteor.call 'call_watson',found_doc._id,'rd.selftext', ->
+    #                 console.log 'autoran watson'
 
         # @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.reddit.onCreated ->
@@ -177,9 +184,9 @@ if Meteor.isClient
                         Meteor.call 'search_reddit', picked_tags.array(), ->
                             Session.set('is_loading', false)
                             # Session.set('searching', false)
-                        Meteor.setTimeout ->
-                            Session.set('dummy', !Session.get('dummy'))
-                        , 5000
+                        # Meteor.setTimeout ->
+                        #     Session.set('dummy', !Session.get('dummy'))
+                        # , 5000
                         $('#search').val('')
                         Session.set('current_query', null)
         # , 200)
@@ -219,6 +226,14 @@ if Meteor.isClient
 
             # html.unescape(@rd.selftext_html)
     Template.reddit_view.events
+        'click .pick_flat_tag': ->
+            picked_tags.push @valueOf()
+            Router.go "/reddit"
+            Session.set('is_loading', true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('is_loading', false)
+                # Session.set('searching', false)
+            
         'click .pull_post': (e,t)->
             # console.log @
             Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
@@ -235,12 +250,12 @@ if Meteor.isClient
             
         search_class: ->
             if Session.get('current_query')
-                'large active' 
+                'big active' 
             else
                 if picked_tags.array().length is 0
-                    ' '
+                    'large'
                 else 
-                    '' 
+                    'large' 
               
         domain_results: ->
             Results.find 

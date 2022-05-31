@@ -1,7 +1,7 @@
 template(name='reddit')
     .ui.stackable.padded.grid
         .row
-            .sixteen.wide.column
+            .sixteen.wide.center.aligned.column
                 each picked_tags
                     button.ui.active.compact.big.rounded.fade.animated.button.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
                         .visible.content
@@ -28,18 +28,20 @@ template(name='reddit')
                     //- input#search(type='text' autofocus='' autocomplete="off" value=current_query)
                     input#search(type='text' autofocus='' autocomplete="off" placeholder='search reddit...')
                 //- .ui.header #{connection.status}
+                div
                 unless connected
                     //- .ui.header disconnected
                     //- .ui.hidden.divider
-                    .ui.big.button
-                        i.lightning.invert.big.link.icon
+                    .ui.big.inverted.basic.button
+                        i.lightning.icon
                         |reconnect
-                //- div
                 if connected
                     // if searching 
                     //     each terms 
                     //         +search_term
                     // else 
+                    if is_loading
+                        i.large.yin.yang.loading.icon
                     each unpicked_tags
                         +agg_tag
                     // div
@@ -81,16 +83,19 @@ template(name='reddit')
                     if currentUser
                         +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='18-plus'
                 .ui.hidden.divider
-                .ui.stackable.centered.cards.scrolling
-                    if subs_ready
-                        if session_is 'view_mode' 'grid'
+                if subs_ready
+                    if session_is 'view_mode' 'list'
+                        .ui.selection.animated.list 
+                            each doc_results
+                                +reddit_item
+                    else
+                        .ui.stackable.centered.cards.scrolling
                             each doc_results
                                 +reddit_card
                             // +small_card
-                        else
-                            .ui.selection.animated.list 
-                                each doc_results
-                                    +reddit_item
+                else 
+                    .ui.center.aligned.basic.segment
+                        i.massive.yin.yang.grey.loading.icon
 template(name='reddit_card')
     .card
         if is_image
@@ -126,6 +131,8 @@ template(name='reddit_card')
             if doc_sentiment_label
                 +doc_sentiment
                 +doc_emotion
+            else 
+                +call_watson key=rd.selftext
         
 template(name='reddit_item')
     .item 
@@ -154,7 +161,9 @@ template(name='reddit_item')
         if doc_sentiment_label
             +doc_sentiment
             // +doc_emotion
-        
+        else 
+            +call_watson key=rd.selftext
+
 // template(name='session_toggle')
 //     .ui.button.toggle
 //         i.large.icon(class=icon)
@@ -215,12 +224,10 @@ template(name='reddit_view')
                 if thumbnail
                     img.ui.centered.rounded.image(src=thumbnail)
                 .ui.list 
-                    .item comment_count #{comment_count}
                     .item domain #{domain}
                     // .item model #{model}
-                    .item over_18 #{over_18}
                     .item permalink #{permalink}
-                    .item reddit_id #{reddit_id}
+                    // .item reddit_id #{reddit_id}
                     .item 
                         small mined by
                         strong #{_author_username}
@@ -228,11 +235,17 @@ template(name='reddit_view')
                     i.download.icon
                     |get post
                 +voting_full
+                .ui.large.inverted.label.zoomer
+                    +i name='chat'
+                    |#{comment_count} comments
+                if over_18
+                    .ui.large.inverted.red.label.zoomer(title='adult content')
+                        +i name='18-plus'
                 a.ui.large.inverted.button.zoomer(href=url target='_window')
                     i.external.icon
                     | #{url}
                 each tags 
-                    .ui.large.basic.inverted.label #{this}
+                    a.ui.large.basic.inverted.label.zoomer.pick_flat_tag(title='search tag') #{this}
                 .ui.big.inverted.basic.label.zoomer.picker.pick_subreddit(title='browse subreddit')
                     +i name='reddit'
                     |subreddit #{subreddit}

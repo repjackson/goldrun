@@ -564,6 +564,8 @@ if Meteor.isServer
                 anger_percent:1
                 url:1
                 ups:1
+                upvoter_ids:1
+                downvoter_ids:1
                 title:1
                 model:1
                 num_comments:1

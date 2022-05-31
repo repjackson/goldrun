@@ -582,13 +582,14 @@ template(name='voting_full')
     // +ismall name='elections'
     // .ui.inline.header 
     //     |voting
-    // .ui.large.icon.circular.button.upvote(title='upvote' class=upvote_class)
     // unless is_author
-    i.thumbs.up.big.circular.link.icon.zoomer.upvote.invert(class=upvote_class)
+    .ui.large.icon.circular.button.upvote(title='upvote' class=upvote_class)
+        i.thumbs.up.outline.icon
+        // i.thumbs.up.big.circular.link.inverted.icon.zoomer.upvote(class=upvote_class)
         //- |like
-    // .ui.big.icon.circular.button.downvote(title='downvote' class=downvote_class)
-    i.thumbs.down.big.circular.link.icon.zoomer.downvote.invert(class=downvote_class)
-    // i.thumbs.down.outline.icon
+    .ui.large.icon.circular.button.downvote(title='downvote' class=downvote_class)
+        i.thumbs.down.outline.icon
+        // i.thumbs.down.big.circular.link.inverted.icon.zoomer.downvote(class=downvote_class)
     //- |dislike
     if points
         .ui.large.basic.label(title='points') #{points}pts

@@ -257,11 +257,10 @@ template(name='categories')
 template(name='watson_view')
     // +tone
     .ui.styled.fluid.accordion
-        .title(title='emotional breakdown')
+        .active.title.zoomer(title='emotional breakdown')
             +doc_sentiment
             +doc_emotion
-            i.dropdown.large.icon
-        .content
+        .active.content
             +concepts
             +categories
             +entities

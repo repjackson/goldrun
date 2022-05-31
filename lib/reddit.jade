@@ -1,7 +1,7 @@
 template(name='reddit')
     .ui.stackable.padded.grid
         .row
-            .four.wide.column
+            .sixteen.wide.column
                 each picked_tags
                     button.ui.active.compact.big.rounded.fade.animated.button.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
                         .visible.content
@@ -68,7 +68,7 @@ template(name='reddit')
                 //     .ui.divider
                 // .ui.animated.big.link.divided.list.scrolling
                 // .ui.hidden.divider
-            .twelve.wide.column
+            .sixteen.wide.column
                 span.sorting
                     +session_icon_button key='view_mode' value='grid' icon='grid' 
                     +session_icon_button key='view_mode' value='list' icon='list'
@@ -93,10 +93,10 @@ template(name='reddit')
 template(name='reddit_card')
     .card
         if is_image
-            a(href="/reddit/#{_id}")
+            a.fly_right(href="/reddit/#{_id}")
                 img.ui.image.zoomer(src=url title='view article')
         else if has_thumbnail
-            a(href="/reddit/#{_id}")
+            a.fly_right(href="/reddit/#{_id}")
                 img.ui.image.zoomer(src=thumbnail title='view article')
         if rd.selftext_html
             |!{unescaped}
@@ -105,7 +105,7 @@ template(name='reddit_card')
             |!{unescaped_content}
 
         .content 
-            a.ui.small.header.zoomer(href="/reddit/#{_id}") !{title}
+            a.ui.small.header.zoomer.fly_right(href="/reddit/#{_id}" title='view document') !{title}
             .ui.inverted.basic.label
                 i.globe.grey.icon 
                 |#{domain}
@@ -127,13 +127,14 @@ template(name='reddit_card')
                 +doc_emotion
         
 template(name='reddit_item')
-    a.item.fly_right.zoomer(href="/reddit/#{_id}" title='view article') 
+    .item 
         if is_image
-            img.ui.inline.medium.image.rounded(src=url)
-        else if thumbnail
-            a(href="/reddit/#{_id}")
+            a.fly_right(href="/reddit/#{_id}")
+                img.ui.inline.medium.image.rounded(src=url)
+        else if has_thumbnail
+            a.fly_right(href="/reddit/#{_id}")
                 img.ui.medium.inline.image.zoomer(src=thumbnail title='view article')
-        .ui.inline.header !{title}
+        a.ui.inline.header.zoomer.fly_left(href="/reddit/#{_id}") !{title}
         .ui.inverted.basic.label
             i.globe.grey.icon 
             |#{domain}
@@ -181,7 +182,8 @@ template(name='reddit_view')
     with current_doc 
         .ui.stackable.padded.grid 
             .eleven.wide.column
-                a.ui.button(href="/reddit")
+                a.ui.basic.compact.inverted.button.fly_left.zoomer(href="/reddit" title='back to browse')
+                    i.chevron.left.icon
                     +i name='reddit'
                     |reddit
                 .ui.inline.header !{title}

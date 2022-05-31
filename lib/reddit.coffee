@@ -114,7 +114,7 @@ if Meteor.isClient
             
     Template.agg_tag.helpers
         term_image: ->
-            console.log Template.currentData().title
+            # console.log Template.currentData().title
             Docs.findOne 
                 tags:$in:Template.currentData().title
     Template.agg_tag.events
@@ -566,6 +566,7 @@ if Meteor.isServer
                 ups:1
                 upvoter_ids:1
                 downvoter_ids:1
+                points:1
                 title:1
                 model:1
                 num_comments:1

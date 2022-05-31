@@ -77,6 +77,7 @@ template(name='reddit')
                     +session_set key='sort_key' value='comment_count' label='comments' icon='chat'
                     +session_set key='sort_key' value='domain' label='domain' icon='globe'
                     +session_set key='sort_key' value='ups' label='ups' icon='thumbs up'
+                    +session_set key='sort_key' value='points' label='points' icon='hashtag'
                     if currentUser
                         +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='18-plus'
                 .ui.hidden.divider
@@ -149,7 +150,11 @@ template(name='reddit_item')
         .ui.inverted.basic.label added #{_when}
         if over_18
             .ui.inverted.basic.red.label.invert over 18
-        +voting_full
+        +voting
+        if doc_sentiment_label
+            +doc_sentiment
+            // +doc_emotion
+        
 // template(name='session_toggle')
 //     .ui.button.toggle
 //         i.large.icon(class=icon)

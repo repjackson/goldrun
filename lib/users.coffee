@@ -19,7 +19,7 @@ if Meteor.isClient
             
 if Meteor.isServer 
     Meteor.publish 'users_pub', (
-        username_search, 
+        username_search=null
         picked_user_tags=[], 
         view_friends=false
         sort_key='points'
@@ -34,9 +34,9 @@ if Meteor.isServer
         if picked_user_tags.length > 0 then match.tags = $all:picked_user_tags 
         if username_search
             match.username = {$regex:"#{username_search}", $options: 'i'}
-            
+        console.log 'user match', username_search
         Meteor.users.find(match,{ 
-            limit:20, 
+            limit:100, 
             sort:
                 "#{sort_key}":sort_direction
             fields:
@@ -156,7 +156,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'user_tags', (picked_tags)->
+    Meteor.publish 'user_tags', (
+        picked_tags
+        username_search=null
+        )->
         # user = Meteor.users.findOne @userId
         # current_herd = user.profile.current_herd
     

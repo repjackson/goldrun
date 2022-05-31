@@ -44,7 +44,7 @@ template(name='users')
             // +session_set key='view_limit' value=10 label='10'
             // +session_set key='view_limit' value=20 label='20'
             // +session_set key='view_limit' value=50 label='30'
-            +search_input
+            +search_input key='username'
             .scrolling
                 if subs_ready
                     if session_is 'view_mode' 'grid'

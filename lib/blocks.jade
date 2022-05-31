@@ -759,9 +759,9 @@ template(name='flat_tag_selector')
 template(name='search_input')
     .ui.icon.search.large.input
         if current_search.length
-            i.delete.link.icon.zoomer.clear_search
+            i.delete.link.icon.zoomer.clear_search(title='clear search')
         else 
-            i.search.icon
+            i.search.icon.set_search(title='search')
         input.query(type='text' autocomplete="off" placeholder="search #{key}..." value=current_search)
 
 

@@ -41,6 +41,9 @@ if Meteor.isClient
         if user
             Meteor.users.find 
                 _id:$in:user.friended_user_ids
+    Template.registerHelper 'has_thumbnail', () ->
+        @thumbnail and @thumbnail isnt 'self'
+    
     Template.registerHelper '_viewers', () ->
         if @read_user_ids
             Meteor.users.find 
@@ -57,6 +60,7 @@ if Meteor.isClient
     Template.registerHelper 'hostname', () -> 
         window.location.hostname
     
+    Template.registerHelper 'points_to_coins', (input) -> input/100
     Template.registerHelper 'following_users', () -> 
         Meteor.users.find 
             _id:$in:@following_user_ids

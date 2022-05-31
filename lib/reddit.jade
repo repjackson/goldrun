@@ -42,22 +42,22 @@ template(name='reddit')
                     // else 
                     each unpicked_tags
                         +agg_tag
-                    div
-                    .ui.inline.small.header
-                        i.large.globe.icon(title='domains')
-                        |domain
-                    if picked_domain
-                        .ui.button.unpick_domain #{picked_subreddit}
-                    each domain_results
-                        .ui.large.image.link.inverted.basic.label.zoomer.pick_domain #{name}
-                    div
-                    .ui.inline.small.header
-                        i.large.reddit.icon(title='domains')
-                        |subreddit
-                    if picked_subreddit
-                        .ui.button.unpick_subreddit #{picked_subreddit}
-                    each subreddit_results
-                        .ui.large.image.link.inverted.basic.label.zoomer.pick_subreddit #{name}
+                    // div
+                    // .ui.inline.small.header
+                    //     i.large.globe.icon(title='domains')
+                    //     |domain
+                    // if picked_domain
+                    //     .ui.button.unpick_domain #{picked_subreddit}
+                    // each domain_results
+                    //     .ui.large.image.link.inverted.basic.label.zoomer.pick_domain #{name}
+                    // div
+                    // .ui.inline.small.header
+                    //     i.large.reddit.icon(title='domains')
+                    //     |subreddit
+                    // if picked_subreddit
+                    //     .ui.button.unpick_subreddit #{picked_subreddit}
+                    // each subreddit_results
+                    //     .ui.large.image.link.inverted.basic.label.zoomer.pick_subreddit #{name}
                 // if in_dev 
                 //     .ui.divider
                 //     .ui.header is_loading #{is_loading}
@@ -95,7 +95,7 @@ template(name='reddit_card')
         if is_image
             a(href="/reddit/#{_id}")
                 img.ui.image.zoomer(src=url title='view article')
-        else if thumbnail
+        else if has_thumbnail
             a(href="/reddit/#{_id}")
                 img.ui.image.zoomer(src=thumbnail title='view article')
         if rd.selftext_html
@@ -121,6 +121,10 @@ template(name='reddit_card')
             if over_18
                 .ui.inverted.red.label.invert
                     +i name='nsfw'
+            +print_this
+            if doc_sentiment_label
+                +doc_sentiment
+                +doc_emotion
         
 template(name='reddit_item')
     a.item.fly_right.zoomer(href="/reddit/#{_id}" title='view article') 
@@ -176,36 +180,37 @@ template(name='agg_tag')
 template(name='reddit_view')
     with current_doc 
         .ui.stackable.padded.grid 
-            .twelve.wide.column
+            .eleven.wide.column
                 a.ui.button(href="/reddit")
                     +i name='reddit'
                     |reddit
                 .ui.inline.header !{title}
-                if rd.selftext_html
-                    |!{unescaped}
-                // blockquote(class="imgur-embed-pub invert" lang="en" data-id="UsxLSe0")
-                //     a(href=rd.url) Lauren, supergirl, batgirl [Super best friends &amp; lauren faust])
-                // script(async src="//s.imgur.com/min/embed.js" charset="utf-8")
-                a.ui.header(href=rd.url target='_window') #{rd.url}
-                with rd
-                    embed(src=url)
-                if rd.media_embed
-                    // .invert
-                    |!{unescaped_content}
-                +call_watson key=rd.selftext
-                if watson 
-                    +watson_view
-                if in_dev
-                    +print_this
-                if is_image
-                    img.ui.image(src=url)
-            .four.wide.column
+                .scrolling
+                    if rd.selftext_html
+                        |!{unescaped}
+                    // blockquote(class="imgur-embed-pub invert" lang="en" data-id="UsxLSe0")
+                    //     a(href=rd.url) Lauren, supergirl, batgirl [Super best friends &amp; lauren faust])
+                    // script(async src="//s.imgur.com/min/embed.js" charset="utf-8")
+                    a.ui.header(href=rd.url target='_window') #{rd.url}
+                    with rd
+                        embed(src=url)
+                    if rd.media_embed
+                        // .invert
+                        |!{unescaped_content}
+                    // +call_watson key=rd.selftext
+                    if watson 
+                        +watson_view
+                    if in_dev
+                        +print_this
+                    if is_image
+                        img.ui.image(src=url)
+            .five.wide.column
                 if thumbnail
                     img.ui.centered.rounded.image(src=thumbnail)
                 .ui.list 
                     .item comment_count #{comment_count}
                     .item domain #{domain}
-                    .item model #{model}
+                    // .item model #{model}
                     .item over_18 #{over_18}
                     .item permalink #{permalink}
                     .item reddit_id #{reddit_id}

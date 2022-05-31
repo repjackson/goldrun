@@ -71,6 +71,15 @@ if Meteor.isClient
     
     Template.reddit_view.onCreated ->
         @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
+    Template.reddit_view.onRendered ->
+        # console.log @
+        found_doc = Docs.findOne Router.current().params.doc_id
+        if found_doc 
+            unless found_doc.watson
+                Meteor.call 'call_watson',Router.current().params.doc_id,'rd.selftext', ->
+                    console.log 'autoran watson'
+
+        # @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.reddit.onCreated ->
         Session.setDefault('current_query', null)
         Session.setDefault('dummy', false)
@@ -441,7 +450,7 @@ if Meteor.isServer
             { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 15 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -454,49 +463,49 @@ if Meteor.isServer
                 model:'tag'
                 # index: i
         
-        domain_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "domain": 1 }
-            { $group: _id: "$domain", count: $sum: 1 }
-            { $match: _id: $ne: picked_domain }
-            { $match: count: $lt: agg_doc_count }
-            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ], {
-            allowDiskUse: true
-        }
+        # domain_cloud = Docs.aggregate [
+        #     { $match: match }
+        #     { $project: "domain": 1 }
+        #     { $group: _id: "$domain", count: $sum: 1 }
+        #     { $match: _id: $ne: picked_domain }
+        #     { $match: count: $lt: agg_doc_count }
+        #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+        #     { $sort: count: -1, _id: 1 }
+        #     { $limit: 5 }
+        #     { $project: _id: 0, name: '$_id', count: 1 }
+        # ], {
+        #     allowDiskUse: true
+        # }
     
-        domain_cloud.forEach (domain, i) =>
-            self.added 'results', Random.id(),
-                name: domain.name
-                count: domain.count
-                model:'domain'
-                # category:key
-                # index: i
+        # domain_cloud.forEach (domain, i) =>
+        #     self.added 'results', Random.id(),
+        #         name: domain.name
+        #         count: domain.count
+        #         model:'domain'
+        #         # category:key
+        #         # index: i
         
-        subreddit_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "subreddit": 1 }
-            { $group: _id: "$subreddit", count: $sum: 1 }
-            { $match: _id: $ne: picked_subreddit }
-            { $match: count: $lt: agg_doc_count }
-            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-        ], {
-            allowDiskUse: true
-        }
+        # subreddit_cloud = Docs.aggregate [
+        #     { $match: match }
+        #     { $project: "subreddit": 1 }
+        #     { $group: _id: "$subreddit", count: $sum: 1 }
+        #     { $match: _id: $ne: picked_subreddit }
+        #     { $match: count: $lt: agg_doc_count }
+        #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+        #     { $sort: count: -1, _id: 1 }
+        #     { $limit: 5 }
+        #     { $project: _id: 0, name: '$_id', count: 1 }
+        # ], {
+        #     allowDiskUse: true
+        # }
     
-        subreddit_cloud.forEach (subreddit, i) =>
-            self.added 'results', Random.id(),
-                name: subreddit.name
-                count: subreddit.count
-                model:'subreddit'
-                # category:key
-                # index: i
+        # subreddit_cloud.forEach (subreddit, i) =>
+        #     self.added 'results', Random.id(),
+        #         name: subreddit.name
+        #         count: subreddit.count
+        #         model:'subreddit'
+        #         # category:key
+        #         # index: i
         self.ready()
         # else []
     Meteor.publish 'tag_image', (term)->
@@ -546,6 +555,13 @@ if Meteor.isServer
                 "rd.url":1
                 subreddit:1
                 thumbnail:1
+                doc_sentiment_label:1
+                doc_sentiment_score:1
+                joy_percent:1
+                sadness_percent:1
+                fear_percent:1
+                disgust_percent:1
+                anger_percent:1
                 url:1
                 ups:1
                 title:1

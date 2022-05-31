@@ -131,7 +131,7 @@ template(name='nav')
                         i.user.icon
                     strong #{currentUser.username}
                     |&nbsp;
-                    .ui.large.basic.black.inverted.label(title='points') #{currentUser.points}p
+                    .ui.large.basic.black.inverted.label(title='points') {{points_to_coins currentUser.points}}c
                 a.icon.item.zoomer.fly_down.add_doc(title='add doc')
                     // +i name='plus'
                     i.large.plus.green.invert.icon
@@ -149,8 +149,8 @@ template(name='nav')
             //     +i name='plus'
             //     span.mobile.hidden register            
             a.item(href='/login' title='login' class="{{isActiveRoute 'login'}}" ) 
-                i.sign.in.large.icon
-                // +i name='internal'
+                // i.sign.in.large.icon
+                +i name='enter'
                 // span.mobile.hidden login
         unless is_connected
             .item

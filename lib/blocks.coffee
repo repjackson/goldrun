@@ -137,7 +137,9 @@ if Meteor.isClient
         
 if Meteor.isClient
     Template.search_input.helpers
-        current_search: -> Session.get('current_search')
+        current_search: -> 
+            console.log Session.get('current_search')
+            Session.get('current_search')
     Template.search_input.events
         'click .clear_search': (e,t)->
             Session.set('current_search', null)

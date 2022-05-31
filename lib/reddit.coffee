@@ -108,7 +108,7 @@ if Meteor.isClient
             Session.get('view_nsfw')
             Session.get('sort_key')
             Session.get('sort_direction')
-            Session.get('dummy')
+            # Session.get('dummy')
     
     
     Template.reddit_view.events 
@@ -195,7 +195,7 @@ if Meteor.isClient
                       hideMethod   : 'fade',
                       hideDuration : 250
                     })
-
+                Session.set('dummy', !Session.get('dummy'))
             # Meteor.call 'call_watson', doc._id, @key, @mode, ->
         
     Template.reddit.events
@@ -213,8 +213,8 @@ if Meteor.isClient
                 , 5000
     
         # # 'keyup #search': _.throttle((e,t)->
-        'click #search': (e,t)->
-            Session.set('dummy', !Session.get('dummy'))
+        # 'click #search': (e,t)->
+        #     Session.set('dummy', !Session.get('dummy'))
         'keydown #search': (e,t)->
             query = $('#search').val()
             # if query.length > 0
@@ -300,7 +300,7 @@ if Meteor.isClient
             
         search_class: ->
             if Session.get('current_query')
-                'big active' 
+                'massive active' 
             else
                 if picked_tags.array().length is 0
                     'large'
@@ -586,6 +586,7 @@ if Meteor.isServer
         view_nsfw=false
         sort_key='_timestamp'
         sort_direction=-1
+        # dummy
         # current_query
         # date_setting
         )->
@@ -612,8 +613,8 @@ if Meteor.isServer
         Docs.find match,
             sort:
                 "#{sort_key}":sort_direction
-                # points:-1
-            limit:42
+                _timestamp:-1
+            limit:20
             fields:
                 # youtube_id:1
                 "rd.media_embed":1

@@ -29,24 +29,25 @@ template(name='reddit')
                     input#search(type='text' autofocus='' autocomplete="off" placeholder='consult the dao...')
                 //- .ui.header #{connection.status}
                 with emotion_avg_result
-                    .ui.label
-                        small sentiment:
+                    div
+                    .ui.basc.label
                         |{{to_percent avg_sent_score}}%
+                        small sentiment
                     .ui.green.basic.inverted.label
-                        small joy: 
                         |{{to_percent avg_joy_score}}%
+                        small joyful
                     .ui.red.basic.inverted.label
-                        small anger: 
                         |{{to_percent avg_anger_score}}%
+                        small angry
                     .ui.blue.basic.inverted.label
-                        small sadness: 
                         |{{to_percent avg_sadness_score}}%
+                        small sad
                     .ui.orange.basic.inverted.label
-                        small disgust: 
                         |{{to_percent avg_disgust_score}}%
+                        small disgusted
                     .ui.grey.basic.inverted.label
-                        small fear: 
                         |{{to_percent avg_fear_score}}%
+                        small fearful
                 
                 div
                 unless connected
@@ -123,7 +124,7 @@ template(name='reddit_card')
                 img.ui.image.zoomer(src=url title='view article')
         else if has_thumbnail
             a.fly_right(href="/reddit/#{_id}")
-                img.ui.image.zoomer(src=thumbnail title='view article')
+                img.ui.fluid.image.zoomer(src=thumbnail title='view article')
         if rd.media_embed.content
             // .invert
             |!{unescaped_content}
@@ -154,10 +155,10 @@ template(name='reddit_card')
             if doc_sentiment_label
                 +doc_sentiment
                 +doc_emotion
-        unless doc_sentiment_label 
-            .ui.attached.icon.fluid.inverted.button.autotag(title='breakdown emotions') 
-                i.large.chess.grey.icon
-            // +call_watson key=rd.selftext
+            unless doc_sentiment_label 
+                .ui.icon.big.inverted.button.autotag.zoomer(title='breakdown emotions') 
+                    i.large.chess.grey.icon
+                // +call_watson key=rd.selftext
         
 template(name='reddit_item')
     .item 

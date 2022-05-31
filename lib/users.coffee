@@ -27,6 +27,8 @@ if Meteor.isServer
         limit=50
     )->
         match = {}
+        unless Meteor.user()
+            match.publish_profile = true
         if view_friends
             match._id = $in: Meteor.user().friend_ids
         if picked_user_tags.length > 0 then match.tags = $all:picked_user_tags 

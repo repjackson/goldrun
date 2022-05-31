@@ -85,7 +85,7 @@ if Meteor.isClient
     Template.agg_tag.events
         'click .result': (e,t)->
             # Meteor.call 'log_term', @title, ->
-            picked_tags.push @title
+            picked_tags.push @name
             $('#search').val('')
             Session.set('current_query', null)
             Session.set('searching', true)
@@ -101,7 +101,7 @@ if Meteor.isClient
     
     Template.reddit.events
         'click .select_query': ->
-            picked_tags.push @title
+            picked_tags.push @name
             Meteor.call 'search_reddit', picked_tags.array(), ->
             $('#search').val('')
             Session.set('current_query', null)
@@ -370,53 +370,55 @@ if Meteor.isServer
     
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
-            if picked_domain
-                match.domain = picked_domain
-            agg_doc_count = Docs.find(match).count()
-            tag_cloud = Docs.aggregate [
-                { $match: match }
-                { $project: "tags": 1 }
-                { $unwind: "$tags" }
-                { $group: _id: "$tags", count: $sum: 1 }
-                { $match: _id: $nin: picked_tags }
-                { $match: count: $lt: agg_doc_count }
-                # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-                { $sort: count: -1, _id: 1 }
-                { $limit: 15 }
-                { $project: _id: 0, name: '$_id', count: 1 }
-            ], {
-                allowDiskUse: true
-            }
-        
-            tag_cloud.forEach (tag, i) =>
-                self.added 'results', Random.id(),
-                    name: tag.name
-                    count: tag.count
-                    model:'tag'
-                    # index: i
-            domain_cloud = Docs.aggregate [
-                { $match: match }
-                { $project: "domain": 1 }
-                { $group: _id: "$domain", count: $sum: 1 }
-                { $match: _id: $ne: picked_domain }
-                { $match: count: $lt: agg_doc_count }
-                # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-                { $sort: count: -1, _id: 1 }
-                { $limit: 15 }
-                { $project: _id: 0, name: '$_id', count: 1 }
-            ], {
-                allowDiskUse: true
-            }
-        
-            domain_cloud.forEach (domain, i) =>
-                self.added 'results', Random.id(),
-                    name: domain.name
-                    count: domain.count
-                    model:'domain'
-                    # category:key
-                    # index: i
-            self.ready()
-        else []
+        # else /
+            # match.tags = $all: picked_tags
+        if picked_domain
+            match.domain = picked_domain
+        agg_doc_count = Docs.find(match).count()
+        tag_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "tags": 1 }
+            { $unwind: "$tags" }
+            { $group: _id: "$tags", count: $sum: 1 }
+            { $match: _id: $nin: picked_tags }
+            { $match: count: $lt: agg_doc_count }
+            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ], {
+            allowDiskUse: true
+        }
+    
+        tag_cloud.forEach (tag, i) =>
+            self.added 'results', Random.id(),
+                name: tag.name
+                count: tag.count
+                model:'tag'
+                # index: i
+        domain_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "domain": 1 }
+            { $group: _id: "$domain", count: $sum: 1 }
+            { $match: _id: $ne: picked_domain }
+            { $match: count: $lt: agg_doc_count }
+            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ], {
+            allowDiskUse: true
+        }
+    
+        domain_cloud.forEach (domain, i) =>
+            self.added 'results', Random.id(),
+                name: domain.name
+                count: domain.count
+                model:'domain'
+                # category:key
+                # index: i
+        self.ready()
+        # else []
     Meteor.publish 'tag_image', (term)->
         match = {model:'post'}
         match.url = { $regex: /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/, $options: 'i' }

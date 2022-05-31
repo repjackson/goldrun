@@ -42,9 +42,10 @@ template(name='reddit')
                     // else 
                     each unpicked_tags
                         +agg_tag
+                    div
                     i.large.globe.icon(title='domains')
                     each domains
-                        .ui.large.image.link.label.zoomer #{name}
+                        .ui.large.image.link.inverted.label.zoomer #{name}
                 // if in_dev 
                 //     .ui.divider
                 //     .ui.header is_loading #{is_loading}

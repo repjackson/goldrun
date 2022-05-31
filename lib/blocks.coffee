@@ -879,9 +879,9 @@ if Meteor.isClient
             if @cl
                 res += @cl
             if Session.get(@key)
-                res += ' blue'
+                res += ' black'
             else
-                res += ' '
+                res += ' basic compact'
 
             # console.log res
             res

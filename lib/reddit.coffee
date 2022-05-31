@@ -10,6 +10,17 @@ if Meteor.isClient
         ), name:'reddit_view'
 
     
+    Template.registerHelper 'unescaped', () ->
+        txt = document.createElement("textarea")
+        txt.innerHTML = @rd.selftext_html
+        return txt.value
+
+            # html.unescape(@rd.selftext_html)
+    Template.registerHelper 'unescaped_content', () ->
+        txt = document.createElement("textarea")
+        txt.innerHTML = @rd.media_embed.content
+        return txt.value
+        
     Template.registerHelper 'session_key_value_is', (key, value) ->
         # console.log 'key', key
         # console.log 'value', value
@@ -185,6 +196,19 @@ if Meteor.isClient
         'click .print_me': (e,t)->
             console.log @
             
+    Template.reddit_view.helpers
+        unescaped: -> 
+            txt = document.createElement("textarea")
+            txt.innerHTML = @rd.selftext_html
+            return txt.value
+
+            # html.unescape(@rd.selftext_html)
+        unescaped_content: -> 
+            txt = document.createElement("textarea")
+            txt.innerHTML = @rd.media_embed.content
+            return txt.value
+
+            # html.unescape(@rd.selftext_html)
     Template.reddit_view.events
         'click .pull_post': (e,t)->
             # console.log @
@@ -417,7 +441,7 @@ if Meteor.isServer
             { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -515,9 +539,11 @@ if Meteor.isServer
             sort:
                 "#{sort_key}":sort_direction
                 # points:-1
-            limit:10
+            limit:42
             fields:
                 # youtube_id:1
+                "rd.media_embed":1
+                "rd.url":1
                 subreddit:1
                 thumbnail:1
                 url:1

@@ -77,8 +77,9 @@ template(name='reddit')
                     +session_set key='sort_key' value='comment_count' label='comments' icon='chat'
                     +session_set key='sort_key' value='domain' label='domain' icon='globe'
                     +session_set key='sort_key' value='ups' label='ups' icon='thumbs up'
-                    +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='nsfw'
-                .ui.stackable.centered.cards
+                    +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='18-plus'
+                .ui.hidden.divider
+                .ui.stackable.centered.cards.scrolling
                     if subs_ready
                         if session_is 'view_mode' 'grid'
                             each doc_results
@@ -89,13 +90,19 @@ template(name='reddit')
                                 each doc_results
                                     +reddit_item
 template(name='reddit_card')
-    .card 
+    .card
         if is_image
             a(href="/reddit/#{_id}")
                 img.ui.image.zoomer(src=url title='view article')
         else if thumbnail
             a(href="/reddit/#{_id}")
                 img.ui.image.zoomer(src=thumbnail title='view article')
+        if rd.selftext_html
+            |!{unescaped}
+        if rd.media_embed.content
+            // .invert
+            |!{unescaped_content}
+
         .content 
             a.ui.small.header.zoomer(href="/reddit/#{_id}") !{title}
             .ui.inverted.basic.label
@@ -117,24 +124,26 @@ template(name='reddit_card')
 template(name='reddit_item')
     a.item.fly_right.zoomer(href="/reddit/#{_id}" title='view article') 
         if is_image
-            img.ui.inline.small.image(src=url)
-        .content 
-            .ui.small.header !{title}
-            .ui.inverted.basic.label
-                i.globe.grey.icon 
-                |#{domain}
-            .ui.inverted.basic.label
-                i.thumbs.up.icon 
-                |#{ups}
-            .ui.inverted.basic.label
-                i.comment.icon 
-                |#{num_comments}
-            .ui.inverted.basic.label 
-                |subreddit: #{subreddit}
-            .ui.inverted.basic.label added #{_when}
-            if over_18
-                .ui.inverted.basic.red.label.invert over 18 #{over_18}
-        
+            img.ui.inline.medium.image.rounded(src=url)
+        else if thumbnail
+            a(href="/reddit/#{_id}")
+                img.ui.medium.inline.image.zoomer(src=thumbnail title='view article')
+        .ui.inline.header !{title}
+        .ui.inverted.basic.label
+            i.globe.grey.icon 
+            |#{domain}
+        .ui.inverted.basic.label
+            i.thumbs.up.icon 
+            |#{ups}
+        .ui.inverted.basic.label
+            i.comment.icon 
+            |#{num_comments}
+        .ui.inverted.basic.label 
+            |subreddit: #{subreddit}
+        .ui.inverted.basic.label added #{_when}
+        if over_18
+            .ui.inverted.basic.red.label.invert over 18
+        +voting_full
 // template(name='session_toggle')
 //     .ui.button.toggle
 //         i.large.icon(class=icon)
@@ -166,20 +175,32 @@ template(name='agg_tag')
 template(name='reddit_view')
     with current_doc 
         .ui.stackable.padded.grid 
-            .eight.wide.column
+            .twelve.wide.column
                 a.ui.button(href="/reddit")
                     +i name='reddit'
                     |reddit
-                if thumbnail
-                    img.ui.centered.rounded.image(src=thumbnail)
-                .ui.header #{title}
-                +print_this
+                .ui.inline.header !{title}
+                if rd.selftext_html
+                    |!{unescaped}
+                // blockquote(class="imgur-embed-pub invert" lang="en" data-id="UsxLSe0")
+                //     a(href=rd.url) Lauren, supergirl, batgirl [Super best friends &amp; lauren faust])
+                // script(async src="//s.imgur.com/min/embed.js" charset="utf-8")
+                a.ui.header(href=rd.url target='_window') #{rd.url}
+                with rd
+                    embed(src=url)
+                if rd.media_embed
+                    // .invert
+                    |!{unescaped_content}
+                +call_watson key=rd.selftext
+                if watson 
+                    +watson_view
+                if in_dev
+                    +print_this
                 if is_image
                     img.ui.image(src=url)
-                .ui.button.pull_post
-                    i.download.icon
-                    |get post
-            .eight.wide.column
+            .four.wide.column
+                if thumbnail
+                    img.ui.centered.rounded.image(src=thumbnail)
                 .ui.list 
                     .item comment_count #{comment_count}
                     .item domain #{domain}
@@ -190,6 +211,10 @@ template(name='reddit_view')
                     .item 
                         small mined by
                         strong #{_author_username}
+                .ui.button.pull_post
+                    i.download.icon
+                    |get post
+                +voting_full
                 a.ui.large.inverted.button.zoomer(href=url target='_window')
                     i.external.icon
                     | #{url}

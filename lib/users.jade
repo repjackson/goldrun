@@ -4,6 +4,8 @@ template(name='users')
             .ui.inline.header
                 +i name='groups'
                 |#{user_docs.count}
+                unless currentUser
+                    |public
                 |users
             if currentUser.admin
                 .ui.icon.inverted.button.add_user
@@ -37,6 +39,7 @@ template(name='users')
             +session_set key='sort_key' value='points' label='points' icon='coins'
             +session_set key='sort_key' value='createdAt' label='joined' icon='calendar'
             +session_set key='sort_key' value='views' icon='eye'
+            +session_set key='sort_key' value='public_profile' icon='lock'
             // +session_set key='view_limit' value=1
             // +session_set key='view_limit' value=10 label='10'
             // +session_set key='view_limit' value=20 label='20'
@@ -109,6 +112,7 @@ template(name='user_card')
                 .ui.small.inline.header(title='status' style="color:#{theme_color};")
                     i.small.clock.icon
                     |!{current_status}
+            +public_profile_label
             // div
             // i.line.chart.icon(title='levels')
             // each levels
@@ -125,6 +129,13 @@ template(name='user_card')
                 i.eye.icon
                 |#{profile_views}
             +join
+
+template(name='public_profile_label')
+    if public_profile 
+        i.unlock.large.icon(title='public profile')
+    else 
+        i.lock.large.icon(title='private profile')
+
 
 template(name='join')
     .ui.label(title='joined')
@@ -166,6 +177,7 @@ template(name='user_item')
                 .ui.small.inline.header(title='status' style="color:#{theme_color};")
                     i.small.clock.icon
                     |!{current_status}
+            +public_profile_label
             // div
             // i.line.chart.icon(title='levels')
             // each levels

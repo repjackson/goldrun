@@ -360,6 +360,6 @@ if Meteor.isClient
     
     Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
     
-    Template.registerHelper 'is_current_user', (key, value)->
+    Template.registerHelper 'is_current_user', ()->
         if Meteor.user()
             Meteor.user().username is Router.current().params.username

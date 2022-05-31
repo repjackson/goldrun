@@ -214,26 +214,27 @@ template(name='profile_sidebar')
             i.clock.icon 
             |#{status}
     a.ui.large.label(href="/user/#{username}/points" title='points')
-        //- +i name='coins'
+        +i name='coins'
         //- i.coins.icon
         |#{points} pts
     +link_view key='link' icon='globe'
+    +public_profile_label    
     +online_label
     if linkedin_link
-        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=linkedin_link target='_window' title='view linkedin profile')
+        a.ui.basic.circular.icon.large.compact.inverted.button.zoomer(href=linkedin_link target='_window' title='view linkedin profile')
             +i name='linkedin'
     if twitter_link
-        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=twitter_link target='_window' title='view twitter profile')
+        a.ui.basic.circular.icon.large.compact.inverted.button.zoomer(href=twitter_link target='_window' title='view twitter profile')
             +i name='twitter'
     if instagram_link
-        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=instagram_link target='_window' title='view instagram profile')
+        a.ui.basic.circular.icon.large.compact.inverted.button.zoomer(href=instagram_link target='_window' title='view instagram profile')
             +i name='instagram'
     if facebook_link
-        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=facebook_link target='_window' title='view facebook profile')
+        a.ui.basic.circular.icon.large.compact.inverted.button.zoomer(href=facebook_link target='_window' title='view facebook profile')
             +i name='facebook'
     if one_link
-        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=facebook_link target='_window' title='view facebook profile')
-            img.ui.avatar.image(src="{{c.url 'one_logo' height=500 width=500 gravity='face' crop='fill'}}")
+        a.ui.basic.circular.icon.large.compact.inverted.button.zoomer(href=facebook_link target='_window' title='view one boulder profile')
+            img.ui.avatar.image.invert(src="{{c.url 'one_logo' height=500 width=500 gravity='face' crop='fill'}}")
     if is_current_user
         a.ui.large.icon.inverted.basic.button.fly_up(href="/user/#{_id}/edit" title='profile settings')
             +i name='settings'

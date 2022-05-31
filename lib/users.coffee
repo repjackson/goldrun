@@ -34,6 +34,7 @@ if Meteor.isServer
         if picked_user_tags.length > 0 then match.tags = $all:picked_user_tags 
         if username_search
             match.username = {$regex:"#{username_search}", $options: 'i'}
+            
         Meteor.users.find(match,{ 
             limit:20, 
             sort:
@@ -44,6 +45,7 @@ if Meteor.isServer
                 tags:1
                 points:1
                 credit:1
+                publish_profile:1
                 first_name:1
                 last_name:1
                 group_memberships:1
@@ -154,66 +156,15 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'user_results', (
-        picked_tags
-        limit=150
-        doc_sort_key
-        doc_sort_direction
-        view_delivery
-        view_pickup
-        view_open
-        )->
-        # console.log picked_tags
-        if doc_sort_key
-            sort_key = doc_sort_key
-        if doc_sort_direction
-            sort_direction = parseInt(doc_sort_direction)
-        self = @
-        match = {model:'event'}
-        # if view_open
-        #     match.open = $ne:false
-        # if view_delivery
-        #     match.delivery = $ne:false
-        # if view_pickup
-        #     match.pickup = $ne:false
-        if picked_tags.length > 0
-            match.tags = $all: picked_tags
-            # sort = 'member_count'
-        else
-            # match.tags = $nin: ['wikipedia']
-            sort = '_timestamp'
-            # match.source = $ne:'wikipedia'
-        # if view_images
-        #     match.is_image = $ne:false
-        # if view_videos
-        #     match.is_video = $ne:false
-
-        # match.tags = $all: picked_tags
-        # if filter then match.model = filter
-        # keys = _.keys(prematch)
-        # for key in keys
-        #     key_array = prematch["#{key}"]
-        #     if key_array and key_array.length > 0
-        #         match["#{key}"] = $all: key_array
-            # console.log 'current facet filter array', current_facet_filter_array
-
-        console.log 'group match', match
-        console.log 'sort key', sort_key
-        console.log 'sort direction', sort_direction
-        Meteor.users.find match,
-            sort:"#{sort_key}":sort_direction
-            limit: 100
-            # limit: limit
-
-
-    
     Meteor.publish 'user_tags', (picked_tags)->
         # user = Meteor.users.findOne @userId
         # current_herd = user.profile.current_herd
     
         self = @
         match = {}
-    
+        unless Meteor.user()
+            match.publish_profile = true
+
         # picked_tags.push current_herd
         if picked_tags.length > 0
             match.tags = $all: picked_tags

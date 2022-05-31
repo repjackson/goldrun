@@ -28,6 +28,26 @@ template(name='reddit')
                     //- input#search(type='text' autofocus='' autocomplete="off" value=current_query)
                     input#search(type='text' autofocus='' autocomplete="off" placeholder='consult the dao...')
                 //- .ui.header #{connection.status}
+                with emotion_avg_result
+                    .ui.label
+                        small sentiment:
+                        |{{to_percent avg_sent_score}}%
+                    .ui.green.basic.inverted.label
+                        small joy: 
+                        |{{to_percent avg_joy_score}}%
+                    .ui.red.basic.inverted.label
+                        small anger: 
+                        |{{to_percent avg_anger_score}}%
+                    .ui.blue.basic.inverted.label
+                        small sadness: 
+                        |{{to_percent avg_sadness_score}}%
+                    .ui.orange.basic.inverted.label
+                        small disgust: 
+                        |{{to_percent avg_disgust_score}}%
+                    .ui.grey.basic.inverted.label
+                        small fear: 
+                        |{{to_percent avg_fear_score}}%
+                
                 div
                 unless connected
                     //- .ui.header disconnected
@@ -84,15 +104,15 @@ template(name='reddit')
             .sixteen.wide.column
                 // .ui.hidden.divider
                 if subs_ready
-                    if session_is 'view_mode' 'list'
-                        .ui.selection.animated.list 
-                            each doc_results
-                                +reddit_item
-                    else
-                        .ui.stackable.centered.cards.scrolling
-                            each doc_results
-                                +reddit_card
-                            // +small_card
+                    // if session_is 'view_mode' 'list'
+                    //     .ui.selection.animated.list 
+                    //         each doc_results
+                    //             +reddit_item
+                    // else
+                    .ui.stackable.centered.cards.scrolling
+                        each doc_results
+                            +reddit_card
+                        // +small_card
                 else 
                     .ui.center.aligned.basic.segment
                         i.massive.yin.yang.grey.loading.icon

@@ -93,6 +93,8 @@ if Meteor.isClient
         Session.setDefault('is_loading', false)
         Session.setDefault('sort_key', '_timestamp')
         Session.setDefault('sort_direction', -1)
+        @autorun => @subscribe 'agg_emotions',
+            picked_tags.array()
         @autorun => @subscribe 'reddit_tag_results',
             picked_tags.array()
             Session.get('domain')
@@ -289,6 +291,9 @@ if Meteor.isClient
         
         
     Template.reddit.helpers
+        emotion_avg_result: ->
+            Results.findOne 
+                model:'emotion_avg'
         # in_dev: -> Meteor.isDevelopment()
         not_searching: ->
             picked_tags.array().length is 0 and Session.equals('current_query',null)
@@ -768,30 +773,30 @@ if Meteor.isServer
                     # console.log Docs.findOne(doc_id)
     
                 
-    Meteor.publish 'agg_sentiment_group', (
-        group
+    Meteor.publish 'agg_emotions', (
+        # group
         picked_tags
-        picked_time_tags
-        selected_location_tags
-        selected_people_tags
-        picked_max_emotion
-        picked_timestamp_tags
+        # picked_time_tags
+        # selected_location_tags
+        # selected_people_tags
+        # picked_max_emotion
+        # picked_timestamp_tags
         )->
         # @unblock()
         self = @
         match = {
-            model:$in:['reddit']
-            group:group
+            model:'reddit'
+            # group:group
             joy_percent:$exists:true
         }
             
         doc_count = Docs.find(match).count()
         if picked_tags.length > 0 then match.tags = $all:picked_tags
-        if picked_max_emotion.length > 0 then match.max_emotion_name = $all:picked_max_emotion
-        if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
-        if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
-        if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
-        if picked_timestamp_tags.length > 0 then match._timestamp_tags = $all:picked_timestamp_tags
+        # if picked_max_emotion.length > 0 then match.max_emotion_name = $all:picked_max_emotion
+        # if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+        # if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
+        # if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
+        # if picked_timestamp_tags.length > 0 then match._timestamp_tags = $all:picked_timestamp_tags
         
         emotion_avgs = Docs.aggregate [
             { $match: match }

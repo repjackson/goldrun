@@ -201,6 +201,9 @@ if Meteor.isClient
         domains: ->
             Results.find 
                 model:'domain'
+        subreddits: ->
+            Results.find 
+                model:'subreddit'
                     
         curent_date_setting: -> Session.get('date_setting')
     
@@ -369,6 +372,7 @@ if Meteor.isServer
         picked_tags=null
         # query
         picked_domain=null
+        picked_subreddit=null
         view_nsfw=false
         # searching
         dummy
@@ -380,14 +384,16 @@ if Meteor.isServer
         # match.model = $in: ['reddit','wikipedia']
         match.model = 'reddit'
         # if query
-        if view_nsfw
-            match.over_18 = true
+        # if view_nsfw
+        match.over_18 = view_nsfw
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
         # else /
             # match.tags = $all: picked_tags
         if picked_domain
             match.domain = picked_domain
+        if picked_subreddit
+            match.subreddit = picked_subreddit
         agg_doc_count = Docs.find(match).count()
         tag_cloud = Docs.aggregate [
             { $match: match }
@@ -410,6 +416,7 @@ if Meteor.isServer
                 count: tag.count
                 model:'tag'
                 # index: i
+        
         domain_cloud = Docs.aggregate [
             { $match: match }
             { $project: "domain": 1 }
@@ -429,6 +436,28 @@ if Meteor.isServer
                 name: domain.name
                 count: domain.count
                 model:'domain'
+                # category:key
+                # index: i
+        
+        subreddit_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: "subreddit": 1 }
+            { $group: _id: "$subreddit", count: $sum: 1 }
+            { $match: _id: $ne: picked_subreddit }
+            { $match: count: $lt: agg_doc_count }
+            # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 10 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+        ], {
+            allowDiskUse: true
+        }
+    
+        subreddit_cloud.forEach (subreddit, i) =>
+            self.added 'results', Random.id(),
+                name: subreddit.name
+                count: subreddit.count
+                model:'subreddit'
                 # category:key
                 # index: i
         self.ready()
@@ -456,16 +485,16 @@ if Meteor.isServer
         #         yesterday = now-day
         #         match._timestamp = $gt:yesterday
     
-        if view_nsfw
-            match.over_18 = true
+        # if view_nsfw
+        match.over_18 = view_nsfw
         # if picked_tags.length > 0
         #     # if picked_tags.length is 1
         #     #     found_doc = Docs.findOne(title:picked_tags[0])
         #     #
         #     #     match.title = picked_tags[0]
         #     # else
-        # if picked_tags and picked_tags.length > 0
-        match.tags = $all: picked_tags
+        if picked_tags and picked_tags.length > 0
+            match.tags = $all: picked_tags
         
         Docs.find match,
             sort:

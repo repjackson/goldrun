@@ -43,12 +43,17 @@ template(name='reddit')
                     each unpicked_tags
                         +agg_tag
                     div
-                    i.large.globe.icon(title='domains')
+                    .ui.inline.small.header
+                        i.large.globe.icon(title='domains')
+                        |domain
                     each domains
-                        .ui.large.image.link.inverted.label.zoomer #{name}
-                    i.large.globe.icon(title='domains')
-                    each domains
-                        .ui.large.image.link.inverted.label.zoomer #{name}
+                        .ui.large.image.link.inverted.basic.label.zoomer #{name}
+                    div
+                        .ui.inline.small.header
+                            i.large.reddit.icon(title='domains')
+                            |subreddit
+                    each subreddits
+                        .ui.large.image.link.inverted.basic.label.zoomer #{name}
                 // if in_dev 
                 //     .ui.divider
                 //     .ui.header is_loading #{is_loading}
@@ -142,6 +147,7 @@ template(name='reddit_view')
                 if is_image
                     img.ui.image(src=url)
                 .ui.button.pull_post
+                    i.download.icon
                     |get post
             .eight.wide.column
                 .ui.list 

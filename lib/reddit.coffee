@@ -66,12 +66,14 @@ if Meteor.isClient
         Session.setDefault('is_loading', false)
         @autorun => @subscribe 'reddit_tag_results',
             picked_tags.array()
-            Session.get('picked_domain')
+            Session.get('domain')
+            Session.get('subreddit')
             Session.get('view_nsfw')
             Session.get('dummy')
         @autorun => @subscribe 'reddit_doc_results',
             picked_tags.array()
-            Session.get('picked_domain')
+            Session.get('domain')
+            Session.get('subreddit')
             Session.get('view_nsfw')
             Session.get('sort_key')
             Session.get('sort_direction')
@@ -82,6 +84,9 @@ if Meteor.isClient
         'click .get_post': ->
             Meteor.call 'get_reddit_post_by_doc_id', Router.current().params.doc_id, ->
     
+        'click .pick_subreddit': ->
+            Session.set('subreddit',@subreddit)
+            Router.go "/reddit"
     
     Template.agg_tag.onCreated ->
         # console.log @
@@ -116,6 +121,9 @@ if Meteor.isClient
             $('#search').val('')
             Session.set('current_query', null)
     
+    Template.reddit_card.events
+        'click .pick_subreddit': -> Session.set('subreddit',@subreddit)
+        'click .pick_domain': -> Session.set('domain',@domain)
     Template.reddit.events
         'click .print_me': ->
             console.log @
@@ -170,7 +178,10 @@ if Meteor.isClient
         'click .reconnect': -> Meteor.reconnect()
     
         'click .toggle_tag': (e,t)-> picked_tags.push @valueOf()
-    
+        'click .pick_subreddit': -> Session.set('subreddit',@name)
+        'click .unpick_subreddit': -> Session.set('subreddit',null)
+        'click .pick_domain': -> Session.set('domain',@name)
+        'click .unpick_domain': -> Session.set('domain',null)
         'click .print_me': (e,t)->
             console.log @
             
@@ -191,17 +202,19 @@ if Meteor.isClient
             
         search_class: ->
             if Session.get('current_query')
-                'big active' 
+                'large active' 
             else
                 if picked_tags.array().length is 0
-                    'huge '
+                    ' '
                 else 
-                    'big' 
+                    '' 
               
-        domains: ->
+        domain_results: ->
             Results.find 
                 model:'domain'
-        subreddits: ->
+        picked_subreddit: -> Session.get('subreddit')
+        picked_domain: -> Session.get('domain')
+        subreddit_results: ->
             Results.find 
                 model:'subreddit'
                     
@@ -471,6 +484,7 @@ if Meteor.isServer
     Meteor.publish 'reddit_doc_results', (
         picked_tags=null
         picked_domain=null
+        picked_subreddit=null
         view_nsfw=false
         sort_key='_timestamp'
         sort_direction=-1
@@ -484,7 +498,8 @@ if Meteor.isServer
         # match.over_18 = $ne:true
         #         yesterday = now-day
         #         match._timestamp = $gt:yesterday
-    
+        if picked_subreddit
+            match.subreddit = picked_subreddit
         # if view_nsfw
         match.over_18 = view_nsfw
         # if picked_tags.length > 0
@@ -501,17 +516,18 @@ if Meteor.isServer
                 "#{sort_key}":sort_direction
                 # points:-1
             limit:10
-            # fields:
-            #     # youtube_id:1
-            #     # thumbnail:1
-            #     url:1
-            #     ups:1
-            #     title:1
-            #     model:1
-            #     num_comments:1
-            #     tags:1
-            #     # _timestamp:1
-            #     domain:1
+            fields:
+                # youtube_id:1
+                subreddit:1
+                thumbnail:1
+                url:1
+                ups:1
+                title:1
+                model:1
+                num_comments:1
+                tags:1
+                _timestamp:1
+                domain:1
         # else 
         #     Docs.find match,
         #         sort:_timestamp:-1
@@ -588,7 +604,7 @@ if Meteor.isServer
                         Docs.update doc_id,
                             $set:
                                 rd: rd
-                    console.log rd
+                    # console.log rd
                     # if rd.is_video
                     #     # console.log 'pulling video comments watson'
                     #     Meteor.call 'call_watson', doc_id, 'url', 'video', ->

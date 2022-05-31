@@ -16,7 +16,7 @@ template(name='account')
                     .ui.hidden.divider
                     +image_edit key='image_id' icon='picture' title='profile image' 
                     +image_edit key='background_image_id' icon='picture' title='background image' 
-                    +image_edit key='venmo_image' icon='venmo' title='venmo image' 
+                    // +image_edit key='venmo_image' icon='venmo' title='venmo image' 
                     +single_user_edit key='refered_by' label='refered by' icon='clone'
                     if currentUser.admin_mode
                         +boolean_edit key='admin' label='admin' icon='shield' 
@@ -34,7 +34,6 @@ template(name='account')
                     div
                     +text_edit key='status' label='status' icon='clock'
                     div
-                .column
                     +array_edit key='tags' label='tags' icon='tags'
                     div
                     if currentUser.admin_mode 

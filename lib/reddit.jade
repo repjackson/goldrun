@@ -46,14 +46,18 @@ template(name='reddit')
                     .ui.inline.small.header
                         i.large.globe.icon(title='domains')
                         |domain
-                    each domains
-                        .ui.large.image.link.inverted.basic.label.zoomer #{name}
+                    if picked_domain
+                        .ui.button.unpick_domain #{picked_subreddit}
+                    each domain_results
+                        .ui.large.image.link.inverted.basic.label.zoomer.pick_domain #{name}
                     div
-                        .ui.inline.small.header
-                            i.large.reddit.icon(title='domains')
-                            |subreddit
-                    each subreddits
-                        .ui.large.image.link.inverted.basic.label.zoomer #{name}
+                    .ui.inline.small.header
+                        i.large.reddit.icon(title='domains')
+                        |subreddit
+                    if picked_subreddit
+                        .ui.button.unpick_subreddit #{picked_subreddit}
+                    each subreddit_results
+                        .ui.large.image.link.inverted.basic.label.zoomer.pick_subreddit #{name}
                 // if in_dev 
                 //     .ui.divider
                 //     .ui.header is_loading #{is_loading}
@@ -66,6 +70,8 @@ template(name='reddit')
                 // .ui.hidden.divider
             .twelve.wide.column
                 span.sorting
+                    +session_icon_button key='view_mode' value='grid' icon='grid' 
+                    +session_icon_button key='view_mode' value='list' icon='list'
                     +sort_direction_toggle
                     +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
                     +session_set key='sort_key' value='comment_count' label='comments' icon='chat'
@@ -73,21 +79,42 @@ template(name='reddit')
                     +session_set key='sort_key' value='ups' label='ups' icon='thumbs up'
                     +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='nsfw'
                 .ui.stackable.centered.cards
-                    each doc_results
-                        +reddit_card
-                        // +small_card
-                        // a.fluid.card(href=url target='_window' title=url) 
-                        // +call_watson
-                // if in_dev 
-                .ui.list 
-                    each doc_results
-                        .item #{title} 
-                            .ui.button.print_me
-                                i.code.icon
+                    if subs_ready
+                        if session_is 'view_mode' 'grid'
+                            each doc_results
+                                +reddit_card
+                            // +small_card
+                        else
+                            .ui.selection.animated.list 
+                                each doc_results
+                                    +reddit_item
 template(name='reddit_card')
-    a.card.fly_right.zoomer(href="/reddit/#{_id}" title='view article') 
+    .card 
         if is_image
-            img.ui.image(src=url)
+            a(href="/reddit/#{_id}")
+                img.ui.image.zoomer(src=url title='view article')
+        .content 
+            .ui.small.header.zoomer(href="/reddit/#{_id}") !{title}
+            .ui.inverted.basic.label
+                i.globe.grey.icon 
+                |#{domain}
+            .ui.inverted.basic.label
+                i.thumbs.up.icon 
+                |#{ups}
+            .ui.inverted.basic.label
+                i.comment.icon 
+                |#{num_comments}
+            .ui.inverted.basic.label.zoomer.pick_subreddit
+                |subreddit: #{subreddit}
+            .ui.inverted.basic.label added #{_when}
+            if over_18
+                .ui.inverted.red.label.invert
+                    +i name='nsfw'
+        
+template(name='reddit_item')
+    a.item.fly_right.zoomer(href="/reddit/#{_id}" title='view article') 
+        if is_image
+            img.ui.inline.small.image(src=url)
         .content 
             .ui.small.header !{title}
             .ui.inverted.basic.label
@@ -154,7 +181,6 @@ template(name='reddit_view')
                     .item comment_count #{comment_count}
                     .item domain #{domain}
                     .item model #{model}
-                    .item subreddit #{subreddit}
                     .item over_18 #{over_18}
                     .item permalink #{permalink}
                     .item reddit_id #{reddit_id}
@@ -163,6 +189,9 @@ template(name='reddit_view')
                     .item 
                         small mined by
                         strong #{_author_username}
+                .ui.big.inverted.basic.label.zoomer.picker.pick_subreddit(title='browse subreddit')
+                    +i name='reddit'
+                    |subreddit #{subreddit}
                 .ui.big.inverted.basic.label 
                     +i name='facebook-like'
                     | #{ups} upvotes

@@ -184,11 +184,14 @@ template(name='reddit_view')
                     .item over_18 #{over_18}
                     .item permalink #{permalink}
                     .item reddit_id #{reddit_id}
-                    .item tags #{tags}
-                    .item url #{url}
                     .item 
                         small mined by
                         strong #{_author_username}
+                a.ui.large.inverted.button.zoomer(href=url target='_window')
+                    i.external.icon
+                    | #{url}
+                each tags 
+                    .ui.large.basic.inverted.label #{this}
                 .ui.big.inverted.basic.label.zoomer.picker.pick_subreddit(title='browse subreddit')
                     +i name='reddit'
                     |subreddit #{subreddit}

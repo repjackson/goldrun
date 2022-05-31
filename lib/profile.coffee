@@ -460,6 +460,17 @@ if Meteor.isServer
                     point_total += -2
                 
                 
+
+                reddit_post_total = 0
+                posts = 
+                    Docs.find
+                        model:'reddit'
+                        _author_id:user._id
+                # for post in posts
+                #     point_total += -2
+                total_post_count = posts.count()
+                # console.log 'total post count', total_post_count
+                point_total += total_post_count
                 
                 upvote_total = 0
                 upvotes = 
@@ -513,6 +524,7 @@ if Meteor.isServer
                         comment_total: comment_total
                         comment_count: tip_docs.count()
                         viewed_total: viewed_total
+                        reddit_posts_mined:total_post_count
 if Meteor.isClient
     Template.profile_layout.onCreated ->
         # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username

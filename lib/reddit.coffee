@@ -587,6 +587,7 @@ if Meteor.isServer
                                 # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
                             return true
                     )
+                    Meteor.call 'calc_user_points', ->
     
             # _.each(response.data.data.children, (item)->
             #     # data = item.data

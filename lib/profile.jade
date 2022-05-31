@@ -163,6 +163,10 @@ template(name='profile_music')
 template(name='profile_stats')
     .ui.list 
         .item 
+            i.reddit.large.grey.icon
+            |#{reddit_posts_mined} 
+            |reddit posts mined
+        .item 
             i.eye.grey.icon
             |#{profile_views} 
             |profile views

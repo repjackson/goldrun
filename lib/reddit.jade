@@ -26,7 +26,7 @@ template(name='reddit')
                     if is_loading
                         i.yin.yang.big.loading.icon
                     //- input#search(type='text' autofocus='' autocomplete="off" value=current_query)
-                    input#search(type='text' autofocus='' autocomplete="off" placeholder='search reddit...')
+                    input#search(type='text' autofocus='' autocomplete="off" placeholder='consult the dao...')
                 //- .ui.header #{connection.status}
                 div
                 unless connected
@@ -70,8 +70,7 @@ template(name='reddit')
                 //     .ui.divider
                 // .ui.animated.big.link.divided.list.scrolling
                 // .ui.hidden.divider
-            .sixteen.wide.column
-                span.sorting
+                div.sorting
                     +session_icon_button key='view_mode' value='grid' icon='grid' 
                     +session_icon_button key='view_mode' value='list' icon='list'
                     +sort_direction_toggle
@@ -82,7 +81,8 @@ template(name='reddit')
                     +session_set key='sort_key' value='points' label='points' icon='hashtag'
                     if currentUser
                         +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='18-plus'
-                .ui.hidden.divider
+            .sixteen.wide.column
+                // .ui.hidden.divider
                 if subs_ready
                     if session_is 'view_mode' 'list'
                         .ui.selection.animated.list 
@@ -104,11 +104,11 @@ template(name='reddit_card')
         else if has_thumbnail
             a.fly_right(href="/reddit/#{_id}")
                 img.ui.image.zoomer(src=thumbnail title='view article')
-        if rd.selftext_html
-            |!{unescaped}
         if rd.media_embed.content
             // .invert
             |!{unescaped_content}
+        else if rd.selftext_html
+            |!{unescaped}
 
         .content 
             a.ui.small.header.zoomer.fly_right(href="/reddit/#{_id}" title='view document') !{title}
@@ -116,18 +116,21 @@ template(name='reddit_card')
                 i.globe.grey.icon 
                 |#{domain}
             .ui.inverted.basic.label
-                i.thumbs.up.icon 
+                i.thumbs.up.grey.icon 
                 |#{ups}
             .ui.inverted.basic.label
-                i.comment.icon 
+                i.comment.grey.icon 
                 |#{num_comments}
-            .ui.inverted.basic.label.zoomer.pick_subreddit
-                |subreddit: #{subreddit}
-            .ui.inverted.basic.label added #{_when}
+            // .ui.inverted.basic.label.zoomer.pick_subreddit
+            //     |subreddit: #{subreddit}
+            .ui.inverted.basic.label(title="added {{long_date _timestamp}}")
+                i.grey.clock.icon
+                |#{_when}
             if over_18
                 .ui.inverted.red.label.invert
                     +i name='nsfw'
-            +print_this
+            if currentUser.admin_mode
+                +print_this
             if doc_sentiment_label
                 +doc_sentiment
                 +doc_emotion
@@ -207,7 +210,6 @@ template(name='reddit_view')
                     // blockquote(class="imgur-embed-pub invert" lang="en" data-id="UsxLSe0")
                     //     a(href=rd.url) Lauren, supergirl, batgirl [Super best friends &amp; lauren faust])
                     // script(async src="//s.imgur.com/min/embed.js" charset="utf-8")
-                    a.ui.header(href=rd.url target='_window') #{rd.url}
                     with rd
                         embed(src=url)
                     if rd.media_embed
@@ -221,6 +223,7 @@ template(name='reddit_view')
                     if is_image
                         img.ui.image(src=url)
             .five.wide.column
+                a.ui.header(href=rd.url target='_window') #{rd.url}
                 if thumbnail
                     img.ui.centered.rounded.image(src=thumbnail)
                 .ui.list 

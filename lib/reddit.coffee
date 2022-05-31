@@ -66,11 +66,21 @@ if Meteor.isClient
         Session.setDefault('is_loading', false)
         @autorun => @subscribe 'reddit_tag_results',
             picked_tags.array()
+            Session.get('picked_domain')
+            Session.get('view_nsfw')
             Session.get('dummy')
         @autorun => @subscribe 'reddit_doc_results',
             picked_tags.array()
+            Session.get('picked_domain')
+            Session.get('view_nsfw')
+            Session.get('sort_key')
+            Session.get('sort_direction')
             Session.get('dummy')
     
+    
+    Template.reddit_view.events 
+        'click .get_post': ->
+            Meteor.call 'get_reddit_post_by_doc_id', Router.current().params.doc_id, ->
     
     
     Template.agg_tag.onCreated ->
@@ -163,6 +173,8 @@ if Meteor.isClient
     
         'click .print_me': (e,t)->
             console.log @
+            
+    Template.reddit_view.events
         'click .pull_post': (e,t)->
             # console.log @
             Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
@@ -357,6 +369,7 @@ if Meteor.isServer
         picked_tags=null
         # query
         picked_domain=null
+        view_nsfw=false
         # searching
         dummy
         )->
@@ -367,7 +380,8 @@ if Meteor.isServer
         # match.model = $in: ['reddit','wikipedia']
         match.model = 'reddit'
         # if query
-    
+        if view_nsfw
+            match.over_18 = true
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
         # else /
@@ -427,6 +441,8 @@ if Meteor.isServer
         Docs.find match
     Meteor.publish 'reddit_doc_results', (
         picked_tags=null
+        picked_domain=null
+        view_nsfw=false
         sort_key='_timestamp'
         sort_direction=-1
         # current_query
@@ -440,35 +456,37 @@ if Meteor.isServer
         #         yesterday = now-day
         #         match._timestamp = $gt:yesterday
     
+        if view_nsfw
+            match.over_18 = true
         # if picked_tags.length > 0
         #     # if picked_tags.length is 1
         #     #     found_doc = Docs.findOne(title:picked_tags[0])
         #     #
         #     #     match.title = picked_tags[0]
         #     # else
-        if picked_tags and picked_tags.length > 0
-            match.tags = $all: picked_tags
-            
-            Docs.find match,
-                sort:
-                    "#{sort_key}":sort_direction
-                    # points:-1
-                limit:10
-                # fields:
-                #     # youtube_id:1
-                #     # thumbnail:1
-                #     url:1
-                #     ups:1
-                #     title:1
-                #     model:1
-                #     num_comments:1
-                #     tags:1
-                #     # _timestamp:1
-                #     domain:1
-        else 
-            Docs.find match,
-                sort:_timestamp:-1
-                limit:10
+        # if picked_tags and picked_tags.length > 0
+        match.tags = $all: picked_tags
+        
+        Docs.find match,
+            sort:
+                "#{sort_key}":sort_direction
+                # points:-1
+            limit:10
+            # fields:
+            #     # youtube_id:1
+            #     # thumbnail:1
+            #     url:1
+            #     ups:1
+            #     title:1
+            #     model:1
+            #     num_comments:1
+            #     tags:1
+            #     # _timestamp:1
+            #     domain:1
+        # else 
+        #     Docs.find match,
+        #         sort:_timestamp:-1
+        #         limit:10
                 
     Meteor.methods
         search_reddit: (query)->
@@ -504,9 +522,9 @@ if Meteor.isServer
                             existing_doc = Docs.findOne url:data.url
                             if existing_doc
                                 # if Meteor.isDevelopment
-                                # if typeof(existing_doc.tags) is 'string'
-                                #     Doc.update
-                                #         $unset: tags: 1
+                                if typeof(existing_doc.tags) is 'string'
+                                    Docs.update existing_doc._id,
+                                        $unset: tags: 1
                                 Docs.update existing_doc._id,
                                     $addToSet: tags: $each: query
                                     $set:
@@ -516,11 +534,11 @@ if Meteor.isServer
                                         over_18:data.over_18
                                         thumbnail:data.thumbnail
                                         permalink:data.permalink
-                                # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
+                                Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                                 # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
                             unless existing_doc
                                 new_reddit_post_id = Docs.insert reddit_post
-                                # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                                Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                                 # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
                             return true
                     )
@@ -529,4 +547,122 @@ if Meteor.isServer
             #     # data = item.data
             #     # len = 200
             # )
+            
+        get_reddit_post: (doc_id, reddit_id, root)->
+            # console.log 'getting reddit post', doc_id, reddit_id
+            HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json", (err,res)->
+                if err then console.error err
+                else
+                    rd = res.data.data.children[0].data
+                    # console.log rd
+                    result =
+                        Docs.update doc_id,
+                            $set:
+                                rd: rd
+                    console.log rd
+                    # if rd.is_video
+                    #     # console.log 'pulling video comments watson'
+                    #     Meteor.call 'call_watson', doc_id, 'url', 'video', ->
+                    # else if rd.is_image
+                    #     # console.log 'pulling image comments watson'
+                    #     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
+                    # else
+                    #     Meteor.call 'call_watson', doc_id, 'url', 'url', ->
+                    #     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
+                    #     # Meteor.call 'call_visual', doc_id, ->
+                    # if rd.selftext
+                    #     unless rd.is_video
+                    #         # if Meteor.isDevelopment
+                    #         #     console.log "self text", rd.selftext
+                    #         Docs.update doc_id, {
+                    #             $set:
+                    #                 body: rd.selftext
+                    #         }, ->
+                    #         #     Meteor.call 'pull_site', doc_id, url
+                    #             # console.log 'hi'
+                    # if rd.selftext_html
+                    #     unless rd.is_video
+                    #         Docs.update doc_id, {
+                    #             $set:
+                    #                 html: rd.selftext_html
+                    #         }, ->
+                    #             # Meteor.call 'pull_site', doc_id, url
+                    #             # console.log 'hi'
+                    # if rd.url
+                    #     unless rd.is_video
+                    #         url = rd.url
+                    #         # if Meteor.isDevelopment
+                    #         #     console.log "found url", url
+                    #         Docs.update doc_id, {
+                    #             $set:
+                    #                 reddit_url: url
+                    #                 url: url
+                    #         }, ->
+                    #             # Meteor.call 'call_watson', doc_id, 'url', 'url', ->
+                    # # update_ob = {}
+    
+                    Docs.update doc_id,
+                        $set:
+                            rd: rd
+                            url: rd.url
+                            thumbnail: rd.thumbnail
+                            subreddit: rd.subreddit
+                            author: rd.author
+                            is_video: rd.is_video
+                            ups: rd.ups
+                            # downs: rd.downs
+                            over_18: rd.over_18
+                        # $addToSet:
+                        #     tags: $each: [rd.subreddit.toLowerCase()]
+                    # console.log Docs.findOne(doc_id)
+    
+                
+    Meteor.publish 'agg_sentiment_group', (
+        group
+        picked_tags
+        picked_time_tags
+        selected_location_tags
+        selected_people_tags
+        picked_max_emotion
+        picked_timestamp_tags
+        )->
+        # @unblock()
+        self = @
+        match = {
+            model:$in:['reddit']
+            group:group
+            joy_percent:$exists:true
+        }
+            
+        doc_count = Docs.find(match).count()
+        if picked_tags.length > 0 then match.tags = $all:picked_tags
+        if picked_max_emotion.length > 0 then match.max_emotion_name = $all:picked_max_emotion
+        if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+        if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
+        if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
+        if picked_timestamp_tags.length > 0 then match._timestamp_tags = $all:picked_timestamp_tags
+        
+        emotion_avgs = Docs.aggregate [
+            { $match: match }
+            #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
+            { $group: 
+                _id:null
+                avg_sent_score: { $avg: "$doc_sentiment_score" }
+                avg_joy_score: { $avg: "$joy_percent" }
+                avg_anger_score: { $avg: "$anger_percent" }
+                avg_sadness_score: { $avg: "$sadness_percent" }
+                avg_disgust_score: { $avg: "$disgust_percent" }
+                avg_fear_score: { $avg: "$fear_percent" }
+            }
+        ]
+        emotion_avgs.forEach (res, i) ->
+            self.added 'results', Random.id(),
+                model:'emotion_avg'
+                avg_sent_score: res.avg_sent_score
+                avg_joy_score: res.avg_joy_score
+                avg_anger_score: res.avg_anger_score
+                avg_sadness_score: res.avg_sadness_score
+                avg_disgust_score: res.avg_disgust_score
+                avg_fear_score: res.avg_fear_score
+        self.ready()    
             

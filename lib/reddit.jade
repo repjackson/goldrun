@@ -46,6 +46,9 @@ template(name='reddit')
                     i.large.globe.icon(title='domains')
                     each domains
                         .ui.large.image.link.inverted.label.zoomer #{name}
+                    i.large.globe.icon(title='domains')
+                    each domains
+                        .ui.large.image.link.inverted.label.zoomer #{name}
                 // if in_dev 
                 //     .ui.divider
                 //     .ui.header is_loading #{is_loading}
@@ -63,6 +66,7 @@ template(name='reddit')
                     +session_set key='sort_key' value='comment_count' label='comments' icon='chat'
                     +session_set key='sort_key' value='domain' label='domain' icon='globe'
                     +session_set key='sort_key' value='ups' label='ups' icon='thumbs up'
+                    +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='nsfw'
                 .ui.stackable.centered.cards
                     each doc_results
                         +reddit_card
@@ -90,7 +94,11 @@ template(name='reddit_card')
             .ui.inverted.basic.label
                 i.comment.icon 
                 |#{num_comments}
+            .ui.inverted.basic.label 
+                |subreddit: #{subreddit}
             .ui.inverted.basic.label added #{_when}
+            if over_18
+                .ui.inverted.basic.red.label.invert over 18 #{over_18}
         
 // template(name='session_toggle')
 //     .ui.button.toggle
@@ -133,12 +141,14 @@ template(name='reddit_view')
                 +print_this
                 if is_image
                     img.ui.image(src=url)
-                
+                .ui.button.pull_post
+                    |get post
             .eight.wide.column
                 .ui.list 
                     .item comment_count #{comment_count}
                     .item domain #{domain}
                     .item model #{model}
+                    .item subreddit #{subreddit}
                     .item over_18 #{over_18}
                     .item permalink #{permalink}
                     .item reddit_id #{reddit_id}

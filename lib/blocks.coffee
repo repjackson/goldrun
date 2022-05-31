@@ -820,24 +820,24 @@ if Meteor.isClient
 
 
 
-    Template.session_boolean_toggle.events
-        'click .toggle_session_key': ->
-            console.log @key
-            Session.set(@key, !Session.get(@key))
-            $('body').toast({
-                title: "session toggled #{@key}"
-                # message: 'Please see desk staff for key.'
-                class : 'success'
-                position:'bottom right'
-                # className:
-                #     toast: 'ui massive message'
-                # displayTime: 5000
-                transition:
-                  showMethod   : 'zoom',
-                  showDuration : 250,
-                  hideMethod   : 'fade',
-                  hideDuration : 250
-                })
+    # Template.session_boolean_toggle.events
+    #     'click .toggle_session_key': ->
+    #         console.log @key
+    #         Session.set(@key, !Session.get(@key))
+    #         $('body').toast({
+    #             title: "session toggled #{@key}"
+    #             # message: 'Please see desk staff for key.'
+    #             class : 'success'
+    #             position:'bottom right'
+    #             # className:
+    #             #     toast: 'ui massive message'
+    #             # displayTime: 5000
+    #             transition:
+    #               showMethod   : 'zoom',
+    #               showDuration : 250,
+    #               hideMethod   : 'fade',
+    #               hideDuration : 250
+    #             })
 
     Template.session_boolean_toggle.helpers
         calculated_class: ->

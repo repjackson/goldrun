@@ -42,7 +42,7 @@ if Meteor.isClient
             Meteor.users.find 
                 _id:$in:user.friended_user_ids
     Template.registerHelper 'has_thumbnail', () ->
-        @thumbnail and @thumbnail isnt 'self'
+        @thumbnail and @thumbnail not in ['self','default']
     
     Template.registerHelper '_viewers', () ->
         if @read_user_ids

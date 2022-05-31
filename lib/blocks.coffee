@@ -814,7 +814,7 @@ if Meteor.isClient
             if @cl
                 res += @cl
             if Session.equals(@key,@value)
-                res += ' grey large inverted'
+                res += ' black large inverted compact'
             else 
                 res += ' basic compact inverted'
             # console.log res

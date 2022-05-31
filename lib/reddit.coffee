@@ -153,6 +153,49 @@ if Meteor.isClient
     Template.reddit_card.events
         'click .pick_subreddit': -> Session.set('subreddit',@subreddit)
         'click .pick_domain': -> Session.set('domain',@domain)
+        'click .autotag': (e)->
+            # console.log @
+            # console.log Template.currentData()
+            # console.log Template.parentData()
+            # console.log Template.parentData(1)
+            # console.log Template.parentData(2)
+            # console.log Template.parentData(3)
+            # if @rd and @rd.selftext_html
+            #     dom = document.createElement('textarea')
+            #     # dom.innerHTML = doc.body
+            #     dom.innerHTML = @rd.selftext_html
+            #     # console.log 'innner html', dom.value
+            #     # return dom.value
+            #     Docs.update @_id,
+            #         $set:
+            #             parsed_selftext_html:dom.value
+            
+            # doc = Template.parentData()
+            # doc = Docs.findOne Template.parentData()._id
+            # Meteor.call 'call_watson', Template.parentData()._id, parent.key, @mode, ->
+            # if doc 
+            # console.log 'calling client watson',doc, 'rd.selftext'
+            Meteor.call 'call_watson', @_id, 'rd.selftext', 'html', ->
+                $(e.currentTarget).closest('.button').transition('scale', 500)
+                $('body').toast({
+                    title: "emotions brokedown"
+                    # message: 'Please see desk staff for key.'
+                    class : 'success'
+                    showIcon:'chess'
+                    # showProgress:'bottom'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
+
+            # Meteor.call 'call_watson', doc._id, @key, @mode, ->
+        
     Template.reddit.events
         'click .print_me': ->
             console.log @

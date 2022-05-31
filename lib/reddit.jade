@@ -93,8 +93,11 @@ template(name='reddit_card')
         if is_image
             a(href="/reddit/#{_id}")
                 img.ui.image.zoomer(src=url title='view article')
+        else if thumbnail
+            a(href="/reddit/#{_id}")
+                img.ui.image.zoomer(src=thumbnail title='view article')
         .content 
-            .ui.small.header.zoomer(href="/reddit/#{_id}") !{title}
+            a.ui.small.header.zoomer(href="/reddit/#{_id}") !{title}
             .ui.inverted.basic.label
                 i.globe.grey.icon 
                 |#{domain}

@@ -14,7 +14,7 @@ template(name='reddit')
                 //         i.massive.yin.yang.grey.icon
                 // +session_toggle key='view_images' label='images' icon='image'
                 // +session_toggle key='view_external' label='external' icon='external'
-                .ui.icon.search.input(class=search_class)
+                .ui.icon.search.input(class=search_class title="#{emotion_avg_result.avg_sent_score} sentiment")
                     // if is_loading
                     //     if home_subs_ready
                     unless is_loading
@@ -26,25 +26,29 @@ template(name='reddit')
                     input#search(type='text' autofocus='' autocomplete="off" placeholder='consult the dao...')
                 //- .ui.header #{connection.status}
                 with emotion_avg_result
-                    div
-                    .ui.basc.label
-                        |{{to_percent avg_sent_score}}%
-                        small sentiment
-                    .ui.green.basic.inverted.label
-                        |{{to_percent avg_joy_score}}%
-                        small joyful
-                    .ui.red.basic.inverted.label
-                        |{{to_percent avg_anger_score}}%
-                        small angry
-                    .ui.blue.basic.inverted.label
-                        |{{to_percent avg_sadness_score}}%
-                        small sad
-                    .ui.orange.basic.inverted.label
-                        |{{to_percent avg_disgust_score}}%
-                        small disgusted
-                    .ui.grey.basic.inverted.label
-                        |{{to_percent avg_fear_score}}%
-                        small fearful
+                    // .ui.basic.label
+                    //     |{{to_percent avg_sent_score}}%
+                    //     small sentiment
+                    if above_50 avg_joy_score
+                        .ui.green.basic.inverted.label
+                            |{{to_percent avg_joy_score}}%
+                            small joyful
+                    if above_50 avg_anger_score
+                        .ui.red.basic.inverted.label
+                            |{{to_percent avg_anger_score}}%
+                            small angry
+                    if above_50 avg_sadness_score
+                        .ui.blue.basic.inverted.label
+                            |{{to_percent avg_sadness_score}}%
+                            small sad
+                    if above_50 avg_disgust_score
+                        .ui.orange.basic.inverted.label
+                            |{{to_percent avg_disgust_score}}%
+                            small disgusted
+                    if above_50 avg_fear_score
+                        .ui.grey.basic.inverted.label
+                            |{{to_percent avg_fear_score}}%
+                            small fearful
                     if currentUser
                         +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='18-plus'
                 

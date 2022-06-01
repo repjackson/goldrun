@@ -2,6 +2,7 @@ if Meteor.isClient
     Template.registerHelper 'emotion_color', () ->
         if @sentiment
             if @sentiment is 'positive' then 'green' else 'red'
+        
         # if @max_emotion_name
         #     # console.log @max_emotion_name
         #     switch @max_emotion_name
@@ -46,11 +47,16 @@ if Meteor.isClient
             Results.findOne 
                 model:'emotion_avg'
         if found_emotion_avg
+            console.log 'max', _.max([found_emotion_avg.avg_joy_score,found_emotion_avg.avg_anger_score,found_emotion_avg.avg_sadness_score,found_emotion_avg.avg_disgust_score,found_emotion_avg.avg_fear_score])
+            
             if found_emotion_avg.avg_sent_score < 0
                 'red'
             else 
                 'green'
         # console.log 'found emtion', found_emotion_avg
+    Template.registerHelper 'above_50', (input) ->
+        # console.log input
+        input > .5
     Template.registerHelper 'has_thumbnail', () ->
         @thumbnail and @thumbnail not in ['self','default']
     

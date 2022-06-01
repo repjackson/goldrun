@@ -160,10 +160,10 @@ template(name='nav')
                 i.large.circular.refresh.link.icon.zoomer.reconnect(title='reconnect now')
         if is_connected
             a.item.zoomer.fly_right.clear_search(href="/reddit" class="{{isActiveRoute 'reddit'}}" title='reddit')
-                +i name='reddit'
+                +i name='yin-yang'
                 // i.large.music.icon
-                unless currentUser.hide_labels
-                    |reddit
+                // unless currentUser.hide_labels
+                //     |reddit
         if currentUser
             a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
                 +i name='groups'

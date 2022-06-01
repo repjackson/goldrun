@@ -122,7 +122,7 @@ template(name='reddit')
 template(name='reddit_card')
     .card.autotag(title="#{ups} ups, created #{_when}")
         if watson.metadata.image.length
-            |watson image
+            // |watson image
             img.ui.fluid.image.zoomer.invert(src=watson.metadata.image title='view article')
         
         else if is_image
@@ -194,69 +194,3 @@ template(name='agg_tag')
         // else
         //     //- button.ui.compact.button(tabindex="0" title=count)
         //- small #{count}
-
-
-template(name='reddit_view')
-    with current_doc 
-        .ui.stackable.padded.grid 
-            .eleven.wide.column
-                a.ui.basic.compact.inverted.button.fly_left.zoomer(href="/reddit" title='back to browse')
-                    i.chevron.left.icon
-                    // +i name='reddit'
-                    i.big.yin.yang.icon
-                    |reddit
-                .ui.inline.header !{title}
-                .scrolling
-                    if rd.selftext_html
-                        |!{unescaped}
-                    // blockquote(class="imgur-embed-pub invert" lang="en" data-id="UsxLSe0")
-                    //     a(href=rd.url) Lauren, supergirl, batgirl [Super best friends &amp; lauren faust])
-                    // script(async src="//s.imgur.com/min/embed.js" charset="utf-8")
-                    with rd
-                        embed(src=url)
-                    if rd.media_embed
-                        // .invert
-                        |!{unescaped_content}
-                    // +call_watson key=rd.selftext
-                    if watson 
-                        +watson_view
-                    if in_dev
-                        +print_this
-                    if is_image
-                        img.ui.image(src=url)
-            .five.wide.column
-                a.ui.header(href=rd.url target='_window') #{rd.url}
-                if thumbnail
-                    img.ui.centered.rounded.image(src=thumbnail)
-                .ui.list 
-                    .item domain #{domain}
-                    // .item model #{model}
-                    .item permalink #{permalink}
-                    // .item reddit_id #{reddit_id}
-                    .item 
-                        small mined by
-                        strong #{_author_username}
-                .ui.button.pull_post
-                    i.download.icon
-                    |get post
-                // +voting_full
-                .ui.large.inverted.label.zoomer
-                    // +i name='chat'
-                    |#{comment_count} comments
-                // if over_18
-                //     .ui.large.inverted.red.label.zoomer(title='adult content')
-                //         +i name='18-plus'
-                a.ui.large.inverted.button.zoomer(href=url target='_window')
-                    i.external.icon
-                    | #{url}
-                each tags 
-                    a.ui.large.basic.inverted.label.zoomer.pick_flat_tag(title='search tag') #{this}
-                // .ui.big.inverted.basic.label.zoomer.picker.pick_subreddit(title='browse subreddit')
-                //     +i name='reddit'
-                //     |subreddit #{subreddit}
-                // .ui.big.inverted.basic.label 
-                //     +i name='facebook-like'
-                //     | #{ups} upvotes
-                // .ui.big.inverted.basic.label 
-                //     +i name='chat'
-                //     | #{num_comments} comments

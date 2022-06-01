@@ -71,11 +71,9 @@ Template.reddit.onCreated ->
     Session.setDefault('current_query', null)
     Session.setDefault('dummy', false)
     Session.setDefault('is_loading', false)
-    Session.setDefault('sort_key', '_timestamp')
-    Session.setDefault('sort_direction', -1)
-    # @autorun => @subscribe 'agg_emotions',
-    #     picked_tags.array()
-    #     Session.get('dummy')
+    @autorun => @subscribe 'agg_emotions',
+        picked_tags.array()
+        Session.get('dummy')
     @autorun => @subscribe 'reddit_tag_results',
         picked_tags.array()
         Session.get('domain')
@@ -107,17 +105,17 @@ Template.agg_tag.helpers
         # console.log 'found image', found
         found
 Template.unpick_tag.onCreated ->
-    console.log @
+    # console.log @
     @autorun => @subscribe 'tag_image', @data, picked_tags.array(),->
 Template.unpick_tag.helpers
     flat_term_image: ->
-        console.log Template.currentData()
+        # console.log Template.currentData()
         found = Docs.findOne {
             model:'reddit'
             tags:$in:[Template.currentData()]
             "watson.metadata.image":$exists:true
         }, sort:ups:-1
-        console.log 'found flat image', found.watson.metadata.image
+        # console.log 'found flat image', found.watson.metadata.image
         found.watson.metadata.image
 Template.agg_tag.events
     'click .result': (e,t)->

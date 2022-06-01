@@ -43,9 +43,9 @@ Template.registerHelper 'active_term_class', () ->
         # console.log 'max', _.max([found_emotion_avg.avg_joy_score,found_emotion_avg.avg_anger_score,found_emotion_avg.avg_sadness_score,found_emotion_avg.avg_disgust_score,found_emotion_avg.avg_fear_score])
         
         if found_emotion_avg.avg_sent_score < 0
-            'red invert'
+            'red'
         else 
-            'green invert'
+            'green'
     # console.log 'found emtion', found_emotion_avg
 Template.registerHelper 'above_50', (input) ->
     # console.log input

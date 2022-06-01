@@ -144,7 +144,7 @@ template(name='reddit_card')
             // .ui.inverted.basic.label(title="added {{long_date _timestamp}}")
             //     i.grey.clock.icon
             //     |#{_when}
-            each five_tags
+            each five_cleaned_tags
                 a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='add tag') 
                     |#{this}
             if over_18

@@ -95,13 +95,13 @@ if Meteor.isClient
         Session.setDefault('sort_direction', -1)
         @autorun => @subscribe 'agg_emotions',
             picked_tags.array()
-            Session.get('dummy')
+            # Session.get('dummy')
         @autorun => @subscribe 'reddit_tag_results',
             picked_tags.array()
             Session.get('domain')
             Session.get('subreddit')
             Session.get('view_nsfw')
-            Session.get('dummy')
+            # Session.get('dummy')
         @autorun => @subscribe 'reddit_doc_results',
             picked_tags.array()
             Session.get('domain')
@@ -141,9 +141,9 @@ if Meteor.isClient
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('is_loading', false)
                 Session.set('searching', false)
-            Meteor.setTimeout ->
-                Session.set('dummy',!Session.get('dummy'))
-            , 5000
+            # Meteor.setTimeout ->
+            #     Session.set('dummy',!Session.get('dummy'))
+            # , 5000
             
     
     Template.reddit.events
@@ -153,6 +153,16 @@ if Meteor.isClient
             $('#search').val('')
             Session.set('current_query', null)
     
+    Template.reddit_card.helpers
+        five_cleaned_tags: ->
+            console.log picked_tags.array()
+            console.log @tags[..5] not in picked_tags.array()
+            console.log _.without(@tags[..5],picked_tags.array())
+            if picked_tags.array().length
+                _.difference(@tags[..5],picked_tags.array())
+            #     @tags[..5] not in picked_tags.array()
+            else 
+                @tags[..5]
     Template.reddit_card.events
         'click .pick_flat_tag': -> 
             picked_tags.push @valueOf()

@@ -4,13 +4,13 @@
 @picked_timestamp_tags = new ReactiveArray []
 
 
-Tracker.autorun ->
-    current = Router.current()
-    Tracker.afterFlush ->
-        $(window).scrollTop 0
+# Tracker.autorun ->
+#     current = Router.current()
+#     Tracker.afterFlush ->
+#         $(window).scrollTop 0
 
     
-Template.layout.events
+Template.body.events
     'click .fly_down': (e,t)->
         # console.log 'hi'
         $(e.currentTarget).closest('.grid').transition('fade down', 500)

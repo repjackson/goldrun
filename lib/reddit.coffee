@@ -1,13 +1,13 @@
 if Meteor.isClient
     @picked_tags = new ReactiveArray []
-    Router.route '/reddit/', (->
-        @layout 'layout'
-        @render 'reddit'
-        ), name:'reddit'
-    Router.route '/reddit/:doc_id', (->
-        @layout 'layout'
-        @render 'reddit_view'
-        ), name:'reddit_view'
+    # Router.route '/reddit/', (->
+    #     @layout 'layout'
+    #     @render 'reddit'
+    #     ), name:'reddit'
+    # Router.route '/reddit/:doc_id', (->
+    #     @layout 'layout'
+    #     @render 'reddit_view'
+    #     ), name:'reddit_view'
 
     
     Template.registerHelper 'unescaped', () ->
@@ -78,13 +78,13 @@ if Meteor.isClient
             unless found_doc.watson
                 Meteor.call 'call_watson',Router.current().params.doc_id,'rd.selftext', ->
                     console.log 'autoran watson'
-    Template.reddit_card.onRendered ->
-        console.log @
-        found_doc = @data
-        if found_doc 
-            unless found_doc.doc_sentiment_label
-                Meteor.call 'call_watson',found_doc._id,'title','html',->
-                    console.log 'autoran watson'
+    # Template.reddit_card.onRendered ->
+    #     console.log @
+    #     found_doc = @data
+    #     if found_doc 
+    #         unless found_doc.doc_sentiment_label
+    #             Meteor.call 'call_watson',found_doc._id,'title','html',->
+    #                 console.log 'autoran watson'
 
         # @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.reddit.onCreated ->
@@ -93,9 +93,9 @@ if Meteor.isClient
         Session.setDefault('is_loading', false)
         Session.setDefault('sort_key', '_timestamp')
         Session.setDefault('sort_direction', -1)
-        @autorun => @subscribe 'agg_emotions',
-            picked_tags.array()
-            Session.get('dummy')
+        # @autorun => @subscribe 'agg_emotions',
+        #     picked_tags.array()
+        #     Session.get('dummy')
         @autorun => @subscribe 'reddit_tag_results',
             picked_tags.array()
             Session.get('domain')
@@ -176,7 +176,7 @@ if Meteor.isClient
         'click .pick_subreddit': -> Session.set('subreddit',@subreddit)
         'click .pick_domain': -> Session.set('domain',@domain)
         'click .autotag': (e)->
-            # console.log @
+            console.log @
             # console.log Template.currentData()
             # console.log Template.parentData()
             # console.log Template.parentData(1)
@@ -198,23 +198,23 @@ if Meteor.isClient
             # if doc 
             # console.log 'calling client watson',doc, 'rd.selftext'
             Meteor.call 'call_watson', @_id, 'rd.selftext', 'html', ->
-                $(e.currentTarget).closest('.button').transition('scale', 500)
-                $('body').toast({
-                    title: "emotions brokedown"
-                    # message: 'Please see desk staff for key.'
-                    class : 'success'
-                    showIcon:'chess'
-                    # showProgress:'bottom'
-                    position:'bottom right'
-                    # className:
-                    #     toast: 'ui massive message'
-                    # displayTime: 5000
-                    transition:
-                      showMethod   : 'zoom',
-                      showDuration : 250,
-                      hideMethod   : 'fade',
-                      hideDuration : 250
-                    })
+                # $(e.currentTarget).closest('.button').transition('scale', 500)
+                # $('body').toast({
+                #     title: "emotions brokedown"
+                #     # message: 'Please see desk staff for key.'
+                #     class : 'success'
+                #     showIcon:'chess'
+                #     # showProgress:'bottom'
+                #     position:'bottom right'
+                #     # className:
+                #     #     toast: 'ui massive message'
+                #     # displayTime: 5000
+                #     transition:
+                #       showMethod   : 'zoom',
+                #       showDuration : 250,
+                #       hideMethod   : 'fade',
+                #       hideDuration : 250
+                #     })
                 # Session.set('dummy', !Session.get('dummy'))
             # Meteor.call 'call_watson', doc._id, @key, @mode, ->
         
@@ -313,6 +313,7 @@ if Meteor.isClient
             found = Docs.findOne 
                 model:'reddit'
                 tags:$in:picked_tags.array()
+                thumbnail:$nin:['default','self']
             if found
                 found.thumbnail
     

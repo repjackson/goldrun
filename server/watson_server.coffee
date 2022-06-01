@@ -126,10 +126,14 @@ Meteor.methods
                     categories:
                         explanation:false
                     emotion: {}
-                    # metadata: {}
+                    metadata: {}
                     # relations: {}
                     # semantic_roles: {}
                     sentiment: {}
+            # parameters.url = doc.url
+            parameters.url = "https://www.reddit.com#{doc.permalink}"
+            parameters.returnAnalyzedText = true
+            parameters.clean = true
         # if doc.domain and doc.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
         #     parameters.url = "https://www.reddit.com#{doc.permalink}"
         #     parameters.returnAnalyzedText = false
@@ -140,35 +144,31 @@ Meteor.methods
         #     parameters.html = doc["#{key}"]
         #     parameters.content = doc["#{key}"]
         # parameters.returnAnalyzedText = true
-        switch mode
-            when 'html'
-                # parameters.html = doc["#{key}"]
-                if doc.title
-                    parameters.html = doc.title + " " + doc[key]
-                else 
-                    parameters.html = doc[key]
-                parameters.returnAnalyzedText = true
-            when 'text'
-                parameters.text = doc["#{key}"]
-            when 'url'
-                # parameters.url = doc["#{key}"]
+        # switch mode
+        #     when 'html'
+        #         # parameters.html = doc["#{key}"]
+        #         if doc.title
+        #             parameters.html = doc.title + " " + doc[key]
+        #         else 
+        #             parameters.html = doc[key]
+        #         parameters.returnAnalyzedText = true
+        #     when 'text'
+        #         parameters.text = doc["#{key}"]
+        #     when 'url'
+        #         # parameters.url = doc["#{key}"]
 
-                parameters.metadata = {}
-                parameters.url = doc.url
-                parameters.returnAnalyzedText = true
-                parameters.clean = true
-            when 'video'
-                parameters.url = "https://www.reddit.com#{doc.permalink}"
-                parameters.returnAnalyzedText = false
-                parameters.clean = true
-                # console.log 'calling video'
-            when 'image'
-                parameters.url = "https://www.reddit.com#{doc.permalink}"
-                parameters.returnAnalyzedText = false
-                parameters.clean = true
-                console.log 'calling image'
+        #         # parameters.metadata = {}
+        #     when 'video'
+        #         parameters.url = "https://www.reddit.com#{doc.permalink}"
+        #         parameters.returnAnalyzedText = false
+        #         parameters.clean = true
+        #         # console.log 'calling video'
+        #     when 'image'
+        #         parameters.returnAnalyzedText = false
+        #         parameters.clean = true
+        #         console.log 'calling image'
 
-        # console.log 'parameters', parameters
+        console.log 'parameters', parameters
 
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
@@ -177,18 +177,18 @@ Meteor.methods
                 console.log err
                 if err.code is 400
                     console.log 'crawl rejected by server'
-                unless err.code is 403
-                    Docs.update doc_id,
-                        $set:skip_watson:false
-                    console.log 'not html, flaggged doc for future skip', parameters.url
-                else
-                    console.log '403 error api key'
+                # unless err.code is 403
+                #     Docs.update doc_id,
+                #         $set:skip_watson:false
+                #     console.log 'not html, flaggged doc for future skip', parameters.url
+                # else
+                #     console.log '403 error api key'
             else
                 # console.log 'analy text', response.analyzed_text
                 # console.log(JSON.stringify(response, null, 2));
                 # console.log 'adding watson info', doc.title
                 response = response.result
-                # console.log response
+                console.log response
                 # console.log 'lowered keywords', lowered_keywords
                 # if Meteor.isDevelopment
                 #     console.log 'categories',response.categories
@@ -236,24 +236,6 @@ Meteor.methods
                             watson_keywords: keyword_array
                             doc_sentiment_score: response.sentiment.document.score
                             doc_sentiment_label: response.sentiment.document.label
-                # else 
-                #     Meteor.users.update doc_id,
-                #         $set:
-                #             # analyzed_text:response.analyzed_text
-                #             watson: response
-                #             max_emotion_name:max_emotion_name
-                #             max_emotion_percent:max_emotion_percent
-                #             sadness_percent: sadness_percent
-                #             joy_percent: joy_percent
-                #             fear_percent: fear_percent
-                #             anger_percent: anger_percent
-                #             disgust_percent: disgust_percent
-                #             watson_concepts: concept_array
-                #             watson_keywords: keyword_array
-                #             doc_sentiment_score: response.sentiment.document.score
-                #             doc_sentiment_label: response.sentiment.document.label
-
-
 
                 adding_tags = []
                 if response.categories

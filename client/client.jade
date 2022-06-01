@@ -164,6 +164,7 @@ template(name='nav')
                 // i.large.music.icon
                 unless currentUser.hide_labels
                     |reddit
+        if currentUser
             a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
                 +i name='groups'
                 // i.large.users.icon

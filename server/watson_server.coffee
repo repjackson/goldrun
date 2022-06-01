@@ -170,7 +170,7 @@ Meteor.methods
                 parameters.clean = true
                 console.log 'calling image'
 
-        console.log 'parameters', parameters
+        # console.log 'parameters', parameters
 
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
@@ -238,22 +238,22 @@ Meteor.methods
                             watson_keywords: keyword_array
                             doc_sentiment_score: response.sentiment.document.score
                             doc_sentiment_label: response.sentiment.document.label
-                else 
-                    Meteor.users.update doc_id,
-                        $set:
-                            # analyzed_text:response.analyzed_text
-                            watson: response
-                            max_emotion_name:max_emotion_name
-                            max_emotion_percent:max_emotion_percent
-                            sadness_percent: sadness_percent
-                            joy_percent: joy_percent
-                            fear_percent: fear_percent
-                            anger_percent: anger_percent
-                            disgust_percent: disgust_percent
-                            watson_concepts: concept_array
-                            watson_keywords: keyword_array
-                            doc_sentiment_score: response.sentiment.document.score
-                            doc_sentiment_label: response.sentiment.document.label
+                # else 
+                #     Meteor.users.update doc_id,
+                #         $set:
+                #             # analyzed_text:response.analyzed_text
+                #             watson: response
+                #             max_emotion_name:max_emotion_name
+                #             max_emotion_percent:max_emotion_percent
+                #             sadness_percent: sadness_percent
+                #             joy_percent: joy_percent
+                #             fear_percent: fear_percent
+                #             anger_percent: anger_percent
+                #             disgust_percent: disgust_percent
+                #             watson_concepts: concept_array
+                #             watson_keywords: keyword_array
+                #             doc_sentiment_score: response.sentiment.document.score
+                #             doc_sentiment_label: response.sentiment.document.label
 
 
 

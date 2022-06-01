@@ -95,7 +95,7 @@ if Meteor.isClient
         Session.setDefault('sort_direction', -1)
         @autorun => @subscribe 'agg_emotions',
             picked_tags.array()
-            # Session.get('dummy')
+            Session.get('dummy')
         @autorun => @subscribe 'reddit_tag_results',
             picked_tags.array()
             Session.get('domain')
@@ -214,7 +214,7 @@ if Meteor.isClient
                       hideMethod   : 'fade',
                       hideDuration : 250
                     })
-                # Session.set('dummy', !Session.get('dummy'))
+                Session.set('dummy', !Session.get('dummy'))
             # Meteor.call 'call_watson', doc._id, @key, @mode, ->
         
     Template.reddit.events
@@ -334,14 +334,14 @@ if Meteor.isClient
                 else 
                     'big' 
               
-        domain_results: ->
-            Results.find 
-                model:'domain'
-        picked_subreddit: -> Session.get('subreddit')
-        picked_domain: -> Session.get('domain')
-        subreddit_results: ->
-            Results.find 
-                model:'subreddit'
+        # domain_results: ->
+        #     Results.find 
+        #         model:'domain'
+        # picked_subreddit: -> Session.get('subreddit')
+        # picked_domain: -> Session.get('domain')
+        # subreddit_results: ->
+        #     Results.find 
+        #         model:'subreddit'
                     
         curent_date_setting: -> Session.get('date_setting')
     

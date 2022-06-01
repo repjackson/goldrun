@@ -14,25 +14,25 @@ Docs.allow
     remove: (userId, doc) ->
         true
         # doc._author_id is userId or 'admin' in Meteor.user().roles
-Meteor.users.allow
-    insert: (userId, doc) -> 
-        true    
-            # doc._author_id is userId
-    update: (userId, doc) ->
-        doc
-        # if doc.model in ['calculator_doc','simulated_rental_item','healthclub_session']
-        #     true
-        # else if Meteor.user() and Meteor.user().roles and 'admin' in Meteor.user().roles
-        #     true
-        # else
-        #     doc._author_id is userId
-    # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
-    remove: (userId, doc) -> 
-        if Meteor.user() and Meteor.user().admin_mode
-            true
-        else
-            false
-        # doc._author_id is userId or 'admin' in Meteor.user().roles
+# Meteor.users.allow
+#     insert: (userId, doc) -> 
+#         true    
+#             # doc._author_id is userId
+#     update: (userId, doc) ->
+#         doc
+#         # if doc.model in ['calculator_doc','simulated_rental_item','healthclub_session']
+#         #     true
+#         # else if Meteor.user() and Meteor.user().roles and 'admin' in Meteor.user().roles
+#         #     true
+#         # else
+#         #     doc._author_id is userId
+#     # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
+#     remove: (userId, doc) -> 
+#         if Meteor.user() and Meteor.user().admin_mode
+#             true
+#         else
+#             false
+#         # doc._author_id is userId or 'admin' in Meteor.user().roles
 
 Meteor.publish 'count', ->
   Counts.publish this, 'product_counter', Docs.find({model:'product'})
@@ -40,94 +40,94 @@ Meteor.publish 'count', ->
                       # handle when Meteor expects a Mongo.Cursor object.
 
 
-Cloudinary.config
-    cloud_name: 'facet'
-    api_key: Meteor.settings.private.cloudinary_key
-    api_secret: Meteor.settings.private.cloudinary_secret
+# Cloudinary.config
+#     cloud_name: 'facet'
+#     api_key: Meteor.settings.private.cloudinary_key
+#     api_secret: Meteor.settings.private.cloudinary_secret
 
 
 
 
-Meteor.publish 'author_by_id', (doc_id)->
-    doc = Docs.findOne doc_id
-    if doc and doc._author_id
-        Meteor.users.find(doc._author_id)
+# Meteor.publish 'author_by_id', (doc_id)->
+#     doc = Docs.findOne doc_id
+#     if doc and doc._author_id
+#         Meteor.users.find(doc._author_id)
     
-Meteor.publish 'group_by_doc_id', (doc_id)->
-    doc = Docs.findOne doc_id
-    if doc and doc.group_id
-        Docs.find {_id:doc.group_id},
-            fields:
-                title:1
-                image_id:1
-                model:1
+# Meteor.publish 'group_by_doc_id', (doc_id)->
+#     doc = Docs.findOne doc_id
+#     if doc and doc.group_id
+#         Docs.find {_id:doc.group_id},
+#             fields:
+#                 title:1
+#                 image_id:1
+#                 model:1
     
-Meteor.publish 'unread_logs', ()->
-    Docs.find {
-        model:'log'
-        read_user_ids:$nin:[Meteor.userId()]
-    },
-        sort:_timestamp:-1
-        limit:42
-        fields:
-            body:1
-            _timestamp:1
-            read_user_ids:1
-            log_type:1
-            parent_id:1
-            parent_model:1
-            group_id:1
-            model:1
-            _author_id:1
-            _author_username:1
+# Meteor.publish 'unread_logs', ()->
+#     Docs.find {
+#         model:'log'
+#         read_user_ids:$nin:[Meteor.userId()]
+#     },
+#         sort:_timestamp:-1
+#         limit:42
+#         fields:
+#             body:1
+#             _timestamp:1
+#             read_user_ids:1
+#             log_type:1
+#             parent_id:1
+#             parent_model:1
+#             group_id:1
+#             model:1
+#             _author_id:1
+#             _author_username:1
     
-Meteor.publish 'all_users', (child_id)->
-    Meteor.users.find()
-Meteor.publish 'public_posts', (child_id)->
-    Docs.find {
-        model:'post'
-        private:$ne:true
-    }, limit:20
+# Meteor.publish 'all_users', (child_id)->
+#     Meteor.users.find()
+# Meteor.publish 'public_posts', (child_id)->
+#     Docs.find {
+#         model:'post'
+#         private:$ne:true
+#     }, limit:20
 
 
-Meteor.publish 'model_docs', (
-    model
-    limit=20
-    )->
-    Docs.find {
-        model: model
-        # app:'goldrun'
-    }, limit:limit
+# Meteor.publish 'model_docs', (
+#     model
+#     limit=20
+#     )->
+#     Docs.find {
+#         model: model
+#         # app:'goldrun'
+#     }, limit:limit
 
-Meteor.publish 'document_by_slug', (slug)->
-    Docs.find
-        model: 'document'
-        slug:slug
+# Meteor.publish 'document_by_slug', (slug)->
+#     Docs.find
+#         model: 'document'
+#         slug:slug
 
-Meteor.publish 'child_docs', (model,parent_id)->
-    Docs.find 
-        model:model
-        parent_id:parent_id
+# Meteor.publish 'child_docs', (model,parent_id)->
+#     Docs.find 
+#         model:model
+#         parent_id:parent_id
 
-Meteor.publish 'me', ()-> Meteor.users.find Meteor.userId()
+# Meteor.publish 'me', ()-> Meteor.users.find Meteor.userId()
 
 
-Meteor.publish 'user_from_username', (username)->
-    Meteor.users.find 
-        username:username
+# Meteor.publish 'user_from_username', (username)->
+#     Meteor.users.find 
+#         username:username
 
-Meteor.publish 'user_from_id', (user_id)->
-    Meteor.users.find user_id
+# Meteor.publish 'user_from_id', (user_id)->
+#     Meteor.users.find user_id
 
 Meteor.publish 'doc_by_id', (doc_id)->
     Docs.find doc_id
 Meteor.publish 'doc', (doc_id)->
     Docs.find doc_id
 
-Meteor.publish 'author_from_doc_id', (doc_id)->
-    doc = Docs.findOne doc_id
-    if doc 
-        Docs.find doc._author_id
+# Meteor.publish 'author_from_doc_id', (doc_id)->
+#     doc = Docs.findOne doc_id
+#     if doc 
+#         Docs.find doc._author_id
 
     
     

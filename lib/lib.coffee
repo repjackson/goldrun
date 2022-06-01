@@ -87,16 +87,16 @@ Docs.before.insert (userId, doc)->
     # doc.upvoters = []
     return
 
-if Meteor.isClient
-    # console.log $
-    $.cloudinary.config
-        cloud_name:"facet"
+# if Meteor.isClient
+#     # console.log $
+#     $.cloudinary.config
+#         cloud_name:"facet"
 
-if Meteor.isServer
-    Cloudinary.config
-        cloud_name: 'facet'
-        api_key: Meteor.settings.cloudinary_key
-        api_secret: Meteor.settings.cloudinary_secret
+# if Meteor.isServer
+#     Cloudinary.config
+#         cloud_name: 'facet'
+#         api_key: Meteor.settings.cloudinary_key
+#         api_secret: Meteor.settings.cloudinary_secret
 
 
 
@@ -111,31 +111,31 @@ if Meteor.isServer
 # ), fetchPrevious: true
 
 
-Meteor.users.helpers
-    name: ->
-        if @display_name
-            "#{@display_name}"
-        else if @first_name
-            "#{@first_name}"
-            if @last_name 
-                "#{@first_name} #{@last_name}"
-        else
-            "#{@username}"
-    shortname: ->
-        if @nickname
-            "#{@nickname}"
-        else if @first_name
-            "#{@first_name}"
-        else
-            "#{@username}"
-    email_address: -> if @emails and @emails[0] then @emails[0].address
-    email_verified: -> if @emails and @emails[0] then @emails[0].verified
-    five_tags: -> if @tags then @tags[..5]
-    seven_tags: -> if @tags then @tags[..7]
-    ten_tags: -> if @tags then @tags[..10]
-    has_points: -> @points > 0
-    # is_tech_admin: ->
-    #     @_id in ['vwCi2GTJgvBJN5F6c','Dw2DfanyyteLytajt','LQEJBS6gHo3ibsJFu','YFPxjXCgjhMYEPADS','RWPa8zfANCJsczDcQ']
+# Meteor.users.helpers
+#     name: ->
+#         if @display_name
+#             "#{@display_name}"
+#         else if @first_name
+#             "#{@first_name}"
+#             if @last_name 
+#                 "#{@first_name} #{@last_name}"
+#         else
+#             "#{@username}"
+#     shortname: ->
+#         if @nickname
+#             "#{@nickname}"
+#         else if @first_name
+#             "#{@first_name}"
+#         else
+#             "#{@username}"
+#     email_address: -> if @emails and @emails[0] then @emails[0].address
+#     email_verified: -> if @emails and @emails[0] then @emails[0].verified
+#     five_tags: -> if @tags then @tags[..5]
+#     seven_tags: -> if @tags then @tags[..7]
+#     ten_tags: -> if @tags then @tags[..10]
+#     has_points: -> @points > 0
+#     # is_tech_admin: ->
+#     #     @_id in ['vwCi2GTJgvBJN5F6c','Dw2DfanyyteLytajt','LQEJBS6gHo3ibsJFu','YFPxjXCgjhMYEPADS','RWPa8zfANCJsczDcQ']
 Docs.helpers
     _author: -> Meteor.users.findOne @_author_id
 

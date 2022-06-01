@@ -537,7 +537,7 @@ if Meteor.isServer
             { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 15 }
+            { $limit: limit }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -617,13 +617,13 @@ if Meteor.isServer
             Docs.find match,
                 limit:1
                 sort:ups:1
-        else if term
+        else
             backup = 
                 Docs.findOne 
                     model:'reddit'
                     thumbnail:$exists:true
                     tags:$in:[term]
-            # console.log 'BACKUP', backup
+            console.log 'BACKUP', backup
             if backup
                 Docs.find { 
                     model:'reddit'

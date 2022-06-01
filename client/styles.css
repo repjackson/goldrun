@@ -48,11 +48,13 @@ body {
      /*filter: invert(1) !important; */
 }
 .image {
-     filter: invert(1) !important; 
+     /*filter: invert(1) !important; */
 }
-
+.label {
+    margin:3px !important;
+}
 .label, .button, .progress, .text {
-     filter: invert(1) !important; 
+     /*filter: invert(1) !important; */
 } 
 ::-webkit-scrollbar {
   width: 3px !important;
@@ -436,8 +438,8 @@ embed {
 
 .invert{
     filter: invert(.9) !important; 
-     background-color:black !important; 
-     /*height: 100%; */
+    background-color:black !important; 
+    /*height: 100%; */
  } 
 
 .red_flagged {
@@ -623,10 +625,10 @@ textarea{
 .label:not(.no_format){
     /* -webkit-border-radius: 5px !important; */
     /* -moz-border-radius: 5px !important; */
-    margin:2px !important;
+    margin:5px !important;
     opacity:.9 !important;
     /*font-family: 'Ubuntu', sans-serif !important;*/
-    border-radius: 20px !important; 
+    /*border-radius: 20px !important; */
 }
 
 .disabled.button, .disabled.segment, .disabled.label{

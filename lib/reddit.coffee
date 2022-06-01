@@ -128,7 +128,7 @@ if Meteor.isClient
         term_image: ->
             console.log Template.currentData().name
             found = Docs.findOne 
-                tags:$in:Template.currentData().name
+                tags:$in:[Template.currentData().name]
             console.log 'found image', found
             found
     Template.agg_tag.events
@@ -518,7 +518,7 @@ if Meteor.isServer
         match.over_18 = view_nsfw
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
-            limit = 20
+            limit = 10
         else
             limit = 42
         # else /
@@ -598,12 +598,14 @@ if Meteor.isServer
     Meteor.publish 'tag_image', (term)->
         console.log 'match term', term
         match = {model:'reddit'}
+        match.thumbnail = $nin:['default','self']
         match.url = { $regex: /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/, $options: 'i' }
         match.tags = $in: [term]
         found = Docs.findOne match
         if found
             console.log found.rd.thumbnail
-            Docs.find match
+            Docs.find match,
+                limit:1
     Meteor.publish 'reddit_doc_results', (
         picked_tags=null
         picked_domain=null

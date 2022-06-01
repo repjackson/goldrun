@@ -3,8 +3,8 @@ template(name='reddit')
         .row
             .sixteen.wide.center.aligned.column
                 each picked_tags
-                    button.ui.compact.big.rounded.button.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
-                        i.minus.icon
+                    button.ui.compact.big.rounded.button.unpick_tag.invert(tabindex="0" class="#{loading_class} #{active_term_class}")
+                        // i.minus.icon
                         .ui.inline.small.header #{this}
                             
                         //- button.ui.active.large.button.unpick_tag(tabindex='0' style=background_style class=emotion_color)
@@ -122,10 +122,10 @@ template(name='reddit_card')
     .card
         if is_image
             a.fly_right(href="/reddit/#{_id}")
-                img.ui.image.zoomer(src=url title='view article')
+                img.ui.image.zoomer.invert(src=url title='view article')
         else if has_thumbnail
             a.fly_right(href="/reddit/#{_id}")
-                img.ui.fluid.image.zoomer(src=thumbnail title='view article')
+                img.ui.fluid.image.zoomer.invert(src=thumbnail title='view article')
         if rd.media_embed.content
             // .invert
             |!{unescaped_content}
@@ -174,10 +174,10 @@ template(name='shortcut')
                     
 template(name='agg_tag')
     // button.ui.big.compact.basic.active.fade.animated.button.result(tabindex="0" title=count)
-    button.ui.big.black.button.result(tabindex="0" title=count)
+    button.ui.big.image.inverted.basic.label.result.invert(tabindex="0" title=count)
         // .visible.content
         if term_image
-            img.ui.avatar.image(src=term_image.rd.thumbnail)
+            img.ui.image(src=term_image.thumbnail)
 
         strong #{name}
         // .hidden.content

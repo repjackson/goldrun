@@ -310,6 +310,14 @@ if Meteor.isClient
         
         
     Template.reddit.helpers
+        current_bg:->
+            console.log picked_tags.array()
+            found = Docs.findOne 
+                model:'reddit'
+                tags:$in:picked_tags.array()
+            if found
+                found.thumbnail
+    
         emotion_avg_result: ->
             Results.findOne 
                 model:'emotion_avg'

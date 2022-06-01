@@ -137,6 +137,7 @@ if Meteor.isClient
             Session.set('current_query', null)
             Session.set('searching', true)
             Session.set('is_loading', true)
+            Meteor.call 'call_wiki', @name, ->
     
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('is_loading', false)
@@ -268,10 +269,10 @@ if Meteor.isClient
         'click .reconnect': -> Meteor.reconnect()
     
         'click .toggle_tag': (e,t)-> picked_tags.push @valueOf()
-        'click .pick_subreddit': -> Session.set('subreddit',@name)
-        'click .unpick_subreddit': -> Session.set('subreddit',null)
-        'click .pick_domain': -> Session.set('domain',@name)
-        'click .unpick_domain': -> Session.set('domain',null)
+        # 'click .pick_subreddit': -> Session.set('subreddit',@name)
+        # 'click .unpick_subreddit': -> Session.set('subreddit',null)
+        # 'click .pick_domain': -> Session.set('domain',@name)
+        # 'click .unpick_domain': -> Session.set('domain',null)
         'click .print_me': (e,t)->
             console.log @
             

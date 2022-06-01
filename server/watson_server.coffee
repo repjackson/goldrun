@@ -128,7 +128,7 @@ Meteor.methods
                     categories:
                         explanation:true
                     emotion: {}
-                    # metadata: {}
+                    metadata: {}
                     # relations: {}
                     # semantic_roles: {}
                     sentiment: {}
@@ -138,36 +138,39 @@ Meteor.methods
         #     parameters.clean = false
         #     console.log 'calling image'
         # else 
-        if doc.title
-            parameters.html = doc.title+" "+doc["#{key}"]
-        else
-            parameters.html = doc["#{key}"]
-            parameters.content = doc["#{key}"]
-        parameters.returnAnalyzedText = true
-        # switch mode
-        #     when 'html'
-        #         # parameters.html = doc["#{key}"]
-        #         parameters.returnAnalyzedText = true
-        #         parameters.html = doc.description
-        #     when 'text'
-        #         parameters.text = doc["#{key}"]
-        #     when 'url'
-        #         # parameters.url = doc["#{key}"]
-        #         parameters.url = doc.url
-        #         parameters.returnAnalyzedText = true
-        #         parameters.clean = true
-        #     when 'video'
-        #         parameters.url = "https://www.reddit.com#{doc.permalink}"
-        #         parameters.returnAnalyzedText = false
-        #         parameters.clean = true
-        #         # console.log 'calling video'
-        #     when 'image'
-        #         parameters.url = "https://www.reddit.com#{doc.permalink}"
-        #         parameters.returnAnalyzedText = false
-        #         parameters.clean = true
-        #         console.log 'calling image'
+        # else
+        #     parameters.html = doc["#{key}"]
+        #     parameters.content = doc["#{key}"]
+        # parameters.returnAnalyzedText = true
+        switch mode
+            when 'html'
+                # parameters.html = doc["#{key}"]
+                if doc.title
+                    parameters.html = doc.title + " " + doc[key]
+                else 
+                    parameters.html = doc[key]
+                parameters.returnAnalyzedText = true
+            when 'text'
+                parameters.text = doc["#{key}"]
+            when 'url'
+                # parameters.url = doc["#{key}"]
 
-        # console.log 'parameters', parameters
+                parameters.metadata = {}
+                parameters.url = doc.url
+                parameters.returnAnalyzedText = true
+                parameters.clean = true
+            when 'video'
+                parameters.url = "https://www.reddit.com#{doc.permalink}"
+                parameters.returnAnalyzedText = false
+                parameters.clean = true
+                # console.log 'calling video'
+            when 'image'
+                parameters.url = "https://www.reddit.com#{doc.permalink}"
+                parameters.returnAnalyzedText = false
+                parameters.clean = true
+                console.log 'calling image'
+
+        console.log 'parameters', parameters
 
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>

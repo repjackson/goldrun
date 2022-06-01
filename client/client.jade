@@ -51,9 +51,9 @@ template(name='layout')
     div(class=darkmode_class)
         // unless currentUser.darkmode
         // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
-        +nav
-        .scrolling
-            +yield
+        // +nav
+        // .scrolling
+        +yield
         if currentUser
             +footer
 

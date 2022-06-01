@@ -44,14 +44,14 @@ force_loggedin =  ()->
 
 
 
-Router.route '*', -> @render 'docs'
+Router.route '*', -> @render 'reddit'
 
 # Router.route '/user/:username/m/:type', -> @render 'user_layout', 'user_section'
-Router.route '/forgot_password', -> @render 'forgot_password'
+# Router.route '/forgot_password', -> @render 'forgot_password'
 
 # Router.route "/food/:food_id", -> @render 'food_doc'
 
-Router.route '/login', -> @render 'login'
+# Router.route '/login', -> @render 'login'
 
 
 
@@ -77,10 +77,10 @@ Docs.before.insert (userId, doc)->
         # date_array = _.each(date_array, (el)-> console.log(typeof el))
         # console.log date_array
         doc._timestamp_tags = date_array
-    unless doc._author_id
-        if Meteor.user()
-            doc._author_id = Meteor.userId()
-            doc._author_username = Meteor.user().username
+    # unless doc._author_id
+    #     if Meteor.user()
+    #         doc._author_id = Meteor.userId()
+    #         doc._author_username = Meteor.user().username
     doc.app = 'goldrun'
     # doc.points = 0
     # doc.downvoters = []

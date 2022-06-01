@@ -68,9 +68,9 @@ if Meteor.isClient
         if user
             Meteor.users.find 
                 _id:$in:user.friended_by_user_ids
-    Template.registerHelper 'darkmode_class', () -> 
-        if Meteor.user()
-            if Meteor.user().darkmode then 'invert' else ''
+    # Template.registerHelper 'darkmode_class', () -> 
+    #     if Meteor.user()
+    #         if Meteor.user().darkmode then 'invert' else ''
     
     
     Template.registerHelper 'hostname', () -> 

@@ -214,7 +214,7 @@ if Meteor.isClient
                       hideMethod   : 'fade',
                       hideDuration : 250
                     })
-                Session.set('dummy', !Session.get('dummy'))
+                # Session.set('dummy', !Session.get('dummy'))
             # Meteor.call 'call_watson', doc._id, @key, @mode, ->
         
     Template.reddit.events

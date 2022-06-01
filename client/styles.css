@@ -407,7 +407,7 @@ embed {
     /*background-color: darkgrey !important; */
     /*box-shadow: inset 5px 5px 10px #333 !important; */
     /*transition: all 5s ease !important;*/
-    border-radius: 15px !important;
+    /*border-radius: 15px !important;*/
     /*box-shadow: 2px 2px 2px 2px lightgrey !important; */
 }
 .item:active, .card:active, .accordion:active, .title:active, input:active {
@@ -421,7 +421,7 @@ embed {
     /*box-shadow: 5px 5px 5px 5px grey !important; */
 }
 .button {
-    border-radius: 20px !important;
+    /*border-radius: 20px !important;*/
     /*color: black !important;*/
     /*background-color: darkgrey !important; */
     /*box-shadow: inset 5px 5px 10px #333 !important; */
@@ -567,7 +567,7 @@ embed {
 
 
 input{
-    border-radius: 20px !important;
+    /*border-radius: 20px !important;*/
 }
 input:not(.no_format){
     /*border-radius: 10px !important;*/

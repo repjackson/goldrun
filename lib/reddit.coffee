@@ -122,14 +122,14 @@ if Meteor.isClient
     
     Template.agg_tag.onCreated ->
         # console.log @
-        @autorun => @subscribe 'tag_image', @data.name, ->
+        @autorun => @subscribe 'tag_image', @data.name, picked_tags.array(),->
             
     Template.agg_tag.helpers
         term_image: ->
-            console.log Template.currentData().name
+            # console.log Template.currentData().name
             found = Docs.findOne 
                 tags:$in:[Template.currentData().name]
-            console.log 'found image', found
+            # console.log 'found image', found
             found
     Template.agg_tag.events
         'click .result': (e,t)->
@@ -537,7 +537,7 @@ if Meteor.isServer
             { $match: count: $lt: agg_doc_count }
             # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: limit }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
@@ -595,12 +595,20 @@ if Meteor.isServer
         #         # index: i
         self.ready()
         # else []
-    Meteor.publish 'tag_image', (term)->
+    Meteor.publish 'tag_image', (
+        term
+        picked_tags=[]
+        )->
         console.log 'match term', term
+        console.log 'match picked tags', picked_tags
+        if picked_tags.length
+            added_tags = picked_tags.push term
+        else 
+            added_tags = [term]
         match = {model:'reddit'}
         match.thumbnail = $nin:['default','self']
         match.url = { $regex: /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/, $options: 'i' }
-        match.tags = $in: [term]
+        match.tags = $in: added_tags
         found = Docs.findOne match
         if found
             console.log found.rd.thumbnail

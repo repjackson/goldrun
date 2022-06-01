@@ -3,9 +3,9 @@ template(name='reddit')
         .row
             .sixteen.wide.center.aligned.column
                 each picked_tags
-                    button.ui.compact.big.rounded.button.unpick_tag.invert(tabindex="0" class="#{loading_class} #{active_term_class}")
+                    button.ui.compact.big.button.unpick_tag.invert(tabindex="0" class="#{loading_class} #{active_term_class}")
                         // i.minus.icon
-                        .ui.inline.small.header #{this}
+                        .ui.inline.header #{this}
                             
                         //- button.ui.active.large.button.unpick_tag(tabindex='0' style=background_style class=emotion_color)
                 //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
@@ -23,30 +23,30 @@ template(name='reddit')
                     if is_loading
                         i.yin.yang.big.loading.icon
                     //- input#search(type='text' autofocus='' autocomplete="off" value=current_query)
-                    input#search(type='text' autofocus='' autocomplete="off" placeholder='consult the dao...')
+                    input#search(type='text' autofocus='' autocomplete="off" placeholder='')
                 //- .ui.header #{connection.status}
                 with emotion_avg_result
                     // .ui.basic.label
                     //     |{{to_percent avg_sent_score}}%
                     //     small sentiment
                     if above_50 avg_joy_score
-                        .ui.green.basic.inverted.label
+                        .ui.green.basic.inverted.big.label.invert
                             |{{to_percent avg_joy_score}}%
                             small joyful
                     if above_50 avg_anger_score
-                        .ui.red.basic.inverted.label
+                        .ui.red.basic.inverted.big.label.invert
                             |{{to_percent avg_anger_score}}%
                             small angry
                     if above_50 avg_sadness_score
-                        .ui.blue.basic.inverted.label
+                        .ui.blue.basic.inverted.big.label.invert
                             |{{to_percent avg_sadness_score}}%
                             small sad
                     if above_50 avg_disgust_score
-                        .ui.orange.basic.inverted.label
+                        .ui.orange.basic.inverted.big.label.invert
                             |{{to_percent avg_disgust_score}}%
                             small disgusted
                     if above_50 avg_fear_score
-                        .ui.grey.basic.inverted.label
+                        .ui.grey.basic.inverted.big.label.invert
                             |{{to_percent avg_fear_score}}%
                             small fearful
                     if currentUser
@@ -132,8 +132,8 @@ template(name='reddit_card')
         else if rd.selftext_html
             |!{unescaped}
 
-        .content.autotag.pointer.zoomer
-            a.ui.small.header.zoomer.fly_right(href="/reddit/#{_id}" title='view document') !{title}
+        .content.autotag.pointer
+            a.ui.small.header.fly_right(href="/reddit/#{_id}" title='view document') !{title}
             // .ui.inverted.basic.label
             //     i.globe.grey.icon 
             //     |#{domain}
@@ -149,7 +149,7 @@ template(name='reddit_card')
             //     i.grey.clock.icon
             //     |#{_when}
             each five_cleaned_tags
-                a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='add tag') 
+                a.ui.basic.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
                     |#{this}
             if over_18
                 .ui.inverted.red.label.invert
@@ -174,9 +174,9 @@ template(name='shortcut')
                     
 template(name='agg_tag')
     // button.ui.big.compact.basic.active.fade.animated.button.result(tabindex="0" title=count)
-    button.ui.big.image.inverted.basic.label.result.invert(tabindex="0" title=count)
+    button.ui.massive.image.inverted.basic.label.result.invert(tabindex="0" title=count)
         // .visible.content
-        if term_image
+        if term_image.thumbnail
             img.ui.image(src=term_image.thumbnail)
 
         strong #{name}

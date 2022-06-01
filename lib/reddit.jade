@@ -132,7 +132,7 @@ template(name='reddit_card')
         else if rd.selftext_html
             |!{unescaped}
 
-        .content.autotag
+        .content.autotag.pointer.zoomer
             a.ui.small.header.zoomer.fly_right(href="/reddit/#{_id}" title='view document') !{title}
             // .ui.inverted.basic.label
             //     i.globe.grey.icon 
@@ -174,7 +174,7 @@ template(name='shortcut')
                     
 template(name='agg_tag')
     // button.ui.big.compact.basic.active.fade.animated.button.result(tabindex="0" title=count)
-    button.ui.big.basic.inverted.button.result(tabindex="0" title=count)
+    button.ui.big.black.button.result(tabindex="0" title=count)
         // .visible.content
         if term_image
             img.ui.avatar.image(src="{{c.url term_image.image_id width=200 height=200 gravity='face' crop='fill'}}")

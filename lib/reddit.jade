@@ -116,8 +116,9 @@ template(name='reddit')
                             +reddit_card
                         // +small_card
                 else 
-                    .ui.center.aligned.basic.segment
-                        i.massive.yin.yang.grey.loading.icon
+                    if picked_tags
+                        .ui.center.aligned.basic.segment
+                            i.massive.yin.yang.grey.loading.icon
 template(name='reddit_card')
     .card
         if is_image

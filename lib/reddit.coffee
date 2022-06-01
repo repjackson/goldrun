@@ -526,9 +526,9 @@ if Meteor.isServer
         match.over_18 = view_nsfw
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
-            limit = 10
+            limit = 7
         else
-            limit = 20
+            limit = 42
         # else /
             # match.tags = $all: picked_tags
         # if picked_domain

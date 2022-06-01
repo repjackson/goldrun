@@ -62,8 +62,6 @@ template(name='reddit')
                     //     each terms 
                     //         +search_term
                     // else 
-                    if is_loading
-                        i.large.yin.yang.loading.icon
                     each unpicked_tags
                         +agg_tag
                     // div
@@ -104,12 +102,10 @@ template(name='reddit')
             .sixteen.wide.column
                 // .ui.hidden.divider
                 if subs_ready
-                    // if session_is 'view_mode' 'list'
-                    //     .ui.selection.animated.list 
-                    //         each doc_results
-                    //             +reddit_item
-                    // else
-                    if one_result
+                    if full_doc_id
+                        with full_doc 
+                            +reddit_card_big
+                    else if one_result
                         .ui.stackable.centered.link.inverted.one.cards
                             each doc_results
                                 +reddit_card
@@ -133,7 +129,7 @@ template(name='unpick_tag')
 
                             
 template(name='reddit_card')
-    .card.autotag(title="#{ups} ups, created #{_when}")
+    .card.autotag.expand(title="#{ups} ups, created #{_when}")
         if watson.metadata.image.length
             // |watson image
             img.ui.fluid.image.zoomer.invert(src=watson.metadata.image title='view article')
@@ -170,6 +166,57 @@ template(name='reddit_card')
             if rd.analyzed_text
                 |!{rd.analyzed_text}
             each five_cleaned_tags
+                a.ui.basic.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
+                    |#{this}
+            // if over_18
+            //     .ui.inverted.red.label.invert
+            //         i.alert.icon
+            //         // +i name='nsfw'
+            if doc_sentiment_label
+                +doc_sentiment
+                +doc_emotion
+            // unless doc_sentiment_label 
+            //     .ui.icon.big.inverted.button.autotag.zoomer(title='breakdown emotions') 
+            //         i.large.chess.grey.icon
+            //     // +call_watson key=rd.selftext
+template(name='reddit_card_big')
+    .ui.fluid.card.autotag.minimize(title="#{ups} ups, created #{_when}")
+        if watson.metadata.image.length
+            // |watson image
+            img.ui.fluid.image(src=watson.metadata.image title='view article')
+        
+        else if is_image
+            img.ui.image(src=url title='view article')
+        else if has_thumbnail
+            img.ui.fluid.image(src=thumbnail title='view article')
+        if rd.media_embed.content
+            // .invert
+            |!{unescaped_content}
+        else if rd.selftext_html
+            |!{unescaped}
+        else if watson.analyzed_text
+            |analyzed_text
+            |!{watson.analyzed_text}
+
+        .content
+            .ui.grey.header !{title}
+            // .ui.inverted.basic.label
+            //     i.globe.grey.icon 
+            //     |#{domain}
+            // .ui.inverted.basic.label
+            //     i.thumbs.up.grey.icon 
+            //     |#{ups}
+            // .ui.inverted.basic.label
+            //     i.comment.grey.icon 
+            //     |#{num_comments}
+            // // .ui.inverted.basic.label.zoomer.pick_subreddit
+            // //     |subreddit: #{subreddit}
+            // .ui.inverted.basic.label(title="added {{long_date _timestamp}}")
+            //     i.grey.clock.icon
+            //     |#{_when}
+            if watson.analyzed_text
+                |!{watson.analyzed_text}
+            each tags
                 a.ui.basic.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
                     |#{this}
             // if over_18

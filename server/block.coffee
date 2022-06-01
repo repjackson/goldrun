@@ -208,14 +208,10 @@ Meteor.methods
             console.log 'removed', result, black_tag
 
     clear_blocklist_doc: (doc_id)=>
-        # console.log 'pulling blocklist from doc', doc_id
+        console.log 'pulling blocklist from doc', doc_id
         doc = Docs.findOne doc_id 
-        user = Meteor.users.findOne doc_id
         if doc
             Docs.update doc_id,
-                $pullAll:tags:@blocklist
-        else if user 
-            Meteor.users.update doc_id,
                 $pullAll:tags:@blocklist
                 
         

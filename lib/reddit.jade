@@ -115,9 +115,9 @@ template(name='reddit')
                         each doc_results
                             +reddit_card
                         // +small_card
-                else 
-                    .ui.center.aligned.basic.segment
-                        i.massive.yin.yang.grey.loading.icon
+                // else 
+                //     .ui.center.aligned.basic.segment
+                //         i.massive.yin.yang.grey.loading.icon
 template(name='reddit_card')
     .card
         if is_image
@@ -132,7 +132,7 @@ template(name='reddit_card')
         else if rd.selftext_html
             |!{unescaped}
 
-        .content 
+        .content.autotag
             a.ui.small.header.zoomer.fly_right(href="/reddit/#{_id}" title='view document') !{title}
             // .ui.inverted.basic.label
             //     i.globe.grey.icon 
@@ -159,41 +159,11 @@ template(name='reddit_card')
             if doc_sentiment_label
                 +doc_sentiment
                 +doc_emotion
-            unless doc_sentiment_label 
-                .ui.icon.big.inverted.button.autotag.zoomer(title='breakdown emotions') 
-                    i.large.chess.grey.icon
-                // +call_watson key=rd.selftext
+            // unless doc_sentiment_label 
+            //     .ui.icon.big.inverted.button.autotag.zoomer(title='breakdown emotions') 
+            //         i.large.chess.grey.icon
+            //     // +call_watson key=rd.selftext
         
-template(name='reddit_item')
-    .item 
-        if is_image
-            a.fly_right(href="/reddit/#{_id}")
-                img.ui.inline.medium.image.rounded(src=url)
-        else if has_thumbnail
-            a.fly_right(href="/reddit/#{_id}")
-                img.ui.medium.inline.image.zoomer(src=thumbnail title='view article')
-        a.ui.inline.header.zoomer.fly_left(href="/reddit/#{_id}") !{title}
-        .ui.inverted.basic.label
-            i.globe.grey.icon 
-            |#{domain}
-        .ui.inverted.basic.label
-            i.thumbs.up.icon 
-            |#{ups}
-        .ui.inverted.basic.label
-            i.comment.icon 
-            |#{num_comments}
-        .ui.inverted.basic.label 
-            |subreddit: #{subreddit}
-        .ui.inverted.basic.label added #{_when}
-        if over_18
-            .ui.inverted.basic.red.label.invert over 18
-        +voting
-        if doc_sentiment_label
-            +doc_sentiment
-            // +doc_emotion
-        else 
-            +call_watson key=rd.selftext
-
 // template(name='session_toggle')
 //     .ui.button.toggle
 //         i.large.icon(class=icon)
@@ -204,12 +174,12 @@ template(name='shortcut')
                     
 template(name='agg_tag')
     // button.ui.big.compact.basic.active.fade.animated.button.result(tabindex="0" title=count)
-    button.ui.big.compact.basic.active.inverted.button.result(tabindex="0" title=count)
+    button.ui.big.basic.inverted.button.result(tabindex="0" title=count)
         // .visible.content
         if term_image
             img.ui.avatar.image(src="{{c.url term_image.image_id width=200 height=200 gravity='face' crop='fill'}}")
 
-        | #{name}
+        strong #{name}
         // .hidden.content
         //     |+ #{title}
         // if term.image

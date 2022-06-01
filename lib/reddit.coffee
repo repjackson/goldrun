@@ -319,9 +319,9 @@ if Meteor.isClient
                 'massive active' 
             else
                 if picked_tags.array().length is 0
-                    'large'
+                    'big'
                 else 
-                    'large' 
+                    'big' 
               
         domain_results: ->
             Results.find 

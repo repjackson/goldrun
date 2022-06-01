@@ -154,6 +154,11 @@ if Meteor.isClient
             Session.set('current_query', null)
     
     Template.reddit_card.events
+        'click .pick_flat_tag': -> 
+            picked_tags.push @valueOf()
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
         'click .pick_subreddit': -> Session.set('subreddit',@subreddit)
         'click .pick_domain': -> Session.set('domain',@domain)
         'click .autotag': (e)->
@@ -196,7 +201,7 @@ if Meteor.isClient
                       hideMethod   : 'fade',
                       hideDuration : 250
                     })
-                Session.set('dummy', !Session.get('dummy'))
+                # Session.set('dummy', !Session.get('dummy'))
             # Meteor.call 'call_watson', doc._id, @key, @mode, ->
         
     Template.reddit.events
@@ -614,7 +619,7 @@ if Meteor.isServer
         Docs.find match,
             sort:
                 # "#{sort_key}":sort_direction
-                _timestamp:-1
+                ups:-1
             limit:20
             fields:
                 # youtube_id:1

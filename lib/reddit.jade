@@ -130,20 +130,23 @@ template(name='reddit_card')
 
         .content 
             a.ui.small.header.zoomer.fly_right(href="/reddit/#{_id}" title='view document') !{title}
-            .ui.inverted.basic.label
-                i.globe.grey.icon 
-                |#{domain}
-            .ui.inverted.basic.label
-                i.thumbs.up.grey.icon 
-                |#{ups}
-            .ui.inverted.basic.label
-                i.comment.grey.icon 
-                |#{num_comments}
-            // .ui.inverted.basic.label.zoomer.pick_subreddit
-            //     |subreddit: #{subreddit}
-            .ui.inverted.basic.label(title="added {{long_date _timestamp}}")
-                i.grey.clock.icon
-                |#{_when}
+            // .ui.inverted.basic.label
+            //     i.globe.grey.icon 
+            //     |#{domain}
+            // .ui.inverted.basic.label
+            //     i.thumbs.up.grey.icon 
+            //     |#{ups}
+            // .ui.inverted.basic.label
+            //     i.comment.grey.icon 
+            //     |#{num_comments}
+            // // .ui.inverted.basic.label.zoomer.pick_subreddit
+            // //     |subreddit: #{subreddit}
+            // .ui.inverted.basic.label(title="added {{long_date _timestamp}}")
+            //     i.grey.clock.icon
+            //     |#{_when}
+            each five_tags
+                a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='add tag') 
+                    |#{this}
             if over_18
                 .ui.inverted.red.label.invert
                     +i name='nsfw'

@@ -95,6 +95,7 @@ if Meteor.isClient
         Session.setDefault('sort_direction', -1)
         @autorun => @subscribe 'agg_emotions',
             picked_tags.array()
+            Session.get('dummy')
         @autorun => @subscribe 'reddit_tag_results',
             picked_tags.array()
             Session.get('domain')
@@ -612,7 +613,7 @@ if Meteor.isServer
         
         Docs.find match,
             sort:
-                "#{sort_key}":sort_direction
+                # "#{sort_key}":sort_direction
                 _timestamp:-1
             limit:20
             fields:
@@ -777,6 +778,7 @@ if Meteor.isServer
     Meteor.publish 'agg_emotions', (
         # group
         picked_tags
+        dummy
         # picked_time_tags
         # selected_location_tags
         # selected_people_tags

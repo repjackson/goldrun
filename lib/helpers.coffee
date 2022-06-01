@@ -41,6 +41,16 @@ if Meteor.isClient
         if user
             Meteor.users.find 
                 _id:$in:user.friended_user_ids
+    Template.registerHelper 'active_term_class', () ->
+        found_emotion_avg = 
+            Results.findOne 
+                model:'emotion_avg'
+        if found_emotion_avg
+            if found_emotion_avg.avg_sent_score < 0
+                'red'
+            else 
+                'green'
+        # console.log 'found emtion', found_emotion_avg
     Template.registerHelper 'has_thumbnail', () ->
         @thumbnail and @thumbnail not in ['self','default']
     

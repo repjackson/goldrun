@@ -3,12 +3,9 @@ template(name='reddit')
         .row
             .sixteen.wide.center.aligned.column
                 each picked_tags
-                    button.ui.active.compact.big.rounded.fade.animated.button.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
-                        .visible.content
-                            .ui.inline.small.header #{this}
-                        .hidden.content
-                            i.minus.icon
-                            .ui.inline.small.header #{this}
+                    button.ui.compact.big.rounded.button.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
+                        i.minus.icon
+                        .ui.inline.small.header #{this}
                             
                         //- button.ui.active.large.button.unpick_tag(tabindex='0' style=background_style class=emotion_color)
                 //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
@@ -48,6 +45,8 @@ template(name='reddit')
                     .ui.grey.basic.inverted.label
                         |{{to_percent avg_fear_score}}%
                         small fearful
+                    if currentUser
+                        +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='18-plus'
                 
                 div
                 unless connected
@@ -91,17 +90,15 @@ template(name='reddit')
                 //     .ui.divider
                 // .ui.animated.big.link.divided.list.scrolling
                 // .ui.hidden.divider
-                div.sorting
-                    // +session_icon_button key='view_mode' value='grid' icon='grid' 
-                    // +session_icon_button key='view_mode' value='list' icon='list'
-                    +sort_direction_toggle
-                    +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
-                    +session_set key='sort_key' value='comment_count' label='comments' icon='chat'
-                    +session_set key='sort_key' value='domain' label='domain' icon='globe'
-                    +session_set key='sort_key' value='ups' label='ups' icon='thumbs up'
-                    +session_set key='sort_key' value='points' label='points' icon='hashtag'
-                    if currentUser
-                        +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='18-plus'
+                // div.sorting
+                //     // +session_icon_button key='view_mode' value='grid' icon='grid' 
+                //     // +session_icon_button key='view_mode' value='list' icon='list'
+                //     +sort_direction_toggle
+                //     +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+                //     +session_set key='sort_key' value='comment_count' label='comments' icon='chat'
+                //     +session_set key='sort_key' value='domain' label='domain' icon='globe'
+                //     +session_set key='sort_key' value='ups' label='ups' icon='thumbs up'
+                //     +session_set key='sort_key' value='points' label='points' icon='hashtag'
             .sixteen.wide.column
                 // .ui.hidden.divider
                 if subs_ready

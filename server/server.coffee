@@ -40,85 +40,6 @@ Meteor.publish 'count', ->
                       # handle when Meteor expects a Mongo.Cursor object.
 
 
-# Cloudinary.config
-#     cloud_name: 'facet'
-#     api_key: Meteor.settings.private.cloudinary_key
-#     api_secret: Meteor.settings.private.cloudinary_secret
-
-
-
-
-# Meteor.publish 'author_by_id', (doc_id)->
-#     doc = Docs.findOne doc_id
-#     if doc and doc._author_id
-#         Meteor.users.find(doc._author_id)
-    
-# Meteor.publish 'group_by_doc_id', (doc_id)->
-#     doc = Docs.findOne doc_id
-#     if doc and doc.group_id
-#         Docs.find {_id:doc.group_id},
-#             fields:
-#                 title:1
-#                 image_id:1
-#                 model:1
-    
-# Meteor.publish 'unread_logs', ()->
-#     Docs.find {
-#         model:'log'
-#         read_user_ids:$nin:[Meteor.userId()]
-#     },
-#         sort:_timestamp:-1
-#         limit:42
-#         fields:
-#             body:1
-#             _timestamp:1
-#             read_user_ids:1
-#             log_type:1
-#             parent_id:1
-#             parent_model:1
-#             group_id:1
-#             model:1
-#             _author_id:1
-#             _author_username:1
-    
-# Meteor.publish 'all_users', (child_id)->
-#     Meteor.users.find()
-# Meteor.publish 'public_posts', (child_id)->
-#     Docs.find {
-#         model:'post'
-#         private:$ne:true
-#     }, limit:20
-
-
-# Meteor.publish 'model_docs', (
-#     model
-#     limit=20
-#     )->
-#     Docs.find {
-#         model: model
-#         # app:'goldrun'
-#     }, limit:limit
-
-# Meteor.publish 'document_by_slug', (slug)->
-#     Docs.find
-#         model: 'document'
-#         slug:slug
-
-# Meteor.publish 'child_docs', (model,parent_id)->
-#     Docs.find 
-#         model:model
-#         parent_id:parent_id
-
-# Meteor.publish 'me', ()-> Meteor.users.find Meteor.userId()
-
-
-# Meteor.publish 'user_from_username', (username)->
-#     Meteor.users.find 
-#         username:username
-
-# Meteor.publish 'user_from_id', (user_id)->
-#     Meteor.users.find user_id
-
 Meteor.publish 'doc_by_id', (doc_id)->
     Docs.find doc_id
 Meteor.publish 'doc', (doc_id)->
@@ -129,113 +50,7 @@ Meteor.publish 'doc', (doc_id)->
 #     if doc 
 #         Docs.find doc._author_id
 
-    
-    
-Meteor.methods
-    log_view: (doc_id)->
-        doc = Docs.findOne doc_id
-        Docs.update doc_id,
-            $inc:
-                views:1
-            $set:
-                last_viewed_timestamp:Date.now()
-        if Meteor.userId()
-            Docs.update doc_id,
-                $inc:
-                    user_views:1
-                $addToSet:
-                    read_user_ids:Meteor.userId()
-                    read_usernames:Meteor.user().username
-                $set:
-                    last_user_viewed_timestamp:Date.now()
-            Meteor.users.update Meteor.userId(),
-                $set:
-                    current_viewing_doc_id:doc_id
-        else 
-            Docs.update doc_id,
-                $inc:
-                    anon_views:1
-                $set:
-                    last_anon_viewed_timestamp:Date.now()
-        Meteor.call 'calc_user_points', ->
-        Meteor.call 'calc_user_points', doc._author_id, ->
-
-    insert_log: (type, user_id)->
-        if type
-            new_id = 
-                Docs.insert 
-                    model:'log_event'
-                    log_type:type
-                    user_id:user_id
-    
-    add_user: (username)->
-        options = {}
-        options.username = username
-        options.password = username
-        res= Accounts.createUser options
-        if res
-            return res
-        else
-            Throw.new Meteor.Error 'err creating user'
-
-
-    change_username:  (user_id, new_username) ->
-        user = Meteor.users.findOne user_id
-        Accounts.setUsername(user._id, new_username)
-        return "updated username to #{new_username}."
-
-
-
-    lookup_user: (username_query, role_filter)->
-        # if role_filter
-        #     Docs.find({
-        #         username: {$regex:"#{username_query}", $options: 'i'}
-        #         roles:$in:[role_filter]
-        #         },{limit:10}).fetch()
-        # else
-        Meteor.users.find({
-            username: {$regex:"#{username_query}", $options: 'i'}
-            },{limit:10}).fetch()
-
-
-    lookup_doc: (guest_name, model_filter)->
-        Docs.find({
-            model:model_filter
-            guest_name: {$regex:"#{guest_name}", $options: 'i'}
-            },{limit:10}).fetch()
-
-
-    # lookup_username: (username_query)->
-    #     found_users =
-    #         Docs.find({
-    #             model:'person'
-    #             username: {$regex:"#{username_query}", $options: 'i'}
-    #             }).fetch()
-    #     found_users
-
-    # lookup_first_name: (first_name)->
-    #     found_people =
-    #         Docs.find({
-    #             model:'person'
-    #             first_name: {$regex:"#{first_name}", $options: 'i'}
-    #             }).fetch()
-    #     found_people
-    #
-    # lookup_last_name: (last_name)->
-    #     found_people =
-    #         Docs.find({
-    #             model:'person'
-    #             last_name: {$regex:"#{last_name}", $options: 'i'}
-    #             }).fetch()
-    #     found_people
-
-
-    set_password: (user_id, new_password)->
-        console.log 'setting password', user_id, new_password
-        Accounts.setPassword(user_id, new_password)
-
-
-
+Meteor.methods    
     global_remove: (keyname)->
         result = Docs.update({"#{keyname}":$exists:true}, {
             $unset:
@@ -274,3 +89,385 @@ Meteor.methods
         for doc in cursor.fetch()
             Meteor.call 'key', doc._id
 
+Meteor.publish 'reddit_tag_results', (
+    picked_tags=null
+    # query
+    picked_domain=null
+    picked_subreddit=null
+    view_nsfw=false
+    # searching
+    dummy
+    )->
+
+    self = @
+    match = {}
+
+    # match.model = $in: ['reddit','wikipedia']
+    match.model = 'reddit'
+    # if query
+    # if view_nsfw
+    match.over_18 = view_nsfw
+    if picked_tags and picked_tags.length > 0
+        match.tags = $all: picked_tags
+        limit = 7
+    else
+        limit = 42
+    # else /
+        # match.tags = $all: picked_tags
+    # if picked_domain
+    #     match.domain = picked_domain
+    # if picked_subreddit
+    #     match.subreddit = picked_subreddit
+    agg_doc_count = Docs.find(match).count()
+    tag_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: picked_tags }
+        { $match: count: $lt: agg_doc_count }
+        # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+        { $sort: count: -1, _id: 1 }
+        { $limit: limit }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ], {
+        allowDiskUse: true
+    }
+
+    tag_cloud.forEach (tag, i) =>
+        self.added 'results', Random.id(),
+            name: tag.name
+            count: tag.count
+            model:'tag'
+            # index: i
+    
+    # domain_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "domain": 1 }
+    #     { $group: _id: "$domain", count: $sum: 1 }
+    #     { $match: _id: $ne: picked_domain }
+    #     { $match: count: $lt: agg_doc_count }
+    #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $limit: 5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ], {
+    #     allowDiskUse: true
+    # }
+
+    # domain_cloud.forEach (domain, i) =>
+    #     self.added 'results', Random.id(),
+    #         name: domain.name
+    #         count: domain.count
+    #         model:'domain'
+    #         # category:key
+    #         # index: i
+    
+    # subreddit_cloud = Docs.aggregate [
+    #     { $match: match }
+    #     { $project: "subreddit": 1 }
+    #     { $group: _id: "$subreddit", count: $sum: 1 }
+    #     { $match: _id: $ne: picked_subreddit }
+    #     { $match: count: $lt: agg_doc_count }
+    #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+    #     { $sort: count: -1, _id: 1 }
+    #     { $limit: 5 }
+    #     { $project: _id: 0, name: '$_id', count: 1 }
+    # ], {
+    #     allowDiskUse: true
+    # }
+
+    # subreddit_cloud.forEach (subreddit, i) =>
+    #     self.added 'results', Random.id(),
+    #         name: subreddit.name
+    #         count: subreddit.count
+    #         model:'subreddit'
+    #         # category:key
+    #         # index: i
+    self.ready()
+    # else []
+Meteor.publish 'tag_image', (
+    term=null
+    picked_tags=[]
+    )->
+    # added_tags = []
+    # console.log 'match term', term
+    # console.log 'match picked tags', picked_tags
+    # if picked_tags.length > 0
+    #     added_tags = picked_tags.push(term)
+    # else 
+    added_tags = [term]
+    match = {model:'reddit'}
+    match.thumbnail = $nin:['default','self']
+    # match.url = { $regex: /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/, $options: 'i' }
+    # console.log "added tags", added_tags
+    # console.log 'looking up added tags', added_tags
+    match.tags = $in: added_tags
+    found = Docs.findOne match
+    # console.log "TERM", term
+    if found
+        # console.log "FOUND THUMBNAIL",found.thumbnail
+        Docs.find match,
+            limit:1
+            sort:ups:1
+    # else
+    #     backup = 
+    #         Docs.findOne 
+    #             model:'reddit'
+    #             thumbnail:$exists:true
+    #             tags:$in:[term]
+    #     console.log 'BACKUP', backup
+    #     if backup
+    #         Docs.find { 
+    #             model:'reddit'
+    #             thumbnail:$exists:true
+    #             tags:$in:[term]
+    #         }, 
+    #             limit:1
+    #             sort:ups:1
+Meteor.publish 'reddit_doc_results', (
+    picked_tags=null
+    picked_domain=null
+    picked_subreddit=null
+    view_nsfw=false
+    sort_key='_timestamp'
+    sort_direction=-1
+    # dummy
+    # current_query
+    # date_setting
+    )->
+    # else
+    self = @
+    # match = {model:$in:['reddit','wikipedia']}
+    match = {model:'reddit'}
+    # match.over_18 = $ne:true
+    #         yesterday = now-day
+    #         match._timestamp = $gt:yesterday
+    if picked_subreddit
+        match.subreddit = picked_subreddit
+    # if view_nsfw
+    match.over_18 = view_nsfw
+    # if picked_tags.length > 0
+    #     # if picked_tags.length is 1
+    #     #     found_doc = Docs.findOne(title:picked_tags[0])
+    #     #
+    #     #     match.title = picked_tags[0]
+    #     # else
+    if picked_tags and picked_tags.length > 0
+        match.tags = $all: picked_tags
+    
+        Docs.find match,
+            sort:
+                # "#{sort_key}":sort_direction
+                ups:-1
+            limit:20
+            fields:
+                # youtube_id:1
+                "rd.media_embed":1
+                "rd.url":1
+                "rd.thumbnail":1
+                subreddit:1
+                thumbnail:1
+                doc_sentiment_label:1
+                doc_sentiment_score:1
+                joy_percent:1
+                sadness_percent:1
+                fear_percent:1
+                disgust_percent:1
+                anger_percent:1
+                url:1
+                ups:1
+                upvoter_ids:1
+                downvoter_ids:1
+                points:1
+                title:1
+                model:1
+                num_comments:1
+                tags:1
+                _timestamp:1
+                domain:1
+    # else 
+    #     Docs.find match,
+    #         sort:_timestamp:-1
+    #         limit:10
+            
+Meteor.methods
+    search_reddit: (query)->
+        # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
+        # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
+        # HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&include_over_18=off&limit=42&include_facets=false",(err,response)=>
+            if response.data.data.dist > 1
+                _.each(response.data.data.children, (item)=>
+                    unless item.domain is "OneWordBan"
+                        data = item.data
+                        len = 200
+                        # added_tags = [query]
+                        # added_tags.push data.domain.toLowerCase()
+                        # added_tags.push data.author.toLowerCase()
+                        # added_tags = _.flatten(added_tags)
+                        # console.log 'data', data
+                        reddit_post =
+                            reddit_id: data.id
+                            url: data.url
+                            domain: data.domain
+                            comment_count: data.num_comments
+                            permalink: data.permalink
+                            title: data.title
+                            # root: query
+                            ups:data.ups
+                            num_comments:data.num_comments
+                            # selftext: false
+                            over_18:data.over_18
+                            thumbnail: data.thumbnail
+                            tags: query
+                            model:'reddit'
+                        existing_doc = Docs.findOne url:data.url
+                        if existing_doc
+                            # if Meteor.isDevelopment
+                            if typeof(existing_doc.tags) is 'string'
+                                Docs.update existing_doc._id,
+                                    $unset: tags: 1
+                            Docs.update existing_doc._id,
+                                $addToSet: tags: $each: query
+                                $set:
+                                    title:data.title
+                                    ups:data.ups
+                                    num_comments:data.num_comments
+                                    over_18:data.over_18
+                                    thumbnail:data.thumbnail
+                                    permalink:data.permalink
+                            Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
+                            # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
+                        unless existing_doc
+                            new_reddit_post_id = Docs.insert reddit_post
+                            Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                            # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
+                        return true
+                )
+                Meteor.call 'calc_user_points', ->
+
+        # _.each(response.data.data.children, (item)->
+        #     # data = item.data
+        #     # len = 200
+        # )
+        
+    get_reddit_post: (doc_id, reddit_id, root)->
+        # console.log 'getting reddit post', doc_id, reddit_id
+        HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json", (err,res)->
+            if err then console.error err
+            else
+                rd = res.data.data.children[0].data
+                # console.log rd
+                result =
+                    Docs.update doc_id,
+                        $set:
+                            rd: rd
+                # console.log rd
+                # if rd.is_video
+                #     # console.log 'pulling video comments watson'
+                #     Meteor.call 'call_watson', doc_id, 'url', 'video', ->
+                # else if rd.is_image
+                #     # console.log 'pulling image comments watson'
+                #     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
+                # else
+                #     Meteor.call 'call_watson', doc_id, 'url', 'url', ->
+                #     Meteor.call 'call_watson', doc_id, 'url', 'image', ->
+                #     # Meteor.call 'call_visual', doc_id, ->
+                # if rd.selftext
+                #     unless rd.is_video
+                #         # if Meteor.isDevelopment
+                #         #     console.log "self text", rd.selftext
+                #         Docs.update doc_id, {
+                #             $set:
+                #                 body: rd.selftext
+                #         }, ->
+                #         #     Meteor.call 'pull_site', doc_id, url
+                #             # console.log 'hi'
+                # if rd.selftext_html
+                #     unless rd.is_video
+                #         Docs.update doc_id, {
+                #             $set:
+                #                 html: rd.selftext_html
+                #         }, ->
+                #             # Meteor.call 'pull_site', doc_id, url
+                #             # console.log 'hi'
+                # if rd.url
+                #     unless rd.is_video
+                #         url = rd.url
+                #         # if Meteor.isDevelopment
+                #         #     console.log "found url", url
+                #         Docs.update doc_id, {
+                #             $set:
+                #                 reddit_url: url
+                #                 url: url
+                #         }, ->
+                #             # Meteor.call 'call_watson', doc_id, 'url', 'url', ->
+                # # update_ob = {}
+
+                Docs.update doc_id,
+                    $set:
+                        rd: rd
+                        url: rd.url
+                        thumbnail: rd.thumbnail
+                        subreddit: rd.subreddit
+                        author: rd.author
+                        is_video: rd.is_video
+                        ups: rd.ups
+                        # downs: rd.downs
+                        over_18: rd.over_18
+                    # $addToSet:
+                    #     tags: $each: [rd.subreddit.toLowerCase()]
+                # console.log Docs.findOne(doc_id)
+
+            
+Meteor.publish 'agg_emotions', (
+    # group
+    picked_tags
+    dummy
+    # picked_time_tags
+    # selected_location_tags
+    # selected_people_tags
+    # picked_max_emotion
+    # picked_timestamp_tags
+    )->
+    # @unblock()
+    self = @
+    match = {
+        model:'reddit'
+        # group:group
+        joy_percent:$exists:true
+    }
+        
+    doc_count = Docs.find(match).count()
+    if picked_tags.length > 0 then match.tags = $all:picked_tags
+    # if picked_max_emotion.length > 0 then match.max_emotion_name = $all:picked_max_emotion
+    # if picked_time_tags.length > 0 then match.time_tags = $all:picked_time_tags
+    # if selected_location_tags.length > 0 then match.location_tags = $all:selected_location_tags
+    # if selected_people_tags.length > 0 then match.people_tags = $all:selected_people_tags
+    # if picked_timestamp_tags.length > 0 then match._timestamp_tags = $all:picked_timestamp_tags
+    
+    emotion_avgs = Docs.aggregate [
+        { $match: match }
+        #     # avgAmount: { $avg: { $multiply: [ "$price", "$quantity" ] } },
+        { $group: 
+            _id:null
+            avg_sent_score: { $avg: "$doc_sentiment_score" }
+            avg_joy_score: { $avg: "$joy_percent" }
+            avg_anger_score: { $avg: "$anger_percent" }
+            avg_sadness_score: { $avg: "$sadness_percent" }
+            avg_disgust_score: { $avg: "$disgust_percent" }
+            avg_fear_score: { $avg: "$fear_percent" }
+        }
+    ]
+    emotion_avgs.forEach (res, i) ->
+        self.added 'results', Random.id(),
+            model:'emotion_avg'
+            avg_sent_score: res.avg_sent_score
+            avg_joy_score: res.avg_joy_score
+            avg_anger_score: res.avg_anger_score
+            avg_sadness_score: res.avg_sadness_score
+            avg_disgust_score: res.avg_disgust_score
+            avg_fear_score: res.avg_fear_score
+    self.ready()    
+        

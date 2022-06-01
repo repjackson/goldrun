@@ -120,7 +120,7 @@ template(name='reddit')
                         .ui.center.aligned.basic.segment
                             i.massive.yin.yang.grey.loading.icon
 template(name='reddit_card')
-    .card
+    .card(title="#{ups} ups, created #{_when}")
         if is_image
             a.fly_right(href="/reddit/#{_id}")
                 img.ui.image.zoomer.invert(src=url title='view article')
@@ -152,9 +152,10 @@ template(name='reddit_card')
             each five_cleaned_tags
                 a.ui.basic.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
                     |#{this}
-            if over_18
-                .ui.inverted.red.label.invert
-                    +i name='nsfw'
+            // if over_18
+            //     .ui.inverted.red.label.invert
+            //         i.alert.icon
+            //         // +i name='nsfw'
             if currentUser.admin_mode
                 +print_this
             if doc_sentiment_label
@@ -199,7 +200,8 @@ template(name='reddit_view')
             .eleven.wide.column
                 a.ui.basic.compact.inverted.button.fly_left.zoomer(href="/reddit" title='back to browse')
                     i.chevron.left.icon
-                    +i name='reddit'
+                    // +i name='reddit'
+                    i.big.yin.yang.icon
                     |reddit
                 .ui.inline.header !{title}
                 .scrolling
@@ -235,24 +237,24 @@ template(name='reddit_view')
                 .ui.button.pull_post
                     i.download.icon
                     |get post
-                +voting_full
+                // +voting_full
                 .ui.large.inverted.label.zoomer
-                    +i name='chat'
+                    // +i name='chat'
                     |#{comment_count} comments
-                if over_18
-                    .ui.large.inverted.red.label.zoomer(title='adult content')
-                        +i name='18-plus'
+                // if over_18
+                //     .ui.large.inverted.red.label.zoomer(title='adult content')
+                //         +i name='18-plus'
                 a.ui.large.inverted.button.zoomer(href=url target='_window')
                     i.external.icon
                     | #{url}
                 each tags 
                     a.ui.large.basic.inverted.label.zoomer.pick_flat_tag(title='search tag') #{this}
-                .ui.big.inverted.basic.label.zoomer.picker.pick_subreddit(title='browse subreddit')
-                    +i name='reddit'
-                    |subreddit #{subreddit}
-                .ui.big.inverted.basic.label 
-                    +i name='facebook-like'
-                    | #{ups} upvotes
-                .ui.big.inverted.basic.label 
-                    +i name='chat'
-                    | #{num_comments} comments
+                // .ui.big.inverted.basic.label.zoomer.picker.pick_subreddit(title='browse subreddit')
+                //     +i name='reddit'
+                //     |subreddit #{subreddit}
+                // .ui.big.inverted.basic.label 
+                //     +i name='facebook-like'
+                //     | #{ups} upvotes
+                // .ui.big.inverted.basic.label 
+                //     +i name='chat'
+                //     | #{num_comments} comments

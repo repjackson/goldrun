@@ -1,11 +1,11 @@
 if Meteor.isClient
-    Template.tip_button.helpers
-        can_tip: ->
-            @amount < Meteor.user().points
-    Template.tip_button.helpers 
-        post_tip_docs: ->
-            Docs.find 
-                model:'transfer'
+    # Template.tip_button.helpers
+    #     can_tip: ->
+    #         @amount < Meteor.user().points
+    # Template.tip_button.helpers 
+    #     post_tip_docs: ->
+    #         Docs.find 
+    #             model:'transfer'
 
     Template.model_label.helpers
         is_model: (input)->
@@ -394,18 +394,18 @@ if Meteor.isClient
 
 
 
-    Template.user_social.onCreated ->
-        @autorun => Meteor.subscribe 'user_friended', Router.current().params.username, ->
-        @autorun => Meteor.subscribe 'user_friended_by', Router.current().params.username, ->
-if Meteor.isServer
-    Meteor.publish 'user_friended', (username)->
-        user = Meteor.users.findOne username:username
-        Meteor.users.find 
-            _id:$in:user.friended_user_ids
-    Meteor.publish 'user_friended_by', (username)->
-        user = Meteor.users.findOne username:username
-        Meteor.users.find 
-            _id:$in:user.friended_by_user_ids
+    # Template.user_social.onCreated ->
+    #     @autorun => Meteor.subscribe 'user_friended', Router.current().params.username, ->
+    #     @autorun => Meteor.subscribe 'user_friended_by', Router.current().params.username, ->
+# if Meteor.isServer
+#     Meteor.publish 'user_friended', (username)->
+#         user = Meteor.users.findOne username:username
+#         Meteor.users.find 
+#             _id:$in:user.friended_user_ids
+#     Meteor.publish 'user_friended_by', (username)->
+#         user = Meteor.users.findOne username:username
+#         Meteor.users.find 
+#             _id:$in:user.friended_by_user_ids
 
 if Meteor.isClient
     Template.friend_button.helpers
@@ -591,10 +591,10 @@ if Meteor.isClient
                 published:true
 
 
-    Template.big_user_card.onCreated ->
-        @autorun => Meteor.subscribe 'user_from_username', @data
-    Template.big_user_card.helpers
-        user: -> Docs.findOne username:@valueOf()
+    # Template.big_user_card.onCreated ->
+    #     @autorun => Meteor.subscribe 'user_from_username', @data
+    # Template.big_user_card.helpers
+    #     user: -> Docs.findOne username:@valueOf()
 
 
 

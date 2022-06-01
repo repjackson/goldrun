@@ -116,9 +116,9 @@ template(name='reddit')
                         each doc_results
                             +reddit_card
                         // +small_card
-                // else 
-                //     .ui.center.aligned.basic.segment
-                //         i.massive.yin.yang.grey.loading.icon
+                else 
+                    .ui.center.aligned.basic.segment
+                        i.massive.yin.yang.grey.loading.icon
 template(name='reddit_card')
     .card
         if is_image

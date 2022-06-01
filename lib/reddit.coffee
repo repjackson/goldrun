@@ -528,7 +528,7 @@ if Meteor.isServer
             match.tags = $all: picked_tags
             limit = 10
         else
-            limit = 42
+            limit = 20
         # else /
             # match.tags = $all: picked_tags
         # if picked_domain
@@ -625,21 +625,21 @@ if Meteor.isServer
             Docs.find match,
                 limit:1
                 sort:ups:1
-        else
-            backup = 
-                Docs.findOne 
-                    model:'reddit'
-                    thumbnail:$exists:true
-                    tags:$in:[term]
-            console.log 'BACKUP', backup
-            if backup
-                Docs.find { 
-                    model:'reddit'
-                    thumbnail:$exists:true
-                    tags:$in:[term]
-                }, 
-                    limit:1
-                    sort:ups:1
+        # else
+        #     backup = 
+        #         Docs.findOne 
+        #             model:'reddit'
+        #             thumbnail:$exists:true
+        #             tags:$in:[term]
+        #     console.log 'BACKUP', backup
+        #     if backup
+        #         Docs.find { 
+        #             model:'reddit'
+        #             thumbnail:$exists:true
+        #             tags:$in:[term]
+        #         }, 
+        #             limit:1
+        #             sort:ups:1
     Meteor.publish 'reddit_doc_results', (
         picked_tags=null
         picked_domain=null

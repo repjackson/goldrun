@@ -180,8 +180,8 @@ template(name='agg_tag')
     // button.ui.big.compact.basic.active.fade.animated.button.result(tabindex="0" title=count)
     button.ui.big.image.inverted.basic.label.result.invert(tabindex="0" title=count)
         // .visible.content
-        if term_image.thumbnail
-            img.ui.image.superzoomer(src=term_image.thumbnail)
+        if term_image.watson.metadata.image
+            img.ui.image.superzoomer(src=term_image.watson.metadata.image)
 
         | #{name}
         // .hidden.content

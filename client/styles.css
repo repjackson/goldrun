@@ -51,7 +51,7 @@ body {
      /*filter: invert(1) !important; */
 }
 .label {
-    margin:3px !important;
+    margin:1px !important;
 }
 .label, .button, .progress, .text {
      /*filter: invert(1) !important; */
@@ -631,14 +631,6 @@ textarea{
 
 .shadowed{
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2) !important;
-}
-.label:not(.no_format){
-    /* -webkit-border-radius: 5px !important; */
-    /* -moz-border-radius: 5px !important; */
-    margin:5px !important;
-    opacity:.9 !important;
-    /*font-family: 'Ubuntu', sans-serif !important;*/
-    /*border-radius: 20px !important; */
 }
 
 .disabled.button, .disabled.segment, .disabled.label{

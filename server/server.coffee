@@ -191,7 +191,7 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&sort=top&limit=20&include_facets=false",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&sort=top&limit=100&include_facets=false",(err,response)=>
             # console.log response
             if response.data.data.dist > 1
                 _.each(response.data.data.children, (item)=>

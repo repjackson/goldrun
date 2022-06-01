@@ -10,22 +10,25 @@ Meteor.publish 'tag_image', (
     # else 
     added_tags = [term]
     match = {model:'reddit'}
-    match.thumbnail = $nin:['default','self']
+    # match.thumbnail = $nin:['default','self']
+    match["watson.metadata.image"] = $exists:true
     # match.url = { $regex: /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/, $options: 'i' }
     # console.log "added tags", added_tags
     # console.log 'looking up added tags', added_tags
     match.tags = $in: added_tags
     found = Docs.findOne match
-    # console.log "TERM", term
+    console.log "TERM", term
     if found
         # console.log "FOUND THUMBNAIL",found.thumbnail
         Docs.find match,
             limit:1
             sort:ups:1
             fields:
+                "watson.metadata.image":1
                 model:1
                 thumbnail:1
                 tags:1
+                ups:1
                 url:1
     # else
     #     backup = 

@@ -102,6 +102,7 @@ Template.agg_tag.helpers
         # console.log Template.currentData().name
         found = Docs.findOne {
             tags:$in:[Template.currentData().name]
+            "watson.metadata.image":$exists:true
         }, sort:ups:-1
         # console.log 'found image', found
         found
@@ -146,8 +147,8 @@ Template.reddit_card.events
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
-    'click .pick_subreddit': -> Session.set('subreddit',@subreddit)
-    'click .pick_domain': -> Session.set('domain',@domain)
+    # 'click .pick_subreddit': -> Session.set('subreddit',@subreddit)
+    # 'click .pick_domain': -> Session.set('domain',@domain)
     'click .autotag': (e)->
         console.log @
         # console.log Template.currentData()
@@ -201,9 +202,9 @@ Template.reddit.events
             Session.set('is_loading', true)
             Meteor.call 'search_reddit', picked_tags.array(), =>
                 Session.set('is_loading', false)
-            Meteor.setTimeout ->
-                Session.set('dummy', !Session.get('dummy'))
-            , 5000
+            # Meteor.setTimeout ->
+            #     Session.set('dummy', !Session.get('dummy'))
+            # , 5000
 
     # # 'keyup #search': _.throttle((e,t)->
     'click #search': (e,t)->
@@ -270,12 +271,17 @@ Template.reddit_card.helpers
 Template.reddit.helpers
     current_bg:->
         console.log picked_tags.array()
-        found = Docs.findOne 
+        found = Docs.findOne {
             model:'reddit'
             tags:$in:picked_tags.array()
-            thumbnail:$nin:['default','self']
+            "watson.metadata.image":$exists:true
+            # thumbnail:$nin:['default','self']
+        },sort:ups:-1
         if found
-            found.thumbnail
+            console.log 'found bg'
+            found.watson.metadata.image
+        else 
+            console.log 'no found bg'
 
     emotion_avg_result: ->
         Results.findOne 

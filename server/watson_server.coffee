@@ -168,7 +168,7 @@ Meteor.methods
         #         parameters.clean = true
         #         console.log 'calling image'
 
-        console.log 'parameters', parameters
+        # console.log 'parameters', parameters
 
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
@@ -188,7 +188,7 @@ Meteor.methods
                 # console.log(JSON.stringify(response, null, 2));
                 # console.log 'adding watson info', doc.title
                 response = response.result
-                console.log response
+                # console.log response
                 # console.log 'lowered keywords', lowered_keywords
                 # if Meteor.isDevelopment
                 #     console.log 'categories',response.categories
@@ -276,9 +276,6 @@ Meteor.methods
                 if Docs.findOne doc_id
                     Docs.update { _id: doc_id },{$addToSet:tags:$each:lowered_concepts}
                     Docs.update { _id: doc_id },{$addToSet:tags:$each:lowered_keywords}
-                else if Meteor.users.findOne doc_id
-                    Meteor.users.update { _id: doc_id },{$addToSet:tags:$each:lowered_concepts}
-                    Meteor.users.update { _id: doc_id },{$addToSet:tags:$each:lowered_keywords}
                 # final_doc = Docs.findOne doc_id
                 # console.log 'FINAL DOC tags',final_doc.tags
 

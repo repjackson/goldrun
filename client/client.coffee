@@ -65,7 +65,7 @@ Template.layout.events
 #     @layout 'layout'
 #     @render 'docs'
 #     ), name:'home'
-Router.route '/', (->
-    @render 'reddit'
-    # @redirect('/reddit');
-    ), name:'home'
+# Router.route '/', (->
+#     @render 'reddit'
+#     # @redirect('/reddit');
+#     ), name:'home'

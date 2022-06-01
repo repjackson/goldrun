@@ -78,13 +78,13 @@ if Meteor.isClient
             unless found_doc.watson
                 Meteor.call 'call_watson',Router.current().params.doc_id,'rd.selftext', ->
                     console.log 'autoran watson'
-    # Template.reddit_card.onRendered ->
-    #     console.log @
-    #     found_doc = @data
-    #     if found_doc 
-    #         unless found_doc.watson
-    #             Meteor.call 'call_watson',found_doc._id,'rd.selftext', ->
-    #                 console.log 'autoran watson'
+    Template.reddit_card.onRendered ->
+        console.log @
+        found_doc = @data
+        if found_doc 
+            unless found_doc.doc_sentiment_label
+                Meteor.call 'call_watson',found_doc._id,'title','html',->
+                    console.log 'autoran watson'
 
         # @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.reddit.onCreated ->
@@ -127,8 +127,9 @@ if Meteor.isClient
     Template.agg_tag.helpers
         term_image: ->
             # console.log Template.currentData().name
-            found = Docs.findOne 
+            found = Docs.findOne {
                 tags:$in:[Template.currentData().name]
+            }, sort:ups:-1
             # console.log 'found image', found
             found
     Template.agg_tag.events
@@ -139,7 +140,7 @@ if Meteor.isClient
             Session.set('current_query', null)
             Session.set('searching', true)
             Session.set('is_loading', true)
-            Meteor.call 'call_wiki', @name, ->
+            # Meteor.call 'call_wiki', @name, ->
     
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('is_loading', false)
@@ -305,9 +306,6 @@ if Meteor.isClient
             Meteor.call 'get_reddit_post', @_id, @reddit_id, =>
             # Meteor.call 'agg_omega', ->
     
-    Template.shortcut.events
-        'click .go': -> picked_tags.push @key
-        
         
     Template.reddit.helpers
         current_bg:->

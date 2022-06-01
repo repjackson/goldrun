@@ -50,7 +50,7 @@ template(name='doc_emotion')
         //- .rounded(class=omega_dark_mode_class style="height:7px;width:{{to_percent joy_percent}}%;background-color:green" title="{{to_percent joy_percent}}% joy")
     if joy_percent
         // .ui.basic.center.aligned.segment
-        .ui.multiple.small.progress.inline.no_border.invert(data-total='100' data-value="{{ to_percent joy_percent }},{{ to_percent sadness_percent }},{{ to_percent fear_percent }},{{ to_percent disgust_percent }},{{ to_percent anger_percent }}")
+        .ui.multiple.small.progress.no_border(data-total='100' data-value="{{ to_percent joy_percent }},{{ to_percent sadness_percent }},{{ to_percent fear_percent }},{{ to_percent disgust_percent }},{{ to_percent anger_percent }}")
             .green.bar
                 // .progress
             .blue.bar

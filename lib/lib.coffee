@@ -5,17 +5,17 @@
 
 
 
-Router.configure
-    layoutTemplate: 'layout'
-    notFoundTemplate: 'not_found'
-    loadingTemplate: 'splash'
-    trackPageView: false
+# Router.configure
+#     layoutTemplate: 'layout'
+#     notFoundTemplate: 'not_found'
+#     loadingTemplate: 'splash'
+#     trackPageView: false
 
-force_loggedin =  ()->
-    if !Meteor.userId()
-        @render 'login'
-    else
-        @next()
+# force_loggedin =  ()->
+#     if !Meteor.userId()
+#         @render 'login'
+#     else
+#         @next()
 
 # Router.onBeforeAction(force_loggedin, {
 #   # only: ['admin']
@@ -44,7 +44,7 @@ force_loggedin =  ()->
 
 
 
-Router.route '*', -> @render 'reddit'
+# Router.route '*', -> @render 'reddit'
 
 # Router.route '/user/:username/m/:type', -> @render 'user_layout', 'user_section'
 # Router.route '/forgot_password', -> @render 'forgot_password'
@@ -154,164 +154,3 @@ Docs.helpers
     # to_user: ->
     #     if @to_user_id
     #         Docs.findOne @to_user_id
-
-
-    upvoters: ->
-        if @upvoter_ids
-            upvoters = []
-            for upvoter_id in @upvoter_ids
-                upvoter = Docs.findOne upvoter_id
-                upvoters.push upvoter
-            upvoters
-    downvoters: ->
-        if @downvoter_ids
-            downvoters = []
-            for downvoter_id in @downvoter_ids
-                downvoter = Docs.findOne downvoter_id
-                downvoters.push downvoter
-            downvoters
-
-
-Meteor.methods
-    upvote: (doc)->
-        if Meteor.userId()
-            if doc.downvoter_ids and Meteor.userId() in doc.downvoter_ids
-                Docs.update doc._id,
-                    $pull: downvoter_ids:Meteor.userId()
-                    $addToSet: upvoter_ids:Meteor.userId()
-                    $inc:
-                        points:2
-                        upvotes:1
-                        downvotes:-1
-            else if doc.upvoter_ids and Meteor.userId() in doc.upvoter_ids
-                Docs.update doc._id,
-                    $pull: upvoter_ids:Meteor.userId()
-                    $inc:
-                        points:-1
-                        upvotes:-1
-            else
-                Docs.update doc._id,
-                    $addToSet: upvoter_ids:Meteor.userId()
-                    $inc:
-                        upvotes:1
-                        points:1
-            Docs.update doc._author_id,
-                $inc:karma:1
-        else
-            Docs.update doc._id,
-                $inc:
-                    anon_points:1
-                    anon_upvotes:1
-            Docs.update doc._author_id,
-                $inc:anon_karma:1
-        Meteor.call 'calc_user_points', doc._author_id, ->
-    downvote: (doc)->
-        if Meteor.userId()
-            if doc.upvoter_ids and Meteor.userId() in doc.upvoter_ids
-                Docs.update doc._id,
-                    $pull: upvoter_ids:Meteor.userId()
-                    $addToSet: downvoter_ids:Meteor.userId()
-                    $inc:
-                        points:-2
-                        downvotes:1
-                        upvotes:-1
-            else if doc.downvoter_ids and Meteor.userId() in doc.downvoter_ids
-                Docs.update doc._id,
-                    $pull: downvoter_ids:Meteor.userId()
-                    $inc:
-                        points:1
-                        downvotes:-1
-            else
-                Docs.update doc._id,
-                    $addToSet: downvoter_ids:Meteor.userId()
-                    $inc:
-                        points:-1
-                        downvotes:1
-            Docs.update doc._author_id,
-                $inc:karma:-1
-        else
-            Docs.update doc._id,
-                $inc:
-                    anon_points:-1
-                    anon_downvotes:1
-            Docs.update doc._author_id,
-                $inc:anon_karma:-1
-        Meteor.call 'calc_user_points', doc._author_id, ->
-
-
-
-if Meteor.isServer
-    # Meteor.publish 'doc', (id)->
-    #     doc = Docs.findOne id
-    #     user = Docs.findOne id
-    #     if doc
-    #         Docs.find id
-    #     else if user
-    #         Docs.find id
-    Meteor.publish 'docs', (picked_tags, filter)->
-        # user = Docs.findOne @userId
-        # console.log picked_tags
-        # console.log filter
-        self = @
-        match = {}
-        if Meteor.user()
-            unless Meteor.user().roles and 'dev' in Meteor.user().roles
-                match.view_roles = $in:Meteor.user().roles
-        else
-            match.view_roles = $in:['public']
-
-        # if filter is 'shop'
-        #     match.active = true
-        if picked_tags.length > 0 then match.tags = $all: picked_tags
-        if filter then match.model = filter
-
-        Docs.find match, sort:_timestamp:-1
-
-
-
-Meteor.methods
-    add_facet_filter: (delta_id, key, filter)->
-        if key is '_keys'
-            new_facet_ob = {
-                key:filter
-                filters:[]
-                res:[]
-            }
-            Docs.update { _id:delta_id },
-                $addToSet: facets: new_facet_ob
-        Docs.update { _id:delta_id, "facets.key":key},
-            $addToSet: "facets.$.filters": filter
-
-        Meteor.call 'fum', delta_id, (err,res)->
-
-    add_alpha_facet_filter: (alpha_id, key, filter)->
-        if key is '_keys'
-            new_facet_ob = {
-                key:filter
-                filters:[]
-                res:[]
-            }
-            Docs.update { _id:alpha_id },
-                $addToSet: facets: new_facet_ob
-        Docs.update { _id:alpha_id, "facets.key":key},
-            $addToSet: "facets.$.filters": filter
-
-        Meteor.call 'fa', alpha_id, (err,res)->
-
-
-    remove_facet_filter: (delta_id, key, filter)->
-        if key is '_keys'
-            Docs.update { _id:delta_id },
-                $pull:facets: {key:filter}
-        Docs.update { _id:delta_id, "facets.key":key},
-            $pull: "facets.$.filters": filter
-        Meteor.call 'fum', delta_id, (err,res)->
-
-
-    remove_alpha_facet_filter: (alpha_id, key, filter)->
-        if key is '_keys'
-            Docs.update { _id:alpha_id },
-                $pull:facets: {key:filter}
-        Docs.update { _id:alpha_id, "facets.key":key},
-            $pull: "facets.$.filters": filter
-        Meteor.call 'fa', alpha_id, (err,res)->

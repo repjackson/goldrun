@@ -260,13 +260,13 @@ Meteor.publish 'reddit_doc_results', (
             sort:
                 # "#{sort_key}":sort_direction
                 ups:-1
-            limit:20
+            limit:11
             fields:
                 # youtube_id:1
                 "rd.media_embed":1
                 "rd.url":1
                 "rd.thumbnail":1
-                subreddit:1
+                # subreddit:1
                 thumbnail:1
                 doc_sentiment_label:1
                 doc_sentiment_score:1
@@ -277,15 +277,12 @@ Meteor.publish 'reddit_doc_results', (
                 anger_percent:1
                 url:1
                 ups:1
-                upvoter_ids:1
-                downvoter_ids:1
-                points:1
                 title:1
                 model:1
-                num_comments:1
+                # num_comments:1
                 tags:1
                 _timestamp:1
-                domain:1
+                # domain:1
     # else 
     #     Docs.find match,
     #         sort:_timestamp:-1
@@ -296,9 +293,11 @@ Meteor.methods
         # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
         # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
         # HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
-        HTTP.get "http://reddit.com/search.json?q=#{query}&nsfw=0&include_over_18=off&limit=42&include_facets=false",(err,response)=>
+        HTTP.get "http://reddit.com/search.json?q=#{query}&sort=top&limit=20&include_facets=false",(err,response)=>
+            # console.log response
             if response.data.data.dist > 1
                 _.each(response.data.data.children, (item)=>
+                    # console.log 'item', item
                     unless item.domain is "OneWordBan"
                         data = item.data
                         len = 200
@@ -363,7 +362,7 @@ Meteor.methods
                     Docs.update doc_id,
                         $set:
                             rd: rd
-                # console.log rd
+                console.log rd
                 # if rd.is_video
                 #     # console.log 'pulling video comments watson'
                 #     Meteor.call 'call_watson', doc_id, 'url', 'video', ->

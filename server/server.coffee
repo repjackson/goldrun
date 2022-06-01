@@ -109,7 +109,7 @@ Meteor.publish 'reddit_tag_results', (
     match.over_18 = view_nsfw
     if picked_tags and picked_tags.length > 0
         match.tags = $all: picked_tags
-        limit = 7
+        limit = 10
     else
         limit = 20
     # else /
@@ -234,11 +234,11 @@ Meteor.methods
                                     over_18:data.over_18
                                     thumbnail:data.thumbnail
                                     permalink:data.permalink
-                            Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
+                            # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                             # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
                         unless existing_doc
                             new_reddit_post_id = Docs.insert reddit_post
-                            Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                            # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
                             # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
                         return true
                 )
@@ -250,8 +250,14 @@ Meteor.methods
         # )
         
     get_reddit_post: (doc_id, reddit_id, root)->
+        doc = Docs.findOne doc_id
         # console.log 'getting reddit post', doc_id, reddit_id
-        HTTP.get "http://reddit.com/by_id/t3_#{reddit_id}.json", (err,res)->
+        if doc.reddit_id
+            console.log 'found doc for direct reddit pull', doc.reddit_id
+        else
+            console.log 'NO found doc for direct reddit pull', doc
+            
+        HTTP.get "http://reddit.com/by_id/t3_#{doc.reddit_id}.json", (err,res)->
             if err then console.error err
             else
                 rd = res.data.data.children[0].data

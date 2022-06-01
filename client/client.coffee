@@ -96,16 +96,29 @@ Template.reddit.onCreated ->
 Template.agg_tag.onCreated ->
     # console.log @
     @autorun => @subscribe 'tag_image', @data.name, picked_tags.array(),->
-        
 Template.agg_tag.helpers
     term_image: ->
         # console.log Template.currentData().name
         found = Docs.findOne {
+            model:'reddit'
             tags:$in:[Template.currentData().name]
             "watson.metadata.image":$exists:true
         }, sort:ups:-1
         # console.log 'found image', found
         found
+Template.unpick_tag.onCreated ->
+    console.log @
+    @autorun => @subscribe 'tag_image', @data, picked_tags.array(),->
+Template.unpick_tag.helpers
+    flat_term_image: ->
+        console.log Template.currentData()
+        found = Docs.findOne {
+            model:'reddit'
+            tags:$in:[Template.currentData()]
+            "watson.metadata.image":$exists:true
+        }, sort:ups:-1
+        console.log 'found flat image', found.watson.metadata.image
+        found.watson.metadata.image
 Template.agg_tag.events
     'click .result': (e,t)->
         # Meteor.call 'log_term', @title, ->
@@ -165,7 +178,8 @@ Template.reddit_card.events
         #     Docs.update @_id,
         #         $set:
         #             parsed_selftext_html:dom.value
-        
+        Meteor.call 'get_reddit_post', @_id, (err,res)->
+
         # doc = Template.parentData()
         # doc = Docs.findOne Template.parentData()._id
         # Meteor.call 'call_watson', Template.parentData()._id, parent.key, @mode, ->

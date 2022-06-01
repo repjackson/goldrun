@@ -4,9 +4,7 @@ template(name='reddit')
         .row
             .sixteen.wide.column
                 each picked_tags
-                    button.ui.big.button.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
-                        // i.minus.icon
-                        .ui.inline.small.header #{this}
+                    +unpick_tag
                             
                         //- button.ui.active.large.button.unpick_tag(tabindex='0' style=background_style class=emotion_color)
                 //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
@@ -111,14 +109,29 @@ template(name='reddit')
                     //         each doc_results
                     //             +reddit_item
                     // else
-                    .ui.stackable.centered.link.inverted.cards.scrolling
-                        each doc_results
-                            +reddit_card
-                        // +small_card
+                    if one_result
+                        .ui.stackable.centered.link.inverted.one.cards
+                            each doc_results
+                                +reddit_card
+                    else 
+                        .ui.stackable.centered.link.inverted.cards.scrolling
+                            each doc_results
+                                +reddit_card
+                            // +small_card
                 else 
                     if picked_tags
                         .ui.center.aligned.basic.segment
                             i.massive.yin.yang.grey.loading.icon
+                            
+template(name='unpick_tag')
+    button.ui.big.image.label.zoomer.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
+        // i.minus.icon
+        if flat_term_image
+            img.ui.image.superzoomer(src=flat_term_image)
+        
+        .ui.inline.small.header #{this}
+
+                            
 template(name='reddit_card')
     .card.autotag(title="#{ups} ups, created #{_when}")
         if watson.metadata.image.length

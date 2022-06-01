@@ -3,7 +3,7 @@ template(name='reddit')
         .row
             .sixteen.wide.center.aligned.column
                 each picked_tags
-                    button.ui.compact.big.button.unpick_tag.invert(tabindex="0" class="#{loading_class} #{active_term_class}")
+                    button.ui.big.button.unpick_tag(tabindex="0" class="#{loading_class} #{active_term_class}")
                         // i.minus.icon
                         .ui.inline.small.header #{this}
                             
@@ -111,7 +111,7 @@ template(name='reddit')
                     //         each doc_results
                     //             +reddit_item
                     // else
-                    .ui.stackable.centered.cards.scrolling
+                    .ui.stackable.centered.link.cards.scrolling
                         each doc_results
                             +reddit_card
                         // +small_card
@@ -177,9 +177,9 @@ template(name='agg_tag')
     button.ui.massive.image.inverted.basic.label.result.invert(tabindex="0" title=count)
         // .visible.content
         if term_image.thumbnail
-            img.ui.image(src=term_image.thumbnail)
+            img.ui.image.superzoomer(src=term_image.thumbnail)
 
-        strong #{name}
+        | #{name}
         // .hidden.content
         //     |+ #{title}
         // if term.image

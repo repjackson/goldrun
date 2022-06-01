@@ -47,12 +47,12 @@ if Meteor.isClient
             Results.findOne 
                 model:'emotion_avg'
         if found_emotion_avg
-            console.log 'max', _.max([found_emotion_avg.avg_joy_score,found_emotion_avg.avg_anger_score,found_emotion_avg.avg_sadness_score,found_emotion_avg.avg_disgust_score,found_emotion_avg.avg_fear_score])
+            # console.log 'max', _.max([found_emotion_avg.avg_joy_score,found_emotion_avg.avg_anger_score,found_emotion_avg.avg_sadness_score,found_emotion_avg.avg_disgust_score,found_emotion_avg.avg_fear_score])
             
             if found_emotion_avg.avg_sent_score < 0
-                'red'
+                'red invert'
             else 
-                'green'
+                'green invert'
         # console.log 'found emtion', found_emotion_avg
     Template.registerHelper 'above_50', (input) ->
         # console.log input

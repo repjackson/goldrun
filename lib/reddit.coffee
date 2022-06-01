@@ -101,7 +101,7 @@ if Meteor.isClient
             Session.get('domain')
             Session.get('subreddit')
             Session.get('view_nsfw')
-            # Session.get('dummy')
+            Session.get('dummy')
         @autorun => @subscribe 'reddit_doc_results',
             picked_tags.array()
             Session.get('domain')
@@ -232,8 +232,8 @@ if Meteor.isClient
                 , 5000
     
         # # 'keyup #search': _.throttle((e,t)->
-        # 'click #search': (e,t)->
-        #     Session.set('dummy', !Session.get('dummy'))
+        'click #search': (e,t)->
+            Session.set('dummy', !Session.get('dummy'))
         'keydown #search': (e,t)->
             query = $('#search').val()
             # if query.length > 0
@@ -245,7 +245,7 @@ if Meteor.isClient
                     if search.length > 0
                         # Session.set('searching', true)
                         picked_tags.push search
-                        console.log 'search', search
+                        # console.log 'search', search
                         Session.set('is_loading', true)
                         Meteor.call 'search_reddit', picked_tags.array(), ->
                             Session.set('is_loading', false)

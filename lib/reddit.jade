@@ -177,7 +177,7 @@ template(name='agg_tag')
     button.ui.big.black.button.result(tabindex="0" title=count)
         // .visible.content
         if term_image
-            img.ui.avatar.image(src="{{c.url term_image.image_id width=200 height=200 gravity='face' crop='fill'}}")
+            img.ui.avatar.image(src=term_image.rd.thumbnail)
 
         strong #{name}
         // .hidden.content

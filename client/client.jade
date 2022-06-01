@@ -54,7 +54,7 @@ template(name='layout')
         // +nav
         // .scrolling
         +yield
-        if currentUser
+        if in_dev
             +footer
 
 // template(name='map')
@@ -84,9 +84,9 @@ template(name='footer')
                 //     .content
                 //         img.ui.image(src="{{c.url 'dao_venmo'}}")
                 // +music
-                if currentUser.admin
-                    with currentUser
-                        +boolean_edit key='admin_mode' label='admin mode' icon='shield'
+                // if currentUser.admin
+                with currentUser
+                    +boolean_edit key='admin_mode' label='admin mode' icon='shield'
                         
                 if currentUser.admin_mode
                     .ui.inline.header 

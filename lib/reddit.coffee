@@ -122,13 +122,15 @@ if Meteor.isClient
     
     Template.agg_tag.onCreated ->
         # console.log @
-        @autorun => @subscribe 'tag_image', @data.title, ->
+        @autorun => @subscribe 'tag_image', @data.name, ->
             
     Template.agg_tag.helpers
         term_image: ->
-            # console.log Template.currentData().title
-            Docs.findOne 
-                tags:$in:Template.currentData().title
+            console.log Template.currentData().name
+            found = Docs.findOne 
+                tags:$in:Template.currentData().name
+            console.log 'found image', found
+            found
     Template.agg_tag.events
         'click .result': (e,t)->
             # Meteor.call 'log_term', @title, ->
@@ -594,11 +596,14 @@ if Meteor.isServer
         self.ready()
         # else []
     Meteor.publish 'tag_image', (term)->
-        match = {model:'post'}
+        console.log 'match term', term
+        match = {model:'reddit'}
         match.url = { $regex: /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/, $options: 'i' }
+        match.tags = $in: [term]
         found = Docs.findOne match
-        # console.log found 
-        Docs.find match
+        if found
+            console.log found.rd.thumbnail
+            Docs.find match
     Meteor.publish 'reddit_doc_results', (
         picked_tags=null
         picked_domain=null
@@ -639,6 +644,7 @@ if Meteor.isServer
                     # youtube_id:1
                     "rd.media_embed":1
                     "rd.url":1
+                    "rd.thumbnail":1
                     subreddit:1
                     thumbnail:1
                     doc_sentiment_label:1

@@ -37,7 +37,8 @@ template(name='profile_layout')
                                 +profile_nav_item section='products' icon='shopping-cart'
                                 +profile_nav_item section='services' icon='wrench'
                                 +profile_nav_item section='tasks' icon='tasks'
-                                +profile_nav_item section='drafts' icon='save'
+                                if is_current_user
+                                    +profile_nav_item section='drafts' icon='save'
                                 +profile_nav_item section='favorites' icon='heart'
                                 +profile_nav_item section='social' icon='friends'
                                 +profile_nav_item section='music' icon='music'

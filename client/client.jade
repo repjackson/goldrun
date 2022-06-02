@@ -12,7 +12,7 @@ head
     link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
     link(rel="manifest" href="/site.webmanifest")
     link(rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000")
-    link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
+    // link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
 
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
     script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js')
@@ -166,7 +166,7 @@ template(name='reddit_card')
             |!{unescaped}
 
         .content
-            .ui.grey.header.expand !{title}
+            .ui.grey.header.zoomer.expand !{title}
             // .ui.inverted.basic.label
             //     i.globe.grey.icon 
             //     |#{domain}
@@ -187,10 +187,6 @@ template(name='reddit_card')
             each five_cleaned_tags
                 a.ui.basic.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
                     |#{this}
-            .ui.icon.basic.circular.button.vote_up
-                i.thumbs.up.icon
-            .ui.icon.basic.circular.button.vote_down
-                i.thumbs.down.icon
             if points
                 .ui.inline.header
                     |#{points}pts
@@ -206,16 +202,20 @@ template(name='reddit_card')
             //     .ui.icon.big.inverted.button.autotag.zoomer(title='breakdown emotions') 
             //         i.large.chess.grey.icon
             //     // +call_watson key=rd.selftext
+        .ui.icon.basic.circular.button.vote_up
+            i.thumbs.up.icon
+        .ui.icon.basic.circular.button.vote_down
+            i.thumbs.down.icon
 template(name='reddit_card_big')
-    .ui.fluid.card.autotag.minimize.pointer(title="#{ups} ups, created #{_when}")
+    .ui.fluid.card.autotag.pointer(title="#{ups} ups, created #{_when}")
         if watson.metadata.image.length
             // |watson image
-            img.ui.fluid.image(src=watson.metadata.image title='view article')
+            img.ui.fluid.image.minimize(src=watson.metadata.image title='view article')
         
         else if is_image
-            img.ui.image(src=url title='view article')
+            img.ui.image.minimize(src=url title='view article')
         else if has_thumbnail
-            img.ui.fluid.image(src=thumbnail title='view article')
+            img.ui.fluid.image.minimize(src=thumbnail title='view article')
         if rd.media_embed.content
             // .invert
             |!{unescaped_content}
@@ -240,8 +240,7 @@ template(name='reddit_card_big')
             if watson.analyzed_text
                 |!{watson.analyzed_text}
             each tags
-                a.ui.basic.large.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
-                    |#{this}
+                +flat_tag_picker
             // if over_18
             //     .ui.inverted.red.label.invert
             //         i.alert.icon
@@ -259,6 +258,13 @@ template(name='reddit_card_big')
 // template(name='session_toggle')
 //     .ui.button.toggle
 //         i.large.icon(class=icon)
+        
+        
+template(name='flat_tag_picker')
+    a.ui.basic.large.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
+        |#{this}
+    i.remove.link.circular.icon.remove_tag.zoomer
+
         
                    
 template(name='agg_tag')

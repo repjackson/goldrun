@@ -258,31 +258,7 @@ template(name='categories')
 //- 
 //- 
 template(name='watson_view')
-    // +tone
-    .ui.styled.fluid.accordion
-        .active.title.zoomer(title='emotional breakdown')
-            +doc_sentiment
-            +doc_emotion
-        .active.content
-            +concepts
-            +categories
-            +entities
-            // +semantic_roles
-            // +keyword_list
-            +concept_list
-            +keywords
-            // .ui.hidden.divider
-            // +relations
-            //- if dev
-            //-     .ui.styled.accordion
-            //-         .title 
-            //-             i.code.icon
-            //-         .content
-            //-             +jsonView(json=watson)
-            //- +personality
-            //- +consumption_preferences
-        
-template(name='watson_view_full')
+    +tone
     +doc_sentiment
     +doc_emotion
     +concepts
@@ -302,6 +278,7 @@ template(name='watson_view_full')
     //-             +jsonView(json=watson)
     //- +personality
     //- +consumption_preferences
+    
 
 template(name='i')
     i.large.icon(class=name)

@@ -1,12 +1,20 @@
 Meteor.publish 'tag_image', (
     term=null
-    picked_tags=[]
+    porn=false
     )->
     # added_tags = []
     # console.log 'match term', term
     # console.log 'match picked tags', picked_tags
     # if picked_tags.length > 0
     #     added_tags = picked_tags.push(term)
+    match = {
+        model:'reddit'
+        tags: $in: [term]
+        "watson.metadata.image": $exists:true
+        $where: "this.watson.metadata.image.length > 1"
+    }
+    # if porn
+    match.over_18 = porn
     # else 
     # added_tags = [term]
     # match = {model:'reddit'}
@@ -25,13 +33,16 @@ Meteor.publish 'tag_image', (
         $where: "this.watson.metadata.image.length > 1"
     },{
         limit:1
-        sort:ups:1
+        sort:
+            points:1
+            ups:1
         fields:
             "watson.metadata.image":1
             model:1
             thumbnail:1
             tags:1
             ups:1
+            over_18:1
             url:1
         }
     # else

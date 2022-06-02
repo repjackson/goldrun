@@ -14,26 +14,6 @@ Docs.allow
     remove: (userId, doc) ->
         true
         # doc._author_id is userId or 'admin' in Meteor.user().roles
-# Meteor.users.allow
-#     insert: (userId, doc) -> 
-#         true    
-#             # doc._author_id is userId
-#     update: (userId, doc) ->
-#         doc
-#         # if doc.model in ['calculator_doc','simulated_rental_item','healthclub_session']
-#         #     true
-#         # else if Meteor.user() and Meteor.user().roles and 'admin' in Meteor.user().roles
-#         #     true
-#         # else
-#         #     doc._author_id is userId
-#     # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
-#     remove: (userId, doc) -> 
-#         if Meteor.user() and Meteor.user().admin_mode
-#             true
-#         else
-#             false
-#         # doc._author_id is userId or 'admin' in Meteor.user().roles
-
 Meteor.publish 'count', ->
   Counts.publish this, 'product_counter', Docs.find({model:'product'})
   return undefined    # otherwise coffeescript returns a Counts.publish
@@ -62,8 +42,6 @@ Meteor.methods
 
     count_key: (key)->
         count = Docs.find({"#{key}":$exists:true}).count()
-
-
 
 
     slugify: (doc_id)->
@@ -109,7 +87,7 @@ Meteor.publish 'reddit_tag_results', (
         match.tags = $all: picked_tags
         limit = 10
     else
-        limit = 20
+        limit = 42
     # else /
         # match.tags = $all: picked_tags
     agg_doc_count = Docs.find(match).count()

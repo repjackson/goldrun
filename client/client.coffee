@@ -21,6 +21,21 @@ Template.registerHelper 'emotion_color', () ->
 #         model:'group'
 #         member_ids: $in:[user._id]
 
+globalHotkeys = new Hotkeys();
+
+globalHotkeys.add({
+	combo : "ctrl+4",
+	eventType: "keydown",
+	callback : ()->
+		alert("You pressed ctrl+4");
+})
+
+globalHotkeys.add({
+	combo : "r a",
+	callback : ()->
+	    Session.set('admin_mode',!Session.get('admin_mode'))
+# 		alert("admin mode toggle")
+})
 
 Template.registerHelper 'active_term_class', () ->
     found_emotion_avg = 
@@ -51,10 +66,6 @@ Template.registerHelper 'parent', () -> Template.parentData()
 Template.registerHelper '_parent_doc', () ->
     Docs.findOne @parent_id
     # Template.parentData()
-Template.registerHelper 'sort_label', () -> Session.get('sort_label')
-Template.registerHelper 'sort_icon', () -> Session.get('sort_icon')
-Template.registerHelper 'current_limit', () -> parseInt(Session.get('limit'))
-
 Template.registerHelper 'current_time', () -> moment().format("h:mm a")
 Template.registerHelper 'subs_ready', () -> 
     Template.instance().subscriptionsReady()
@@ -288,7 +299,7 @@ Template.reddit.onCreated ->
 
 Template.agg_tag.onCreated ->
     # console.log @
-    @autorun => @subscribe 'tag_image', @data.name, picked_tags.array(),->
+    @autorun => @subscribe 'tag_image', @data.name, Session.get('porn'),->
 Template.agg_tag.helpers
     term_image: ->
         # console.log Template.currentData().name
@@ -301,7 +312,7 @@ Template.agg_tag.helpers
         found
 Template.unpick_tag.onCreated ->
     # console.log @
-    @autorun => @subscribe 'tag_image', @data, picked_tags.array(),->
+    @autorun => @subscribe 'tag_image', @data, Session.get('porn'),->
 Template.unpick_tag.helpers
     flat_term_image: ->
         # console.log Template.currentData()
@@ -353,9 +364,15 @@ Template.reddit_card.helpers
         #     @tags[..5] not in picked_tags.array()
         else 
             @tags[..5]
-Template.reddit_card_big.events
-    'click .minimize': ->
-        Session.set('full_doc_id', null)
+Template.flat_tag_picker.events
+    'click .remove_tag': ->
+        console.log @
+        parent = Template.parentData()
+        console.log parent
+        if confirm "remove #{@valueOf()} tag?"
+            Docs.update parent._id,
+                $pull:
+                    tags:@valueOf()
     'click .pick_flat_tag': -> 
         picked_tags.push @valueOf()
         Session.set('full_doc_id', null)
@@ -363,6 +380,9 @@ Template.reddit_card_big.events
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
+Template.reddit_card_big.events
+    'click .minimize': ->
+        Session.set('full_doc_id', null)
 Template.reddit_card.events
     'click .vote_up': ->
         Docs.update @_id,

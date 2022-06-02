@@ -15,20 +15,14 @@ Docs.allow
         true
         # doc._author_id is userId or 'admin' in Meteor.user().roles
 Meteor.publish 'count', ->
-  Counts.publish this, 'product_counter', Docs.find({model:'product'})
-  return undefined    # otherwise coffeescript returns a Counts.publish
+    Counts.publish this, 'product_counter', Docs.find({model:'product'})
+    return undefined    # otherwise coffeescript returns a Counts.publish
                       # handle when Meteor expects a Mongo.Cursor object.
 
 
 Meteor.publish 'doc_by_id', (doc_id)->
     Docs.find doc_id
-Meteor.publish 'doc', (doc_id)->
-    Docs.find doc_id
 
-# Meteor.publish 'author_from_doc_id', (doc_id)->
-#     doc = Docs.findOne doc_id
-#     if doc 
-#         Docs.find doc._author_id
 
 Meteor.methods    
     global_remove: (keyname)->
@@ -75,7 +69,7 @@ Meteor.methods
         if porn 
             link = "http://reddit.com/search.json?q=#{query}&nsfw=1&include_over_18=on"
         else
-            link = "http://reddit.com/search.json?q=#{query}"
+            link = "http://reddit.com/search.json?q=#{query}&nsfw=0&include_over_18=off"
         HTTP.get link,(err,response)=>
             # console.log response
             if response.data.data.dist > 1

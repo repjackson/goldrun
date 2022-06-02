@@ -202,10 +202,13 @@ template(name='reddit_card')
             //     .ui.icon.big.inverted.button.autotag.zoomer(title='breakdown emotions') 
             //         i.large.chess.grey.icon
             //     // +call_watson key=rd.selftext
-        .ui.icon.basic.circular.button.vote_up
-            i.thumbs.up.icon
-        .ui.icon.basic.circular.button.vote_down
-            i.thumbs.down.icon
+        .ui.attached.buttons
+            .ui.icon.basic.circular.button.vote_up
+                i.thumbs.up.icon
+            .ui.icon.basic.circular.button.vote_down
+                i.thumbs.down.icon
+            
+            
 template(name='reddit_card_big')
     .ui.fluid.card.autotag.pointer(title="#{ups} ups, created #{_when}")
         if watson.metadata.image.length
@@ -220,9 +223,11 @@ template(name='reddit_card_big')
             .minimize
                 |!{unescaped_content}
         else if rd.selftext_html
-            |!{unescaped}
+            .minimize
+                |!{unescaped}
         else if watson.analyzed_text
-            |!{watson.analyzed_text}
+            .minimize
+                |!{watson.analyzed_text}
         .content
             .ui.grey.header !{title}
             // .ui.inverted.basic.label

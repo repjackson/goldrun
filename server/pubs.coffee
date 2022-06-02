@@ -75,12 +75,7 @@ Meteor.publish 'tag_image', (
     # console.log "TERM", term, found.
     # if found
     #     # console.log "FOUND THUMBNAIL",found.thumbnail
-    Docs.find {
-        model:'reddit'
-        tags: $in: [term]
-        "watson.metadata.image": $exists:true
-        $where: "this.watson.metadata.image.length > 1"
-    },{
+    Docs.find match,{
         limit:1
         sort:
             points:-1
@@ -93,7 +88,7 @@ Meteor.publish 'tag_image', (
             ups:1
             over_18:1
             url:1
-        }
+    }
     # else
     #     backup = 
     #         Docs.findOne 

@@ -101,7 +101,11 @@ template(name='nav')
                 // i.large.music.icon
                 unless currentUser.hide_labels
                     |groups
-            +nav_item key='reddit' icon='reddit'
+            a.item.zoomer.fly_right.clear_search(href="/reddit" class="{{isActiveRoute 'reddit'}}" title='reddit')
+                +i name='reddit'
+                // i.large.music.icon
+                unless currentUser.hide_labels
+                    |reddit
             +nav_item key='event' icon='calendar'
             +nav_item key='product' icon='shopping-cart'
             +nav_item key='transfer' icon='exchange'

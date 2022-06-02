@@ -183,11 +183,11 @@ template(name='group_nav_item')
             
 template(name='group_dashboard')
     +group_members_small
-    .ui.two.column.grid 
+    .ui.one.column.grid 
         .column
             if youtube_id
                 +youtube_view key='youtube_id'
-            .scrolling 
+            .ui.segment.alpha.scrolling
                 |!{content}
             div
         .column

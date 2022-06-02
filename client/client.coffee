@@ -371,9 +371,10 @@ Template.reddit_card.events
         Session.set('full_doc_id', @_id)
         Session.set('dummy', !Session.get('dummy'))
 
-    'click .pick_flat_tag': -> 
+    'click .pick_flat_tag': (e)-> 
         picked_tags.push @valueOf()
         Session.set('full_doc_id', null)
+        $(e.currentTarget).closest('.pick_flat_tag').transition('fly up', 500)
 
         Session.set('loading',true)
         Meteor.call 'search_reddit', picked_tags.array(), ->
@@ -561,6 +562,7 @@ Template.reddit.helpers
         Docs.find({model:'reddit'}, 
             limit:20
             sort:
+                points:-1
                 ups:-1
                 # "#{Session.get('sort_key')}":Session.get('sort_direction')
         )

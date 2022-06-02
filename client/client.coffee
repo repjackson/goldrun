@@ -509,7 +509,7 @@ Template.reddit_card.helpers
     
 Template.reddit.helpers
     porn_class: ->
-        if Session.get('porn') then 'large red' else 'compact basic'
+        if Session.get('porn') then 'large red' else 'compact'
     full_doc_id: ->
         Session.get('full_doc_id')
     full_doc: ->

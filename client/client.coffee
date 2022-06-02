@@ -1,4 +1,10 @@
 @picked_tags = new ReactiveArray []
+@picked_user_tags = new ReactiveArray []
+@picked_location_tags = new ReactiveArray []
+@picked_timestamp_tags = new ReactiveArray []
+
+
+
 Template.registerHelper 'emotion_color', () ->
     if @sentiment
         if @sentiment is 'positive' then 'green' else 'red'

@@ -51,9 +51,7 @@ Meteor.publish 'tag_image', (
     #             sort:ups:1
 Meteor.publish 'reddit_doc_results', (
     picked_tags=null
-    picked_domain=null
-    picked_subreddit=null
-    view_nsfw=false
+    porn=false
     sort_key='_timestamp'
     sort_direction=-1
     # dummy
@@ -69,8 +67,8 @@ Meteor.publish 'reddit_doc_results', (
     #         match._timestamp = $gt:yesterday
     # if picked_subreddit
     #     match.subreddit = picked_subreddit
-    # if view_nsfw
-    match.over_18 = view_nsfw
+    # if porn
+    match.over_18 = porn
     # if picked_tags.length > 0
     #     # if picked_tags.length is 1
     #     #     found_doc = Docs.findOne(title:picked_tags[0])
@@ -103,6 +101,7 @@ Meteor.publish 'reddit_doc_results', (
                 url:1
                 ups:1
                 "watson.metadata":1
+                "watson.analyzed_text":1
                 title:1
                 model:1
                 # num_comments:1

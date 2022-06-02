@@ -56,6 +56,8 @@ template(name='reddit')
         .row
             .sixteen.wide.column
                 unless full_doc_id
+                    .ui.circular.icon.button.toggle_porn(title='toggle adult' class=porn_class)
+                        i.skull.crossbones.icon
                     each picked_tags
                         +unpick_tag
                                 
@@ -215,10 +217,17 @@ template(name='reddit_card')
             //     i.grey.clock.icon
             //     |#{_when}
             if watson.analyzed_text
-                |!{watson.analyzed_text}
+                .smallcut
+                    |!{watson.analyzed_text}
             each five_cleaned_tags
                 a.ui.basic.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
                     |#{this}
+            .ui.icon.button.vote_up
+                i.thumbs.up.icon
+            .ui.icon.button.vote_down
+                i.thumbs.down.icon
+            |#{points}
+            
             // if over_18
             //     .ui.inverted.red.label.invert
             //         i.alert.icon

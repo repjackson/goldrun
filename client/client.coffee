@@ -268,6 +268,7 @@ Template.registerHelper 'loading_class', ()->
     # @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
 Template.reddit.onCreated ->
     Session.setDefault('current_search', null)
+    Session.setDefault('porn', false)
     Session.setDefault('dummy', false)
     Session.setDefault('is_loading', false)
     @autorun => @subscribe 'doc_by_id', Session.get('full_doc_id'), ->
@@ -276,17 +277,11 @@ Template.reddit.onCreated ->
         Session.get('dummy')
     @autorun => @subscribe 'reddit_tag_results',
         picked_tags.array()
-        Session.get('domain')
-        Session.get('subreddit')
-        Session.get('view_nsfw')
+        Session.get('porn')
         Session.get('dummy')
     @autorun => @subscribe 'reddit_doc_results',
         picked_tags.array()
-        Session.get('domain')
-        Session.get('subreddit')
-        Session.get('view_nsfw')
-        Session.get('sort_key')
-        Session.get('sort_direction')
+        Session.get('porn')
         # Session.get('dummy')
 
 
@@ -338,6 +333,8 @@ Template.agg_tag.events
         
 
 Template.reddit.events
+    'click .toggle_porn': ->
+        Session.set('porn',!Session.get('porn'))
     'click .select_search': ->
         picked_tags.push @name
         Session.set('full_doc_id', null)
@@ -367,6 +364,12 @@ Template.reddit_card_big.events
         Meteor.call 'search_reddit', picked_tags.array(), ->
             Session.set('loading',false)
 Template.reddit_card.events
+    'click .vote_up': ->
+        Docs.update @_id,
+            $inc:points:1
+    'click .vote_up': ->
+        Docs.update @_id,
+            $inc:points:1
     'click .expand': ->
         Session.set('full_doc_id', @_id)
         Session.set('dummy', !Session.get('dummy'))
@@ -505,6 +508,8 @@ Template.reddit_card.helpers
 
     
 Template.reddit.helpers
+    porn_class: ->
+        if Session.get('porn') then 'large red' else 'compact basic'
     full_doc_id: ->
         Session.get('full_doc_id')
     full_doc: ->

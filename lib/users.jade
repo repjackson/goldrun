@@ -1,0 +1,300 @@
+template(name='users')
+    .ui.padded.stackable.grid
+        .four.wide.column
+            .ui.inline.header
+                +i name='groups'
+                |#{user_docs.count}
+                |users
+            if currentUser.admin
+                .ui.icon.inverted.button.add_user
+                    i.plus.large.icon
+            // if currentUser
+            //     +session_boolean_toggle key='view_friends' label='friends' icon='friends'
+            // +i name='campfire'
+            // if picked_user_groups
+            //     #clear_groups.ui.primary.icon.compact.button
+            //         i.remove.icon
+            //     each picked_user_groups
+            //         .unselect_group.ui.primary.compact.button
+            //             strong #{this}
+            // each all_groups
+            //     .ui.compact.basic.button.select_group(class=cloud_tag_class) 
+            //         strong #{this.name}
+            +i name='tags'
+            if picked_user_tags
+                // #clear_tags.ui.primary.icon.compact.button
+                //     i.remove.icon
+                each picked_user_tags
+                    .unpick_user_tag.ui.primary.compact.button
+                        strong #{this}
+            each all_user_tags
+                .ui.compact.inverted.basic.button.pick_user_tag(class=cloud_tag_class) 
+                    strong #{this.name}
+        .twelve.wide.column
+            +session_icon_button key='view_mode' value='grid' icon='grid' 
+            +session_icon_button key='view_mode' value='list' icon='list'
+            +sort_direction_toggle
+            +session_set key='sort_key' value='points' label='points' icon='coins'
+            +session_set key='sort_key' value='createdAt' label='joined' icon='calendar'
+            +session_set key='sort_key' value='views' icon='eye'
+            // +session_set key='view_limit' value=1
+            // +session_set key='view_limit' value=10 label='10'
+            // +session_set key='view_limit' value=20 label='20'
+            // +session_set key='view_limit' value=50 label='30'
+            +search_input
+            .scrolling
+                if subs_ready
+                    if session_is 'view_mode' 'grid'
+                        if one_result
+                            .ui.stackable.centered.one.cards
+                                each user_docs
+                                    +user_card
+                        else
+                            .ui.stackable.centered.centered.cards
+                                each user_docs
+                                    +user_card
+                    else if session_is 'view_mode' 'list'
+                        .ui.divided.selection.animated.list
+                            each user_docs
+                                +user_item
+                else 
+                    +loading_segment
+
+template(name='user_card')
+    a.ui.card.zoomer.fly_left(href="/user/#{username}")
+        // unless background_image_id
+        //     img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
+        if image_id
+            img.invert.ui.fluid.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}") 
+        // else 
+        //     img(class=currentUser.invert_class src="{{c.url 'blank-profile' height=500 width=500 gravity='face' crop='fill'}}") 
+        //     .ui.fade.reveal.image
+        //         .visible.content
+        //             img(class=currentUser.invert_class src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}") 
+        //         .hidden.content
+        //             img(class=currentUser.invert_class src="{{c.url background_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+
+        .content
+            a.ui.inline.header.pointer.blink(href="/user/#{username}" style="color:#{theme_color};")
+                |#{name}
+            |@#{username}
+            .ui.large.basic.inverted.label #{points}pts
+                //- |#{username}
+            if points
+                .ui.inline.header(style="color:#{current_user.theme_color};") #{points}pts
+            if one_ratio
+                .ui.basic.label(style="color:#{current_user.theme_color};" title='one ratio') {{to_percent one_ratio}}%
+            if flow_volume
+                .ui.basic.label(style="color:#{current_user.theme_color};" title='flow volume') #{flow_volume}
+            if debit_tags
+                div
+                i.gift.icon(title='gifted tags')
+                each debit_tags
+                    .ui.small.basic.label #{title}
+            if credit_tags
+                div
+                i.chevron.down.icon(title='received gift tags')
+                each credit_tags
+                    .ui.small.basic.label #{title}
+            // if bio 
+            //     .smallcut
+            //         |!{bio}
+            if tags 
+                each five_tags 
+                    .ui.basic.inverted.label #{this}
+            if online
+                .ui.green.label online
+            if current_status
+                div
+                .ui.small.inline.header(title='status' style="color:#{theme_color};")
+                    i.small.clock.icon
+                    |!{current_status}
+            // div
+            // i.line.chart.icon(title='levels')
+            // each levels
+            //     .ui.basic.small.label(style="color:#{theme_color};") #{this}
+            // unless is_this_user
+            //     i.red.gift.pointer.debit.big.icon
+            //     i.teal.concierge.bell.pointer.request.big.icon
+            //     i.blue.chat.pointer.message.big.disabled.icon
+            if profile_views
+                .ui.inline.header(title='profile views') 
+                    i.eye.icon
+                    |#{profile_views}
+            .ui.inveted.large.basic.black.label(title='profile views') 
+                i.eye.icon
+                |#{profile_views}
+            +join
+
+template(name='join')
+    .ui.label(title='joined')
+        i.user.plus.icon
+        |{{from_now createdAt}}
+            
+template(name='user_item')
+    a.item.fly_left.zoomers(href="/user/#{username}")
+        .content
+            img.ui.tiny.inline.rounded.image(class=currentUser.invert_class src="{{c.url image_id }}")    
+            // unless avatar_image_id
+
+            a.ui.inline.header.pointer.blink(href="/user/#{username}" style="color:#{theme_color};")
+                |#{name}
+            small @#{username}
+            if points
+                .ui.inline.header(style="color:#{current_user.theme_color};") #{points}p
+            if one_ratio
+                .ui.basic.label(style="color:#{current_user.theme_color};" title='one ratio') {{to_percent one_ratio}}%
+            if flow_volume
+                .ui.basic.label(style="color:#{current_user.theme_color};" title='flow volume') #{flow_volume}
+            if debit_tags
+                div
+                i.gift.icon(title='gifted tags')
+                each debit_tags
+                    .ui.small.basic.label #{title}
+            if credit_tags
+                div
+                i.chevron.down.icon(title='received gift tags')
+                each credit_tags
+                    .ui.small.basic.label #{title}
+            if tags 
+                each five_tags 
+                    .ui.large.basic.inverted.label #{this}
+            if online
+                .ui.green.label online
+            if current_status
+                div
+                .ui.small.inline.header(title='status' style="color:#{theme_color};")
+                    i.small.clock.icon
+                    |!{current_status}
+            // div
+            // i.line.chart.icon(title='levels')
+            // each levels
+            //     .ui.basic.small.label(style="color:#{theme_color};") #{this}
+            // unless is_this_user
+            //     i.red.gift.pointer.debit.big.icon
+            //     i.teal.concierge.bell.pointer.request.big.icon
+            //     i.blue.chat.pointer.message.big.disabled.icon
+            
+            +join
+
+template(name='addtoset_user')
+    // .ui.small.compact.button.toggle_value(class=ats_class) #{key} #{value}
+    .ui.small.compact.button.toggle_value(class=ats_class) +#{value}
+    
+
+
+template(name='user_email')
+    .ui.small.inline.header #{email_address}
+    if email_verified
+        .ui.label 
+            i.green.checkmark.icon
+            |verified
+    else
+        .ui.orange.label 
+            i.ban.icon
+            |unverified
+        
+
+template(name='big_user_card')
+    with user
+        //- .ui.card
+        //- .ui.card(class=resident_status_class)
+        .ui.card
+            .image
+                img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+            .content
+                a.header(href="/user/#{username}")
+                     |#{first_name} #{last_name} 
+                    //- .meta @#{username}
+                    //- +array_view key='tags' label='Tags' direct=true
+            if is_staff
+                .content
+                    +array_view key='roles' direct=true
+                        
+template(name='user_button')
+    a.ui.compact.button(href="/user/#{user.username}/")
+        if user.kiosk_photo
+            img.ui.avatar.inline.image(src="{{c.url user.kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
+        else if user.image_id
+            img.ui.avatar.inline.image(src="{{c.url user.image_id width=300 height=100 gravity='face' crop='fill'}}")
+        //- .visible.content
+        |#{user.first_name} #{user.last_name}
+        //- |@#{user.username}
+        +user_status user
+        //- .hidden.content
+        //-     |view
+        //-     i.right.chevron.icon
+
+
+
+// // template(name='user_card')
+// //     with user
+// //         .ui.card
+// //             //- if is_staff
+// //             a.image(href="/user/#{username}")
+// //                 img.ui.tiny.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+// //             .content    
+// //                 .header 
+// //                     a.header(href="/user/#{username}") #{name} 
+// //                     .meta @#{username}
+// //                     if is_admin
+// //                         div
+// //                         +user_email
+// //                 //- +emails_edit    
+// //         //- +user_status user
+
+
+// template(name='user_email')
+//     .ui.small.inline.header #{email_address}
+//     if email_verified
+//         .ui.label 
+//             i.green.checkmark.icon
+//             |verified
+//     else
+//         .ui.orange.label 
+//             i.ban.icon
+//             |unverified
+        
+
+// template(name='big_user_card')
+//     with user
+//         //- .ui.card
+//         //- .ui.card(class=resident_status_class)
+//         .ui.card
+//             .image
+//                 img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+//             .content
+//                 a.header(href="/user/#{username}")
+//                      |#{first_name} #{last_name} 
+//                     //- .meta @#{username}
+//                     //- +array_view key='tags' label='Tags' direct=true
+//             if is_staff
+//                 .content
+//                     +array_view key='roles' direct=true
+                        
+// template(name='user_button')
+//     a.ui.compact.button(href="/user/#{user.username}/")
+//         if user.kiosk_photo
+//             img.ui.avatar.inline.image(src="{{c.url user.kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
+//         else if user.image_id
+//             img.ui.avatar.inline.image(src="{{c.url user.image_id width=300 height=100 gravity='face' crop='fill'}}")
+//         //- .visible.content
+//         |#{user.first_name} #{user.last_name}
+//         //- |@#{user.username}
+//         +user_status user
+//         //- .hidden.content
+//         //-     |view
+//         //-     i.right.chevron.icon
+
+
+// template(name='username_info')
+//     .ui.small.compact.button.goto_profile
+//         if is_member
+//             img.ui.avatar.image(src="{{c.url user.image_id width=100}}")
+//         else if user.kiosk_photo
+//             img.ui.avatar.image(src="{{c.url user.kiosk_photo width=100}}")
+//         else if user.image_id
+//             img.ui.avatar.image(src="{{c.url user.image_id width=100}}")
+//         |#{user.name}
+//         //- |@#{user.username}
+//         +user_status user

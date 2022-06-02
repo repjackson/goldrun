@@ -1,0 +1,242 @@
+template(name='reddit')
+    img.ui.image.checkin_banner(src=current_bg)
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+                unless full_doc_id
+                    .ui.circular.icon.button.toggle_porn(title='toggle adult' class=porn_class)
+                        i.skull.crossbones.icon
+                    each picked_tags
+                        +unpick_tag
+                                
+                        //- button.ui.active.large.button.unpick_tag(tabindex='0' style=background_style class=emotion_color)
+                    //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
+                    // if not_searching 
+                    //     .ui.center.aligned.basic.segment
+                    //         i.massive.yin.yang.grey.icon
+                    // +session_toggle key='view_images' label='images' icon='image'
+                    // +session_toggle key='view_external' label='external' icon='external'
+                    .ui.icon.inverted.input.invert(class=search_class title="#{emotion_avg_result.avg_sent_score} sentiment")
+                        // if is_loading
+                        //     if home_subs_ready
+                        unless is_loading
+                            i.search.link.icon.refresh_agg
+                            // i.yin.yang.big.loading.link.icon.reconnect
+                        if is_loading
+                            i.yin.yang.big.loading.icon
+                        //- input#search(type='text' autofocus='' autocomplete="off" value=current_query)
+                        input#search(type='text' autofocus='' autocomplete="off" placeholder='')
+                    //- .ui.header #{connection.status}
+                    with emotion_avg_result
+                        // .ui.basic.label
+                        //     |{{to_percent avg_sent_score}}%
+                        //     small sentiment
+                        if above_50 avg_joy_score
+                            .ui.green.basic.inverted.big.label.invert
+                                |{{to_percent avg_joy_score}}%
+                                small joyful
+                        if above_50 avg_anger_score
+                            .ui.red.basic.inverted.big.label.invert
+                                |{{to_percent avg_anger_score}}%
+                                small angry
+                        if above_50 avg_sadness_score
+                            .ui.blue.basic.inverted.big.label.invert
+                                |{{to_percent avg_sadness_score}}%
+                                small sad
+                        if above_50 avg_disgust_score
+                            .ui.orange.basic.inverted.big.label.invert
+                                |{{to_percent avg_disgust_score}}%
+                                small disgusted
+                        if above_50 avg_fear_score
+                            .ui.grey.basic.inverted.big.label.invert
+                                |{{to_percent avg_fear_score}}%
+                                small fearful
+                        if currentUser
+                            +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='18-plus'
+                    
+                unless connected
+                    //- .ui.header disconnected
+                    //- .ui.hidden.divider
+                    .ui.big.inverted.basic.button.reconnect
+                        i.lightning.icon
+                        |reconnect
+                if connected
+                    // if searching 
+                    //     each terms 
+                    //         +search_term
+                    // else 
+                    unless full_doc_id
+                        each unpicked_tags
+                            +agg_tag
+            .sixteen.wide.column
+                // .ui.hidden.divider
+                if subs_ready
+                    if full_doc_id
+                        with full_doc 
+                            +reddit_card_big
+                    else if one_result
+                        .ui.stackable.centered.link.one.cards
+                            each doc_results
+                                +reddit_card
+                    else 
+                        .ui.stackable.centered.link.cards.scrolling
+                            each doc_results
+                                +reddit_card
+                            // +small_card
+                else 
+                    if picked_tags
+                        .ui.center.aligned.basic.segment
+                            i.massive.yin.yang.grey.loading.icon
+                            
+template(name='unpick_tag')
+    button.ui.big.image.link.label.zoomer.unpick_tag.pointer(tabindex="0" class="#{loading_class} #{active_term_class}")
+        i.minus.icon
+        if flat_term_image
+            img.ui.inline.image.superzoomer(src=flat_term_image)
+        
+        .ui.inline.small.header #{this}
+
+                            
+template(name='reddit_card')
+    .card.autotag(title="#{ups} ups, created #{_when}")
+        if watson.metadata.image.length
+            // |watson image
+            img.ui.fluid.image.zoomer.expand(src=watson.metadata.image title='view article')
+        
+        else if is_image
+            img.ui.image.zoomer.expand(src=url title='view article')
+        else if has_thumbnail
+            img.ui.fluid.image.zoomer.expand(src=thumbnail title='view article')
+        if rd.media_embed.content
+            // .invert
+            |!{unescaped_content}
+        else if rd.selftext_html
+            |!{unescaped}
+
+        .content
+            .ui.grey.header.zoomer.expand !{title}
+            // .ui.inverted.basic.label
+            //     i.globe.grey.icon 
+            //     |#{domain}
+            // .ui.inverted.basic.label
+            //     i.thumbs.up.grey.icon 
+            //     |#{ups}
+            // .ui.inverted.basic.label
+            //     i.comment.grey.icon 
+            //     |#{num_comments}
+            // // .ui.inverted.basic.label.zoomer.pick_subreddit
+            // //     |subreddit: #{subreddit}
+            // .ui.inverted.basic.label(title="added {{long_date _timestamp}}")
+            //     i.grey.clock.icon
+            //     |#{_when}
+            if watson.analyzed_text
+                .smallcut
+                    |!{watson.analyzed_text}
+            each five_cleaned_tags
+                a.ui.basic.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
+                    |#{this}
+            if points
+                .ui.inline.header
+                    |#{points}pts
+            
+            // if over_18
+            //     .ui.inverted.red.label.invert
+            //         i.alert.icon
+            //         // +i name='nsfw'
+            if doc_sentiment_label
+                +doc_sentiment
+                +doc_emotion
+            // unless doc_sentiment_label 
+            //     .ui.icon.big.inverted.button.autotag.zoomer(title='breakdown emotions') 
+            //         i.large.chess.grey.icon
+            //     // +call_watson key=rd.selftext
+        .ui.attached.buttons
+            .ui.icon.basic.circular.button.vote_up
+                i.thumbs.up.icon
+            .ui.icon.basic.circular.button.vote_down
+                i.thumbs.down.icon
+            
+            
+template(name='reddit_card_big')
+    .ui.fluid.card.autotag.pointer(title="#{ups} ups, created #{_when}")
+        .ui.stackable.two.column.grid
+            .column
+                if watson.metadata.image.length
+                    // |watson image
+                    img.ui.fluid.image.minimize(src=watson.metadata.image title='view article')
+                
+                else if is_image
+                    img.ui.image.minimize(src=url title='view article')
+                else if has_thumbnail
+                    img.ui.fluid.image.minimize(src=thumbnail title='view article')
+            .column
+                if rd.media_embed.content
+                    .minimize
+                        |!{unescaped_content}
+                else if rd.selftext_html
+                    .minimize
+                        |!{unescaped}
+                else if watson.analyzed_text
+                    .minimize
+                        |!{watson.analyzed_text}
+        .content
+            .ui.grey.header !{title}
+            // .ui.inverted.basic.label
+            //     i.globe.grey.icon 
+            //     |#{domain}
+            // .ui.inverted.basic.label
+            //     i.thumbs.up.grey.icon 
+            //     |#{ups}
+            // .ui.inverted.basic.label
+            //     i.comment.grey.icon 
+            //     |#{num_comments}
+            // // .ui.inverted.basic.label.zoomer.pick_subreddit
+            // //     |subreddit: #{subreddit}
+            // .ui.inverted.basic.label(title="added {{long_date _timestamp}}")
+            //     i.grey.clock.icon
+            //     |#{_when}
+            each tags
+                +flat_tag_picker
+            // if over_18
+            //     .ui.inverted.red.label.invert
+            //         i.alert.icon
+            //         // +i name='nsfw'
+            if watson 
+                +watson_view
+            // if doc_sentiment_label
+            //     +doc_sentiment
+            //     +doc_emotion
+            // unless doc_sentiment_label 
+            //     .ui.icon.big.inverted.button.autotag.zoomer(title='breakdown emotions') 
+            //         i.large.chess.grey.icon
+            //     // +call_watson key=rd.selftext
+        
+// template(name='session_toggle')
+//     .ui.button.toggle
+//         i.large.icon(class=icon)
+        
+        
+template(name='flat_tag_picker')
+    a.ui.basic.large.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
+        |#{this}
+    i.remove.link.circular.icon.remove_tag.zoomer
+
+
+template(name='agg_tag')
+    // button.ui.big.compact.basic.active.fade.animated.button.result(tabindex="0" title=count)
+    button.ui.big.image.inverted.basic.label.result.invert(tabindex="0" title=count)
+        // .visible.content
+        if term_image.watson.metadata.image
+            img.ui.image.superzoomer(src=term_image.watson.metadata.image)
+
+        | #{name}
+        // .hidden.content
+        //     |+ #{title}
+        // if term.image
+        //     //- button.ui.compact.button(tabindex="0" title=count)
+        //     //- img.ui.mini.inline.image(src=term.image)
+        //     img.ui.mini.inline.image(src=term.image)
+        //     .ui.inline.small.thin.header(class=tag_result_class) #{title}
+        // else
+        //     //- button.ui.compact.button(tabindex="0" title=count)
+        //- small #{count}

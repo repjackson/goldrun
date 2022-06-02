@@ -5,17 +5,17 @@
 
 
 
-# Router.configure
-#     layoutTemplate: 'layout'
-#     notFoundTemplate: 'not_found'
-#     loadingTemplate: 'splash'
-#     trackPageView: false
+Router.configure
+    layoutTemplate: 'layout'
+    notFoundTemplate: 'not_found'
+    loadingTemplate: 'splash'
+    trackPageView: false
 
-# force_loggedin =  ()->
-#     if !Meteor.userId()
-#         @render 'login'
-#     else
-#         @next()
+force_loggedin =  ()->
+    if !Meteor.userId()
+        @render 'login'
+    else
+        @next()
 
 # Router.onBeforeAction(force_loggedin, {
 #   # only: ['admin']
@@ -44,14 +44,15 @@
 
 
 
-# Router.route '*', -> @render 'reddit'
+Router.route '*', -> @render 'reddit'
+Router.route '/', -> @render 'reddit'
 
-# Router.route '/user/:username/m/:type', -> @render 'user_layout', 'user_section'
-# Router.route '/forgot_password', -> @render 'forgot_password'
+Router.route '/user/:username/m/:type', -> @render 'user_layout', 'user_section'
+Router.route '/forgot_password', -> @render 'forgot_password'
 
 # Router.route "/food/:food_id", -> @render 'food_doc'
 
-# Router.route '/login', -> @render 'login'
+Router.route '/login', -> @render 'login'
 
 
 

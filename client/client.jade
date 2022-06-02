@@ -217,10 +217,12 @@ template(name='reddit_card_big')
         else if has_thumbnail
             img.ui.fluid.image.minimize(src=thumbnail title='view article')
         if rd.media_embed.content
-            // .invert
-            |!{unescaped_content}
+            .minimize
+                |!{unescaped_content}
         else if rd.selftext_html
             |!{unescaped}
+        else if watson.analyzed_text
+            |!{watson.analyzed_text}
         .content
             .ui.grey.header !{title}
             // .ui.inverted.basic.label
@@ -237,8 +239,6 @@ template(name='reddit_card_big')
             // .ui.inverted.basic.label(title="added {{long_date _timestamp}}")
             //     i.grey.clock.icon
             //     |#{_when}
-            if watson.analyzed_text
-                |!{watson.analyzed_text}
             each tags
                 +flat_tag_picker
             // if over_18

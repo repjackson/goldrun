@@ -270,6 +270,7 @@ Template.reddit.onCreated ->
     Session.setDefault('current_search', null)
     Session.setDefault('dummy', false)
     Session.setDefault('is_loading', false)
+    @autorun => @subscribe 'doc_by_id', Session.get('full_doc_id'), ->
     @autorun => @subscribe 'agg_emotions',
         picked_tags.array()
         Session.get('dummy')
@@ -368,6 +369,8 @@ Template.reddit_card_big.events
 Template.reddit_card.events
     'click .expand': ->
         Session.set('full_doc_id', @_id)
+        Session.set('dummy', !Session.get('dummy'))
+
     'click .pick_flat_tag': -> 
         picked_tags.push @valueOf()
         Session.set('full_doc_id', null)
@@ -506,7 +509,7 @@ Template.reddit.helpers
     full_doc: ->
         Docs.findOne Session.get('full_doc_id')
     current_bg:->
-        console.log picked_tags.array()
+        # console.log picked_tags.array()
         found = Docs.findOne {
             model:'reddit'
             tags:$in:picked_tags.array()
@@ -514,10 +517,10 @@ Template.reddit.helpers
             # thumbnail:$nin:['default','self']
         },sort:ups:-1
         if found
-            console.log 'found bg'
+            # console.log 'found bg'
             found.watson.metadata.image
-        else 
-            console.log 'no found bg'
+        # else 
+        #     console.log 'no found bg'
 
     emotion_avg_result: ->
         Results.findOne 

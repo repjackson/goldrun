@@ -109,7 +109,7 @@ template(name='reddit')
                 unless connected
                     //- .ui.header disconnected
                     //- .ui.hidden.divider
-                    .ui.big.inverted.basic.button
+                    .ui.big.inverted.basic.button.reconnect
                         i.lightning.icon
                         |reconnect
                 if connected
@@ -120,41 +120,6 @@ template(name='reddit')
                     unless full_doc_id
                         each unpicked_tags
                             +agg_tag
-                    // div
-                    // .ui.inline.small.header
-                    //     i.large.globe.icon(title='domains')
-                    //     |domain
-                    // if picked_domain
-                    //     .ui.button.unpick_domain #{picked_subreddit}
-                    // each domain_results
-                    //     .ui.large.image.link.inverted.basic.label.zoomer.pick_domain #{name}
-                    // div
-                    // .ui.inline.small.header
-                    //     i.large.reddit.icon(title='domains')
-                    //     |subreddit
-                    // if picked_subreddit
-                    //     .ui.button.unpick_subreddit #{picked_subreddit}
-                    // each subreddit_results
-                    //     .ui.large.image.link.inverted.basic.label.zoomer.pick_subreddit #{name}
-                // if in_dev 
-                //     .ui.divider
-                //     .ui.header is_loading #{is_loading}
-                //     .ui.header current query  {{sval 'current_query'}}
-                //     .ui.header dummy  {{sval 'dummy'}}
-                // .ui.items
-                // if doc_results
-                //     .ui.divider
-                // .ui.animated.big.link.divided.list.scrolling
-                // .ui.hidden.divider
-                // div.sorting
-                //     // +session_icon_button key='view_mode' value='grid' icon='grid' 
-                //     // +session_icon_button key='view_mode' value='list' icon='list'
-                //     +sort_direction_toggle
-                //     +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
-                //     +session_set key='sort_key' value='comment_count' label='comments' icon='chat'
-                //     +session_set key='sort_key' value='domain' label='domain' icon='globe'
-                //     +session_set key='sort_key' value='ups' label='ups' icon='thumbs up'
-                //     +session_set key='sort_key' value='points' label='points' icon='hashtag'
             .sixteen.wide.column
                 // .ui.hidden.divider
                 if subs_ready
@@ -162,11 +127,11 @@ template(name='reddit')
                         with full_doc 
                             +reddit_card_big
                     else if one_result
-                        .ui.stackable.centered.link.inverted.one.cards
+                        .ui.stackable.centered.link.one.cards
                             each doc_results
                                 +reddit_card
                     else 
-                        .ui.stackable.centered.link.inverted.cards.scrolling
+                        .ui.stackable.centered.link.cards.scrolling
                             each doc_results
                                 +reddit_card
                             // +small_card
@@ -222,11 +187,13 @@ template(name='reddit_card')
             each five_cleaned_tags
                 a.ui.basic.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
                     |#{this}
-            .ui.icon.button.vote_up
+            .ui.icon.basic.circular.button.vote_up
                 i.thumbs.up.icon
-            .ui.icon.button.vote_down
+            .ui.icon.basic.circular.button.vote_down
                 i.thumbs.down.icon
-            |#{points}
+            if points
+                .ui.inline.header
+                    |#{points}pts
             
             // if over_18
             //     .ui.inverted.red.label.invert
@@ -254,10 +221,6 @@ template(name='reddit_card_big')
             |!{unescaped_content}
         else if rd.selftext_html
             |!{unescaped}
-        else if watson.analyzed_text
-            |analyzed_text
-            |!{watson.analyzed_text}
-
         .content
             .ui.grey.header !{title}
             // .ui.inverted.basic.label
@@ -277,15 +240,17 @@ template(name='reddit_card_big')
             if watson.analyzed_text
                 |!{watson.analyzed_text}
             each tags
-                a.ui.basic.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
+                a.ui.basic.large.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
                     |#{this}
             // if over_18
             //     .ui.inverted.red.label.invert
             //         i.alert.icon
             //         // +i name='nsfw'
-            if doc_sentiment_label
-                +doc_sentiment
-                +doc_emotion
+            if watson 
+                +watson_full
+            // if doc_sentiment_label
+            //     +doc_sentiment
+            //     +doc_emotion
             // unless doc_sentiment_label 
             //     .ui.icon.big.inverted.button.autotag.zoomer(title='breakdown emotions') 
             //         i.large.chess.grey.icon

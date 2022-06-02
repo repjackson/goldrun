@@ -81,8 +81,9 @@ Meteor.publish 'reddit_doc_results', (
         Docs.find match,
             sort:
                 # "#{sort_key}":sort_direction
+                points:-1
                 ups:-1
-            limit:11
+            limit:20
             fields:
                 # youtube_id:1
                 "rd.media_embed":1
@@ -98,6 +99,8 @@ Meteor.publish 'reddit_doc_results', (
                 fear_percent:1
                 disgust_percent:1
                 anger_percent:1
+                over_18:1
+                points:1
                 url:1
                 ups:1
                 "watson.metadata":1

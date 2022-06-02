@@ -3,7 +3,7 @@ Docs.allow
         true    
             # doc._author_id is userId
     update: (userId, doc) ->
-        doc
+        true
         # if doc.model in ['calculator_doc','simulated_rental_item','healthclub_session']
         #     true
         # else if Meteor.user() and Meteor.user().roles and 'admin' in Meteor.user().roles
@@ -170,6 +170,7 @@ Meteor.methods
                             ups:data.ups
                             num_comments:data.num_comments
                             # selftext: false
+                            points:0
                             over_18:data.over_18
                             thumbnail: data.thumbnail
                             tags: query

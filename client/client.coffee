@@ -367,9 +367,9 @@ Template.reddit_card.events
     'click .vote_up': ->
         Docs.update @_id,
             $inc:points:1
-    'click .vote_up': ->
+    'click .vote_down': ->
         Docs.update @_id,
-            $inc:points:1
+            $inc:points:-1
     'click .expand': ->
         Session.set('full_doc_id', @_id)
         Session.set('dummy', !Session.get('dummy'))

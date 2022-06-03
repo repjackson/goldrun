@@ -433,6 +433,9 @@ if Meteor.isClient
     
     
     Template.text_edit.events
+        'focus .edit_text': (e)->
+            $(e.currentTarget).closest('.input').transition('bounce', 500)
+
         'blur .edit_text': (e,t)->
             val = t.$('.edit_text').val()
             parent = Template.parentData()

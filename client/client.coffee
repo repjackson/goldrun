@@ -92,7 +92,6 @@ Template.registerHelper 'dev', () -> Meteor.isDevelopment
 # Template.registerHelper 'is_grandparent_author', () ->
 #     grandparent = Template.parentData(2)
 #     grandparent._author_id is Meteor.userId()
-# Template.registerHelper 'to_percent', (number) -> (Math.floor(number*100)).toFixed()
 Template.registerHelper 'to_percent', (number) -> (Math.floor(number*100)).toFixed(0)
 Template.registerHelper 'long_time', (input) -> moment(input).format("h:mm a")
 Template.registerHelper 'long_date', (input) -> moment(input).format("dddd, MMMM Do h:mm a")
@@ -101,9 +100,6 @@ Template.registerHelper 'med_date', (input) -> moment(input).format("MMM D 'YY")
 Template.registerHelper 'medium_date', (input) -> moment(input).format("MMMM Do YYYY")
 # Template.registerHelper 'medium_date', (input) -> moment(input).format("dddd, MMMM Do YYYY")
 Template.registerHelper 'today', () -> moment(Date.now()).format("dddd, MMMM Do a")
-Template.registerHelper 'fixed', (input) ->
-    if input
-        input.toFixed(2)
 Template.registerHelper 'int', (input) -> input.toFixed(0)
 Template.registerHelper '_when', () -> moment(@_timestamp).fromNow()
 Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
@@ -253,10 +249,10 @@ Template.registerHelper 'is_loading', -> Session.get 'is_loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
 Template.registerHelper 'fixed', (number)->
     # console.log number
-    (number*100).toFixed()
-Template.registerHelper 'to_percent', (number)->
-    # console.log number
-    (number*100).toFixed()
+    (number/100).toFixed()
+# Template.registerHelper 'to_percent', (number)->
+#     # console.log number
+#     (number*100).toFixed()
 
 Template.registerHelper 'is_image', () ->
     # regExp = /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/

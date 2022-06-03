@@ -330,7 +330,7 @@ template(name='user_reddit')
 template(name='reddit_small_item')
     a.item.fly_left(href="/reddit/#{_id}")
         if watson.metadata.image
-            img.tiny.inline.image(src=watson.metadata.image)
+            img.ui.avatar.image(src=watson.metadata.image)
         .header #{title}
         .content 
             each five_tags 

@@ -20,10 +20,10 @@ if Meteor.isClient
     
     
     Template.music_artist.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'albums_by_artist_doc_id', Router.current().params.doc_id, ->
     Template.music_album.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
         # @autorun => Meteor.subscribe 'albums_by_artist_doc_id', Router.current().params.doc_id, ->
 
 if Meteor.isServer 

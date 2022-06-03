@@ -1,6 +1,10 @@
 template(name='food')
     .ui.stackable.padded.grid 
         .sixteen.wide.column
-            .ui.header food
-            .ui.button.call_food 
-                |call food
+            .ui.header 
+                +i name='food'
+                |food
+            .ui.large.input 
+                input.food_search(type='text' placeholder='search food...' value=current_search)
+            each recipe_docs
+                .ui.header #{name}

@@ -4,17 +4,52 @@ if Meteor.isClient
         @render 'food'
         ), name:'food'
     
+    Template.food.onCreated ->
+        @autorun => @subscribe 'model_docs', 'recipe', ->
+        # @autorun => @subscribe 'model_docs', 'recipe', ->
+    
+    
     Template.food.events
-        'click .call_food': ->
-            Meteor.call 'call_food', ('pizza'),->
+        'keyup .food_search': (e,t)->
+            query = t.$('.food_search').val()
+            Session.set('food_search',query)
+            if e.which is 13
+                Meteor.call 'call_food', Session.get('food_search'), ->
+            
     Template.food.helpers
         food_docs: ->
             Docs.find 
                 model:'food'
+        recipe_docs: ->
+            Docs.find 
+                model:'recipe'
 if Meteor.isServer
     Meteor.methods 
         call_food: (search)->
             # HTTP.get "https://api.spoonacular.com/mealplanner/generate?apiKey=e52f2f2ca01a448e944d94194e904775&timeFrame=day&targetCalories=#{calories}",(err,response)=>
             HTTP.get "https://api.spoonacular.com/food/search?apiKey=e52f2f2ca01a448e944d94194e904775&query=#{search}&number=2",(err,response)=>
-                console.log response.data.searchResults
+                # console.log response.data.searchResults
+                for result in response.data.searchResults
+                    # console.log result.name
+                    # if result.name is 'Recipes'
+                    recipes = _.where(response.data.searchResults, {name:'Recipes'})
+                    for recipe in recipes[0].results
+                        console.log recipe
+                        found_recipe = 
+                            Docs.findOne 
+                                model:'recipe'
+                                id:recipe.id
+                        unless found_recipe
+                            Docs.insert 
+                                model:'recipe'
+                                name:recipe.name
+                                image:recipe.image
+                                link:recipe.link
+                                type:recipe.type
+                                relevance:recipe.relevance
+                                content:recipe.content
+                        
+                    # recipes = response.data.searchResults
+                    
+                    # console.log response.data.searchResults.results
             

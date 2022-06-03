@@ -299,6 +299,7 @@ template(name='user_reddit')
         .column
             .ui.header 
                 +i name='reddit'
+                |#{mined_counter}
                 |mined reddit posts
             .ui.list 
                 each mined_reddit_docs

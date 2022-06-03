@@ -294,7 +294,7 @@ Tracker.autorun ->
         $(window).scrollTop 0
 
     
-Meteor.users.find().observe({
+Meteor.users.find(_id:Meteor.userId()).observe({
     changed: (new_doc, old_doc)->
         console.log 'changed', new_doc.points, old_doc.points
         if old_doc.points

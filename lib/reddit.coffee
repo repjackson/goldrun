@@ -522,12 +522,14 @@ if Meteor.isClient
         
         
     Template.user_reddit.onCreated ->
+        @autorun => Meteor.subscribe 'user_reddit_mined_counter', Router.current().params.username, ->
         @autorun => Meteor.subscribe 'mined_reddit_docs', Router.current().params.username, ->
         @autorun => Meteor.subscribe 'reddit_mined_overlap', 
             Router.current().params.username, 
             Meteor.user().username, 
             picked_tags.array(),
     Template.user_reddit.helpers
+        mined_counter: -> Counts.get('mined_counter') 
         mined_reddit_docs: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find 
@@ -545,6 +547,16 @@ if Meteor.isServer
             model:'reddit'
             _author_id:user._id
         }, limit:10
+        
+    Meteor.publish 'user_reddit_mined_counter', (username)->
+        user = Meteor.users.findOne username:username
+        Counts.publish this, 'mined_counter', 
+            Docs.find({
+                _author_id:user._id
+                model:'reddit'
+            })
+        return undefined    # otherwise coffeescript returns a Counts.publish
+                          # handle when Meteor expects a Mongo.Cursor object.
         
         
     Meteor.publish 'reddit_tag_results', (
@@ -743,7 +755,7 @@ if Meteor.isServer
         # if query
         # if view_nsfw
         match.upvoter_ids = $in:[user1._id,user2._id]
-        # match.over_18 = porn
+        match.over_18 = porn
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
             limit = 10

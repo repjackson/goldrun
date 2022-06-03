@@ -761,3 +761,5 @@ if Meteor.isClient
                 else if res
                     alert "password set to #{new_password}"
                     console.lgo 'res', res
+                    
+                    

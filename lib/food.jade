@@ -1,10 +1,37 @@
 template(name='food')
     .ui.stackable.padded.grid 
         .sixteen.wide.column
-            .ui.header 
+            .ui.inline.header 
                 +i name='food'
                 |food
             .ui.large.input 
                 input.food_search(type='text' placeholder='search food...' value=current_search)
-            each recipe_docs
-                .ui.header #{name}
+            .ui.cards 
+                each recipe_docs
+                    +recipe_card
+                    
+template(name='recipe_card')
+    a.card(href="/food/#{_id}")
+        img(src=image)
+        .content
+            .header #{name}
+            .ui.label #{link}
+            // .ui.label #{type}
+            .ui.label #{relevance}
+            | !{content}
+            
+            
+template(name='food_page')
+    with current_doc 
+        .ui.stackable.padded.grid 
+            .sixteen.wide.column
+                img(src=image)
+                .content
+                    .header #{name}
+                    .ui.label #{link}
+                    // .ui.label #{type}
+                    .ui.label #{relevance}
+                    | !{content}
+            
+            
+            

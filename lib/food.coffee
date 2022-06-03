@@ -3,7 +3,13 @@ if Meteor.isClient
         @layout 'layout'
         @render 'food'
         ), name:'food'
+    Router.route '/food/:doc_id', (->
+        @layout 'layout'
+        @render 'food_page'
+        ), name:'food_page'
     
+    Template.food_page.onCreated ->
+        @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.food.onCreated ->
         @autorun => @subscribe 'model_docs', 'recipe', ->
         # @autorun => @subscribe 'model_docs', 'recipe', ->
@@ -39,6 +45,9 @@ if Meteor.isServer
                             Docs.findOne 
                                 model:'recipe'
                                 id:recipe.id
+                        if found_recipe
+                            Docs.update found_recipe._id, 
+                                $inc:hits:1
                         unless found_recipe
                             Docs.insert 
                                 model:'recipe'

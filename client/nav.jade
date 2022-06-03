@@ -29,11 +29,14 @@ template(name='footer')
             if currentUser.admin_mode
                 .column
                     .ui.inline.header 
+                        i.chess.icon
+                        |#{result_docs.count}
                         |results
                     each result_docs 
                         .ui.basic.inverted.black.label #{name}: #{count} [#{model}]
                     .ui.inline.header 
                         i.users.icon
+                        |#{all_users.count}
                         |users
                     each all_users
                         .ui.basic.inverted.label 

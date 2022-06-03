@@ -523,30 +523,32 @@ if Meteor.isClient
         
     Template.user_reddit.onCreated ->
         @autorun => Meteor.subscribe 'user_reddit_mined_counter', Router.current().params.username, ->
-        @autorun => Meteor.subscribe 'mined_reddit_docs', Router.current().params.username, ->
+        @autorun => Meteor.subscribe 'latest_mined_reddit_docs', Router.current().params.username, ->
         @autorun => Meteor.subscribe 'reddit_mined_overlap', 
             Router.current().params.username, 
             Meteor.user().username, 
             picked_tags.array(),
     Template.user_reddit.helpers
         mined_counter: -> Counts.get('mined_counter') 
-        mined_reddit_docs: ->
+        latest_docs: ->
             user = Meteor.users.findOne username:Router.current().params.username
-            Docs.find 
+            Docs.find {
                 model:'reddit'
                 _author_id:user._id
-                
+            }, sort:_timestamp:-1
         overlap_tags: ->
             Results.find 
                 model:'overlap_tag'
             
 if Meteor.isServer 
-    Meteor.publish 'mined_reddit_docs', (username)->
+    Meteor.publish 'latest_mined_reddit_docs', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {
             model:'reddit'
             _author_id:user._id
-        }, limit:10
+        }, 
+            limit:10
+            sort:_timestamp:-1
         
     Meteor.publish 'user_reddit_mined_counter', (username)->
         user = Meteor.users.findOne username:username
@@ -754,14 +756,14 @@ if Meteor.isServer
         match.model = 'reddit'
         # if query
         # if view_nsfw
-        match.upvoter_ids = $in:[user1._id,user2._id]
-        match.over_18 = porn
+        match.upvoter_ids = $all:[user1._id,user2._id]
+        # match.over_18 = porn
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
             limit = 10
         else
             limit = 20
-        console.log 'match overlap', match
+        console.log 'match overlap', match, Docs.find(match).count()
         # else /
             # match.tags = $all: picked_tags
         agg_doc_count = Docs.find(match).count()

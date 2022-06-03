@@ -48,8 +48,9 @@ template(name='profile_layout')
                                 +yield
         +footer     
                             
-template(name='user_dashboard')                        
-    .ui.two.column.grid
+template(name='user_dashboard')    
+    +user_reddit
+    .ui.one.column.grid
         .column
             if status 
                 .ui.label(title='status')

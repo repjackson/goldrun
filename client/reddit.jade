@@ -100,7 +100,8 @@ template(name='reddit')
                 else 
                     if picked_tags
                         .ui.center.aligned.basic.segment
-                            i.massive.yin.yang.grey.loading.icon
+                            +ibig name='reddit' cl='spinning'
+                            // i.massive.yin.yang.grey.loading.icon
                             
 template(name='unpick_tag')
     button.ui.big.image.link.label.zoomer.unpick_tag.pointer(tabindex="0" class="#{loading_class} #{active_term_class}")
@@ -300,18 +301,25 @@ template(name='user_reddit')
             .ui.header 
                 +i name='reddit'
                 |#{mined_counter}
-                |mined reddit posts
+                |total mined reddit posts
+            .ui.header 
+                +i name='reddit'
+                // |#{mined_counter}
+                |latest mined reddit posts
             .ui.list 
-                each mined_reddit_docs
+                each latest_docs
                     .item
                         .header #{title}
                         .content 
                             each five_tags 
                                 .ui.label #{this}
         .column
-            .ui.header your upvoted tag overlap 
+            .ui.header 
+                +i name='infinite-loop'
+                |your upvoted tag overlap 
             each overlap_tags
-                .ui.label #{name}
+                .ui.zoomer.label.pick_overlap_tag(title='drill down')
+                    strong #{name}
                     small #{count}
                 
                 

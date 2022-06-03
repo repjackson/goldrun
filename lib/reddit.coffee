@@ -525,9 +525,13 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'user_reddit_mined_counter', Router.current().params.username, ->
         @autorun => Meteor.subscribe 'latest_mined_reddit_posts', Router.current().params.username, ->
         @autorun => Meteor.subscribe 'latest_upvoted_reddit_posts', Router.current().params.username, ->
+        if Meteor.user()
+            username = Meteor.user().username
+        else 
+            username = null
         @autorun => Meteor.subscribe 'reddit_mined_overlap', 
             Router.current().params.username, 
-            Meteor.user().username, 
+            username, 
             picked_tags.array(),
     Template.user_reddit.helpers
         mined_counter: -> Counts.get('mined_counter') 

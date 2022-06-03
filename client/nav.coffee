@@ -35,7 +35,12 @@ Template.nav.events
     'click .add': ->
         new_id = Docs.insert {}
         Router.go "/doc/#{new_id}/edit"
-        
+    'mouseenter img': (e)->
+        # console.log 'hi'
+        $(e.currentTarget).closest('.image').addClass('spinning')
+    'mouseleave img': (e)->
+        # console.log 'hi'
+        $(e.currentTarget).closest('.image').removeClass('spinning')
         
 Template.nav_item.events 
     'click .go_route': -> 

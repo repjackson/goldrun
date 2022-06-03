@@ -186,7 +186,7 @@ body {
 .add_model_doc {
     /* border-radius: 20px !important; */
 }
-.add_model_doc > .icon:hover {
+.topnav > .image:hover {
     animation-name: spin;
     animation-duration: 5000ms;
     animation-iteration-count: infinite;

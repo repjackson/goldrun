@@ -157,8 +157,8 @@ if Meteor.isClient
             if Meteor.user()
                 Docs.update @_id,
                     $inc:
-                        points:1
-                        user_points:1
+                        points:-1
+                        user_points:-1
                     $addToSet:
                         downvoter_ids:Meteor.userId()
                         downvoter_usernames:Meteor.user().username
@@ -523,29 +523,46 @@ if Meteor.isClient
         
     Template.user_reddit.onCreated ->
         @autorun => Meteor.subscribe 'user_reddit_mined_counter', Router.current().params.username, ->
-        @autorun => Meteor.subscribe 'latest_mined_reddit_docs', Router.current().params.username, ->
+        @autorun => Meteor.subscribe 'latest_mined_reddit_posts', Router.current().params.username, ->
+        @autorun => Meteor.subscribe 'latest_upvoted_reddit_posts', Router.current().params.username, ->
         @autorun => Meteor.subscribe 'reddit_mined_overlap', 
             Router.current().params.username, 
             Meteor.user().username, 
             picked_tags.array(),
     Template.user_reddit.helpers
         mined_counter: -> Counts.get('mined_counter') 
-        latest_docs: ->
+        latest_mined_posts: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find {
                 model:'reddit'
                 _author_id:user._id
             }, sort:_timestamp:-1
         overlap_tags: ->
+        latest_upvoted_posts: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find {
+                model:'reddit'
+                upvoter_ids:$in:[user._id]
+            }, sort:_timestamp:-1
+        overlap_tags: ->
             Results.find 
                 model:'overlap_tag'
             
 if Meteor.isServer 
-    Meteor.publish 'latest_mined_reddit_docs', (username)->
+    Meteor.publish 'latest_mined_reddit_posts', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {
             model:'reddit'
             _author_id:user._id
+        }, 
+            limit:10
+            sort:_timestamp:-1
+        
+    Meteor.publish 'latest_upvoted_reddit_posts', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find {
+            model:'reddit'
+            upvoter_ids:$in:[user._id]
         }, 
             limit:10
             sort:_timestamp:-1

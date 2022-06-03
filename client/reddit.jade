@@ -306,21 +306,35 @@ template(name='user_reddit')
                 +i name='reddit'
                 // |#{mined_counter}
                 |latest mined reddit posts
-            .ui.list 
-                each latest_docs
-                    .item
-                        .header #{title}
-                        .content 
-                            each five_tags 
-                                .ui.label #{this}
+            .ui.selection.animated.list 
+                each latest_mined_posts
+                    +reddit_small_item
+        if overlap_tags.count
+            .column
+                .ui.header 
+                    +i name='infinity-large'
+                    |your upvoted tag overlap 
+                each overlap_tags
+                    .ui.zoomer.label.pick_overlap_tag(title='drill down')
+                        strong #{name}
+                        small #{count}
         .column
             .ui.header 
-                +i name='infinite-loop'
-                |your upvoted tag overlap 
-            each overlap_tags
-                .ui.zoomer.label.pick_overlap_tag(title='drill down')
-                    strong #{name}
-                    small #{count}
+                +i name='facebook-like'
+                |latest upvoted reddit posts 
+            .ui.selection.animated.list 
+                each latest_upvoted_posts
+                    +reddit_small_item
+                    
+                    
+template(name='reddit_small_item')
+    a.item.fly_left(href="/reddit/#{_id}")
+        if watson.metadata.image
+            img.tiny.inline.image(src=watson.metadata.image)
+        .header #{title}
+        .content 
+            each five_tags 
+                .ui.label #{this}
                 
                 
                 
@@ -333,8 +347,8 @@ template(name='reddit_view')
                     i.chevron.left.icon
                     +i name='reddit'
                     |reddit
-                .ui.inline.header !{title}
-                .ui.segment.alpha.scrolling
+                .ui.segment.alpha.scrollin
+                    .ui.inline.header !{title}
                     if rd.selftext_html
                         |!{unescaped}
                     // blockquote(class="imgur-embed-pub invert" lang="en" data-id="UsxLSe0")

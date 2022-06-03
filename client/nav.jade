@@ -110,9 +110,12 @@ template(name='nav')
                 // i.large.music.icon
                 unless currentUser.hide_labels
                     |groups
+            a.item.zoomer.fly_right.clear_search(href="/food" class="{{isActiveRoute 'food'}}" title='food')
+                +i name='food'
+                unless currentUser.hide_labels
+                    |food
             +nav_item key='event' icon='calendar'
             +nav_item key='product' icon='shopping-cart'
-            +nav_item key='food' icon='food'
             +nav_item key='transfer' icon='exchange'
             +nav_item key='service' icon='wrench'
             +nav_item key='rental' icon='clock'

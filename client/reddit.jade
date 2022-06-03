@@ -69,19 +69,36 @@ template(name='reddit')
                             +agg_tag
             .sixteen.wide.column
                 // .ui.hidden.divider
+                span.sorting
+                    +session_icon_button key='view_mode' value='grid' icon='grid' 
+                    +session_icon_button key='view_mode' value='list' icon='list'
+                    +sort_direction_toggle
+                    +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+                    +session_set key='sort_key' value='comment_count' label='comments' icon='chat'
+                    +session_set key='sort_key' value='domain' label='domain' icon='globe'
+                    +session_set key='sort_key' value='ups' label='ups' icon='thumbs up'
+                    +session_set key='sort_key' value='points' label='points' icon='hashtag'
+                    if currentUser
+                        +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='18-plus'
+                
                 if subs_ready
-                    if full_doc_id
-                        with full_doc 
-                            +reddit_card_big
-                    else if one_result
-                        .ui.stackable.centered.link.one.cards
+                    if session_is 'view_mode' 'list'
+                        .ui.selection.animated.list 
                             each doc_results
-                                +reddit_card
-                    else 
-                        .ui.stackable.centered.link.cards.scrolling
-                            each doc_results
-                                +reddit_card
-                            // +small_card
+                                +reddit_item
+                    else
+                        if full_doc_id
+                            with full_doc 
+                                +reddit_card_big
+                        else if one_result
+                            .ui.stackable.centered.link.one.cards
+                                each doc_results
+                                    +reddit_card
+                        else 
+                            .ui.stackable.centered.link.cards.scrolling
+                                each doc_results
+                                    +reddit_card
+                                // +small_card
                 else 
                     if picked_tags
                         .ui.center.aligned.basic.segment
@@ -100,12 +117,15 @@ template(name='reddit_card')
     .card.autotag(title="#{ups} ups, created #{_when}")
         if watson.metadata.image.length
             // |watson image
-            img.ui.fluid.image.zoomer.expand(src=watson.metadata.image title='view article')
+            a.fly_right(href="/reddit/#{_id}")
+                img.ui.fluid.image.zoomer(src=watson.metadata.image title='view article')
         
         else if is_image
-            img.ui.image.zoomer.expand(src=url title='view article')
+            a.fly_right(href="/reddit/#{_id}")
+                img.ui.image.zoomer(src=url title='view article')
         else if has_thumbnail
-            img.ui.fluid.image.zoomer.expand(src=thumbnail title='view article')
+            a.fly_right(href="/reddit/#{_id}")
+                img.ui.fluid.image.zoomer(src=thumbnail title='view article')
         if rd.media_embed.content
             // .invert
             |!{unescaped_content}
@@ -113,21 +133,22 @@ template(name='reddit_card')
             |!{unescaped}
 
         .content
-            .ui.grey.header.zoomer.expand !{title}
-            // .ui.inverted.basic.label
-            //     i.globe.grey.icon 
-            //     |#{domain}
-            // .ui.inverted.basic.label
-            //     i.thumbs.up.grey.icon 
-            //     |#{ups}
-            // .ui.inverted.basic.label
-            //     i.comment.grey.icon 
-            //     |#{num_comments}
-            // // .ui.inverted.basic.label.zoomer.pick_subreddit
-            // //     |subreddit: #{subreddit}
-            // .ui.inverted.basic.label(title="added {{long_date _timestamp}}")
-            //     i.grey.clock.icon
-            //     |#{_when}
+            a.ui.grey.header.zoomer.fly_right(href="/reddit/#{_id}")
+                !{title}
+            .ui.inverted.basic.label
+                i.globe.grey.icon 
+                |#{domain}
+            .ui.inverted.basic.label
+                i.thumbs.up.grey.icon 
+                |#{ups}
+            .ui.inverted.basic.label
+                i.comment.grey.icon 
+                |#{num_comments}
+            // .ui.inverted.basic.label.zoomer.pick_subreddit
+            //     |subreddit: #{subreddit}
+            .ui.inverted.basic.label(title="added {{long_date _timestamp}}")
+                i.grey.clock.icon
+                |#{_when}
             if watson.analyzed_text
                 .smallcut
                     |!{watson.analyzed_text}
@@ -156,6 +177,38 @@ template(name='reddit_card')
                 i.thumbs.down.red.icon(class=downvote_class)
             
             
+template(name='reddit_item')
+    .item 
+        if is_image
+            a.fly_right(href="/reddit/#{_id}")
+                img.ui.inline.medium.image.rounded(src=url)
+        else if has_thumbnail
+            a.fly_right(href="/reddit/#{_id}")
+                img.ui.medium.inline.image.zoomer(src=thumbnail title='view article')
+        a.ui.inline.header.zoomer.fly_left(href="/reddit/#{_id}") !{title}
+        .ui.inverted.basic.label
+            i.globe.grey.icon 
+            |#{domain}
+        .ui.inverted.basic.label
+            i.thumbs.up.icon 
+            |#{ups}
+        .ui.inverted.basic.label
+            i.comment.icon 
+            |#{num_comments}
+        .ui.inverted.basic.label 
+            |subreddit: #{subreddit}
+        .ui.inverted.basic.label added #{_when}
+        if over_18
+            .ui.inverted.basic.red.label.invert over 18
+        +voting
+        if doc_sentiment_label
+            +doc_sentiment
+            // +doc_emotion
+        else 
+            +call_watson key=rd.selftext
+            
+            
+            
 template(name='reddit_card_big')
     .ui.fluid.card.autotag.pointer(title="#{ups} ups, created #{_when}")
         .ui.stackable.two.column.grid
@@ -180,20 +233,20 @@ template(name='reddit_card_big')
                         |!{watson.analyzed_text}
         .content
             .ui.grey.header !{title}
-            // .ui.inverted.basic.label
-            //     i.globe.grey.icon 
-            //     |#{domain}
-            // .ui.inverted.basic.label
-            //     i.thumbs.up.grey.icon 
-            //     |#{ups}
-            // .ui.inverted.basic.label
-            //     i.comment.grey.icon 
-            //     |#{num_comments}
-            // // .ui.inverted.basic.label.zoomer.pick_subreddit
-            // //     |subreddit: #{subreddit}
-            // .ui.inverted.basic.label(title="added {{long_date _timestamp}}")
-            //     i.grey.clock.icon
-            //     |#{_when}
+            .ui.inverted.basic.label
+                i.globe.grey.icon 
+                |#{domain}
+            .ui.inverted.basic.label
+                i.thumbs.up.grey.icon 
+                |#{ups}
+            .ui.inverted.basic.label
+                i.comment.grey.icon 
+                |#{num_comments}
+            // .ui.inverted.basic.label.zoomer.pick_subreddit
+            //     |subreddit: #{subreddit}
+            .ui.inverted.basic.label(title="added {{long_date _timestamp}}")
+                i.grey.clock.icon
+                |#{_when}
             each tags
                 +flat_tag_picker
             // if over_18
@@ -261,5 +314,72 @@ template(name='user_reddit')
             each overlap_tags
                 .ui.label #{name}
                     small #{count}
+                
+                
+                
+                
+template(name='reddit_view')
+    with current_doc 
+        .ui.stackable.padded.grid 
+            .eleven.wide.column
+                a.ui.basic.compact.inverted.button.fly_left.zoomer(href="/reddit" title='back to browse')
+                    i.chevron.left.icon
+                    +i name='reddit'
+                    |reddit
+                .ui.inline.header !{title}
+                .ui.segment.alpha.scrolling
+                    if rd.selftext_html
+                        |!{unescaped}
+                    // blockquote(class="imgur-embed-pub invert" lang="en" data-id="UsxLSe0")
+                    //     a(href=rd.url) Lauren, supergirl, batgirl [Super best friends &amp; lauren faust])
+                    // script(async src="//s.imgur.com/min/embed.js" charset="utf-8")
+                    a.ui.header(href=rd.url target='_window') #{rd.url}
+                    with rd
+                        embed(src=url)
+                    if rd.media_embed
+                        // .invert
+                        |!{unescaped_content}
+                    // +call_watson key=rd.selftext
+                    if watson 
+                        +watson_view
+                    if in_dev
+                        +print_this
+                    if is_image
+                        img.ui.image(src=url)
+            .five.wide.column
+                if thumbnail
+                    img.ui.centered.rounded.image(src=thumbnail)
+                .ui.list 
+                    .item domain #{domain}
+                    // .item model #{model}
+                    .item permalink #{permalink}
+                    // .item reddit_id #{reddit_id}
+                    .item 
+                        small mined by
+                        strong #{_author_username}
+                .ui.button.pull_post
+                    i.download.icon
+                    |get post
+                +voting_full
+                .ui.large.inverted.label.zoomer
+                    +i name='chat'
+                    |#{comment_count} comments
+                if over_18
+                    .ui.large.inverted.red.label.zoomer(title='adult content')
+                        +i name='18-plus'
+                a.ui.large.inverted.button.zoomer(href=url target='_window')
+                    i.external.icon
+                    | #{url}
+                each tags 
+                    a.ui.large.basic.inverted.label.zoomer.pick_flat_tag(title='search tag') #{this}
+                .ui.big.inverted.basic.label.zoomer.picker.pick_subreddit(title='browse subreddit')
+                    +i name='reddit'
+                    |subreddit #{subreddit}
+                .ui.big.inverted.basic.label 
+                    +i name='facebook-like'
+                    | #{ups} upvotes
+                .ui.big.inverted.basic.label 
+                    +i name='chat'
+                    | #{num_comments} comments
                 
             

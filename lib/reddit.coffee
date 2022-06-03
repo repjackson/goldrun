@@ -17,6 +17,25 @@ if Meteor.isClient
             Session.get('porn')
             # Session.get('dummy')
     
+    
+    
+    Router.route '/reddit/:doc_id', (->
+        @layout 'layout'
+        @render 'reddit_view'
+        ), name:'reddit_view'
+
+
+    Template.reddit_view.onCreated ->
+        @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
+    Template.reddit_view.onRendered ->
+        # console.log @
+        found_doc = Docs.findOne Router.current().params.doc_id
+        if found_doc 
+            unless found_doc.watson
+                Meteor.call 'call_watson',Router.current().params.doc_id,'rd.selftext', ->
+                    console.log 'autoran watson'
+
+
     Template.agg_tag.onCreated ->
         # console.log @
         @autorun => @subscribe 'tag_image', @data.name, Session.get('porn'),->

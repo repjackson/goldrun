@@ -18,7 +18,7 @@ Meteor.publish 'reddit_tag_results', (
         match.tags = $all: picked_tags
         limit = 10
     else
-        limit = 42
+        limit = 20
     # else /
         # match.tags = $all: picked_tags
     agg_doc_count = Docs.find(match).count()
@@ -138,7 +138,7 @@ Meteor.publish 'reddit_doc_results', (
                 # "#{sort_key}":sort_direction
                 points:-1
                 ups:-1
-            limit:42
+            limit:20
             fields:
                 # youtube_id:1
                 "rd.media_embed":1

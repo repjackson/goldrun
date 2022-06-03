@@ -91,6 +91,11 @@ template(name='nav')
                 // i.large.users.icon
                 unless currentUser.hide_labels
                     |users
+            a.item.zoomer.fly_right.clear_search(href="/reddit" class="{{isActiveRoute 'reddit'}}" title='reddit')
+                +i name='reddit'
+                // i.large.music.icon
+                unless currentUser.hide_labels
+                    |reddit
             +nav_item key='post' icon='blog'
             a.item.zoomer.fly_right.clear_search(href="/music" class="{{isActiveRoute 'music'}}" title='music')
                 +i name='music'
@@ -101,11 +106,6 @@ template(name='nav')
                 // i.large.music.icon
                 unless currentUser.hide_labels
                     |groups
-            a.item.zoomer.fly_right.clear_search(href="/reddit" class="{{isActiveRoute 'reddit'}}" title='reddit')
-                +i name='reddit'
-                // i.large.music.icon
-                unless currentUser.hide_labels
-                    |reddit
             +nav_item key='event' icon='calendar'
             +nav_item key='product' icon='shopping-cart'
             +nav_item key='transfer' icon='exchange'

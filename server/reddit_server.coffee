@@ -156,6 +156,8 @@ Meteor.publish 'reddit_doc_results', (
                 anger_percent:1
                 over_18:1
                 points:1
+                upvoter_ids:1
+                downvoter_ids:1
                 url:1
                 ups:1
                 "watson.metadata":1
@@ -197,7 +199,7 @@ Meteor.publish 'reddit_mined_overlap', (
         match.tags = $all: picked_tags
         limit = 10
     else
-        limit = 42
+        limit = 20
     console.log 'match overlap', match
     # else /
         # match.tags = $all: picked_tags

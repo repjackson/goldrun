@@ -103,13 +103,55 @@ if Meteor.isClient
     Template.reddit_card_big.events
         'click .minimize': ->
             Session.set('full_doc_id', null)
+    Template.reddit_card.helpers
+        upvote_class:->
+            if Meteor.user()
+                if @upvoter_ids and Meteor.userId() in @upvoter_ids
+                    'large'
+                else 
+                    'outline'
+        downvote_class:->
+            if Meteor.user()
+                if @downvoter_ids and Meteor.userId() in @downvoter_ids
+                    'large'
+                else 
+                    'outline'
     Template.reddit_card.events
         'click .vote_up': ->
-            Docs.update @_id,
-                $inc:points:1
+            if Meteor.user()
+                Docs.update @_id,
+                    $inc:
+                        points:1
+                        user_points:1
+                    $addToSet:
+                        upvoter_ids:Meteor.userId()
+                        upvoter_usernames:Meteor.user().username
+                    $pull:
+                        downvoter_ids:Meteor.userId()
+                        downvoter_usernames:Meteor.user().username
+            else 
+                Docs.update @_id,
+                    $inc:
+                        points:1
+                        anon_points:1
         'click .vote_down': ->
-            Docs.update @_id,
-                $inc:points:-1
+            if Meteor.user()
+                Docs.update @_id,
+                    $inc:
+                        points:1
+                        user_points:1
+                    $addToSet:
+                        downvoter_ids:Meteor.userId()
+                        downvoter_usernames:Meteor.user().username
+                    $pull:
+                        upvoter_ids:Meteor.userId()
+                        upvoter_usernames:Meteor.user().username
+                        
+            else 
+                Docs.update @_id,
+                    $inc:
+                        points:1
+                        anon_points:1
         'click .expand': ->
             Session.set('full_doc_id', @_id)
             Session.set('dummy', !Session.get('dummy'))

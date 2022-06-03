@@ -150,10 +150,10 @@ template(name='reddit_card')
             //         i.large.chess.grey.icon
             //     // +call_watson key=rd.selftext
         .ui.attached.buttons
-            .ui.icon.basic.circular.button.vote_up(class=upvote_class)
-                i.thumbs.up.green.outline.icon
-            .ui.icon.basic.circular.button.vote_down(class=downvote_class)
-                i.thumbs.down.red.outline.icon
+            .ui.icon.basic.circular.button.vote_up
+                i.thumbs.up.green.icon(class=upvote_class)
+            .ui.icon.basic.circular.button.vote_down
+                i.thumbs.down.red.icon(class=downvote_class)
             
             
 template(name='reddit_card_big')

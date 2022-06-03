@@ -61,10 +61,11 @@ template(name='nav')
                         i.user.icon
                     strong #{currentUser.username}
                     |&nbsp;
-                    .ui.large.basic.black.inverted.label(title='points') {{points_to_coins currentUser.points}}c
+                a.fly_up.zoomer.item.tada(href="/user/#{currentUser.username}" title='bank' class="{{isActiveRoute 'user_points'}}" )
+                    |{{points_to_coins currentUser.points}}c
                 a.icon.item.zoomer.fly_down.add_doc(title='add doc')
-                    // +i name='plus'
-                    i.large.plus.green.invert.icon
+                    +i name='plus'
+                    // i.large.plus.green.invert.icon
                 // a.icon.item(href="/mail/inbox")
                 if unread_count
                     a.item(href="/user/#{currentUser.username}/inbox" title='unread messages')

@@ -72,7 +72,7 @@ body {
 }
 
 .topnav .item {
-    border-radius: 20px !important;
+    border-radius: 15px !important;
 }
 
 /* Track */
@@ -171,7 +171,7 @@ body {
 }
 
 .rounded {
-    border-radius: 20px !important; 
+    border-radius: 15px !important; 
 }
 
 .spacer{
@@ -184,7 +184,7 @@ body {
 }
 
 .add_model_doc {
-    /* border-radius: 20px !important; */
+    /* border-radius: 15px !important; */
 }
 .topnav > .image:hover {
     animation-name: spin;
@@ -316,7 +316,7 @@ body {
 }
 .zoomer:hover {
     transition: transform .5s !important; /* Animation */
-    border-radius: 20px !important;
+    border-radius: 15px !important;
     /*overflow:scroll !important;*/
     box-shadow: 0px 0px 10px 10px rgba(250,250,250,0.8);
     /*border-radius: 15px !important;*/
@@ -326,7 +326,7 @@ body {
 }
 .superzoomer:hover {
     transition: transform .5s !important; /* Animation */
-    border-radius: 20px !important;
+    border-radius: 15px !important;
     /*overflow:scroll !important;*/
     box-shadow: 0px 0px 10px 10px rgba(250,250,250,0.8);
     /*border-radius: 15px !important;*/
@@ -340,7 +340,7 @@ body {
 }
 .zoomers:hover {
     transition: transform .3s !important; /* Animation */
-    border-radius: 20px !important;
+    border-radius: 15px !important;
     /*overflow:scroll !important;*/
     /*box-shadow: inset 0px 0px 10px 10px rgba(250,250,250,0.8);*/
     /*border-radius: 15px !important;*/
@@ -416,11 +416,11 @@ body {
     /*transition: all 5s ease !important;*/
     transform: translate(0, 4px) !important; 
     
-    border-radius: 20px !important;
+    border-radius: 15px !important;
     /*box-shadow: 5px 5px 5px 5px grey !important; */
 }
 .button {
-    border-radius: 20px !important;
+    border-radius: 15px !important;
     /*color: black !important;*/
     /*background-color: darkgrey !important; */
     /*box-shadow: inset 5px 5px 10px #333 !important; */
@@ -566,7 +566,7 @@ body {
 
 
 input{
-    border-radius: 20px !important;
+    border-radius: 15px !important;
 }
 input:not(.no_format){
     /*border-radius: 10px !important;*/
@@ -577,8 +577,8 @@ input:not(.no_format){
     /* border-radius: 50px !important;
     /* -webkit-border-radius: 5px !important; */
     /* -moz-border-radius: 5px !important; */
-    background: rgba(250, 250, 250, 0.9) !important;
-    opacity: 1;
+    /*background: rgba(250, 250, 250, 0.9) !important;*/
+    /*opacity: 1;*/
 }
 
 textarea{
@@ -587,7 +587,7 @@ textarea{
 }
 input.username_search{
     -webkit-border-radius: 25px !important; */
-    border-radius: 20px !important;
+    border-radius: 15px !important;
     font-size: 120% !important;
     /* margin-bottom: 5px !important;
     margin-top: 5px !important; */
@@ -600,7 +600,7 @@ input.username_search{
 
 /* input.member_search{
     -webkit-border-radius: 25px !important; */
-    /*border-radius: 20px !important;*/
+    /*border-radius: 15px !important;*/
     /*font-size: 150% !important;*/
     /* margin-bottom: 5px !important;
     margin-top: 5px !important; */
@@ -627,7 +627,7 @@ input.username_search{
     margin:2px !important;
     opacity:.9 !important;
     /*font-family: 'Ubuntu', sans-serif !important;*/
-    border-radius: 20px !important; 
+    border-radius: 15px !important; 
 }
 
 .disabled.button, .disabled.segment, .disabled.label{
@@ -638,7 +638,7 @@ input.username_search{
 }
 
 .segment {
-     border-radius: 20px !important;
+     border-radius: 15px !important;
     /*padding:40px!important;*/
 }
 
@@ -657,7 +657,7 @@ input.username_search{
     font-size: 110% !important;
 
     /* background-color: rgba(250,250,250,1) !important; */
-    /*border-radius: 20px !important;*/
+    /*border-radius: 15px !important;*/
     /*border: solid !important;*/
     /*border-width: 1px !important;*/
     /*border-color: lightgrey !important;*/
@@ -744,9 +744,9 @@ input.username_search{
 
 .cloud {
     opacity: 0.9;
-    /* -webkit-border-radius: 20px !important; */
-    /* -moz-border-radius: 20px !important; */
-    /* border-radius: 20px !important; */
+    /* -webkit-border-radius: 15px !important; */
+    /* -moz-border-radius: 15px !important; */
+    /* border-radius: 15px !important; */
 }
 
 

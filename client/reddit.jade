@@ -6,7 +6,7 @@ template(name='reddit')
                 unless full_doc_id
                     if currentUser
                         .ui.circular.icon.button.toggle_porn(title='toggle adult' class=porn_class)
-                            i.skull.crossbones.icon
+                            i.skull.crossbones.large.icon
                     each picked_tags
                         +unpick_tag
                                 
@@ -78,8 +78,6 @@ template(name='reddit')
                     +session_set key='sort_key' value='domain' label='domain' icon='globe'
                     +session_set key='sort_key' value='ups' label='ups' icon='thumbs up'
                     +session_set key='sort_key' value='points' label='points' icon='hashtag'
-                    if currentUser
-                        +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='18-plus'
                 
                 if subs_ready
                     if session_is 'view_mode' 'list'
@@ -93,7 +91,7 @@ template(name='reddit')
                         else if one_result
                             .ui.stackable.centered.link.one.cards
                                 each doc_results
-                                    +reddit_card
+                                    +reddit_card_big
                         else 
                             .ui.stackable.centered.link.cards.scrolling
                                 each doc_results

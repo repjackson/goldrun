@@ -459,7 +459,17 @@ if Meteor.isServer
                 for comment in comments.fetch()
                     point_total += -2
                 
-                
+                reddit_post_total = 0
+                posts = 
+                    Docs.find
+                        model:'reddit'
+                        _author_id:user._id
+                # for post in posts
+                #     point_total += -2
+                total_post_count = posts.count()
+                # console.log 'total post count', total_post_count
+                point_total += total_post_count
+
                 
                 upvote_total = 0
                 upvotes = 

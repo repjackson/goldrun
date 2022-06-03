@@ -288,3 +288,39 @@ Template.registerHelper 'loading_class', ()->
 
 
 
+Tracker.autorun ->
+    current = Router.current()
+    Tracker.afterFlush ->
+        $(window).scrollTop 0
+
+    
+Meteor.users.find().observe({
+    changed: (new_doc, old_doc)->
+        console.log 'changed', new_doc.points, old_doc.points
+        if old_doc.points
+            $('body').toast({
+                title: "#{new_doc.points-old_doc.points}p earned"
+                # message: 'Please see desk staff for key.'
+                class : 'success'
+                showIcon:'hashtag'
+                # showProgress:'bottom'
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+
+})
+    
+    
+    
+Template.footer.helpers
+    all_users: -> Meteor.users.find()
+    all_docs: -> Docs.find()
+    result_docs: -> Results.find()
+

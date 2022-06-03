@@ -23,7 +23,7 @@ body {
 }
 
 .toast-container {
-    filter: invert(.9) !important; 
+    /*filter: invert(.9) !important; */
 }
 
 .layout { 

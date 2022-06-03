@@ -624,15 +624,3 @@ template(name='logout_button')
         span.mobile.hidden
             unless currentUser.hide_labels
                 |log out
-                
-                
-                
-                
-                
-template(name='user_reddit')
-    .ui.header 
-        +i name='reddit'
-        |mined reddit posts
-    .ui.list 
-        each mined_reddit_post 
-            .item #{title}

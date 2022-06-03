@@ -1,4 +1,186 @@
 if Meteor.isClient
+    Template.reddit.onCreated ->
+        Session.setDefault('current_search', null)
+        Session.setDefault('porn', false)
+        Session.setDefault('dummy', false)
+        Session.setDefault('is_loading', false)
+        @autorun => @subscribe 'doc_by_id', Session.get('full_doc_id'), ->
+        @autorun => @subscribe 'agg_emotions',
+            picked_tags.array()
+            Session.get('dummy')
+        @autorun => @subscribe 'reddit_tag_results',
+            picked_tags.array()
+            Session.get('porn')
+            Session.get('dummy')
+        @autorun => @subscribe 'reddit_doc_results',
+            picked_tags.array()
+            Session.get('porn')
+            # Session.get('dummy')
+    
+    Template.agg_tag.onCreated ->
+        # console.log @
+        @autorun => @subscribe 'tag_image', @data.name, Session.get('porn'),->
+    Template.agg_tag.helpers
+        term_image: ->
+            # console.log Template.currentData().name
+            found = Docs.findOne {
+                model:'reddit'
+                tags:$in:[Template.currentData().name]
+                "watson.metadata.image":$exists:true
+            }, sort:ups:-1
+            # console.log 'found image', found
+            found
+    Template.unpick_tag.onCreated ->
+        # console.log @
+        @autorun => @subscribe 'tag_image', @data, Session.get('porn'),->
+    Template.unpick_tag.helpers
+        flat_term_image: ->
+            # console.log Template.currentData()
+            found = Docs.findOne {
+                model:'reddit'
+                tags:$in:[Template.currentData()]
+                "watson.metadata.image":$exists:true
+            }, sort:ups:-1
+            # console.log 'found flat image', found.watson.metadata.image
+            found.watson.metadata.image
+    Template.agg_tag.events
+        'click .result': (e,t)->
+            # Meteor.call 'log_term', @title, ->
+            picked_tags.push @name
+            $('#search').val('')
+            Session.set('full_doc_id', null)
+            
+            Session.set('current_search', null)
+            Session.set('searching', true)
+            Session.set('is_loading', true)
+            # Meteor.call 'call_wiki', @name, ->
+    
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('is_loading', false)
+                Session.set('searching', false)
+            # Meteor.setTimeout ->
+            #     Session.set('dummy',!Session.get('dummy'))
+            # , 5000
+            
+    
+    Template.reddit.events
+        'click .toggle_porn': ->
+            Session.set('porn',!Session.get('porn'))
+        'click .select_search': ->
+            picked_tags.push @name
+            Session.set('full_doc_id', null)
+    
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+            $('#search').val('')
+            Session.set('current_search', null)
+    
+    Template.reddit_card.helpers
+        five_cleaned_tags: ->
+            # console.log picked_tags.array()
+            # console.log @tags[..5] not in picked_tags.array()
+            # console.log _.without(@tags[..5],picked_tags.array())
+            if picked_tags.array().length
+                _.difference(@tags[..10],picked_tags.array())
+            #     @tags[..5] not in picked_tags.array()
+            else 
+                @tags[..5]
+    Template.flat_tag_picker.events
+        'click .remove_tag': ->
+            console.log @
+            parent = Template.parentData()
+            console.log parent
+            # if confirm "remove #{@valueOf()} tag?"
+            Docs.update parent._id,
+                $pull:
+                    tags:@valueOf()
+        'click .pick_flat_tag': -> 
+            picked_tags.push @valueOf()
+            Session.set('full_doc_id', null)
+    
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+    Template.reddit_card_big.events
+        'click .minimize': ->
+            Session.set('full_doc_id', null)
+    Template.reddit_card.events
+        'click .vote_up': ->
+            Docs.update @_id,
+                $inc:points:1
+        'click .vote_down': ->
+            Docs.update @_id,
+                $inc:points:-1
+        'click .expand': ->
+            Session.set('full_doc_id', @_id)
+            Session.set('dummy', !Session.get('dummy'))
+    
+        'click .pick_flat_tag': (e)-> 
+            picked_tags.push @valueOf()
+            Session.set('full_doc_id', null)
+            $(e.currentTarget).closest('.pick_flat_tag').transition('fly up', 500)
+    
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+        # 'click .pick_subreddit': -> Session.set('subreddit',@subreddit)
+        # 'click .pick_domain': -> Session.set('domain',@domain)
+        'click .autotag': (e)->
+            console.log @
+            # console.log Template.currentData()
+            # console.log Template.parentData()
+            # console.log Template.parentData(1)
+            # console.log Template.parentData(2)
+            # console.log Template.parentData(3)
+            # if @rd and @rd.selftext_html
+            #     dom = document.createElement('textarea')
+            #     # dom.innerHTML = doc.body
+            #     dom.innerHTML = @rd.selftext_html
+            #     # console.log 'innner html', dom.value
+            #     # return dom.value
+            #     Docs.update @_id,
+            #         $set:
+            #             parsed_selftext_html:dom.value
+            Meteor.call 'get_reddit_post', @_id, (err,res)->
+    
+            # doc = Template.parentData()
+            # doc = Docs.findOne Template.parentData()._id
+            # Meteor.call 'call_watson', Template.parentData()._id, parent.key, @mode, ->
+            # if doc 
+            # console.log 'calling client watson',doc, 'rd.selftext'
+            Meteor.call 'call_watson', @_id, 'rd.selftext', 'html', ->
+                # $(e.currentTarget).closest('.button').transition('scale', 500)
+                # $('body').toast({
+                #     title: "emotions brokedown"
+                #     # message: 'Please see desk staff for key.'
+                #     class : 'success'
+                #     showIcon:'chess'
+                #     # showProgress:'bottom'
+                #     position:'bottom right'
+                #     # className:
+                #     #     toast: 'ui massive message'
+                #     # displayTime: 5000
+                #     transition:
+                #       showMethod   : 'zoom',
+                #       showDuration : 250,
+                #       hideMethod   : 'fade',
+                #       hideDuration : 250
+                #     })
+                # Session.set('dummy', !Session.get('dummy'))
+            # Meteor.call 'call_watson', doc._id, @key, @mode, ->
+    Template.unpick_tag.events
+        'click .unpick_tag': ->
+            picked_tags.remove @valueOf()
+            console.log picked_tags.array()
+            if picked_tags.array().length > 0
+                Session.set('is_loading', true)
+                Meteor.call 'search_reddit', picked_tags.array(), =>
+                    Session.set('is_loading', false)
+                # Meteor.setTimeout ->
+                #     Session.set('dummy', !Session.get('dummy'))
+                # , 5000
+            
+    
+    
     Template.reddit.events
         'click .print_me': ->
             console.log @
@@ -276,4 +458,30 @@ if Meteor.isClient
         #         # else
         #         #     'basic'
         #
+        
+        
+    Template.user_reddit.onCreated ->
+        @autorun => Meteor.subscribe 'mined_reddit_docs', Router.current().params.username, ->
+        @autorun => Meteor.subscribe 'reddit_mined_overlap', 
+            Router.current().params.username, 
+            Meteor.user().username, 
+            picked_tags.array(),
+    Template.user_reddit.helpers
+        mined_reddit_docs: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find 
+                model:'reddit'
+                _author_id:user._id
+                
+        overlap_tags: ->
+            Results.find 
+                model:'overlap_tag'
+            
+if Meteor.isServer 
+    Meteor.publish 'mined_reddit_docs', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find {
+            model:'reddit'
+            _author_id:user._id
+        }, limit:10
         

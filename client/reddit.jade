@@ -4,8 +4,9 @@ template(name='reddit')
         .row
             .sixteen.wide.column
                 unless full_doc_id
-                    .ui.circular.icon.button.toggle_porn(title='toggle adult' class=porn_class)
-                        i.skull.crossbones.icon
+                    if currentUser
+                        .ui.circular.icon.button.toggle_porn(title='toggle adult' class=porn_class)
+                            i.skull.crossbones.icon
                     each picked_tags
                         +unpick_tag
                                 
@@ -51,8 +52,6 @@ template(name='reddit')
                             .ui.grey.basic.inverted.big.label.invert
                                 |{{to_percent avg_fear_score}}%
                                 small fearful
-                        if currentUser
-                            +session_boolean_toggle key='view_nsfw' label='view nsfw' icon='18-plus'
                     
                 unless connected
                     //- .ui.header disconnected
@@ -151,10 +150,10 @@ template(name='reddit_card')
             //         i.large.chess.grey.icon
             //     // +call_watson key=rd.selftext
         .ui.attached.buttons
-            .ui.icon.basic.circular.button.vote_up
-                i.thumbs.up.icon
-            .ui.icon.basic.circular.button.vote_down
-                i.thumbs.down.icon
+            .ui.icon.basic.circular.button.vote_up(class=upvote_class)
+                i.thumbs.up.green.outline.icon
+            .ui.icon.basic.circular.button.vote_down(class=downvote_class)
+                i.thumbs.down.red.outline.icon
             
             
 template(name='reddit_card_big')
@@ -219,7 +218,8 @@ template(name='reddit_card_big')
 template(name='flat_tag_picker')
     a.ui.basic.large.inverted.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
         |#{this}
-    i.remove.link.circular.icon.remove_tag.zoomer
+    if currentUser
+        i.remove.link.circular.icon.remove_tag.zoomer(title='remove tag')
 
 
 template(name='agg_tag')
@@ -240,3 +240,26 @@ template(name='agg_tag')
         // else
         //     //- button.ui.compact.button(tabindex="0" title=count)
         //- small #{count}
+                
+                
+                
+template(name='user_reddit')
+    .ui.two.column.stackable.grid 
+        .column
+            .ui.header 
+                +i name='reddit'
+                |mined reddit posts
+            .ui.list 
+                each mined_reddit_docs
+                    .item
+                        .header #{title}
+                        .content 
+                            each five_tags 
+                                .ui.label #{this}
+        .column
+            .ui.header your upvoted tag overlap 
+            each overlap_tags
+                .ui.label #{name}
+                    small #{count}
+                
+            

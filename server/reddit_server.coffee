@@ -170,3 +170,59 @@ Meteor.publish 'reddit_doc_results', (
     #     Docs.find match,
     #         sort:_timestamp:-1
     #         limit:10
+
+
+
+Meteor.publish 'reddit_mined_overlap', (
+    username1
+    username2
+    picked_tags=null
+    # query
+    porn=false
+    # searching
+    dummy
+    )->
+
+    self = @
+    match = {}
+    user1 = Meteor.users.findOne username:username1
+    user2 = Meteor.users.findOne username:username2
+    # match.model = $in: ['reddit','wikipedia']
+    match.model = 'reddit'
+    # if query
+    # if view_nsfw
+    match.upvoter_ids = $in:[user1._id,user2._id]
+    # match.over_18 = porn
+    if picked_tags and picked_tags.length > 0
+        match.tags = $all: picked_tags
+        limit = 10
+    else
+        limit = 42
+    console.log 'match overlap', match
+    # else /
+        # match.tags = $all: picked_tags
+    agg_doc_count = Docs.find(match).count()
+    tag_cloud = Docs.aggregate [
+        { $match: match }
+        { $project: "tags": 1 }
+        { $unwind: "$tags" }
+        { $group: _id: "$tags", count: $sum: 1 }
+        { $match: _id: $nin: picked_tags }
+        { $match: count: $lt: agg_doc_count }
+        # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+        { $sort: count: -1, _id: 1 }
+        { $limit: limit }
+        { $project: _id: 0, name: '$_id', count: 1 }
+    ], {
+        allowDiskUse: true
+    }
+
+    tag_cloud.forEach (tag, i) =>
+        self.added 'results', Random.id(),
+            name: tag.name
+            count: tag.count
+            model:'overlap_tag'
+            # index: i
+    
+    self.ready()
+    # else []

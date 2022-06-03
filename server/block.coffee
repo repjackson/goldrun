@@ -120,6 +120,7 @@
     'trademarks of reddit'
     'reddit inc.'
     'imgur'
+    'reddit coins reddit premium'
     'careers press'
     'points'
     'comment'

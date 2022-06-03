@@ -39,10 +39,12 @@ globalHotkeys.add({
 globalHotkeys.add({
 	combo : "r a",
 	callback : ()->
-	    Session.set('admin_mode',!Session.get('admin_mode'))
+	    if Meteor.userId()
+	        Meteor.users.update Meteor.userId(),
+	            $set:
+	                admin_mode:!Meteor.user().admin_mode
 # 		alert("admin mode toggle")
 })
-
 Template.registerHelper 'active_term_class', () ->
     found_emotion_avg = 
         Results.findOne 

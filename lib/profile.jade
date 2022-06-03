@@ -43,6 +43,7 @@ template(name='profile_layout')
                                 +profile_nav_item section='social' icon='friends'
                                 +profile_nav_item section='music' icon='music'
                                 +profile_nav_item section='voting' icon='facebook-like'
+                                +profile_nav_item section='reddit' icon='reddit'
                                 div
                                 +yield
         +footer     
@@ -625,3 +626,13 @@ template(name='logout_button')
                 |log out
                 
                 
+                
+                
+                
+template(name='user_reddit')
+    .ui.header 
+        +i name='reddit'
+        |mined reddit posts
+    .ui.list 
+        each mined_reddit_post 
+            .item #{title}

@@ -131,9 +131,6 @@ Meteor.methods
                     # semantic_roles: {}
                     sentiment: {}
             # parameters.url = doc.url
-            parameters.url = "https://www.reddit.com#{doc.permalink}"
-            parameters.returnAnalyzedText = true
-            parameters.clean = true
         # if doc.domain and doc.domain in ['i.redd.it','i.imgur.com','imgur.com','gyfycat.com','m.youtube.com','v.redd.it','giphy.com','youtube.com','youtu.be']
         #     parameters.url = "https://www.reddit.com#{doc.permalink}"
         #     parameters.returnAnalyzedText = false
@@ -144,29 +141,32 @@ Meteor.methods
         #     parameters.html = doc["#{key}"]
         #     parameters.content = doc["#{key}"]
         # parameters.returnAnalyzedText = true
-        # switch mode
-        #     when 'html'
-        #         # parameters.html = doc["#{key}"]
-        #         if doc.title
-        #             parameters.html = doc.title + " " + doc[key]
-        #         else 
-        #             parameters.html = doc[key]
-        #         parameters.returnAnalyzedText = true
-        #     when 'text'
-        #         parameters.text = doc["#{key}"]
-        #     when 'url'
-        #         # parameters.url = doc["#{key}"]
+        switch mode
+            when 'html'
+                # parameters.html = doc["#{key}"]
+                if doc.title
+                    parameters.html = doc.title + " " + doc[key]
+                else 
+                    parameters.html = doc[key]
+                parameters.returnAnalyzedText = true
+            when 'text'
+                parameters.text = doc["#{key}"]
+            when 'url'
+                # parameters.url = doc["#{key}"]
+                parameters.url = "https://www.reddit.com#{doc.permalink}"
+                parameters.returnAnalyzedText = true
+                parameters.clean = true
 
-        #         # parameters.metadata = {}
-        #     when 'video'
-        #         parameters.url = "https://www.reddit.com#{doc.permalink}"
-        #         parameters.returnAnalyzedText = false
-        #         parameters.clean = true
-        #         # console.log 'calling video'
-        #     when 'image'
-        #         parameters.returnAnalyzedText = false
-        #         parameters.clean = true
-        #         console.log 'calling image'
+                # parameters.metadata = {}
+            when 'video'
+                parameters.url = "https://www.reddit.com#{doc.permalink}"
+                parameters.returnAnalyzedText = false
+                parameters.clean = true
+                # console.log 'calling video'
+            when 'image'
+                parameters.returnAnalyzedText = false
+                parameters.clean = true
+                console.log 'calling image'
 
         # console.log 'parameters', parameters
 
@@ -236,6 +236,24 @@ Meteor.methods
                             watson_keywords: keyword_array
                             doc_sentiment_score: response.sentiment.document.score
                             doc_sentiment_label: response.sentiment.document.label
+                else 
+                    Meteor.users.update doc_id,
+                        $set:
+                            # analyzed_text:response.analyzed_text
+                            watson: response
+                            max_emotion_name:max_emotion_name
+                            max_emotion_percent:max_emotion_percent
+                            sadness_percent: sadness_percent
+                            joy_percent: joy_percent
+                            fear_percent: fear_percent
+                            anger_percent: anger_percent
+                            disgust_percent: disgust_percent
+                            watson_concepts: concept_array
+                            watson_keywords: keyword_array
+                            doc_sentiment_score: response.sentiment.document.score
+                            doc_sentiment_label: response.sentiment.document.label
+
+
 
                 adding_tags = []
                 if response.categories
@@ -276,6 +294,10 @@ Meteor.methods
                 if Docs.findOne doc_id
                     Docs.update { _id: doc_id },{$addToSet:tags:$each:lowered_concepts}
                     Docs.update { _id: doc_id },{$addToSet:tags:$each:lowered_keywords}
+                else if Meteor.users.findOne doc_id
+                    Meteor.users.update { _id: doc_id },{$addToSet:tags:$each:lowered_concepts}
+                    Meteor.users.update { _id: doc_id },{$addToSet:tags:$each:lowered_keywords}
+                    
                 # final_doc = Docs.findOne doc_id
                 # console.log 'FINAL DOC tags',final_doc.tags
 

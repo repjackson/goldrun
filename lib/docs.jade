@@ -33,6 +33,11 @@ template(name='docs')
                 +session_set key='limit' value=100
             .scrolling
                 if subs_ready
+                    if no_results 
+                        .ui.center.aligned.basic.segment 
+                            .ui.header no results
+                            .ui.big.button.add_new_doc
+                                |add #{current_search}
                     if one_result
                         .ui.one.cards
                             each result_docs 

@@ -98,7 +98,15 @@ if Meteor.isClient
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('limit')
+    Template.docs.events
+        'click .add_new_doc': ->
+            new_id = 
+                Docs.insert 
+                    model:Session.get('model')
+            Router.go "/m/#{new_id}/edit"
     Template.docs.helpers
+        no_results: ->
+            Docs.find(model:Session.get('model')).count() is 0
         current_model_icon: ->
             switch Session.get('model')
                 when 'post'  then 'news'

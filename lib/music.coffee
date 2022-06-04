@@ -49,9 +49,9 @@ if Meteor.isServer
 if Meteor.isClient
     Template.album_view.events 
         'click .pull_tracks': -> 
-            # console.log 'pulling tracks'
+            console.log 'pulling tracks'
             Meteor.call 'pull_album_tracks', Router.current().params.doc_id, ()->
-
+                console.log 'pulled'
     Template.music_artist.helpers
         album_track_docs: ->
             Docs.find 
@@ -431,9 +431,10 @@ if Meteor.isServer
                 for track in tracks
                     found_track = Docs.findOne 
                         model:'track'
+                        idAlbum:track.idAlbum
                         idtrack:track.idtrack
                     if found_track
-                        console.log 'found track', found_track.strAlbum
+                        console.log 'found track', found_track.strAlbum, found_track.idAlbum
                     unless found_track
                         new_id = Docs.insert 
                             model:'track'

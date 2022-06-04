@@ -249,6 +249,8 @@ template(name='album_item')
         //     .hidden.content.invert
         //         img.ui.image(src=strArtistFanart)
         +mood_icon
+        .ui.label 
+            |#{model}
         if strGenre
             .ui.basic.label
                 +i name='music'
@@ -394,7 +396,7 @@ template(name='music_artist')
             .sixteen.wide.column
                 if watson 
                     +watson_view
-template(name='music_album')
+template(name='album_view')
     with current_album
         if strAlbumBanner
             img.ui.image.profile_banner(src=strAlbumBanner)
@@ -494,14 +496,16 @@ template(name='music_album')
                 if currentUser.admin_mod
                     +call_watson key='strBiographyEN'
                 +comments
-                .ui.button.pull_albums
-                    |download albums
+                .ui.button.pull_tracks
+                    |download tracks
                 .ui.cards
                     each album_track_docs 
                         .ui.card
-                            img.ui.image(src=strAlbumThumb)
+                            img.ui.image(src=strTrackThumb)
                             .content 
+                                .ui.header #{strTrack}
                                 .ui.header #{strAlbum}
+                                |#{strTrackLyrics}
                                 +print_this
                     
             .sixteen.wide.column

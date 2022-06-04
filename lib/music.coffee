@@ -15,16 +15,16 @@ if Meteor.isClient
         ), name:'music_artist'
     Router.route '/music/album/:doc_id', (->
         @layout 'layout'
-        @render 'music_album'
-        ), name:'music_album'
+        @render 'album_view'
+        ), name:'album_view'
     
     
     Template.music_artist.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'albums_by_artist_doc_id', Router.current().params.doc_id, ->
-    Template.music_album.onCreated ->
+    Template.album_view.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-        # @autorun => Meteor.subscribe 'albums_by_artist_doc_id', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'tracks_by_album_doc_id', Router.current().params.doc_id, ->
 
 if Meteor.isServer 
     Meteor.publish 'albums_by_artist_doc_id', (artist_doc_id)->
@@ -34,17 +34,34 @@ if Meteor.isServer
             model:'album'
             idArtist:artist.idArtist
             
+    Meteor.publish 'tracks_by_album_doc_id', (album_doc_id)->
+        album = Docs.findOne album_doc_id
+        console.log 'album', album.idAlbum
+        found = 
+            Docs.find(
+                model:'track'
+                strAlbum:album.strAlbum
+            )
+        console.log 'found count', found.count()
+        found
+        
+        
 if Meteor.isClient
+    Template.album_view.events 
+        'click .pull_tracks': -> 
+            # console.log 'pulling tracks'
+            Meteor.call 'pull_album_tracks', Router.current().params.doc_id, ()->
+
     Template.music_artist.helpers
         album_track_docs: ->
             Docs.find 
                 model:'album'
         current_artist: ->
             Docs.findOne Router.current().params.doc_id
-    Template.music_album.helpers
-        artist_album_docs: ->
+    Template.album_view.helpers
+        album_track_docs: ->
             Docs.find 
-                model:'album'
+                model:'track'
         current_album: ->
             Docs.findOne Router.current().params.doc_id
     Template.music_artist.onRendered ->
@@ -335,11 +352,12 @@ if Meteor.isClient
         picked_moods: -> picked_moods.array()
         picked_models: -> picked_models.array()
         current_search: -> Session.get('artist_search')
+
     Template.music_artist.events
         'click .pull_albums': ->
             current_artist = Docs.findOne Router.current().params.doc_id
             console.log 'pulling', current_artist.strArtist
-            Meteor.call 'search_albums', current_artist.strArtist, ->
+            Meteor.call 'pull_artist_albums', current_artist.strArtist, ->
         'click .pick_mood': ->
             picked_moods.clear()
             picked_moods.push @strMood
@@ -403,7 +421,67 @@ if Meteor.isClient
 
 if Meteor.isServer 
     Meteor.methods
-        search_albums: (search)->
+        pull_album_tracks: (album_doc_id)->
+            album = Docs.findOne album_doc_id
+            console.log 'finding tracks', album.strAlbum
+
+            HTTP.get "https://www.theaudiodb.com/api/v1/json/523532/track.php?m=#{album.idAlbum}",(err,response)=>
+                console.log response
+                tracks = response.data.track
+                for track in tracks
+                    found_track = Docs.findOne 
+                        model:'track'
+                        idtrack:track.idtrack
+                    if found_track
+                        console.log 'found track', found_track.strAlbum
+                    unless found_track
+                        new_id = Docs.insert 
+                            model:'track'
+                            idTrack: track.idTrack
+                            idAlbum: track.idAlbum
+                            idArtist: track.idArtist
+                            idLyric: track.idLyric
+                            idIMVDB: track.idIMVDB
+                            strTrack: track.strTrack
+                            strAlbum: track.strAlbum
+                            strArtist: track.strArtist
+                            strArtistAlternate: track.strArtistAlternate
+                            intCD: track.intCD
+                            intDuration: track.intDuration
+                            strGenre: track.strGenre
+                            strMood: track.strMood
+                            strStyle: track.strStyle
+                            strTheme: track.strTheme
+                            strDescriptionEN: track.strDescriptionEN
+                            strTrackThumb: track.strTrackThumb
+                            strTrack3DCase: track.strTrack3DCase
+                            strTrackLyrics: track.strTrackLyrics
+                            strMusicVid: track.strMusicVid
+                            strMusicVidDirector: track.strMusicVidDirector
+                            strMusicVidCompany: track.strMusicVidCompany
+                            strMusicVidScreen1: track.strMusicVidScreen1
+                            strMusicVidScreen2: track.strMusicVidScreen2
+                            strMusicVidScreen3: track.strMusicVidScreen3
+                            intMusicVidViews: track.intMusicVidViews
+                            intMusicVidLikes: track.intMusicVidLikes
+                            intMusicVidDislikes: track.intMusicVidDislikes
+                            intMusicVidFavorites: track.intMusicVidFavorites
+                            intMusicVidComments: track.intMusicVidComments
+                            intTrackNumber: track.intTrackNumber
+                            intLoved: track.intLoved
+                            intScore: track.intScore
+                            intScoreVotes: track.intScoreVotes
+                            intTotalListeners: track.intTotalListeners
+                            intTotalPlays: track.intTotalPlays
+                            strMusicBrainzID: track.strMusicBrainzID
+                            strMusicBrainzAlbumID: track.strMusicBrainzAlbumID
+                            strMusicBrainzArtistID: track.strMusicBrainzArtistID
+                            strLocked: track.strLocked
+                        console.log 'added new track', track.strTrack 
+                            
+                            
+                            
+        pull_artist_albums: (search)->
             console.log 'finding albums'
             HTTP.get "https://www.theaudiodb.com/api/v1/json/523532/searchalbum.php?s=#{search}",(err,response)=>
                 console.log response

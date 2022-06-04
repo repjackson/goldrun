@@ -942,6 +942,7 @@ if Meteor.isServer
             Docs.update transfer_id,
                 $set:
                     submitted:true
+                    published:true
                     submitted_timestamp:Date.now()
             return                    
             

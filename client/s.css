@@ -582,11 +582,11 @@ input:not(.no_format){
 }
 
 textarea{
-    /* -webkit-border-radius: 10px !important; */ */
+    /* -webkit-border-radius: 10px !important; */
     /* border-radius: 10px !important; */
 }
 input.username_search{
-    -webkit-border-radius: 25px !important; */
+    -webkit-border-radius: 25px !important;
     border-radius: 15px !important;
     font-size: 120% !important;
     /* margin-bottom: 5px !important;
@@ -596,6 +596,12 @@ input.username_search{
     border-width: 1px !important;
     border-color: #a67c00 !important;
     box-shadow: 0 2px 5px 2px rgba(50, 50, 100, 0.1) !important;
+}
+
+embed {
+    max-width: 100% !important;
+    width:100% !important;
+    height:500px !important;
 }
 
 /* input.member_search{

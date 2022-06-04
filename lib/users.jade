@@ -42,7 +42,7 @@ template(name='users')
             // +session_set key='view_limit' value=20 label='20'
             // +session_set key='view_limit' value=50 label='30'
             +search_input
-            .scrolling
+            .scrolling.ui.segment.alpha
                 if subs_ready
                     if session_is 'view_mode' 'grid'
                         if one_result
@@ -146,16 +146,16 @@ template(name='user_item')
                 .ui.label(style="color:#{current_user.theme_color};" title='one ratio') {{to_percent one_ratio}}%
             if flow_volume
                 .ui.label(style="color:#{current_user.theme_color};" title='flow volume') #{flow_volume}
-            if debit_tags
-                div
-                i.gift.icon(title='gifted tags')
-                each debit_tags
-                    .ui.small.label #{title}
-            if credit_tags
-                div
-                i.chevron.down.icon(title='received gift tags')
-                each credit_tags
-                    .ui.small.label #{title}
+            // if debit_tags
+            //     div
+            //     i.gift.icon(title='gifted tags')
+            //     each debit_tags
+            //         .ui.small.label #{title}
+            // if credit_tags
+            //     div
+            //     i.chevron.down.icon(title='received gift tags')
+            //     each credit_tags
+            //         .ui.small.label #{title}
             if tags 
                 each five_tags 
                     .ui.large.label #{this}
@@ -166,6 +166,8 @@ template(name='user_item')
                 .ui.small.inline.header(title='status' style="color:#{theme_color};")
                     i.small.clock.icon
                     |!{current_status}
+            each user_groups
+                |#{title}
             // div
             // i.line.chart.icon(title='levels')
             // each levels

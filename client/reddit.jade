@@ -82,9 +82,10 @@ template(name='reddit')
             .sixteen.wide.column
                 if subs_ready
                     if session_is 'view_mode' 'list'
-                        .ui.selection.animated.list 
-                            each doc_results
-                                +reddit_item
+                        .ui.segment.alpha
+                            .ui.selection.animated.divided.list 
+                                each doc_results
+                                    +reddit_item
                     else
                         if full_doc_id
                             with full_doc 
@@ -181,10 +182,10 @@ template(name='reddit_item')
     .item 
         if is_image
             a.fly_right(href="/reddit/#{_id}")
-                img.ui.inline.medium.image.rounded(src=url)
+                img.ui.inline.small.image.rounded.superzoomer(src=url)
         else if has_thumbnail
             a.fly_right(href="/reddit/#{_id}")
-                img.ui.medium.inline.image.zoomer(src=thumbnail title='view article')
+                img.ui.small.inline.image.superzoomer(src=thumbnail title='view article')
         a.ui.inline.header.zoomer.fly_left(href="/reddit/#{_id}") !{title}
         .ui.label
             i.globe.grey.icon 
@@ -197,7 +198,9 @@ template(name='reddit_item')
             |#{num_comments}
         .ui.label 
             |subreddit: #{subreddit}
-        .ui.label added #{_when}
+        .ui.label 
+            i.plus.icon
+            |#{_when}
         if over_18
             .ui.red.label over 18
         +voting

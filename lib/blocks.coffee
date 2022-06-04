@@ -569,6 +569,9 @@ if Meteor.isClient
                     $addToSet:
                         member_ids:Meteor.userId()
                         member_usernames:Meteor.user().username
+                Meteor.users.update Meteor.userId(),
+                    $addToSet:
+                        group_member_ids:@_id
                 Docs.insert 
                     model:'log'
                     body:"#{Meteor.user().username} joined #{@title}"
@@ -576,6 +579,21 @@ if Meteor.isClient
                     parent_model:'group'
                     group_id:@_id
                     published:true
+                $('body').toast({
+                    title: "joined group"
+                    # message: 'Please see desk staff for key.'
+                    class : 'success'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
+                    
             else 
                 Router.go "/login"
         'click .leave': ->
@@ -583,6 +601,10 @@ if Meteor.isClient
                 $pull:
                     member_ids:Meteor.userId()
                     member_usernames:Meteor.user().username
+            Meteor.users.update Meteor.userId(),
+                $pull:
+                    group_member_ids:@_id
+                    
             Docs.insert 
                 model:'log'
                 body:"#{Meteor.user().username} left #{@title}"
@@ -591,6 +613,20 @@ if Meteor.isClient
                 group_id:@_id
                 published:true
 
+            $('body').toast({
+                title: "left group"
+                # message: 'Please see desk staff for key.'
+                class : 'info'
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
 
     Template.big_user_card.onCreated ->
         @autorun => Meteor.subscribe 'user_from_username', @data

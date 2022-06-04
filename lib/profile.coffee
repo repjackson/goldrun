@@ -169,6 +169,7 @@ if Meteor.isServer
                 tags:1
                 _author_id:1
                 image_id:1
+                _timestamp:1
     Meteor.publish 'user_service_docs', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {

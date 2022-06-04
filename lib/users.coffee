@@ -1,6 +1,9 @@
 if Meteor.isClient
     Router.route '/users', -> @render 'users'
 
+    Template.user_item.onCreated ->
+        @autorun => Meteor.subscribe 'user_groups_small', @data.username, -> 
+        
     Template.users.onCreated ->
         Session.set('view_friends', false)
         # @autorun -> Meteor.subscribe('users')

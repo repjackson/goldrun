@@ -111,6 +111,18 @@ if Meteor.isServer
             model:'group'
             _author_id: user._id
         }, sort:_timestamp:-1
+    Meteor.publish 'user_groups_small', (username)->
+        user = Meteor.users.findOne username:username
+        if user.group_membership_ids
+            Docs.find {
+                model:'group'
+                _id:$in:user.group_membership_ids
+            }, 
+                sort:_timestamp:-1
+                fields:
+                    title:1
+                    image_id:1
+                    model:1
     Meteor.publish 'user_group_memberships', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {

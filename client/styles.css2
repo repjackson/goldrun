@@ -316,11 +316,6 @@ body {
     /*filter: invert(1) !important;*/
 }
 
-embed {
-    max-width: 100% !important;
-    width:100% !important;
-    height:100% !important;
-}
 .zoomer{
     transition: transform .2s; /* Animation */
     /* box-shadow: 0 2px 2px 2px rgba(50, 50, 100, 0.1) !important; */

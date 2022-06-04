@@ -83,6 +83,12 @@ if Meteor.isClient
             model:'group'
             _id:@group_id
     
+    Template.registerHelper 'user_groups', () ->
+        console.log @
+        if @group_membership_ids
+            Docs.find 
+                model:'group'
+                _id:$in:@group_membership_ids
     Template.registerHelper 'user_model_docs', (model) -> 
         username = Router.current().params.username
         Meteor.users.findOne username:username
@@ -162,11 +168,11 @@ if Meteor.isClient
     # Template.registerHelper 'logging_out', () -> Session.get 'logging_out'
     Template.registerHelper 'upvote_class', () ->
         if Meteor.userId()
-            if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline inverted'
+            if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'
         else ''
     Template.registerHelper 'downvote_class', () ->
         if Meteor.userId()
-            if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline inverted'
+            if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline'
         else ''
     
     Template.registerHelper '_upvoters', () ->

@@ -121,14 +121,14 @@ template(name='group_sidebar')
         +i name='tags'
     span.flat_tags
         each tags 
-            a.ui.basic.label.pick_flat_tag.zoomer(title='browse tag') #{this}
+            a.ui.label.pick_flat_tag.zoomer(title='browse tag') #{this}
     +message_author_button
     +group_widget
     div
     +voting_full
     div
     if nsfw
-        .ui.red.basic.large.label
+        .ui.red.large.label
             +i name='18-plus'
             |nsfw
     +favorites
@@ -194,7 +194,7 @@ template(name='group_dashboard')
             +voting_full
             div
             if nsfw
-                .ui.red.basic.large.label
+                .ui.red.large.label
                     +i name='18-plus'
                     |nsfw
             +group_stats
@@ -442,7 +442,7 @@ template(name='group_card')
                 .ui.big.label 
                     |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.large.basic.black.label
+            .ui.large.black.label
                 i.eye.icon
                 |#{views}
             .ui.label   
@@ -451,12 +451,12 @@ template(name='group_card')
             if group_id     
                 +group_info
             each five_tags 
-                .ui.basic.black.label #{this}
+                .ui.black.label #{this}
             // if watson 
             //     +doc_sentiment
             //     +doc_emotion
 
-            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/group/#{_id}")
+            a.ui.circular.icon.button.zoomer.fly_right(href="/group/#{_id}")
                 +i name='chevron-right'
 
                     
@@ -510,7 +510,7 @@ template(name='group_card_big')
                 .ui.big.label 
                     |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.large.basic.black.label
+            .ui.large.black.label
                 i.eye.icon
                 |#{views}
             .ui.label   
@@ -519,12 +519,12 @@ template(name='group_card_big')
             if group_id     
                 +group_info
             each five_tags 
-                .ui.basic.black.label #{this}
+                .ui.black.label #{this}
             // if watson 
             //     +doc_sentiment
             //     +doc_emotion
 
-            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/group/#{_id}")
+            a.ui.circular.icon.button.zoomer.fly_right(href="/group/#{_id}")
                 +i name='chevron-right'
 
                     
@@ -578,14 +578,14 @@ template(name='group_picker')
         with group_doc
             .ui.inline.header 
                 |#{group_id}
-            a.ui.big.basic.label(href="/group/#{_id}")
+            a.ui.big.label(href="/group/#{_id}")
                 img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                 |#{title}
     .content
         with group_doc
             .ui.inline.header 
                 |#{group_id}
-            a.ui.big.basic.label(href="/group/#{_id}")
+            a.ui.big.label(href="/group/#{_id}")
                 img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                 |#{title}
             .ui.compact.button.remove_group.zoomer(title='clear selection')
@@ -633,7 +633,7 @@ template(name='user_groups')
                             .ui.inline.header
                                 strong #{title}
                             each three_tags 
-                                .ui.small.basic.label #{this}
+                                .ui.small.label #{this}
             .column
                 .ui.header 
                     i.pencil.icon
@@ -647,4 +647,4 @@ template(name='user_groups')
                             .ui.inline.header
                                 strong #{title}
                             each three_tags 
-                                .ui.small.basic.label #{this}
+                                .ui.small.label #{this}

@@ -100,7 +100,7 @@ template(name='doc_card')
                 .ui.big.label 
                     |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.large.black.label
+            .ui.large.label
                 i.eye.icon
                 |#{views}
             .ui.label   
@@ -109,7 +109,7 @@ template(name='doc_card')
             if group_id     
                 +group_info
             each five_tags 
-                .ui.black.label #{this}
+                .ui.label #{this}
             // if watson 
             //     +doc_sentiment
             //     +doc_emotion
@@ -157,7 +157,7 @@ template(name='doc_card_big')
                 .ui.big.label 
                     |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.large.black.label
+            .ui.large.label
                 i.eye.icon
                 |#{views}
             .ui.label   
@@ -166,7 +166,7 @@ template(name='doc_card_big')
             if group_id     
                 +group_info
             each five_tags 
-                .ui.black.label #{this}
+                .ui.label #{this}
             if watson 
                 +doc_sentiment
                 +doc_emotion
@@ -177,5 +177,5 @@ template(name='doc_card_big')
 
 
 template(name='when_label')
-    .ui.large.black.label(title='created when')
+    .ui.large.label(title='created when')
         |#{_when}

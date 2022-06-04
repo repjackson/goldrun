@@ -20,7 +20,7 @@ template(name='footer')
                         | #{all_docs.count}
                         |docs
                     each all_docs 
-                        .ui.basic.image.black.label 
+                        .ui.image.label 
                             img.ui.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                             |#{title}
                             +model_label
@@ -33,13 +33,13 @@ template(name='footer')
                         |#{result_docs.count}
                         |results
                     each result_docs 
-                        .ui.basic.black.label #{name}: #{count} [#{model}]
+                        .ui.label #{name}: #{count} [#{model}]
                     .ui.inline.header 
                         i.users.icon
                         |#{all_users.count}
                         |users
                     each all_users
-                        .ui.basic.label 
+                        .ui.label 
                             a(href="/user/#{username}") 
                                 img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                                 |#{username}

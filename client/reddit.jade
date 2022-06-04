@@ -13,11 +13,11 @@ template(name='reddit')
                         //- button.ui.active.large.button.unpick_tag(tabindex='0' style=background_style class=emotion_color)
                     //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
                     // if not_searching 
-                    //     .ui.center.aligned.basic.segment
+                    //     .ui.center.aligned.segment
                     //         i.massive.yin.yang.grey.icon
                     // +session_toggle key='view_images' label='images' icon='image'
                     // +session_toggle key='view_external' label='external' icon='external'
-                    .ui.icon.input.invert(class=search_class title="#{emotion_avg_result.avg_sent_score} sentiment")
+                    .ui.icon.input(class=search_class title="#{emotion_avg_result.avg_sent_score} sentiment")
                         // if is_loading
                         //     if home_subs_ready
                         unless is_loading
@@ -29,34 +29,34 @@ template(name='reddit')
                         input#search(type='text' autofocus='' autocomplete="off" placeholder='')
                     //- .ui.header #{connection.status}
                     with emotion_avg_result
-                        // .ui.basic.label
+                        // .ui.label
                         //     |{{to_percent avg_sent_score}}%
                         //     small sentiment
                         if above_50 avg_joy_score
-                            .ui.green.basic.big.label.invert
+                            .ui.green.big.label
                                 |{{to_percent avg_joy_score}}%
                                 small joyful
                         if above_50 avg_anger_score
-                            .ui.red.basic.big.label.invert
+                            .ui.red.big.label
                                 |{{to_percent avg_anger_score}}%
                                 small angry
                         if above_50 avg_sadness_score
-                            .ui.blue.basic.big.label.invert
+                            .ui.blue.big.label
                                 |{{to_percent avg_sadness_score}}%
                                 small sad
                         if above_50 avg_disgust_score
-                            .ui.orange.basic.big.label.invert
+                            .ui.orange.big.label
                                 |{{to_percent avg_disgust_score}}%
                                 small disgusted
                         if above_50 avg_fear_score
-                            .ui.grey.basic.big.label.invert
+                            .ui.grey.big.label
                                 |{{to_percent avg_fear_score}}%
                                 small fearful
                     
                 unless connected
                     //- .ui.header disconnected
                     //- .ui.hidden.divider
-                    .ui.big.basic.button.reconnect
+                    .ui.big.button.reconnect
                         i.lightning.icon
                         |reconnect
                 if connected
@@ -127,7 +127,7 @@ template(name='reddit_card')
             a.fly_right(href="/reddit/#{_id}")
                 img.ui.fluid.image.zoomer(src=thumbnail title='view article')
         if rd.media_embed.content
-            // .invert
+            // 
             |!{unescaped_content}
         else if rd.selftext_html
             |!{unescaped}
@@ -135,32 +135,32 @@ template(name='reddit_card')
         .content
             a.ui.grey.header.zoomer.fly_right(href="/reddit/#{_id}")
                 |!{title}
-            .ui.basic.label
+            .ui.label
                 i.globe.grey.icon 
                 |#{domain}
-            .ui.basic.label
+            .ui.label
                 i.thumbs.up.grey.icon 
                 |#{ups}
-            .ui.basic.label
+            .ui.label
                 i.comment.grey.icon 
                 |#{num_comments}
-            // .ui.basic.label.zoomer.pick_subreddit
+            // .ui.label.zoomer.pick_subreddit
             //     |subreddit: #{subreddit}
-            .ui.basic.label(title="added {{long_date _timestamp}}")
+            .ui.label(title="added {{long_date _timestamp}}")
                 i.grey.clock.icon
                 |#{_when}
             if watson.analyzed_text
                 .smallcut
                     |!{watson.analyzed_text}
             each five_cleaned_tags
-                a.ui.basic.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
+                a.ui.label.pick_flat_tag.zoomer(title='add tag') 
                     |#{this}
             if points
                 .ui.inline.header
                     |#{points}pts
             
             // if over_18
-            //     .ui.red.label.invert
+            //     .ui.red.label
             //         i.alert.icon
             //         // +i name='nsfw'
             if doc_sentiment_label
@@ -171,9 +171,9 @@ template(name='reddit_card')
             //         i.large.chess.grey.icon
             //     // +call_watson key=rd.selftext
         .ui.attached.buttons
-            .ui.icon.basic.circular.button.vote_up
+            .ui.icon.circular.button.vote_up
                 i.thumbs.up.green.icon(class=upvote_class)
-            .ui.icon.basic.circular.button.vote_down
+            .ui.icon.circular.button.vote_down
                 i.thumbs.down.red.icon(class=downvote_class)
             
             
@@ -186,20 +186,20 @@ template(name='reddit_item')
             a.fly_right(href="/reddit/#{_id}")
                 img.ui.medium.inline.image.zoomer(src=thumbnail title='view article')
         a.ui.inline.header.zoomer.fly_left(href="/reddit/#{_id}") !{title}
-        .ui.basic.label
+        .ui.label
             i.globe.grey.icon 
             |#{domain}
-        .ui.basic.label
+        .ui.label
             i.thumbs.up.icon 
             |#{ups}
-        .ui.basic.label
+        .ui.label
             i.comment.icon 
             |#{num_comments}
-        .ui.basic.label 
+        .ui.label 
             |subreddit: #{subreddit}
-        .ui.basic.label added #{_when}
+        .ui.label added #{_when}
         if over_18
-            .ui.basic.red.label.invert over 18
+            .ui.red.label over 18
         +voting
         if doc_sentiment_label
             +doc_sentiment
@@ -233,24 +233,24 @@ template(name='reddit_card_big')
                         |!{watson.analyzed_text}
         .content
             .ui.grey.header !{title}
-            .ui.basic.label
+            .ui.label
                 i.globe.grey.icon 
                 |#{domain}
-            .ui.basic.label
+            .ui.label
                 i.thumbs.up.grey.icon 
                 |#{ups}
-            .ui.basic.label
+            .ui.label
                 i.comment.grey.icon 
                 |#{num_comments}
-            // .ui.basic.label.zoomer.pick_subreddit
+            // .ui.label.zoomer.pick_subreddit
             //     |subreddit: #{subreddit}
-            .ui.basic.label(title="added {{long_date _timestamp}}")
+            .ui.label(title="added {{long_date _timestamp}}")
                 i.grey.clock.icon
                 |#{_when}
             each tags
                 +flat_tag_picker
             // if over_18
-            //     .ui.red.label.invert
+            //     .ui.red.label
             //         i.alert.icon
             //         // +i name='nsfw'
             if watson 
@@ -269,15 +269,15 @@ template(name='reddit_card_big')
         
         
 template(name='flat_tag_picker')
-    a.ui.basic.large.black.label.pick_flat_tag.zoomer.invert(title='add tag') 
+    a.ui.large.label.pick_flat_tag.zoomer(title='add tag') 
         |#{this}
     if currentUser
         i.remove.link.circular.icon.remove_tag.zoomer(title='remove tag')
 
 
 template(name='agg_tag')
-    // button.ui.big.compact.basic.active.fade.animated.button.result(tabindex="0" title=count)
-    button.ui.big.image.basic.label.result.invert.zoomer(tabindex="0" title=count)
+    // button.ui.big.compact.active.fade.animated.button.result(tabindex="0" title=count)
+    button.ui.big.image.label.result.zoomer(tabindex="0" title=count)
         // .visible.content
         if term_image.watson.metadata.image
             img.ui.image.superzoomer(src=term_image.watson.metadata.image)
@@ -344,7 +344,7 @@ template(name='reddit_view')
     with current_doc 
         .ui.stackable.padded.grid 
             .eleven.wide.column
-                a.ui.basic.compact.button.fly_left.zoomer(href="/reddit" title='back to browse')
+                a.ui.compact.button.fly_left.zoomer(href="/reddit" title='back to browse')
                     i.chevron.left.icon
                     +i name='reddit'
                     |reddit
@@ -352,14 +352,14 @@ template(name='reddit_view')
                     .ui.inline.header !{title}
                     if rd.selftext_html
                         |!{unescaped}
-                    // blockquote(class="imgur-embed-pub invert" lang="en" data-id="UsxLSe0")
+                    // blockquote(class="imgur-embed-pub" lang="en" data-id="UsxLSe0")
                     //     a(href=rd.url) Lauren, supergirl, batgirl [Super best friends &amp; lauren faust])
                     // script(async src="//s.imgur.com/min/embed.js" charset="utf-8")
                     a.ui.header(href=rd.url target='_window') #{rd.url}
                     with rd
                         embed(src=url)
                     if rd.media_embed
-                        // .invert
+                        // 
                         |!{unescaped_content}
                     // +call_watson key=rd.selftext
                     if watson 
@@ -393,14 +393,14 @@ template(name='reddit_view')
                     i.external.icon
                     | #{url}
                 each tags 
-                    a.ui.large.basic.label.zoomer.pick_flat_tag(title='search tag') #{this}
-                .ui.big.basic.label.zoomer.picker.pick_subreddit(title='browse subreddit')
+                    a.ui.large.label.zoomer.pick_flat_tag(title='search tag') #{this}
+                .ui.big.label.zoomer.picker.pick_subreddit(title='browse subreddit')
                     +i name='reddit'
                     |subreddit #{subreddit}
-                .ui.big.basic.label 
+                .ui.big.label 
                     +i name='facebook-like'
                     | #{ups} upvotes
-                .ui.big.basic.label 
+                .ui.big.label 
                     +i name='chat'
                     | #{num_comments} comments
                 

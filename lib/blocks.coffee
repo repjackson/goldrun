@@ -564,17 +564,20 @@ if Meteor.isClient
 
     Template.join_button.events 
         'click .join': ->
-            Docs.update @_id, 
-                $addToSet:
-                    member_ids:Meteor.userId()
-                    member_usernames:Meteor.user().username
-            Docs.insert 
-                model:'log'
-                body:"#{Meteor.user().username} joined #{@title}"
-                parent_id:@_id
-                parent_model:'group'
-                group_id:@_id
-                published:true
+            if Meteor.user()
+                Docs.update @_id, 
+                    $addToSet:
+                        member_ids:Meteor.userId()
+                        member_usernames:Meteor.user().username
+                Docs.insert 
+                    model:'log'
+                    body:"#{Meteor.user().username} joined #{@title}"
+                    parent_id:@_id
+                    parent_model:'group'
+                    group_id:@_id
+                    published:true
+            else 
+                Router.go "/login"
         'click .leave': ->
             Docs.update @_id, 
                 $pull:

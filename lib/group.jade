@@ -52,7 +52,7 @@ template(name='group_layout')
             img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
             .sixteen.wide.column
-                a.ui.circular.icon.inverted.button.fly_left(href="/groups" title="back to groups")
+                a.ui.circular.icon.button.fly_left(href="/groups" title="back to groups")
                     i.chevron.left.icon
                     +model_label
                 .ui.large.inline.header 
@@ -70,10 +70,10 @@ template(name='group_layout')
                     +group_nav_item section='products' icon='shopping-cart'
                 
                 +group_nav_item section='checkins' icon='checkmark'
-            .four.wide.column
+            .five.wide.column
                 +group_sidebar
                 
-            .twelve.wide.column
+            .eleven.wide.column
                 div
                 +yield
     +footer
@@ -107,7 +107,7 @@ template(name='group_sidebar')
         a.zoomer(href=twitter_link target='_window' title='visit twitter page')
             +i name='twitter'
     if link 
-        a.ui.big.compact.inverted.button.zoomer(href=link target='_window' title=link)
+        a.ui.big.compact.button.zoomer(href=link target='_window' title=link)
             i.external.icon
             |link
             // |#{hostname}
@@ -121,7 +121,7 @@ template(name='group_sidebar')
         +i name='tags'
     span.flat_tags
         each tags 
-            a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='browse tag') #{this}
+            a.ui.basic.label.pick_flat_tag.zoomer(title='browse tag') #{this}
     +message_author_button
     +group_widget
     div
@@ -176,7 +176,7 @@ template(name='group_section')
             
             
 template(name='group_nav_item')        
-    a.ui.compact.inverted.button.zoomer(href="/group/#{current_doc._id}/#{section}")
+    a.ui.compact.button.zoomer(href="/group/#{current_doc._id}/#{section}")
         +i name=icon
         |#{section}
             
@@ -197,8 +197,6 @@ template(name='group_dashboard')
                 .ui.red.basic.large.label
                     +i name='18-plus'
                     |nsfw
-            +favorites
-            +viewing_info
             +group_stats
             +follow_button
             +tips
@@ -444,7 +442,7 @@ template(name='group_card')
                 .ui.big.label 
                     |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.large.basic.inverted.black.label
+            .ui.large.basic.black.label
                 i.eye.icon
                 |#{views}
             .ui.label   
@@ -453,7 +451,7 @@ template(name='group_card')
             if group_id     
                 +group_info
             each five_tags 
-                .ui.basic.inverted.black.label #{this}
+                .ui.basic.black.label #{this}
             // if watson 
             //     +doc_sentiment
             //     +doc_emotion
@@ -512,7 +510,7 @@ template(name='group_card_big')
                 .ui.big.label 
                     |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.large.basic.inverted.black.label
+            .ui.large.basic.black.label
                 i.eye.icon
                 |#{views}
             .ui.label   
@@ -521,7 +519,7 @@ template(name='group_card_big')
             if group_id     
                 +group_info
             each five_tags 
-                .ui.basic.inverted.black.label #{this}
+                .ui.basic.black.label #{this}
             // if watson 
             //     +doc_sentiment
             //     +doc_emotion
@@ -540,7 +538,7 @@ template(name='group_members_small')
         |members
     +join_button
     each group_members
-        a.ui.big.image.inverted.label.zoomer.fly_down(href="/user/#{username}")
+        a.ui.big.image.label.zoomer.fly_down(href="/user/#{username}")
             img.ui.image.invert(src="{{c.url image_id width=300 height=300}}")
             |#{username}
                 
@@ -627,15 +625,15 @@ template(name='user_groups')
                     i.users.icon
                     |#{user_group_memberships.count}
                     |memberships
-                .ui.selection.link.animated.large.list    
+                .ui.selection.link.animated.large.divided.list    
                     each user_group_memberships
                         // +doc_item
                         a.item.zoomers.fly_left(href="/group/#{_id}")
-                            img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
+                            img.ui.tiny.inline.rounded.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
                             .ui.inline.header
                                 strong #{title}
                             each three_tags 
-                                .ui.small.basic.inverted.label #{this}
+                                .ui.small.basic.label #{this}
             .column
                 .ui.header 
                     i.pencil.icon
@@ -649,4 +647,4 @@ template(name='user_groups')
                             .ui.inline.header
                                 strong #{title}
                             each three_tags 
-                                .ui.small.basic.inverted.label #{this}
+                                .ui.small.basic.label #{this}

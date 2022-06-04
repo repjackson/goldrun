@@ -36,7 +36,7 @@ template(name='send_points_button')
         
         
 template(name='edit_button')
-    a.ui.icon.large.inverted.button.fly_down.zoomer(href="/doc/#{_id}/edit" title="edit #{title}")
+    a.ui.icon.large.button.fly_down.zoomer(href="/doc/#{_id}/edit" title="edit #{title}")
         // +i name='edit'
         i.large.pencil.icon
         unless currentUser.hide_labels
@@ -105,7 +105,7 @@ template(name='view_label')
 template(name='group_info')
     i.fire.icon
     with related_group_doc
-        a.ui.large.image.inverted.label.invert.zoomer.zoom(title='group' href="/doc/#{_id}") 
+        a.ui.large.image.label.zoomer.zoom(title='group' href="/doc/#{_id}") 
             // +i name='campfire'
             img.ui.image.invert(src="{{c.url image_id width=200 height=200}}")
             |#{title}
@@ -165,7 +165,7 @@ template(name='session_key_value_edit')
         |#{label}
 
 template(name='key_value_edit')
-    a.ui.image.link.big.inverted.label.set_key_value.zoomer(class=calculated_class)
+    a.ui.image.link.big.label.set_key_value.zoomer(class=calculated_class)
         if icon 
             +i name=icon cl='ui avatar image'
             // i.icon(class=icon)
@@ -193,16 +193,16 @@ template(name='author_block')
 
 
 template(name='favorite_icon_toggle')
-    i.large.red.heart.link.circular.inverted.icon.toggle_fav.invert(class=icon_class)
+    i.large.red.heart.link.circular.icon.toggle_fav.invert(class=icon_class)
 
 
 template(name='sort_direction_toggle')
     if session_is 'sort_direction' -1
-        .ui.icon.compact.circular.basic.inverted.button.toggle(title='toggle sort direction')
+        .ui.icon.compact.circular.basic.button.toggle(title='toggle sort direction')
             // i.sort.down.large.icon
             +i name='sort-down'
     else
-        .ui.icon.compact.circular.basic.inverted.button.toggle(title='toggle sort direction')
+        .ui.icon.compact.circular.basic.button.toggle(title='toggle sort direction')
             +i name='sort-up'
             // i.sort.up.large.icon
 
@@ -376,8 +376,8 @@ template(name='member_info')
 template(name='user_info')
     // with user_from_id this
     with user_doc
-        a.ui.big.link.image.zoomer.inverted.basic.black.label.zoom.invert(href="/user/#{username}" title="view #{name}'s profile`")
-            img.ui.avatar.image.invert.zoomer(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+        a.ui.big.link.image.zoomer.basic.label.zoom.invert(href="/user/#{username}" title="view #{name}'s profile`")
+            img.ui.avatar.image.zoomer(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
             strong.zoomer #{name}
             small.zoomer @#{username}
     // .ui.header #{this}
@@ -386,7 +386,7 @@ template(name='user_avatar')
     // with user_from_id this
     with user_doc
         a.fly_right(href="/user/#{username}" title="view #{name}'s profile`")
-            img.ui.avatar.image.invert.zoomer(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+            img.ui.avatar.image.zoomer(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
     // .ui.header #{this}
 
 
@@ -551,11 +551,11 @@ template(name='user_list_toggle')
 
 template(name='voting')
     // unless is_author
-    i.thumbs.up.large.circular.link.icon.zoomer.upvote.invert(class=upvote_class)
+    i.thumbs.up.large.circular.link.icon.zoomer.upvote(class=upvote_class)
     // .ui.icon.button.upvote(title='upvote')
     //- each upvoter_ids
     //-     +user_info
-    i.thumbs.down.large.circular.link.icon.zoomer.downvote.invert(class=downvote_class)
+    i.thumbs.down.large.circular.link.icon.zoomer.downvote(class=downvote_class)
     // .ui.icon.button.downvote(title='downvote')
     //     i.thumbs.down.icon(class=downvote_class)
     //- each downvoter_ids
@@ -571,10 +571,10 @@ template(name='voting')
 template(name='voting_small')
     if points
         strong #{points}
-    i.thumbs.up.link.icon.invert.upvote(class=upvote_class)
+    i.thumbs.up.link.icon.upvote(class=upvote_class)
     //- each upvoter_ids
     //-     +user_info
-    i.thumbs.down.link.icon.invert.downvote(class=downvote_class)
+    i.thumbs.down.link.icon.downvote(class=downvote_class)
     //- each downvoter_ids
     //-     +user_info
 
@@ -586,10 +586,10 @@ template(name='voting_full')
     //     |voting
     // .ui.large.icon.circular.button.upvote(title='upvote' class=upvote_class)
     // unless is_author
-    i.thumbs.up.big.circular.link.icon.zoomer.upvote.invert(class=upvote_class)
+    i.thumbs.up.big.circular.link.icon.zoomer.upvote(class=upvote_class)
         //- |like
     // .ui.big.icon.circular.button.downvote(title='downvote' class=downvote_class)
-    i.thumbs.down.big.circular.link.icon.zoomer.downvote.invert(class=downvote_class)
+    i.thumbs.down.big.circular.link.icon.zoomer.downvote(class=downvote_class)
     // i.thumbs.down.outline.icon
     //- |dislike
     if points
@@ -780,7 +780,7 @@ template(name='facet')
             //- i.remove.icon
             | #{this}
     each facet_results
-        button.ui.circular.compact.black.button.pick_tag(tabindex="0" class=result_class title=count)
+        button.ui.circular.compact.button.pick_tag(tabindex="0" class=result_class title=count)
             |#{name}
             // small #{count}
 
@@ -910,7 +910,7 @@ template(name='facet')
 //         .ui.header
 //             i.user.plus.icon
 //             |follow
-//         +user_list_toggle key='follower_ids' icon='rss' add_label='Follow' remove_label='Unfollow' color='black'
+//         +user_list_toggle key='follower_ids' icon='rss' add_label='Follow' remove_label='Unfollow' color=
 
 
 // template(name='toggle_edit')

@@ -107,15 +107,16 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'user_groups', (username)->
         user = Meteor.users.findOne username:username
-        Docs.find
+        Docs.find {
             model:'group'
             _author_id: user._id
+        }, sort:_timestamp:-1
     Meteor.publish 'user_group_memberships', (username)->
         user = Meteor.users.findOne username:username
-        Docs.find
+        Docs.find {
             model:'group'
             member_ids: $in:[user._id]
-
+        }, sort:_timestamp:-1
     Meteor.publish 'related_group', (doc_id)->
         doc = Docs.findOne doc_id
         if doc

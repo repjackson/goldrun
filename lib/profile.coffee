@@ -125,10 +125,17 @@ if Meteor.isClient
     Template.user_drafts.helpers
         user_draft_docs: ->
             user = Meteor.users.findOne username:Router.current().params.username
-            Docs.find 
+            sort_key = if Meteor.user().sort_key then Meteor.user().sort_key else '_timestamp'
+            
+            Docs.find {
                 published:$ne:true
                 model:$in:['post','service','group','product']
                 _author_id:user._id
+            }, 
+                limit:10
+                sort:sort_key:-1
+            
+            
     Template.user_services.helpers
         user_service_docs: ->
             user = Meteor.users.findOne username:Router.current().params.username
@@ -147,11 +154,21 @@ if Meteor.isServer
     Meteor.publish 'user_drafts', (username)->
         # console.log @models
         user = Meteor.users.findOne username:username
+        sort_key = if Meteor.user().sort_key then Meteor.user().sort_key else '_timestamp'
         Docs.find {
             published:$ne:true
             _author_id:user._id
             model:$in:['post','event','group','service']
-        }, limit:10
+        }, 
+            sort:sort_key:-1
+            limit:10
+            fields:
+                published:1
+                title:1
+                model:1
+                tags:1
+                _author_id:1
+                image_id:1
     Meteor.publish 'user_service_docs', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {

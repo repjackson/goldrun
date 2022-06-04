@@ -293,7 +293,8 @@ Tracker.autorun ->
 Meteor.users.find(_id:Meteor.userId()).observe({
     changed: (new_doc, old_doc)->
         console.log 'changed', new_doc.points, old_doc.points
-        if old_doc.points
+        difference = new_doc.points-old_doc.points
+        if difference > 0
             $('body').toast({
                 title: "#{new_doc.points-old_doc.points}p earned"
                 # message: 'Please see desk staff for key.'

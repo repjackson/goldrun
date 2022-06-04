@@ -372,19 +372,24 @@ template(name='user_drafts')
         .ui.inline.header 
             +i name='save'
             |#{user_draft_docs.count} drafts
+        // if subs_ready
+        |sort by
+        +session_set key='sort_key' value='points' label='points'
+        +session_set key='sort_key' value='_timestamp' label='added'
         .ui.selection.animated.link.divided.list
             each user_draft_docs
                 .item
                     .content
-                        .header
+                        .inline.header
                             a.inline.fly_up(href="/doc/#{_id}")
                                 img.ui.avatar.image(src="{{c.url image_id height=300 width=300 crop='crop'}}")
                                 .ui.inline.header #{title}
-                        .description
                             +when
                             +model_label
                             each three_tags
                                 .ui.small.label #{this}
+        // else 
+        //     +loading_segment
                         
 template(name='user_favorites')
     if user_favorite_docs.count

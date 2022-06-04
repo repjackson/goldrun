@@ -442,7 +442,7 @@ template(name='group_card')
                 .ui.big.label 
                     |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.large.black.label
+            .ui.large.label
                 i.eye.icon
                 |#{views}
             .ui.label   
@@ -451,7 +451,7 @@ template(name='group_card')
             if group_id     
                 +group_info
             each five_tags 
-                .ui.black.label #{this}
+                .ui.label #{this}
             // if watson 
             //     +doc_sentiment
             //     +doc_emotion
@@ -510,7 +510,7 @@ template(name='group_card_big')
                 .ui.big.label 
                     |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.large.black.label
+            .ui.large.label
                 i.eye.icon
                 |#{views}
             .ui.label   
@@ -519,7 +519,7 @@ template(name='group_card_big')
             if group_id     
                 +group_info
             each five_tags 
-                .ui.black.label #{this}
+                .ui.label #{this}
             // if watson 
             //     +doc_sentiment
             //     +doc_emotion

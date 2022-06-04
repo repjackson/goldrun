@@ -16,7 +16,6 @@ template(name='account')
                     .ui.hidden.divider
                     +image_edit key='image_id' icon='picture' title='profile image' 
                     +image_edit key='background_image_id' icon='picture' title='background image' 
-                    +image_edit key='venmo_image' icon='venmo' title='venmo image' 
                     +single_user_edit key='refered_by' label='refered by' icon='clone'
                     if currentUser.admin_mode
                         +boolean_edit key='admin' label='admin' icon='shield' 
@@ -126,14 +125,26 @@ template(name='account')
                     +key_value_edit key='icon_class' value='simple' label='simple'
                     div
                     .ui.inline.header hide menu labels
-                    +key_value_edit key='hide_labels' value=true label='hide labels'
-                    +key_value_edit key='hide_labels' value=false label='show labels'
+                    +boolean_edit key='hide_labels' label='hide labels' icon='invisible'
                     div
                     .ui.inline.header invert 
-                    +boolean_edit key='darkmode' label='darkmode' icon='lightbulb'
+                    +boolean_edit key='darkmode' label='darkmode' icon='light'
                 .column 
                     +textarea_edit key='instagram_code' label='instagram embed code'
-                +user_sessions
+                .column 
+                    +user_sessions
+                .column
+                    .ui.header 
+                        +i name='money'
+                        |payment preferences
+                    .ui.small.header 
+                        |preferred method
+                    +key_value_edit key='preferred_payment_method' value='paypal' label='paypal' icon='paypel'
+                    +key_value_edit key='preferred_payment_method' value='cash' label='cash' icon='money'
+                    +key_value_edit key='preferred_payment_method' value='venmo' label='venmo' icon='venmo'
+                    if is preferred_payment_method 'venmo'
+                        +image_edit key='venmo_image' icon='venmo' title='venmo image' 
+
                     
 template(name='user_sessions')
     .column

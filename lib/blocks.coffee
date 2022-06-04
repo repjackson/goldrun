@@ -792,6 +792,10 @@ if Meteor.isClient
         'click .set_session_value': ->
             # console.log @key
             # console.log @value
+            if Meteor.user() 
+                Meteor.users.update Meteor.userId(),
+                    $set:
+                        "#{@key}":@value
             Session.set(@key, @value)
             $('body').toast({
                 title: "session set #{@key} #{@value}"
@@ -976,7 +980,7 @@ if Meteor.isClient
             # parent = Template.parentData()
             # console.log parent
             # if parent["#{@key}"] is @value then 'active' else ''
-            if parent["#{@key}"] is @value then "#{@cl} active large" else "#{@cl} small compact"
+            if parent["#{@key}"] is @value then "big blue" else ""
         
         is_selected: ->
             console.log @key, @value
@@ -988,23 +992,23 @@ if Meteor.isClient
         'click .set_key_value': (e)->
             # console.log 'hi'
             parent = Template.parentData()
-            # console.log parent, @key, @value
+            console.log parent, @key, @value
             user = Meteor.users.findOne username:Router.current().params.username
             if Docs.findOne Router.current().params.doc_id
                 Docs.update parent._id,
                     $set: "#{@key}": @value
-            else if user
-                Meteor.users.update user._id,
+            else
+                Meteor.users.update parent._id,
                     $set: "#{@key}": @value
             $(e.currentTarget).closest('.button').transition('pulse',500)
 
             $('body').toast(
                 showIcon: 'checkmark'
-                message: "#{@key}=#{@value} saved"
+                message: "#{@key} set to #{@value}"
                 # showProgress: 'bottom'
                 class: 'success'
                 displayTime: 'auto',
-                position: "bottom center"
+                position: "bottom right"
             )
 
 if Meteor.isClient

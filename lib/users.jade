@@ -6,7 +6,7 @@ template(name='users')
                 |#{user_docs.count}
                 |users
             if currentUser.admin
-                .ui.icon.inverted.button.add_user
+                .ui.icon.button.add_user
                     i.plus.large.icon
             // if currentUser
             //     +session_boolean_toggle key='view_friends' label='friends' icon='friends'
@@ -28,7 +28,7 @@ template(name='users')
                     .unpick_user_tag.ui.primary.compact.button
                         strong #{this}
             each all_user_tags
-                .ui.compact.inverted.basic.button.pick_user_tag(class=cloud_tag_class) 
+                .ui.compact.basic.button.pick_user_tag(class=cloud_tag_class) 
                     strong #{this.name}
         .twelve.wide.column
             +session_icon_button key='view_mode' value='grid' icon='grid' 
@@ -78,7 +78,7 @@ template(name='user_card')
             a.ui.inline.header.pointer.blink(href="/user/#{username}" style="color:#{theme_color};")
                 |#{name}
             |@#{username}
-            .ui.large.basic.inverted.label #{points}pts
+            .ui.large.basic.label #{points}pts
                 //- |#{username}
             if points
                 .ui.inline.header(style="color:#{current_user.theme_color};") #{points}pts
@@ -101,7 +101,7 @@ template(name='user_card')
             //         |!{bio}
             if tags 
                 each five_tags 
-                    .ui.basic.inverted.label #{this}
+                    .ui.basic.label #{this}
             if online
                 .ui.green.label online
             if current_status
@@ -158,7 +158,7 @@ template(name='user_item')
                     .ui.small.basic.label #{title}
             if tags 
                 each five_tags 
-                    .ui.large.basic.inverted.label #{this}
+                    .ui.large.basic.label #{this}
             if online
                 .ui.green.label online
             if current_status

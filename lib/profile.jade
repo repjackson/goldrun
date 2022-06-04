@@ -103,7 +103,7 @@ template(name='user_dashboard')
         if watson
             +watson_view
             // else 
-            //     .ui.basic.center.aligned.segment
+            //     .ui.center.aligned.segment
             //         i.massive.loading.refresh.icon
               
 
@@ -209,7 +209,7 @@ template(name='profile_sidebar')
     if last_name
         .ui.inline.header #{last_name}
     if status 
-        .ui.big.inverted.black.basic.label(title='status')
+        .ui.big.label(title='status')
             i.clock.icon 
             |#{status}
     a.ui.large.label(href="/user/#{username}/points" title='points')
@@ -219,27 +219,27 @@ template(name='profile_sidebar')
     +link_view key='link' icon='globe'
     +online_label
     if linkedin_link
-        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=linkedin_link target='_window' title='view linkedin profile')
+        a.ui.circular.icon.large.compact.button.zoomers.pointer(href=linkedin_link target='_window' title='view linkedin profile')
             +i name='linkedin'
     if twitter_link
-        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=twitter_link target='_window' title='view twitter profile')
+        a.ui.circular.icon.large.compact.button.zoomers.pointer(href=twitter_link target='_window' title='view twitter profile')
             +i name='twitter'
     if instagram_link
-        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=instagram_link target='_window' title='view instagram profile')
+        a.ui.circular.icon.large.compact.button.zoomers.pointer(href=instagram_link target='_window' title='view instagram profile')
             +i name='instagram'
     if facebook_link
-        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=facebook_link target='_window' title='view facebook profile')
+        a.ui.circular.icon.large.compact.button.zoomers.pointer(href=facebook_link target='_window' title='view facebook profile')
             +i name='facebook'
     if one_link
-        a.ui.basic.circular.icon.large.compact.button.zoomers.pointer(href=facebook_link target='_window' title='view facebook profile')
+        a.ui.circular.icon.large.compact.button.zoomers.pointer(href=facebook_link target='_window' title='view facebook profile')
             img.ui.avatar.image(src="{{c.url 'one_logo' height=500 width=500 gravity='face' crop='fill'}}")
     if is_current_user
-        a.ui.large.icon.inverted.basic.button.fly_up(href="/user/#{_id}/edit" title='profile settings')
+        a.ui.large.icon.button.fly_up(href="/user/#{_id}/edit" title='profile settings')
             +i name='settings'
             unless currentUser.hide_labels
                 |account
     else if currentUser.admin_mode
-        a.ui.large.icon.inverted.basic.button.fly_up(href="/user/#{_id}/edit" title='profile settings')
+        a.ui.large.icon.button.fly_up(href="/user/#{_id}/edit" title='profile settings')
             +i name='settings'
             unless currentUser.hide_labels
                 |account
@@ -252,11 +252,11 @@ template(name='profile_sidebar')
         +i name='tap-gesture'
         |#{boops}
     if publish_profile 
-        .ui.basic.label
+        .ui.label
             i.large.green.eye.icon(title='published profile')
             |public profile
     else 
-        .ui.basic.label
+        .ui.label
             i.large.lock.icon(title='private profile')
             |private profile
     div
@@ -269,7 +269,7 @@ template(name='profile_sidebar')
     //         |!{bio}
     // .smallscroll
     //     each tags 
-    //         .ui.large.basic.label #{this}
+    //         .ui.large.label #{this}
     //         // |!{bio}
     if is_current_user
         +logout_button
@@ -283,7 +283,7 @@ template(name='profile_sidebar')
                           
                           
 template(name='profile_nav_item')        
-    a.ui.compact.inverted.basic.button.zoomer(href="/user/#{current_user.username}/#{section}" title=section)
+    a.ui.compact.button.zoomer(href="/user/#{current_user.username}/#{section}" title=section)
         +i name=icon
         unless currentUser.hide_labels
             |#{section}
@@ -340,7 +340,7 @@ template(name='user_events')
                         +when
                         +model_label
                         each three_tags
-                            .ui.small.basic.label #{this}
+                            .ui.small.label #{this}
 
 template(name='event_item_small')
     .item #{title}
@@ -384,7 +384,7 @@ template(name='user_drafts')
                             +when
                             +model_label
                             each three_tags
-                                .ui.small.basic.label #{this}
+                                .ui.small.label #{this}
                         
 template(name='user_favorites')
     if user_favorite_docs.count
@@ -405,7 +405,7 @@ template(name='user_favorites')
                         +favorite_icon_toggle
                         +when
                         each three_tags
-                            .ui.small.basic.inverted.black.basic.label #{this}
+                            .ui.small.label #{this}
                         
 template(name='when')
     .ui.label(title="{{long_date _timestamp}}") #{_when}
@@ -468,9 +468,9 @@ template(name='user_products')
             a.item.fly_right(href="/doc/#{_id}")
                 img.ui.tiny.inline.image(src="{{c.url image_id height=200 width=200 background='white' crop='pad'}}")
                 .ui.inline.header #{title}
-                .ui.inverted.basic.label
+                .ui.label
                     |#{_when}
-                .ui.inverted.basic.label
+                .ui.label
                     |#{points}pts
                  
                  
@@ -601,7 +601,7 @@ template(name='user_posts')
                     .description
                         |#{_when}
                         each five_tags
-                            .ui.basic.inverted.black.label #{this}
+                            .ui.black.label #{this}
                     // if watson 
                     //     +doc_sentiment
                     //     +doc_emotion
@@ -619,7 +619,7 @@ template(name='logout_other_clients_button')
 
 
 template(name='logout_button')
-    .ui.large.basic.inverted.button.logout(title='log out')
+    .ui.large.button.logout(title='log out')
         // i.sign.out.alternate.icon
         +i name='exit'
         span.mobile.hidden

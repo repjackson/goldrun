@@ -1,5 +1,5 @@
 template(name='footer')
-    .ui.fluid.inverted.segment.stackable.grid.alpha
+    .ui.fluid.segment.stackable.grid.alpha
         .two.column.row
             .column
                 // .ui.accordion
@@ -20,7 +20,7 @@ template(name='footer')
                         | #{all_docs.count}
                         |docs
                     each all_docs 
-                        .ui.basic.image.inverted.black.label 
+                        .ui.basic.image.black.label 
                             img.ui.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                             |#{title}
                             +model_label
@@ -33,13 +33,13 @@ template(name='footer')
                         |#{result_docs.count}
                         |results
                     each result_docs 
-                        .ui.basic.inverted.black.label #{name}: #{count} [#{model}]
+                        .ui.basic.black.label #{name}: #{count} [#{model}]
                     .ui.inline.header 
                         i.users.icon
                         |#{all_users.count}
                         |users
                     each all_users
-                        .ui.basic.inverted.label 
+                        .ui.basic.label 
                             a(href="/user/#{username}") 
                                 img.ui.avatar.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                                 |#{username}

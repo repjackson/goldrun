@@ -34,7 +34,7 @@ template(name='docs')
             .scrolling
                 if subs_ready
                     if no_results 
-                        .ui.center.aligned.basic.segment 
+                        .ui.center.aligned.segment 
                             .ui.header no results
                             .ui.big.button.add_new_doc
                                 |add #{current_search}
@@ -100,7 +100,7 @@ template(name='doc_card')
                 .ui.big.label 
                     |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.large.basic.inverted.black.label
+            .ui.large.black.label
                 i.eye.icon
                 |#{views}
             .ui.label   
@@ -109,12 +109,12 @@ template(name='doc_card')
             if group_id     
                 +group_info
             each five_tags 
-                .ui.basic.inverted.black.label #{this}
+                .ui.black.label #{this}
             // if watson 
             //     +doc_sentiment
             //     +doc_emotion
 
-            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/doc/#{_id}")
+            a.ui.circular.icon.button.zoomer.fly_right(href="/doc/#{_id}")
                 +i name='chevron-right'
 
 template(name='doc_card_big')
@@ -157,7 +157,7 @@ template(name='doc_card_big')
                 .ui.big.label 
                     |#{price}pts
             // i.big.link.cart.plus.green.icon.add_to_cart
-            .ui.large.basic.inverted.black.label
+            .ui.large.black.label
                 i.eye.icon
                 |#{views}
             .ui.label   
@@ -166,16 +166,16 @@ template(name='doc_card_big')
             if group_id     
                 +group_info
             each five_tags 
-                .ui.basic.inverted.black.label #{this}
+                .ui.black.label #{this}
             if watson 
                 +doc_sentiment
                 +doc_emotion
 
-            a.ui.circular.basic.icon.button.zoomer.fly_right(href="/doc/#{_id}")
+            a.ui.circular.icon.button.zoomer.fly_right(href="/doc/#{_id}")
                 +i name='chevron-right'
 
 
 
 template(name='when_label')
-    .ui.large.basic.inverted.black.label(title='created when')
+    .ui.large.black.label(title='created when')
         |#{_when}

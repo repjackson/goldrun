@@ -135,27 +135,27 @@ template(name='artist_card')
             .description
                 +mood_icon
                 if strGenre
-                    .ui.inverted.basic.label
+                    .ui.basic.label
                         +i name='music'
                         |#{strGenre}
                 if strStyle
-                    .ui.inverted.basic.label
+                    .ui.basic.label
                         +i name='artist'
                         |#{strStyle}
                 if strMood
-                    .ui.inverted.basic.label
+                    .ui.basic.label
                         +i name='happy'
                         |#{strMood}
                 each five_tags
-                    .ui.inverted.basic.label #{this}
-                .ui.inverted.basic.label
+                    .ui.basic.label #{this}
+                .ui.basic.label
                     i.plus.grey.icon
                     | #{_when}
                 if points
-                    .ui.inverted.basic.label
+                    .ui.basic.label
                         |#{points}pts
                 if views
-                    .ui.inverted.basic.label
+                    .ui.basic.label
                         i.eye.grey.icon
                         |#{views}
                 .ui.label #{model}
@@ -172,27 +172,27 @@ template(name='album_card')
                 .header #{strAlbum}
                 +mood_icon
                 if strGenre
-                    .ui.inverted.basic.label
+                    .ui.basic.label
                         +i name='music'
                         |#{strGenre}
                 if strStyle
-                    .ui.inverted.basic.label
+                    .ui.basic.label
                         +i name='artist'
                         |#{strStyle}
                 if strMood
-                    .ui.inverted.basic.label
+                    .ui.basic.label
                         +i name='happy'
                         |#{strMood}
                 each five_tags
-                    .ui.inverted.basic.label #{this}
-                .ui.inverted.basic.label
+                    .ui.basic.label #{this}
+                .ui.basic.label
                     i.plus.grey.icon
                     | #{_when}
                 if points
-                    .ui.inverted.basic.label
+                    .ui.basic.label
                         |#{points}pts
                 if views
-                    .ui.inverted.basic.label
+                    .ui.basic.label
                         i.eye.grey.icon
                         |#{views}
                 .ui.label #{model}
@@ -214,27 +214,27 @@ template(name='artist_item')
         //         img.ui.image(src=strArtistFanart)
         +mood_icon
         if strGenre
-            .ui.inverted.basic.label
+            .ui.basic.label
                 +i name='music'
                 |#{strGenre}
         if strStyle
-            .ui.inverted.basic.label
+            .ui.basic.label
                 +i name='artist'
                 |#{strStyle}
         if strMood
-            .ui.inverted.basic.label
+            .ui.basic.label
                 +i name='happy'
                 |#{strMood}
         each five_tags
-            .ui.inverted.basic.label #{this}
-        .ui.inverted.basic.label
+            .ui.basic.label #{this}
+        .ui.basic.label
             i.plus.grey.icon
             | #{_when}
         if points
-            .ui.inverted.basic.label
+            .ui.basic.label
                 |#{points}pts
         if views
-            .ui.inverted.basic.label
+            .ui.basic.label
                 i.eye.grey.icon
                 |#{views}
                         
@@ -250,27 +250,27 @@ template(name='album_item')
         //         img.ui.image(src=strArtistFanart)
         +mood_icon
         if strGenre
-            .ui.inverted.basic.label
+            .ui.basic.label
                 +i name='music'
                 |#{strGenre}
         if strStyle
-            .ui.inverted.basic.label
+            .ui.basic.label
                 +i name='artist'
                 |#{strStyle}
         if strMood
-            .ui.inverted.basic.label
+            .ui.basic.label
                 +i name='happy'
                 |#{strMood}
         each five_tags
-            .ui.inverted.basic.label #{this}
-        .ui.inverted.basic.label
+            .ui.basic.label #{this}
+        .ui.basic.label
             i.plus.grey.icon
             | #{_when}
         if points
-            .ui.inverted.basic.label
+            .ui.basic.label
                 |#{points}pts
         if views
-            .ui.inverted.basic.label
+            .ui.basic.label
                 i.eye.grey.icon
                 |#{views}
                         
@@ -287,7 +287,7 @@ template(name='music_artist')
             img.ui.image.profile_banner(src=strArtistBanner)
         .ui.stackable.padded.grid 
             .eight.wide.column.scrollin
-                a.ui.inverted.fluid.button.fly_left(href='/music')
+                a.ui.fluid.button.fly_left(href='/music')
                     i.chevron.left.icon
                     +i name='music'
                     |music
@@ -321,7 +321,7 @@ template(name='music_artist')
                 div
                 +i name='tags'
                 each tags 
-                    a.ui.inverted.large.basic.link.label.zoomer.pick_flat_tag(title='browse tag') #{this}
+                    a.ui.large.basic.link.label.zoomer.pick_flat_tag(title='browse tag') #{this}
                 +print_this
             .eight.wide.column.scrollin
                 .ui.massive.inline.header #{strArtist}
@@ -329,52 +329,52 @@ template(name='music_artist')
                 // "strISNIcode": null,
                 // "strLastFMChart": "http://www.last.fm/music/The Weeknd/+charts?rangetype=6month",
                 if strLastFMChart
-                    a.ui.big.inverted.basic.button.zoomer(href=strLastFMChart target='_window' title='last fm')
+                    a.ui.big.basic.button.zoomer(href=strLastFMChart target='_window' title='last fm')
                         +i name='lastfm'
                         |last fm page
                 // if strFacebook
-                //     a.ui.big.basic.compact.inverted.button.zoomer(href=strFacebook target='_window' title='view facebook profile')
+                //     a.ui.big.basic.compact.button.zoomer(href=strFacebook target='_window' title='view facebook profile')
                 //         +i name='facebook'
                 // if strTwitter
-                //     a.ui.big.basic.compact.inverted.button.zoomer(href=strTwitter target='_window' title='view twitter page')
+                //     a.ui.big.basic.compact.button.zoomer(href=strTwitter target='_window' title='view twitter page')
                 //         +i name='twitter'
 
                 // .item #{strArtistStripped}: strArtistStripped
                 if strArtistAlternate
-                    .ui.large.basic.inverted.label alternate name: #{strArtistAlternate}
+                    .ui.large.basic.label alternate name: #{strArtistAlternate}
                 if strLabel
-                    .ui.large.basic.inverted.label label: #{strLabel}
-                // .ui.large.basic.inverted.label #{idLabel}: idLabel
+                    .ui.large.basic.label label: #{strLabel}
+                // .ui.large.basic.label #{idLabel}: idLabel
                 if intFormedYear
-                    .ui.large.basic.inverted.label
+                    .ui.large.basic.label
                         i.clock.icon
                         |formed: 
                         |#{intFormedYear}-
                 // if intBornYear
-                //     .ui.large.basic.inverted.label born #{intBornYear}
+                //     .ui.large.basic.label born #{intBornYear}
                 if intDiedYear
-                    .ui.large.basic.inverted.label(title='died')
+                    .ui.large.basic.label(title='died')
                         +i name='death'
                         | #{intDiedYear}
                 if strDisbanded
-                    .ui.large.basic.inverted.label disbanded #{strDisbanded}
+                    .ui.large.basic.label disbanded #{strDisbanded}
                 if strCountry
-                    .ui.large.basic.inverted.label
+                    .ui.large.basic.label
                         +i name='marker'
                         |#{strCountry}
-                .ui.large.basic.inverted.label 
+                .ui.large.basic.label 
                     +i name='artist'
                     |style: #{strStyle}
-                a.ui.large.basic.inverted.label.zoomer.pick_genre
+                a.ui.large.basic.label.zoomer.pick_genre
                     +i name='music'
                     |#{strGenre}
-                a.ui.large.basic.inverted.label.zoomer.pick_mood
+                a.ui.large.basic.label.zoomer.pick_mood
                     +i name='happy'
                     |mood: #{strMood}
-                .ui.large.basic.inverted.label
+                .ui.large.basic.label
                     a(href=strWebsite target='_window')
                         |#{strWebsite}
-                .ui.large.basic.inverted.label
+                .ui.large.basic.label
                     // a(href=strWebsite target='_window')
                     |#{strMusicBrainzID}
                 .f6.scrolling #{strBiographyEN}
@@ -400,7 +400,7 @@ template(name='music_album')
             img.ui.image.profile_banner(src=strAlbumBanner)
         .ui.stackable.padded.grid 
             .eight.wide.column.scrollin
-                a.ui.inverted.fluid.button.fly_left(href='/music')
+                a.ui.fluid.button.fly_left(href='/music')
                     i.chevron.left.icon
                     +i name='music'
                     |music
@@ -434,7 +434,7 @@ template(name='music_album')
                 div
                 +i name='tags'
                 each tags 
-                    a.ui.inverted.large.basic.link.label.zoomer.pick_flat_tag(title='browse tag') #{this}
+                    a.ui.large.basic.link.label.zoomer.pick_flat_tag(title='browse tag') #{this}
                 +print_this
             .eight.wide.column.scrollin
                 .ui.massive.inline.header #{strAlbum}
@@ -442,52 +442,52 @@ template(name='music_album')
                 // "strISNIcode": null,
                 // "strLastFMChart": "http://www.last.fm/music/The Weeknd/+charts?rangetype=6month",
                 if strLastFMChart
-                    a.ui.big.inverted.basic.button.zoomer(href=strLastFMChart target='_window' title='last fm')
+                    a.ui.big.basic.button.zoomer(href=strLastFMChart target='_window' title='last fm')
                         +i name='lastfm'
                         |last fm page
                 // if strFacebook
-                //     a.ui.big.basic.compact.inverted.button.zoomer(href=strFacebook target='_window' title='view facebook profile')
+                //     a.ui.big.basic.compact.button.zoomer(href=strFacebook target='_window' title='view facebook profile')
                 //         +i name='facebook'
                 // if strTwitter
-                //     a.ui.big.basic.compact.inverted.button.zoomer(href=strTwitter target='_window' title='view twitter page')
+                //     a.ui.big.basic.compact.button.zoomer(href=strTwitter target='_window' title='view twitter page')
                 //         +i name='twitter'
 
                 // .item #{strAlbumStripped}: strAlbumStripped
                 if strAlbumAlternate
-                    .ui.large.basic.inverted.label alternate name: #{strAlbumAlternate}
+                    .ui.large.basic.label alternate name: #{strAlbumAlternate}
                 if strLabel
-                    .ui.large.basic.inverted.label label: #{strLabel}
-                // .ui.large.basic.inverted.label #{idLabel}: idLabel
+                    .ui.large.basic.label label: #{strLabel}
+                // .ui.large.basic.label #{idLabel}: idLabel
                 if intFormedYear
-                    .ui.large.basic.inverted.label
+                    .ui.large.basic.label
                         i.clock.icon
                         |formed: 
                         |#{intFormedYear}-
                 // if intBornYear
-                //     .ui.large.basic.inverted.label born #{intBornYear}
+                //     .ui.large.basic.label born #{intBornYear}
                 if intDiedYear
-                    .ui.large.basic.inverted.label(title='died')
+                    .ui.large.basic.label(title='died')
                         +i name='death'
                         | #{intDiedYear}
                 if strDisbanded
-                    .ui.large.basic.inverted.label disbanded #{strDisbanded}
+                    .ui.large.basic.label disbanded #{strDisbanded}
                 if strCountry
-                    .ui.large.basic.inverted.label
+                    .ui.large.basic.label
                         +i name='marker'
                         |#{strCountry}
-                .ui.large.basic.inverted.label 
+                .ui.large.basic.label 
                     +i name='artist'
                     |style: #{strStyle}
-                a.ui.large.basic.inverted.label.zoomer.pick_genre
+                a.ui.large.basic.label.zoomer.pick_genre
                     +i name='music'
                     |#{strGenre}
-                a.ui.large.basic.inverted.label.zoomer.pick_mood
+                a.ui.large.basic.label.zoomer.pick_mood
                     +i name='happy'
                     |mood: #{strMood}
-                .ui.large.basic.inverted.label
+                .ui.large.basic.label
                     a(href=strWebsite target='_window')
                         |#{strWebsite}
-                .ui.large.basic.inverted.label
+                .ui.large.basic.label
                     // a(href=strWebsite target='_window')
                     |#{strMusicBrainzID}
                 .f7 #{strBiographyEN}

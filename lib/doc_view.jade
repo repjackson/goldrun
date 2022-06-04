@@ -14,7 +14,7 @@ template(name='doc_view')
             .ui.stackable.padded.grid
                 .row 
                     .sixteen.wide.column
-                        a.ui.circular.icon.inverted.button.fly_left(href="/m/#{model}" title="back to #{model}s")
+                        a.ui.circular.icon.button.fly_left(href="/m/#{model}" title="back to #{model}s")
                             i.chevron.left.icon
                             +model_label
                         .ui.large.inline.header 
@@ -38,7 +38,7 @@ template(name='doc_view')
                             a.zoomer(href=twitter_link target='_window' title='visit twitter page')
                                 +i name='twitter'
                         if link 
-                            a.ui.big.compact.inverted.button.zoomer(href=link target='_window' title=link)
+                            a.ui.big.compact.button.zoomer(href=link target='_window' title=link)
                                 i.external.icon
                                 |link
                                 // |#{hostname}
@@ -72,7 +72,7 @@ template(name='doc_view')
                                     +i name='tags'
                                 span.flat_tags
                                     each tags 
-                                        a.ui.basic.inverted.label.pick_flat_tag.zoomer(title='browse tag') #{this}
+                                        a.ui.basic.label.pick_flat_tag.zoomer(title='browse tag') #{this}
                                 if watson 
                                     .column
                                         +watson_view

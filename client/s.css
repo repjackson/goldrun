@@ -7,7 +7,7 @@ body {
     /*line-height: 200% !important;*/
     transition: all 1s !important;
     /*filter: invert(.9) !important; */
-    background: rgba(0,0,0,.8) !important; 
+    background: rgba(0,0,0,.5) !important; 
     /* background: rgba(200, 200, 200, .2) !important */
     /* background: #0e0e44 !important; */
 }
@@ -512,8 +512,8 @@ body {
     /* top:0px; */
     /* filter: invert(1); */
     opacity: .3 !important;
-    -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+    -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(250,250,250,1)), to(rgba(250,250,250,5)));
+    mask-image: linear-gradient(to bottom, rgba(250,250,250,1), rgba(250,250,250,0));
 }
 .profile_banner {
     background-attachment: fixed !important;

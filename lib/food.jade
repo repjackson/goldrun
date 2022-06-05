@@ -24,14 +24,26 @@ template(name='recipe_card')
 template(name='food_page')
     with current_doc 
         .ui.stackable.padded.grid 
-            .sixteen.wide.column
+            .eight.wide.column 
+                a.ui.button(href="/food")
+                    +i name='food'
+                    |food
                 img(src=image)
-                .content
-                    .header #{name}
-                    .ui.label #{link}
-                    // .ui.label #{type}
-                    .ui.label #{relevance}
-                    | !{content}
+            .eight.wide.column
+                .ui.header #{name}
+                .ui.label #{link}
+                // .ui.label #{type}
+                .ui.label #{relevance}
+                +i name='tags'
+                each tags 
+                    .ui.button.pick_food_tag
+                        |#{this}
+                | !{content}
+                +call_watson key='content' mode='html'
+                    
+            if watson
+                .sixteen.wide.column
+                    +watson_view
             
             
             

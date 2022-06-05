@@ -92,14 +92,6 @@ template(name='nav')
                 +i name='disconnected'
                 |reconecting...
                 i.large.circular.refresh.link.icon.zoomer.reconnect(title='reconnect now')
-        if is_connected
-            +nav_item key='product' icon='shopping-cart'
-            +nav_item key='transfer' icon='exchange'
-            +nav_item key='service' icon='wrench'
-            +nav_item key='rental' icon='clock'
-            +nav_item key='task' icon='tasks'
-            // +nav_item key='checkin' icon='checkmark'
-            +nav_item key='log' icon='code'
         .right.menu
             a.icon.item.toggle_rightbar.no_blink
                 // .ui.avatar.image
@@ -111,41 +103,39 @@ template(name='nav')
                 i.bars.large.grey.icon
 
     .ui.attached.borderless.small.menu.hscroll
-        +nav_item key='users' icon='groups' label='users'
-        +nav_item key='posts' icon='blog' label='posts'
-        +nav_item key='groups' icon='campfire' label='groups'
-        +nav_item key='transfers' icon='exchange' label='transfers'
-        // +nav_item key='requests' icon='horn' label='requests'
-        +nav_item key='products' icon='shop' label='products'
-        // +nav_item key='services' icon='service' label='services'
-        // +nav_item key='rentals' icon='clock' label='rentals'
-        +nav_item key='events' icon='calendar' label='events'
-        // +nav_item key='reviews' icon='megaphone' label='reviews'
-         a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
-            +i name='groups'
-            // i.large.users.icon
-            unless currentUser.hide_labels
-                |users
-        +nav_item key='event' icon='calendar'
-        +nav_item key='post' icon='blog'
-        a.item.zoomer.fly_right.clear_search(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
-            +i name='campfire'
-            // i.large.music.icon
-            unless currentUser.hide_labels
-                |groups
-        a.item.zoomer.fly_right.clear_search(href="/food" class="{{isActiveRoute 'food'}}" title='food')
-            +i name='food'
-            unless currentUser.hide_labels
-                |food
-        a.item.zoomer.fly_right.clear_search(href="/music" class="{{isActiveRoute 'music'}}" title='music')
-            +i name='music'
-            unless currentUser.hide_labels
-                |music
-        a.item.zoomer.fly_right.clear_search(href="/reddit" class="{{isActiveRoute 'reddit'}}" title='reddit')
-            +i name='reddit'
-            // i.large.music.icon
-            unless currentUser.hide_labels
-                |reddit
+        if is_connected
+            +nav_item key='product' icon='shopping-cart'
+            +nav_item key='event' icon='calendar'
+            +nav_item key='transfer' icon='exchange'
+            +nav_item key='service' icon='wrench'
+            +nav_item key='rental' icon='clock'
+            +nav_item key='task' icon='tasks'
+            // +nav_item key='checkin' icon='checkmark'
+            +nav_item key='log' icon='code'
+             a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
+                +i name='groups'
+                // i.large.users.icon
+                unless currentUser.hide_labels
+                    |users
+            +nav_item key='post' icon='blog'
+            a.item.zoomer.fly_right.clear_search(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
+                +i name='campfire'
+                // i.large.music.icon
+                unless currentUser.hide_labels
+                    |groups
+            a.item.zoomer.fly_right.clear_search(href="/food" class="{{isActiveRoute 'food'}}" title='food')
+                +i name='food'
+                unless currentUser.hide_labels
+                    |food
+            a.item.zoomer.fly_right.clear_search(href="/music" class="{{isActiveRoute 'music'}}" title='music')
+                +i name='music'
+                unless currentUser.hide_labels
+                    |music
+            a.item.zoomer.fly_right.clear_search(href="/reddit" class="{{isActiveRoute 'reddit'}}" title='reddit')
+                +i name='reddit'
+                // i.large.music.icon
+                unless currentUser.hide_labels
+                    |reddit
 
 
 

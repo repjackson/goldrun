@@ -34,6 +34,10 @@ if Meteor.isClient
             # Session.get('limit')
     
     
+    Template.food_page.events
+        'click .pick_food_tag': ->
+            Router.go "/food"
+            Meteor.call 'call_food', @valueOf(), ->
     Template.food.events
         'keyup .food_search': (e,t)->
             console.log 'hi'

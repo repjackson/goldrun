@@ -14,6 +14,7 @@ if Meteor.isClient
         Meteor.call 'calc_user_points', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'unread_logs',->
     Template.profile_layout.onRendered ->
+        document.title = "profile";
         Meteor.call 'increment_profile_view', Router.current().params.username, ->
         Meteor.setTimeout ->
             $('.ui.accordion').accordion()

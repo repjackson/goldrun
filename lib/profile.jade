@@ -1,51 +1,56 @@
 template(name='profile_layout')
     div(class=darkmode_class)
-        // unless currentUser.darkmode
-        // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
         +nav
-        .scrolling
-            with user_from_username_param
-                if background_image_id
-                    img.ui.image.profile_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
-                else 
-                    img.ui.image.profile_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-            // .ui.bottom.attached.pushable.segment.scrolling(class=darkmode_class)
-            //     +topbar
-            //     +leftbar
-            //     +rightbar
-            with user_from_username_param
-                // if background_image_id
-                //     img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
-                // else 
-                //     img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
-                // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
-                .ui.stackable.padded.grid
-                    .row
-                        //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
-                        .four.wide.column
-                            +profile_sidebar
-                        .twelve.wide.column
-                            .ui.segment.alpha
-                                +profile_nav_item section='dashboard' icon='dashboard'
-                                +profile_nav_item section='posts' icon='news'
-                                +profile_nav_item section='inbox' icon='inbox'
-                                +profile_nav_item section='events' icon='calendar'
-                                +profile_nav_item section='points' icon='coins'
-                                +profile_nav_item section='groups' icon='groups'
-                                // +profile_nav_item section='reviews' icon='megaphone'
-                                +profile_nav_item section='checkins' icon='checkmark'
-                                +profile_nav_item section='products' icon='shopping-cart'
-                                +profile_nav_item section='services' icon='wrench'
-                                +profile_nav_item section='tasks' icon='tasks'
-                                if is_current_user
-                                    +profile_nav_item section='drafts' icon='save'
-                                +profile_nav_item section='favorites' icon='heart'
-                                +profile_nav_item section='social' icon='friends'
-                                +profile_nav_item section='music' icon='music'
-                                +profile_nav_item section='voting' icon='facebook-like'
-                                +profile_nav_item section='reddit' icon='reddit'
-                                div
-                                +yield
+        .ui.bottom.attached.pushable.segment.scrollin(class=darkmode_class)
+            img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+            +topbar
+            +leftbar
+            +rightbar
+            // unless currentUser.darkmode
+            // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+            .scrolling
+                with user_from_username_param
+                    if background_image_id
+                        img.ui.image.profile_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+                    else 
+                        img.ui.image.profile_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+                // .ui.bottom.attached.pushable.segment.scrolling(class=darkmode_class)
+                //     +topbar
+                //     +leftbar
+                //     +rightbar
+                with user_from_username_param
+                    // if background_image_id
+                    //     img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
+                    // else 
+                    //     img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
+                    // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+                    .ui.stackable.padded.grid
+                        .row
+                            //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
+                            .four.wide.column
+                                +profile_sidebar
+                            .twelve.wide.column
+                                .ui.segment.alpha
+                                    +profile_nav_item section='dashboard' icon='dashboard'
+                                    +profile_nav_item section='posts' icon='news'
+                                    +profile_nav_item section='inbox' icon='inbox'
+                                    +profile_nav_item section='events' icon='calendar'
+                                    +profile_nav_item section='points' icon='coins'
+                                    +profile_nav_item section='groups' icon='groups'
+                                    // +profile_nav_item section='reviews' icon='megaphone'
+                                    +profile_nav_item section='checkins' icon='checkmark'
+                                    +profile_nav_item section='products' icon='shopping-cart'
+                                    +profile_nav_item section='services' icon='wrench'
+                                    +profile_nav_item section='tasks' icon='tasks'
+                                    if is_current_user
+                                        +profile_nav_item section='drafts' icon='save'
+                                    +profile_nav_item section='favorites' icon='heart'
+                                    +profile_nav_item section='social' icon='friends'
+                                    +profile_nav_item section='music' icon='music'
+                                    +profile_nav_item section='voting' icon='facebook-like'
+                                    +profile_nav_item section='reddit' icon='reddit'
+                                    div
+                                    +yield
         +footer     
                             
 template(name='user_dashboard')    

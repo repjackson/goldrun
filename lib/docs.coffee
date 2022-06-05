@@ -7,6 +7,9 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'group_from_doc_id', Router.current().params.doc_id, ->
     Template.doc_edit.onRendered ->
+        current_doc = Docs.findOne(Router.current().params.doc_id)
+        document.title = "edit #{current_doc.title}";
+
         Meteor.setTimeout ->
             $('.ui.accordion').accordion()
         , 2000
@@ -30,6 +33,9 @@ if Meteor.isClient
         
         
     Template.doc_view.onRendered ->
+        current_doc = Docs.findOne(Router.current().params.doc_id)
+        document.title = "#{current_doc.title}";
+        
         Meteor.call 'log_view', Router.current().params.doc_id, ->
         Meteor.setTimeout ->
             $().popup(
@@ -76,6 +82,9 @@ if Meteor.isClient
         @autorun => @subscribe 'author_by_doc_id', @data._id,->
     Template.docs.onRendered ->
         Session.set('model',Router.current().params.model)
+        # current_doc = Docs.findOne(Router.current().params.doc_id)
+        document.title = "#{Router.current().params.model}s";
+        
     Template.docs.onCreated ->
         Session.set('model',Router.current().params.model)
         Session.setDefault('limit',42)

@@ -169,7 +169,7 @@ Template.layout.events
 #     @render 'docs'
 #     ), name:'home'
 Router.route '/', (->
-    @redirect('/reddit');
+    @redirect('/food');
     ), name:'home'
 Router.route '/docs', (->
     @redirect('/m/post');

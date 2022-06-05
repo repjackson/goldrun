@@ -55,6 +55,16 @@ if Meteor.isClient
                 model:'recipe'
             }, sort:_timestamp:-1
             
+        picked_tags: -> picked_tags.array()
+        tag_results: ->
+            Results.find()
+        
+    Template.food.events 
+        'click .pick_tag': ->
+            picked_tags.push @name
+        'click .unpick_tag': ->
+            picked_tags.remove @valueOf()
+        
     Template.delete_button.events 
         'click .delete_this': ->
             if confirm 'delete?'
@@ -176,7 +186,7 @@ if Meteor.isServer
         
         Docs.find match,
             sort:_timestamp:-1
-            limit:100
+            limit:10
             # fields: 
             #     strArtistFanart:1
             #     strArtistThumb:1

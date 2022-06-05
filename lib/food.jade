@@ -5,10 +5,24 @@ template(name='food')
                 +i name='food'
                 |food
             .ui.large.input
-                input.food_search(type='text' placeholder='search food...' value=current_search)
-            .ui.cards 
-                each recipe_docs
-                    +recipe_card
+                input.food_search(type='text' placeholder='search recipes...' value=current_search)
+            each picked_tags
+                button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each tag_results
+                button.ui.large.label.button.pick_tag(tabindex="0" class=result_class title=count)
+                    |#{name}
+                    // small #{count}
+
+        .sixteen.wide.column
+            if subs_ready
+                .ui.cards 
+                    each recipe_docs
+                        +recipe_card
+            else 
+                .ui.basic.center.aligned.segment
+                    +ibig name='food' cl='spinning'
                     
 template(name='recipe_card')
     // a.card(href="/food/#{_id}")
@@ -22,7 +36,9 @@ template(name='recipe_card')
             // .ui.label #{type}
             .ui.label ##{id}
             .ui.label #{relevance}
-            | !{content}
+            .smallcut !{content}
+            each tags 
+                .ui.label #{this}
             if in_dev
                 +delete_button
         
@@ -47,7 +63,7 @@ template(name='food_page')
                 +viewing_info
                 +voting_full
             .eight.wide.column
-                .ui.label #{link}
+                a.ui.label(href=link target='_window') #{link}
                 // .ui.label #{type}
                 .ui.label #{relevance}
                 +i name='tags'

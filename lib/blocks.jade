@@ -275,14 +275,14 @@ template(name='comments')
             i.chat.outline.icon
             |#{doc_comments.count}
             |comments
-        if can_add
-            .ui.icon.large.input
-                i.plus.icon
-                input.add_comment(model='text' placeholder='add...')
-        else 
-            .ui.icon.large.disabled.input(title='not enough points to comment (-2p)')
-                i.plus.icon
-                input.add_comment(model='text' placeholder='not enough points (-2pt)')
+        // if can_add
+        .ui.icon.large.fluid.input
+            i.plus.icon
+            input.add_comment(model='text' placeholder='add...')
+        // else 
+        // .ui.icon.large.disabled.input(title='not enough points to comment (-2p)')
+        //     i.plus.icon
+        //     input.add_comment(model='text' placeholder='not enough points (-2pt)')
     .content
         // if currentUser
         .ui.comments

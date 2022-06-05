@@ -4,39 +4,55 @@ template(name='food')
             .ui.inline.header 
                 +i name='food'
                 |food
-            .ui.large.input 
+            .ui.large.input
                 input.food_search(type='text' placeholder='search food...' value=current_search)
             .ui.cards 
                 each recipe_docs
                     +recipe_card
                     
 template(name='recipe_card')
-    a.card(href="/food/#{_id}")
-        img(src=image)
+    // a.card(href="/food/#{_id}")
+    .card
+        a.fly_right(href="/food/#{_id}")
+            img.ui.image.zoomer(src=image)
         .content
-            .header #{name}
+            a.ui.header(href="/food/#{_id}")
+                | #{name}
             .ui.label #{link}
             // .ui.label #{type}
+            .ui.label ##{id}
             .ui.label #{relevance}
             | !{content}
+            if in_dev
+                +delete_button
+        
+template(name='delete_button')
+    .ui.button.delete_this(title='delete this')
+        i.large.remove.red.icon        
             
             
 template(name='food_page')
     with current_doc 
+        img.ui.fluid.image.checkin_banner(src=image)
         .ui.stackable.padded.grid 
-            .eight.wide.column 
+            .sixteen.wide.column 
                 a.ui.button(href="/food")
                     +i name='food'
                     |food
-                img(src=image)
+                .ui.inline.header #{name}
+            .eight.wide.column 
+                img.ui.centered.image.rounded.superzoomer(src=image)
+                .ui.hidden.divider
+                +comments
+                +viewing_info
+                +voting_full
             .eight.wide.column
-                .ui.header #{name}
                 .ui.label #{link}
                 // .ui.label #{type}
                 .ui.label #{relevance}
                 +i name='tags'
                 each tags 
-                    .ui.button.pick_food_tag
+                    .ui.compact.button.pick_food_tag
                         |#{this}
                 | !{content}
                 +call_watson key='content' mode='html'

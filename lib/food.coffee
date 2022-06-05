@@ -54,6 +54,14 @@ if Meteor.isClient
             Docs.find {
                 model:'recipe'
             }, sort:_timestamp:-1
+            
+    Template.delete_button.events 
+        'click .delete_this': ->
+            if confirm 'delete?'
+                Docs.remove @_id
+            
+            
+            
 if Meteor.isServer
     Meteor.methods 
         call_food: (search)->
@@ -77,6 +85,7 @@ if Meteor.isServer
                         unless found_recipe
                             Docs.insert 
                                 model:'recipe'
+                                id:recipe.id
                                 name:recipe.name
                                 image:recipe.image
                                 link:recipe.link
@@ -87,6 +96,7 @@ if Meteor.isServer
                     # recipes = response.data.searchResults
                     
                     # console.log response.data.searchResults.results
+            
             
 if Meteor.isServer
     Meteor.publish 'food_facets', (

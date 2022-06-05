@@ -1,0 +1,54 @@
+template(name='bible')
+    .ui.stackable.padded.grid 
+        .sixteen.wide.column
+            .ui.inline.header 
+                +i name='bible'
+                // |#{artist_docs.count} artists
+            if current_search 
+                i.large.red.circular.link.remove.icon.clear
+            .ui.large.input 
+                input.artist_search(type='text' placeholder='search artist...' value=current_search)
+            +i name='database'
+            each picked_models
+                button.ui.blue.compact.circular.button.unpick_model(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each model_results
+                button.ui.circular.compact.black.button.pick_model(tabindex="0" class=result_class title=count)
+                    if is name 'artist'
+                        +i name='artist'
+                    else if is name 'album'
+                        +i name='database'
+                    |#{name}
+                    // small #{count}
+        .four.wide.column.scrolling
+            +i name='tags'
+            each picked_bible_tags
+                button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each bible_tag_results
+                button.ui.circular.compact.black.button.pick_tag(tabindex="0" class=result_class title=count)
+                    |#{name}
+                    // small #{count}
+
+            .ui.inline.small.header
+                .ui.small.inline.header
+                    +i name='bible'
+                    |#{genre_results.count} genres
+                each picked_genres
+                    button.ui.blue.compact.circular.button.unpick_genre(tabindex='0')
+                        //- i.remove.icon
+                        | #{this}
+                each genre_results
+                    if name
+                        button.ui.circular.compact.black.button.pick_genre(tabindex="0" class=result_class title=count)
+                            |#{name}
+                            // small #{count}
+            .ui.inline.small.header
+                +i name='artist'
+                |#{style_results.count} styles
+            each picked_styles
+                button.ui.blue.compact.circular.button.unpick_style(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}

@@ -11,6 +11,50 @@ Template.nav_item.helpers
     nav_item_class: (model)->
         # console.log model
         if Router.current().params.model is model then 'active' else ''
+        
+        
+Template.nav.onRendered ->
+    Meteor.setTimeout ->
+        $('.menu .item')
+            .popup()
+        $('.ui.left.sidebar')
+            .sidebar({
+                context: $('.bottom.segment')
+                transition:'push'
+                mobileTransition:'push'
+                exclusive:true
+                duration:200
+                scrollLock:true
+            })
+            .sidebar('attach events', '.toggle_leftbar')
+    , 3000
+    Meteor.setTimeout ->
+        $('.ui.rightbar')
+            .sidebar({
+                context: $('.bottom.segment')
+                transition:'push'
+                mobileTransition:'push'
+                exclusive:true
+                duration:200
+                scrollLock:true
+            })
+            .sidebar('attach events', '.toggle_rightbar')
+    , 3000
+    Meteor.setTimeout ->
+        $('.ui.topbar.sidebar')
+            .sidebar({
+                context: $('.bottom.segment')
+                transition:'push'
+                mobileTransition:'push'
+                exclusive:true
+                duration:200
+                scrollLock:true
+            })
+            .sidebar('attach events', '.toggle_topbar')
+    , 2000
+    
+        
+        
 Template.nav.events
     'click .refresh_gps': ->
         navigator.geolocation.getCurrentPosition (position) =>

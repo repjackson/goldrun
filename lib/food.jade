@@ -4,7 +4,8 @@ template(name='food')
             .ui.inline.header 
                 +i name='food'
                 |food
-            .ui.large.input
+            .ui.large.icon.input
+                i.search.icon
                 input.food_search(type='text' placeholder='search recipes...' value=current_search)
             each picked_tags
                 button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
@@ -17,7 +18,7 @@ template(name='food')
 
         .sixteen.wide.column
             if subs_ready
-                .ui.cards 
+                .ui.centered.stackable.cards 
                     each recipe_docs
                         +recipe_card
             else 
@@ -33,9 +34,14 @@ template(name='recipe_card')
             a.ui.header(href="/food/#{_id}")
                 | #{name}
             .ui.label #{link}
+            .ui.label #{points}p
             // .ui.label #{type}
             .ui.label ##{id}
             .ui.label #{relevance}
+            if _author_username
+                a.ui.label.fly_down(href="/user/#{_author_username}/food")
+                    i.user.icon
+                    |#{_author_username}
             .smallcut !{content}
             each tags 
                 .ui.label #{this}
@@ -72,10 +78,32 @@ template(name='food_page')
                         |#{this}
                 | !{content}
                 +call_watson key='content' mode='html'
-                    
+                .ui.header 
+                    |related recipes
+                .ui.header 
+                    |ingredients
             if watson
                 .sixteen.wide.column
                     +watson_view
             
             
             
+            
+template(name='user_food')
+    a.ui.button(href="/food")
+        i.chevron.left.icon
+        +i name='food'
+        |food
+    // .ui.inline.header 
+    //     +i name='food'
+    //     |#{user_task_docs.count} food
+    .ui.header 
+        +i name='spade'
+        |mined
+    .ui.header
+        i.large.thumbs.up.green.icon
+        |liked
+    .ui.header
+        i.large.thumbs.down.red.icon
+        |liked
+        

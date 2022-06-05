@@ -47,6 +47,7 @@ template(name='profile_layout')
                                     +profile_nav_item section='favorites' icon='heart'
                                     +profile_nav_item section='social' icon='friends'
                                     +profile_nav_item section='music' icon='music'
+                                    +profile_nav_item section='food' icon='food'
                                     +profile_nav_item section='voting' icon='facebook-like'
                                     +profile_nav_item section='reddit' icon='reddit'
                                     div
@@ -288,7 +289,7 @@ template(name='profile_sidebar')
                           
                           
 template(name='profile_nav_item')        
-    a.ui.compact.button.zoomer(href="/user/#{current_user.username}/#{section}" title=section)
+    a.ui.big.image.label.zoomer(href="/user/#{current_user.username}/#{section}" title=section)
         +i name=icon
         unless currentUser.hide_labels
             |#{section}

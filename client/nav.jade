@@ -118,20 +118,20 @@ template(name='nav')
                 unless currentUser.hide_labels
                     |users
             +nav_item key='post' icon='blog'
-            a.item.zoomer.fly_right.clear_search(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
+            a.item.zoomer.fly_right.clear_search(href="/groups" class="{{isActiveRoute regex='group'}}" title='groups')
                 +i name='campfire'
                 // i.large.music.icon
                 unless currentUser.hide_labels
                     |groups
-            a.item.zoomer.fly_right.clear_search(href="/food" class="{{isActiveRoute 'food'}}" title='food')
+            a.item.zoomer.fly_right.clear_search(href="/food" class="{{isActiveRoute regex='food'}}" title='food')
                 +i name='food'
                 unless currentUser.hide_labels
                     |food
-            a.item.zoomer.fly_right.clear_search(href="/music" class="{{isActiveRoute 'music'}}" title='music')
+            a.item.zoomer.fly_right.clear_search(href="/music" class="{{isActiveRoute regex='music'}}" title='music')
                 +i name='music'
                 unless currentUser.hide_labels
                     |music
-            a.item.zoomer.fly_right.clear_search(href="/reddit" class="{{isActiveRoute 'reddit'}}" title='reddit')
+            a.item.zoomer.fly_right.clear_search(href="/reddit" class="{{isActiveRoute regex='reddit'}}" title='reddit')
                 +i name='reddit'
                 // i.large.music.icon
                 unless currentUser.hide_labels

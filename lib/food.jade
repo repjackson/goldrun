@@ -33,7 +33,8 @@ template(name='recipe_card')
         .content
             a.ui.header(href="/food/#{_id}")
                 | #{name}
-            .ui.label #{link}
+            // .ui.label #{link}
+            .smallcut !{content}
             .ui.label #{points}p
             // .ui.label #{type}
             .ui.label ##{id}
@@ -42,10 +43,9 @@ template(name='recipe_card')
                 a.ui.label.fly_down(href="/user/#{_author_username}/food")
                     i.user.icon
                     |#{_author_username}
-            .smallcut !{content}
             each tags 
                 .ui.label #{this}
-            if in_dev
+            if currentUser.admin_mode
                 +delete_button
             if details.glutenFree
                 .ui.big.label
@@ -66,7 +66,7 @@ template(name='recipe_card')
                     |servings
 
 template(name='delete_button')
-    .ui.button.delete_this(title='delete this')
+    .ui.icon.button.delete_this(title='delete this')
         i.large.remove.red.icon        
             
             
@@ -84,10 +84,14 @@ template(name='food_page')
                         i.thumbs.up.icon
                         |#{aggregateLikes}
                     .ui.big.label(title='')
-                        i.clock.up.icon
+                        i.clock.icon
                         |ready in 
                         strong #{readyInMinutes}
                         |minutes
+                    .ui.big.label(title='')
+                        i.dollar.icon
+                        strong #{pricePerServing}
+                        |/ serving
                     .ui.big.label(title='servings')
                         i.hashtag.icon
                         strong #{servings}
@@ -105,7 +109,6 @@ template(name='food_page')
                 img.ui.centered.image.rounded.zoomer(src=image)
                 .ui.hidden.divider
                 +comments
-                +viewing_info
                 +voting_full
             .eight.wide.column
                 a.ui.label(href=link target='_window') #{link}
@@ -118,8 +121,8 @@ template(name='food_page')
                     .ui.compact.button.pick_food_tag
                         |#{this}
             .sixteen.wide.column
-                .f8 !{content}
-                if currentUser
+                .f7 !{content}
+                if currentUser.admin_mode
                     +call_watson key='content' mode='html'
             .eight.wide.column
                 .ui.header 
@@ -127,43 +130,93 @@ template(name='food_page')
                 .ui.header details
                 if currentUser.admin_mode
                     .ui.button.get_details get details
+                +viewing_info
             .eight.wide.column
                 with details
                     .ui.list 
-                        .item license: #{license}
-                        .item source name: #{sourceName}
-                        .item source Url: #{sourceUrl}
-                        .item spoonacular source url: #{spoonacularSourceUrl}
-                        .item health score: #{healthScore}
-                        .item spoonacular score: #{spoonacularScore}
-                        .item price per serving: #{pricePerServing}
-                        .item analyzed instructions: #{analyzedInstructions}
-                        .item cheap: #{cheap}
-                        .item credits text: #{creditsText}
-                        .item cuisines: #{cuisines}
-                        .item diets: #{diets}
-                        .item gaps: #{gaps}
+                        .item
+                            small license: 
+                            strong #{license}
+                        .item
+                            small source name: 
+                            strong #{sourceName}
+                        .item
+                            small source Url: 
+                            strong #{sourceUrl}
+                        .item
+                            small spoonacular source url: 
+                            strong #{spoonacularSourceUrl}
+                        .item
+                            small health score: 
+                            strong #{healthScore}
+                        .item
+                            small spoonacular score: 
+                            strong #{spoonacularScore}
+                        .item
+                            small price per serving: 
+                            strong #{pricePerServing}
+                        .item
+                            small analyzed instructions: 
+                            strong #{analyzedInstructions}
+                        .item
+                            small cheap: 
+                            strong #{cheap}
+                        .item
+                            small credits text: 
+                            strong #{creditsText}
+                        .item
+                            small cuisines: 
+                            strong #{cuisines}
+                        .item
+                            small diets: 
+                            strong #{diets}
+                        .item
+                            small gaps: 
+                            strong #{gaps}
             .sixteen.wide.column
                 .ui.header 
-                    +i name='ingredient'
+                    +i name='ingredients'
                     |ingredients
                 .ui.doubling.four.cards
                     each details.extendedIngredients
                         .card
                             img.ui.image(src="https://spoonacular.com/cdn/ingredients_250x250/#{image}")
                             .content
+                                .header #{originalName}
                                 .ui.list
-                                    .item aisle: #{aisle}
-                                    .item amount: #{amount}
-                                    .item consistency: #{consistency}
-                                    .item id: #{id}
-                                    .item measures: #{measures}
-                                    .item meta: #{meta}
-                                    .item name: #{name}
-                                    .item nameClean: #{nameClean}
-                                    .item original: #{original}
-                                    .item originalName: #{originalName}
-                                    .item unit: #{unit}
+                                    .item 
+                                        small aisle:
+                                        strong #{aisle}
+                                    .item 
+                                        small amount:
+                                        strong #{amount}
+                                    .item 
+                                        small consistency:
+                                        strong #{consistency}
+                                    // .item 
+                                    //     small id:
+                                    //     strong #{id}
+                                    .item 
+                                        small measures:
+                                        strong #{measures}
+                                    // .item 
+                                    //     small meta:
+                                    //     strong #{meta}
+                                    // .item 
+                                    //     small name:
+                                    //     strong #{name}
+                                    // .item 
+                                    //     small nameClean:
+                                    //     strong #{nameClean}
+                                    // .item 
+                                    //     small original:
+                                    //     strong #{original}
+                                    // .item 
+                                    //     small originalName:
+                                    //     strong #{originalName}
+                                    .item 
+                                        small unit:
+                                        strong #{unit}
                                 +print_this
 
                 +print_this

@@ -101,7 +101,7 @@ template(name='call_visual')
 template(name='keywords')
     // .ui.grey.inline.header 
     //     |#{watson.keywords.length} keywords
-    .ui.three.column.stackable.grid
+    .ui.four.column.stackable.grid
         each watson.keywords
             .ui.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
@@ -141,7 +141,7 @@ template(name='keywords')
 template(name='entities')
     // .ui.grey.header 
     //     |#{watson.entities.length} entities
-    .ui.three.column.stackable.grid
+    .ui.four.column.stackable.grid
         each watson.entities
             .ui.column
                 +entity_type_icon

@@ -29,6 +29,10 @@
     'main course'
     'person'
     'spoonacular score'
+    'recipe'
+    'minutes'
+    'head'
+    'store'
 ]
 @blocklist = [
     'personal insults'

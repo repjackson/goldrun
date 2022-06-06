@@ -18,7 +18,18 @@ if Meteor.isClient
         @autorun => @subscribe 'food_results',
             picked_tags.array()
             Session.get('title')
-    
+
+    Template.food_page.onRendered ->
+        # console.log @
+        found_doc = Docs.findOne Router.current().params.doc_id
+        if found_doc 
+            unless found_doc.watson
+                Meteor.call 'call_watson',Router.current().params.doc_id,'content','html', ->
+                    console.log 'autoran watson'
+            unless found_doc.details 
+                Meteor.call 'recipe_details', Router.current().params.doc_id, ->
+                    console.log 'pulled recipe details'
+                
     Template.food_page.events
         'click .pick_food_tag': ->
             Router.go "/food"
@@ -85,7 +96,7 @@ if Meteor.isServer
                             Docs.update found_recipe._id, 
                                 $inc:hits:1
                         unless found_recipe
-                            Docs.insert 
+                            new_id = Docs.insert 
                                 model:'recipe'
                                 id:recipe.id
                                 name:recipe.name
@@ -94,7 +105,8 @@ if Meteor.isServer
                                 type:recipe.type
                                 relevance:recipe.relevance
                                 content:recipe.content
-                        
+                            Meteor.call 'recipe_details', new_id, ->
+
                     # recipes = res.data.searchResults
                     
                     # console.log response.data.searchResults.results

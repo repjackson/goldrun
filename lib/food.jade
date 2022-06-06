@@ -47,7 +47,24 @@ template(name='recipe_card')
                 .ui.label #{this}
             if in_dev
                 +delete_button
-        
+            if details.glutenFree
+                .ui.big.label
+                    +i name='no-gluten'
+                    |gluten free
+            with details
+                .ui.big.label(title='aggregateLikes')
+                    i.thumbs.up.icon
+                    |#{aggregateLikes}
+                .ui.big.label(title='')
+                    i.clock.up.icon
+                    |ready in 
+                    strong #{readyInMinutes}
+                    |minutes
+                .ui.big.label(title='servings')
+                    i.hashtag.icon
+                    strong #{servings}
+                    |servings
+
 template(name='delete_button')
     .ui.button.delete_this(title='delete this')
         i.large.remove.red.icon        
@@ -63,7 +80,7 @@ template(name='food_page')
                     |food
                 .ui.inline.header #{name}
             .eight.wide.column 
-                img.ui.centered.image.rounded.superzoomer(src=image)
+                img.ui.centered.image.rounded.zoomer(src=image)
                 .ui.hidden.divider
                 +comments
                 +viewing_info
@@ -79,34 +96,51 @@ template(name='food_page')
                     .ui.compact.button.pick_food_tag
                         |#{this}
                 | !{content}
-                +call_watson key='content' mode='html'
+                if currentUser
+                    +call_watson key='content' mode='html'
                 .ui.header 
                     |related recipes
                 .ui.header 
                     |ingredients
-                .ui.header details 
-                .ui.button.get_details
-                    |get details
+                .ui.header details
+                if currentUser.admin_mode
+                    .ui.button.get_details get details
                 with details 
+                    .ui.big.label(title='aggregateLikes')
+                        i.thumbs.up.icon
+                        |#{aggregateLikes}
+                    .ui.big.label(title='')
+                        i.clock.up.icon
+                        |ready in 
+                        strong #{readyInMinutes}
+                        |minutes
+                    .ui.big.label(title='servings')
+                        i.hashtag.icon
+                        strong #{servings}
+                        |servings
+                    if glutenFree
+                        .ui.big.label
+                            +i name='no-gluten'
+                            |gluten free
+                    if dairyFree
+                        .ui.big.label
+                            +i name='no-milk'
+                            |dairy free
                     .ui.list 
-                        .item servings: #{servings}
-                        .item readyInMinutes: #{readyInMinutes}
                         .item license: #{license}
-                        .item sourceName: #{sourceName}
-                        .item sourceUrl: #{sourceUrl}
-                        .item spoonacularSourceUrl: #{spoonacularSourceUrl}
-                        .item aggregateLikes: #{aggregateLikes}
-                        .item healthScore: #{healthScore}
-                        .item spoonacularScore: #{spoonacularScore}
-                        .item pricePerServing: #{pricePerServing}
-                        .item analyzedInstructions: #{analyzedInstructions}
+                        .item source name: #{sourceName}
+                        .item source Url: #{sourceUrl}
+                        .item spoonacular source url: #{spoonacularSourceUrl}
+                        .item health score: #{healthScore}
+                        .item spoonacular score: #{spoonacularScore}
+                        .item price per serving: #{pricePerServing}
+                        .item analyzed instructions: #{analyzedInstructions}
                         .item cheap: #{cheap}
-                        .item creditsText: #{creditsText}
+                        .item credits text: #{creditsText}
                         .item cuisines: #{cuisines}
-                        .item dairyFree: #{dairyFree}
                         .item diets: #{diets}
                         .item gaps: #{gaps}
-                        .item glutenFree: #{glutenFree}
+                +print_this
 
             if watson
                 .sixteen.wide.column

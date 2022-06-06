@@ -30,6 +30,12 @@ if Meteor.isClient
                 Meteor.call 'recipe_details', Router.current().params.doc_id, ->
                     console.log 'pulled recipe details'
                 
+    Template.food_page.helpers
+        instruction_steps: ->
+            console.log @
+            console.log @details.analyzedInstructions[0]
+            @details.analyzedInstructions[0].steps
+            
     Template.food_page.events
         'click .pick_food_tag': ->
             Router.go "/food"

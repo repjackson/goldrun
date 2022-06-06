@@ -175,6 +175,14 @@ template(name='food_page')
                             strong #{gaps}
             .sixteen.wide.column
                 .ui.header 
+                    +i name='list'
+                    |instructions
+                .ui.large.list 
+                    each steps
+                        .item 
+                            |##{number}:
+                            strong #{step}
+                .ui.header 
                     +i name='ingredients'
                     |ingredients
                 .ui.doubling.four.cards

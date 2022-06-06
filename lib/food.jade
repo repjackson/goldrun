@@ -124,8 +124,6 @@ template(name='food_page')
             .eight.wide.column
                 .ui.header 
                     |related recipes
-                .ui.header 
-                    |ingredients
                 .ui.header details
                 if currentUser.admin_mode
                     .ui.button.get_details get details
@@ -145,23 +143,27 @@ template(name='food_page')
                         .item cuisines: #{cuisines}
                         .item diets: #{diets}
                         .item gaps: #{gaps}
-                .ui.cards
+            .sixteen.wide.column
+                .ui.header 
+                    +i name='ingredient'
+                    |ingredients
+                .ui.doubling.four.cards
                     each details.extendedIngredients
                         .card
-                            img.ui.image(src=image)
+                            img.ui.image(src="https://spoonacular.com/cdn/ingredients_250x250/#{image}")
                             .content
-                            .ui.list
-                                .item aisle: #{aisle}
-                                .item amount: #{amount}
-                                .item consistency: #{consistency}
-                                .item id: #{id}
-                                .item measures: #{measures}
-                                .item meta: #{meta}
-                                .item name: #{name}
-                                .item nameClean: #{nameClean}
-                                .item original: #{original}
-                                .item originalName: #{originalName}
-                                .item unit: #{unit}
+                                .ui.list
+                                    .item aisle: #{aisle}
+                                    .item amount: #{amount}
+                                    .item consistency: #{consistency}
+                                    .item id: #{id}
+                                    .item measures: #{measures}
+                                    .item meta: #{meta}
+                                    .item name: #{name}
+                                    .item nameClean: #{nameClean}
+                                    .item original: #{original}
+                                    .item originalName: #{originalName}
+                                    .item unit: #{unit}
                                 +print_this
 
                 +print_this

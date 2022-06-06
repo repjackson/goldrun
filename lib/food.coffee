@@ -15,29 +15,16 @@ if Meteor.isClient
         @autorun => @subscribe 'food_facets',
             picked_tags.array()
             Session.get('title')
-            # picked_tags.array()
-            # picked_styles.array()
-            # picked_moods.array()
-            # picked_genres.array()
-            # Session.get('artist_search')
-            # picked_timestamp_tags.array()
         @autorun => @subscribe 'food_results',
             picked_tags.array()
             Session.get('title')
-            # picked_tags.array()
-            # picked_styles.array()
-            # picked_moods.array()
-            # picked_genres.array()
-            # Session.get('artist_search')
-            # Session.get('sort_key')
-            # Session.get('sort_direction')
-            # Session.get('limit')
-    
     
     Template.food_page.events
         'click .pick_food_tag': ->
             Router.go "/food"
             Meteor.call 'call_food', @valueOf(), ->
+        'click .get_details': ->
+            Meteor.call 'recipe_details', @_id, ->
     Template.food.events
         'keyup .food_search': (e,t)->
             console.log 'hi'
@@ -65,24 +52,29 @@ if Meteor.isClient
         'click .unpick_tag': ->
             picked_tags.remove @valueOf()
         
-    Template.delete_button.events 
-        'click .delete_this': ->
-            if confirm 'delete?'
-                Docs.remove @_id
             
             
             
 if Meteor.isServer
     Meteor.methods 
+        recipe_details: (doc_id)->
+            doc = Docs.findOne doc_id
+            HTTP.get "https://api.spoonacular.com/recipes/#{doc.id}/information/?includeNutrition=false&apiKey=e52f2f2ca01a448e944d94194e904775&",(err,res)=>
+                console.log res.data
+                Docs.update doc_id, 
+                    $set:
+                        details:res.data
+                        
+                
         call_food: (search)->
             # console.log 'calling'
-            # HTTP.get "https://api.spoonacular.com/mealplanner/generate?apiKey=e52f2f2ca01a448e944d94194e904775&timeFrame=day&targetCalories=#{calories}",(err,response)=>
-            HTTP.get "https://api.spoonacular.com/food/search?apiKey=e52f2f2ca01a448e944d94194e904775&query=#{search}&number=2",(err,response)=>
-                console.log response.data.searchResults
-                for result in response.data.searchResults
+            # HTTP.get "https://api.spoonacular.com/mealplanner/generate?apiKey=e52f2f2ca01a448e944d94194e904775&timeFrame=day&targetCalories=#{calories}",(err,res)=>
+            HTTP.get "https://api.spoonacular.com/food/search?apiKey=e52f2f2ca01a448e944d94194e904775&query=#{search}",(err,res)=>
+                console.log res.data.searchResults
+                for result in res.data.searchResults
                     # console.log result.name
                     # if result.name is 'Recipes'
-                    recipes = _.where(response.data.searchResults, {name:'Recipes'})
+                    recipes = _.where(res.data.searchResults, {name:'Recipes'})
                     for recipe in recipes[0].results
                         console.log recipe
                         found_recipe = 
@@ -103,7 +95,7 @@ if Meteor.isServer
                                 relevance:recipe.relevance
                                 content:recipe.content
                         
-                    # recipes = response.data.searchResults
+                    # recipes = res.data.searchResults
                     
                     # console.log response.data.searchResults.results
             

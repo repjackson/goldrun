@@ -24,6 +24,12 @@
 #
 
 
+@food_blocklist = [
+    'cooking'
+    'main course'
+    'person'
+    'spoonacular score'
+]
 @blocklist = [
     'personal insults'
     'media outlets'
@@ -221,8 +227,11 @@ Meteor.methods
         console.log 'pulling blocklist from doc', doc_id
         doc = Docs.findOne doc_id 
         if doc
-            Docs.update doc_id,
-                $pullAll:tags:@blocklist
+            if doc.model is 'recipe'
+                Docs.update doc_id,
+                    $pullAll:tags:@blocklist
+                Docs.update doc_id,
+                    $pullAll:tags:@food_blocklist
                 
         
                     

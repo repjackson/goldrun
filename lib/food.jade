@@ -72,6 +72,8 @@ template(name='food_page')
                 a.ui.label(href=link target='_window') #{link}
                 // .ui.label #{type}
                 .ui.label #{relevance}
+                .ui.header #{id}
+                
                 +i name='tags'
                 each tags 
                     .ui.compact.button.pick_food_tag
@@ -82,6 +84,30 @@ template(name='food_page')
                     |related recipes
                 .ui.header 
                     |ingredients
+                .ui.header details 
+                .ui.button.get_details
+                    |get details
+                with details 
+                    .ui.list 
+                        .item servings: #{servings}
+                        .item readyInMinutes: #{readyInMinutes}
+                        .item license: #{license}
+                        .item sourceName: #{sourceName}
+                        .item sourceUrl: #{sourceUrl}
+                        .item spoonacularSourceUrl: #{spoonacularSourceUrl}
+                        .item aggregateLikes: #{aggregateLikes}
+                        .item healthScore: #{healthScore}
+                        .item spoonacularScore: #{spoonacularScore}
+                        .item pricePerServing: #{pricePerServing}
+                        .item analyzedInstructions: #{analyzedInstructions}
+                        .item cheap: #{cheap}
+                        .item creditsText: #{creditsText}
+                        .item cuisines: #{cuisines}
+                        .item dairyFree: #{dairyFree}
+                        .item diets: #{diets}
+                        .item gaps: #{gaps}
+                        .item glutenFree: #{glutenFree}
+
             if watson
                 .sixteen.wide.column
                     +watson_view

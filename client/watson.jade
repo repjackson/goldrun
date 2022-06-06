@@ -218,10 +218,12 @@ template(name='concept_list')
 template(name='concepts')
     .ui.small.grey.inline.header 
         |#{watson.concepts.length} concepts
-    .large150
-        each watson.concepts
-            div(class="{{calculated_size 'relevance'}}" title="{{to_percent relevance}}% relevant")
-                a(href=dbpedia_resource target='_blank') #{text}
+    // .large150
+    each watson.concepts
+        span.ui.text(class="{{calculated_size 'relevance'}}" title="{{to_percent relevance}}% relevant")
+            a(href=dbpedia_resource target='_blank') 
+                |#{text}
+                |&nbsp;
 
 
 template(name='visual_classes')

@@ -79,32 +79,6 @@ template(name='food_page')
                     +i name='food'
                     |food
                 .ui.inline.header #{name}
-            .eight.wide.column 
-                img.ui.centered.image.rounded.zoomer(src=image)
-                .ui.hidden.divider
-                +comments
-                +viewing_info
-                +voting_full
-            .eight.wide.column
-                a.ui.label(href=link target='_window') #{link}
-                // .ui.label #{type}
-                .ui.label #{relevance}
-                .ui.header #{id}
-                
-                +i name='tags'
-                each tags 
-                    .ui.compact.button.pick_food_tag
-                        |#{this}
-                | !{content}
-                if currentUser
-                    +call_watson key='content' mode='html'
-                .ui.header 
-                    |related recipes
-                .ui.header 
-                    |ingredients
-                .ui.header details
-                if currentUser.admin_mode
-                    .ui.button.get_details get details
                 with details 
                     .ui.big.label(title='aggregateLikes')
                         i.thumbs.up.icon
@@ -126,6 +100,37 @@ template(name='food_page')
                         .ui.big.label
                             +i name='no-milk'
                             |dairy free
+                
+            .eight.wide.column 
+                img.ui.centered.image.rounded.zoomer(src=image)
+                .ui.hidden.divider
+                +comments
+                +viewing_info
+                +voting_full
+            .eight.wide.column
+                a.ui.label(href=link target='_window') #{link}
+                // .ui.label #{type}
+                .ui.label #{relevance}
+                .ui.header #{id}
+                
+                +i name='tags'
+                each tags 
+                    .ui.compact.button.pick_food_tag
+                        |#{this}
+            .sixteen.wide.column
+                .f8 !{content}
+                if currentUser
+                    +call_watson key='content' mode='html'
+            .eight.wide.column
+                .ui.header 
+                    |related recipes
+                .ui.header 
+                    |ingredients
+                .ui.header details
+                if currentUser.admin_mode
+                    .ui.button.get_details get details
+            .eight.wide.column
+                with details
                     .ui.list 
                         .item license: #{license}
                         .item source name: #{sourceName}
@@ -140,6 +145,25 @@ template(name='food_page')
                         .item cuisines: #{cuisines}
                         .item diets: #{diets}
                         .item gaps: #{gaps}
+                .ui.cards
+                    each details.extendedIngredients
+                        .card
+                            img.ui.image(src=image)
+                            .content
+                            .ui.list
+                                .item aisle: #{aisle}
+                                .item amount: #{amount}
+                                .item consistency: #{consistency}
+                                .item id: #{id}
+                                .item measures: #{measures}
+                                .item meta: #{meta}
+                                .item name: #{name}
+                                .item nameClean: #{nameClean}
+                                .item original: #{original}
+                                .item originalName: #{originalName}
+                                .item unit: #{unit}
+                                +print_this
+
                 +print_this
 
             if watson

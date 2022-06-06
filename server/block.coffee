@@ -26,6 +26,7 @@
 
 @food_blocklist = [
     'cooking'
+    'calories'
     'main course'
     'person'
     'spoonacular score'
@@ -218,14 +219,25 @@
 
 
 Meteor.methods
-    clear_blocklist: =>
+    clear_blocklist: (mode)=>
+        if mode is 'food'
+            for block_tag in @food_blocklist
+                # console.log 'removing', block_tag
+                # console.log 'count', Docs.find({tags:$in:[block_tag]}).count()
+    
+                result = Docs.update({
+                    model:'recipe',
+                    tags:$in:[block_tag]
+                }, {$pull:tags:block_tag}, {multi:true})
+                console.log 'removed', result, block_tag
         # console.log @blocklist
-        for black_tag in @blocklist
-            # console.log 'removing', black_tag
-            # console.log 'count', Docs.find({tags:$in:[black_tag]}).count()
-
-            result = Docs.update({tags:$in:[black_tag]}, {$pull:tags:black_tag}, {multi:true})
-            console.log 'removed', result, black_tag
+        else 
+            for block_tag in @blocklist
+                # console.log 'removing', block_tag
+                # console.log 'count', Docs.find({tags:$in:[block_tag]}).count()
+    
+                result = Docs.update({tags:$in:[block_tag]}, {$pull:tags:block_tag}, {multi:true})
+                console.log 'removed', result, block_tag
 
     clear_blocklist_doc: (doc_id)=>
         console.log 'pulling blocklist from doc', doc_id

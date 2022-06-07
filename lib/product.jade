@@ -94,18 +94,18 @@ template(name='product_view')
                     +call_watson key='content' mode='html'
                 .ui.inline.header 
                     |related products
-                .ui.header details
                 if currentUser.admin_mode
                     .ui.button.get_details get details
-                +viewing_info
+                // +viewing_info
                 with details
                     .ui.header details
+                    .f7 #{generatedText}
                     .ui.list 
                         .item id #{id}
                         .item title #{title}
                         .item breadcrumbs #{breadcrumbs}
                             // .item bars #{bars}
-                        .item imageType #{imageType}
+                        // .item imageType #{imageType}
                         .item badges #{badges}
                             // .item msg_free #{msg_free}
                             // .item no_artificial_colors #{no_artificial_colors}
@@ -119,20 +119,17 @@ template(name='product_view')
                             // .item gluten_free #{gluten_free}
                             // .item msg_free #{msg_free}
                         .item ingredientCount #{ingredientCount}
-                        .item generatedText #{generatedText}
                         .item ingredientList #{ingredientList}
-                        .item ingredients #{ingredients}
-                            // .item description #{description}
-                            // .item name #{name}
-                            // .item safety_level #{safety_level}
+                        // .item ingredients #{ingredients}
                         .item likes #{likes}
                         .item aisle #{aisle}
                         .item nutrition #{nutrition}
-                            // .item nutrients #{nutrients}
-                            //         .item name #{name}
-                            //         .item amount #{amount}
-                            //         .item unit #{unit}
-                            //         .item percentOfDailyNeeds #{percentOfDailyNeeds}
+                        .ui.list
+                            each nutrients
+                                .item name #{name}
+                                .item amount #{amount}
+                                .item unit #{unit}
+                                .item percentOfDailyNeeds #{percentOfDailyNeeds}
                             //     .item percentProtein #{percentProtein}
                             //     .item percentFat #{percentFat}
                             //     .item percentCarbs #{percentCarbs}
@@ -142,6 +139,13 @@ template(name='product_view')
                             // .item size #{size}
                             // .item unit #{unit}
                         .item spoonacularScore #{spoonacularScore}
+                    .ui.list
+                        each ingredients
+                            .item 
+                                .header #{name}
+                                .description !{description}
+                                    if safety_level
+                                        .ui.label safety_level #{safety_level}
 
                 +print_this
 

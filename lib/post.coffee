@@ -594,6 +594,14 @@ if Meteor.isServer
         return undefined    # otherwise coffeescript returns a Counts.publish
                           # handle when Meteor expects a Mongo.Cursor object.
         
+    Meteor.publish 'product_counter', ()->
+        Counts.publish this, 'product_counter', 
+            Docs.find({
+                model:'product'
+            })
+        return undefined    # otherwise coffeescript returns a Counts.publish
+                          # handle when Meteor expects a Mongo.Cursor object.
+        
         
     Meteor.publish 'post_tag_results', (
         picked_tags=null
@@ -613,9 +621,9 @@ if Meteor.isServer
         match.over_18 = porn
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
-            limit = 7
-        else
             limit = 10
+        else
+            limit = 20
         # else /
             # match.tags = $all: picked_tags
         agg_doc_count = Docs.find(match).count()

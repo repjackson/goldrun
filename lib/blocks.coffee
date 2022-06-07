@@ -857,9 +857,9 @@ if Meteor.isClient
             if @cl
                 res += @cl
             if Session.equals(@key,@value)
-                res += ' active large compact'
+                res += ' active big '
             else 
-                res += ' compact'
+                res += ' '
             # console.log res
             res
 

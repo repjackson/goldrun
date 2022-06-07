@@ -8,6 +8,26 @@ if Meteor.isClient
         @render 'product_view'
         ), name:'product_view'
     
+    Template.products.onCreated ->
+        @autorun => Meteor.subscribe 'product_counter', ->
+    Template.products.helpers
+        product_count: -> Counts.get('product_counter') 
+    Template.posts.onCreated ->
+        @autorun => Meteor.subscribe 'model_counter',('reddit'), ->
+    Template.posts.helpers
+        total_post_count: -> Counts.get('model_counter') 
+
+    
+if Meteor.isServer
+    Meteor.publish 'model_counter', (model)->
+        if model 
+            Counts.publish this, 'model_counter', 
+                Docs.find({
+                    model:model
+                })
+            return undefined    # otherwise coffeescript returns a Counts.publish
+
+if Meteor.isClient 
     Template.product_view.onCreated ->
         @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.products.onCreated ->
@@ -41,8 +61,26 @@ if Meteor.isClient
             
     Template.product_view.events
         'click .pick_product_tag': ->
-            Router.go "/product"
+            picked_tags.push @valueOf()
+            Router.go "/products"
+            $('body').toast(
+                message: "searching #{@valueOf()}"
+                showIcon: 'search'
+                # showProgress: 'bottom'
+                class: 'info'
+                # displayTime: 'auto',
+                position: "bottom right"
+            )
+            
             Meteor.call 'call_product', @valueOf(), ->
+                $('body').toast(
+                    message: "searched #{@valueOf()}"
+                    showIcon: 'search'
+                    # showProgress: 'bottom'
+                    class: 'success'
+                    # displayTime: 'auto',
+                    position: "bottom right"
+                )
         'click .get_details': ->
             Meteor.call 'product_details', @_id, ->
             

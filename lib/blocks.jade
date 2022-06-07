@@ -405,10 +405,10 @@ template(name='session_boolean_toggle')
                 |#{value}
 
 template(name='session_set')
-    .ui.small.compact.button.set_session_value(class=set_button_class title=label)
+    a.ui.large.image.label.zoomer.set_session_value(class=set_button_class title="sort by #{label}")
         if icon
-            i.large.icon(class=icon)
-            // +i name=icon cl='ui mini inline image'
+            // i.large.icon(class=icon)
+            +i name=icon
         // if icon_view 
         // else 
         unless hide_label

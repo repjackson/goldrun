@@ -3,6 +3,7 @@ template(name='products')
         .four.wide.column
             .ui.inline.header 
                 +i name='shopping-cart'
+                |#{product_count}
                 |products
             .ui.large.icon.input
                 +i name='shopping-cart'
@@ -137,12 +138,13 @@ template(name='product_view')
         .ui.stackable.padded.grid 
             .sixteen.wide.column 
                 a.ui.button(href="/products")
+                    i.chevron.left.icon
                     +i name='product'
-                    |product
-                .ui.inline.header #{title}
+                    |shop
+                .ui.inline.header !{title}
                 with details
                     each breadcrumbs 
-                        .ui.label #{this}
+                        .ui.label.pick_product_tag #{this}
                     .ui.green.inline.header $#{price}
                     .item 
                         |#{servings}
@@ -159,7 +161,7 @@ template(name='product_view')
                 
                 +i name='tags'
                 each tags 
-                    .ui.compact.button.pick_food_tag
+                    .ui.compact.button.pick_product_tag
                         |#{this}
                 .f7 !{content}
                 if currentUser.admin_mode
@@ -233,9 +235,9 @@ template(name='product_view')
                 +print_this
 
             if watson
-                .sixteen.wide.column
+                .twelve.wide.column
                     +watson_view
-            .column
+            .four.wide.column
                 // +text_view key='size_content' label='size content' 
                 a.ui.circular.button(href=product_link)
                     // i.wordpress.large.icon
@@ -267,7 +269,7 @@ template(name='product_view')
                 +link_view key='external_link' label='external link' icon='globe'
                 
                 // +product_orders
-            .column
+            .four.wide.column
                 .ui.header #{price_points} points
                 .ui.header $#{price_usd}
                 .ui.big.green.button.add_to_cart
@@ -291,9 +293,9 @@ template(name='product_view')
                     // .item expected inventory
                     // .item query params: #{query_params}
                 i.refresh.large.link.icon.calc_stats(title='refresh_stats')
-            .column
+            .four.wide.column
                 +product_reviews
-            .column
+            .four.wide.column
                 +product_subscriptions
                 // .ui.green.large.button.add_to_cart
                 //     // i.cart.plus.large.icon

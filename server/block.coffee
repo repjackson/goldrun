@@ -78,6 +78,8 @@
     'answer'
     'social media'
     'post facebook comments'
+    'jennifer connelly'
+    'will ferrell'
     'rights'
     'old embed code'
     'first time'

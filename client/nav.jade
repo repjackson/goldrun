@@ -101,6 +101,7 @@ template(name='nav')
                 //         i.user.big.icon
                 // strong.mobile.hidden #{currentUser.name}
                 i.bars.large.grey.icon
+    .ui.attached.borderless.small.menu.hscroll
         if is_connected
             a.item.zoomer.fly_right.clear_search(href="/products" class="{{isActiveRoute 'products'}}" title=products)
                 +i name='shopping-cart'

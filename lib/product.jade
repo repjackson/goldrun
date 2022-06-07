@@ -28,12 +28,11 @@ template(name='products')
 
 template(name='product_card')
     .card
-        .ui.header #{title}
         a.fly_right(href="/product/#{_id}")
             img.ui.image.zoomer(src=image)
         .content
             a.ui.header(href="/product/#{_id}")
-                | #{name}
+                | #{title}
             // .ui.label #{link}
             .smallcut !{content}
             .ui.label #{points}p

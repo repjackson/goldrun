@@ -283,9 +283,11 @@ template(name='agg_tag')
     // button.ui.big.compact.active.fade.animated.button.result(tabindex="0" title=count)
     button.ui.big.image.label.result.zoomer(tabindex="0" title=count)
         // .visible.content
-        if term_image.watson.metadata.image
-            img.ui.image.superzoomer(src=term_image.watson.metadata.image)
-
+        if subs_ready
+            if term_image.watson.metadata.image
+                img.ui.image.superzoomer(src=term_image.watson.metadata.image)
+        else 
+            i.yin.yang.grey.loading.icon
         | #{name}
         // .hidden.content
         //     |+ #{title}

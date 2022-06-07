@@ -14,10 +14,10 @@ if Meteor.isClient
         # @autorun => @subscribe 'model_docs','artist', ->
         @autorun => @subscribe 'product_facets',
             picked_tags.array()
-            Session.get('title')
+            Session.get('product_search')
         @autorun => @subscribe 'product_results',
             picked_tags.array()
-            Session.get('title')
+            Session.get('product_search')
 
     Template.product_view.onRendered ->
         # console.log @
@@ -85,11 +85,11 @@ if Meteor.isServer
             doc = Docs.findOne doc_id
             console.log 'getting product details', doc
             # HTTP.get "https://api.spoonacular.com/food/products/#{doc.id}/&apiKey=e52f2f2ca01a448e944d94194e904775",(err,res)=>
-            HTTP.get "https://api.spoonacular.com/food/products/22347/?apiKey=e52f2f2ca01a448e944d94194e904775",(err,res)=>
+            HTTP.get "https://api.spoonacular.com/food/products/#{doc.id}/?apiKey=e52f2f2ca01a448e944d94194e904775",(err,res)=>
                 console.log res
-                # Docs.update doc_id, 
-                #     $set:
-                #         details:res.data
+                Docs.update doc_id, 
+                    $set:
+                        details:res.data
                         
                 
         search_menu: (search)->
@@ -140,7 +140,7 @@ if Meteor.isServer
 if Meteor.isServer
     Meteor.publish 'product_facets', (
         picked_tags=[]
-        name_search=''
+        title_search=''
         )->
     
             self = @
@@ -152,8 +152,8 @@ if Meteor.isServer
     
             # if view_private is true
             #     match.author_id = Meteor.userId()
-            if name_search.length > 1
-                match.name = {$regex:"#{name_search}", $options: 'i'}
+            if title_search.length > 1
+                match.title = {$regex:"#{title_search}", $options: 'i'}
 
             # if view_private is false
             #     match.published = $in: [0,1]
@@ -188,19 +188,17 @@ if Meteor.isServer
                     
             self.ready()
 
-
-
     Meteor.publish 'product_results', (
         picked_tags=[]
-        name_search=''
+        title_search=''
         )->
         self = @
         match = {}
         match.model = $in:['product']
         
         if picked_tags.length > 0 then match.tags = $all: picked_tags
-        if name_search.length > 1
-            match.name = {$regex:"#{name_search}", $options: 'i'}
+        if title_search.length > 1
+            match.title = {$regex:"#{title_search}", $options: 'i'}
         #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
     
         # console.log 'sort key', sort_key

@@ -100,6 +100,49 @@ template(name='product_view')
                 +viewing_info
                 with details
                     .ui.header details
+                    .ui.list 
+                        .item id #{id}
+                        .item title #{title}
+                        .item breadcrumbs #{breadcrumbs}
+                            // .item bars #{bars}
+                        .item imageType #{imageType}
+                        .item badges #{badges}
+                            // .item msg_free #{msg_free}
+                            // .item no_artificial_colors #{no_artificial_colors}
+                            // .item no_artificial_flavors #{no_artificial_flavors}
+                            // .item no_artificial_ingredients #{no_artificial_ingredients}
+                            // .item gluten_free #{gluten_free}
+                        .item importantBadges #{importantBadges}
+                            // .item no_artificial_flavors #{no_artificial_flavors}
+                            // .item no_artificial_colors #{no_artificial_colors}
+                            // .item no_artificial_ingredients #{no_artificial_ingredients}
+                            // .item gluten_free #{gluten_free}
+                            // .item msg_free #{msg_free}
+                        .item ingredientCount #{ingredientCount}
+                        .item generatedText #{generatedText}
+                        .item ingredientList #{ingredientList}
+                        .item ingredients #{ingredients}
+                            // .item description #{description}
+                            // .item name #{name}
+                            // .item safety_level #{safety_level}
+                        .item likes #{likes}
+                        .item aisle #{aisle}
+                        .item nutrition #{nutrition}
+                            // .item nutrients #{nutrients}
+                            //         .item name #{name}
+                            //         .item amount #{amount}
+                            //         .item unit #{unit}
+                            //         .item percentOfDailyNeeds #{percentOfDailyNeeds}
+                            //     .item percentProtein #{percentProtein}
+                            //     .item percentFat #{percentFat}
+                            //     .item percentCarbs #{percentCarbs}
+                        .item price #{price}
+                        .item servings #{servings}
+                            // .item number #{number}
+                            // .item size #{size}
+                            // .item unit #{unit}
+                        .item spoonacularScore #{spoonacularScore}
+
                 +print_this
 
             if watson

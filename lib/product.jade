@@ -1,6 +1,6 @@
 template(name='products')
     .ui.stackable.padded.grid 
-        .sixteen.wide.column
+        .four.wide.column
             .ui.inline.header 
                 +i name='shopping-cart'
                 |products
@@ -19,11 +19,33 @@ template(name='products')
                     |#{name}
                     // small #{count}
 
-        .sixteen.wide.column
+        .twelve.wide.column
+            +session_icon_button key='view_mode' value='grid' icon='grid' 
+            +session_icon_button key='view_mode' value='list' icon='list'
+        
+            unless one_result
+                .ui.inline.header(title='result count') #{result_docs.count}
+                +sort_direction_toggle
+                // +sort_key_toggle
+                +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+                +session_set key='sort_key' value='points' label='points' icon='hashtag'
+                +session_set key='sort_key' value='views' label='views' icon='eye'
+                if session_is 'model' 'event'
+                    +session_set key='sort_key' value='start_datatime' label='start' icon='calendar'
+                +session_set key='limit' value=10
+                +session_set key='limit' value=25
+                +session_set key='limit' value=100
+        
             if subs_ready
-                .ui.centered.stackable.cards 
-                    each product_docs
-                        +product_card
+                if session_is 'view_mode' 'list'
+                    .ui.large.selection.list 
+                        each product_docs
+                            +product_item
+                else
+                    .ui.centered.stackable.cards 
+                        each product_docs
+                            +product_card
+                
             else 
                 .ui.basic.center.aligned.segment
                     +ibig name='product' cl='spinning'
@@ -68,6 +90,46 @@ template(name='product_card')
                     strong #{servings}
                     |servings
 
+template(name='product_item')
+    .item
+        a.fly_right(href="/product/#{_id}")
+            if subs_ready
+                img.ui.inline.small.image.zoomer(src=image)
+                a.ui.inline.header(href="/product/#{_id}")
+                    | #{title}
+                // .ui.label #{link}
+                span.smallcut !{content}
+                .ui.label #{points}p
+                // .ui.label #{type}
+                .ui.label ##{id}
+                .ui.label #{relevance}
+                if _author_username
+                    a.ui.label.fly_down(href="/user/#{_author_username}/product")
+                        i.user.icon
+                        |#{_author_username}
+                each tags 
+                    .ui.label #{this}
+                if currentUser.admin_mode
+                    +delete_button
+                if details.glutenFree
+                    .ui.big.label
+                        +i name='no-gluten'
+                        |gluten free
+                with details
+                    .ui.label(title='aggregateLikes')
+                        i.thumbs.up.icon
+                        |#{aggregateLikes}
+                    .ui.label(title='')
+                        i.clock.up.icon
+                        |ready in 
+                        strong #{readyInMinutes}
+                        |minutes
+                    .ui.label(title='servings')
+                        i.hashtag.icon
+                        strong #{servings}
+                        |servings
+            else 
+                i.shopping.cart.loading.big.icon
 
 template(name='product_view')
     with current_doc 
@@ -78,6 +140,14 @@ template(name='product_view')
                     +i name='product'
                     |product
                 .ui.inline.header #{title}
+                with details
+                    each breadcrumbs 
+                        .ui.label #{this}
+                    .ui.green.inline.header $#{price}
+                    .item 
+                        |#{servings}
+                        |servings
+                        
             .eight.wide.column
                 img(src=image)
                 +comments
@@ -103,52 +173,54 @@ template(name='product_view')
                 with details
                     .ui.header details
                     .f7 #{generatedText}
-                    .ui.selection.animated.list 
+                    .ui.animated.list 
                         if currentUser.admin_mode
                             .item id #{id}
                         // .item title #{title}
-                        .item breadcrumbs #{breadcrumbs}
                             // .item bars #{bars}
                         // .item imageType #{imageType}
-                        .item badges #{badges}
-                            // .item msg_free #{msg_free}
-                            // .item no_artificial_colors #{no_artificial_colors}
-                            // .item no_artificial_flavors #{no_artificial_flavors}
-                            // .item no_artificial_ingredients #{no_artificial_ingredients}
-                            // .item gluten_free #{gluten_free}
-                        .item importantBadges #{importantBadges}
-                        .ui.list 
-                            each importantBadges
-                                .item
-                                    .ui.label(title='no_artificial_flavors') #{no_artificial_flavors}
-                                    .ui.label(title='no_artificial_colors') #{no_artificial_colors}
-                                    .ui.label(title='no_artificial_ingredients') #{no_artificial_ingredients}
-                                    .ui.label(title='gluten_free') #{gluten_free}
-                                    .ui.label(title='msg_free') #{msg_free}
-                        .item ingredientCount #{ingredientCount}
+                        .ui.inline.header 
+                            +i name='badge'
+                            |badges 
+                        each badges
+                            .ui.label #{this}
+                        div
+                        .ui.inline.header 
+                            +i name='badge'
+                            |important badges
+                        each importantBadges
+                            .ui.label #{this}
+            .eight.wide.column 
+                with details
+                    .ui.list
                         .item ingredientList #{ingredientList}
                         // .item ingredients #{ingredients}
                         .item likes #{likes}
                         .item aisle #{aisle}
-                        .item nutrition #{nutrition}
+                        .item nutrition
                         .ui.list
-                            each nutrients
-                                .item name #{name}
-                                .item amount #{amount}
-                                .item unit #{unit}
-                                .item percentOfDailyNeeds #{percentOfDailyNeeds}
+                            each nutrition.nutrients
+                                .item 
+                                    .content
+                                        .header #{name}
+                                        .description
+                                            | #{amount}
+                                            | #{unit}
+                                            | #{percentOfDailyNeeds}%/daily
                             //     .item percentProtein #{percentProtein}
                             //     .item percentFat #{percentFat}
                             //     .item percentCarbs #{percentCarbs}
-                        .item price #{price}
-                        .item servings #{servings}
                         // .ui.list
                         //     each servings
                         //         .item number #{number}
                         //         .item size #{size}
                         //         .item unit #{unit}
                         .item spoonacularScore #{spoonacularScore}
+            .eight.wide.column 
+                with details
                     .ui.header 
+                        +i name='ingredients'
+                        |#{ingredientCount}
                         |ingredients 
                     
                     each ingredients

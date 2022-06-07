@@ -393,46 +393,8 @@ if Meteor.isServer
 
 
         
-if Meteor.isClient
-    # Template.products.onCreated ->
-    #     @autorun => @subscribe 'facets',
-    #         'product'
-    #         picked_tags.array()
-    #         Session.get('current_search')
-    #         Session.get('sort_key')
-    #         Session.get('sort_direction')
-    #         Session.get('limit')
-
-    #     @autorun => @subscribe 'doc_results',
-    #         'product'
-    #         picked_tags.array()
-    #         Session.get('current_search')
-    #         Session.get('sort_key')
-    #         Session.get('sort_direction')
-    #         Session.get('limit')
-    # Template.products.helpers
-    #     product_docs: ->
-    #         match = {model:'product'}
-    #         unless Meteor.userId()
-    #             match.private = $ne: true
-    #         Docs.find match, 
-    #             sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
-                
-    # Template.products.events
 
     
-    Template.product_item.events
-        'click .add_to_cart': (e,t)->
-            $(e.currentTarget).closest('.card').transition('bounce',500)
-            Meteor.call 'add_to_cart', @_id, =>
-                $('body').toast(
-                    showIcon: 'cart plus'
-                    message: "#{@title} added"
-                    # showProgress: 'bottom'
-                    class: 'success'
-                    # displayTime: 'auto',
-                    position: "bottom center"
-                )
 
 
     # Template.set_sort_key.events
@@ -487,51 +449,6 @@ if Meteor.isServer
 
 
 
-if Meteor.isClient
-    Template.product_item.onCreated ->
-        # @autorun => Meteor.subscribe 'model_docs', 'food'
-    Template.product_item.events
-        'click .quickbuy': ->
-            console.log @
-            Session.set('quickbuying_id', @_id)
-            # $('.ui.dimmable')
-            #     .dimmer('show')
-            # $('.special.cards .image').dimmer({
-            #   on: 'hover'
-            # });
-            # $('.card')
-            #   .dimmer('toggle')
-            $('.ui.modal')
-              .modal('show')
-
-        'click .goto_food': (e,t)->
-            # $(e.currentTarget).closest('.card').transition('zoom',420)
-            # $('.global_container').transition('scale', 500)
-            Router.go("/food/#{@_id}")
-            # Meteor.setTimeout =>
-            # , 100
-
-        # 'click .view_item': ->
-        #     $('.container_')
-
-    Template.product_item.helpers
-        product_item_class: ->
-            # if Session.get('quickbuying_id')
-            #     if Session.equals('quickbuying_id', @_id)
-            #         'raised'
-            #     else
-            #         'active medium dimmer'
-        is_quickbuying: ->
-            Session.equals('quickbuying_id', @_id)
-
-        food: ->
-            # console.log Meteor.user().roles
-            Docs.find {
-                model:'food'
-            }, sort:title:1
-        
-        
-        
         
 if Meteor.isClient
     Template.service_view.onCreated ->

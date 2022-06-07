@@ -405,17 +405,17 @@ template(name='session_boolean_toggle')
                 |#{value}
 
 template(name='session_set')
-    .ui.small.button.set_session_value(class=set_button_class title=label)
+    .ui.small.compact.button.set_session_value(class=set_button_class title=label)
         if icon
             i.large.icon(class=icon)
             // +i name=icon cl='ui mini inline image'
         // if icon_view 
         // else 
-        // unless hide_label
-        //     if label
-        //         |#{label}
-        //     else 
-        //         |#{value}
+        unless hide_label
+            if label
+                |#{label}
+            else 
+                |#{value}
            
            
 template(name='favorites')

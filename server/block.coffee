@@ -26,6 +26,8 @@
 
 @food_blocklist = [
     'cooking'
+    'black-and-white films'
+    'english-language films'
     'calories'
     'main course'
     'person'

@@ -46,6 +46,67 @@ if Meteor.isClient
         'click .get_details': ->
             Meteor.call 'product_details', @_id, ->
             
+            
+if Meteor.isClient
+    Template.product_item.onCreated ->
+        # @autorun => Meteor.subscribe 'model_docs', 'food'
+    Template.product_item.events
+        'click .quickbuy': ->
+            console.log @
+            Session.set('quickbuying_id', @_id)
+            # $('.ui.dimmable')
+            #     .dimmer('show')
+            # $('.special.cards .image').dimmer({
+            #   on: 'hover'
+            # });
+            # $('.card')
+            #   .dimmer('toggle')
+            $('.ui.modal')
+              .modal('show')
+
+        'click .goto_food': (e,t)->
+            # $(e.currentTarget).closest('.card').transition('zoom',420)
+            # $('.global_container').transition('scale', 500)
+            Router.go("/food/#{@_id}")
+            # Meteor.setTimeout =>
+            # , 100
+
+        # 'click .view_item': ->
+        #     $('.container_')
+
+    Template.product_item.helpers
+        product_item_class: ->
+            # if Session.get('quickbuying_id')
+            #     if Session.equals('quickbuying_id', @_id)
+            #         'raised'
+            #     else
+            #         'active medium dimmer'
+        is_quickbuying: ->
+            Session.equals('quickbuying_id', @_id)
+
+        food: ->
+            # console.log Meteor.user().roles
+            Docs.find {
+                model:'food'
+            }, sort:title:1
+        
+        
+        
+    Template.product_item.events
+        'click .add_to_cart': (e,t)->
+            $(e.currentTarget).closest('.card').transition('bounce',500)
+            Meteor.call 'add_to_cart', @_id, =>
+                $('body').toast(
+                    showIcon: 'cart plus'
+                    message: "#{@title} added"
+                    # showProgress: 'bottom'
+                    class: 'success'
+                    # displayTime: 'auto',
+                    position: "bottom center"
+                )
+            
+            
+            
     Template.products.helpers
         product_docs: ->
             Docs.find 
@@ -62,6 +123,42 @@ if Meteor.isClient
     Template.products.events 
         'click .pick_tag': ->
             picked_tags.push @name
+            $('body').toast({
+                title: "searching #{@name}"
+                # message: 'Please see desk staff for key.'
+                class : 'info'
+                showIcon:'hashtag'
+                # showProgress:'bottom'
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+            
+            Meteor.call 'call_product', @name, (err,res)->
+                $('body').toast({
+                    title: "#{res} search complete"
+                    # message: 'Please see desk staff for key.'
+                    class : 'success'
+                    showIcon:'hashtag'
+                    # showProgress:'bottom'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
+                
+            
         'click .unpick_tag': ->
             picked_tags.remove @valueOf()
         
@@ -177,7 +274,7 @@ if Meteor.isServer
                 { $match: _id: $nin: picked_tags }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
-                { $limit: 10 }
+                { $limit: 20 }
                 { $project: _id: 0, name: '$_id', count: 1 }
                 ]
             # console.log 'theme tag_cloud, ', tag_cloud

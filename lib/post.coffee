@@ -1,5 +1,5 @@
 if Meteor.isClient
-    Template.reddit.onCreated ->
+    Template.posts.onCreated ->
         Session.setDefault('current_search', null)
         Session.setDefault('porn', false)
         Session.setDefault('dummy', false)
@@ -8,7 +8,7 @@ if Meteor.isClient
         @autorun => @subscribe 'agg_emotions',
             picked_tags.array()
             Session.get('dummy')
-        @autorun => @subscribe 'reddit_tag_results',
+        @autorun => @subscribe 'post_tag_results',
             picked_tags.array()
             Session.get('porn')
             Session.get('dummy')
@@ -82,7 +82,7 @@ if Meteor.isClient
             # , 5000
             
     
-    Template.reddit.events
+    Template.posts.events
         'click .toggle_porn': ->
             Session.set('porn',!Session.get('porn'))
         'click .select_search': ->
@@ -93,7 +93,7 @@ if Meteor.isClient
             $('#search').val('')
             Session.set('current_search', null)
     
-    Template.reddit_card.helpers
+    Template.post_card.helpers
         five_cleaned_tags: ->
             # console.log picked_tags.array()
             # console.log @tags[..5] not in picked_tags.array()
@@ -119,10 +119,10 @@ if Meteor.isClient
             Session.set('loading',true)
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('loading',false)
-    Template.reddit_card_big.events
+    Template.post_card_big.events
         'click .minimize': ->
             Session.set('full_doc_id', null)
-    Template.reddit_card.helpers
+    Template.post_card.helpers
         upvote_class:->
             if Meteor.user()
                 if @upvoter_ids and Meteor.userId() in @upvoter_ids
@@ -135,7 +135,7 @@ if Meteor.isClient
                     'large'
                 else 
                     'outline'
-    Template.reddit_card.events
+    Template.post_card.events
         'click .vote_up': ->
             if Meteor.user()
                 Docs.update @_id,
@@ -242,7 +242,7 @@ if Meteor.isClient
             
     
     
-    Template.reddit.events
+    Template.posts.events
         'click .print_me': ->
             console.log @
     
@@ -295,7 +295,7 @@ if Meteor.isClient
         'click .print_me': (e,t)->
             console.log @
             
-    Template.reddit_card.helpers
+    Template.post_card.helpers
         unescaped: -> 
             txt = document.createElement("textarea")
             txt.innerHTML = @rd.selftext_html
@@ -310,7 +310,7 @@ if Meteor.isClient
             # html.unescape(@rd.selftext_html)
     
         
-    Template.reddit.helpers
+    Template.posts.helpers
         porn_class: ->
             if Session.get('porn') then 'large red' else 'compact'
         full_doc_id: ->
@@ -589,7 +589,7 @@ if Meteor.isServer
                           # handle when Meteor expects a Mongo.Cursor object.
         
         
-    Meteor.publish 'reddit_tag_results', (
+    Meteor.publish 'post_tag_results', (
         picked_tags=null
         # query
         porn=false

@@ -110,6 +110,11 @@ template(name='nav')
                 unless currentUser.hide_labels
                     |products
             // +nav_item key='product' icon='shopping-cart'
+            a.item.zoomer.fly_right.clear_search(href="/reddit" class="{{isActiveRoute regex='reddit'}}" title='reddit')
+                +i name='news'
+                // i.large.music.icon
+                unless currentUser.hide_labels
+                    |posts
             +nav_item key='event' icon='calendar'
             +nav_item key='transfer' icon='exchange'
             +nav_item key='service' icon='wrench'
@@ -122,7 +127,6 @@ template(name='nav')
                 // i.large.users.icon
                 unless currentUser.hide_labels
                     |users
-            +nav_item key='post' icon='blog'
             a.item.zoomer.fly_right.clear_search(href="/groups" class="{{isActiveRoute regex='group'}}" title='groups')
                 +i name='campfire'
                 // i.large.music.icon
@@ -136,11 +140,6 @@ template(name='nav')
                 +i name='music'
                 unless currentUser.hide_labels
                     |music
-            a.item.zoomer.fly_right.clear_search(href="/reddit" class="{{isActiveRoute regex='reddit'}}" title='reddit')
-                +i name='reddit'
-                // i.large.music.icon
-                unless currentUser.hide_labels
-                    |reddit
 
 
 

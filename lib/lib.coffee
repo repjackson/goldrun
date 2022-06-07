@@ -44,7 +44,7 @@ force_loggedin =  ()->
 
 
 
-Router.route '/reddit', -> @render 'reddit'
+Router.route '/reddit', -> @render 'posts'
 Router.route '*', -> @render 'food'
 # Router.route '/', -> @render 'reddit'
 

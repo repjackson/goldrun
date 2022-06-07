@@ -1,4 +1,4 @@
-template(name='reddit')
+template(name='posts')
     img.ui.image.checkin_banner(src=current_bg)
     .ui.stackable.padded.grid
         .row
@@ -89,20 +89,20 @@ template(name='reddit')
                     else
                         if full_doc_id
                             with full_doc 
-                                +reddit_card_big
+                                +post_card_big
                         else if one_result
                             .ui.stackable.centered.link.one.cards
                                 each doc_results
-                                    +reddit_card_big
+                                    +post_card_big
                         else 
                             .ui.stackable.centered.link.cards.scrolling
                                 each doc_results
-                                    +reddit_card
+                                    +post_card
                                 // +small_card
                 else 
                     if picked_tags
                         .ui.center.aligned.basic.segment
-                            +ibig name='reddit' cl='spinning'
+                            +ibig name='news' cl='spinning'
                             // i.massive.yin.yang.grey.loading.icon
                             
 template(name='unpick_tag')
@@ -114,7 +114,7 @@ template(name='unpick_tag')
         .ui.inline.small.header #{this}
 
                             
-template(name='reddit_card')
+template(name='post_card')
     .card.autotag(title="#{ups} ups, created #{_when}")
         if watson.metadata.image.length
             // |watson image
@@ -212,7 +212,7 @@ template(name='reddit_item')
             
             
             
-template(name='reddit_card_big')
+template(name='post_card_big')
     .ui.fluid.card.autotag.pointer(title="#{ups} ups, created #{_when}")
         .ui.stackable.two.column.grid
             .column

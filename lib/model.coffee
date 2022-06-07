@@ -1,13 +1,6 @@
 if Meteor.isClient
-    Template.post_item.onCreated ->
-        @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
-
-if Meteor.isClient
     Template.post_view.onCreated ->
         @autorun => @subscribe 'related_group',Router.current().params.doc_id, ->
-    Template.post_item.onCreated ->
-        @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
-
 
     Template.post_view.onCreated ->
         @autorun => @subscribe 'post_tips',Router.current().params.doc_id, ->

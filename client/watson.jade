@@ -112,7 +112,7 @@ template(name='keywords')
                     if emotion
                         with emotion
                             // .ui.multiple.progress.no_border(data-total='100' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" title="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}")
-                            .ui.multiple.small.progress.zoomer.pointer(data-total='120' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" )
+                            .ui.multiple.small.progress.zoomer.pointer(data-total='100' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" )
                                 .green.bar
                                     // .progress
                                 .blue.bar
@@ -159,7 +159,7 @@ template(name='entities')
                         |#{name}
                 if emotion
                     with emotion
-                        .ui.multiple.small.progress.zoomer.pointer(data-total='120' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" )
+                        .ui.multiple.small.progress.zoomer.pointer(data-total='100' data-value="{{ to_percent joy}},{{ to_percent sadness}},{{ to_percent fear}},{{ to_percent disgust}},{{ to_percent anger}}" )
                             .green.bar
                                 // .progress
                             .blue.bar

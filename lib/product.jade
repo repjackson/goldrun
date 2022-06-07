@@ -1,0 +1,67 @@
+template(name='products')
+    .ui.stackable.padded.grid 
+        .sixteen.wide.column
+            .ui.inline.header 
+                +i name='shopping-cart'
+                |products
+            .ui.large.icon.input
+                i.search.icon
+                input.product_search(type='text' placeholder='search products...' value=current_search)
+            each picked_tags
+                button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each tag_results
+                button.ui.large.label.button.pick_tag(tabindex="0" class=result_class title=count)
+                    |#{name}
+                    // small #{count}
+
+        .sixteen.wide.column
+            if subs_ready
+                .ui.centered.stackable.cards 
+                    each product_docs
+                        +product_card
+            else 
+                .ui.basic.center.aligned.segment
+                    +ibig name='product' cl='spinning'
+
+
+template(name='product_card')
+    .card
+        .ui.header #{title}
+        a.fly_right(href="/product/#{_id}")
+            img.ui.image.zoomer(src=image)
+        .content
+            a.ui.header(href="/product/#{_id}")
+                | #{name}
+            // .ui.label #{link}
+            .smallcut !{content}
+            .ui.label #{points}p
+            // .ui.label #{type}
+            .ui.label ##{id}
+            .ui.label #{relevance}
+            if _author_username
+                a.ui.label.fly_down(href="/user/#{_author_username}/product")
+                    i.user.icon
+                    |#{_author_username}
+            each tags 
+                .ui.label #{this}
+            if currentUser.admin_mode
+                +delete_button
+            if details.glutenFree
+                .ui.big.label
+                    +i name='no-gluten'
+                    |gluten free
+            with details
+                .ui.big.label(title='aggregateLikes')
+                    i.thumbs.up.icon
+                    |#{aggregateLikes}
+                .ui.big.label(title='')
+                    i.clock.up.icon
+                    |ready in 
+                    strong #{readyInMinutes}
+                    |minutes
+                .ui.big.label(title='servings')
+                    i.hashtag.icon
+                    strong #{servings}
+                    |servings

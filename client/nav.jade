@@ -104,7 +104,12 @@ template(name='nav')
 
     .ui.attached.borderless.small.menu.hscroll
         if is_connected
-            +nav_item key='product' icon='shopping-cart'
+            a.item.zoomer.fly_right.clear_search(href="/products" class="{{isActiveRoute 'products'}}" title=products)
+                +i name='shopping-cart'
+                // i.large.products.icon
+                unless currentUser.hide_labels
+                    |products
+            // +nav_item key='product' icon='shopping-cart'
             +nav_item key='event' icon='calendar'
             +nav_item key='transfer' icon='exchange'
             +nav_item key='service' icon='wrench'
@@ -126,7 +131,7 @@ template(name='nav')
             a.item.zoomer.fly_right.clear_search(href="/food" class="{{isActiveRoute regex='food'}}" title='food')
                 +i name='food'
                 unless currentUser.hide_labels
-                    |food
+                    |recipes
             a.item.zoomer.fly_right.clear_search(href="/music" class="{{isActiveRoute regex='music'}}" title='music')
                 +i name='music'
                 unless currentUser.hide_labels
@@ -144,7 +149,7 @@ template(name='nav_item')
         +i name=icon
         // i.large.icon(class=icon)
         unless currentUser.hide_labels
-            |#{key}
+            |#{key}s
 
 
 

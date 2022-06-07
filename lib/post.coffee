@@ -19,15 +19,15 @@ if Meteor.isClient
     
     
     
-    Router.route '/reddit/:doc_id', (->
+    Router.route '/post/:doc_id', (->
         @layout 'layout'
-        @render 'reddit_view'
-        ), name:'reddit_view'
+        @render 'post_view'
+        ), name:'post_view'
 
 
-    Template.reddit_view.onCreated ->
+    Template.post_view.onCreated ->
         @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
-    Template.reddit_view.onRendered ->
+    Template.post_view.onRendered ->
         # console.log @
         found_doc = Docs.findOne Router.current().params.doc_id
         if found_doc 
@@ -521,8 +521,8 @@ if Meteor.isClient
         #
         
         
-    Template.user_reddit.onCreated ->
-        @autorun => Meteor.subscribe 'user_reddit_mined_counter', Router.current().params.username, ->
+    Template.user_post.onCreated ->
+        @autorun => Meteor.subscribe 'user_post_mined_counter', Router.current().params.username, ->
         @autorun => Meteor.subscribe 'latest_mined_reddit_posts', Router.current().params.username, ->
         @autorun => Meteor.subscribe 'latest_upvoted_reddit_posts', Router.current().params.username, ->
         if Meteor.user()
@@ -533,7 +533,7 @@ if Meteor.isClient
             Router.current().params.username, 
             username, 
             picked_tags.array(),
-    Template.user_reddit.helpers
+    Template.user_post.helpers
         mined_counter: -> Counts.get('mined_counter') 
         latest_mined_posts: ->
             user = Meteor.users.findOne username:Router.current().params.username
@@ -578,7 +578,7 @@ if Meteor.isServer
             limit:10
             sort:_timestamp:-1
         
-    Meteor.publish 'user_reddit_mined_counter', (username)->
+    Meteor.publish 'user_post_mined_counter', (username)->
         user = Meteor.users.findOne username:username
         Counts.publish this, 'mined_counter', 
             Docs.find({

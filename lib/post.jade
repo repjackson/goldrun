@@ -85,7 +85,7 @@ template(name='posts')
                         .ui.segment.alpha
                             .ui.selection.animated.divided.list 
                                 each doc_results
-                                    +reddit_item
+                                    +post_item
                     else
                         if full_doc_id
                             with full_doc 
@@ -103,6 +103,7 @@ template(name='posts')
                     if picked_tags
                         .ui.center.aligned.basic.segment
                             +ibig name='news' cl='spinning'
+                            +ibig name='reddit' cl='spinning'
                             // i.massive.yin.yang.grey.loading.icon
                             
 template(name='unpick_tag')
@@ -178,15 +179,15 @@ template(name='post_card')
                 i.thumbs.down.red.icon(class=downvote_class)
             
             
-template(name='reddit_item')
+template(name='post_item')
     .item 
         if is_image
-            a.fly_right(href="/reddit/#{_id}")
+            a.fly_right(href="/post/#{_id}")
                 img.ui.inline.small.image.rounded.superzoomer(src=url)
         else if has_thumbnail
-            a.fly_right(href="/reddit/#{_id}")
+            a.fly_right(href="/post/#{_id}")
                 img.ui.small.inline.image.superzoomer(src=thumbnail title='view article')
-        a.ui.inline.header.zoomer.fly_left(href="/reddit/#{_id}") !{title}
+        a.ui.inline.header.zoomer.fly_left(href="/post/#{_id}") !{title}
         .ui.label
             i.globe.grey.icon 
             |#{domain}
@@ -197,7 +198,7 @@ template(name='reddit_item')
             i.comment.icon 
             |#{num_comments}
         .ui.label 
-            |subreddit: #{subreddit}
+            |subpost: #{subpost}
         .ui.label 
             i.plus.icon
             |#{_when}
@@ -245,8 +246,8 @@ template(name='post_card_big')
             .ui.label
                 i.comment.grey.icon 
                 |#{num_comments}
-            // .ui.label.zoomer.pick_subreddit
-            //     |subreddit: #{subreddit}
+            // .ui.label.zoomer.pick_subpost
+            //     |subpost: #{subpost}
             .ui.label(title="added {{long_date _timestamp}}")
                 i.grey.clock.icon
                 |#{_when}
@@ -299,20 +300,20 @@ template(name='agg_tag')
                 
                 
                 
-template(name='user_reddit')
+template(name='user_post')
     .ui.two.column.stackable.grid 
         .column
             .ui.header 
-                +i name='reddit'
+                +i name='post'
                 |#{mined_counter}
-                |total mined reddit posts
+                |total mined post posts
             .ui.header 
-                +i name='reddit'
+                +i name='post'
                 // |#{mined_counter}
-                |latest mined reddit posts
+                |latest mined post posts
             .ui.selection.animated.list 
                 each latest_mined_posts
-                    +reddit_small_item
+                    +post_small_item
         if overlap_tags.count
             .column
                 .ui.header 
@@ -325,14 +326,14 @@ template(name='user_reddit')
         .column
             .ui.header 
                 +i name='facebook-like'
-                |latest upvoted reddit posts 
+                |latest upvoted post posts 
             .ui.selection.animated.list 
                 each latest_upvoted_posts
-                    +reddit_small_item
+                    +post_small_item
                     
                     
-template(name='reddit_small_item')
-    a.item.fly_left(href="/reddit/#{_id}")
+template(name='post_small_item')
+    a.item.fly_left(href="/post/#{_id}")
         if watson.metadata.image
             img.ui.avatar.image(src=watson.metadata.image)
         .header #{title}
@@ -343,14 +344,14 @@ template(name='reddit_small_item')
                 
                 
                 
-template(name='reddit_view')
+template(name='post_view')
     with current_doc 
         .ui.stackable.padded.grid 
             .eleven.wide.column
-                a.ui.compact.button.fly_left.zoomer(href="/reddit" title='back to browse')
+                a.ui.compact.button.fly_left.zoomer(href="/post" title='back to browse')
                     i.chevron.left.icon
-                    +i name='reddit'
-                    |reddit
+                    +i name='post'
+                    |post
                 .ui.segment.alpha.scrollin
                     .ui.inline.header !{title}
                     if rd.selftext_html
@@ -378,7 +379,7 @@ template(name='reddit_view')
                     .item domain #{domain}
                     // .item model #{model}
                     .item permalink #{permalink}
-                    // .item reddit_id #{reddit_id}
+                    // .item post_id #{post_id}
                     .item 
                         small mined by
                         strong #{_author_username}
@@ -397,14 +398,29 @@ template(name='reddit_view')
                     | #{url}
                 each tags 
                     a.ui.large.label.zoomer.pick_flat_tag(title='search tag') #{this}
-                .ui.big.label.zoomer.picker.pick_subreddit(title='browse subreddit')
-                    +i name='reddit'
-                    |subreddit #{subreddit}
+                .ui.big.label.zoomer.picker.pick_subpost(title='browse subpost')
+                    +i name='post'
+                    |tribe #{subreddit}
                 .ui.big.label 
                     +i name='facebook-like'
                     | #{ups} upvotes
                 .ui.big.label 
                     +i name='chat'
                     | #{num_comments} comments
-                
+            .sixteen.wide.column.scrollin
+                .ui.big.center.aligned.inline.header(class=emotion_color) 
+                    if price
+                        i.large.coins.icon(title='price')
+                    if private 
+                        i.large.lock.icon(title='private')
+                    if sentiment 
+                        if is sentiment 'positive'
+                            +i name='happy'
+                        else 
+                            +i name='sad'
+                if subtitle
+                    .ui.small.header #{subtitle}
+                // a.ui.header(href="/user/#{target.username}")
+                //     |#{target.username}
+
             

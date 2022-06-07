@@ -70,18 +70,34 @@ if Meteor.isClient
                 Meteor.call 'call_product', Session.get('product_search'), ->
 
             
+        'keyup .menu_search': (e,t)->
+            console.log 'hi'
+            query = t.$('.menu_search').val()
+            Session.set('menu_search',query)
+            if e.which is 13
+                Meteor.call 'search_menu', Session.get('menu_search'), ->
+
+            
             
 if Meteor.isServer
     Meteor.methods 
         product_details: (doc_id)->
             doc = Docs.findOne doc_id
-            HTTP.get "https://api.spoonacular.com/products/#{doc.id}/information/?includeNutrition=false&apiKey=e52f2f2ca01a448e944d94194e904775&",(err,res)=>
-                console.log res.data
-                Docs.update doc_id, 
-                    $set:
-                        details:res.data
+            console.log 'getting product details', doc
+            # HTTP.get "https://api.spoonacular.com/food/products/#{doc.id}/&apiKey=e52f2f2ca01a448e944d94194e904775",(err,res)=>
+            HTTP.get "https://api.spoonacular.com/food/products/22347/&apiKey=e52f2f2ca01a448e944d94194e904775",(err,res)=>
+                console.log res
+                # Docs.update doc_id, 
+                #     $set:
+                #         details:res.data
                         
                 
+        search_menu: (search)->
+            # console.log 'calling'
+            # HTTP.get "https://api.spoonacular.com/mealplanner/generate?apiKey=e52f2f2ca01a448e944d94194e904775&timeFrame=day&targetCalories=#{calories}",(err,res)=>
+            HTTP.get "https://api.spoonacular.com/food/menuItems/search?query=burger&number=2?apiKey=e52f2f2ca01a448e944d94194e904775&query=#{search}",(err,res)=>
+                console.log res.data
+                # console.log res.data.products
         call_product: (search)->
             # console.log 'calling'
             # HTTP.get "https://api.spoonacular.com/mealplanner/generate?apiKey=e52f2f2ca01a448e944d94194e904775&timeFrame=day&targetCalories=#{calories}",(err,res)=>
@@ -114,7 +130,7 @@ if Meteor.isServer
                                 # type:product.type
                                 # relevance:product.relevance
                                 # content:product.content
-                            # Meteor.call 'product_details', new_id, ->
+                            Meteor.call 'product_details', new_id, ->
 
                     # products = res.data.searchResults
                     

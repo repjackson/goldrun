@@ -51,7 +51,7 @@ template(name='nav')
     // #topnav.topnav.ui.attached.borderless.big.four.item.menu.hscroll(class=darkmode_class)
         https://fomantic-ui.com/elements/icon.html#/icon
     // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
-    #topnav.topnav.ui.attached.borderless.menu.hscroll
+    #topnav.topnav.ui.attached.borderless.inverted.menu.hscroll
         if is_connected
             a.icon.item.toggle_leftbar
                 i.large.bars.grey.icon
@@ -101,8 +101,6 @@ template(name='nav')
                 //         i.user.big.icon
                 // strong.mobile.hidden #{currentUser.name}
                 i.bars.large.grey.icon
-
-    .ui.attached.borderless.small.menu.hscroll
         if is_connected
             a.item.zoomer.fly_right.clear_search(href="/products" class="{{isActiveRoute 'products'}}" title=products)
                 +i name='shopping-cart'
@@ -187,7 +185,7 @@ template(name='recent_alert')
             
             
 template(name='rightbar')
-    .ui.right.sidebar.vertical.small.menu.rightbar
+    .ui.right.sidebar.vertical.small.inverted.menu.rightbar
         with currentUser
             +right_nav_item route=null label='dashboard'
             a.item.toggle_rightbar.no_blink(href="/user/#{currentUser.username}" class="{{isActiveRoute 'user_layout'}}")
@@ -244,7 +242,7 @@ template(name='right_nav_item')
 
 
 template(name='leftbar')
-    .ui.left.sidebar.ui.vertical.small.menu
+    .ui.left.sidebar.ui.vertical.small.inverted.menu
         +leftbar_item key='chat' icon='chat'
         +leftbar_item key='products' icon='shop'
         +leftbar_item key='transfers' icon='exchange'

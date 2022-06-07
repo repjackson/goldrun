@@ -7,9 +7,9 @@ template(name='products')
             .ui.large.icon.input
                 +i name='shopping-cart'
                 input.product_search(type='text' placeholder='search products...' value=current_search)
-            .ui.large.icon.input
-                +i name='menu'
-                input.menu_search(type='text' placeholder='search menu...' value=current_search)
+            // .ui.large.icon.input
+            //     +i name='menu'
+            //     input.menu_search(type='text' placeholder='search menu...' value=current_search)
             each picked_tags
                 button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
                     //- i.remove.icon

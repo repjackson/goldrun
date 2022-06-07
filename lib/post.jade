@@ -1,5 +1,5 @@
 template(name='posts')
-    img.ui.image.checkin_banner(src=current_bg)
+    img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
@@ -119,14 +119,14 @@ template(name='post_card')
     .card.autotag(title="#{ups} ups, created #{_when}")
         if watson.metadata.image.length
             // |watson image
-            a.fly_right(href="/reddit/#{_id}")
+            a.fly_right(href="/post/#{_id}")
                 img.ui.fluid.image.zoomer(src=watson.metadata.image title='view article')
         
         else if is_image
-            a.fly_right(href="/reddit/#{_id}")
+            a.fly_right(href="/post/#{_id}")
                 img.ui.image.zoomer(src=url title='view article')
         else if has_thumbnail
-            a.fly_right(href="/reddit/#{_id}")
+            a.fly_right(href="/post/#{_id}")
                 img.ui.fluid.image.zoomer(src=thumbnail title='view article')
         if rd.media_embed.content
             // 
@@ -135,7 +135,7 @@ template(name='post_card')
             |!{unescaped}
 
         .content
-            a.ui.grey.header.zoomer.fly_right(href="/reddit/#{_id}")
+            a.ui.grey.header.zoomer.fly_right(href="/post/#{_id}")
                 |!{title}
             .ui.label
                 i.globe.grey.icon 
@@ -281,7 +281,7 @@ template(name='flat_tag_picker')
 
 template(name='agg_tag')
     // button.ui.big.compact.active.fade.animated.button.result(tabindex="0" title=count)
-    button.ui.big.image.label.result.zoomer(tabindex="0" title=count)
+    button.ui.big.image.basic.label.result.zoomer(tabindex="0" title=count)
         // .visible.content
         if subs_ready
             if term_image.watson.metadata.image
@@ -350,7 +350,7 @@ template(name='post_view')
     with current_doc 
         .ui.stackable.padded.grid 
             .eleven.wide.column
-                a.ui.compact.button.fly_left.zoomer(href="/post" title='back to browse')
+                a.ui.compact.button.fly_left.zoomer(href="/posts" title='back to browse')
                     i.chevron.left.icon
                     +i name='post'
                     |post

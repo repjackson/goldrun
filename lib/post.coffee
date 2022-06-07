@@ -23,6 +23,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'post_view'
         ), name:'post_view'
+    Router.route '/posts', (->
+        @layout 'layout'
+        @render 'posts'
+        ), name:'posts'
 
 
     Template.post_view.onCreated ->
@@ -77,9 +81,9 @@ if Meteor.isClient
             Meteor.call 'search_reddit', picked_tags.array(), ->
                 Session.set('is_loading', false)
                 Session.set('searching', false)
-            # Meteor.setTimeout ->
-            #     Session.set('dummy',!Session.get('dummy'))
-            # , 5000
+            Meteor.setTimeout ->
+                Session.set('dummy',!Session.get('dummy'))
+            , 5000
             
     
     Template.posts.events
@@ -226,7 +230,7 @@ if Meteor.isClient
                 #       hideMethod   : 'fade',
                 #       hideDuration : 250
                 #     })
-                # Session.set('dummy', !Session.get('dummy'))
+                Session.set('dummy', !Session.get('dummy'))
             # Meteor.call 'call_watson', doc._id, @key, @mode, ->
     Template.unpick_tag.events
         'click .unpick_tag': ->
@@ -236,9 +240,9 @@ if Meteor.isClient
                 Session.set('is_loading', true)
                 Meteor.call 'search_reddit', picked_tags.array(), =>
                     Session.set('is_loading', false)
-                # Meteor.setTimeout ->
-                #     Session.set('dummy', !Session.get('dummy'))
-                # , 5000
+                Meteor.setTimeout ->
+                    Session.set('dummy', !Session.get('dummy'))
+                , 5000
             
     
     
@@ -607,9 +611,9 @@ if Meteor.isServer
         match.over_18 = porn
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
-            limit = 10
+            limit = 7
         else
-            limit = 20
+            limit = 10
         # else /
             # match.tags = $all: picked_tags
         agg_doc_count = Docs.find(match).count()

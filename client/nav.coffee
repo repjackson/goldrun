@@ -172,7 +172,7 @@ Router.route '/', (->
     @redirect('/food');
     ), name:'home'
 Router.route '/docs', (->
-    @redirect('/m/post');
+    @redirect('/posts');
     ), name:'docs'
 
 Router.route '/m/:model', (->

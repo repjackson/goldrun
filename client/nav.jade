@@ -75,13 +75,13 @@ template(name='nav')
                         i.envelope.icon
                         strong #{unread_count}
         if is_connected
-            a.item.zoomer.fly_right.clear_search(href="/products" class="{{isActiveRoute 'products'}}" title=products)
+            a.item.zoomer.fly_right.clear_search.mobile.hidden(href="/products" class="{{isActiveRoute 'products'}}" title=products)
                 +i name='shopping-cart'
                 // i.large.products.icon
                 // unless currentUser.hide_labels
                 //     |products
             // +nav_item key='product' icon='shopping-cart'
-            a.item.zoomer.fly_right.clear_search(href="/posts" class="{{isActiveRoute regex='post'}}" title='posts')
+            a.item.zoomer.fly_right.clear_search.mobile.hidden(href="/posts" class="{{isActiveRoute regex='post'}}" title='posts')
                 +i name='news'
                 // i.large.music.icon
                 // unless currentUser.hide_labels
@@ -93,21 +93,21 @@ template(name='nav')
             +nav_item key='task' icon='tasks'
             // +nav_item key='checkin' icon='checkmark'
             +nav_item key='log' icon='code'
-             a.item.zoomer.fly_right.clear_search(href="/users" class="{{isActiveRoute 'users'}}" title=users)
+             a.item.zoomer.fly_right.clear_search.mobile.hidden(href="/users" class="{{isActiveRoute 'users'}}" title=users)
                 +i name='groups'
                 // i.large.users.icon
                 // unless currentUser.hide_labels
                 //     |users
-            a.item.zoomer.fly_right.clear_search(href="/groups" class="{{isActiveRoute regex='group'}}" title='groups')
+            a.item.zoomer.fly_right.clear_search.mobile.hidden(href="/groups" class="{{isActiveRoute regex='group'}}" title='groups')
                 +i name='campfire'
                 // i.large.music.icon
                 // unless currentUser.hide_labels
                 //     |groups
-            a.item.zoomer.fly_right.clear_search(href="/food" class="{{isActiveRoute regex='food'}}" title='food')
+            a.item.zoomer.fly_right.clear_search.mobile.hidden(href="/food" class="{{isActiveRoute regex='food'}}" title='food')
                 +i name='food'
                 // unless currentUser.hide_labels
                 //     |recipes
-            a.item.zoomer.fly_right.clear_search(href="/music" class="{{isActiveRoute regex='music'}}" title='music')
+            a.item.zoomer.fly_right.clear_search.mobile.hidden(href="/music" class="{{isActiveRoute regex='music'}}" title='music')
                 +i name='music'
                 // unless currentUser.hide_labels
                 //     |music
@@ -143,7 +143,7 @@ template(name='nav')
 
 
 template(name='nav_item')
-    a.item.zoomer.fly_right.clear_search.go_route.tada(href="/m/#{key}" class="{{nav_item_class key}}" title=key)
+    a.item.zoomer.fly_right.clear_search.go_route.tada.mobile.hidden(href="/m/#{key}" class="{{nav_item_class key}}" title=key)
         +i name=icon
         // i.large.icon(class=icon)
         // unless currentUser.hide_labels
@@ -244,11 +244,12 @@ template(name='right_nav_item')
 
 template(name='leftbar')
     .ui.left.sidebar.ui.vertical.small.menu
-        +leftbar_item key='chat' icon='chat'
+        +leftbar_item key='posts' icon='news'
         +leftbar_item key='products' icon='shop'
+        +leftbar_item key='recipes' icon='food'
+        +leftbar_item key='music' icon='music'
         +leftbar_item key='transfers' icon='exchange'
         +leftbar_item key='orders' icon='order-history'
-        +leftbar_item key='posts' icon='blog'
         +leftbar_item key='groups' icon='campfire'
         +leftbar_item key='requests' icon='hand-holding-heart'
         +leftbar_item key='services' icon='wrench'

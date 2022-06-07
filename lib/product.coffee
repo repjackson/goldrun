@@ -257,12 +257,15 @@ if Meteor.isServer
                         if found_product
                             Docs.update found_product._id, 
                                 $inc:hits:1
+                                $addToSet:
+                                    tags:search
                         unless found_product
                             new_id = Docs.insert 
                                 model:'product'
                                 id:product.id
                                 source:'spoonacular'
                                 title:product.title
+                                tags:[search]
                                 image:product.image
                                 imageType:product.imageType
                                 # type:product.type

@@ -11,6 +11,8 @@ if Meteor.isClient
     Template.food_page.onCreated ->
         @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.food.onCreated ->
+        document.title = 'gr food'
+        
         # @autorun => @subscribe 'model_docs','artist', ->
         @autorun => @subscribe 'food_facets',
             picked_tags.array()
@@ -66,9 +68,12 @@ if Meteor.isClient
     Template.food.events 
         'click .pick_tag': ->
             picked_tags.push @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+
         'click .unpick_tag': ->
             picked_tags.remove @valueOf()
-        
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "removing #{@valueOf()}"
+            
             
             
             

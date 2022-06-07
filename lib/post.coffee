@@ -1,5 +1,7 @@
 if Meteor.isClient
     Template.posts.onCreated ->
+        document.title = 'gr posts'
+        
         Session.setDefault('current_search', null)
         Session.setDefault('porn', false)
         Session.setDefault('dummy', false)

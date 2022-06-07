@@ -125,10 +125,10 @@ template(name='nav')
                 // +i name='internal'
                 // span.mobile.hidden login
         unless is_connected
-            .item
+            a.item.zoomer.reconnect
                 i.yin.yang.big.loading.icon
                 +i name='disconnected'
-                |reconecting...
+                |relink
                 i.large.circular.refresh.link.icon.zoomer.reconnect(title='reconnect now')
         // .right.menu
         //     a.icon.item.toggle_rightbar.no_blink

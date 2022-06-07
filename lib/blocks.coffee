@@ -129,6 +129,8 @@ if Meteor.isClient
     Template.facet.events 
         'click .pick_tag': -> 
             picked_tags.push @name
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            
             Meteor.call 'search_reddit', @name, ->
         # 'click .pick_flat_tag': -> picked_tags.push @valueOf()
         'click .unpick_tag': -> picked_tags.remove @valueOf()

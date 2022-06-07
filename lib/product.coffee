@@ -85,7 +85,7 @@ if Meteor.isServer
             doc = Docs.findOne doc_id
             console.log 'getting product details', doc
             # HTTP.get "https://api.spoonacular.com/food/products/#{doc.id}/&apiKey=e52f2f2ca01a448e944d94194e904775",(err,res)=>
-            HTTP.get "https://api.spoonacular.com/food/products/22347/&apiKey=e52f2f2ca01a448e944d94194e904775",(err,res)=>
+            HTTP.get "https://api.spoonacular.com/food/products/22347/?apiKey=e52f2f2ca01a448e944d94194e904775",(err,res)=>
                 console.log res
                 # Docs.update doc_id, 
                 #     $set:
@@ -95,7 +95,7 @@ if Meteor.isServer
         search_menu: (search)->
             # console.log 'calling'
             # HTTP.get "https://api.spoonacular.com/mealplanner/generate?apiKey=e52f2f2ca01a448e944d94194e904775&timeFrame=day&targetCalories=#{calories}",(err,res)=>
-            HTTP.get "https://api.spoonacular.com/food/menuItems/search?query=burger&number=2?apiKey=e52f2f2ca01a448e944d94194e904775&query=#{search}",(err,res)=>
+            HTTP.get "https://api.spoonacular.com/food/menuItems/search?apiKey=e52f2f2ca01a448e944d94194e904775&query=#{search}",(err,res)=>
                 console.log res.data
                 # console.log res.data.products
         call_product: (search)->

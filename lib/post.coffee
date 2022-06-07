@@ -621,9 +621,9 @@ if Meteor.isServer
         match.over_18 = porn
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
-            limit = 10
+            limit = 7
         else
-            limit = 20
+            limit = 10
         # else /
             # match.tags = $all: picked_tags
         agg_doc_count = Docs.find(match).count()
@@ -737,42 +737,41 @@ if Meteor.isServer
         #     # else
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
-        
-            Docs.find match,
-                sort:
-                    # "#{sort_key}":sort_direction
-                    points:-1
-                    ups:-1
-                limit:20
-                fields:
-                    # youtube_id:1
-                    "rd.media_embed":1
-                    "rd.url":1
-                    "rd.thumbnail":1
-                    "rd.analyzed_text":1
-                    subreddit:1
-                    thumbnail:1
-                    doc_sentiment_label:1
-                    doc_sentiment_score:1
-                    joy_percent:1
-                    sadness_percent:1
-                    fear_percent:1
-                    disgust_percent:1
-                    anger_percent:1
-                    over_18:1
-                    points:1
-                    upvoter_ids:1
-                    downvoter_ids:1
-                    url:1
-                    ups:1
-                    "watson.metadata":1
-                    "watson.analyzed_text":1
-                    title:1
-                    model:1
-                    num_comments:1
-                    tags:1
-                    _timestamp:1
-                    domain:1
+        Docs.find match,
+            sort:
+                "#{sort_key}":sort_direction
+                points:-1
+                ups:-1
+            limit:20
+            fields:
+                # youtube_id:1
+                "rd.media_embed":1
+                "rd.url":1
+                "rd.thumbnail":1
+                "rd.analyzed_text":1
+                subreddit:1
+                thumbnail:1
+                doc_sentiment_label:1
+                doc_sentiment_score:1
+                joy_percent:1
+                sadness_percent:1
+                fear_percent:1
+                disgust_percent:1
+                anger_percent:1
+                over_18:1
+                points:1
+                upvoter_ids:1
+                downvoter_ids:1
+                url:1
+                ups:1
+                "watson.metadata":1
+                "watson.analyzed_text":1
+                title:1
+                model:1
+                num_comments:1
+                tags:1
+                _timestamp:1
+                domain:1
         # else 
         #     Docs.find match,
         #         sort:_timestamp:-1

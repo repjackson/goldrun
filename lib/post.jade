@@ -84,6 +84,23 @@ template(name='posts')
                     unless full_doc_id
                         each unpicked_tags
                             +agg_tag
+                    +session_icon_button key='view_mode' value='grid' icon='grid' 
+                    +session_icon_button key='view_mode' value='list' icon='list'
+                
+                    unless one_result
+                        .ui.inline.header(title='result count') #{result_docs.count}
+                        +sort_direction_toggle
+                        // +sort_key_toggle
+                        +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+                        +session_set key='sort_key' value='points' label='points' icon='hashtag'
+                        +session_set key='sort_key' value='views' label='views' icon='eye'
+                        if session_is 'model' 'event'
+                            +session_set key='sort_key' value='start_datatime' label='start' icon='calendar'
+                        +session_set key='limit' value=10
+                        +session_set key='limit' value=25
+                        +session_set key='limit' value=100
+                
+                            
                 if subs_ready
                     if session_is 'view_mode' 'list'
                         .ui.segment.alpha

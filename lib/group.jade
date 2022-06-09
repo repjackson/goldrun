@@ -334,7 +334,9 @@ template(name='group_posts')
         if is source 'reddit'
             .ui.header reddit posts
             each group_reddit_docs
-                .ui.header #{title}
+                +post_item
+
+
 template(name='group_events')
     .column
         .ui.inline.header

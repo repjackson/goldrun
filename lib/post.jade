@@ -13,11 +13,16 @@ template(name='posts')
                         i.skull.crossbones.large.icon
                 each picked_tags
                     +unpick_tag
-                            
                     //- button.ui.active.large.button.unpick_tag(tabindex='0' style=background_style class=emotion_color)
                 //- .ui.inline.small.header(class=emotion_color) {{fixed omega_doc.current_max_emotion_percent}}% #{omega_doc.current_most_emotion}
                 // if not_searching 
                 //     .ui.center.aligned.segment
+                .ui.inline.header 
+                    +i name='tribe'
+                    |groups
+                each unpicked_groups
+                    .ui.label #{name}
+                
                 //         i.massive.yin.yang.grey.icon
                 // +session_toggle key='view_images' label='images' icon='image'
                 // +session_toggle key='view_external' label='external' icon='external'
@@ -228,7 +233,7 @@ template(name='post_item')
         +voting
         if doc_sentiment_label
             +doc_sentiment
-            // +doc_emotion
+            +doc_emotion
         else 
             +call_watson key=rd.selftext
             

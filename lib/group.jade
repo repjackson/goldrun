@@ -42,7 +42,6 @@ template(name='groups')
                 else 
                     +loading_segment
 
-
 template(name='group_layout')
     +nav
     with current_doc
@@ -134,7 +133,6 @@ template(name='group_sidebar')
     +favorites
     +viewing_info
         
-        
 template(name='group_membership')
     .ui.header 
         +i name='groups'
@@ -183,6 +181,7 @@ template(name='group_nav_item')
             
 template(name='group_dashboard')
     +group_members_small
+    +group_posts
     .ui.one.column.grid 
         .column
             if youtube_id
@@ -332,7 +331,10 @@ template(name='group_posts')
         .ui.selection.animated.list
             each group_post_docs 
                 a.ui.header.fly_right(href="/group/#{_id}") #{title}
-
+        if is source 'reddit'
+            .ui.header reddit posts
+            each group_reddit_docs
+                .ui.header #{title}
 template(name='group_events')
     .column
         .ui.inline.header

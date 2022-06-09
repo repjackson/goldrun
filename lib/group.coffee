@@ -296,6 +296,16 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'group_posts', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_products', Router.current().params.doc_id, ->
     
+    Template.group_posts.onCreated ->
+        @autorun => Meteor.subscribe 'group_reddit_docs', Router.current().params.doc_id, ->
+    Template.group_posts.helpers
+        group_reddit_docs: ->
+            group = 
+                Docs.findOne _id:Router.current().params.doc_id
+            if group
+                Docs.find 
+                    model:'reddit'
+                    subreddit:group.slug
     Template.group_layout.helpers
         group_log_docs: ->
             Docs.find {
@@ -369,6 +379,15 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'group_reddit_docs', (group_id)->
+        group = 
+            Docs.findOne group_id
+        if group
+            Docs.find 
+                model:'reddit'
+                subreddit:group.slug
+    
+        
     Meteor.publish 'group_events', (group_id)->
         # group = Docs.findOne
         #     model:'group'

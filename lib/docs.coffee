@@ -34,7 +34,8 @@ if Meteor.isClient
         
     Template.doc_view.onRendered ->
         current_doc = Docs.findOne(Router.current().params.doc_id)
-        document.title = "#{current_doc.title}";
+        if current_doc
+            document.title = "#{current_doc.title}";
         
         Meteor.call 'log_view', Router.current().params.doc_id, ->
         Meteor.setTimeout ->

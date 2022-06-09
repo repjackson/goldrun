@@ -400,6 +400,7 @@ template(name='post_view')
                     img.ui.centered.rounded.image(src=thumbnail)
                 .ui.list 
                     .item domain #{domain}
+                    .item.goto_subreddit subreddit #{subreddit}
                     // .item model #{model}
                     .item permalink #{permalink}
                     // .item post_id #{post_id}
@@ -421,7 +422,7 @@ template(name='post_view')
                     | #{url}
                 each tags 
                     a.ui.large.label.zoomer.pick_flat_tag(title='search tag') #{this}
-                .ui.big.label.zoomer.picker.pick_subpost(title='browse subpost')
+                a.ui.big.label.zoomer.picker.goto_subreddit(title='browse subpost')
                     +i name='post'
                     |tribe #{subreddit}
                 .ui.big.label 

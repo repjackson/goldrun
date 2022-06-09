@@ -1,36 +1,3 @@
-if Meteor.isClient
-    Template.post_view.onCreated ->
-        @autorun => @subscribe 'related_group',Router.current().params.doc_id, ->
-
-    Template.post_view.onCreated ->
-        @autorun => @subscribe 'post_tips',Router.current().params.doc_id, ->
-    Template.tip_button.events 
-        'click .tip_post': ->
-            # console.log 'hi'
-            new_id = 
-                Docs.insert 
-                    model:'transfer'
-                    post_id:Router.current().params.doc_id
-                    complete:true
-                    amount:@amount
-                    transfer_type:'tip'
-                    tags:['tip']
-            Meteor.call 'calc_user_points', ->
-            $('body').toast(
-                showIcon: 'coins'
-                message: "post tipped #{amount} "
-                showProgress: 'bottom'
-                class: 'success'
-                # displayTime: 'auto',
-                position: "bottom right"
-            )
-                
-                
-if Meteor.isServer 
-    Meteor.publish 'post_tips', (post_id)->
-        Docs.find 
-            model:'transfer'
-            post_id:post_id
                 
 if Meteor.isClient
     # Template.posts.helpers

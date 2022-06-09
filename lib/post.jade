@@ -388,11 +388,12 @@ template(name='post_view')
                     //     a(href=rd.url) Lauren, supergirl, batgirl [Super best friends &amp; lauren faust])
                     // script(async src="//s.imgur.com/min/embed.js" charset="utf-8")
                     a.ui.header(href=rd.url target='_window') #{rd.url}
-                    with rd
-                        embed(src=url)
-                    if rd.media_embed
-                        // 
-                        |!{unescaped_content}
+                    
+                    // with rd
+                    //     embed(src=url)
+                    // if rd.media_embed
+                    //     // 
+                    //     |!{unescaped_content}
                     // +call_watson key=rd.selftext
                     if watson 
                         +watson_view
@@ -400,6 +401,10 @@ template(name='post_view')
                         +print_this
                     if is_image
                         img.ui.image(src=url)
+                    .ui.button.get_comments     
+                        |get comments
+                    if comments 
+                        .ui.header comments
             .five.wide.column
                 if thumbnail
                     img.ui.centered.rounded.image(src=thumbnail)

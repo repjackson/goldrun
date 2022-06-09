@@ -314,8 +314,16 @@ if Meteor.isClient
             return txt.value
     
             # html.unescape(@rd.selftext_html)
-    
-        
+    Template.post_view.events 
+        'click .get_comments':->
+            console.log @
+            Meteor.call 'get_comments', Router.current().params.doc_id, ->
+                
+    Template.post_view.helpers
+        comment_docs: ->
+            Docs.find 
+                model:'comment'
+                parent_id:Router.current().params.doc_id
     Template.posts.helpers
         porn_class: ->
             if Session.get('porn') then 'large red' else 'compact'
@@ -408,7 +416,6 @@ if Meteor.isClient
             else if whole is 8 then "f18"
             else if whole is 9 then "f19"
             else if whole is 10 then "f20"
-    
     
         connection: ->
             # console.log Meteor.status()
@@ -559,6 +566,23 @@ if Meteor.isClient
                 model:'overlap_tag'
             
 if Meteor.isServer 
+    Meteor.methods 
+        get_reddit_comments: (post_id)->
+            post =
+                Docs.findOne post_id
+            console.log post
+            # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
+            # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
+            # HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
+            link = "http://reddit.com/search.json?q=#{query}&nsfw=0&include_over_18=off"
+            HTTP.get link,(err,response)=>
+                # console.log response
+                if response.data.data.dist > 1
+                    _.each(response.data.data.children, (item)=>
+                        # console.log 'item', item
+                        unless item.domain is "OneWordBan"
+                            data = item.data
+
     Meteor.publish 'latest_mined_reddit_posts', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {
@@ -905,9 +929,17 @@ if Meteor.isClient
             Meteor.call 'find_tribe', @subreddit, (err,res)->
                 console.log res
                 Router.go "/group/#{res}"
+        'click .get_comments': ->
+            console.log @
+            Meteor.call 'get_reddit_comments', (Router.current().params.doc_id), ->
+                
                 
 if Meteor.isServer 
     Meteor.methods 
+        'get_reddit_comments': (doc_id)->
+            doc = Docs.findOne Router.current().params.doc_id, ->
+            
+                
         'find_tribe': (tribe_slug)->
             found = Docs.findOne 
                 model:'tribe'

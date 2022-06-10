@@ -64,23 +64,24 @@ Meteor.publish 'group_by_doc_id', (doc_id)->
                 model:1
     
 Meteor.publish 'unread_logs', ()->
-    Docs.find {
-        model:'log'
-        read_user_ids:$nin:[Meteor.userId()]
-    },
-        sort:_timestamp:-1
-        limit:10
-        fields:
-            body:1
-            _timestamp:1
-            read_user_ids:1
-            log_type:1
-            parent_id:1
-            parent_model:1
-            group_id:1
-            model:1
-            _author_id:1
-            _author_username:1
+    if Meteor.user()
+        Docs.find {
+            model:'log'
+            read_user_ids:$nin:[Meteor.userId()]
+        },
+            sort:_timestamp:-1
+            limit:10
+            fields:
+                body:1
+                _timestamp:1
+                read_user_ids:1
+                log_type:1
+                parent_id:1
+                parent_model:1
+                group_id:1
+                model:1
+                _author_id:1
+                _author_username:1
     
 Meteor.publish 'all_users', (child_id)->
     Meteor.users.find()

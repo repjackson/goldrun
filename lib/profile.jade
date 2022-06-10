@@ -145,12 +145,16 @@ template(name='user_inbox')
             |inbox
             .ui.label 
                 |#{user_unread_log_docs.count}
+        if is_current_user
+            .ui.button.mark_all_read
+                |mark all read
         // if currentUser
         //     unless is_current_user
         //         +send_message_button
         // if user_unread_log_docs.count
-        each user_unread_log_docs
-            +log_item
+        .ui.items
+            each user_unread_log_docs
+                +log_item
         .ui.small.header
             +i name='sent'
             |sent

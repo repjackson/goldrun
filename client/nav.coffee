@@ -57,6 +57,7 @@ Template.nav.onRendered ->
         
 Template.rightbar.events
     'click .logout': (e,t)->
+        Meteor.logout()
         log_item = {
             type:'logout'
             body: "#{Meteor.user().username} logged out"
@@ -67,7 +68,6 @@ Template.rightbar.events
         $(e.currentTarget).closest('.grid').transition('slide left', 500)
         $('.ui.rightbar').sidebar('hide')
         
-        Meteor.logout()
         $('body').toast({
             title: "logged out"
             # message: 'Please see desk staff for key.'

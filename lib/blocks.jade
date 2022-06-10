@@ -44,11 +44,11 @@ template(name='edit_button')
 
         
 template(name='log_item')
-    .ui.segment(class=read_class)
+    .ui.item(class=read_class)
         |#{body}
         +when
         +read_button
-        +group_info
+        // +group_info
         +author_info
         if in_dev 
             +print_this

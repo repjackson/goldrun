@@ -10,9 +10,33 @@ if Meteor.isClient
 
 
 
+    Template.user_inbox.onCreated ->
+        @autorun -> Meteor.subscribe 'unread_logs',->
+    Template.user_inbox.events
+        'click .mark_all_read': ->
+            Meteor.call 'mark_unread_logs_read', ->
+            
+if Meteor.isServer
+    Meteor.methods
+        mark_unread_logs_read: ->
+            Docs.update({
+                model:'log'
+                read_user_ids:$nin:[Meteor.userId()]
+            },{
+                $addToSet:
+                    read_user_ids:Meteor.userId()
+            },{multi:true})
+            
+if Meteor.isClient
+    Template.user_inbox.helpers
+        user_unread_log_docs: ->
+            Docs.find 
+                model:'log'
+                
+            
+    
     Template.profile_layout.onCreated ->
         Meteor.call 'calc_user_points', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'unread_logs',->
     Template.profile_layout.onRendered ->
         document.title = "profile";
         Meteor.call 'increment_profile_view', Router.current().params.username, ->

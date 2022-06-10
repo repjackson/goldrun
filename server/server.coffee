@@ -69,7 +69,7 @@ Meteor.publish 'unread_logs', ()->
         read_user_ids:$nin:[Meteor.userId()]
     },
         sort:_timestamp:-1
-        limit:42
+        limit:10
         fields:
             body:1
             _timestamp:1

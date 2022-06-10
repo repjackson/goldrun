@@ -17,7 +17,7 @@ template(name='food')
             .ui.large.icon.input
                 i.search.icon
                 input.food_search(type='text' placeholder='search recipes...' value=current_search)
-            each picked_tags
+            each picked_food_tags
                 button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
@@ -44,7 +44,7 @@ template(name='recipe_card')
             a.ui.header(href="/food/#{_id}")
                 | #{name}
             // .ui.label #{link}
-            .smallcut !{content}
+            a.smallcut.zoomer(href="/food/#{_id}") !{content}
             .ui.label #{points}p
             // .ui.label #{type}
             .ui.label ##{id}
@@ -54,7 +54,7 @@ template(name='recipe_card')
                     i.user.icon
                     |#{_author_username}
             each tags 
-                .ui.label #{this}
+                a.ui.label.zoomer.pick_food_tag #{this}
             if currentUser.admin_mode
                 +delete_button
             if details.glutenFree
@@ -62,19 +62,20 @@ template(name='recipe_card')
                     +i name='no-gluten'
                     |gluten free
             with details
-                .ui.big.label(title='aggregateLikes')
+                .ui.label(title='aggregateLikes')
                     i.thumbs.up.icon
                     |#{aggregateLikes}
-                .ui.big.label(title='')
+                .ui.label(title='')
                     i.clock.up.icon
                     |ready in 
                     strong #{readyInMinutes}
                     |minutes
-                .ui.big.label(title='servings')
+                .ui.label(title='servings')
                     i.hashtag.icon
                     strong #{servings}
                     |servings
-
+            .content
+                |mined #{_when} by #{_author_username}
 template(name='delete_button')
     .ui.icon.button.delete_this(title='delete this')
         i.large.remove.red.icon        

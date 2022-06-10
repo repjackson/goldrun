@@ -221,24 +221,41 @@ if Meteor.isClient
             # Meteor.call 'call_watson', Template.parentData()._id, parent.key, @mode, ->
             # if doc 
             # console.log 'calling client watson',doc, 'rd.selftext'
-            Meteor.call 'call_watson', @_id, 'rd.selftext', 'html', ->
+            $('body').toast({
+                title: "breaking down emotions"
+                # message: 'Please see desk staff for key.'
+                class : 'black'
+                showIcon:'chess loading'
+                # showProgress:'bottom'
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+            
+            Meteor.call 'call_watson', @_id, 'rd.selftext', 'html', (err,res)->
                 # $(e.currentTarget).closest('.button').transition('scale', 500)
-                # $('body').toast({
-                #     title: "emotions brokedown"
-                #     # message: 'Please see desk staff for key.'
-                #     class : 'success'
-                #     showIcon:'chess'
-                #     # showProgress:'bottom'
-                #     position:'bottom right'
-                #     # className:
-                #     #     toast: 'ui massive message'
-                #     # displayTime: 5000
-                #     transition:
-                #       showMethod   : 'zoom',
-                #       showDuration : 250,
-                #       hideMethod   : 'fade',
-                #       hideDuration : 250
-                #     })
+                $('body').toast({
+                    title: "emotions brokedown"
+                    # message: 'Please see desk staff for key.'
+                    class : 'black'
+                    showIcon:'smile'
+                    # showProgress:'bottom'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
                 Session.set('dummy', !Session.get('dummy'))
             # Meteor.call 'call_watson', doc._id, @key, @mode, ->
     Template.unpick_tag.events
@@ -656,9 +673,9 @@ if Meteor.isServer
         match.over_18 = porn
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
-            limit = 10
+            limit = 7
         else
-            limit = 20
+            limit = 10
         # else /
             # match.tags = $all: picked_tags
         agg_doc_count = Docs.find(match).count()

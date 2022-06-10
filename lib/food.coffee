@@ -103,11 +103,45 @@ if Meteor.isClient
             Meteor.call 'recipe_details', @_id, ->
     Template.food.events
         'keyup .food_search': (e,t)->
-            console.log 'hi'
+            # console.log 'hi'
             query = t.$('.food_search').val()
             Session.set('food_search',query)
             if e.which is 13
+                $('body').toast({
+                    title: "browsing #{query}"
+                    # message: 'Please see desk staff for key.'
+                    class : 'success'
+                    showIcon:'hashtag'
+                    # showProgress:'bottom'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                    transition:
+                      showMethod   : 'zoom',
+                      showDuration : 250,
+                      hideMethod   : 'fade',
+                      hideDuration : 250
+                    })
                 Meteor.call 'call_food', Session.get('food_search'), ->
+                    $('body').toast({
+                        title: "searched #{query}"
+                        # message: 'Please see desk staff for key.'
+                        class : 'success'
+                        showIcon:'hashtag'
+                        # showProgress:'bottom'
+                        position:'bottom right'
+                        # className:
+                        #     toast: 'ui massive message'
+                        # displayTime: 5000
+                        transition:
+                          showMethod   : 'zoom',
+                          showDuration : 250,
+                          hideMethod   : 'fade',
+                          hideDuration : 250
+                        })
+                t.$('.food_search').val('')
+                picked_food_tags.push query
             
     Template.food.helpers
         food_docs: ->
@@ -140,7 +174,7 @@ if Meteor.isServer
         recipe_details: (doc_id)->
             doc = Docs.findOne doc_id
             HTTP.get "https://api.spoonacular.com/recipes/#{doc.id}/information/?includeNutrition=false&apiKey=e52f2f2ca01a448e944d94194e904775&",(err,res)=>
-                console.log res.data
+                # console.log res.data
                 Docs.update doc_id, 
                     $set:
                         details:res.data

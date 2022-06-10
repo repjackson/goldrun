@@ -144,6 +144,10 @@ Template.nav.onCreated ->
 
 
 Template.nav.events
+    'click .clear_read': ->
+        $('.ui.toast').toast('close')
+        Meteor.call 'mark_unread_logs_read', ->
+
     'click .add_doc': ->
         new_id = 
             Docs.insert {model:Session.get('model')}

@@ -14,6 +14,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'unread_logs',->
     Template.user_inbox.events
         'click .mark_all_read': ->
+            $('.ui.toast').toast('close')
             Meteor.call 'mark_unread_logs_read', ->
             
 if Meteor.isServer

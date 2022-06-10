@@ -56,24 +56,15 @@ template(name='nav')
             a.icon.item.toggle_leftbar
                 i.large.bars.grey.icon
             if currentUser
-                a.fly_up.zoomer.item.tada(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile' class="{{isActiveRoute 'profile'}}" )
-                    if currentUser.image_id
-                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=300 height=300 gravity='face' crop='fill'}}")
-                    else
-                        i.user.icon
-                    strong #{currentUser.username}
-                    |&nbsp;
-                a.fly_up.zoomer.item.tada(href="/user/#{currentUser.username}" title='bank' class="{{isActiveRoute 'user_points'}}" )
-                    |{{points_to_coins currentUser.points}}c
-                a.icon.item.zoomer.fly_down.add_doc(title='add doc')
-                    // +i name='plus'
-                    i.large.plus.icon
-                // a.icon.item(href="/mail/inbox")
                 if unread_count
                     a.item(href="/user/#{currentUser.username}/inbox" title='unread messages')
                         // +i name='inbox'
                         i.envelope.icon
                         strong #{unread_count}
+                    a.item.zoomer.clear_read(title='mark all read')
+                        i.envelope.icon
+                        i.remove.icon
+                        
 
         unless subs_ready
             .icon.item
@@ -94,6 +85,20 @@ template(name='nav')
                 |relink
                 i.large.circular.refresh.link.icon.zoomer.reconnect(title='reconnect now')
         .right.menu
+            if currentUser
+                a.fly_up.zoomer.item.tada(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile' class="{{isActiveRoute 'profile'}}" )
+                    if currentUser.image_id
+                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=300 height=300 gravity='face' crop='fill'}}")
+                    else
+                        i.user.icon
+                    strong #{currentUser.username}
+                    |&nbsp;
+                a.fly_up.zoomer.item.tada(href="/user/#{currentUser.username}" title='bank' class="{{isActiveRoute 'user_points'}}" )
+                    |{{points_to_coins currentUser.points}}c
+                a.icon.item.zoomer.fly_down.add_doc(title='add doc')
+                    // +i name='plus'
+                    i.large.plus.icon
+                // a.icon.item(href="/mail/inbox")
             a.icon.item.toggle_rightbar.no_blink
                 // .ui.avatar.image
                 //     if currentUser.image_id

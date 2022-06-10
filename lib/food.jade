@@ -1,9 +1,18 @@
 template(name='food')
     .ui.stackable.padded.grid 
-        .sixteen.wide.column
+        .four.wide.column
             .ui.inline.header 
                 +i name='food'
                 |food
+            
+            each picked_types
+                button.ui.blue.compact.circular.button.unpick_type(tabindex='0')
+                    //- i.remove.icon
+                    | #{this}
+            each types_results
+                button.ui.large.label.button.pick_type(tabindex="0" class=result_class title=count)
+                    |#{name}
+                    // small #{count}
             .ui.large.icon.input
                 i.search.icon
                 input.food_search(type='text' placeholder='search recipes...' value=current_search)
@@ -16,7 +25,7 @@ template(name='food')
                     |#{name}
                     // small #{count}
 
-        .sixteen.wide.column
+        .twelve.wide.column
             if subs_ready
                 .ui.centered.stackable.cards 
                     each recipe_docs

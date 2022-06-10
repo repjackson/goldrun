@@ -292,7 +292,7 @@ Tracker.autorun ->
     
 Meteor.users.find(_id:Meteor.userId()).observe({
     changed: (new_doc, old_doc)->
-        console.log 'changed', new_doc.points, old_doc.points
+        # console.log 'changed', new_doc.points, old_doc.points
         difference = new_doc.points-old_doc.points
         if difference > 0
             $('body').toast({
@@ -312,6 +312,32 @@ Meteor.users.find(_id:Meteor.userId()).observe({
                   hideDuration : 250
                 })
 
+})
+    
+    
+    
+# Docs.find({model:'log',read_user_ids:$nin:[Meteor.userId()]}).observe({
+Docs.find({model:'log'}).observe({
+    added: (new_doc)->
+        console.log 'alert', new_doc
+        # difference = new_doc.points-old_doc.points
+        # if difference > 0
+        $('body').toast({
+            title: "#{new_doc.body}"
+            # message: 'Please see desk staff for key.'
+            class : 'success'
+            showIcon:'hashtag'
+            # showProgress:'bottom'
+            position:'top right'
+            # className:
+            #     toast: 'ui massive message'
+            # displayTime: 5000
+            transition:
+              showMethod   : 'zoom',
+              showDuration : 250,
+              hideMethod   : 'fade',
+              hideDuration : 250
+            })
 })
     
     

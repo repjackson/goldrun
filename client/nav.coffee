@@ -95,7 +95,7 @@ Template.nav.onCreated ->
     @autorun -> Meteor.subscribe 'me', ->
     # @autorun -> Meteor.subscribe 'all_users', ->
     # @autorun -> Meteor.subscribe 'model_docs','group', ->
-    @autorun -> Meteor.subscribe 'unread_logs'
+    @autorun -> Meteor.subscribe 'unread_logs', ->
 
 
 Template.nav.events

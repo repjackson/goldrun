@@ -570,18 +570,18 @@ if Meteor.isServer
         get_reddit_comments: (post_id)->
             post =
                 Docs.findOne post_id
-            console.log post
+            # console.log post
             # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
             # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
             # HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
-            link = "http://reddit.com/search.json?q=#{query}&nsfw=0&include_over_18=off"
+            link = "http://reddit.com/comments/#{post.reddit_id}?depth=1"
             HTTP.get link,(err,response)=>
-                # console.log response
-                if response.data.data.dist > 1
-                    _.each(response.data.data.children, (item)=>
-                        # console.log 'item', item
-                        unless item.domain is "OneWordBan"
-                            data = item.data
+                console.log _.keys(response)
+                # if response.data.data.dist > 1
+                #     _.each(response.data.data.children, (item)=>
+                #         console.log 'item', item
+                        # unless item.domain is "OneWordBan"
+                        #     data = item.data
 
     Meteor.publish 'latest_mined_reddit_posts', (username)->
         user = Meteor.users.findOne username:username
@@ -936,11 +936,7 @@ if Meteor.isClient
                 
 if Meteor.isServer 
     Meteor.methods 
-        'get_reddit_comments': (doc_id)->
-            doc = Docs.findOne Router.current().params.doc_id, ->
-            
-                
-        'find_tribe': (tribe_slug)->
+        find_tribe: (tribe_slug)->
             found = Docs.findOne 
                 model:'tribe'
                 slug:tribe_slug

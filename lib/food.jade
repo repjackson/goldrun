@@ -4,8 +4,8 @@ template(name='food')
         .four.wide.column
             .ui.inline.header 
                 +i name='food'
+                |{{comma food_count}}
                 |food
-            
             each picked_types
                 button.ui.blue.compact.circular.button.unpick_type(tabindex='0')
                     //- i.remove.icon

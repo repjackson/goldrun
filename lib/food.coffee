@@ -10,6 +10,22 @@ if Meteor.isClient
         
     @picked_food_tags = new ReactiveArray()
     
+    
+    Template.food.onCreated ->
+        @autorun => Meteor.subscribe 'food_counter', ->
+    Template.food.helpers
+        food_count: -> Counts.get('food_counter') 
+    
+if Meteor.isServer
+    Meteor.publish 'food_counter', (model)->
+        # if model 
+        Counts.publish this, 'food_counter', 
+            Docs.find({
+                model:'recipe'
+            })
+        return undefined    # otherwise coffeescript returns a Counts.publish
+
+if Meteor.isClient    
     Template.food_page.onCreated ->
         @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.food.onCreated ->
@@ -110,6 +126,7 @@ if Meteor.isClient
         'click .pick_tag': ->
             picked_food_tags.push @name
             window.speechSynthesis.speak new SpeechSynthesisUtterance @name
+            Meteor.call 'call_food', @name, ->
 
         'click .unpick_tag': ->
             picked_food_tags.remove @valueOf()
@@ -133,13 +150,13 @@ if Meteor.isServer
             console.log 'calling', search
             # HTTP.get "https://api.spoonacular.com/mealplanner/generate?apiKey=e52f2f2ca01a448e944d94194e904775&timeFrame=day&targetCalories=#{calories}",(err,res)=>
             HTTP.get "https://api.spoonacular.com/food/search?apiKey=e52f2f2ca01a448e944d94194e904775&query=#{search}",(err,res)=>
-                console.log res.data
+                # console.log res.data
                 for result in res.data.searchResults
                     # console.log result.name
                     # if result.name is 'Recipes'
                     recipes = _.where(res.data.searchResults, {name:'Recipes'})
                     for recipe in recipes[0].results
-                        console.log recipe
+                        # console.log recipe
                         found_recipe = 
                             Docs.findOne 
                                 model:'recipe'

@@ -213,13 +213,13 @@ Template.layout.events
 
 
 # Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
-# Router.route '/', (->
-#     @layout 'layout'
-#     @render 'docs'
-#     ), name:'home'
 Router.route '/', (->
-    @redirect('/food');
+    @layout 'layout'
+    @render 'home'
     ), name:'home'
+# Router.route '/', (->
+#     @redirect('/');
+#     ), name:'home'
 Router.route '/docs', (->
     @redirect('/posts');
     ), name:'docs'

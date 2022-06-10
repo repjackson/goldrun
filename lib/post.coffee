@@ -31,6 +31,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'posts'
         ), name:'posts'
+    Template.posts.onCreated ->
+        @autorun => Meteor.subscribe 'model_counter',('reddit'), ->
+    Template.posts.helpers
+        total_post_count: -> Counts.get('model_counter') 
 
 
     Template.post_view.onCreated ->

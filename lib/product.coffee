@@ -12,10 +12,6 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'product_counter', ->
     Template.products.helpers
         product_count: -> Counts.get('product_counter') 
-    Template.posts.onCreated ->
-        @autorun => Meteor.subscribe 'model_counter',('reddit'), ->
-    Template.posts.helpers
-        total_post_count: -> Counts.get('model_counter') 
 
     
 if Meteor.isServer

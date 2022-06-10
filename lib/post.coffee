@@ -161,6 +161,9 @@ if Meteor.isClient
                     $inc:
                         points:1
                         anon_points:1
+            Session.set('dummy', !Session.get('dummy'))
+
+            
         'click .vote_down': ->
             if Meteor.user()
                 Docs.update @_id,
@@ -179,6 +182,8 @@ if Meteor.isClient
                     $inc:
                         points:1
                         anon_points:1
+            Session.set('dummy', !Session.get('dummy'))
+
         'click .expand': ->
             Session.set('full_doc_id', @_id)
             Session.set('dummy', !Session.get('dummy'))
@@ -651,9 +656,9 @@ if Meteor.isServer
         match.over_18 = porn
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
-            limit = 7
-        else
             limit = 10
+        else
+            limit = 20
         # else /
             # match.tags = $all: picked_tags
         agg_doc_count = Docs.find(match).count()

@@ -14,6 +14,8 @@ if Meteor.isClient
             picked_tags.array()
             Session.get('porn')
             Session.get('dummy')
+            
+    Template.doc_results.onCreated ->
         @autorun => @subscribe 'reddit_doc_results',
             picked_tags.array()
             Session.get('porn')
@@ -111,7 +113,7 @@ if Meteor.isClient
                 @tags[..5]
     Template.flat_tag_picker.events
         'click .remove_tag': ->
-            console.log @
+            # console.log @
             parent = Template.parentData()
             console.log parent
             # if confirm "remove #{@valueOf()} tag?"
@@ -374,21 +376,6 @@ if Meteor.isClient
     
         term_icon: ->
             console.log @
-        doc_results: ->
-            current_docs = Docs.find()
-            # if Session.get('selected_doc_id') in current_docs.fetch()
-            # console.log current_docs.fetch()
-            # Docs.findOne Session.get('selected_doc_id')
-            doc_count = Docs.find().count()
-            # if doc_count is 1
-            Docs.find({model:'reddit'}, 
-                limit:20
-                sort:
-                    points:-1
-                    ups:-1
-                    # "#{Session.get('sort_key')}":Session.get('sort_direction')
-            )
-    
         is_loading: -> Session.get('is_loading')
     
         tag_result_class: ->
@@ -564,7 +551,26 @@ if Meteor.isClient
         overlap_tags: ->
             Results.find 
                 model:'overlap_tag'
-            
+
+    Template.doc_results.helpers
+        doc_results: ->
+            current_docs = Docs.find()
+            # if Session.get('selected_doc_id') in current_docs.fetch()
+            # console.log current_docs.fetch()
+            # Docs.findOne Session.get('selected_doc_id')
+            doc_count = Docs.find().count()
+            # if doc_count is 1
+            Docs.find({model:'reddit'}, 
+                limit:20
+                sort:
+                    points:-1
+                    ups:-1
+                    # "#{Session.get('sort_key')}":Session.get('sort_direction')
+            )
+    
+
+
+  
 if Meteor.isServer 
     Meteor.methods 
         get_reddit_comments: (post_id)->
@@ -828,7 +834,7 @@ if Meteor.isServer
             limit = 10
         else
             limit = 20
-        console.log 'match overlap', match, Docs.find(match).count()
+        # console.log 'match overlap', match, Docs.find(match).count()
         # else /
             # match.tags = $all: picked_tags
         agg_doc_count = Docs.find(match).count()
@@ -925,7 +931,7 @@ if Meteor.isClient
         @autorun => @subscribe 'post_tips',Router.current().params.doc_id, ->
     Template.post_view.events 
         'click .goto_subreddit': ->
-            console.log @subreddit
+            # console.log @subreddit
             Meteor.call 'find_tribe', @subreddit, (err,res)->
                 console.log res
                 Router.go "/group/#{res}"

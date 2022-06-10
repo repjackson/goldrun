@@ -105,32 +105,34 @@ template(name='posts')
                         +session_set key='limit' value=25
                         +session_set key='limit' value=100
                 
-                            
-                if subs_ready
-                    if session_is 'view_mode' 'list'
-                        .ui.segment.alpha
-                            .ui.selection.animated.divided.list 
-                                each doc_results
-                                    +post_item
-                    else
-                        if full_doc_id
-                            with full_doc 
-                                +post_card_big
-                        else if one_result
-                            .ui.stackable.centered.link.one.cards
-                                each doc_results
-                                    +post_card_big
-                        else 
-                            .ui.stackable.centered.link.cards.scrolling
-                                each doc_results
-                                    +post_card
-                                // +small_card
-                else 
-                    if picked_tags
-                        .ui.center.aligned.basic.segment
-                            +ibig name='news' cl='spinning'
-                            +ibig name='reddit' cl='spinning'
-                            // i.massive.yin.yang.grey.loading.icon
+                +doc_results
+                
+template(name='doc_results')
+    if subs_ready
+        if session_is 'view_mode' 'list'
+            .ui.segment.alpha
+                .ui.selection.animated.divided.list 
+                    each doc_results
+                        +post_item
+        else
+            if full_doc_id
+                with full_doc 
+                    +post_card_big
+            else if one_result
+                .ui.stackable.centered.link.one.cards
+                    each doc_results
+                        +post_card_big
+            else 
+                .ui.stackable.centered.link.cards.scrolling
+                    each doc_results
+                        +post_card
+                    // +small_card
+    else 
+        if picked_tags
+            .ui.center.aligned.basic.segment
+                +ibig name='news' cl='spinning'
+                +ibig name='reddit' cl='spinning'
+                // i.massive.yin.yang.grey.loading.icon
                             
 template(name='unpick_tag')
     button.ui.big.image.link.label.zoomer.unpick_tag.pointer(tabindex="0" class="#{loading_class} #{active_term_class}")

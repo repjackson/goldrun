@@ -365,11 +365,14 @@ if Meteor.isClient
                     group_id:Router.current().params.doc_id
             Router.go "/doc/#{new_id}/edit"
         'click .join': ->
-            doc = Docs.findOne Router.current().params.doc_id
-            Docs.update doc._id,
-                $addToSet:
-                    member_ids:Meteor.userId()
-                    member_usernames:Meteor.user().username
+            if Meteor.user()
+                doc = Docs.findOne Router.current().params.doc_id
+                Docs.update doc._id,
+                    $addToSet:
+                        member_ids:Meteor.userId()
+                        member_usernames:Meteor.user().username
+            else 
+                Router.go '/login'
         'click .leave': ->
             doc = Docs.findOne Router.current().params.doc_id
             Docs.update doc._id,

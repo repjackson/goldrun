@@ -347,7 +347,7 @@ Docs.find({model:'log',read_user_ids:{$nin:[Meteor.userId()]}}).observe({
             }]
             showIcon:'bell'
             # showProgress:'bottom'
-            position:'top right'
+            position:'bottom right'
             # className:
             #     toast: 'ui massive message'
             # displayTime: 5000

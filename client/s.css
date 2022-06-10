@@ -423,8 +423,9 @@ body {
     border-radius: 15px !important;
     /*box-shadow: 5px 5px 5px 5px grey !important; */
 }
-.button {
-    border-radius: 15px !important;
+.
+{
+    /*border-radius: 15px !important;*/
     /*color: black !important;*/
     /*background-color: darkgrey !important; */
     /*box-shadow: inset 5px 5px 10px #333 !important; */
@@ -640,7 +641,8 @@ embed {
     border-radius: 15px !important; 
 }
 
-.disabled.button, .disabled.segment, .disabled.label{
+.disabled.
+, .disabled.segment, .disabled.label{
     /* -webkit-border-radius: 5px !important; */
     /* -moz-border-radius: 5px !important; */
     opacity:.4 !important;
@@ -653,7 +655,7 @@ embed {
 }
 
 .button {
-    margin:2px !important;
+    /*margin:2px !important;*/
     
 }
 
@@ -897,7 +899,7 @@ h1.ui.header{
 
 
 .menu > .ui.button{
-	 margin_top: 2em !important;
+	 /*margin_top: 2em !important;*/
 }
 
 .menu > .item:active{

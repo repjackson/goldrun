@@ -70,6 +70,42 @@ template(name='nav')
             .icon.item
                 +i name='one-ring' cl='spinning'
                 i.yin.yang.large.loading.icon
+        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/products" class="{{isActiveRoute 'products'}}" title=products)
+            +i name='shopping-cart'
+            // i.large.products.icon
+            // unless currentUser.hide_labels
+            //     |products
+        // +nav_item key='product' icon='shopping-cart'
+        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/posts" class="{{isActiveRoute regex='post'}}" title='posts')
+            +i name='news'
+            // i.large.music.icon
+            // unless currentUser.hide_labels
+            //     |posts
+        +nav_item key='event' icon='calendar'
+        +nav_item key='transfer' icon='exchange'
+        +nav_item key='service' icon='wrench'
+        +nav_item key='rental' icon='clock'
+        +nav_item key='task' icon='tasks'
+        // +nav_item key='checkin' icon='checkmark'
+        +nav_item key='log' icon='code'
+        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/users" class="{{isActiveRoute 'users'}}" title=users)
+            +i name='groups'
+            // i.large.users.icon
+            // unless currentUser.hide_labels
+            //     |users
+        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/groups" class="{{isActiveRoute regex='group'}}" title='groups')
+            +i name='campfire'
+            // i.large.music.icon
+            // unless currentUser.hide_labels
+            //     |groups
+        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/food" class="{{isActiveRoute regex='food'}}" title='food')
+            +i name='food'
+            // unless currentUser.hide_labels
+            //     |recipes
+        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/music" class="{{isActiveRoute regex='music'}}" title='music')
+            +i name='music'
+            // unless currentUser.hide_labels
+            //     |music
         unless currentUser
             // a.item(href="/register" title='register')
             //     +i name='plus'
@@ -107,49 +143,13 @@ template(name='nav')
                 //         i.user.big.icon
                 // strong.mobilehidden #{currentUser.name}
                 i.bars.large.grey.icon
-    if is_connected
-        .ui.small.attached.borderless.menu.hscroll
-            a.item.zoomer.fly_right.clear_search.mobilehidden(href="/products" class="{{isActiveRoute 'products'}}" title=products)
-                +i name='shopping-cart'
-                // i.large.products.icon
-                // unless currentUser.hide_labels
-                //     |products
-            // +nav_item key='product' icon='shopping-cart'
-            a.item.zoomer.fly_right.clear_search.mobilehidden(href="/posts" class="{{isActiveRoute regex='post'}}" title='posts')
-                +i name='news'
-                // i.large.music.icon
-                // unless currentUser.hide_labels
-                //     |posts
-            +nav_item key='event' icon='calendar'
-            +nav_item key='transfer' icon='exchange'
-            +nav_item key='service' icon='wrench'
-            +nav_item key='rental' icon='clock'
-            +nav_item key='task' icon='tasks'
-            // +nav_item key='checkin' icon='checkmark'
-            +nav_item key='log' icon='code'
-             a.item.zoomer.fly_right.clear_search.mobilehidden(href="/users" class="{{isActiveRoute 'users'}}" title=users)
-                +i name='groups'
-                // i.large.users.icon
-                // unless currentUser.hide_labels
-                //     |users
-            a.item.zoomer.fly_right.clear_search.mobilehidden(href="/groups" class="{{isActiveRoute regex='group'}}" title='groups')
-                +i name='campfire'
-                // i.large.music.icon
-                // unless currentUser.hide_labels
-                //     |groups
-            a.item.zoomer.fly_right.clear_search.mobilehidden(href="/food" class="{{isActiveRoute regex='food'}}" title='food')
-                +i name='food'
-                // unless currentUser.hide_labels
-                //     |recipes
-            a.item.zoomer.fly_right.clear_search.mobilehidden(href="/music" class="{{isActiveRoute regex='music'}}" title='music')
-                +i name='music'
-                // unless currentUser.hide_labels
-                //     |music
+            
+            
 
 
 
 template(name='nav_item')
-    a.item.zoomer.fly_right.clear_search.go_route.tada.mobilehidden(href="/m/#{key}" class="{{nav_item_class key}}" title=key)
+    a.item.zoomer.fly_right.clear_search.go_route.tada.mobile.hidden(href="/m/#{key}" class="{{nav_item_class key}}" title=key)
         +i name=icon
         // i.large.icon(class=icon)
         // unless currentUser.hide_labels

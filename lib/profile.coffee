@@ -354,7 +354,7 @@ if Meteor.isClient
 
     Template.logout_button.events
         'click .logout': (e,t)->
-            Meteor.call 'insert_log', 'logout', Session.get('current_userid'), ->
+            # Meteor.call 'insert_log', 'logout', Session.get('current_userid'), ->
                 
             Router.go '/login'
             $(e.currentTarget).closest('.grid').transition('slide left', 500)

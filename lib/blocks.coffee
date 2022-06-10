@@ -564,6 +564,17 @@ if Meteor.isClient
         is_member: ->
             @member_ids and Meteor.userId() in @member_ids
 
+if Meteor.isServer
+    Meteor.methods 
+        create_log: (log_item)->
+            log_item.model = 'log'
+            log_item.read_user_ids = [Meteor.userId()]
+            Docs.insert log_item
+            
+                
+
+
+if Meteor.isClient
     Template.join_button.events 
         'click .join': ->
             if Meteor.user()
@@ -574,13 +585,14 @@ if Meteor.isClient
                 Meteor.users.update Meteor.userId(),
                     $addToSet:
                         group_member_ids:@_id
-                Docs.insert 
-                    model:'log'
-                    body:"#{Meteor.user().username} joined #{@title}"
-                    parent_id:@_id
-                    parent_model:'group'
-                    group_id:@_id
-                    published:true
+                    log_item = {
+                        body:"#{Meteor.user().username} joined #{@title}"
+                        parent_id:@_id
+                        parent_model:'group'
+                        group_id:@_id
+                        published:true
+                    }
+                Meteor.call 'create_log', log_item, ->
                 $('body').toast({
                     title: "joined group"
                     # message: 'Please see desk staff for key.'
@@ -606,15 +618,14 @@ if Meteor.isClient
             Meteor.users.update Meteor.userId(),
                 $pull:
                     group_member_ids:@_id
-                    
-            Docs.insert 
-                model:'log'
+            log_item = {    
                 body:"#{Meteor.user().username} left #{@title}"
                 parent_id:@_id
                 parent_model:'group'
                 group_id:@_id
                 published:true
-
+            }
+            Meteor.call 'create_log', log_item, ->
             $('body').toast({
                 title: "left group"
                 # message: 'Please see desk staff for key.'

@@ -55,6 +55,34 @@ Template.nav.onRendered ->
     
         
         
+Template.rightbar.events
+    'click .logout': (e,t)->
+        log_item = {
+            type:'logout'
+            body: "#{Meteor.user().username} logged out"
+            }
+        Meteor.call 'create_log', log_item,->
+            
+        Router.go '/login'
+        $(e.currentTarget).closest('.grid').transition('slide left', 500)
+        $('.ui.rightbar').sidebar('hide')
+        
+        Meteor.logout()
+        $('body').toast({
+            title: "logged out"
+            # message: 'Please see desk staff for key.'
+            class : 'success'
+            position:'bottom right'
+            # className:
+            #     toast: 'ui massive message'
+            # displayTime: 5000
+            transition:
+              showMethod   : 'zoom',
+              showDuration : 250,
+              hideMethod   : 'fade',
+              hideDuration : 250
+            })
+
 Template.nav.events
     'click .refresh_gps': ->
         navigator.geolocation.getCurrentPosition (position) =>

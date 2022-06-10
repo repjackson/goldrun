@@ -317,48 +317,49 @@ Meteor.users.find(_id:Meteor.userId()).observe({
     
     
 # Docs.find({model:'log',read_user_ids:$nin:[Meteor.userId()]}).observe({
-Docs.find({model:'log',read_user_ids:{$nin:[Meteor.userId()]}}).observe({
-    added: (new_doc)->
-        console.log 'alert', new_doc
-        # difference = new_doc.points-old_doc.points
-        # author = Meteor.users.findOne new_doc._author_id
-        # Meteor.call "c.get_download_url", author.image_id,(err,download_url) ->
-        #     console.log "Upload Error: #{err}"
-        #     console.log "#{download_url}"
-
-        # if difference > 0
-        $('body').toast({
-            title: "#{new_doc.body}"
-            # showImage:"{{c.url currentUser.image_id width=300 height=300 gravity='face' crop='fill'}}"
-            # classImage: 'avatar',
-            message: "#{moment(new_doc._timestamp).fromNow()}"
-            displayTime: 0,
-            class: 'black',
-            # classActions: 'ui fluid',
-            actions: [{
-                text: 'mark read'
-                class: 'ui fluid green button'
-                click: ()->
-                    Docs.update new_doc._id,
-                        $addToSet:
-                            read_user_ids:Meteor.userId()
-
-                    # $('body').toast({message:'You clicked "yes", toast closes by default'})
-            }]
-            showIcon:'bell'
-            # showProgress:'bottom'
-            position:'top right'
-            # className:
-            #     toast: 'ui massive message'
-            # displayTime: 5000
-            transition:
-                showMethod   : 'zoom',
-                showDuration : 250,
-                hideMethod   : 'zoom',
-                hideDuration : 250
-        })
-})
+if Meteor.user()
+    Docs.find({model:'log',read_user_ids:{$nin:[Meteor.userId()]}}).observe({
+        added: (new_doc)->
+            console.log 'alert', new_doc
+            # difference = new_doc.points-old_doc.points
+            # author = Meteor.users.findOne new_doc._author_id
+            # Meteor.call "c.get_download_url", author.image_id,(err,download_url) ->
+            #     console.log "Upload Error: #{err}"
+            #     console.log "#{download_url}"
     
+            # if difference > 0
+            $('body').toast({
+                title: "#{new_doc.body}"
+                # showImage:"{{c.url currentUser.image_id width=300 height=300 gravity='face' crop='fill'}}"
+                # classImage: 'avatar',
+                message: "#{moment(new_doc._timestamp).fromNow()}"
+                displayTime: 0,
+                class: 'black',
+                # classActions: 'ui fluid',
+                actions: [{
+                    text: 'mark read'
+                    class: 'ui fluid green button'
+                    click: ()->
+                        Docs.update new_doc._id,
+                            $addToSet:
+                                read_user_ids:Meteor.userId()
+    
+                        # $('body').toast({message:'You clicked "yes", toast closes by default'})
+                }]
+                showIcon:'bell'
+                # showProgress:'bottom'
+                position:'top right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                    showMethod   : 'zoom',
+                    showDuration : 250,
+                    hideMethod   : 'zoom',
+                    hideDuration : 250
+            })
+    })
+        
     
     
 Template.footer.helpers

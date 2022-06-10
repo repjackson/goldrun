@@ -103,7 +103,7 @@ template(name='nav')
                 // strong.mobilehidden #{currentUser.name}
                 i.bars.large.grey.icon
     if is_connected
-        .ui.small.attached.menu.hscroll
+        .ui.small.attached.borderless.menu.hscroll
             a.item.zoomer.fly_right.clear_search.mobilehidden(href="/products" class="{{isActiveRoute 'products'}}" title=products)
                 +i name='shopping-cart'
                 // i.large.products.icon
@@ -187,7 +187,7 @@ template(name='recent_alert')
             
             
 template(name='rightbar')
-    .ui.right.sidebar.vertical.small.menu.rightbar
+    .ui.right.sidebar.vertical.small.borderless.menu.rightbar
         with currentUser
             a.item.toggle_rightbar.no_blink(href="/user/#{currentUser.username}" class="{{isActiveRoute 'user_layout'}}")
                 img.ui.avatar.compact.image(src="{{c.url currentUser.image_id height=200 width=200 gravity='face' crop='fill'}}")
@@ -245,7 +245,7 @@ template(name='right_nav_item')
 
 
 template(name='leftbar')
-    .ui.left.sidebar.ui.vertical.small.menu
+    .ui.left.sidebar.ui.vertical.small.borderless.menu
         +leftbar_item key='posts' icon='news'
         +leftbar_item key='products' icon='shop'
         +leftbar_item key='recipes' icon='food'

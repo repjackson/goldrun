@@ -14,7 +14,7 @@ template(name='music')
                     //- i.remove.icon
                     | #{this}
             each model_results
-                button.ui.circular.compact.black.button.pick_model(tabindex="0" class=result_class title=count)
+                button.ui.circular.compact.button.pick_model(tabindex="0" class=result_class title=count)
                     if is name 'artist'
                         +i name='artist'
                     else if is name 'album'
@@ -28,7 +28,7 @@ template(name='music')
                     //- i.remove.icon
                     | #{this}
             each music_tag_results
-                button.ui.circular.compact.black.button.pick_tag(tabindex="0" class=result_class title=count)
+                button.ui.circular.compact.button.pick_tag(tabindex="0" class=result_class title=count)
                     |#{name}
                     // small #{count}
 
@@ -42,7 +42,7 @@ template(name='music')
                         | #{this}
                 each genre_results
                     if name
-                        button.ui.circular.compact.black.button.pick_genre(tabindex="0" class=result_class title=count)
+                        button.ui.circular.compact.button.pick_genre(tabindex="0" class=result_class title=count)
                             |#{name}
                             // small #{count}
             .ui.inline.small.header
@@ -54,7 +54,7 @@ template(name='music')
                     | #{this}
             each style_results
                 if name
-                    button.ui.circular.compact.black.button.pick_style(tabindex="0" class=result_class title=count)
+                    button.ui.circular.compact.button.pick_style(tabindex="0" class=result_class title=count)
                         |#{name}
                         // small #{count}
             .ui.inline.small.header
@@ -66,7 +66,7 @@ template(name='music')
                     | #{this}
             each mood_results
                 if name
-                    button.ui.circular.compact.black.button.pick_mood(tabindex="0" class=result_class title=count)
+                    button.ui.circular.compact.button.pick_mood(tabindex="0" class=result_class title=count)
                         |#{name}
                         // small #{count}
         .twelve.wide.column

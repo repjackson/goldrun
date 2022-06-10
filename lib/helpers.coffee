@@ -1,4 +1,6 @@
 if Meteor.isClient   
+    Template.registerHelper 'comma', (input) ->
+        input.toLocaleString("en-US")
     Template.registerHelper 'emotion_color', () ->
         if @sentiment
             if @sentiment is 'positive' then 'green' else 'red'

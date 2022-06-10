@@ -9,6 +9,9 @@ if Meteor.isClient
             $('.ui.embed').embed();
         , 1000
     
+    Template.i.helpers
+        is_active: -> 
+            # console.log @
     
     Template.youtube_edit.events
         'blur .youtube_id': (e,t)->

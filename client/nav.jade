@@ -1,3 +1,101 @@
+template(name='nav')
+    // #topnav.topnav.ui.attached.borderless.big.four.item.menu.hscroll(class=darkmode_class)
+        https://fomantic-ui.com/elements/icon.html#/icon
+    // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
+    #topnav.topnav.ui.attached.borderless.menu.hscroll
+        if is_connected
+            a.icon.item.toggle_leftbar
+                i.large.bars.grey.icon
+            if currentUser
+                if unread_count
+                    a.item(href="/user/#{currentUser.username}/inbox" title='unread messages')
+                        // +i name='inbox'
+                        i.envelope.icon
+                        strong #{unread_count}
+                    a.item.zoomer.clear_read(title='mark all read')
+                        i.envelope.icon
+                        i.remove.icon
+        unless subs_ready
+            .icon.item
+                +i name='one-ring' cl='spinning'
+                i.yin.yang.large.loading.icon
+        .input.item 
+            input.global_search(type='text' placeholder='search...')
+        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/products" class="{{isActiveRoute 'products'}}" title=products)
+            +i name='shopping-cart'
+            // i.large.products.icon
+            // unless currentUser.hide_labels
+            //     |products
+        // +nav_item key='product' icon='shopping-cart'
+        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/posts" class="{{isActiveRoute regex='post'}}" title='posts')
+            +i name='news'
+            // i.large.music.icon
+            // unless currentUser.hide_labels
+            //     |posts
+        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/users" class="{{isActiveRoute 'users'}}" title=users)
+            +i name='groups'
+            // i.large.users.icon
+            // unless currentUser.hide_labels
+            //     |users
+        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/groups" class="{{isActiveRoute regex='group'}}" title='groups')
+            +i name='campfire'
+            // i.large.music.icon
+            // unless currentUser.hide_labels
+            //     |groups
+        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/food" class="{{isActiveRoute regex='food'}}" title='food')
+            +i name='food'
+            // unless currentUser.hide_labels
+            //     |recipes
+        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/music" class="{{isActiveRoute regex='music'}}" title='music')
+            +i name='music'
+            // unless currentUser.hide_labels
+            //     |music
+        +nav_item key='event' icon='calendar'
+        +nav_item key='transfer' icon='exchange'
+        +nav_item key='service' icon='wrench'
+        +nav_item key='rental' icon='clock'
+        +nav_item key='task' icon='tasks'
+        // +nav_item key='checkin' icon='checkmark'
+        +nav_item key='log' icon='code'
+        unless currentUser
+            // a.item(href="/register" title='register')
+            //     +i name='plus'
+            //     span.mobilehidden register            
+            a.item(href='/login' title='login' class="{{isActiveRoute 'login'}}" ) 
+                i.sign.in.large.icon
+                // +i name='internal'
+                // span.mobilehidden login
+        unless is_connected
+            a.item.zoomer.reconnect
+                i.yin.yang.big.loading.icon
+                +i name='disconnected'
+                |relink
+                i.large.circular.refresh.link.icon.zoomer.reconnect(title='reconnect now')
+        .right.menu
+            if currentUser
+                a.fly_up.zoomer.item.tada(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile' class="{{isActiveRoute 'profile'}}" )
+                    if currentUser.image_id
+                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=300 height=300 gravity='face' crop='fill'}}")
+                    else
+                        i.user.icon
+                    strong #{currentUser.username}
+                    |&nbsp;
+                a.fly_up.zoomer.item.tada(href="/user/#{currentUser.username}" title='bank' class="{{isActiveRoute 'user_points'}}" )
+                    |{{points_to_coins currentUser.points}}c
+                a.icon.item.zoomer.fly_down.add_doc(title='add doc')
+                    // +i name='plus'
+                    i.large.plus.icon
+                // a.icon.item(href="/mail/inbox")
+            a.icon.item.toggle_rightbar.no_blink
+                // .ui.avatar.image
+                //     if currentUser.image_id
+                //         img.ui.mini.inline.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                //     else
+                //         i.user.big.icon
+                // strong.mobilehidden #{currentUser.name}
+                i.bars.large.grey.icon
+                            
+                            
 template(name='footer')
     .ui.fluid.segment.stackable.grid.alpha
         .two.column.row
@@ -45,104 +143,6 @@ template(name='footer')
                                 |#{username}
                                 
                             +print_this
-                            
-                            
-template(name='nav')
-    // #topnav.topnav.ui.attached.borderless.big.four.item.menu.hscroll(class=darkmode_class)
-        https://fomantic-ui.com/elements/icon.html#/icon
-    // #topnav.topnav.ui.attached.borderless.big.menu.hscroll(style="background-color:#{currentUser.theme_color_main}")
-    #topnav.topnav.ui.attached.borderless.menu.hscroll
-        if is_connected
-            a.icon.item.toggle_leftbar
-                i.large.bars.grey.icon
-            if currentUser
-                if unread_count
-                    a.item(href="/user/#{currentUser.username}/inbox" title='unread messages')
-                        // +i name='inbox'
-                        i.envelope.icon
-                        strong #{unread_count}
-                    a.item.zoomer.clear_read(title='mark all read')
-                        i.envelope.icon
-                        i.remove.icon
-                        
-
-        unless subs_ready
-            .icon.item
-                +i name='one-ring' cl='spinning'
-                i.yin.yang.large.loading.icon
-        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/products" class="{{isActiveRoute 'products'}}" title=products)
-            +i name='shopping-cart'
-            // i.large.products.icon
-            // unless currentUser.hide_labels
-            //     |products
-        // +nav_item key='product' icon='shopping-cart'
-        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/posts" class="{{isActiveRoute regex='post'}}" title='posts')
-            +i name='news'
-            // i.large.music.icon
-            // unless currentUser.hide_labels
-            //     |posts
-        +nav_item key='event' icon='calendar'
-        +nav_item key='transfer' icon='exchange'
-        +nav_item key='service' icon='wrench'
-        +nav_item key='rental' icon='clock'
-        +nav_item key='task' icon='tasks'
-        // +nav_item key='checkin' icon='checkmark'
-        +nav_item key='log' icon='code'
-        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/users" class="{{isActiveRoute 'users'}}" title=users)
-            +i name='groups'
-            // i.large.users.icon
-            // unless currentUser.hide_labels
-            //     |users
-        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/groups" class="{{isActiveRoute regex='group'}}" title='groups')
-            +i name='campfire'
-            // i.large.music.icon
-            // unless currentUser.hide_labels
-            //     |groups
-        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/food" class="{{isActiveRoute regex='food'}}" title='food')
-            +i name='food'
-            // unless currentUser.hide_labels
-            //     |recipes
-        a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/music" class="{{isActiveRoute regex='music'}}" title='music')
-            +i name='music'
-            // unless currentUser.hide_labels
-            //     |music
-        unless currentUser
-            // a.item(href="/register" title='register')
-            //     +i name='plus'
-            //     span.mobilehidden register            
-            a.item(href='/login' title='login' class="{{isActiveRoute 'login'}}" ) 
-                i.sign.in.large.icon
-                // +i name='internal'
-                // span.mobilehidden login
-        unless is_connected
-            a.item.zoomer.reconnect
-                i.yin.yang.big.loading.icon
-                +i name='disconnected'
-                |relink
-                i.large.circular.refresh.link.icon.zoomer.reconnect(title='reconnect now')
-        .right.menu
-            if currentUser
-                a.fly_up.zoomer.item.tada(href="/user/#{currentUser.username}" class=user_nav_button_class title='profile' class="{{isActiveRoute 'profile'}}" )
-                    if currentUser.image_id
-                        img.ui.avatar.image(src="{{c.url currentUser.image_id width=300 height=300 gravity='face' crop='fill'}}")
-                    else
-                        i.user.icon
-                    strong #{currentUser.username}
-                    |&nbsp;
-                a.fly_up.zoomer.item.tada(href="/user/#{currentUser.username}" title='bank' class="{{isActiveRoute 'user_points'}}" )
-                    |{{points_to_coins currentUser.points}}c
-                a.icon.item.zoomer.fly_down.add_doc(title='add doc')
-                    // +i name='plus'
-                    i.large.plus.icon
-                // a.icon.item(href="/mail/inbox")
-            a.icon.item.toggle_rightbar.no_blink
-                // .ui.avatar.image
-                //     if currentUser.image_id
-                //         img.ui.mini.inline.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")
-                //     else
-                //         i.user.big.icon
-                // strong.mobilehidden #{currentUser.name}
-                i.bars.large.grey.icon
             
             
 

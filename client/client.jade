@@ -79,10 +79,24 @@ template(name='not_found')
                    
     
 template(name='home')
-    .ui.cards 
-        a.icon.card(href="/food")
-            i.big.food.icon
-            |food
-        a.card(href="/posts")
-            i.big.newspapar.icon
-            |posts
+    .ui.stackable.padded.grid
+        .four.wide.column
+            a.ui.icon.card(href="/food")
+                i.big.food.icon
+                .content
+                    |food
+        .four.wide.column
+            a.ui.icon.card(href="/music")
+                i.big.music.icon
+                .content
+                    |music
+        .four.wide.column
+            a.ui.icon.card(href="/products")
+                i.big.shopping.cart.icon
+                .content
+                    |shop
+        .four.wide.column
+            a.ui.icon.card(href="/posts")
+                i.big.blog.icon
+                .content
+                    |posts

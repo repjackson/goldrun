@@ -27,6 +27,7 @@ if Meteor.isServer
         if search.length > 0
             Docs.find(
                 {
+                    model:$in:['service','product','event']
                     title: {$regex:"#{search}", $options: 'i'}
                     # group_id:Meteor.user().current_group_id
                 }, limit:20

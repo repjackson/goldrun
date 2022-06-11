@@ -102,9 +102,10 @@ Template.rightbar.events
 
 Template.nav.events
     'keyup .global_search': ->
-        Router.go "/search"
         val = $('.global_search').val()
-        Session.set('global_search',val)
+        if val.length > 2
+            Session.set('global_search',val)
+            Router.go "/search"
     'click .refresh_gps': ->
         navigator.geolocation.getCurrentPosition (position) =>
             console.log 'navigator position', position

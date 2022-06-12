@@ -61,10 +61,10 @@ if Meteor.isServer
         }, limit:5
     
     Meteor.publish 'group_log_docs', (group_id)->
-        Docs.find 
+        Docs.find {
             model:'log'
             group_id:group_id
-    
+        }, limit:10
     
 
 
@@ -282,10 +282,10 @@ if Meteor.isClient
 
 if Meteor.isServer 
     Meteor.publish 'group_search_results', (group_title_queary)->
-        Docs.find 
+        Docs.find {
             model:'group'
             title: {$regex:"#{group_title_queary}",$options:'i'}
-
+        }, limit:10
 
 if Meteor.isClient
     Template.group_layout.onCreated ->
@@ -385,7 +385,7 @@ if Meteor.isServer
     Meteor.publish 'group_reddit_docs', (group_id)->
         group = 
             Docs.findOne group_id
-        if group
+        if group and group.slug
             Docs.find 
                 model:'reddit'
                 subreddit:group.slug

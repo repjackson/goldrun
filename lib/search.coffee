@@ -24,10 +24,10 @@ if Meteor.isClient
         
 if Meteor.isServer
     Meteor.publish 'global_search', (search)->
-        if search.length > 0
+        if search and search.length > 0
             Docs.find(
                 {
-                    model:$in:['service','product','event']
+                    model:$in:['service','product','event','group']
                     title: {$regex:"#{search}", $options: 'i'}
                     # group_id:Meteor.user().current_group_id
                 }, limit:20

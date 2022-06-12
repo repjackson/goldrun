@@ -19,8 +19,10 @@ template(name='nav')
             .icon.item
                 +i name='one-ring' cl='spinning'
                 i.yin.yang.large.loading.icon
-        .input.item 
-            input.global_search(type='text' placeholder='search...')
+        .item
+            .ui.icon.input
+                i.search.icon
+                input.global_search(type='text' placeholder='search...')
         a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/products" class="{{isActiveRoute 'products'}}" title=products)
             +i name='shopping-cart'
             // i.large.products.icon

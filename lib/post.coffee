@@ -305,6 +305,7 @@ if Meteor.isClient
                         #     Session.set('dummy', !Session.get('dummy'))
                         # , 5000
                         $('#search').val('')
+                        $('#search').blur()
                         Session.set('current_search', null)
         # , 200)
     

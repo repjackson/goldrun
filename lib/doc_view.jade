@@ -8,7 +8,7 @@ template(name='doc_view')
     if subs_ready
         with doc_data
             if is model 'group'
-                +group_view
+                +group_layout
             else
                 if background_image_id
                     img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")

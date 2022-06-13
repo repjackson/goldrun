@@ -294,7 +294,7 @@ template(name='profile_sidebar')
                           
 template(name='profile_nav_item')        
     a.ui.big.image.label.zoomer(href="/user/#{current_user.username}/#{section}" title=section)
-        +i name=icon
+        +i name=icon cl='zoomer'
         unless currentUser.hide_labels
             |#{section}
 template(name='online_label')

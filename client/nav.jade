@@ -24,32 +24,34 @@ template(name='nav')
                 i.search.icon
                 input.global_search(type='text' placeholder='search...')
         a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/products" class="{{isActiveRoute 'products'}}" title=products)
-            +i name='shopping-cart'
-            // i.large.products.icon
+            // +i name='shopping-cart'
+            i.large.shopping.cart.icon
             // unless currentUser.hide_labels
             //     |products
         // +nav_item key='product' icon='shopping-cart'
         a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/posts" class="{{isActiveRoute regex='post'}}" title='posts')
-            +i name='news'
-            // i.large.music.icon
+            // +i name='news'
+            i.large.newspaper.icon
             // unless currentUser.hide_labels
             //     |posts
         a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/users" class="{{isActiveRoute 'users'}}" title=users)
-            +i name='groups'
-            // i.large.users.icon
+            // +i name='groups'
+            i.large.users.icon
             // unless currentUser.hide_labels
             //     |users
         a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/groups" class="{{isActiveRoute regex='group'}}" title='groups')
-            +i name='campfire'
-            // i.large.music.icon
+            // +i name='campfire'
+            i.large.fire.icon
             // unless currentUser.hide_labels
             //     |groups
         a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/food" class="{{isActiveRoute regex='food'}}" title='food')
-            +i name='food'
+            i.large.food.icon
+            // +i name='food'
             // unless currentUser.hide_labels
             //     |recipes
         a.item.mobile.hidden.zoomer.fly_right.clear_search.mobilehidden(href="/music" class="{{isActiveRoute regex='music'}}" title='music')
-            +i name='music'
+            i.large.music.icon
+            // +i name='music'
             // unless currentUser.hide_labels
             //     |music
         +nav_item key='event' icon='calendar'
@@ -152,8 +154,8 @@ template(name='footer')
 
 template(name='nav_item')
     a.item.zoomer.fly_right.clear_search.go_route.tada.mobile.hidden(href="/m/#{key}" class="{{nav_item_class key}}" title=key)
-        +i name=icon
-        // i.large.icon(class=icon)
+        // +i name=icon
+        i.large.icon(class=icon)
         // unless currentUser.hide_labels
         //     |#{key}s
 
@@ -258,16 +260,16 @@ template(name='leftbar')
         +leftbar_item key='food' icon='food'
         +leftbar_item key='music' icon='music'
         +leftbar_item key='transfers' icon='exchange'
-        +leftbar_item key='orders' icon='order-history'
-        +leftbar_item key='groups' icon='campfire'
-        +leftbar_item key='requests' icon='hand-holding-heart'
+        +leftbar_item key='orders' icon='history'
+        +leftbar_item key='groups' icon='fire'
+        +leftbar_item key='requests' icon='hand holding heart'
         +leftbar_item key='services' icon='wrench'
         +leftbar_item key='rentals' icon='clock'
         +leftbar_item key='users' icon='groups'
             
 template(name='leftbar_item')    
     a.item.zoomer.fly_right.toggle_leftbar(href="/#{key}")
-        // i.large.inbox.icon
-        +i name=icon
+        i.large.icon(class=icon)
+        // +i name=icon
         span #{key}
                 

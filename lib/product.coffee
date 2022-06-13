@@ -50,6 +50,8 @@ if Meteor.isClient
                     console.log 'pulled product details'
                 
     Template.product_view.helpers
+        split_ingredient_list: ->
+            @ingredientList.split ','
         instruction_steps: ->
             console.log @
             console.log @details.analyzedInstructions[0]

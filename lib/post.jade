@@ -399,6 +399,7 @@ template(name='post_view')
                         |get comments
                     if comments 
                         .ui.header comments
+                    +comments
             .five.wide.column
                 if thumbnail
                     img.ui.centered.rounded.image(src=thumbnail)

@@ -194,8 +194,15 @@ template(name='product_view')
                             .ui.label #{this}
             .eight.wide.column 
                 with details
+                    .ui.small.inline.header 
+                        +i name='ingredients'
+                        |ingredients
+                    each split_ingredient_list
+                        .ui.compact.button.pick_product_tag
+                            |#{this}
+                    
                     .ui.list
-                        .item ingredientList #{ingredientList}
+                        // .item ingredientList #{ingredientList}
                         // .item ingredients #{ingredients}
                         .item likes #{likes}
                         .item aisle #{aisle}

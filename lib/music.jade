@@ -21,7 +21,7 @@ template(name='music')
                         +i name='database'
                     |#{name}
                     // small #{count}
-        .four.wide.column.scrolling
+        .sixteen.wide.column.scrolling
             +i name='tags'
             each picked_music_tags
                 button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
@@ -69,7 +69,7 @@ template(name='music')
                     button.ui.circular.compact.button.pick_mood(tabindex="0" class=result_class title=count)
                         |#{name}
                         // small #{count}
-        .twelve.wide.column
+        .sixteen.wide.column
             unless one_result
                 .ui.inline.header(title='result count') #{result_docs.count}
                 // +search_input key='title'

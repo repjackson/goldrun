@@ -1,7 +1,7 @@
 template(name='food')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     .ui.stackable.padded.grid 
-        .four.wide.column
+        .sixteen.wide.column
             .ui.inline.header 
                 +i name='food'
                 |{{comma food_count}}
@@ -26,7 +26,7 @@ template(name='food')
                     |#{name}
                     // small #{count}
 
-        .twelve.wide.column
+        .sixteen.wide.column
             if subs_ready
                 .ui.centered.stackable.cards 
                     each recipe_docs

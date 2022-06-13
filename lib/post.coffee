@@ -677,7 +677,7 @@ if Meteor.isServer
         match.over_18 = porn
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
-            limit = 7
+            limit = 20
             # else
             #     limit = 10
             #     match._timestamp = $gt:moment().subtract(1, 'days')
@@ -959,6 +959,15 @@ if Meteor.isClient
     Template.post_view.onCreated ->
         @autorun => @subscribe 'post_tips',Router.current().params.doc_id, ->
     Template.post_view.events 
+        'click .pick_flat_tag': (e)-> 
+            picked_tags.push @valueOf()
+            # Session.set('full_doc_id', null)
+            $(e.currentTarget).closest('.pick_flat_tag').transition('fly up', 500)
+    
+            Session.set('loading',true)
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('loading',false)
+            Router.go "/posts"
         'click .goto_subreddit': ->
             # console.log @subreddit
             Meteor.call 'find_tribe', @subreddit, (err,res)->

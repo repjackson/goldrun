@@ -2,7 +2,7 @@ template(name='posts')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     .ui.stackable.padded.grid
         .row
-            .four.wide.column
+            .sixteen.wide.column
                 .ui.inline.header(title='i know right?')
                     +i name='news'
                     |{{comma total_post_count}}
@@ -81,7 +81,6 @@ template(name='posts')
                         +session_set key='sort_key' value='ups' label='ups' icon='thumbs up'
                         +session_set key='sort_key' value='points' label='points' icon='hashtag'
                     
-            .twelve.wide.column
                 if connected
                     // if searching 
                     //     each terms 
@@ -90,7 +89,8 @@ template(name='posts')
                     unless full_doc_id
                         each unpicked_tags
                             +agg_tag
-                .ui.hidden.divider
+                // .ui.hidden.divider
+            .sixteen.wide.column
                 +doc_results
                 
 template(name='doc_results')
@@ -122,11 +122,11 @@ template(name='doc_results')
                             
 template(name='unpick_tag')
     button.ui.big.image.link.label.zoomer.unpick_tag.pointer(tabindex="0" class="#{loading_class} #{active_term_class}")
-        i.minus.icon
+        // i.minus.icon
         if flat_term_image
             img.ui.inline.image.superzoomer(src=flat_term_image)
         
-        .ui.inline.small.header #{this}
+        strong #{this}
 
                             
 template(name='post_card')
@@ -295,11 +295,11 @@ template(name='flat_tag_picker')
 
 template(name='agg_tag')
     // button.ui.big.compact.active.fade.animated.button.result(tabindex="0" title=count)
-    button.ui.large.image.basic.label.result.zoomer(tabindex="0" title=count)
+    button.ui.image.basic.big.label.result.zoomer(tabindex="0" title=count)
         // .visible.content
         if subs_ready
             if term_image.watson.metadata.image
-                img.ui.image.superzoomer(src=term_image.watson.metadata.image)
+                img.ui.image.superzoomer.invert(src=term_image.watson.metadata.image)
         else 
             i.yin.yang.grey.loading.icon
         | #{name}

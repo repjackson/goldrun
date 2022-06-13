@@ -31,7 +31,7 @@ template(name='users')
                 .ui.compact.button.pick_user_tag(class=cloud_tag_class) 
                     strong #{this.name}
         .twelve.wide.column
-            +session_icon_button key='view_mode' value='grid' icon='grid' 
+            +session_icon_button key='view_mode' value='grid' icon='th' 
             +session_icon_button key='view_mode' value='list' icon='list'
             +sort_direction_toggle
             +session_set key='sort_key' value='points' label='points' icon='coins'
@@ -42,7 +42,7 @@ template(name='users')
             // +session_set key='view_limit' value=20 label='20'
             // +session_set key='view_limit' value=50 label='30'
             +search_input
-            .scrolling.ui.segment.alpha
+            .scrolling.alpha
                 if subs_ready
                     if session_is 'view_mode' 'grid'
                         if one_result

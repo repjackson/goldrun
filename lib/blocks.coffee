@@ -874,6 +874,8 @@ if Meteor.isClient
             # console.log res
             res
 
+        is_active: -> Session.equals(@key,@value)
+            
 
 
     Template.session_boolean_toggle.events

@@ -411,11 +411,12 @@ template(name='session_set')
             +i name=icon
         // if icon_view 
         // else 
-        unless hide_label
-            if label
-                |#{label}
-            else 
-                |#{value}
+        if is_active
+            unless hide_label
+                if label
+                    |#{label}
+                else 
+                    |#{value}
            
            
 template(name='favorites')

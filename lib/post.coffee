@@ -677,7 +677,7 @@ if Meteor.isServer
         match.over_18 = porn
         if picked_tags and picked_tags.length > 0
             match.tags = $all: picked_tags
-            limit = 20
+            limit = 10
             # else
             #     limit = 10
             #     match._timestamp = $gt:moment().subtract(1, 'days')

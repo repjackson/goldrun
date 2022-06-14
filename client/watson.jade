@@ -255,17 +255,22 @@ template(name='categories')
 //- 
 template(name='relations')
     each watson.relations 
-        .ui.header type: #{type}
-        .ui.header sentence: #{sentence}
-        .ui.header score: #{score}
+        .ui.inline.header type: #{type}
+        if is type 'residesIn'
+            i.home.big.icon
+        else if is type 'locatedAt'
+            i.marker.big.icon
+        .ui.inline.header !{sentence}
+        .ui.label score: #{score}
         each arguments
-            .item text #{text}
-            .item location #{location}
-            each entities
-                .item #{type}
-                .item #{text}
+            .ui.label #{text}
+                .ui.label location #{location}
+                each entities
+                    .ui.label #{type}
+                    // .ui.label.pick_flat_tag #{text}
 
 template(name='watson_view')
+    +relations
     +tone
     +doc_sentiment
     +doc_emotion
@@ -277,7 +282,6 @@ template(name='watson_view')
     +concept_list
     +keywords
     // .ui.hidden.divider
-    +relations
     //- if dev
     //-     .ui.styled.accordion
     //-         .title 

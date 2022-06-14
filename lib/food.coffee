@@ -58,6 +58,7 @@ if Meteor.isClient
             
     Template.recipe_card.events
         'click .pick_food_tag': ->
+            picked_food_tags.clear()
             picked_food_tags.push @valueOf()
             Meteor.call 'call_food', @valueOf(), ->
             
@@ -144,6 +145,11 @@ if Meteor.isClient
                 picked_food_tags.push query
             
     Template.food.helpers
+        one_recipe: -> 
+            console.log 'hi', Docs.find({model:'recipe'}).count() 
+            Docs.find({model:'recipe'}).count() is 1
+        one_doc: ->
+            Docs.findOne(model:'recipe')
         food_docs: ->
             Docs.find 
                 model:'food'

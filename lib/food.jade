@@ -5,32 +5,38 @@ template(name='food')
             .ui.inline.header 
                 +i name='food'
                 |{{comma food_count}}
-                |food
+                |recipes
             each picked_types
-                button.ui.blue.compact.circular.button.unpick_type(tabindex='0')
+                button.ui.compact.big.button.unpick_type(tabindex='0')
                     //- i.remove.icon
                     | #{this}
             each types_results
                 button.ui.large.label.button.pick_type(tabindex="0" class=result_class title=count)
                     |#{name}
                     // small #{count}
+            each picked_food_tags
+                button.ui.big.active.button.unpick_tag(tabindex='0')
+                    i.remove.icon
+                    | #{this}
             .ui.large.icon.input
                 i.search.icon
                 input.food_search(type='text' placeholder='search recipes...' value=current_search)
-            each picked_food_tags
-                button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
-                    //- i.remove.icon
-                    | #{this}
             each tag_results
                 button.ui.large.label.button.pick_tag(tabindex="0" class=result_class title=count)
                     |#{name}
                     // small #{count}
 
-        .sixteen.wide.column
+        .sixteen.wide.column.scrolling
             if subs_ready
-                .ui.centered.stackable.cards 
+                if one_recipe
                     each recipe_docs
-                        +recipe_card
+                        +recipe_card_big
+                    // with one_doc
+                    //     +recipe_doc
+                else 
+                    .ui.centered.stackable.cards 
+                        each recipe_docs
+                            +recipe_card
             else 
                 .ui.basic.center.aligned.segment
                     +ibig name='food' cl='spinning'
@@ -80,6 +86,171 @@ template(name='delete_button')
     .ui.icon.button.delete_this(title='delete this')
         i.large.remove.red.icon        
             
+            
+template(name='recipe_card_big')
+    .ui.fluid.card
+        img.ui.fluid.image.checkin_banner.invert(src=image)
+        .ui.stackable.padded.grid 
+            .sixteen.wide.column 
+                a.ui.button(href="/food")
+                    +i name='food'
+                    |food
+                .ui.inline.header #{name}
+                with details 
+                    .ui.big.label(title='aggregateLikes')
+                        i.thumbs.up.icon
+                        |#{aggregateLikes}
+                    .ui.big.label(title='')
+                        i.clock.icon
+                        |ready in 
+                        strong #{readyInMinutes}
+                        |minutes
+                    .ui.big.label(title='')
+                        i.dollar.icon
+                        strong #{pricePerServing}
+                        |/ serving
+                    .ui.big.label(title='servings')
+                        i.hashtag.icon
+                        strong #{servings}
+                        |servings
+                    if glutenFree
+                        .ui.big.label
+                            +i name='no-gluten'
+                            |gluten free
+                    if dairyFree
+                        .ui.big.label
+                            +i name='no-milk'
+                            |dairy free
+                
+            .eight.wide.column 
+                img.ui.centered.image.rounded.zoomer.invert(src=image)
+                .ui.hidden.divider
+                +comments
+                +voting_full
+            .eight.wide.column
+                a.ui.label(href=link target='_window') #{link}
+                // .ui.label #{type}
+                .ui.label #{relevance}
+                .ui.header #{id}
+                
+                +i name='tags'
+                each tags 
+                    .ui.compact.button.pick_food_tag
+                        |#{this}
+            .sixteen.wide.column
+                .f7 !{content}
+                if currentUser.admin_mode
+                    +call_watson key='content' mode='html'
+            .eight.wide.column
+                .ui.header 
+                    |related recipes
+                .ui.header details
+                if currentUser.admin_mode
+                    .ui.button.get_details get details
+                +viewing_info
+            .eight.wide.column
+                with details
+                    .ui.list 
+                        .item
+                            small license: 
+                            strong #{license}
+                        .item
+                            small source name: 
+                            strong #{sourceName}
+                        .item
+                            small source Url: 
+                            strong #{sourceUrl}
+                        .item
+                            small spoonacular source url: 
+                            strong #{spoonacularSourceUrl}
+                        .item
+                            small health score: 
+                            strong #{healthScore}
+                        .item
+                            small spoonacular score: 
+                            strong #{spoonacularScore}
+                        .item
+                            small price per serving: 
+                            strong #{pricePerServing}
+                        .item
+                            small analyzed instructions: 
+                            strong #{analyzedInstructions}
+                        .item
+                            small cheap: 
+                            strong #{cheap}
+                        .item
+                            small credits text: 
+                            strong #{creditsText}
+                        .item
+                            small cuisines: 
+                            strong #{cuisines}
+                        .item
+                            small diets: 
+                            strong #{diets}
+                        .item
+                            small gaps: 
+                            strong #{gaps}
+            .sixteen.wide.column
+                .ui.header 
+                    +i name='list'
+                    |instructions
+                .ui.large.selection.animated.list 
+                    each instruction_steps
+                        .item.zoomer
+                            |##{number}:
+                            strong #{step}
+                .ui.header 
+                    +i name='ingredients'
+                    |ingredients
+                .ui.doubling.four.cards
+                    each details.extendedIngredients
+                        .card
+                            img.ui.image(src="https://spoonacular.com/cdn/ingredients_250x250/#{image}")
+                            .content
+                                .header #{originalName}
+                                .ui.list
+                                    .item 
+                                        small aisle:
+                                        strong #{aisle}
+                                    .item 
+                                        small amount:
+                                        strong #{amount}
+                                    .item 
+                                        small consistency:
+                                        strong #{consistency}
+                                    // .item 
+                                    //     small id:
+                                    //     strong #{id}
+                                    .item 
+                                        small measures:
+                                        strong #{measures}
+                                    // .item 
+                                    //     small meta:
+                                    //     strong #{meta}
+                                    // .item 
+                                    //     small name:
+                                    //     strong #{name}
+                                    // .item 
+                                    //     small nameClean:
+                                    //     strong #{nameClean}
+                                    // .item 
+                                    //     small original:
+                                    //     strong #{original}
+                                    // .item 
+                                    //     small originalName:
+                                    //     strong #{originalName}
+                                    .item 
+                                        small unit:
+                                        strong #{unit}
+                                if currentUser.admin_mode
+                                    +print_this
+                if currentUser.admin_mode
+                    +print_this
+    
+            if watson
+                .sixteen.wide.column
+                    +watson_view
+
             
 template(name='food_page')
     with current_doc 

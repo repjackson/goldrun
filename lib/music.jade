@@ -3,7 +3,7 @@ template(name='music')
         .sixteen.wide.column
             .ui.inline.header 
                 +i name='music'
-                // |#{artist_docs.count} artists
+                |#{music_count} artists
             if current_search 
                 i.large.red.circular.link.remove.icon.clear
             .ui.large.input 
@@ -21,14 +21,13 @@ template(name='music')
                         +i name='database'
                     |#{name}
                     // small #{count}
-        .sixteen.wide.column.scrolling
             +i name='tags'
             each picked_music_tags
                 button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
             each music_tag_results
-                button.ui.circular.compact.button.pick_tag(tabindex="0" class=result_class title=count)
+                button.ui.circular.compact.button.pick_music_tag(tabindex="0" class=result_class title=count)
                     |#{name}
                     // small #{count}
 
@@ -126,10 +125,10 @@ template(name='music_card')
 template(name='artist_card')
     a.card.fly_right.zoomer.rounded(href="/music/artist/#{_id}" title='view artist' class=mood_class)
         .ui.fade.reveal.image.rounded
-            .visible.content.invert
-                img.ui.image(src=strArtistThumb)
-            .hidden.content.invert
-                img.ui.image(src=strArtistFanart)
+            .visible.content
+                img.ui.image.invert(src=strArtistThumb)
+            .hidden.content
+                img.ui.image.invert(src=strArtistFanart)
         .content
             img.ui.image(src=strArtistLogo title=strArtist)
             .description
@@ -162,10 +161,10 @@ template(name='artist_card')
 template(name='album_card')
     a.card.fly_right.zoomer.rounded(href="/music/album/#{_id}" title='view artist' class=mood_class)
         .ui.fade.reveal.image.rounded
-            .visible.content.invert
-                img.ui.image(src=strAlbumThumb)
-            .hidden.content.invert
-                img.ui.image(src=strAlbumThumbBack)
+            .visible.content
+                img.ui.image.invert(src=strAlbumThumb)
+            .hidden.content
+                img.ui.image.invert(src=strAlbumThumbBack)
         .content
             img.ui.image(src=strAlbumCDart title=strAlbum)
             .description
@@ -296,34 +295,34 @@ template(name='music_artist')
                 img.ui.image(src=strArtistLogo)
                 .ui.three.column.stackable.grid 
                     .column
-                        img.ui.image.rounded.zoomer(src=strArtistThumb)
+                        img.ui.image.rounded.zoomer.invert(src=strArtistThumb)
                     .column
-                        img.ui.image.rounded.zoomer(src=strArtistWideThumb)
+                        img.ui.image.rounded.zoomer.invert(src=strArtistWideThumb)
                     if strArtistCutout
                         .column
-                            img.ui.image.rounded.zoomer(src=strArtistCutout)
+                            img.ui.image.rounded.zoomer.invert(src=strArtistCutout)
                     if strArtistClearart
                         .column
-                            img.ui.image.rounded.zoomer(src=strArtistClearart)
+                            img.ui.image.rounded.zoomer.invert(src=strArtistClearart)
                     if strArtistFanart
                         .column
-                            img.ui.image.rounded.zoomer(src=strArtistFanart)
+                            img.ui.image.rounded.zoomer.invert(src=strArtistFanart)
                     if strArtistFanart2
                         .column
-                            img.ui.image.rounded.zoomer(src=strArtistFanart2)
+                            img.ui.image.rounded.zoomer.invert(src=strArtistFanart2)
                     if strArtistFanart3
                         .column
-                            img.ui.image.rounded.zoomer(src=strArtistFanart3)
+                            img.ui.image.rounded.zoomer.invert(src=strArtistFanart3)
                     if strArtistFanart4
                         .column
-                            img.ui.image.rounded.zoomer(src=strArtistFanart4)
+                            img.ui.image.rounded.zoomer.invert(src=strArtistFanart4)
                             
                 .ui.header views: #{views}
                 +voting_full
                 div
                 +i name='tags'
                 each tags 
-                    a.ui.large.basic.link.label.zoomer.pick_flat_tag(title='browse tag') #{this}
+                    a.ui.large.basic.link.label.zoomer.invert.pick_flat_tag(title='browse tag') #{this}
                 +print_this
             .eight.wide.column.scrollin
                 .ui.massive.inline.header #{strArtist}

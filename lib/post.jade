@@ -394,7 +394,7 @@ template(name='post_view')
                     if in_dev
                         +print_this
                     if is_image
-                        img.ui.image(src=url)
+                        img.ui.image.invert(src=url)
                     .ui.button.get_comments     
                         |get comments
                     if comments 
@@ -402,7 +402,7 @@ template(name='post_view')
                     +comments
             .five.wide.column
                 if thumbnail
-                    img.ui.centered.rounded.image(src=thumbnail)
+                    img.ui.centered.rounded.image.invert(src=thumbnail)
                 .ui.list 
                     .item domain #{domain}
                     .item.goto_subreddit subreddit #{subreddit}

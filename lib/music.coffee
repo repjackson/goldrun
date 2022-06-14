@@ -21,7 +21,18 @@ if Meteor.isClient
     
     Template.music.onCreated ->
         document.title = 'gr music'
+    Template.music.onCreated ->
+        @autorun => Meteor.subscribe 'music_counter', ->
+    Template.music.helpers
+        music_count: -> Counts.get('music_counter') 
 
+if Meteor.isServer
+    Meteor.publish 'music_counter', ->
+      Counts.publish this, 'music_counter', Docs.find({model:'artist'})
+      return undefined    # otherwise coffeescript returns a Counts.publish
+                          
+
+if Meteor.isClient                          
     Template.music_artist.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'albums_by_artist_doc_id', Router.current().params.doc_id, ->
@@ -407,7 +418,9 @@ if Meteor.isClient
         'click .pick_model': -> picked_models.push @name
         'click .unpick_model': -> picked_models.remove @valueOf()
        
-        'click .pick_tag': -> picked_music_tags.push @name
+        'click .pick_music_tag': -> 
+            picked_music_tags.push @name
+            Meteor.call 'search_artist', @name, ->
         'click .unpick_tag': -> picked_music_tags.remove @valueOf()
        
         'click .pick_mood': -> picked_moods.push @name

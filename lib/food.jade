@@ -22,8 +22,9 @@ template(name='food')
                 i.search.icon
                 input.food_search(type='text' placeholder='search recipes...' value=current_search)
             each tag_results
-                button.ui.large.label.button.pick_tag(tabindex="0" class=result_class title=count)
-                    |#{name}
+                +agg_food_tag
+                // button.ui.large.label.button.pick_tag(tabindex="0" class=result_class title=count)
+                    // |#{name}
                     // small #{count}
 
         .sixteen.wide.column.scrolling
@@ -44,6 +45,29 @@ template(name='food')
             else 
                 .ui.basic.center.aligned.segment
                     +ibig name='food' cl='spinning'
+                    
+                    
+template(name='agg_food_tag') 
+    // button.ui.big.compact.active.fade.animated.button.result(tabindex="0" title=count)
+    button.ui.image.basic.big.label.result.zoomer(tabindex="0" title=count)
+        // .visible.content
+        if subs_ready
+            img.ui.fluid.image.zoomer.invert(src=term_image.image)
+        else 
+            i.yin.yang.grey.loading.icon
+        | #{name}
+        // .hidden.content
+        //     |+ #{title}
+        // if term.image
+        //     //- button.ui.compact.button(tabindex="0" title=count)
+        //     //- img.ui.mini.inline.image(src=term.image)
+        //     img.ui.mini.inline.image(src=term.image)
+        //     .ui.inline.small.thin.header(class=tag_result_class) #{title}
+        // else
+        //     //- button.ui.compact.button(tabindex="0" title=count)
+        //- small #{count}
+
+                    
                     
 template(name='recipe_card')
     // a.card(href="/food/#{_id}")

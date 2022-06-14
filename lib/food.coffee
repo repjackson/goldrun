@@ -26,6 +26,51 @@ if Meteor.isServer
         return undefined    # otherwise coffeescript returns a Counts.publish
 
 if Meteor.isClient    
+    Template.agg_food_tag.onCreated ->
+        # console.log @
+        @autorun => @subscribe 'food_tag_image', @data.name,->
+    Template.agg_food_tag.helpers
+        term_image: ->
+            # console.log Template.currentData().name
+            found = Docs.findOne {
+                model:'recipe'
+                tags:$in:[Template.currentData().name]
+                # "watson.metadata.image":$exists:true
+            }, sort:ups:-1
+            # console.log 'found image', found
+            found
+    Template.unpick_tag.onCreated ->
+        # console.log @
+        @autorun => @subscribe 'tag_image', @data, Session.get('porn'),->
+    Template.unpick_tag.helpers
+        flat_term_image: ->
+            # console.log Template.currentData()
+            found = Docs.findOne {
+                model:'reddit'
+                tags:$in:[Template.currentData()]
+                "watson.metadata.image":$exists:true
+            }, sort:ups:-1
+            # console.log 'found flat image', found.watson.metadata.image
+            found.watson.metadata.image
+    Template.agg_tag.events
+        'click .result': (e,t)->
+            # Meteor.call 'log_term', @title, ->
+            picked_tags.push @name
+            $('#search').val('')
+            Session.set('full_doc_id', null)
+            
+            Session.set('current_search', null)
+            Session.set('searching', true)
+            Session.set('is_loading', true)
+            # Meteor.call 'call_wiki', @name, ->
+    
+            Meteor.call 'search_reddit', picked_tags.array(), ->
+                Session.set('is_loading', false)
+                Session.set('searching', false)
+            Meteor.setTimeout ->
+                Session.set('dummy',!Session.get('dummy'))
+            , 5000
+    
     Template.food_page.onCreated ->
         @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.food.onCreated ->
@@ -270,7 +315,7 @@ if Meteor.isServer
                 { $match: _id: $nin: picked_food_tags }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
-                { $limit: 42 }
+                { $limit: 20 }
                 { $project: _id: 0, name: '$_id', count: 1 }
                 ]
             # console.log 'theme tag_cloud, ', tag_cloud
@@ -284,6 +329,48 @@ if Meteor.isServer
                     
             self.ready()
 
+    Meteor.publish 'food_tag_image', (
+        term=null
+        # porn=false
+        )->
+        # added_tags = []
+        # console.log 'match term', term
+        # console.log 'match picked tags', picked_tags
+        # if picked_tags.length > 0
+        #     added_tags = picked_tags.push(term)
+        match = {
+            model:'recipe'
+            tags: $in: [term]
+            # "watson.metadata.image": $exists:true
+            # $where: "this.watson.metadata.image.length > 1"
+        }
+        # if porn
+        # match.over_18 = porn
+        # else 
+        # added_tags = [term]
+        # match = {model:'reddit'}
+        # match.thumbnail = $nin:['default','self']
+        # match.url = { $regex: /^.*(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/, $options: 'i' }
+        # console.log "added tags", added_tags
+        # console.log 'looking up added tags', added_tags
+        # found = Docs.findOne match
+        # console.log "TERM", term, found.
+        # if found
+        #     # console.log "FOUND THUMBNAIL",found.thumbnail
+        Docs.find match,{
+            limit:1
+            sort:
+                points:-1
+                ups:-1
+            # fields:
+            #     "watson.metadata.image":1
+            #     model:1
+            #     thumbnail:1
+            #     tags:1
+            #     ups:1
+            #     over_18:1
+            #     url:1
+        }
 
 
     Meteor.publish 'food_results', (

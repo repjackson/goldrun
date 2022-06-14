@@ -15,9 +15,7 @@ template(name='food')
                     |#{name}
                     // small #{count}
             each picked_food_tags
-                button.ui.big.active.button.unpick_tag(tabindex='0')
-                    i.remove.icon
-                    | #{this}
+                +unpick_food_tag
             .ui.large.icon.input
                 i.search.icon
                 input.food_search(type='text' placeholder='search recipes...' value=current_search)
@@ -45,6 +43,16 @@ template(name='food')
             else 
                 .ui.basic.center.aligned.segment
                     +ibig name='food' cl='spinning'
+                    
+                    
+                    
+template(name='unpick_food_tag')
+    button.ui.big.image.link.label.zoomer.unpick_tag.pointer(tabindex="0" class="#{loading_class} #{active_term_class}")
+        // i.minus.icon
+        if flat_term_image
+            img.ui.inline.image.superzoomer.invert(src=flat_term_image)
+        
+        strong #{this}
                     
                     
 template(name='agg_food_tag') 

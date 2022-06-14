@@ -39,25 +39,32 @@ if Meteor.isClient
             }, sort:ups:-1
             # console.log 'found image', found
             found
-    Template.unpick_tag.onCreated ->
+    Template.unpick_food_tag.onCreated ->
         # console.log @
-        @autorun => @subscribe 'tag_image', @data, Session.get('porn'),->
-    Template.unpick_tag.helpers
+        @autorun => @subscribe 'food_tag_image', @data.name,->
+    Template.unpick_food_tag.helpers
         flat_term_image: ->
             # console.log Template.currentData()
             found = Docs.findOne {
-                model:'reddit'
+                model:'recipe'
                 tags:$in:[Template.currentData()]
-                "watson.metadata.image":$exists:true
+                # "watson.metadata.image":$exists:true
             }, sort:ups:-1
             # console.log 'found flat image', found.watson.metadata.image
-            found.watson.metadata.image
+            found.image
+
+    Template.unpick_food_tag.events
+        'click .unpick_tag': ->
+            picked_food_tags.remove @valueOf()
+            window.speechSynthesis.speak new SpeechSynthesisUtterance "removing #{@valueOf()}"
+        
     Template.agg_food_tag.events
         'click .result': (e,t)->
             # Meteor.call 'log_term', @title, ->
             picked_food_tags.push @name
             $('#search').val('')
             # Session.set('full_doc_id', null)
+            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
             
             Session.set('current_search', null)
             Session.set('searching', true)
@@ -81,6 +88,9 @@ if Meteor.isClient
         @autorun => @subscribe 'food_results',
             picked_food_tags.array()
             Session.get('title')
+
+
+
 
     Template.food_page.onRendered ->
         # console.log @
@@ -223,15 +233,6 @@ if Meteor.isClient
         tag_results: ->
             Results.find()
         
-    Template.food.events 
-        'click .pick_tag': ->
-            picked_food_tags.push @name
-            window.speechSynthesis.speak new SpeechSynthesisUtterance @name
-            Meteor.call 'call_food', @name, ->
-
-        'click .unpick_tag': ->
-            picked_food_tags.remove @valueOf()
-            window.speechSynthesis.speak new SpeechSynthesisUtterance "removing #{@valueOf()}"
             
             
             
@@ -322,7 +323,7 @@ if Meteor.isServer
                 { $match: _id: $nin: picked_food_tags }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
-                { $limit: 20 }
+                { $limit: 10 }
                 { $project: _id: 0, name: '$_id', count: 1 }
                 ]
             # console.log 'theme tag_cloud, ', tag_cloud

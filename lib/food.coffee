@@ -92,6 +92,15 @@ if Meteor.isClient
             unless found_doc.details 
                 Meteor.call 'recipe_details', Router.current().params.doc_id, ->
                     console.log 'pulled recipe details'
+    Template.recipe_card.onRendered ->
+        console.log @
+        # found_doc = Docs.findOne Template.currentData()
+        unless @data.watson
+            Meteor.call 'call_watson',@data._id,'content','html', ->
+                console.log 'autoran watson'
+        unless @data.details 
+            Meteor.call 'recipe_details', @data._id, ->
+                console.log 'pulled recipe details'
                 
     Template.food_page.helpers
         instruction_steps: ->

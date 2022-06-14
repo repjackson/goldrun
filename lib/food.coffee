@@ -81,6 +81,7 @@ if Meteor.isClient
     Template.food_page.events
         'click .pick_food_tag': ->
             Router.go "/food"
+            picked_food_tags.clear()
             picked_food_tags.push @valueOf()
             $('body').toast({
                 title: "browsing #{@valueOf()}"
@@ -102,6 +103,11 @@ if Meteor.isClient
             Meteor.call 'call_food', @valueOf(), ->
         'click .get_details': ->
             Meteor.call 'recipe_details', @_id, ->
+    Template.recipe_card_big.events
+        'click .pick_food_tag': ->
+            picked_food_tags.clear()
+            picked_food_tags.push @valueOf()
+            Meteor.call 'call_food', @valueOf(), ->
     Template.food.events
         'keyup .food_search': (e,t)->
             # console.log 'hi'
@@ -146,8 +152,11 @@ if Meteor.isClient
             
     Template.food.helpers
         one_recipe: -> 
-            console.log 'hi', Docs.find({model:'recipe'}).count() 
+            # console.log 'hi', Docs.find({model:'recipe'}).count() 
             Docs.find({model:'recipe'}).count() is 1
+        two_recipes: -> 
+            # console.log 'hi', Docs.find({model:'recipe'}).count() 
+            Docs.find({model:'recipe'}).count() is 2
         one_doc: ->
             Docs.findOne(model:'recipe')
         food_docs: ->
@@ -261,7 +270,7 @@ if Meteor.isServer
                 { $match: _id: $nin: picked_food_tags }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
-                { $limit: 20 }
+                { $limit: 42 }
                 { $project: _id: 0, name: '$_id', count: 1 }
                 ]
             # console.log 'theme tag_cloud, ', tag_cloud

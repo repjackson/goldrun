@@ -33,6 +33,10 @@ template(name='food')
                         +recipe_card_big
                     // with one_doc
                     //     +recipe_doc
+                else if two_recipes
+                    .ui.centered.stackable.two.cards 
+                        each recipe_docs
+                            +recipe_card
                 else 
                     .ui.centered.stackable.cards 
                         each recipe_docs
@@ -45,7 +49,7 @@ template(name='recipe_card')
     // a.card(href="/food/#{_id}")
     .card
         a.fly_right(href="/food/#{_id}")
-            img.ui.image.zoomer(src=image)
+            img.ui.fluid.image.zoomer(src=image)
         .content
             a.ui.header(href="/food/#{_id}")
                 | #{name}
@@ -92,10 +96,7 @@ template(name='recipe_card_big')
         img.ui.fluid.image.checkin_banner.invert(src=image)
         .ui.stackable.padded.grid 
             .sixteen.wide.column 
-                a.ui.button(href="/food")
-                    +i name='food'
-                    |food
-                .ui.inline.header #{name}
+                .ui.inline.big.header #{name}
                 with details 
                     .ui.big.label(title='aggregateLikes')
                         i.thumbs.up.icon
@@ -123,7 +124,7 @@ template(name='recipe_card_big')
                             |dairy free
                 
             .eight.wide.column 
-                img.ui.centered.image.rounded.zoomer.invert(src=image)
+                img.ui.centered.fluid.image.rounded.zoomer.invert(src=image)
                 .ui.hidden.divider
                 +comments
                 +voting_full

@@ -7,6 +7,9 @@ if Meteor.isClient
             Docs.find 
                 model:'transfer'
 
+    Template.delete_button.events 
+        'click .delete_this': -> Docs.remove @
+    
     Template.model_label.helpers
         is_model: (input)->
             console.log input

@@ -102,16 +102,18 @@ if Meteor.isClient
             unless found_doc.details 
                 Meteor.call 'recipe_details', Router.current().params.doc_id, ->
                     console.log 'pulled recipe details'
-    Template.recipe_card.onRendered ->
-        console.log @
-        # found_doc = Docs.findOne Template.currentData()
-        unless @data.watson
-            Meteor.call 'call_watson',@data._id,'content','html', ->
-                console.log 'autoran watson'
-        unless @data.details 
-            Meteor.call 'recipe_details', @data._id, ->
-                console.log 'pulled recipe details'
+    # Template.recipe_card.onRendered ->
+    # Template.recipe_card. ->
+    #     console.log @
+    #     # found_doc = Docs.findOne Template.currentData()
+    #     unless @data.watson
+    #         Meteor.call 'call_watson',@data._id,'content','html', ->
+    #             console.log 'autoran watson'
+    #     unless @data.details 
+    #         Meteor.call 'recipe_details', @data._id, ->
+    #             console.log 'pulled recipe details'
                 
+    
     Template.food_page.helpers
         instruction_steps: ->
             console.log @
@@ -119,6 +121,14 @@ if Meteor.isClient
             @details.analyzedInstructions[0].steps
             
     Template.recipe_card.events
+        'click .call_watson': ->
+            unless @details 
+                Meteor.call 'recipe_details', @_id, ->
+                    console.log 'pulled recipe details'
+            unless @watson
+                Meteor.call 'call_watson',@_id,'content','html', ->
+                    console.log 'autoran watson'
+            
         'click .pick_food_tag': ->
             picked_food_tags.clear()
             picked_food_tags.push @valueOf()
@@ -215,10 +225,16 @@ if Meteor.isClient
     Template.food.helpers
         one_recipe: -> 
             # console.log 'hi', Docs.find({model:'recipe'}).count() 
-            Docs.find({model:'recipe'}).count() is 1
+            Docs.find({
+                model:'recipe', 
+                tags:$in:picked_food_tags.array()
+            }).count() is 1
         two_recipes: -> 
             # console.log 'hi', Docs.find({model:'recipe'}).count() 
-            Docs.find({model:'recipe'}).count() is 2
+            Docs.find({
+                model:'recipe', 
+                tags:$in:picked_food_tags.array()
+            }).count() is 2
         one_doc: ->
             Docs.findOne(model:'recipe')
         food_docs: ->

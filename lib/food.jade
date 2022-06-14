@@ -79,7 +79,7 @@ template(name='agg_food_tag')
                     
 template(name='recipe_card')
     // a.card(href="/food/#{_id}")
-    .card
+    .card.call_watson
         a.fly_right(href="/food/#{_id}")
             img.ui.fluid.image.zoomer(src=image)
         .content
@@ -158,7 +158,6 @@ template(name='recipe_card_big')
             .eight.wide.column 
                 img.ui.centered.fluid.image.rounded.zoomer.invert(src=image)
                 .ui.hidden.divider
-                +comments
                 +voting_full
             .eight.wide.column
                 a.ui.label(href=link target='_window') #{link}

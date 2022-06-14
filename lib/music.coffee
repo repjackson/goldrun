@@ -66,6 +66,7 @@ if Meteor.isClient
             console.log 'pulling tracks'
             Meteor.call 'pull_album_tracks', Router.current().params.doc_id, ()->
                 console.log 'pulled'
+        
     Template.music_artist.helpers
         album_track_docs: ->
             Docs.find 
@@ -380,7 +381,7 @@ if Meteor.isClient
             picked_genres.clear()
             picked_genres.push @strGenre
             Router.go '/music'
-        'click .pick_flat_tag': ->
+        'click .pick_music_tag': ->
             picked_music_tags.clear()
             picked_music_tags.push @valueOf()
             $('body').toast(

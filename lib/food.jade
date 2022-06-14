@@ -1,5 +1,5 @@
 template(name='food')
-    img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
+    img.ui.fluid.image.checkin_banner.invert(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
     .ui.stackable.padded.grid 
         .sixteen.wide.column
             .ui.inline.header 
@@ -83,7 +83,7 @@ template(name='delete_button')
             
 template(name='food_page')
     with current_doc 
-        img.ui.fluid.image.checkin_banner(src=image)
+        img.ui.fluid.image.checkin_banner.invert(src=image)
         .ui.stackable.padded.grid 
             .sixteen.wide.column 
                 a.ui.button(href="/food")
@@ -117,7 +117,7 @@ template(name='food_page')
                             |dairy free
                 
             .eight.wide.column 
-                img.ui.centered.image.rounded.zoomer(src=image)
+                img.ui.centered.image.rounded.zoomer.invert(src=image)
                 .ui.hidden.divider
                 +comments
                 +voting_full

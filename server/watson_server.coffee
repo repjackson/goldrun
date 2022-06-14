@@ -127,7 +127,7 @@ Meteor.methods
                         explanation:true
                     emotion: {}
                     metadata: {}
-                    # relations: {}
+                    relations: {}
                     # semantic_roles: {}
                     sentiment: {}
             # parameters.url = doc.url

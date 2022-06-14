@@ -5,16 +5,16 @@ template(name='music')
                 +i name='music'
                 |#{music_count} artists
             if current_search 
-                i.large.red.circular.link.remove.icon.clear
+                i.large.red.link.remove.icon.clear
             .ui.large.input 
                 input.artist_search(type='text' placeholder='search artist...' value=current_search)
             +i name='database'
             each picked_models
-                button.ui.blue.compact.circular.button.unpick_model(tabindex='0')
+                button.ui.blue.compact.button.unpick_model(tabindex='0')
                     //- i.remove.icon
                     | #{this}
             each model_results
-                button.ui.circular.compact.button.pick_model(tabindex="0" class=result_class title=count)
+                button.ui.compact.button.pick_model(tabindex="0" class=result_class title=count)
                     if is name 'artist'
                         +i name='artist'
                     else if is name 'album'
@@ -23,11 +23,11 @@ template(name='music')
                     // small #{count}
             +i name='tags'
             each picked_music_tags
-                button.ui.blue.compact.circular.button.unpick_tag(tabindex='0')
+                button.ui.blue.compact.button.unpick_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
             each music_tag_results
-                button.ui.circular.compact.button.pick_music_tag(tabindex="0" class=result_class title=count)
+                button.ui.compact.button.pick_music_tag(tabindex="0" class=result_class title=count)
                     |#{name}
                     // small #{count}
 
@@ -36,36 +36,36 @@ template(name='music')
                     +i name='music'
                     |#{genre_results.count} genres
                 each picked_genres
-                    button.ui.blue.compact.circular.button.unpick_genre(tabindex='0')
+                    button.ui.blue.compact.button.unpick_genre(tabindex='0')
                         //- i.remove.icon
                         | #{this}
                 each genre_results
                     if name
-                        button.ui.circular.compact.button.pick_genre(tabindex="0" class=result_class title=count)
+                        button.ui.compact.button.pick_genre(tabindex="0" class=result_class title=count)
                             |#{name}
                             // small #{count}
             .ui.inline.small.header
                 +i name='artist'
                 |#{style_results.count} styles
             each picked_styles
-                button.ui.blue.compact.circular.button.unpick_style(tabindex='0')
+                button.ui.blue.compact.button.unpick_style(tabindex='0')
                     //- i.remove.icon
                     | #{this}
             each style_results
                 if name
-                    button.ui.circular.compact.button.pick_style(tabindex="0" class=result_class title=count)
+                    button.ui.compact.button.pick_style(tabindex="0" class=result_class title=count)
                         |#{name}
                         // small #{count}
             .ui.inline.small.header
                 +i name='happy'
                 |#{mood_results.count} moods
             each picked_moods
-                button.ui.blue.compact.circular.button.unpick_mood(tabindex='0')
+                button.ui.blue.compact.button.unpick_mood(tabindex='0')
                     //- i.remove.icon
                     | #{this}
             each mood_results
                 if name
-                    button.ui.circular.compact.button.pick_mood(tabindex="0" class=result_class title=count)
+                    button.ui.compact.button.pick_mood(tabindex="0" class=result_class title=count)
                         |#{name}
                         // small #{count}
         .sixteen.wide.column
@@ -322,7 +322,7 @@ template(name='music_artist')
                 div
                 +i name='tags'
                 each tags 
-                    a.ui.large.basic.link.label.zoomer.invert.pick_flat_tag(title='browse tag') #{this}
+                    a.ui.large.basic.link.label.zoomer.invert.pick_music_tag(title='browse tag') #{this}
                 +print_this
             .eight.wide.column.scrollin
                 .ui.massive.inline.header #{strArtist}

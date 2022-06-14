@@ -253,6 +253,18 @@ template(name='categories')
 //- 
 //- 
 //- 
+template(name='relations')
+    each watson.relations 
+        .ui.header type: #{type}
+        .ui.header sentence: #{sentence}
+        .ui.header score: #{score}
+        each arguments
+            .item text #{text}
+            .item location #{location}
+            each entities
+                .item #{type}
+                .item #{text}
+
 template(name='watson_view')
     +tone
     +doc_sentiment
@@ -265,7 +277,7 @@ template(name='watson_view')
     +concept_list
     +keywords
     // .ui.hidden.divider
-    // +relations
+    +relations
     //- if dev
     //-     .ui.styled.accordion
     //-         .title 

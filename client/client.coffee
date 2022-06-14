@@ -9,6 +9,16 @@ Tracker.autorun ->
     current = Router.current()
     Tracker.afterFlush ->
         $(window).scrollTop 0
+Meteor.startup ->
+    process.env.TZ='America/Denver'
+    moment().calendar(null, {
+        sameDay: '[today]',
+        nextDay: '[tomorrow]',
+        nextWeek: 'dddd',
+        lastDay: '[yesterday]',
+        lastWeek: '[last] dddd',
+        sameElse: 'DD/MM/YYYY'
+    });
 
     
 Meteor.users.find(_id:Meteor.userId()).observe({

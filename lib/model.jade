@@ -1077,6 +1077,9 @@ template(name='task_edit')
     .ui.header
         |audience
     +boolean_edit key='private' label='private' icon='lock'
+    +range_edit
+    +datetime_edit key='start_datetime' label='start date/time' icon='calendar'
+    +datetime_edit key='end_datetime' label='end date/time' icon='calendar'
     if private 
         +multi_user_edit key='access_user_ids' label='user picker' 
     // +boolean_edit key='has_content' icon='content' 

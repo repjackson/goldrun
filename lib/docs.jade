@@ -11,6 +11,8 @@ template(name='docs')
             .ui.inline.header
                 +i name=current_model_icon
                 |{{session_get 'model'}}s
+            .ui.button.add_model
+                i.plus.large.icon
             +search_input key='title'
             div
             +facet key='tag'

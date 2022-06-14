@@ -13,6 +13,57 @@ if Meteor.isClient
         is_active: -> 
             # console.log @
     
+    
+    
+    Template.range_edit.onRendered ->
+        # rental = Template.currentData()
+        $('#rangestart').calendar({
+            type: 'datetime'
+            today: true
+            # type:'time'
+            inline: true
+            endCalendar: $('#rangeend')
+            formatter: {
+                date: (date, settings)->
+                    if !date then return ''
+                    mst_date = moment(date)
+                    mst_date.format("YYYY-MM-DD[T]hh:mm")
+            }
+        });
+        $('#rangeend').calendar({
+            type: 'datetime'
+            today: true
+            # type:'time'
+            inline: true
+            startCalendar: $('#rangestart')
+            formatter: {
+                date: (date, settings)->
+                    if !date then return ''
+                    mst_date = moment(date)
+                    mst_date.format("YYYY-MM-DD[T]hh:mm")
+    
+            }
+        })
+    
+    Template.range_edit.events
+        'click .get_start': ->
+            doc_id = Router.current().params.doc_id
+            result = $('.ui.calendar').calendar('get startDate')[1]
+            formatted = moment(result).format("YYYY-MM-DD[T]HH:mm")
+            # moment_ob = moment(result)
+            Docs.update doc_id,
+                $set:start_datetime:formatted
+    
+    
+        'click .get_end': ->
+            doc_id = Router.current().params.doc_id
+            result = $('.ui.calendar').calendar('get endDate')[0]
+            console.log result
+            formatted = moment(result).format("YYYY-MM-DD[T]HH:mm")
+            Docs.update doc_id,
+                $set:end_datetime:formatted
+    
+    
     Template.youtube_edit.events
         'blur .youtube_id': (e,t)->
             parent = Template.parentData()
@@ -26,21 +77,28 @@ if Meteor.isClient
     Template.datetime_edit.events
         'blur .edit_datetime': (e,t)->
             parent = Template.parentData()
-            val = t.$('.edit_datetime').val()
+            val = $(e.currentTarget).closest('.edit_datetime').val()
             doc = Docs.findOne parent._id
             if doc
                 Docs.update parent._id,
+                    $set:"#{@key}":val
+            else if Meteor.users.findOne parent._id
+                Meteor.users.update parent._id,
                     $set:"#{@key}":val
     
     Template.date_edit.events
         'blur .edit_date': (e,t)->
             parent = Template.parentData()
-            val = t.$('.edit_date').val()
+            val = $(e.currentTarget).closest('.edit_date').val()
             doc = Docs.findOne parent._id
             console.log val
             if doc
                 Docs.update parent._id,
                     $set:"#{@key}":val
+            else if Meteor.users.findOne parent._id
+                Meteor.users.update parent._id,
+                    $set:"#{@key}":val
+                
     
         'click .today': ->
             val = moment().format("YYYY-MM-DD")

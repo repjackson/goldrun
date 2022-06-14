@@ -39,6 +39,10 @@ if Meteor.isClient
     	                admin_mode:!Meteor.user().admin_mode
     # 		alert("admin mode toggle")
     })
+    
+    Template.registerHelper 'cal_time', (input) -> moment(input).calendar()
+
+    
     Template.registerHelper 'active_term_class', () ->
         found_emotion_avg = 
             Results.findOne 

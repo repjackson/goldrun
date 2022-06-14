@@ -52,24 +52,22 @@ if Meteor.isClient
             }, sort:ups:-1
             # console.log 'found flat image', found.watson.metadata.image
             found.watson.metadata.image
-    Template.agg_tag.events
+    Template.agg_food_tag.events
         'click .result': (e,t)->
             # Meteor.call 'log_term', @title, ->
-            picked_tags.push @name
+            picked_food_tags.push @name
             $('#search').val('')
-            Session.set('full_doc_id', null)
+            # Session.set('full_doc_id', null)
             
             Session.set('current_search', null)
             Session.set('searching', true)
             Session.set('is_loading', true)
             # Meteor.call 'call_wiki', @name, ->
     
-            Meteor.call 'search_reddit', picked_tags.array(), ->
+            # Meteor.call 'call_food', picked_tags.array(), ->
+            Meteor.call 'call_food', @name, ->
                 Session.set('is_loading', false)
                 Session.set('searching', false)
-            Meteor.setTimeout ->
-                Session.set('dummy',!Session.get('dummy'))
-            , 5000
     
     Template.food_page.onCreated ->
         @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
@@ -362,14 +360,11 @@ if Meteor.isServer
             sort:
                 points:-1
                 ups:-1
-            # fields:
-            #     "watson.metadata.image":1
-            #     model:1
-            #     thumbnail:1
-            #     tags:1
-            #     ups:1
-            #     over_18:1
-            #     url:1
+            fields:
+                model:1
+                image:1
+                tags:1
+                url:1
         }
 
 

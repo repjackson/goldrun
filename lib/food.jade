@@ -320,11 +320,10 @@ template(name='food_page')
                             |dairy free
                 
             .eight.wide.column 
-                img.ui.centered.image.rounded.zoomer.invert(src=image)
+                img.ui.centered.fluid.image.rounded.zoomer.invert(src=image)
                 .ui.hidden.divider
                 +comments
                 +voting_full
-            .eight.wide.column
                 a.ui.label(href=link target='_window') #{link}
                 // .ui.label #{type}
                 .ui.label #{relevance}
@@ -334,7 +333,6 @@ template(name='food_page')
                 each tags 
                     .ui.compact.button.pick_food_tag
                         |#{this}
-            .sixteen.wide.column
                 .f7 !{content}
                 if currentUser.admin_mode
                     +call_watson key='content' mode='html'

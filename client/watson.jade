@@ -87,7 +87,7 @@ template(name='doc_emotion')
     // .spacer
 
 template(name='autotag')
-    button.ui.large.icon.circular.button.autotag
+    button.ui.large.icon.button.autotag
         i.dna.icon
         // |autotag
         if watson 
@@ -105,9 +105,9 @@ template(name='keywords')
         each watson.keywords
             .ui.column
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
-                .ui.circular.small.label(title='relevant') {{ to_percent relevance }}% rel
-                .ui.circular.small.label {{ sentiment.label }} {{ to_percent sentiment.score }}%:
-                .ui.circular.small.label(title='instance count') #{count}x
+                .ui.small.label(title='relevant') {{ to_percent relevance }}% rel
+                .ui.small.label {{ sentiment.label }} {{ to_percent sentiment.score }}%:
+                .ui.small.label(title='instance count') #{count}x
                 .description
                     if emotion
                         with emotion
@@ -147,14 +147,14 @@ template(name='entities')
                 +entity_type_icon
                 span.large120.set_entity_name(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
                 // .spacer
-                .ui.small.circular.label(title='relevant') {{ to_percent relevance }}%
-                .ui.small.circular.label(title="sentiment") {{ sentiment.label }} {{ to_percent sentiment.score }}%
-                .ui.small.circular.label(title='count') #{count}x
-                .ui.small.circular.label(title='confident') {{ to_percent confidence}}% con
+                .ui.small.label(title='relevant') {{ to_percent relevance }}%
+                .ui.small.label(title="sentiment") {{ sentiment.label }} {{ to_percent sentiment.score }}%
+                .ui.small.label(title='count') #{count}x
+                .ui.small.label(title='confident') {{ to_percent confidence}}% con
                 with disambiguation
                     // .ui.small.inline.header subtypes
                     each subtype
-                        .ui.tiny.circular.label #{this}
+                        .ui.tiny.label #{this}
                     a.ui.tiny.grey.header.set_entity_name(href=dbpedia_resource target='_window') name
                         |#{name}
                 if emotion
@@ -247,7 +247,7 @@ template(name='categories')
                 strong #{label}
                 |{{ to_percent score }}%
                 each explanation.relevant_text 
-                    .ui.small.compact.circular.button.add_text #{text}
+                    .ui.small.compact.button.add_text #{text}
 
 
 //- 

@@ -122,7 +122,10 @@ template(name='music_card')
         +album_card
     else if is model 'artist'
         +artist_card
+        
+        
 template(name='artist_card')
+    // a.card.fly_right.zoomer.rounded(href="/music/artist/#{_id}" title='view artist' class=mood_class)
     a.card.fly_right.zoomer.rounded(href="/music/artist/#{_id}" title='view artist' class=mood_class)
         .ui.fade.reveal.image.rounded
             .visible.content
@@ -158,6 +161,9 @@ template(name='artist_card')
                         i.eye.grey.icon
                         |#{views}
                 .ui.label #{model}
+                
+                
+                
 template(name='album_card')
     a.card.fly_right.zoomer.rounded(href="/music/album/#{_id}" title='view artist' class=mood_class)
         .ui.fade.reveal.image.rounded

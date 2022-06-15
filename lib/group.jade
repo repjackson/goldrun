@@ -495,7 +495,7 @@ template(name='group_edit')
                     +boolean_edit key='private' label='private' 
                    
 template(name='group_card')
-    .ui.card.alpha
+    .ui.card.alpha.pull_subreddit
         // if background_image_id
         //     img.ui.image.item_background(src="{{c.url background_image_id height=1000 crop='crop'}}")
         // else if image_id
@@ -511,8 +511,8 @@ template(name='group_card')
                 i.green.eye.icon.invert(title='published')
             else 
                 i.yellow.save.icon.invert(title='draft')
-            if reddit_name 
-                a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) #{reddit_name}
+            if display_name 
+                a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) #{display_name}
             else 
                 a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) #{title}
             // .smallcut

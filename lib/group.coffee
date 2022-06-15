@@ -113,13 +113,10 @@ if Meteor.isClient
         picked_sources: -> picked_sources.array()
         source_results: -> Results.find model:'source_tag'
         group_results: ->
-            # match = {model:'group'}
-            # Docs.find match
-            #     # sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
-            #     # limit:Session.get('limit')        
-            # []
-            # Docs.find model:'group'
-            Docs.find()
+            match = {model:'group'}
+            Docs.find match,
+                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+                limit:Session.get('limit')        
 if Meteor.isServer
     Meteor.publish 'group_facets', (
         picked_tags
@@ -421,9 +418,9 @@ if Meteor.isServer
         picked_tags=[]
         picked_source=null
         current_query=''
-        # sort_key='_timestamp'
-        # sort_direction=-1
-        # limit=42
+        sort_key='_timestamp'
+        sort_direction=-1
+        limit=42
         # picked_timestamp_tags=[]
         # picked_location_tags=[]
         )->
@@ -470,8 +467,8 @@ if Meteor.isServer
         # console.log 'limit', limit
         
         Docs.find match,
-            # sort:"#{sort_key}":sort_direction
-            sort:_timestamp:-1
+            sort:"#{sort_key}":sort_direction
+            # sort:_timestamp:-1
             limit: 20
             # fields:
             #     title:1
@@ -638,7 +635,7 @@ if Meteor.isServer
                             # points:0
                             # over_18:data.over_18
                             # thumbnail: data.thumbnail
-                            tags: query
+                            tags: [query]
                             model:'group'
                             source:'reddit'
                         existing_doc = Docs.findOne 
@@ -650,14 +647,15 @@ if Meteor.isServer
                                 Docs.update existing_doc._id,
                                     $unset: tags: 1
                             Docs.update existing_doc._id,
-                                $addToSet: tags: $each: query
-                                # $set:
-                                #     title:data.title
-                                #     ups:data.ups
-                                #     num_comments:data.num_comments
-                                #     over_18:data.over_18
-                                #     thumbnail:data.thumbnail
-                                #     permalink:data.permalink
+                                # $addToSet: tags: $each: query
+                                $addToSet: tags: query
+                                $set:
+                                    title:data.title
+                                    ups:data.ups
+                                    over_18:data.over_18
+                                    header_img:data.header_img
+                                    display_name:data.display_name
+                                    permalink:data.permalink
                             # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                             # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
                         unless existing_doc
@@ -675,10 +673,10 @@ if Meteor.isClient
         @autorun => @subscribe 'group_from_doc_id', Router.current().params.doc_id, ->
     Template.group_picker.helpers
         group_results: ->
-            Docs.find 
+            Docs.find {
                 model:'group'
                 title: {$regex:"#{Session.get('group_search')}",$options:'i'}
-                
+            }
         group_search_value: ->
             Session.get('group_search')
         group_doc: ->

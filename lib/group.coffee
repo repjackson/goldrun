@@ -93,17 +93,19 @@ if Meteor.isClient
         @autorun => @subscribe 'group_facets',
             picked_tags.array()
             picked_sources.array()
-            Session.get('current_search')
+            Session.get('group_search_val')
             picked_timestamp_tags.array()
     
         @autorun => @subscribe 'group_results',
             picked_tags.array()
-            # picked_sources.array()
-            # Session.get('current_search')
-            # Session.get('sort_key')
-            # Session.get('sort_direction')
-            # Session.get('limit')
+            picked_sources.array()
+            Session.get('group_search_val')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('limit')
     Template.groups.events
+        'click .pick_group_tag': -> picked_tags.push @name
+        'click .unpick_group_tag': -> picked_tags.remove @valueOf()
         'click .pick_source': -> picked_sources.push @name
         'click .unpick_source': -> picked_sources.remove @valueOf()
         'keyup .group_search': (e,t)->
@@ -136,6 +138,8 @@ if Meteor.isClient
     Template.groups.helpers
         picked_sources: -> picked_sources.array()
         source_results: -> Results.find model:'source_tag'
+        picked_group_tags: -> picked_tags.array()
+        group_tag_results: -> Results.find model:'tag'
         group_results: ->
             match = {model:'group'}
             Docs.find match,
@@ -440,7 +444,7 @@ if Meteor.isServer
                     
     Meteor.publish 'group_results', (
         picked_tags=[]
-        picked_source=null
+        picked_sources=[]
         current_query=''
         sort_key='_timestamp'
         sort_direction=-1
@@ -453,10 +457,10 @@ if Meteor.isServer
         # if picked_ingredients.length > 0
         #     match.ingredients = $all: picked_ingredients
         #     # sort = 'price_per_serving'
-        # if picked_tags.length > 0
-        #     match.tags = $all: picked_tags
-        # if picked_source.length > 0
-        #     match.source = $all:picked_source
+        if picked_tags.length > 0
+            match.tags = $all: picked_tags
+        if picked_sources.length > 0
+            match.source = $all:picked_sources
             # sort = 'price_per_serving'
         # else
             # match.tags = $nin: ['wikipedia']

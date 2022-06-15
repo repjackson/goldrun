@@ -9,13 +9,19 @@ template(name='groups')
             .ui.inline.header
                 +i name='fire'
                 |tribes
-            +facet key='tag'
-            each picked_sources
-                .ui.button.unpick_source
+            // +facet key='tag'
+            each picked_group_tags
+                .ui.active.button.unpick_group_tag
                     |#{this}
             .ui.large.icon.input
                 i.search.icon
                 input.group_search(type='text' placeholder='search groups...' value=current_search)
+            each group_tag_results
+                .ui.compact.button.pick_group_tag
+                    |#{name}
+            each picked_sources
+                .ui.button.unpick_source
+                    |#{this}
             each source_results
                 if name
                     .ui.button.pick_source

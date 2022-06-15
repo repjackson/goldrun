@@ -505,16 +505,21 @@ template(name='group_card')
         else if image_id
             a.ui.image.fly_right.zoomer(href="/group/#{_id}")
                 img(src="{{c.url image_id height=300 width=500 crop='fit'}}" class=currentUser.invert_class)
+        else if header_img
+            a.ui.image.fly_right.zoomer(href="/group/#{_id}")
+                img(src=header_img class=currentUser.invert_class)
         .content
             // +model_label
             if published 
                 i.green.eye.icon.invert(title='published')
             else 
                 i.yellow.save.icon.invert(title='draft')
-            if display_name 
-                a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) #{display_name}
+            if reddit_data.display_name 
+                a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) 
+                    img(src=reddit_data.icon_img class=currentUser.invert_class)
+                    |#{reddit_data.display_name}
             else 
-                a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) #{title}
+                a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) !{title}
             // .smallcut
             //     | !{content}
         
@@ -541,6 +546,8 @@ template(name='group_card')
             //     a.ui.circular.icon.button(href="/group/#{_id}/edit")
             //         i.pencil.blue.icon
         .content
+            if reddit_data.public_description
+                |!{reddit_data.public_description}
             if is_dev
                 +print_this
             +voting
@@ -557,11 +564,11 @@ template(name='group_card')
                 |#{points} 
             if group_id     
                 +group_info
-            // each five_tags 
-            //     .ui.label #{this}
-            // if watson 
-            //     +doc_sentiment
-            //     +doc_emotion
+            each five_tags 
+                .ui.label #{this}
+            if watson 
+                +doc_sentiment
+                +doc_emotion
 
             a.ui.circular.icon.button.zoomer.fly_right(href="/group/#{_id}")
                 +i name='chevron-right'

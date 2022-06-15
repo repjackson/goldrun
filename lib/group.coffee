@@ -29,6 +29,11 @@ if Meteor.isClient
 
     Template.group_members_small.onCreated ->
         @autorun => Meteor.subscribe 'group_memberships', Router.current().params.doc_id, ->
+    Template.group_card.events
+        'click .pull_subreddit': ->
+            console.log @reddit_data.public_description
+            if @reddit_data.public_description
+                Meteor.call 'call_watson', @_id, '@reddit_data.public_description', 'subreddit', ->
     Template.group_members_small.helpers
         group_members:->
             Meteor.users.find 
@@ -106,9 +111,26 @@ if Meteor.isClient
             if val.length > 2
                 Session.set('group_search_val',val)
                 if e.which is 13
+                    $('body').toast({
+                        title: "searching #{val}"
+                        # message: 'Please see desk staff for key.'
+                        class : 'search'
+                        icon:'checkmark'
+                        position:'bottom right'
+                    })
                     Meteor.call 'search_subreddits',val,true, ->
                         console.log 'searched subreddits'
-                    
+                        $('body').toast({
+                            title: "search complete"
+                            # message: 'Please see desk staff for key.'
+                            class : 'success'
+                            icon:'checkmark'
+                            position:'bottom right'
+                            # className:
+                            #     toast: 'ui massive message'
+                            # displayTime: 5000
+                        })
+                    $('.group_search').val('')
     Template.groups.helpers
         picked_sources: -> picked_sources.array()
         source_results: -> Results.find model:'source_tag'
@@ -622,6 +644,7 @@ if Meteor.isServer
                             community_icon: data.community_icon
                             description_html: data.description_html
                             published:true
+                            reddit_data:data
                             # reddit_id: data.id
                             # url: data.url
                             # domain: data.domain
@@ -656,6 +679,7 @@ if Meteor.isServer
                                     header_img:data.header_img
                                     display_name:data.display_name
                                     permalink:data.permalink
+                                    reddit_data:data
                             # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                             # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
                         unless existing_doc

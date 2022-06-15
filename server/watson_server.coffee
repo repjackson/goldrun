@@ -167,13 +167,16 @@ Meteor.methods
                 parameters.returnAnalyzedText = false
                 parameters.clean = true
                 console.log 'calling image'
+            when 'subreddit'
+                parameters.html = doc.reddit_data.public_description
+                
 
         # console.log 'parameters', parameters
 
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
             if err
-                console.log 'watson error for', parameters.content
+                # console.log 'watson error for', parameters
                 console.log err
                 if err.code is 400
                     console.log 'crawl rejected by server'

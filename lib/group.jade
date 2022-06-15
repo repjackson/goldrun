@@ -9,15 +9,14 @@ template(name='groups')
             .ui.inline.header
                 +i name='fire'
                 |tribes
-            +search_input key='title'
             div
             +facet key='tag'
             each picked_sources
                 .ui.button.unpick_source
                     |#{this}
-            // .ui.large.icon.input
-            //     i.search.icon
-            //     input.food_search(type='text' placeholder='search recipes...' value=current_search)
+            .ui.large.icon.input
+                i.search.icon
+                input.group_search(type='text' placeholder='search groups...' value=current_search)
             each source_results
                 if name
                     .ui.button.pick_source
@@ -48,17 +47,17 @@ template(name='groups')
                 +session_set key='limit' value=100
             .scrolling
                 if subs_ready
-                    if one_result
-                        .ui.one.cards
-                            each group_docs 
-                                +group_card_big
-                    else
-                        .ui.centered.cards
-                            each group_docs 
-                                +group_card
-                else 
-                    .ui.basic.center.aligned.segment 
-                        i.massive.loading.fire.icon
+                    // if one_result
+                    //     .ui.one.cards
+                    //         each group_results 
+                    //             +group_card_big
+                    // else
+                    .ui.centered.cards
+                        each group_results 
+                            +group_card
+                // else 
+                //     .ui.basic.center.aligned.segment 
+                //         i.massive.loading.fire.icon
 
 template(name='group_layout')
     div(class=darkmode_class)
@@ -464,7 +463,8 @@ template(name='group_edit')
                                 |youtube
                             +youtube_edit key='youtube_id' label='youtube id'
                     
-                    +remove_button                .eight.wide.column
+                    +remove_button                
+                .eight.wide.column
                     .ui.inline.header 
                         +i name='cube'
                         |group modules
@@ -511,7 +511,10 @@ template(name='group_card')
                 i.green.eye.icon.invert(title='published')
             else 
                 i.yellow.save.icon.invert(title='draft')
-            a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) #{title}
+            if reddit_name 
+                a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) #{reddit_name}
+            else 
+                a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) #{title}
             // .smallcut
             //     | !{content}
         
@@ -554,8 +557,8 @@ template(name='group_card')
                 |#{points} 
             if group_id     
                 +group_info
-            each five_tags 
-                .ui.label #{this}
+            // each five_tags 
+            //     .ui.label #{this}
             // if watson 
             //     +doc_sentiment
             //     +doc_emotion

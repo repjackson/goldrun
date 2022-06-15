@@ -93,26 +93,33 @@ if Meteor.isClient
     
         @autorun => @subscribe 'group_results',
             picked_tags.array()
-            picked_sources.array()
-            Session.get('current_search')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('limit')
+            # picked_sources.array()
+            # Session.get('current_search')
+            # Session.get('sort_key')
+            # Session.get('sort_direction')
+            # Session.get('limit')
     Template.groups.events
         'click .pick_source': -> picked_sources.push @name
         'click .unpick_source': -> picked_sources.remove @valueOf()
+        'keyup .group_search': (e,t)->
+            val = $('.group_search').val().trim().toLowerCase()
+            if val.length > 2
+                Session.set('group_search_val',val)
+                if e.which is 13
+                    Meteor.call 'search_subreddits',val,true, ->
+                        console.log 'searched subreddits'
+                    
     Template.groups.helpers
         picked_sources: -> picked_sources.array()
         source_results: -> Results.find model:'source_tag'
-        group_docs: ->
-            match = {model:'group'}
-            Docs.find match, 
-                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
-                limit:Session.get('limit')        
-
-
-
-
+        group_results: ->
+            # match = {model:'group'}
+            # Docs.find match
+            #     # sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+            #     # limit:Session.get('limit')        
+            # []
+            # Docs.find model:'group'
+            Docs.find()
 if Meteor.isServer
     Meteor.publish 'group_facets', (
         picked_tags
@@ -414,9 +421,9 @@ if Meteor.isServer
         picked_tags=[]
         picked_source=null
         current_query=''
-        sort_key='_timestamp'
-        sort_direction=-1
-        limit=42
+        # sort_key='_timestamp'
+        # sort_direction=-1
+        # limit=42
         # picked_timestamp_tags=[]
         # picked_location_tags=[]
         )->
@@ -425,10 +432,10 @@ if Meteor.isServer
         # if picked_ingredients.length > 0
         #     match.ingredients = $all: picked_ingredients
         #     # sort = 'price_per_serving'
-        if picked_tags.length > 0
-            match.tags = $all: picked_tags
-        if picked_source.length > 0
-            match.source = $all:picked_source
+        # if picked_tags.length > 0
+        #     match.tags = $all: picked_tags
+        # if picked_source.length > 0
+        #     match.source = $all:picked_source
             # sort = 'price_per_serving'
         # else
             # match.tags = $nin: ['wikipedia']
@@ -454,8 +461,8 @@ if Meteor.isServer
     
         # console.log 'sort key', sort_key
         # console.log 'sort direction', sort_direction
-        unless Meteor.userId()
-            match.private = $ne:true
+        # unless Meteor.userId()
+        #     match.private = $ne:true
             
         # console.log 'results match', match
         # console.log 'sort_key', sort_key
@@ -463,26 +470,27 @@ if Meteor.isServer
         # console.log 'limit', limit
         
         Docs.find match,
-            sort:"#{sort_key}":sort_direction
+            # sort:"#{sort_key}":sort_direction
+            sort:_timestamp:-1
             limit: 20
-            fields:
-                title:1
-                model:1
-                image_id:1
-                tags:1
-                content:1
-                _author_id:1
-                published:1
-                target_id:1
-                _timestamp:1
-                group_id:1
-                emotion:1
-                upvoter_ids:1
-                downvoter_ids:1
-                views:1
-                youtube_id:1
-                points:1
-            # sort:_timestamp:-1                    
+            # fields:
+            #     title:1
+            #     model:1
+            #     image_id:1
+            #     tags:1
+            #     content:1
+            #     _author_id:1
+            #     published:1
+            #     target_id:1
+            #     _timestamp:1
+            #     group_id:1
+            #     emotion:1
+            #     upvoter_ids:1
+            #     downvoter_ids:1
+            #     views:1
+            #     youtube_id:1
+            #     points:1
+            # # sort:_timestamp:-1                    
     Meteor.publish 'user_group_memberships', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {
@@ -588,6 +596,79 @@ if Meteor.isServer
         #             total_count:total_count
         #             complete_count:complete_count
         #             incomplete_count:incomplete_count
+    Meteor.methods
+        search_subreddits: (query,porn)->
+            # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
+            # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
+            # HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
+            
+            if porn 
+                link = "http://reddit.com/subreddits/search.json?q=#{query}&nsfw=1&include_over_18=on"
+            else
+                link = "http://reddit.com/subreddits/search.json?q=#{query}&nsfw=0&include_over_18=off"
+            HTTP.get link,(err,response)=>
+                # console.log response
+                if response.data.data.dist > 1
+                    _.each(response.data.data.children, (item)=>
+                        # console.log 'item', item
+                        data = item.data
+                        len = 200
+                        # added_tags = [query]
+                        # added_tags.push data.domain.toLowerCase()
+                        # added_tags.push data.author.toLowerCase()
+                        # added_tags = _.flatten(added_tags)
+                        # console.log 'data', data
+                        reddit_group =
+                            reddit_name: data.name
+                            public_description: data.public_description
+                            banner_background_image: data.banner_background_image
+                            community_icon: data.community_icon
+                            description_html: data.description_html
+                            published:true
+                            # reddit_id: data.id
+                            # url: data.url
+                            # domain: data.domain
+                            # comment_count: data.num_comments
+                            # permalink: data.permalink
+                            # title: data.title
+                            # # root: query
+                            # ups:data.ups
+                            # num_comments:data.num_comments
+                            # # selftext: false
+                            # points:0
+                            # over_18:data.over_18
+                            # thumbnail: data.thumbnail
+                            tags: query
+                            model:'group'
+                            source:'reddit'
+                        existing_doc = Docs.findOne 
+                            model:'group'
+                            reddit_name:data.name
+                        if existing_doc
+                            # if Meteor.isDevelopment
+                            if typeof(existing_doc.tags) is 'string'
+                                Docs.update existing_doc._id,
+                                    $unset: tags: 1
+                            Docs.update existing_doc._id,
+                                $addToSet: tags: $each: query
+                                # $set:
+                                #     title:data.title
+                                #     ups:data.ups
+                                #     num_comments:data.num_comments
+                                #     over_18:data.over_18
+                                #     thumbnail:data.thumbnail
+                                #     permalink:data.permalink
+                            # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
+                            # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
+                        unless existing_doc
+                            new_reddit_post_id = Docs.insert reddit_group
+                            console.log 'added new group', data.name
+                            # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                            # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
+                        return true
+                )
+                        
+                        
 if Meteor.isClient
     Template.group_picker.onCreated ->
         @autorun => @subscribe 'group_search_results', Session.get('group_search'), ->

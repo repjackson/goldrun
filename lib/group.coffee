@@ -93,13 +93,13 @@ if Meteor.isClient
         @autorun => @subscribe 'group_facets',
             picked_tags.array()
             picked_sources.array()
-            Session.get('group_search_val')
+            Session.get('group_search')
             picked_timestamp_tags.array()
     
         @autorun => @subscribe 'group_results',
             picked_tags.array()
             picked_sources.array()
-            Session.get('group_search_val')
+            Session.get('group_search')
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('limit')
@@ -114,7 +114,7 @@ if Meteor.isClient
         'keyup .group_search': (e,t)->
             val = $('.group_search').val().trim().toLowerCase()
             if val.length > 2
-                Session.set('group_search_val',val)
+                # Session.set('group_search',val)
                 if e.which is 13
                     $('body').toast({
                         title: "searching #{val}"
@@ -496,6 +496,7 @@ if Meteor.isServer
         # console.log 'sort_key', sort_key
         # console.log 'sort_direction', sort_direction
         # console.log 'limit', limit
+        console.log 'group results match', match
         
         Docs.find match,
             sort:"#{sort_key}":sort_direction
@@ -508,6 +509,7 @@ if Meteor.isServer
                 "reddit_data.display_name":1
                 "reddit_data.header_img":1
                 "reddit_data.banner_background_image":1
+                "reddit_data.public_description":1
                 "reddit_data.over_18":1
                 tags:1
                 content:1
@@ -516,12 +518,13 @@ if Meteor.isServer
                 target_id:1
                 _timestamp:1
                 group_id:1
-            #     emotion:1
-            #     upvoter_ids:1
-            #     downvoter_ids:1
-            #     views:1
-            #     youtube_id:1
-            #     points:1
+                emotion:1
+                watson:1
+                upvoter_ids:1
+                downvoter_ids:1
+                views:1
+                youtube_id:1
+                points:1
             # # sort:_timestamp:-1                    
     Meteor.publish 'user_group_memberships', (username)->
         user = Meteor.users.findOne username:username

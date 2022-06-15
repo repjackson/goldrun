@@ -5,11 +5,10 @@ template(name='groups')
             //     +i name='cube'
             //     |#{post_docs.count} docs
             // +facet key='doc_sentiment_label' icon='happy'
-        .four.wide.column
+        .sixteen.wide.column
             .ui.inline.header
                 +i name='fire'
                 |tribes
-            div
             +facet key='tag'
             each picked_sources
                 .ui.button.unpick_source
@@ -32,7 +31,7 @@ template(name='groups')
             // +facet key='timestamp_tag' icon='clock' label='added'
             // +session_boolean_toggle key='view_mine' label='mine' icon='user'
             // +session_boolean_toggle key='view_private' label='private' icon='lock'
-        .twelve.wide.column
+        .sixteen.wide.column
             unless one_result
                 .ui.inline.header(title='result count') #{result_docs.count}
                 +sort_direction_toggle
@@ -505,9 +504,12 @@ template(name='group_card')
         else if image_id
             a.ui.image.fly_right.zoomer(href="/group/#{_id}")
                 img(src="{{c.url image_id height=300 width=500 crop='fit'}}" class=currentUser.invert_class)
-        else if header_img
+        else if reddit_data.header_img
             a.ui.image.fly_right.zoomer(href="/group/#{_id}")
-                img(src=header_img class=currentUser.invert_class)
+                img(src=reddit_data.header_img class=currentUser.invert_class)
+        else if reddit_data.banner_background_image
+            a.ui.image.fly_right.zoomer(href="/group/#{_id}")
+                img(src=reddit_data.banner_background_image class=currentUser.invert_class)
         .content
             // +model_label
             if published 

@@ -7,11 +7,24 @@ template(name='groups')
             // +facet key='doc_sentiment_label' icon='happy'
         .four.wide.column
             .ui.inline.header
-                +i name='groups'
-                |groups
+                +i name='fire'
+                |tribes
             +search_input key='title'
             div
             +facet key='tag'
+            each picked_sources
+                .ui.button.unpick_source
+                    |#{this}
+            // .ui.large.icon.input
+            //     i.search.icon
+            //     input.food_search(type='text' placeholder='search recipes...' value=current_search)
+            each source_results
+                .ui.button.pick_source
+                    |#{name}
+                // button.ui.large.label.button.pick_tag(tabindex="0" class=result_class title=count)
+                    // |#{name}
+                    // small #{count}
+
             // div
             // +facet key='timestamp_tag' icon='clock' label='added'
             // +session_boolean_toggle key='view_mine' label='mine' icon='user'
@@ -40,7 +53,8 @@ template(name='groups')
                             each group_docs 
                                 +group_card
                 else 
-                    +loading_segment
+                    .ui.basic.center.aligned.segment 
+                        i.massive.loading.fire.icon
 
 template(name='group_layout')
     div(class=darkmode_class)
@@ -400,6 +414,9 @@ template(name='group_edit')
                     // +multi_user_edit key='leader_ids' label='leaders' icon='crown' 
                     div
                     +text_edit key='contact_info' label='contact info' icon='info' 
+                    +text_edit key='source' label='source' icon='info' 
+                    +key_value_edit key='source' value='reddit' icon='reddit'
+                    +key_value_edit key='source' value='local' icon='yin yang'
                     +boolean_edit key='private' label='private' 
                    
 template(name='group_card')

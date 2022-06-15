@@ -20,7 +20,9 @@ template(name='nav')
                 +i name='one-ring' cl='spinning'
                 i.yin.yang.large.loading.icon
         if subs_ready
-            .item
+            a.item.mobile.only(href="/search" title='global search')
+                i.search.large.icon
+            .item.mobile.hidden
                 .ui.icon.input
                     i.search.icon
                     input.global_search(type='text' placeholder='search...')

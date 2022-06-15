@@ -269,6 +269,17 @@ template(name='relations')
                     .ui.label #{type}
                     // .ui.label.pick_flat_tag #{text}
 
+
+template(name='semantic_roles')
+    .ui.header semantic roles
+    each semantic_roles
+        .ui.header #{subject.text}
+        .ui.header #{sentence}
+        .ui.header #{object.text}
+        .ui.header #{acton.verb.text} #{action.verb.tense}
+        .ui.header #{acton.text} #{action.normalized}
+
+
 template(name='watson_view')
     +relations
     +tone
@@ -277,7 +288,7 @@ template(name='watson_view')
     +concepts
     +categories
     +entities
-    // +semantic_roles
+    +semantic_roles
     // +keyword_list
     +concept_list
     +keywords

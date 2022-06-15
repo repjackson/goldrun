@@ -4,7 +4,12 @@ template(name='search')
             .ui.inline.header
                 i.search.icon
                 |search:
+            .ui.inline.header
                 strong  #{current_search}
+            .ui.icon.input
+                i.search.icon
+                input.search_input(type='text' placeholder='search...')
+                
             .ui.selection.animated.link.divided.list
                 each search_results
                     if is model 'post'

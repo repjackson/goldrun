@@ -319,7 +319,7 @@ template(name='food_page')
                             +i name='no-milk'
                             |dairy free
                 
-            .eight.wide.column 
+            .five.wide.column 
                 img.ui.centered.fluid.image.rounded.zoomer.invert(src=image)
                 .ui.hidden.divider
                 +comments
@@ -336,14 +336,14 @@ template(name='food_page')
                 .f7 !{content}
                 if currentUser.admin_mode
                     +call_watson key='content' mode='html'
-            .eight.wide.column
+            .five.wide.column
                 .ui.header 
                     |related recipes
                 .ui.header details
                 if currentUser.admin_mode
                     .ui.button.get_details get details
                 +viewing_info
-            .eight.wide.column
+            .five.wide.column
                 with details
                     .ui.list 
                         .item
@@ -385,7 +385,7 @@ template(name='food_page')
                         .item
                             small gaps: 
                             strong #{gaps}
-            .sixteen.wide.column
+            .five.wide.column
                 .ui.header 
                     +i name='list'
                     |instructions

@@ -20,7 +20,20 @@ if Meteor.isClient
                 
                 
     Template.search.events
-        
+        'keyup .search_input': ->
+            val = $('.search_input').val().trim().toLowerCase()
+            if val.length > 2
+                Session.set('search_input',val)
+                Meteor.setTimeout ->
+                    count = Docs.find(
+                        title: {$regex:"#{val}", $options: 'i'}
+                    ).count()
+                    if count is 1
+                        result = Docs.findOne(
+                            title: {$regex:"#{val}", $options: 'i'}
+                        )
+                        Router.go "/doc/#{result._id}"
+                
         
 if Meteor.isServer
     Meteor.publish 'global_search', (search)->

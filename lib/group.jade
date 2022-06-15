@@ -45,8 +45,7 @@ template(name='groups')
                 +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
                 +session_set key='sort_key' value='points' label='points' icon='hashtag'
                 +session_set key='sort_key' value='views' label='views' icon='eye'
-                if session_is 'model' 'event'
-                    +session_set key='sort_key' value='start_datatime' label='start' icon='calendar'
+                +session_set key='sort_key' value='member_count' label='members' icon='line-chart'
                 +session_set key='limit' value=10
                 +session_set key='limit' value=25
                 +session_set key='limit' value=100
@@ -510,10 +509,10 @@ template(name='group_card')
         else if image_id
             a.ui.image.fly_right.zoomer(href="/group/#{_id}")
                 img(src="{{c.url image_id height=300 width=500 crop='fit'}}" class=currentUser.invert_class)
-        else if reddit_data.header_img
+        if reddit_data.banner_img
             a.ui.image.fly_right.zoomer(href="/group/#{_id}")
-                img(src=reddit_data.header_img class=currentUser.invert_class)
-        else if reddit_data.banner_background_image
+                img(src=reddit_data.banner_img class=currentUser.invert_class)
+        if reddit_data.banner_background_image
             a.ui.image.fly_right.zoomer(href="/group/#{_id}")
                 img(src=reddit_data.banner_background_image class=currentUser.invert_class)
         .content
@@ -524,15 +523,21 @@ template(name='group_card')
                 i.green.eye.icon.invert(title='published')
             else 
                 i.yellow.save.icon.invert(title='draft')
+            if reddit_data.header_img
+                a.ui.image.fly_right.zoomer(href="/group/#{_id}")
+                    img(src=reddit_data.header_img class=currentUser.invert_class)
             if reddit_data.display_name 
                 a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) 
-                    img(src=reddit_data.icon_img class=currentUser.invert_class)
+                    img.ui.image.invert(src=reddit_data.icon_img class=currentUser.invert_class)
                     |#{reddit_data.display_name}
             else 
                 a.ui.inline.header.fly_right(href="/group/#{_id}" class=emotion_color) !{title}
             // .smallcut
             //     | !{content}
-        
+            // if reddit_data.subscribers 
+            //     .ui.label(title'subscribers/member count')
+            //         i.users.icon 
+            //         |#{reddit_data.subscribers} #{member_count}
         .content
             .right.floated.meta
                 |#{_when}
@@ -574,8 +579,8 @@ template(name='group_card')
                 |#{points} 
             if group_id     
                 +group_info
-            each five_tags 
-                .ui.label #{this}
+            each seven_tags 
+                .ui.label.flat_group_tag_pick #{this}
             if watson 
                 +doc_sentiment
                 +doc_emotion

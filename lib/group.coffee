@@ -30,6 +30,9 @@ if Meteor.isClient
     Template.group_members_small.onCreated ->
         @autorun => Meteor.subscribe 'group_memberships', Router.current().params.doc_id, ->
     Template.group_card.events
+        'click .flat_group_tag_pick': -> 
+            picked_tags.push @valueOf()
+            Meteor.call 'search_subreddits', @valueOf(), ->
         'click .pull_subreddit': ->
             console.log @reddit_data.public_description
             if @reddit_data.public_description
@@ -502,29 +505,29 @@ if Meteor.isServer
             sort:"#{sort_key}":sort_direction
             # sort:_timestamp:-1
             limit: 10
-            fields:
-                title:1
-                model:1
-                image_id:1
-                "reddit_data.display_name":1
-                "reddit_data.header_img":1
-                "reddit_data.banner_background_image":1
-                "reddit_data.public_description":1
-                "reddit_data.over_18":1
-                tags:1
-                content:1
-                _author_id:1
-                published:1
-                target_id:1
-                _timestamp:1
-                group_id:1
-                emotion:1
-                watson:1
-                upvoter_ids:1
-                downvoter_ids:1
-                views:1
-                youtube_id:1
-                points:1
+            # fields:
+            #     title:1
+            #     model:1
+            #     image_id:1
+            #     "reddit_data.display_name":1
+            #     "reddit_data.header_img":1
+            #     "reddit_data.banner_background_image":1
+            #     "reddit_data.public_description":1
+            #     "reddit_data.over_18":1
+            #     tags:1
+            #     content:1
+            #     _author_id:1
+            #     published:1
+            #     target_id:1
+            #     _timestamp:1
+            #     group_id:1
+            #     emotion:1
+            #     watson:1
+            #     upvoter_ids:1
+            #     downvoter_ids:1
+            #     views:1
+            #     youtube_id:1
+            #     points:1
             # # sort:_timestamp:-1                    
     Meteor.publish 'user_group_memberships', (username)->
         user = Meteor.users.findOne username:username
@@ -696,6 +699,7 @@ if Meteor.isServer
                                     display_name:data.display_name
                                     permalink:data.permalink
                                     reddit_data:data
+                                    member_count:data.subscribers
                             # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                             # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
                         unless existing_doc

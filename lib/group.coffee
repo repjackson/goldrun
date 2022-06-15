@@ -500,18 +500,22 @@ if Meteor.isServer
         Docs.find match,
             sort:"#{sort_key}":sort_direction
             # sort:_timestamp:-1
-            limit: 20
-            # fields:
-            #     title:1
-            #     model:1
-            #     image_id:1
-            #     tags:1
-            #     content:1
-            #     _author_id:1
-            #     published:1
-            #     target_id:1
-            #     _timestamp:1
-            #     group_id:1
+            limit: 10
+            fields:
+                title:1
+                model:1
+                image_id:1
+                "reddit_data.display_name":1
+                "reddit_data.header_img":1
+                "reddit_data.banner_background_image":1
+                "reddit_data.over_18":1
+                tags:1
+                content:1
+                _author_id:1
+                published:1
+                target_id:1
+                _timestamp:1
+                group_id:1
             #     emotion:1
             #     upvoter_ids:1
             #     downvoter_ids:1

@@ -518,6 +518,8 @@ template(name='group_card')
                 img(src=reddit_data.banner_background_image class=currentUser.invert_class)
         .content
             // +model_label
+            if reddit_data.over_18 
+                i.large.red.exclamation.icon(title='nsfw')
             if published 
                 i.green.eye.icon.invert(title='published')
             else 

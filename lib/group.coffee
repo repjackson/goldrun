@@ -98,7 +98,12 @@ if Meteor.isClient
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('limit')
+    Template.groups.events
+        'click .pick_source': -> picked_sources.push @name
+        'click .unpick_source': -> picked_sources.remove @valueOf()
     Template.groups.helpers
+        picked_sources: -> picked_sources.array()
+        source_results: -> Results.find model:'source_tag'
         group_docs: ->
             match = {model:'group'}
             Docs.find match, 

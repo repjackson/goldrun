@@ -19,8 +19,12 @@ template(name='groups')
             //     i.search.icon
             //     input.food_search(type='text' placeholder='search recipes...' value=current_search)
             each source_results
-                .ui.button.pick_source
-                    |#{name}
+                if name
+                    .ui.button.pick_source
+                        |#{name}
+                else
+                    .ui.button.pick_source
+                        |none
                 // button.ui.large.label.button.pick_tag(tabindex="0" class=result_class title=count)
                     // |#{name}
                     // small #{count}
@@ -388,8 +392,79 @@ template(name='group_edit')
         .ui.stackable.padded.grid
             .row
                 .eight.wide.column
-                    +doc_edit_leftbar                
-                .eight.wide.column
+                    if in_dev 
+                        +print_this
+                    +model_label
+                
+                    .ui.inline.header 
+                        +i name='pencil'
+                        |editing #{model}: #{title}
+                    if published
+                        a.ui.big.icon.fluid.green.button.zoom.zoomer(href="/group/#{_id}" title='save')
+                            i.checkmark.big.icon
+                    else 
+                        a.ui.large.green.button.zoom.zoomer.publish(href="/group/#{_id}" title='save & publish')
+                            i.checkmark.big.icon
+                            i.eye.big.icon
+                            |save and publish -10p
+                        a.ui.large.icon.yellow.button.zoom.zoomer(href="/group/#{_id}" title='save')
+                            i.save.big.icon
+                            |save draft                       
+                    // +boolean_edit key='published' label='published (-10)' 
+                    div
+                    +text_edit key='title' label='title' 
+                    .ui.one.column.stackable.grid
+                        .column
+                            +image_edit key='image_id' label='image' 
+                            .ui.horizontal.divider or
+                            +image_link_edit key='image_link' label='image link'
+                            +image_edit key='background_image_id' label='background image' 
+                            .ui.horizontal.divider or
+                            +image_link_edit key='background_image_link' label='background image link'
+                        .column
+                            if watson 
+                                +i name='dna-helix' title='analyzed'
+                            if tone 
+                                +i name='happy' title='has tone'
+                            +html_edit key='content' label='content'
+                            if watson 
+                                i.large.green.checkmark
+                            +call_watson key='content'
+                            +call_tone
+                        .column
+                            +array_edit key='tags' label='tags' icon='tags'
+                            div
+                            +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                        .column
+                            +group_picker
+                        .column
+                            .ui.inline.header
+                                +i name='link'
+                                |links
+                            if link 
+                                +i name='link'
+                            if facebook_link
+                                +i name='facebook'
+                            if instagram_link
+                                +i name='instagram'
+                            if twitter_link
+                                +i name='twitter'
+                            if youtube_link
+                                +i name='youtube'
+                            +link_edit key='link' label='link'
+                            +link_edit key='facebook_link' label='facebook link' icon='facebook'
+                            +link_edit key='instagram_link' label='instagram link' icon='instagram'
+                            +link_edit key='twitter_link' label='twitter link' icon='twitter'
+                            +link_edit key='youtube_link' label='youtube link' icon='youtube'
+                            +visibility_settings
+                            +boolean_edit key='nsfw' label='nsfw' icon='18-plus'
+                        .column
+                            .ui.inline.header
+                                +i name='youtube'
+                                |youtube
+                            +youtube_edit key='youtube_id' label='youtube id'
+                    
+                    +remove_button                .eight.wide.column
                     .ui.inline.header 
                         +i name='cube'
                         |group modules

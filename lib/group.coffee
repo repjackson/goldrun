@@ -104,7 +104,10 @@ if Meteor.isClient
             Session.get('sort_direction')
             Session.get('limit')
     Template.groups.events
-        'click .pick_group_tag': -> picked_tags.push @name
+        'click .pick_group_tag': -> 
+            picked_tags.push @name
+            Meteor.call 'search_subreddits',@name,true, ->
+            
         'click .unpick_group_tag': -> picked_tags.remove @valueOf()
         'click .pick_source': -> picked_sources.push @name
         'click .unpick_source': -> picked_sources.remove @valueOf()

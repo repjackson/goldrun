@@ -81,22 +81,39 @@ template(name='not_found')
 template(name='home')
     .ui.stackable.padded.grid
         .four.wide.column
-            a.ui.card(href="/food")
+            a.ui.card.fly_down(href="/food")
                 .ui.icon.header
                     i.big.food.icon
                     |food
         .four.wide.column
-            a.ui.card(href="/music")
+            a.ui.card.fly_down(href="/music")
                 .ui.icon.header
                     i.big.music.icon
                     |music
         .four.wide.column
-            a.ui.card(href="/products")
+            a.ui.card.fly_down(href="/users")
+                .ui.icon.header
+                    i.big.users.icon
+                    |users
+        .four.wide.column
+            a.ui.card.fly_down(href="/products")
                 .ui.icon.header
                     i.big.shopping.cart.icon
                     |shop
         .four.wide.column
-            a.ui.card(href="/posts")
+            a.ui.card.fly_down(href="/posts")
                 .ui.icon.header
                     i.big.blog.icon
                     |posts
+        .four.wide.column
+            a.ui.card.fly_down(href="/rentals")
+                .ui.icon.header
+                    i.big.clock.icon
+                    |rentals
+        .four.wide.column
+            a.ui.card.fly_down(href="/services")
+                .ui.icon.header
+                    i.big.wrench.icon
+                    |services
+                    
+                    

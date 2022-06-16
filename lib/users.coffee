@@ -97,8 +97,8 @@ if Meteor.isClient
                             # displayTime: 5000
                         })
                     $('.user_search').val('')
-                    picked_tags.clear()
-                    picked_tags.push val
+                    picked_user_tags.clear()
+                    picked_user_tags.push val
             
             
     Template.users.helpers
@@ -210,9 +210,9 @@ if Meteor.isServer
             # HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
             
             if porn 
-                link = "http://reddit.com/users/search.json?q=#{query}&nsfw=1&include_over_18=on"
+                link = "http://reddit.com/users/search.json?q=#{query}&nsfw=1&include_over_18=on&raw_json=1"
             else
-                link = "http://reddit.com/users/search.json?q=#{query}&nsfw=0&include_over_18=off"
+                link = "http://reddit.com/users/search.json?q=#{query}&nsfw=0&include_over_18=off&raw_json=1"
             HTTP.get link,(err,response)=>
                 # console.log response
                 if response.data.data.dist > 1
@@ -260,14 +260,14 @@ if Meteor.isServer
                             Docs.update existing_doc._id,
                                 # $addToSet: tags: $each: query
                                 $addToSet: tags: query
-                                # $set:
+                                $set:
+                                    reddit_data:data
                                 #     title:data.title
                                 #     ups:data.ups
                                 #     over_18:data.over_18
                                 #     header_img:data.header_img
                                 #     display_name:data.display_name
                                 #     permalink:data.permalink
-                                #     reddit_data:data
                                 #     member_count:data.subscribers
                             # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
                             # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->

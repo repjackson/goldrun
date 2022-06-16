@@ -87,11 +87,11 @@ template(name='redditor_card')
         //     img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
         if reddit_data.subreddit.banner_img
             img.invert.ui.fluid.image(src=reddit_data.subreddit.banner_img)
-        if reddit_data.snoovatar_img
-            img.invert.ui.fluid.image(src=reddit_data.snoovatar_img)
-        if reddit_data.icon_img
-            img.invert.ui.fluid.image(src=reddit_data.icon_img)
         .content
+            if reddit_data.snoovatar_img
+                img.invert.ui.tiny.inline.image(src=reddit_data.snoovatar_img)
+            if reddit_data.icon_img
+                img.invert.ui.tiny.inline.image(src=reddit_data.icon_img)
             a.ui.inline.header.pointer.blink(href="/user/#{username}" style="color:#{theme_color};")
                 |@#{reddit_data.name}
             .ui.large.label #{points}pts

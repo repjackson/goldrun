@@ -5,6 +5,11 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'user_groups_small', @data.username, -> 
         
     Template.users.onCreated ->
+        @autorun => Meteor.subscribe 'redditor_counter', ->
+    Template.users.helpers
+        redditor_count: -> Counts.get('redditor_counter') 
+        
+    Template.users.onCreated ->
         Session.set('view_friends', false)
         # @autorun -> Meteor.subscribe('users')
         Session.setDefault 'limit', 42
@@ -42,10 +47,10 @@ if Meteor.isClient
                 Meteor.call 'call_watson',@_id,'reddit_data.subreddit.public_description','redditor', ->
                     console.log 'autoran watson'
             
-        'click .pick_food_tag': ->
-            picked_food_tags.clear()
-            picked_food_tags.push @valueOf()
-            Meteor.call 'call_food', @valueOf(), ->
+        'click .flat_user_tag': ->
+            picked_user_tags.clear()
+            picked_user_tags.push @valueOf()
+            Meteor.call 'search_redditors', @valueOf(),true, ->
             
             $('body').toast({
                 title: "browsing #{@valueOf()}"
@@ -119,7 +124,28 @@ if Meteor.isServer
 if Meteor.isClient
     Template.users.events
         'click .toggle_friends': -> Session.set('view_friends', !Session.get('view_friends'))
-        'click .pick_user_tag': -> picked_user_tags.push @name
+        'click .pick_user_tag': -> 
+            picked_user_tags.push @name
+            $('body').toast({
+                title: "searching #{@name}"
+                # message: 'Please see desk staff for key.'
+                class : 'search'
+                icon:'checkmark'
+                position:'bottom right'
+            })
+            Meteor.call 'search_redditors',@name,true, ->
+                console.log 'searched users for', @name
+                $('body').toast({
+                    title: "search complete"
+                    # message: 'Please see desk staff for key.'
+                    class : 'success'
+                    icon:'checkmark'
+                    position:'bottom right'
+                    # className:
+                    #     toast: 'ui massive message'
+                    # displayTime: 5000
+                })
+            
         'click .unpick_user_tag': -> picked_user_tags.remove @valueOf()
         'click .pick_porn_tag': -> picked_porn_tags.push @name
         'click .unpick_porn_tag': -> picked_porn_tags.remove @valueOf()
@@ -171,16 +197,16 @@ if Meteor.isClient
         # 'click #add_user': ->
         #     id = Docs.insert model:'person'
         #     Router.go "/person/edit/#{id}"
-        'keyup .username_search': (e,t)->
-            username_search = $('.username_search').val()
-            if e.which is 8
-                if username_search.length is 0
-                    Session.set 'username_search',null
-                    Session.set 'checking_in',false
-                else
-                    Session.set 'username_search',username_search
-            else
-                Session.set 'username_search',username_search
+        # 'keyup .username_search': (e,t)->
+        #     username_search = $('.username_search').val()
+        #     if e.which is 8
+        #         if username_search.length is 0
+        #             Session.set 'username_search',null
+        #             Session.set 'checking_in',false
+        #         else
+        #             Session.set 'username_search',username_search
+        #     else
+        #         Session.set 'username_search',username_search
         'keyup .user_search': (e,t)->
             val = $('.user_search').val().trim().toLowerCase()
             if val.length > 2
@@ -568,3 +594,13 @@ if Meteor.isServer
             Meteor.users.find({
                 username: {$regex:"#{username}", $options: 'i'}
             },{ limit:150})
+            
+            
+    Meteor.publish 'redditor_counter', ()->
+        Counts.publish this, 'redditor_counter', 
+            Docs.find({
+                model:'redditor'
+            })
+        return undefined    # otherwise coffeescript returns a Counts.publish
+                          # handle when Meteor expects a Mongo.Cursor object.
+            

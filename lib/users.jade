@@ -19,8 +19,7 @@ template(name='users')
             //             strong #{this}
             // each all_groups
             //     .ui.compact.button.select_group(class=cloud_tag_class) 
-            //         strong #{this.name}
-            +i name='tags'
+            //         strong #{name}
             if picked_user_tags
                 // #clear_tags.ui.primary.icon.compact.button
                 //     i.remove.icon
@@ -30,9 +29,20 @@ template(name='users')
             .ui.large.icon.input
                 i.search.icon
                 input.user_search(type='text' placeholder='search users...' value=current_search)
+            i.large.tags.icon
             each all_user_tags
                 .ui.compact.button.pick_user_tag(class=cloud_tag_class) 
-                    strong #{this.name}
+                    strong #{name}
+            i.large.exclamation.icon
+            each picked_porn_tags
+                .unpick_porn_tag.ui.primary.compact.button
+                    strong #{this}
+            each porn_tag_results
+                .ui.compact.button.pick_porn_tag(class=cloud_tag_class) 
+                    if name
+                        |adult
+                    else 
+                        |safe
             +session_icon_button key='view_mode' value='grid' icon='th' 
             +session_icon_button key='view_mode' value='list' icon='list'
             +sort_direction_toggle

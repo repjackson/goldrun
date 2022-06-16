@@ -10,17 +10,22 @@ if Meteor.isClient
         Session.setDefault 'limit', 42
         Session.setDefault 'sort_key', 'points'
         Session.setDefault('view_mode','grid')
-        @autorun => Meteor.subscribe 'users_pub', 
-            Session.get('current_search')
-            picked_user_tags.array()
-            Session.get('view_friends')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('limit')
-            ->
-        @autorun => Meteor.subscribe 'user_tags', picked_user_tags.array(), ->
+        @autorun => Meteor.subscribe 'redditors_pub', -> 
+        # @autorun => Meteor.subscribe 'users_pub', 
+        #     Session.get('current_search')
+        #     picked_user_tags.array()
+        #     Session.get('view_friends')
+        #     Session.get('sort_key')
+        #     Session.get('sort_direction')
+        #     Session.get('limit')
+        #     ->
+        # @autorun => Meteor.subscribe 'user_tags', picked_user_tags.array(), ->
             
 if Meteor.isServer 
+    Meteor.publish 'redditors_pub', ()->
+        Docs.find
+            model:'redditor'
+        , sort:_timestamp:-1
     Meteor.publish 'users_pub', (
         username_search, 
         picked_user_tags=[], 
@@ -52,7 +57,7 @@ if Meteor.isServer
                 profile_views:1
         })
             
-if Meteor.isClient  
+if Meteor.isClient
     Template.users.events
         # 'click #add_user': ->
         #     id = Docs.insert model:'person'
@@ -67,6 +72,33 @@ if Meteor.isClient
                     Session.set 'username_search',username_search
             else
                 Session.set 'username_search',username_search
+        'keyup .user_search': (e,t)->
+            val = $('.user_search').val().trim().toLowerCase()
+            if val.length > 2
+                # Session.set('user_search',val)
+                if e.which is 13
+                    $('body').toast({
+                        title: "searching #{val}"
+                        # message: 'Please see desk staff for key.'
+                        class : 'search'
+                        icon:'checkmark'
+                        position:'bottom right'
+                    })
+                    Meteor.call 'search_redditors',val,true, ->
+                        console.log 'searched users for', val
+                        $('body').toast({
+                            title: "search complete"
+                            # message: 'Please see desk staff for key.'
+                            class : 'success'
+                            icon:'checkmark'
+                            position:'bottom right'
+                            # className:
+                            #     toast: 'ui massive message'
+                            # displayTime: 5000
+                        })
+                    $('.user_search').val('')
+                    picked_tags.clear()
+                    picked_tags.push val
             
             
     Template.users.helpers
@@ -90,7 +122,22 @@ if Meteor.isClient
                 # roles:$in:['resident','owner']
             ,
                 # limit:Session.get('limit')
-                limit:150
+                limit:42
+                sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
+            )
+        redditor_docs: ->
+            match = {model:'redditor'}
+            username_query = Session.get('username_query')
+            # if username_query
+            #     match.username = {$regex:"#{username_query}", $options: 'i'}
+            # if picked_user_tags.array().length > 0
+            #     match.tags = $all: picked_user_tags.array()
+                
+            Docs.find(match
+                # roles:$in:['resident','owner']
+            ,
+                # limit:Session.get('limit')
+                limit:42
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
             )
         # users: ->
@@ -155,9 +202,88 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.methods
+        search_redditors: (query,porn)->
+            console.log 'searching redditors', query
+            # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
+            # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
+            # HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
+            
+            if porn 
+                link = "http://reddit.com/users/search.json?q=#{query}&nsfw=1&include_over_18=on"
+            else
+                link = "http://reddit.com/users/search.json?q=#{query}&nsfw=0&include_over_18=off"
+            HTTP.get link,(err,response)=>
+                # console.log response
+                if response.data.data.dist > 1
+                    _.each(response.data.data.children, (item)=>
+                        console.log 'item', item
+                        data = item.data
+                        # len = 200
+                        # # added_tags = [query]
+                        # # added_tags.push data.domain.toLowerCase()
+                        # # added_tags.push data.author.toLowerCase()
+                        # # added_tags = _.flatten(added_tags)
+                        # # console.log 'data', data
+                        # redditor_doc =
+                            # reddit_name: data.name
+                        #     public_description: data.public_description
+                        #     banner_background_image: data.banner_background_image
+                        #     community_icon: data.community_icon
+                        #     description_html: data.description_html
+                        #     published:true
+                        #     reddit_data:data
+                        #     # reddit_id: data.id
+                        #     # url: data.url
+                        #     # domain: data.domain
+                        #     # comment_count: data.num_comments
+                        #     # permalink: data.permalink
+                        #     # title: data.title
+                        #     # # root: query
+                        #     # ups:data.ups
+                        #     # num_comments:data.num_comments
+                        #     # # selftext: false
+                        #     # points:0
+                        #     # over_18:data.over_18
+                        #     # thumbnail: data.thumbnail
+                        #     tags: [query]
+                        #     model:'group'
+                        #     source:'reddit'
+                        existing_doc = Docs.findOne 
+                            model:'redditor'
+                            "reddit_data.name":data.name
+                        if existing_doc
+                            # if Meteor.isDevelopment
+                            if typeof(existing_doc.tags) is 'string'
+                                Docs.update existing_doc._id,
+                                    $unset: tags: 1
+                            Docs.update existing_doc._id,
+                                # $addToSet: tags: $each: query
+                                $addToSet: tags: query
+                                # $set:
+                                #     title:data.title
+                                #     ups:data.ups
+                                #     over_18:data.over_18
+                                #     header_img:data.header_img
+                                #     display_name:data.display_name
+                                #     permalink:data.permalink
+                                #     reddit_data:data
+                                #     member_count:data.subscribers
+                            # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
+                            # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
+                        unless existing_doc
+                            new_reddit_post_id = Docs.insert 
+                                model:'redditor'
+                                reddit_data:data
+                            console.log 'added new redditor', data.display_name
+                            # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                            # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
+                        return true
+                )
+    
     Meteor.publish 'user_results', (
         picked_tags
-        limit=150
+        limit=42
         doc_sort_key
         doc_sort_direction
         view_delivery

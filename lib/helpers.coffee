@@ -39,6 +39,34 @@ if Meteor.isClient
     	                admin_mode:!Meteor.user().admin_mode
     # 		alert("admin mode toggle")
     })
+    globalHotkeys.add({
+    	combo : "g g",
+    	callback : ()-> Router.go "/groups"
+    })
+    globalHotkeys.add({
+    	combo : "g u",
+    	callback : ()-> Router.go "/users"
+    })
+    globalHotkeys.add({
+    	combo : "g s",
+    	callback : ()-> Router.go "/search"
+    })
+    globalHotkeys.add({
+    	combo : "g p",
+    	callback : ()-> 
+    	    if Meteor.user()
+        	    Router.go "/user/#{Meteor.user().username}"
+        	else 
+        	    Router.go "/login"
+    })
+    globalHotkeys.add({
+    	combo : "m p",
+    	callback : ()-> Router.go "/posts"
+    })
+    globalHotkeys.add({
+    	combo : "m e",
+    	callback : ()-> Router.go "/events"
+    })
     
     Template.registerHelper 'cal_time', (input) -> moment(input).calendar()
 

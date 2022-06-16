@@ -32,6 +32,38 @@ if Meteor.isClient
         #     Session.get('limit')
         #     ->
         # @autorun => Meteor.subscribe 'user_tags', picked_user_tags.array(), ->
+     
+    Template.redditor_card.events
+        'click .call_watson': ->
+            # unless @details 
+            #     Meteor.call 'redditor_details', @_id, ->
+            #         console.log 'pulled redditor details'
+            unless @watson
+                Meteor.call 'call_watson',@_id,'reddit_data.subreddit.public_description','redditor', ->
+                    console.log 'autoran watson'
+            
+        'click .pick_food_tag': ->
+            picked_food_tags.clear()
+            picked_food_tags.push @valueOf()
+            Meteor.call 'call_food', @valueOf(), ->
+            
+            $('body').toast({
+                title: "browsing #{@valueOf()}"
+                # message: 'Please see desk staff for key.'
+                class : 'success'
+                showIcon:'hashtag'
+                # showProgress:'bottom'
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+     
             
 if Meteor.isServer 
     Meteor.publish 'redditors_pub', (
@@ -305,6 +337,7 @@ if Meteor.isServer
                         unless existing_doc
                             new_reddit_post_id = Docs.insert 
                                 model:'redditor'
+                                tags:[query]
                                 reddit_data:data
                             console.log 'added new redditor', data.display_name
                             # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->

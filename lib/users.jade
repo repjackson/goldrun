@@ -92,7 +92,7 @@ template(name='users')
 
 template(name='redditor_card')
     // a.ui.card.zoomer.fly_left(href="/user/#{username}")
-    .ui.card.zoomer
+    .ui.card.zoomer.call_watson
         // unless background_image_id
         //     img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
         if reddit_data.subreddit.banner_img
@@ -165,6 +165,10 @@ template(name='redditor_card')
             .ui.large.black.label(title='profile views') 
                 i.eye.icon
                 |#{profile_views}
+            if watson 
+                +doc_sentiment
+                +doc_emotion
+                
             +print_this
             
             

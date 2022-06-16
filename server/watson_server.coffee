@@ -94,7 +94,7 @@ Meteor.methods
 
 
     call_watson: (doc_id, key, mode) ->
-        # console.log 'calling watson', doc_id, key, mode
+        console.log 'calling watson', doc_id, key, mode
         # @unblock()
         self = @
         # console.log doc_id
@@ -169,6 +169,8 @@ Meteor.methods
                 console.log 'calling image'
             when 'subreddit'
                 parameters.html = doc.reddit_data.public_description
+            when 'redditor'
+                parameters.html = doc.reddit_data.subreddit.public_description
                 
 
         # console.log 'parameters', parameters

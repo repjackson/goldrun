@@ -62,10 +62,32 @@ if Meteor.isClient
                     console.log 'autoran watson'
             
         'click .flat_user_tag': ->
+            # picked_user_tags.clear()
+            picked_user_tags.push @valueOf()
+            Meteor.call 'search_redditors', picked_user_tags.array(),true, ->
+            
+            $('body').toast({
+                title: "browsing #{@valueOf()}"
+                # message: 'Please see desk staff for key.'
+                class : 'success'
+                showIcon:'hashtag'
+                # showProgress:'bottom'
+                position:'bottom right'
+                # className:
+                #     toast: 'ui massive message'
+                # displayTime: 5000
+                transition:
+                  showMethod   : 'zoom',
+                  showDuration : 250,
+                  hideMethod   : 'fade',
+                  hideDuration : 250
+                })
+    Template.redditor_view.events
+        'click .pick_flat_tag': ->
             picked_user_tags.clear()
             picked_user_tags.push @valueOf()
-            Meteor.call 'search_redditors', @valueOf(),true, ->
-            
+            Meteor.call 'search_redditors', picked_user_tags.array(),true, ->
+            Router.go "/users"
             $('body').toast({
                 title: "browsing #{@valueOf()}"
                 # message: 'Please see desk staff for key.'
@@ -152,7 +174,7 @@ if Meteor.isClient
                 icon:'checkmark'
                 position:'bottom right'
             })
-            Meteor.call 'search_redditors',@name,true, ->
+            Meteor.call 'search_redditors',picked_user_tags.array(),true, ->
                 console.log 'searched users for', @name
                 $('body').toast({
                     title: "search complete"
@@ -235,6 +257,8 @@ if Meteor.isClient
             if val.length > 2
                 # Session.set('user_search',val)
                 if e.which is 13
+                    # picked_user_tags.clear()
+                    picked_user_tags.push val
                     $('body').toast({
                         title: "searching #{val}"
                         # message: 'Please see desk staff for key.'
@@ -242,8 +266,8 @@ if Meteor.isClient
                         icon:'checkmark'
                         position:'bottom right'
                     })
-                    Meteor.call 'search_redditors',val,true, ->
-                        console.log 'searched users for', val
+                    Meteor.call 'search_redditors',picked_user_tags.array(),true, ->
+                        console.log 'searched users for', picked_user_tags.array()
                         $('body').toast({
                             title: "search complete"
                             # message: 'Please see desk staff for key.'
@@ -255,8 +279,6 @@ if Meteor.isClient
                             # displayTime: 5000
                         })
                     $('.user_search').val('')
-                    picked_user_tags.clear()
-                    picked_user_tags.push val
             
             
     Template.users.helpers
@@ -322,14 +344,14 @@ if Meteor.isServer
             # HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
             
             if porn 
-                link = "http://reddit.com/users/search.json?q=#{query}&nsfw=1&include_over_18=on&raw_json=1"
+                link = "http://reddit.com/users/search.json?q=#{query}&nsfw=1&include_over_18=on&raw_json=1&limit=100"
             else
-                link = "http://reddit.com/users/search.json?q=#{query}&nsfw=0&include_over_18=off&raw_json=1"
+                link = "http://reddit.com/users/search.json?q=#{query}&nsfw=0&include_over_18=off&raw_json=1&limit=100"
             HTTP.get link,(err,response)=>
                 # console.log response
                 if response.data.data.dist > 1
                     _.each(response.data.data.children, (item)=>
-                        console.log 'item', item
+                        # console.log 'item', item
                         data = item.data
                         # len = 200
                         # # added_tags = [query]
@@ -370,8 +392,8 @@ if Meteor.isServer
                                 Docs.update existing_doc._id,
                                     $unset: tags: 1
                             Docs.update existing_doc._id,
-                                # $addToSet: tags: $each: query
-                                $addToSet: tags: query
+                                $addToSet: tags: $each: query
+                                # $addToSet: tags: query
                                 # $set:
                                 #     reddit_data:data
                                 #     title:data.title
@@ -386,7 +408,7 @@ if Meteor.isServer
                         unless existing_doc
                             new_reddit_post_id = Docs.insert 
                                 model:'redditor'
-                                tags:[query]
+                                tags:query
                                 reddit_data:data
                             console.log 'added new redditor', data.display_name
                             # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->

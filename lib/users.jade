@@ -420,6 +420,8 @@ template(name='redditor_view')
                     +i name='news'
                     |redditor
                 with reddit_data
+                    strong #{subreddit.public_description}
+
                     img(src=icon_img)
                     .ui.list 
                         .item accept_followers: #{accept_followers}
@@ -461,9 +463,9 @@ template(name='redditor_view')
                             .item free_form_reports #{free_form_reports}
                             // .item header_img #{header_img}
                             .item header_size #{header_size}
-                            .item icon_color #{icon_color}
+                            // .item icon_color #{icon_color}
                             // .item icon_img #{icon_img}
-                            .item icon_size #{icon_size}
+                            // .item icon_size #{icon_size}
                             .item is_default_banner #{is_default_banner}
                             .item is_default_icon #{is_default_icon}
                             .item key_color #{key_color}
@@ -473,7 +475,6 @@ template(name='redditor_view')
                             .item over_18 #{over_18}
                             .item previous_names #{previous_names}
                             .item primary_color #{primary_color}
-                            .item public_description #{public_description}
                             .item quarantine #{quarantine}
                             .item restrict_commenting #{restrict_commenting}
                             .item restrict_posting #{restrict_posting}

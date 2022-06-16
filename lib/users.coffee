@@ -60,7 +60,8 @@ if Meteor.isClient
             unless @watson
                 Meteor.call 'call_watson',@_id,'reddit_data.subreddit.public_description','redditor', ->
                     console.log 'autoran watson'
-            
+                    Session.set('dummy', !Session.get('dummy'))
+
         'click .flat_user_tag': ->
             # picked_user_tags.clear()
             picked_user_tags.push @valueOf()

@@ -220,7 +220,7 @@ Template.layout.events
 # Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
 Router.route '/', (->
     @layout 'layout'
-    @render 'home'
+    @render 'users'
     ), name:'home'
 # Router.route '/', (->
 #     @redirect('/');

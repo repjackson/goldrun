@@ -4,6 +4,18 @@ if Meteor.isClient
     Template.user_item.onCreated ->
         @autorun => Meteor.subscribe 'user_groups_small', @data.username, -> 
         
+        
+    Router.route '/u/:name', (->
+        @layout 'layout'
+        @render 'redditor_view'
+        ), name:'redditor_view'
+        
+    Template.redditor_view.onCreated ->
+        @autorun => @subscribe 'redditor_by_name', Router.current().params.name, ->
+    Template.redditor_view.helpers
+        current_redditor: ->
+            Docs.findOne 
+                model:'redditor'
     Template.users.onCreated ->
         @autorun => Meteor.subscribe 'redditor_counter', ->
     Template.users.helpers
@@ -23,10 +35,12 @@ if Meteor.isClient
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('limit')
+            Session.get('dummy')
             ->
         @autorun => Meteor.subscribe 'redditor_tags', 
             picked_user_tags.array()
             picked_porn_tags.array()
+            Session.get('dummy')
             , ->
         # @autorun => Meteor.subscribe 'users_pub', 
         #     Session.get('current_search')
@@ -71,6 +85,10 @@ if Meteor.isClient
      
             
 if Meteor.isServer 
+    Meteor.publish 'redditor_by_name', (name)->
+        Docs.find 
+            model:'redditor'
+            "reddit_data.name":name
     Meteor.publish 'redditors_pub', (
         username_search, 
         picked_user_tags=[], 
@@ -79,6 +97,7 @@ if Meteor.isServer
         sort_key='_timestamp'
         sort_direction=-1
         limit=50
+        dummy
     )->
         match = {model:'redditor'}
         if picked_user_tags.length > 0 then match.tags = $all:picked_user_tags 
@@ -145,51 +164,55 @@ if Meteor.isClient
                     #     toast: 'ui massive message'
                     # displayTime: 5000
                 })
+                Meteor.setTimeout ->
+                    Session.set('dummy', !Session.get('dummy'))
+                , 5000
+                        
             
         'click .unpick_user_tag': -> picked_user_tags.remove @valueOf()
         'click .pick_porn_tag': -> picked_porn_tags.push @name
         'click .unpick_porn_tag': -> picked_porn_tags.remove @valueOf()
-        'click .add_user': ->
-            new_username = prompt('username')
-            splitted = new_username.split(' ')
-            formatted = new_username.split(' ').join('_').toLowerCase()
-            console.log formatted
-                #   return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-            Meteor.call 'add_user', formatted, (err,res)->
-                console.log res
-                new_user = Meteor.users.findOne res
-                Meteor.users.update res,
-                    $set:
-                        first_name:splitted[0]
-                        last_name:splitted[1]
+        # 'click .add_user': ->
+        #     new_username = prompt('username')
+        #     splitted = new_username.split(' ')
+        #     formatted = new_username.split(' ').join('_').toLowerCase()
+        #     console.log formatted
+        #         #   return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        #     Meteor.call 'add_user', formatted, (err,res)->
+        #         console.log res
+        #         new_user = Meteor.users.findOne res
+        #         Meteor.users.update res,
+        #             $set:
+        #                 first_name:splitted[0]
+        #                 last_name:splitted[1]
 
-                Router.go "/user/#{formatted}"
-                $('body').toast({
-                    title: "user created"
-                    # message: 'Please see desk staff for key.'
-                    class : 'success'
-                    icon:'user'
-                    position:'bottom right'
-                    # className:
-                    #     toast: 'ui massive message'
-                    # displayTime: 5000
-                    transition:
-                      showMethod   : 'zoom',
-                      showDuration : 250,
-                      hideMethod   : 'fade',
-                      hideDuration : 250
-                    })
+        #         Router.go "/user/#{formatted}"
+        #         $('body').toast({
+        #             title: "user created"
+        #             # message: 'Please see desk staff for key.'
+        #             class : 'success'
+        #             icon:'user'
+        #             position:'bottom right'
+        #             # className:
+        #             #     toast: 'ui massive message'
+        #             # displayTime: 5000
+        #             transition:
+        #               showMethod   : 'zoom',
+        #               showDuration : 250,
+        #               hideMethod   : 'fade',
+        #               hideDuration : 250
+        #             })
                 
-        'keyup .search_user': (e,t)->
-            username_query = $('.search_user').val()
-            if e.which is 8
-                if username_query.length is 0
-                    Session.set 'username_query',null
-                    # Session.set 'checking_in',false
-                else
-                    Session.set 'username_query',username_query
-            else
-                Session.set 'username_query',username_query
+        # 'keyup .search_user': (e,t)->
+        #     username_query = $('.search_user').val()
+        #     if e.which is 8
+        #         if username_query.length is 0
+        #             Session.set 'username_query',null
+        #             # Session.set 'checking_in',false
+        #         else
+        #             Session.set 'username_query',username_query
+        #     else
+        #         Session.set 'username_query',username_query
 
         'click .clear_query': ->
             Session.set('username_query',null)

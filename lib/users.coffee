@@ -10,7 +10,15 @@ if Meteor.isClient
         Session.setDefault 'limit', 42
         Session.setDefault 'sort_key', 'points'
         Session.setDefault('view_mode','grid')
-        @autorun => Meteor.subscribe 'redditors_pub', -> 
+        @autorun => Meteor.subscribe 'redditors_pub',
+            Session.get('current_search')
+            picked_user_tags.array()
+            # Session.get('view_friends')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('limit')
+            ->
+        @autorun => Meteor.subscribe 'redditor_tags', picked_user_tags.array(), ->
         # @autorun => Meteor.subscribe 'users_pub', 
         #     Session.get('current_search')
         #     picked_user_tags.array()
@@ -22,10 +30,21 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'user_tags', picked_user_tags.array(), ->
             
 if Meteor.isServer 
-    Meteor.publish 'redditors_pub', ()->
-        Docs.find
-            model:'redditor'
-        , sort:_timestamp:-1
+    Meteor.publish 'redditors_pub', (
+        username_search, 
+        picked_user_tags=[], 
+        view_friends=false
+        sort_key='_timestamp'
+        sort_direction=-1
+        limit=50
+    )->
+        match = {model:'redditor'}
+        if picked_user_tags.length > 0 then match.tags = $all:picked_user_tags 
+        Docs.find match, {
+            # sort:_timestamp:-1
+            "#{sort_key}":sort_direction
+            limit:20
+        }
     Meteor.publish 'users_pub', (
         username_search, 
         picked_user_tags=[], 
@@ -260,8 +279,8 @@ if Meteor.isServer
                             Docs.update existing_doc._id,
                                 # $addToSet: tags: $each: query
                                 $addToSet: tags: query
-                                $set:
-                                    reddit_data:data
+                                # $set:
+                                #     reddit_data:data
                                 #     title:data.title
                                 #     ups:data.ups
                                 #     over_18:data.over_18
@@ -346,6 +365,39 @@ if Meteor.isServer
             match.tags = $all: picked_tags
         count = Meteor.users.find(match).count()
         cloud = Meteor.users.aggregate [
+            { $match: match }
+            { $project: tags: 1 }
+            { $unwind: "$tags" }
+            { $group: _id: '$tags', count: $sum: 1 }
+            { $match: _id: $nin: picked_tags }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: count }
+            { $limit: 20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        cloud.forEach (tag, i) ->
+    
+            self.added 'results', Random.id(),
+                name: tag.name
+                count: tag.count
+                model:'user_tag'
+                index: i
+    
+        self.ready()
+        
+        
+    Meteor.publish 'redditor_tags', (picked_tags)->
+        # user = Meteor.users.findOne @userId
+        # current_herd = user.profile.current_herd
+    
+        self = @
+        match = {model:'redditor'}
+    
+        # picked_tags.push current_herd
+        if picked_tags.length > 0
+            match.tags = $all: picked_tags
+        count = Docs.find(match).count()
+        cloud = Docs.aggregate [
             { $match: match }
             { $project: tags: 1 }
             { $unwind: "$tags" }

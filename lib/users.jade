@@ -2,7 +2,7 @@ template(name='users')
     .ui.padded.stackable.grid
         .sixteen.wide.column
             .ui.inline.header
-                +i name='groups'
+                i.large.users.icon
                 |#{user_docs.count}
                 |users
             if currentUser.admin
@@ -27,25 +27,25 @@ template(name='users')
                 each picked_user_tags
                     .unpick_user_tag.ui.primary.compact.button
                         strong #{this}
+            .ui.large.icon.input
+                i.search.icon
+                input.user_search(type='text' placeholder='search users...' value=current_search)
             each all_user_tags
                 .ui.compact.button.pick_user_tag(class=cloud_tag_class) 
                     strong #{this.name}
-        .sixteen.wide.column
             +session_icon_button key='view_mode' value='grid' icon='th' 
             +session_icon_button key='view_mode' value='list' icon='list'
             +sort_direction_toggle
             +session_set key='sort_key' value='points' label='points' icon='coins'
             +session_set key='sort_key' value='createdAt' label='joined' icon='calendar'
             +session_set key='sort_key' value='views' icon='eye'
+        .sixteen.wide.column
             // +session_set key='view_limit' value=1
             // +session_set key='view_limit' value=10 label='10'
             // +session_set key='view_limit' value=20 label='20'
             // +session_set key='view_limit' value=50 label='30'
-            .ui.large.icon.input
-                i.search.icon
-                input.user_search(type='text' placeholder='search users...' value=current_search)
             
-            .scrolling.alpha
+            .scrollin.alpha
                 if subs_ready
                     .ui.inline.header 
                         +i name='reddit'
@@ -90,12 +90,27 @@ template(name='redditor_card')
         .content
             if reddit_data.snoovatar_img
                 img.invert.ui.tiny.inline.image(src=reddit_data.snoovatar_img)
-            if reddit_data.icon_img
-                img.invert.ui.tiny.inline.image(src=reddit_data.icon_img)
+            // if reddit_data.icon_img
+            //     img.invert.ui.tiny.inline.image(src=reddit_data.icon_img)
             a.ui.inline.header.pointer.blink(href="/user/#{username}" style="color:#{theme_color};")
                 |@#{reddit_data.name}
-            .ui.large.label #{points}pts
+            // .ui.large.label #{points}pts
                 //- |#{username}
+            if reddit_data.subreddit.over_18
+                .ui.red.label.invert
+                    |nsfw
+            with reddit_data
+                .ui.large.label
+                    i.thumbs.up.icon
+                    |#{total_karma}
+                .ui.large.label
+                    i.linkify.icon
+                    |#{link_karma}
+                .ui.large.label
+                    i.chat.icon
+                    |#{comment_karma}
+            with reddit_data.subreddit
+                .ui.small.inline.header !{public_description}
             if points
                 .ui.inline.header(style="color:#{current_user.theme_color};") #{points}pts
             if one_ratio

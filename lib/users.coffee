@@ -37,6 +37,7 @@ if Meteor.isServer
     Meteor.publish 'redditors_pub', (
         username_search, 
         picked_user_tags=[], 
+        picked_porn_tags=[]
         view_friends=false
         sort_key='_timestamp'
         sort_direction=-1
@@ -44,41 +45,44 @@ if Meteor.isServer
     )->
         match = {model:'redditor'}
         if picked_user_tags.length > 0 then match.tags = $all:picked_user_tags 
+        if picked_porn_tags.length > 0 then match['reddit_data.subreddit.over_18'] = $all:picked_porn_tags 
+        
+        console.log 'redditor pub match', match
         Docs.find match, {
             # sort:_timestamp:-1
             "#{sort_key}":sort_direction
             limit:20
         }
-    Meteor.publish 'users_pub', (
-        username_search, 
-        picked_user_tags=[], 
-        view_friends=false
-        sort_key='points'
-        sort_direction=-1
-        limit=50
-    )->
-        match = {}
-        if view_friends
-            match._id = $in: Meteor.user().friend_ids
-        if picked_user_tags.length > 0 then match.tags = $all:picked_user_tags 
-        if username_search
-            match.username = {$regex:"#{username_search}", $options: 'i'}
-        Meteor.users.find(match,{ 
-            limit:20, 
-            sort:
-                "#{sort_key}":sort_direction
-            fields:
-                username:1
-                image_id:1
-                tags:1
-                points:1
-                credit:1
-                first_name:1
-                last_name:1
-                group_memberships:1
-                createdAt:1
-                profile_views:1
-        })
+    # Meteor.publish 'users_pub', (
+    #     username_search, 
+    #     picked_user_tags=[], 
+    #     view_friends=false
+    #     sort_key='points'
+    #     sort_direction=-1
+    #     limit=50
+    # )->
+    #     match = {}
+    #     if view_friends
+    #         match._id = $in: Meteor.user().friend_ids
+    #     if picked_user_tags.length > 0 then match.tags = $all:picked_user_tags 
+    #     if username_search
+    #         match.username = {$regex:"#{username_search}", $options: 'i'}
+    #     Meteor.users.find(match,{ 
+    #         limit:20, 
+    #         sort:
+    #             "#{sort_key}":sort_direction
+    #         fields:
+    #             username:1
+    #             image_id:1
+    #             tags:1
+    #             points:1
+    #             credit:1
+    #             first_name:1
+    #             last_name:1
+    #             group_memberships:1
+    #             createdAt:1
+    #             profile_views:1
+    #     })
             
 if Meteor.isClient
     Template.users.events
@@ -394,7 +398,10 @@ if Meteor.isServer
         self.ready()
         
         
-    Meteor.publish 'redditor_tags', (picked_tags)->
+    Meteor.publish 'redditor_tags', (
+        picked_tags
+        picked_porn_tags
+        )->
         # user = Meteor.users.findOne @userId
         # current_herd = user.profile.current_herd
     
@@ -404,6 +411,8 @@ if Meteor.isServer
         # picked_tags.push current_herd
         if picked_tags.length > 0
             match.tags = $all: picked_tags
+        if picked_porn_tags.length > 0 then match['reddit_data.subreddit.over_18'] = $all:picked_porn_tags 
+            
         count = Docs.find(match).count()
         cloud = Docs.aggregate [
             { $match: match }

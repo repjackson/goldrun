@@ -18,7 +18,6 @@ if Meteor.isClient
                 model:'redditor'
     Template.users.onCreated ->
         @autorun => Meteor.subscribe 'redditor_counter', ->
-    Template.users.helpers
     Template.user_post_doc.events
         'click .call_watson_comment': ->
             Meteor.call 'call_watson', @_id, 'reddit_data.body', 'comment', ->
@@ -54,7 +53,9 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'user_tags', picked_user_tags.array(), ->
      
     Template.redditor_card.events
-        'click .call_watson': ->
+        'click .calc_stats': ->
+            Meteor.call 'calc_redditor_stats', @reddit_data.name, ->
+            
             # unless @details 
             #     Meteor.call 'redditor_details', @_id, ->
             #         console.log 'pulled redditor details'
@@ -91,6 +92,8 @@ if Meteor.isClient
             Docs.find
                 model:'reddit'
     Template.redditor_view.events
+        'click .calc_redditor_stats': ->
+            Meteor.call 'calc_redditor_stats', Router.current().params.name, ->
         'click .get_user_posts': ->
             Meteor.call 'get_user_posts', Router.current().params.name, ->
         'click .pick_flat_tag': ->
@@ -122,7 +125,7 @@ if Meteor.isServer
             model:'reddit'
             "reddit_data.author": name
         }, 
-            limit:10
+            limit:42
             sort:_timestamp:-1
     Meteor.publish 'redditor_by_name', (name)->
         Docs.find 
@@ -302,6 +305,7 @@ if Meteor.isClient
             
             
     Template.users.helpers
+        redditor_count: ->  Counts.get('redditor_counter')
         toggle_friends_class: -> if Session.get('view_friends',true) then 'blue large' else ''
         picked_user_tags: -> picked_user_tags.array()
         all_user_tags: -> Results.find model:'user_tag'
@@ -357,6 +361,23 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.methods
+        calc_redditor_stats: (user_name)->
+            user = 
+                Docs.findOne 
+                    model:'redditor'
+                    "reddit_data.name":user_name
+            console.log 'getting user posts', user
+            if user 
+                count = 
+                    Docs.find(
+                        model:'redditor'
+                        "reddit_data.comment_karma":$gt:user.reddit_data.comment_karma
+                    ).count()
+                console.log count
+                Docs.update user._id, 
+                    $set:
+                        comment_karma_rank:count
+                
         get_user_posts: (user_name)->
             user = 
                 Docs.findOne 
@@ -462,59 +483,6 @@ if Meteor.isServer
                         return true
                 )
     
-    Meteor.publish 'user_results', (
-        picked_tags
-        limit=42
-        doc_sort_key
-        doc_sort_direction
-        view_delivery
-        view_pickup
-        view_open
-        )->
-        # console.log picked_tags
-        if doc_sort_key
-            sort_key = doc_sort_key
-        if doc_sort_direction
-            sort_direction = parseInt(doc_sort_direction)
-        self = @
-        match = {model:'event'}
-        # if view_open
-        #     match.open = $ne:false
-        # if view_delivery
-        #     match.delivery = $ne:false
-        # if view_pickup
-        #     match.pickup = $ne:false
-        if picked_tags.length > 0
-            match.tags = $all: picked_tags
-            # sort = 'member_count'
-        else
-            # match.tags = $nin: ['wikipedia']
-            sort = '_timestamp'
-            # match.source = $ne:'wikipedia'
-        # if view_images
-        #     match.is_image = $ne:false
-        # if view_videos
-        #     match.is_video = $ne:false
-
-        # match.tags = $all: picked_tags
-        # if filter then match.model = filter
-        # keys = _.keys(prematch)
-        # for key in keys
-        #     key_array = prematch["#{key}"]
-        #     if key_array and key_array.length > 0
-        #         match["#{key}"] = $all: key_array
-            # console.log 'current facet filter array', current_facet_filter_array
-
-        console.log 'group match', match
-        console.log 'sort key', sort_key
-        console.log 'sort direction', sort_direction
-        Meteor.users.find match,
-            sort:"#{sort_key}":sort_direction
-            limit: 100
-            # limit: limit
-
-
-    
     Meteor.publish 'user_tags', (picked_tags)->
         # user = Meteor.users.findOne @userId
         # current_herd = user.profile.current_herd
@@ -594,7 +562,6 @@ if Meteor.isServer
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         porn_cloud.forEach (tag, i) ->
-    
             self.added 'results', Random.id(),
                 name: tag.name
                 count: tag.count

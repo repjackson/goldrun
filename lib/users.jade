@@ -50,6 +50,7 @@ template(name='users')
             +session_icon_button key='view_mode' value='list' icon='list'
             +sort_direction_toggle
             +session_set key='sort_key' value='comment_karma' label='comment karma' icon='chat'
+            +session_set key='sort_key' value='comment_karma_rank' label='comment karma rank' icon='line chart'
             +session_set key='sort_key' value='post_karma' label='post karma' icon='newspaper'
             +session_set key='sort_key' value='createdAt' label='joined' icon='clock'
             +session_set key='sort_key' value='views' icon='eye'
@@ -117,7 +118,7 @@ template(name='users')
 
 template(name='redditor_card')
     // a.ui.card.zoomer.fly_left(href="/user/#{username}")
-    .ui.card.zoomer.call_watson
+    .ui.card.zoomer.calc_stats
         // unless background_image_id
         //     img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
         if reddit_data.subreddit.banner_img
@@ -138,6 +139,67 @@ template(name='redditor_card')
             if reddit_data.subreddit.over_18
                 .ui.red.label.invert
                     |nsfw
+            if comment_karma_rank
+                .ui.large.label(title='comment karma rank')
+                    i.line.chart.icon 
+                    |#{comment_karma_rank}
+                    
+            with reddit_data
+                if total_karma
+                    .ui.large.label
+                        i.thumbs.up.icon
+                        |#{total_karma}
+                if link_karma
+                    .ui.large.label
+                        i.linkify.icon
+                        |#{link_karma}
+                if comment_karma
+                    .ui.large.label
+                        i.chat.icon
+                        |#{comment_karma}
+            with reddit_data.subreddit
+                .ui.small.inline.header !{public_description}
+            if tags 
+                each seven_tags 
+                    a.ui.small.label.flat_user_tag.zoomer #{this}
+            if profile_views
+                .ui.inline.header(title='profile views') 
+                    i.eye.icon
+                    |#{profile_views}
+            if watson 
+                +doc_sentiment
+                +doc_emotion
+                
+            +print_this
+            
+
+template(name='redditor_item')
+    // a.ui.card.zoomer.fly_left(href="/user/#{username}")
+    .ui.item.zoomer.call_watson
+        // unless background_image_id
+        //     img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
+        if reddit_data.subreddit.banner_img
+            a.fly_right(href="/u/#{reddit_data.name}" style="color:#{theme_color};")
+                img.invert.ui.fluid.image(src=reddit_data.subreddit.banner_img)
+        .content
+            img.ui.small.inline.image.invert.rounded(src=reddit_data.icon_img)
+        
+            if reddit_data.snoovatar_img
+                a.fly_right(href="/u/#{reddit_data.name}" style="color:#{theme_color};")
+                    img.invert.ui.tiny.inline.image(src=reddit_data.snoovatar_img)
+            // if reddit_data.icon_img
+            //     img.invert.ui.tiny.inline.image(src=reddit_data.icon_img)
+            a.ui.inline.header.pointer.blink.fly_right(href="/u/#{reddit_data.name}" style="color:#{theme_color};")
+                |@#{reddit_data.name}
+            // .ui.large.label #{points}pts
+                //- |#{username}
+            if reddit_data.subreddit.over_18
+                .ui.red.label.invert
+                    |nsfw
+            if comment_karma_rank
+                .ui.large.label(title='comment karma rank')
+                    i.line.chart.icon 
+                    |#{comment_karma_rank}
             with reddit_data
                 if total_karma
                     .ui.large.label
@@ -423,8 +485,13 @@ template(name='redditor_view')
                 with reddit_data
                     .ui.header #{name}
                     strong #{subreddit.public_description}
-                    .ui.button.get_user_posts
-                        |get posts 
+                    div
+                    .ui.inline.header
+                        i.edit.icon
+                        |#{user_post_docs.count}
+                        |posts
+                    .ui.icon.button.get_user_posts(title='get posts')
+                        i.large.refresh.icon
                     .ui.divided.list 
                         each user_post_docs
                             +user_post_doc
@@ -475,25 +542,27 @@ template(name='redditor_view')
                         .ui.label user_is_subscriber #{user_is_subscriber}
 
 
-                .ui.segment.alpha.scrollin
-                    .ui.inline.header !{title}
-                    // blockquote(class="imgur-embed-pub" lang="en" data-id="UsxLSe0")
-                    //     a(href=rd.url) Lauren, supergirl, batgirl [Super best friends &amp; lauren faust])
-                    // script(async src="//s.imgur.com/min/embed.js" charset="utf-8")
-                    a.ui.header(href=rd.url target='_window') #{rd.url}
-                    
-                    // with rd
-                    //     embed(src=url)
-                    // if rd.media_embed
-                    //     // 
-                    //     |!{unescaped_content}
-                    // +call_watson key=rd.selftext
-                    if watson 
-                        +watson_view
-                    if in_dev
-                        +print_this
-                    // +comments
+                .ui.inline.header !{title}
+                // blockquote(class="imgur-embed-pub" lang="en" data-id="UsxLSe0")
+                //     a(href=rd.url) Lauren, supergirl, batgirl [Super best friends &amp; lauren faust])
+                // script(async src="//s.imgur.com/min/embed.js" charset="utf-8")
+                a.ui.header(href=rd.url target='_window') #{rd.url}
+                
+                // with rd
+                //     embed(src=url)
+                // if rd.media_embed
+                //     // 
+                //     |!{unescaped_content}
+                // +call_watson key=rd.selftext
+                if watson 
+                    +watson_view
+                if in_dev
+                    +print_this
+                // +comments
             .five.wide.column
+                i.large.refresh.icon.calc_redditor_stats(title='calc stats')
+                if comment_karma_rank
+                    .ui.header comment karma rank: #{comment_karma_rank}
                 with reddit_data
                     img.ui.image.invert.rounded(src=icon_img)
                     .ui.header 

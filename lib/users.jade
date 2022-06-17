@@ -49,8 +49,9 @@ template(name='users')
             +session_icon_button key='view_mode' value='grid' icon='th' 
             +session_icon_button key='view_mode' value='list' icon='list'
             +sort_direction_toggle
-            +session_set key='sort_key' value='points' label='points' icon='coins'
-            +session_set key='sort_key' value='createdAt' label='joined' icon='calendar'
+            +session_set key='sort_key' value='comment_karma' label='comment karma' icon='chat'
+            +session_set key='sort_key' value='post_karma' label='post karma' icon='newspaper'
+            +session_set key='sort_key' value='createdAt' label='joined' icon='clock'
             +session_set key='sort_key' value='views' icon='eye'
         .twelve.wide.column
             // +session_set key='view_limit' value=1
@@ -407,12 +408,10 @@ template(name='user_button')
 
 template(name='redditor_view')
     with current_redditor
-        if image_id
-            img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
-        else if watson.metadata.image
-            img.ui.fluid.image.checkin_banner(src=watson.metadata.image)
-        else
-            img.ui.fluid.image.checkin_banner(src=url)
+        if reddit_data.subreddit.banner_img
+            img.ui.fluid.image.checkin_banner.invert(src=reddit_data.subreddit.banner_img)
+        // else
+        //     img.ui.fluid.image.checkin_banner(src=url)
         .ui.stackable.padded.grid 
             .eleven.wide.column
                 a.ui.compact.button.fly_left.zoomer(href="/users" title='back to browse')
@@ -422,7 +421,6 @@ template(name='redditor_view')
                 with reddit_data
                     strong #{subreddit.public_description}
 
-                    img(src=icon_img)
                     .ui.list 
                         .item accept_followers: #{accept_followers}
                         .item comment_karma: #{comment_karma}
@@ -446,10 +444,9 @@ template(name='redditor_view')
                         .item verified: #{verified}
                     img(src=snoovatar_img)
                     with subreddit
-                        img(src=icon_img)
-                        img(src=banner_img)
-                        img(src=header_img)
-                        img(src=community_icon)
+                        // img(src=banner_img)
+                        img.ui.rounded.image(src=header_img)
+                        img.ui.rounded.image(src=community_icon)
                         .ui.list 
                             .item accept_followers #{accept_followers}
                             .item banner_img #{banner_img}
@@ -519,8 +516,7 @@ template(name='redditor_view')
                         .ui.header comments
                     +comments
             .five.wide.column
-                if thumbnail
-                    img.ui.centered.rounded.image.invert(src=thumbnail)
+                img.ui.image.invert.rounded(src=reddit_data.icon_img)
                 .ui.list 
                     .item domain #{domain}
                     .item.goto_subreddit subreddit #{subreddit}

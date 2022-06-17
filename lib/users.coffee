@@ -126,7 +126,7 @@ if Meteor.isServer
         if picked_user_tags.length > 0 then match.tags = $all:picked_user_tags 
         if picked_porn_tags.length > 0 then match['reddit_data.subreddit.over_18'] = $all:picked_porn_tags 
         
-        console.log 'redditor pub match', match
+        # console.log 'redditor pub match', match
         Docs.find match, {
             # sort:_timestamp:-1
             "#{sort_key}":sort_direction
@@ -192,7 +192,9 @@ if Meteor.isClient
                 , 5000
                         
             
-        'click .unpick_user_tag': -> picked_user_tags.remove @valueOf()
+        'click .unpick_user_tag': -> 
+            picked_user_tags.remove @valueOf()
+            Meteor.call 'search_redditors',picked_user_tags.array(),true, ->
         'click .pick_porn_tag': -> picked_porn_tags.push @name
         'click .unpick_porn_tag': -> picked_porn_tags.remove @valueOf()
         # 'click .add_user': ->

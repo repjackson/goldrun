@@ -288,6 +288,9 @@ Meteor.methods
                             # if Meteor.isDevelopment
                             #     console.log('quantity', entity.text)
                             # else
+                            if entity.type is 'Location'
+                                Docs.update { _id: doc_id }, 
+                                    $addToSet: location_tags:entity.text
                             Docs.update { _id: doc_id },
                                 $addToSet:
                                     # "#{entity.type}":entity.text

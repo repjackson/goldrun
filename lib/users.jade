@@ -34,6 +34,12 @@ template(name='users')
                 .ui.compact.button.pick_user_tag(class=cloud_tag_class) 
                     strong #{name}
         .four.wide.column
+            .ui.inline.header  
+                i.big.marker.icon
+                |locations
+            each location_tags 
+                .ui.large.label #{name}
+            div
             i.large.exclamation.icon
             each picked_porn_tags
                 .unpick_porn_tag.ui.primary.compact.button
@@ -122,13 +128,14 @@ template(name='redditor_card')
         // unless background_image_id
         //     img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
         if reddit_data.subreddit.banner_img
-            a.fly_right(href="/u/#{reddit_data.name}" style="color:#{theme_color};")
+            a.fly_right.zoomer(href="/u/#{reddit_data.name}" style="color:#{theme_color};")
                 img.invert.ui.fluid.image(src=reddit_data.subreddit.banner_img)
         .content
-            img.ui.small.inline.image.invert.rounded(src=reddit_data.icon_img)
+            a.fly_right.zoomer(href="/u/#{reddit_data.name}" style="color:#{theme_color};")
+                img.ui.small.inline.image.invert.rounded(src=reddit_data.icon_img)
         
             if reddit_data.snoovatar_img
-                a.fly_right(href="/u/#{reddit_data.name}" style="color:#{theme_color};")
+                a.fly_right.zoomer(href="/u/#{reddit_data.name}" style="color:#{theme_color};")
                     img.invert.ui.tiny.inline.image(src=reddit_data.snoovatar_img)
             // if reddit_data.icon_img
             //     img.invert.ui.tiny.inline.image(src=reddit_data.icon_img)
@@ -143,7 +150,10 @@ template(name='redditor_card')
                 .ui.large.label(title='comment karma rank')
                     i.line.chart.icon 
                     |#{comment_karma_rank}
-                    
+            if location_tags 
+                i.large.marker.icon 
+                each location_tags 
+                    .ui.label #{this}
             with reddit_data
                 if total_karma
                     .ui.large.label
@@ -200,6 +210,11 @@ template(name='redditor_item')
                 .ui.large.label(title='comment karma rank')
                     i.line.chart.icon 
                     |#{comment_karma_rank}
+            if location_tags 
+                i.large.marker.icon 
+                each location_tags 
+                    .ui.label #{this}
+                    
             with reddit_data
                 if total_karma
                     .ui.large.label

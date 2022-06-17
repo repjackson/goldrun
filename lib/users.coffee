@@ -310,6 +310,9 @@ if Meteor.isClient
         picked_user_tags: -> picked_user_tags.array()
         all_user_tags: -> Results.find model:'user_tag'
         
+        location_tags: -> Results.find model:'location_tag'
+        # all_user_tags: -> Results.find model:'user_tag'
+        
         picked_porn_tags: -> picked_porn_tags.array()
         porn_tag_results: -> Results.find model:'porn_tag'
         one_result: ->
@@ -549,6 +552,23 @@ if Meteor.isServer
                 name: tag.name
                 count: tag.count
                 model:'user_tag'
+                index: i
+        location_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: location_tags: 1 }
+            { $unwind: "$location_tags" }
+            { $group: _id: '$location_tags', count: $sum: 1 }
+            { $match: _id: $nin: picked_tags }
+            { $sort: count: -1, _id: 1 }
+            { $match: count: $lt: count }
+            { $limit: 20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        location_cloud.forEach (tag, i) ->
+            self.added 'results', Random.id(),
+                name: tag.name
+                count: tag.count
+                model:'location_tag'
                 index: i
         porn_cloud = Docs.aggregate [
             { $match: match }

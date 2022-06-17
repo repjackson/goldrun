@@ -254,21 +254,23 @@ template(name='categories')
 //- 
 //- 
 template(name='relations')
-    each watson.relations 
-        .ui.inline.header type: #{type}
-        if is type 'residesIn'
-            i.home.big.icon
-        else if is type 'locatedAt'
-            i.marker.big.icon
-        .ui.inline.header !{sentence}
-        .ui.label score: #{score}
-        each arguments
-            .ui.label #{text}
-                .ui.label location #{location}
-                each entities
-                    .ui.label #{type}
-                    // .ui.label.pick_flat_tag #{text}
-
+    .ui.list 
+        each watson.relations 
+            .item
+                .ui.inline.header type: #{type}
+                if is type 'residesIn'
+                    i.home.big.icon
+                else if is type 'locatedAt'
+                    i.marker.big.icon
+                .ui.inline.header !{sentence}
+                .ui.label score: #{score}
+                each arguments
+                    .ui.label #{text}
+                        .ui.label location #{location}
+                        each entities
+                            .ui.label #{type}
+                            // .ui.label.pick_flat_tag #{text}
+    
 
 template(name='semantic_roles')
     .ui.header semantic roles

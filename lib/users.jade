@@ -124,6 +124,8 @@ template(name='redditor_card')
             a.fly_right(href="/u/#{reddit_data.name}" style="color:#{theme_color};")
                 img.invert.ui.fluid.image(src=reddit_data.subreddit.banner_img)
         .content
+            img.ui.small.inline.image.invert.rounded(src=reddit_data.icon_img)
+        
             if reddit_data.snoovatar_img
                 a.fly_right(href="/u/#{reddit_data.name}" style="color:#{theme_color};")
                     img.invert.ui.tiny.inline.image(src=reddit_data.snoovatar_img)
@@ -414,13 +416,22 @@ template(name='redditor_view')
         //     img.ui.fluid.image.checkin_banner(src=url)
         .ui.stackable.padded.grid 
             .eleven.wide.column
-                a.ui.compact.button.fly_left.zoomer(href="/users" title='back to browse')
+                a.ui.compact.large.button.fly_left.zoomer(href="/users" title='back to browse')
                     i.chevron.left.icon
-                    +i name='news'
-                    |redditor
+                    i.big.users.icon
+                    |users
                 with reddit_data
+                    .ui.header #{name}
                     strong #{subreddit.public_description}
-
+                    .ui.button.get_user_posts
+                        |get posts 
+                    .ui.divided.list 
+                        each user_post_docs
+                            .ui.item
+                                with reddit_data
+                                    |#{body}
+                                    .ui.label #{subreddit}
+                                |#{_when}
                     .ui.list 
                         .item accept_followers: #{accept_followers}
                         .item comment_karma: #{comment_karma}
@@ -491,8 +502,6 @@ template(name='redditor_view')
 
                 .ui.segment.alpha.scrollin
                     .ui.inline.header !{title}
-                    if rd.selftext_html
-                        |!{unescaped}
                     // blockquote(class="imgur-embed-pub" lang="en" data-id="UsxLSe0")
                     //     a(href=rd.url) Lauren, supergirl, batgirl [Super best friends &amp; lauren faust])
                     // script(async src="//s.imgur.com/min/embed.js" charset="utf-8")
@@ -508,13 +517,7 @@ template(name='redditor_view')
                         +watson_view
                     if in_dev
                         +print_this
-                    if is_image
-                        img.ui.image.invert(src=url)
-                    .ui.button.get_comments     
-                        |get comments
-                    if comments 
-                        .ui.header comments
-                    +comments
+                    // +comments
             .five.wide.column
                 img.ui.image.invert.rounded(src=reddit_data.icon_img)
                 .ui.list 

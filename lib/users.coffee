@@ -83,7 +83,15 @@ if Meteor.isClient
                   hideMethod   : 'fade',
                   hideDuration : 250
                 })
+    Template.redditor_view.onCreated ->
+        @autorun => @subscribe 'redditor_posts', Router.current().params.name, ->
+    Template.redditor_view.helpers
+        user_post_docs: ->
+            Docs.find
+                model:'reddit'
     Template.redditor_view.events
+        'click .get_user_posts': ->
+            Meteor.call 'get_user_posts', Router.current().params.name, ->
         'click .pick_flat_tag': ->
             picked_user_tags.clear()
             picked_user_tags.push @valueOf()
@@ -108,6 +116,13 @@ if Meteor.isClient
      
             
 if Meteor.isServer 
+    Meteor.publish 'redditor_posts', (name)->
+        Docs.find {
+            model:'reddit'
+            "reddit_data.author": name
+        }, 
+            limit:10
+            sort:_timestamp:-1
     Meteor.publish 'redditor_by_name', (name)->
         Docs.find 
             model:'redditor'
@@ -194,7 +209,8 @@ if Meteor.isClient
             
         'click .unpick_user_tag': -> 
             picked_user_tags.remove @valueOf()
-            Meteor.call 'search_redditors',picked_user_tags.array(),true, ->
+            if picked_user_tags.array().length > 0
+                Meteor.call 'search_redditors',picked_user_tags.array(),true, ->
         'click .pick_porn_tag': -> picked_porn_tags.push @name
         'click .unpick_porn_tag': -> picked_porn_tags.remove @valueOf()
         # 'click .add_user': ->
@@ -340,6 +356,32 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.methods
+        get_user_posts: (user_name)->
+            user = 
+                Docs.findOne 
+                    model:'redditor'
+                    "reddit_data.name":user_name
+            console.log 'getting user posts', user
+            # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
+            # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
+            # HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
+            
+            link = "http://reddit.com/user/#{user_name}.json?raw_json=1"
+            HTTP.get link,(err,response)=>
+                # console.log response
+                if response.data.data.dist > 1
+                    _.each(response.data.data.children, (item)=>
+                        data = item.data
+                        console.log 'item', item.data
+                        found = 
+                            Docs.findOne 
+                                model:'reddit'
+                                "reddit_data.id":data.id
+                        unless found 
+                            Docs.insert 
+                                model:'reddit'
+                                reddit_data:data
+                    )
         search_redditors: (query,porn)->
             console.log 'searching redditors', query
             # response = HTTP.get("http://reddit.com/search.json?q=#{query}")

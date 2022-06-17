@@ -432,72 +432,63 @@ template(name='redditor_view')
                                     |#{body}
                                     .ui.label #{subreddit}
                                 |#{_when}
-                    .ui.list 
-                        .item accept_followers: #{accept_followers}
-                        .item comment_karma: #{comment_karma}
-                        .item created: #{created}
-                        .item created_utc: #{created_utc}
-                        .item has_subscribed: #{has_subscribed}
-                        .item has_verified_email: #{has_verified_email}
-                        .item hide_from_robots: #{hide_from_robots}
-                        // .item icon_img: #{icon_img}
-                        .item id: #{id}
-                        .item is_blocked: #{is_blocked}
-                        .item is_employee: #{is_employee}
-                        .item is_friend: #{is_friend}
-                        .item is_gold: #{is_gold}
-                        .item is_mod: #{is_mod}
-                        .item link_karma: #{link_karma}
-                        .item name: #{name}
-                        .item pref_show_snoovatar: #{pref_show_snoovatar}
-                        // .item snoovatar_img: #{snoovatar_img}
-                        .item snoovatar_size: #{snoovatar_size}
-                        .item verified: #{verified}
+                    .ui.label accept_followers: #{accept_followers}
+                    .ui.label has_subscribed: #{has_subscribed}
+                    .ui.label has_verified_email: #{has_verified_email}
+                    .ui.label hide_from_robots: #{hide_from_robots}
+                    // .ui.label icon_img: #{icon_img}
+                    .ui.label id: #{id}
+                    .ui.label is_blocked: #{is_blocked}
+                    .ui.label is_employee: #{is_employee}
+                    .ui.label is_friend: #{is_friend}
+                    .ui.label is_gold: #{is_gold}
+                    .ui.label is_mod: #{is_mod}
+                    .ui.label link_karma: #{link_karma}
+                    // .ui.label pref_show_snoovatar: #{pref_show_snoovatar}
+                    // .ui.label snoovatar_img: #{snoovatar_img}
+                    .ui.label snoovatar_size: #{snoovatar_size}
+                    .ui.label verified: #{verified}
                     img(src=snoovatar_img)
                     with subreddit
                         // img(src=banner_img)
                         img.ui.rounded.image(src=header_img)
                         img.ui.rounded.image(src=community_icon)
-                        .ui.list 
-                            .item accept_followers #{accept_followers}
-                            .item banner_img #{banner_img}
-                            .item banner_size #{banner_size}
-                            // .item community_icon #{community_icon}
-                            .item default_set #{default_set}
-                            .item description #{description}
-                            .item disable_contributor_requests #{disable_contributor_requests}
-                            .item display_name #{display_name}
-                            .item display_name_prefixed #{display_name_prefixed}
-                            .item free_form_reports #{free_form_reports}
-                            // .item header_img #{header_img}
-                            .item header_size #{header_size}
-                            // .item icon_color #{icon_color}
-                            // .item icon_img #{icon_img}
-                            // .item icon_size #{icon_size}
-                            .item is_default_banner #{is_default_banner}
-                            .item is_default_icon #{is_default_icon}
-                            .item key_color #{key_color}
-                            .item link_flair_enabled #{link_flair_enabled}
-                            .item link_flair_position #{link_flair_position}
-                            .item name #{name}
-                            .item over_18 #{over_18}
-                            .item previous_names #{previous_names}
-                            .item primary_color #{primary_color}
-                            .item quarantine #{quarantine}
-                            .item restrict_commenting #{restrict_commenting}
-                            .item restrict_posting #{restrict_posting}
-                            .item show_media #{show_media}
-                            .item submit_link_label #{submit_link_label}
-                            .item submit_text_label #{submit_text_label}
-                            .item subreddit_type #{subreddit_type}
-                            .item subscribers #{subscribers}
-                            .item title #{title}
-                            .item url #{url}
-                            .item user_is_banned #{user_is_banned}
-                            .item user_is_contributor #{user_is_contributor}
-                            .item user_is_moderator #{user_is_moderator}
-                            .item user_is_muted #{user_is_muted}
-                            .item user_is_subscriber #{user_is_subscriber}
+                        .ui.label accept_followers #{accept_followers}
+                        // .ui.label banner_img #{banner_img}
+                        // .ui.label banner_size #{banner_size}
+                        // .ui.label community_icon #{community_icon}
+                        .ui.label default_set #{default_set}
+                        .ui.label description #{description}
+                        .ui.label disable_contributor_requests #{disable_contributor_requests}
+                        .ui.label display_name #{display_name}
+                        .ui.label display_name_prefixed #{display_name_prefixed}
+                        .ui.label free_form_reports #{free_form_reports}
+                        // .ui.label header_img #{header_img}
+                        // .ui.label header_size #{header_size}
+                        // .ui.label icon_color #{icon_color}
+                        // .ui.label icon_img #{icon_img}
+                        // .ui.label icon_size #{icon_size}
+                        // .ui.label is_default_banner #{is_default_banner}
+                        // .ui.label is_default_icon #{is_default_icon}
+                        .ui.label key_color #{key_color}
+                        .ui.label link_flair_enabled #{link_flair_enabled}
+                        .ui.label link_flair_position #{link_flair_position}
+                        .ui.label previous_names #{previous_names}
+                        .ui.label primary_color #{primary_color}
+                        .ui.label quarantine #{quarantine}
+                        .ui.label restrict_commenting #{restrict_commenting}
+                        .ui.label restrict_posting #{restrict_posting}
+                        .ui.label show_media #{show_media}
+                        .ui.label submit_link_label #{submit_link_label}
+                        .ui.label submit_text_label #{submit_text_label}
+                        .ui.label subscribers #{subscribers}
+                        .ui.label title #{title}
+                        .ui.label url #{url}
+                        .ui.label user_is_banned #{user_is_banned}
+                        .ui.label user_is_contributor #{user_is_contributor}
+                        .ui.label user_is_moderator #{user_is_moderator}
+                        .ui.label user_is_muted #{user_is_muted}
+                        .ui.label user_is_subscriber #{user_is_subscriber}
 
 
                 .ui.segment.alpha.scrollin
@@ -519,11 +510,18 @@ template(name='redditor_view')
                         +print_this
                     // +comments
             .five.wide.column
-                img.ui.image.invert.rounded(src=reddit_data.icon_img)
+                with reddit_data
+                    img.ui.image.invert.rounded(src=icon_img)
+                    .ui.header 
+                        i.chat.icon
+                        |#{comment_karma} comment karma
+                    .ui.header 
+                        i.clock.icon
+                        |created {{from_now created}}
+                    if over_18
+                        .ui.red.header 
+                            |NSFW
                 .ui.list 
-                    .item domain #{domain}
-                    .item.goto_subreddit subreddit #{subreddit}
-                    // .item model #{model}
                     .item permalink #{permalink}
                     // .item redditor_id #{redditor_id}
                     .item 
@@ -532,6 +530,7 @@ template(name='redditor_view')
                 .ui.button.pull_redditor
                     i.download.icon
                     |get redditor
+                div
                 +voting_full
                 .ui.large.label.zoomer
                     +i name='chat'

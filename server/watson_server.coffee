@@ -171,6 +171,8 @@ Meteor.methods
                 parameters.html = doc.reddit_data.public_description
             when 'redditor'
                 parameters.html = doc.reddit_data.subreddit.public_description
+            when 'comment'
+                parameters.html = doc.reddit_data.body
                 
 
         # console.log 'parameters', parameters

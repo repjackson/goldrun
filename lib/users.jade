@@ -427,23 +427,7 @@ template(name='redditor_view')
                         |get posts 
                     .ui.divided.list 
                         each user_post_docs
-                            .ui.item
-                                with reddit_data
-                                    |#{body}
-                                    .ui.label #{subreddit}
-                                |#{_when}
-                    .ui.label accept_followers: #{accept_followers}
-                    .ui.label has_subscribed: #{has_subscribed}
-                    .ui.label has_verified_email: #{has_verified_email}
-                    .ui.label hide_from_robots: #{hide_from_robots}
-                    // .ui.label icon_img: #{icon_img}
-                    .ui.label id: #{id}
-                    .ui.label is_blocked: #{is_blocked}
-                    .ui.label is_employee: #{is_employee}
-                    .ui.label is_friend: #{is_friend}
-                    .ui.label is_gold: #{is_gold}
-                    .ui.label is_mod: #{is_mod}
-                    .ui.label link_karma: #{link_karma}
+                            +user_post_doc
                     // .ui.label pref_show_snoovatar: #{pref_show_snoovatar}
                     // .ui.label snoovatar_img: #{snoovatar_img}
                     .ui.label snoovatar_size: #{snoovatar_size}
@@ -521,6 +505,25 @@ template(name='redditor_view')
                     if over_18
                         .ui.red.header 
                             |NSFW
+                    if accept_followers
+                        .ui.label 
+                            i.checkmark.icon
+                            |accept_followers
+                    .ui.label has_subscribed: #{has_subscribed}
+                    if has_verified_email
+                        .ui.label 
+                            i.mail.green.icon
+                            |verified email
+                    // .ui.label hide_from_robots: #{hide_from_robots}
+                    // .ui.label icon_img: #{icon_img}
+                    // .ui.label id: #{id}
+                    // .ui.label is_blocked: #{is_blocked}
+                    // .ui.label is_employee: #{is_employee}
+                    // .ui.label is_friend: #{is_friend}
+                    // .ui.label is_gold: #{is_gold}
+                    // .ui.label is_mod: #{is_mod}
+                    // .ui.label link_karma: #{link_karma}
+
                 .ui.list 
                     .item permalink #{permalink}
                     // .item redditor_id #{redditor_id}
@@ -567,3 +570,21 @@ template(name='redditor_view')
                     .ui.small.header #{subtitle}
                 // a.ui.header(href="/user/#{target.username}")
                 //     |#{target.username}
+
+
+template(name='user_post_doc')
+    .ui.item
+        with reddit_data
+            |#{body}
+            .ui.label #{subreddit}
+            a(href=link_permalink target='_window' title=link_permalink)
+                i.large.external.link.icon.zoomer
+        |#{_when}
+        +print_this
+        each tags 
+            .ui.label #{this}
+        unless watson 
+            i.large.chess.link.circular.icon.call_watson_comment
+        if watson 
+            +doc_emotion
+            +doc_sentiment

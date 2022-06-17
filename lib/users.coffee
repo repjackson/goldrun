@@ -19,8 +19,9 @@ if Meteor.isClient
     Template.users.onCreated ->
         @autorun => Meteor.subscribe 'redditor_counter', ->
     Template.users.helpers
-        redditor_count: -> Counts.get('redditor_counter') 
-        
+    Template.user_post_doc.events
+        'click .call_watson_comment': ->
+            Meteor.call 'call_watson', @_id, 'reddit_data.body', 'comment', ->
     Template.users.onCreated ->
         Session.set('view_friends', false)
         # @autorun -> Meteor.subscribe('users')

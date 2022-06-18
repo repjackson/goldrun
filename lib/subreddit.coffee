@@ -1,79 +1,83 @@
 if Meteor.isClient
     @picked_sources = new ReactiveArray []
     
-    Router.route '/groups', (->
+    Router.route '/subreddits', (->
         @layout 'layout'
-        @render 'groups'
-        ), name:'groups'
-    Router.route '/group/:doc_id/', (->
-        @layout 'group_layout'
-        @render 'group_dashboard'
-        ), name:'group_home'
-    Router.route '/group/:doc_id/edit', (->
+        @render 'subreddits'
+        ), name:'subreddits'
+    Router.route '/r/:subreddit/', (->
+        @layout 'subreddit_layout'
+        @render 'subreddit_view'
+        ), name:'subreddit_view'
+    Router.route '/subreddit/:doc_id/', (->
+        @layout 'subreddit_layout'
+        @render 'subreddit_dashboard'
+        ), name:'subreddit_home'
+    Router.route '/subreddit/:doc_id/edit', (->
         @layout 'layout'
-        @render 'group_edit'
-        ), name:'group_edit'
-    Router.route '/group/:doc_id/:section', (->
-        @layout 'group_layout'
-        @render 'group_section'
-        ), name:'group_section'
-    Template.group_edit.onCreated ->
+        @render 'subreddit_edit'
+        ), name:'subreddit_edit'
+    Router.route '/subreddit/:doc_id/:section', (->
+        @layout 'subreddit_layout'
+        @render 'subreddit_section'
+        ), name:'subreddit_section'
+    Template.subreddit_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-    Template.group_layout.onCreated ->
+    Template.subreddit_layout.onCreated ->
         # @autorun => Meteor.subscribe 'product_from_transfer_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-    Template.group_section.helpers
-        section_template: -> "group_#{Router.current().params.section}"
+    Template.subreddit_section.helpers
+        section_template: -> "subreddit_#{Router.current().params.section}"
 
 
-    Template.group_members_small.onCreated ->
-        @autorun => Meteor.subscribe 'group_memberships', Router.current().params.doc_id, ->
-    Template.group_card.events
-        'click .flat_group_tag_pick': -> 
+    Template.subreddit_members_small.onCreated ->
+        @autorun => Meteor.subscribe 'subreddit_memberships', Router.current().params.doc_id, ->
+    Template.subreddit_card.events
+        'click .flat_subreddit_tag_pick': -> 
             picked_tags.push @valueOf()
             Meteor.call 'search_subreddits', @valueOf(), ->
         'click .pull_subreddit': ->
             console.log @reddit_data.public_description
             if @reddit_data.public_description
                 Meteor.call 'call_watson', @_id, '@reddit_data.public_description', 'subreddit', ->
-    Template.group_members_small.helpers
-        group_members:->
+    Template.subreddit_members_small.helpers
+        subreddit_members:->
             Meteor.users.find 
                 _id:$in:@member_ids
-                # group_memberships:$in:[Router.current().params.doc_id]
+                # subreddit_memberships:$in:[Router.current().params.doc_id]
                 
 if Meteor.isServer 
-    Meteor.publish 'group_memberships', (group_id)->
-        group = Docs.findOne group_id
+    Meteor.publish 'subreddit_memberships', (subreddit_id)->
+        subreddit = Docs.findOne subreddit_id
         Meteor.users.find 
-            # group_memberships:$in:[group_id]
-            _id:$in:group.member_ids
+            # subreddit_memberships:$in:[subreddit_id]
+            _id:$in:subreddit.member_ids
 
 
 if Meteor.isClient
-    Template.group_related.onCreated ->
-        @autorun => Meteor.subscribe 'related_groups', Router.current().params.doc_id, ->
-    Template.group_related.helpers
-        related_group_docs: ->
+    Template.subreddit_related.onCreated ->
+        @autorun => Meteor.subscribe 'related_subreddits', Router.current().params.doc_id, ->
+    Template.subreddit_related.helpers
+        related_subreddit_docs: ->
             Docs.find {
-                model:'group'
+                model:'subreddit'
                 _id: $nin:[Router.current().params.doc_id]
             }, limit:3
 
 
 
 if Meteor.isServer 
-    Meteor.publish 'related_groups', (group_id)->
+    Meteor.publish 'related_subreddits', (subreddit_id)->
         Docs.find {
-            model:'group'
-            _id:$nin:[group_id]
+            model:'subreddit'
+            _id:$nin:[subreddit_id]
         }, limit:5
     
-    Meteor.publish 'group_log_docs', (group_id)->
+    Meteor.publish 'subreddit_log_docs', (subreddit_id)->
         Docs.find {
             model:'log'
-            group_id:group_id
+            subreddit_id:subreddit_id
         }, limit:10
     
 
@@ -81,10 +85,10 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-    # Template.groups.onRendered ->
+    # Template.subreddits.onRendered ->
     #     Session.set('model',Router.current().params.model)
-    Template.groups.onCreated ->
-        document.title = 'gr groups'
+    Template.subreddits.onCreated ->
+        document.title = 'gr subreddits'
         
         Session.setDefault('limit',20)
         Session.setDefault('sort_key','_timestamp')
@@ -93,31 +97,31 @@ if Meteor.isClient
         Session.setDefault('sort_direction',-1)
         # @autorun => @subscribe 'model_docs', 'post', ->
         # @autorun => @subscribe 'user_info_min', ->
-        @autorun => @subscribe 'group_facets',
+        @autorun => @subscribe 'subreddit_facets',
             picked_tags.array()
             picked_sources.array()
-            Session.get('group_search')
+            Session.get('subreddit_search')
             picked_timestamp_tags.array()
     
-        @autorun => @subscribe 'group_results',
+        @autorun => @subscribe 'subreddit_results',
             picked_tags.array()
             picked_sources.array()
-            Session.get('group_search')
+            Session.get('subreddit_search')
             Session.get('sort_key')
             Session.get('sort_direction')
             Session.get('limit')
-    Template.groups.events
-        'click .pick_group_tag': -> 
+    Template.subreddits.events
+        'click .pick_subreddit_tag': -> 
             picked_tags.push @name
             Meteor.call 'search_subreddits',@name,true, ->
             
-        'click .unpick_group_tag': -> picked_tags.remove @valueOf()
+        'click .unpick_subreddit_tag': -> picked_tags.remove @valueOf()
         'click .pick_source': -> picked_sources.push @name
         'click .unpick_source': -> picked_sources.remove @valueOf()
-        'keyup .group_search': (e,t)->
-            val = $('.group_search').val().trim().toLowerCase()
+        'keyup .subreddit_search': (e,t)->
+            val = $('.subreddit_search').val().trim().toLowerCase()
             if val.length > 2
-                # Session.set('group_search',val)
+                # Session.set('subreddit_search',val)
                 if e.which is 13
                     $('body').toast({
                         title: "searching #{val}"
@@ -138,21 +142,21 @@ if Meteor.isClient
                             #     toast: 'ui massive message'
                             # displayTime: 5000
                         })
-                    $('.group_search').val('')
+                    $('.subreddit_search').val('')
                     picked_tags.clear()
                     picked_tags.push val
-    Template.groups.helpers
+    Template.subreddits.helpers
         picked_sources: -> picked_sources.array()
         source_results: -> Results.find model:'source_tag'
-        picked_group_tags: -> picked_tags.array()
-        group_tag_results: -> Results.find model:'tag'
-        group_results: ->
-            match = {model:'group'}
+        picked_subreddit_tags: -> picked_tags.array()
+        subreddit_tag_results: -> Results.find model:'tag'
+        subreddit_results: ->
+            match = {model:'subreddit'}
             Docs.find match,
                 sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
                 limit:Session.get('limit')        
 if Meteor.isServer
-    Meteor.publish 'group_facets', (
+    Meteor.publish 'subreddit_facets', (
         picked_tags
         picked_source
         title_search=''
@@ -170,7 +174,7 @@ if Meteor.isServer
         )->
     
             self = @
-            match = {model:'group'}
+            match = {model:'subreddit'}
     
             # match.tags = $all: picked_tags
             # if parent_id then match.parent_id = parent_id
@@ -233,7 +237,7 @@ if Meteor.isServer
             #     { $match: match }
             #     { $project: ancestor_array: 1 }
             #     { $unwind: "$ancestor_array" }
-            #     { $group: _id: '$ancestor_array', count: $sum: 1 }
+            #     { $subreddit: _id: '$ancestor_array', count: $sum: 1 }
             #     { $match: _id: $nin: picked_ancestor_ids }
             #     { $sort: count: -1, _id: 1 }
             #     { $limit: limit }
@@ -252,7 +256,7 @@ if Meteor.isServer
                 { $match: match }
                 { $project: tags: 1 }
                 { $unwind: "$tags" }
-                { $group: _id: '$tags', count: $sum: 1 }
+                { $subreddit: _id: '$tags', count: $sum: 1 }
                 { $match: _id: $nin: picked_tags }
                 { $sort: count: -1, _id: 1 }
                 { $match: count: $lt: total_count }
@@ -274,7 +278,7 @@ if Meteor.isServer
             # #     { $match: match }
             # #     { $project: watson_keywords: 1 }
             # #     { $unwind: "$watson_keywords" }
-            # #     { $group: _id: '$watson_keywords', count: $sum: 1 }
+            # #     { $subreddit: _id: '$watson_keywords', count: $sum: 1 }
             # #     { $match: _id: $nin: picked_tags }
             # #     { $sort: count: -1, _id: 1 }
             # #     { $limit: limit }
@@ -291,7 +295,7 @@ if Meteor.isServer
                 { $match: match }
                 { $project: source: 1 }
                 # { $unwind: "$_timestamp_tags" }
-                { $group: _id: '$source', count: $sum: 1 }
+                { $subreddit: _id: '$source', count: $sum: 1 }
                 # { $match: _id: $nin: picked_timestamp_tags }
                 { $sort: count: -1, _id: 1 }
                 { $limit: 10 }
@@ -309,7 +313,7 @@ if Meteor.isServer
             #     { $match: match }
             #     { $project: _timestamp_tags: 1 }
             #     { $unwind: "$_timestamp_tags" }
-            #     { $group: _id: '$_timestamp_tags', count: $sum: 1 }
+            #     { $subreddit: _id: '$_timestamp_tags', count: $sum: 1 }
             #     # { $match: _id: $nin: picked_timestamp_tags }
             #     { $sort: count: -1, _id: 1 }
             #     { $limit: 10 }
@@ -328,7 +332,7 @@ if Meteor.isServer
             #     { $match: match }
             #     { $project: building_tags: 1 }
             #     { $unwind: "$building_tags" }
-            #     { $group: _id: '$building_tags', count: $sum: 1 }
+            #     { $subreddit: _id: '$building_tags', count: $sum: 1 }
             #     { $match: _id: $nin: picked_building_tags }
             #     { $sort: count: -1, _id: 1 }
             #     { $limit: limit }
@@ -346,7 +350,7 @@ if Meteor.isServer
             #     { $match: match }
             #     { $project: location_tags: 1 }
             #     { $unwind: "$location_tags" }
-            #     { $group: _id: '$location_tags', count: $sum: 1 }
+            #     { $subreddit: _id: '$location_tags', count: $sum: 1 }
             #     { $match: _id: $nin: picked_location_tags }
             #     { $sort: count: -1, _id: 1 }
             #     { $limit: limit }
@@ -366,7 +370,7 @@ if Meteor.isServer
             # author_tag_cloud = Docs.aggregate [
             #     { $match: author_match }
             #     { $project: _author_id: 1 }
-            #     { $group: _id: '$_author_id', count: $sum: 1 }
+            #     { $subreddit: _id: '$_author_id', count: $sum: 1 }
             #     { $match: _id: $nin: picked_author_ids }
             #     { $sort: count: -1, _id: 1 }
             #     { $limit: limit }
@@ -428,18 +432,18 @@ if Meteor.isServer
     
             # self.onStop ()-> subHandle.stop()
     
-    Meteor.publish 'user_groups', (username)->
+    Meteor.publish 'user_subreddits', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {
-            model:'group'
+            model:'subreddit'
             _author_id: user._id
         }, sort:_timestamp:-1
-    Meteor.publish 'user_groups_small', (username)->
+    Meteor.publish 'user_subreddits_small', (username)->
         user = Meteor.users.findOne username:username
-        if user.group_membership_ids
+        if user.subreddit_membership_ids
             Docs.find {
-                model:'group'
-                _id:$in:user.group_membership_ids
+                model:'subreddit'
+                _id:$in:user.subreddit_membership_ids
             }, 
                 sort:_timestamp:-1
                 fields:
@@ -448,7 +452,7 @@ if Meteor.isServer
                     model:1
                     
                     
-    Meteor.publish 'group_results', (
+    Meteor.publish 'subreddit_results', (
         picked_tags=[]
         picked_sources=[]
         current_query=''
@@ -459,7 +463,7 @@ if Meteor.isServer
         # picked_location_tags=[]
         )->
         self = @
-        match = {model:'group'}
+        match = {model:'subreddit'}
         # if picked_ingredients.length > 0
         #     match.ingredients = $all: picked_ingredients
         #     # sort = 'price_per_serving'
@@ -499,7 +503,7 @@ if Meteor.isServer
         # console.log 'sort_key', sort_key
         # console.log 'sort_direction', sort_direction
         # console.log 'limit', limit
-        console.log 'group results match', match
+        console.log 'subreddit results match', match
         
         Docs.find match,
             sort:"#{sort_key}":sort_direction
@@ -520,7 +524,7 @@ if Meteor.isServer
             #     published:1
             #     target_id:1
             #     _timestamp:1
-            #     group_id:1
+            #     subreddit_id:1
             #     emotion:1
             #     watson:1
             #     upvoter_ids:1
@@ -529,43 +533,43 @@ if Meteor.isServer
             #     youtube_id:1
             #     points:1
             # # sort:_timestamp:-1                    
-    Meteor.publish 'user_group_memberships', (username)->
+    Meteor.publish 'user_subreddit_memberships', (username)->
         user = Meteor.users.findOne username:username
         Docs.find {
-            model:'group'
+            model:'subreddit'
             member_ids: $in:[user._id]
         }, sort:_timestamp:-1
-    Meteor.publish 'related_group', (doc_id)->
+    Meteor.publish 'related_subreddit', (doc_id)->
         doc = Docs.findOne doc_id
         if doc
             Docs.find {
-                model:'group'
-                _id:doc.group_id
+                model:'subreddit'
+                _id:doc.subreddit_id
             }
             
 
 
-    Meteor.publish 'group_by_slug', (group_slug)->
+    Meteor.publish 'subreddit_by_slug', (subreddit_slug)->
         Docs.find
-            model:'group'
-            slug:group_slug
+            model:'subreddit'
+            slug:subreddit_slug
     Meteor.methods
-        calc_group_stats: (group_id)->
-            group = Docs.findOne
-                model:'group'
-                _id:group_id
+        calc_subreddit_stats: (subreddit_id)->
+            subreddit = Docs.findOne
+                model:'subreddit'
+                _id:subreddit_id
 
             member_count =
-                group.member_ids.length
+                subreddit.member_ids.length
 
-            group_members =
+            subreddit_members =
                 Meteor.users.find
-                    _id: $in: group.member_ids
-            group_posts =
+                    _id: $in: subreddit.member_ids
+            subreddit_posts =
                 Docs.users.find
-                    group_id:group_id
+                    subreddit_id:subreddit_id
             # dish_count = 0
-            # for member in group_members.fetch()
+            # for member in subreddit_members.fetch()
             #     member_dishes =
             #         Docs.find(
             #             model:'dish'
@@ -573,179 +577,254 @@ if Meteor.isServer
             #         ).fetch()
 
             post_ids = []
-            group_posts =
+            subreddit_posts =
                 Docs.find
                     model:'post'
-                    group_id:group_id
+                    subreddit_id:subreddit_id
             post_count = 0
             
-            for post in group_posts.fetch()
-                console.log 'group post', post.title
+            for post in subreddit_posts.fetch()
+                console.log 'subreddit post', post.title
                 post_ids.push post._id
                 post_count++
                 
                 
                 
-            group_count =
+            subreddit_count =
                 Docs.find(
-                    model:'group'
-                    group_id:group._id
+                    model:'subreddit'
+                    subreddit_id:subreddit._id
                 ).count()
 
             order_cursor =
                 Docs.find(
                     model:'order'
-                    group_id:group._id
+                    subreddit_id:subreddit._id
                 )
             order_count = order_cursor.count()
             total_credit_exchanged = 0
             for order in order_cursor.fetch()
                 if order.order_price
                     total_credit_exchanged += order.order_price
-            group_groups =
+            subreddit_subreddits =
                 Docs.find(
-                    model:'group'
-                    group_id:group._id
+                    model:'subreddit'
+                    subreddit_id:subreddit._id
                 ).fetch()
 
             console.log 'total_credit_exchanged', total_credit_exchanged
 
 
-            Docs.update group._id,
+            Docs.update subreddit._id,
                 $set:
                     member_count:member_count
-                    group_count:group_count
+                    subreddit_count:subreddit_count
                     event_count:event_count
                     total_credit_exchanged:total_credit_exchanged
                     post_count:post_count
                     post_ids:post_ids
-        # calc_group_stats: ->
-        #     group_stat_doc = Docs.findOne(model:'group_stats')
-        #     unless group_stat_doc
+        # calc_subreddit_stats: ->
+        #     subreddit_stat_doc = Docs.findOne(model:'subreddit_stats')
+        #     unless subreddit_stat_doc
         #         new_id = Docs.insert
-        #             model:'group_stats'
-        #         group_stat_doc = Docs.findOne(model:'group_stats')
-        #     console.log group_stat_doc
-        #     total_count = Docs.find(model:'group').count()
-        #     complete_count = Docs.find(model:'group', complete:true).count()
-        #     incomplete_count = Docs.find(model:'group', complete:$ne:true).count()
-        #     Docs.update group_stat_doc._id,
+        #             model:'subreddit_stats'
+        #         subreddit_stat_doc = Docs.findOne(model:'subreddit_stats')
+        #     console.log subreddit_stat_doc
+        #     total_count = Docs.find(model:'subreddit').count()
+        #     complete_count = Docs.find(model:'subreddit', complete:true).count()
+        #     incomplete_count = Docs.find(model:'subreddit', complete:$ne:true).count()
+        #     Docs.update subreddit_stat_doc._id,
         #         $set:
         #             total_count:total_count
         #             complete_count:complete_count
         #             incomplete_count:incomplete_count
     Meteor.methods
+        search_subreddits: (query,porn)->
+            # response = HTTP.get("http://reddit.com/search.json?q=#{query}")
+            # HTTP.get "http://reddit.com/search.json?q=#{query}+nsfw:0+sort:top",(err,response)=>
+            # HTTP.get "http://reddit.com/search.json?q=#{query}",(err,response)=>
+            
+            if porn 
+                link = "http://reddit.com/subreddits/search.json?q=#{query}&nsfw=1&include_over_18=on"
+            else
+                link = "http://reddit.com/subreddits/search.json?q=#{query}&nsfw=0&include_over_18=off"
+            HTTP.get link,(err,response)=>
+                # console.log response
+                if response.data.data.dist > 1
+                    _.each(response.data.data.children, (item)=>
+                        # console.log 'item', item
+                        data = item.data
+                        len = 200
+                        # added_tags = [query]
+                        # added_tags.push data.domain.toLowerCase()
+                        # added_tags.push data.author.toLowerCase()
+                        # added_tags = _.flatten(added_tags)
+                        # console.log 'data', data
+                        reddit_subreddit =
+                            reddit_name: data.name
+                            public_description: data.public_description
+                            banner_background_image: data.banner_background_image
+                            community_icon: data.community_icon
+                            description_html: data.description_html
+                            published:true
+                            reddit_data:data
+                            # reddit_id: data.id
+                            # url: data.url
+                            # domain: data.domain
+                            # comment_count: data.num_comments
+                            # permalink: data.permalink
+                            # title: data.title
+                            # # root: query
+                            # ups:data.ups
+                            # num_comments:data.num_comments
+                            # # selftext: false
+                            # points:0
+                            # over_18:data.over_18
+                            # thumbnail: data.thumbnail
+                            tags: [query]
+                            model:'subreddit'
+                            source:'reddit'
+                        existing_doc = Docs.findOne 
+                            model:'subreddit'
+                            reddit_name:data.name
+                        if existing_doc
+                            # if Meteor.isDevelopment
+                            if typeof(existing_doc.tags) is 'string'
+                                Docs.update existing_doc._id,
+                                    $unset: tags: 1
+                            Docs.update existing_doc._id,
+                                # $addToSet: tags: $each: query
+                                $addToSet: tags: query
+                                $set:
+                                    title:data.title
+                                    ups:data.ups
+                                    over_18:data.over_18
+                                    header_img:data.header_img
+                                    display_name:data.display_name
+                                    permalink:data.permalink
+                                    reddit_data:data
+                                    member_count:data.subscribers
+                            # Meteor.call 'get_reddit_post', existing_doc._id, data.id, (err,res)->
+                            # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
+                        unless existing_doc
+                            new_reddit_post_id = Docs.insert reddit_subreddit
+                            console.log 'added new subreddit', data.name
+                            # Meteor.call 'get_reddit_post', new_reddit_post_id, data.id, (err,res)->
+                            # Meteor.call 'call_watson', new_reddit_post_id, data.id, (err,res)->
+                        return true
+                )
+                        
                         
 if Meteor.isClient
-    Template.group_picker.onCreated ->
-        @autorun => @subscribe 'group_search_results', Session.get('group_search'), ->
-        @autorun => @subscribe 'group_from_doc_id', Router.current().params.doc_id, ->
-    Template.group_picker.helpers
-        group_results: ->
+    Template.subreddit_picker.onCreated ->
+        @autorun => @subscribe 'subreddit_search_results', Session.get('subreddit_search'), ->
+        @autorun => @subscribe 'subreddit_from_doc_id', Router.current().params.doc_id, ->
+    Template.subreddit_picker.helpers
+        subreddit_results: ->
             Docs.find {
-                model:'group'
-                title: {$regex:"#{Session.get('group_search')}",$options:'i'}
+                model:'subreddit'
+                title: {$regex:"#{Session.get('subreddit_search')}",$options:'i'}
             }
-        group_search_value: ->
-            Session.get('group_search')
-        group_doc: ->
+        subreddit_search_value: ->
+            Session.get('subreddit_search')
+        subreddit_doc: ->
             # console.log @
-            Docs.findOne @group_id
-    Template.group_picker.events
+            Docs.findOne @subreddit_id
+    Template.subreddit_picker.events
         'click .clear_search': (e,t)->
-            Session.set('group_search', null)
-            t.$('.group_search').val('')
+            Session.set('subreddit_search', null)
+            t.$('.subreddit_search').val('')
 
             
-        'click .remove_group': (e,t)->
-            if confirm "remove #{@title} group?"
+        'click .remove_subreddit': (e,t)->
+            if confirm "remove #{@title} subreddit?"
                 Docs.update Router.current().params.doc_id,
                     $unset:
-                        group_id:@_id
-                        group_title:@title
-        'click .pick_group': (e,t)->
+                        subreddit_id:@_id
+                        subreddit_title:@title
+        'click .pick_subreddit': (e,t)->
             Docs.update Router.current().params.doc_id,
                 $set:
-                    group_id:@_id
-                    group_title:@title
-            Session.set('group_search',null)
-            t.$('.group_search').val('')
+                    subreddit_id:@_id
+                    subreddit_title:@title
+            Session.set('subreddit_search',null)
+            t.$('.subreddit_search').val('')
             location.reload() 
-        'keyup .group_search': (e,t)->
+        'keyup .subreddit_search': (e,t)->
             # if e.which is '13'
-            val = t.$('.group_search').val()
+            val = t.$('.subreddit_search').val()
             if val.length > 1
                 # console.log val
-                Session.set('group_search', val)
+                Session.set('subreddit_search', val)
 
-        'click .create_group': ->
+        'click .create_subreddit': ->
             new_id = 
                 Docs.insert 
-                    model:'group'
-                    title:Session.get('group_search')
+                    model:'subreddit'
+                    title:Session.get('subreddit_search')
             Router.go "/doc/#{new_id}/edit"
 
 
 if Meteor.isServer 
-    Meteor.publish 'group_search_results', (group_title_queary)->
+    Meteor.publish 'subreddit_search_results', (subreddit_title_queary)->
         Docs.find {
-            model:'group'
-            title: {$regex:"#{group_title_queary}",$options:'i'}
+            model:'subreddit'
+            title: {$regex:"#{subreddit_title_queary}",$options:'i'}
         }, limit:10
 
 if Meteor.isClient
-    Template.group_layout.onCreated ->
-        @autorun => Meteor.subscribe 'group_logs', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'group_leaders', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'group_events', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'group_posts', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'group_products', Router.current().params.doc_id, ->
+    Template.subreddit_layout.onCreated ->
+        @autorun => Meteor.subscribe 'subreddit_logs', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'subreddit_members', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'subreddit_leaders', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'subreddit_events', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'subreddit_posts', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'subreddit_products', Router.current().params.doc_id, ->
     
-    Template.group_posts.onCreated ->
-        @autorun => Meteor.subscribe 'group_reddit_docs', Router.current().params.doc_id, ->
-    Template.group_posts.helpers
-        group_reddit_docs: ->
-            group = 
+    Template.subreddit_posts.onCreated ->
+        @autorun => Meteor.subscribe 'subreddit_reddit_docs', Router.current().params.doc_id, ->
+    Template.subreddit_posts.helpers
+        subreddit_reddit_docs: ->
+            subreddit = 
                 Docs.findOne _id:Router.current().params.doc_id
-            if group
+            if subreddit
                 Docs.find 
                     model:'reddit'
-                    subreddit:group.slug
-    Template.group_layout.helpers
-        group_log_docs: ->
+                    subreddit:subreddit.slug
+    Template.subreddit_layout.helpers
+        subreddit_log_docs: ->
             Docs.find {
                 model:'log'
-                group_id:Router.current().params.doc_id
+                subreddit_id:Router.current().params.doc_id
             },
                 sort:_timestamp:-1
-        group_post_docs: ->
+        subreddit_post_docs: ->
             Docs.find 
                 model:'post'
-                group_id:Router.current().params.doc_id
+                subreddit_id:Router.current().params.doc_id
         _members: ->
             Meteor.users.find 
                 _id:$in:@member_ids
                 
-    # Template.groups_small.onCreated ->
-    #     @autorun => Meteor.subscribe 'model_docs', 'group', Sesion.get('group_search'),->
-    # Template.groups_small.helpers
-    #     group_docs: ->
+    # Template.subreddits_small.onCreated ->
+    #     @autorun => Meteor.subscribe 'model_docs', 'subreddit', Sesion.get('subreddit_search'),->
+    # Template.subreddits_small.helpers
+    #     subreddit_docs: ->
     #         Docs.find   
-    #             model:'group'
+    #             model:'subreddit'
                 
                 
                 
-    # Template.group_products.events
+    # Template.subreddit_products.events
     #     'click .add_product': ->
     #         new_id = 
     #             Docs.insert 
     #                 model:'product'
-    #                 group_id:Router.current().params.doc_id
+    #                 subreddit_id:Router.current().params.doc_id
     #         Router.go "/doc/#{new_id}/edit"
             
-    Template.group_layout.events
-        'click .add_group_member': ->
+    Template.subreddit_layout.events
+        'click .add_subreddit_member': ->
             new_username = prompt('username')
             splitted = new_username.split(' ')
             formatted = new_username.split(' ').join('_').toLowerCase()
@@ -758,17 +837,17 @@ if Meteor.isClient
                         first_name:splitted[0]
                         last_name:splitted[1]
                     $addToSet:
-                        group_memberships:Router.current().params.doc_id
+                        subreddit_memberships:Router.current().params.doc_id
 
 
 
-        'click .refresh_group_stats': ->
-            Meteor.call 'calc_group_stats', Router.current().params.doc_id, ->
-        'click .add_group_event': ->
+        'click .refresh_subreddit_stats': ->
+            Meteor.call 'calc_subreddit_stats', Router.current().params.doc_id, ->
+        'click .add_subreddit_event': ->
             new_id = 
                 Docs.insert 
                     model:'event'
-                    group_id:Router.current().params.doc_id
+                    subreddit_id:Router.current().params.doc_id
             Router.go "/doc/#{new_id}/edit"
         'click .join': ->
             if Meteor.user()
@@ -788,49 +867,49 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'group_reddit_docs', (group_id)->
-        group = 
-            Docs.findOne group_id
-        if group and group.slug
+    Meteor.publish 'subreddit_reddit_docs', (subreddit_id)->
+        subreddit = 
+            Docs.findOne subreddit_id
+        if subreddit and subreddit.slug
             Docs.find 
                 model:'reddit'
-                subreddit:group.slug
+                subreddit:subreddit.slug
     
         
-    Meteor.publish 'group_events', (group_id)->
-        # group = Docs.findOne
-        #     model:'group'
-        #     _id:group_id
+    Meteor.publish 'subreddit_events', (subreddit_id)->
+        # subreddit = Docs.findOne
+        #     model:'subreddit'
+        #     _id:subreddit_id
         Docs.find
             model:'event'
-            group_ids:group_id
+            subreddit_ids:subreddit_id
 
-    Meteor.publish 'group_posts', (group_id)->
-        # group = Docs.findOne
-        #     model:'group'
-        #     _id:group_id
+    Meteor.publish 'subreddit_posts', (subreddit_id)->
+        # subreddit = Docs.findOne
+        #     model:'subreddit'
+        #     _id:subreddit_id
         Docs.find
             model:'post'
-            group_id:group_id
+            subreddit_id:subreddit_id
 
 
-    Meteor.publish 'group_leaders', (group_id)->
-        group = Docs.findOne group_id
-        if group.leader_ids
+    Meteor.publish 'subreddit_leaders', (subreddit_id)->
+        subreddit = Docs.findOne subreddit_id
+        if subreddit.leader_ids
             Meteor.users.find
-                _id: $in: group.leader_ids
+                _id: $in: subreddit.leader_ids
 
-    Meteor.publish 'group_members', (group_id)->
-        group = Docs.findOne group_id
+    Meteor.publish 'subreddit_members', (subreddit_id)->
+        subreddit = Docs.findOne subreddit_id
         Meteor.users.find
-            _id: $in: group.member_ids
+            _id: $in: subreddit.member_ids
 
 
 
 if Meteor.isClient 
-    Template.group_checkins.onCreated ->
+    Template.subreddit_checkins.onCreated ->
         @autorun => @subscribe 'child_docs', 'checkin', Router.current().params.doc_id, ->
-    Template.group_checkins.events 
+    Template.subreddit_checkins.events 
         'click .checkin': ->
             Meteor.call 'checkin', Router.current().params.doc_id, Meteor.userId(), ->
                 $('body').toast({
@@ -868,40 +947,8 @@ if Meteor.isClient
                     })
                     
             
-if Meteor.isServer
-    Meteor.methods 
-        checkin: (parent_id)->
-            Docs.insert 
-                model:'checkin'
-                active:true
-                group_id:parent_id
-                parent_id:parent_id
-            active_checkin = 
-                Docs.findOne 
-                    model:'checkin'
-                    status:active
-                    _author_id:Meteor.userId()
-            if active_checkin
-                Docs.update active_checkin._id,
-                    $set:
-                        active:false
-                        checkout_timestamp:Date.now()
-            
-        checkout: (parent_id)->
-            active_doc =
-                Docs.findOne 
-                    model:'checkin'
-                    active:true
-                    parent_id:parent_id
-            if active_doc
-                Docs.update active_doc._id, 
-                    $set:
-                        active:false
-                        checkout_timestamp:Date.now()
-            
-     
 if Meteor.isClient               
-    Template.group_checkins.helpers
+    Template.subreddit_checkins.helpers
         checkin_docs: ->
             Docs.find {
                 model:'checkin'

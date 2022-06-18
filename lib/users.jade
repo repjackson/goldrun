@@ -179,8 +179,8 @@ template(name='redditor_card')
             if watson 
                 +doc_sentiment
                 +doc_emotion
-                
-            +print_this
+            if currentUser.admin_mode 
+                +print_this
             
 
 template(name='redditor_item')
@@ -594,7 +594,7 @@ template(name='redditor_view')
                         |#{comment_karma} comment karma
                     .ui.header 
                         i.clock.icon
-                        |created {{from_now created}}
+                        |created {{from_now_utc created}}
                     if over_18
                         .ui.red.header 
                             |NSFW
@@ -668,12 +668,18 @@ template(name='redditor_view')
 template(name='user_post_doc')
     .ui.item
         with reddit_data
+            div 
+            |#{link_title}
+            div 
+            i.chat.icon
             |#{body}
-            .ui.label #{subreddit}
+            a.ui.label.zoomer(href="https://www.reddit.com/r/#{subreddit}") #{subreddit}
             a(href=link_permalink target='_window' title=link_permalink)
                 i.large.external.link.icon.zoomer
-        |#{_when}
-        +print_this
+            .ui.label 
+                small created
+                |{{from_now_utc created}}
+        |mined #{_when}
         each tags 
             .ui.label #{this}
         unless watson 
@@ -681,3 +687,5 @@ template(name='user_post_doc')
         if watson 
             +doc_emotion
             +doc_sentiment
+        if currentUser.admin_mode
+            +print_this

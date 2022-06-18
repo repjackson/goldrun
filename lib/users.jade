@@ -498,7 +498,16 @@ template(name='redditor_view')
                     i.big.users.icon
                     |users
                 with reddit_data
-                    .ui.header #{name}
+                    .ui.inline.header #{name}
+                    .ui.disabled.button overview
+                    .ui.disabled.button submitted
+                    .ui.disabled.button comments
+                    .ui.disabled.button upvoted
+                    .ui.disabled.button downvoted
+                    .ui.disabled.button hidden
+                    .ui.disabled.button saved
+                    .ui.disabled.button gilded
+
                     strong #{subreddit.public_description}
                     div
                     .ui.inline.header

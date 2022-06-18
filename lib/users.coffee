@@ -195,7 +195,7 @@ if Meteor.isClient
                 position:'bottom right'
             })
             Meteor.call 'search_redditors',picked_user_tags.array(),true, ->
-                console.log 'searched users for', @name
+                # console.log 'searched users for', @name
                 $('body').toast({
                     title: "search complete"
                     # message: 'Please see desk staff for key.'

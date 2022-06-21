@@ -672,7 +672,10 @@ template(name='user_post_doc')
             |#{link_title}
             div 
             i.chat.icon
-            |#{body}
+            if selfText
+                |#{selfText}
+            if body
+                |#{body}
             a.ui.label.zoomer(href="https://www.reddit.com/r/#{subreddit}") #{subreddit}
             a(href=link_permalink target='_window' title=link_permalink)
                 i.large.external.link.icon.zoomer

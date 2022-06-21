@@ -17,6 +17,8 @@ Template.nav.onRendered ->
     Meteor.setTimeout ->
         $('.menu .item')
             .popup()
+    , 3000
+    Meteor.setTimeout ->
         $('.ui.left.sidebar')
             .sidebar({
                 context: $('.bottom.segment')
@@ -27,7 +29,7 @@ Template.nav.onRendered ->
                 scrollLock:true
             })
             .sidebar('attach events', '.toggle_leftbar')
-    , 3000
+    , 4000
     Meteor.setTimeout ->
         $('.ui.rightbar')
             .sidebar({
